@@ -8,9 +8,9 @@
 
 package uk.kihira.tails.client.gui;
 
-import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.widget.list.ExtendedList;
 
-public interface IListCallback<T extends GuiListExtended.IGuiListEntry> {
+public interface IListCallback<T extends ExtendedList.AbstractListEntry<T>> {
 
     boolean onEntrySelected(GuiList guiList, int index, T entry);
 }

@@ -1,71 +1,70 @@
 package uk.kihira.tails.client.render;
 
-import net.minecraftforge.fml.common.Loader;
 import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import java.util.UUID;
 
-@SideOnly(Side.CLIENT)
-public class LayerPart implements LayerRenderer<AbstractClientPlayer> {
+@OnlyIn(Dist.CLIENT)
+public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> {
 
     private final ModelRenderer modelRenderer;
     private final PartsData.PartType partType;
     private final boolean mpmCompat;
 
-    public LayerPart(ModelRenderer modelRenderer, PartsData.PartType partType) {
+    public LayerPart(IEntityRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartsData.PartType partType) {
+        super(renderer);
         this.modelRenderer = modelRenderer;
         this.partType = partType;
-        this.mpmCompat = Loader.isModLoaded("moreplayermodels");
+        this.mpmCompat = ModList.get().isLoaded("moreplayermodels");
     }
 
     @Override
-    public void doRenderLayer(@Nonnull AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (entity.isInvisible()) return;
-
-        UUID uuid = EntityPlayer.getUUID(entity.getGameProfile());
+    public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        UUID uuid = PlayerEntity.getUUID(entity.getGameProfile());
         if (Tails.proxy.hasPartsData(uuid)) {
             PartsData partsData = Tails.proxy.getPartsData(uuid);
             if (partsData.hasPartInfo(partType)) {
                 PartInfo tailInfo = partsData.getPartInfo(partType);
 
-                GlStateManager.pushMatrix();
+                matrixStackIn.push();
 
                 if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE) {
-                    if (entity.isSneaking()) {
-                        GlStateManager.translate(0f, 0.2F, 0f);
-                    }
+                    if (entity.isSneaking())
+                        matrixStackIn.translate(0f, 0.2F, 0f);
 
-                    // todo should really do transforms on the model instead, should hopefully be "fixed" on model rewrite
+                    // TODO should really do transforms on the model instead, should hopefully be "fixed" on model rewrite
                     if (mpmCompat) {
-                        GlStateManager.rotate(netHeadYaw, 0f, 1f, 0f);
-                        GlStateManager.rotate(headPitch, 1f, 0f, 0f);
-                    }
-                    else {
-                        GlStateManager.rotate(headPitch * 0.017453292F, 1f, 0f, 0f);
-                        GlStateManager.rotate(netHeadYaw * 0.017453292F, 0f, 1f, 0f);
+                        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(netHeadYaw));
+                        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(headPitch));
+                    } else {
+                        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(headPitch * 0.017453292F));
+                        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(netHeadYaw * 0.017453292F));
                     }
                 }
 
-                modelRenderer.postRender(0.0625F);
-                PartRegistry.getRenderPart(tailInfo.partType, tailInfo.typeid).render(entity, tailInfo, 0, 0, 0, partialTicks);
-                GlStateManager.popMatrix();
+                //modelRenderer.postRender(0.0625F);
+                PartRegistry.getRenderPart(tailInfo.partType, tailInfo.typeid).render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
+                matrixStackIn.pop();
             }
         }
-    }
-
-    @Override
-    public boolean shouldCombineTextures() {
-        return false;
     }
 }

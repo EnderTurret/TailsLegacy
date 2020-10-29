@@ -53,7 +53,7 @@ public class PartInfo implements Cloneable {
     public void setTexture(ResourceLocation texture) {
         if (texture == null || (this.texture != null && !this.texture.equals(texture))) {
             try {
-                Minecraft.getMinecraft().renderEngine.deleteTexture(this.texture);
+                Minecraft.getInstance().getTextureManager().deleteTexture(this.texture);
             } catch (Exception ignored) {}
 
             this.needsTextureCompile = true;

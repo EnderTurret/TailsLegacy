@@ -8,9 +8,11 @@
 
 package uk.kihira.tails.client.texture;
 
-import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.NativeImage;
+import net.minecraft.client.renderer.texture.NativeImage.PixelFormat;
+import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 
@@ -22,7 +24,7 @@ import java.io.InputStream;
 /**
  * A tinted texture that has 3 different tints, each tint defined in a different RGB channel
  */
-public class TripleTintTexture extends AbstractTexture {
+public class TripleTintTexture extends Texture {
 
 	private final String namespace;
 	private final String texturename;
@@ -41,43 +43,40 @@ public class TripleTintTexture extends AbstractTexture {
 	}
 	
 	@Override
-	public void loadTexture(IResourceManager p_110551_1_) throws IOException {
+	public void loadTexture(IResourceManager manager) throws IOException {
 		this.deleteGlTexture();
-        BufferedImage texture;
+		NativeImage texture;
 
         try
         {
             if (texturename != null)
             {
-                InputStream inputstream = p_110551_1_.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
-                texture = ImageIO.read(inputstream);
+                InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
+                texture = NativeImage.read(PixelFormat.RGBA, inputstream);
 
                 int w = texture.getWidth();
                 int h = texture.getHeight();
-                int length = w*h;
-                int[] pixeldata = new int[w*h];
-                
-                texture.getRGB(0, 0, w, h, pixeldata, 0, w);
-                
+
                 int c,r,g,b,a;
-                
-                for (int i=0; i<length; i++) {
-                	c = pixeldata[i];
-                	a = alpha(c);
-                	r = red(c);
-                	g = green(c);
-                	b = blue(c);
-                	
-                	pixeldata[i] = colourise(r, this.tint1, g, this.tint2, b, this.tint3, a);
-                }
-                
-                texture.setRGB(0, 0, w, h, pixeldata, 0, w);
-                TextureUtil.uploadTextureImage(this.getGlTextureId(), texture);
+
+                for (int x = 0; x < w; x++)
+                	for (int y = 0; y < h; y++) {
+                		c = texture.getPixelRGBA(x, y);
+                		a = alpha(c);
+                		r = red(c);
+                		g = green(c);
+                		b = blue(c);
+
+                		texture.setPixelRGBA(x, y, colourise(r, this.tint1, g, this.tint2, b, this.tint3, a));
+                	}
+
+                TextureUtil.prepareImage(this.getGlTextureId(), texture.getWidth(), texture.getHeight());
+                texture.uploadTextureSub(0, 0, 0, true);
             }
         }
         catch (IOException ioexception)
         {
-        	LogManager.getLogger().error("Couldn\'t load tripe tint texture image", ioexception);
+        	LogManager.getLogger().error("Couldn't load triple tint texture image", ioexception);
 		}
 	}
 

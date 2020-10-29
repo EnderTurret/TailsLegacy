@@ -10,12 +10,14 @@ package uk.kihira.tails.client.toast;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.profiler.IProfiler;
 import net.minecraft.profiler.Profiler;
+import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,33 +33,33 @@ public class ToastManager {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public void createToast(int x, int y, String text) {
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-        int stringWidth = fontRenderer.getStringWidth(text);
-        toasts.add(new Toast(x, y, stringWidth + 10,  stringWidth * 3, text));
+    public void createToast(int x, int y, ITextComponent text) {
+        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+        IReorderingProcessor processor = text.func_241878_f();
+        int stringWidth = fontRenderer.func_243245_a(processor);
+        toasts.add(new Toast(x, y, stringWidth + 10,  stringWidth * 3, processor));
     }
 
-    @SuppressWarnings("unchecked")
-    public void createCenteredToast(int x, int y, int maxWidth, String text) {
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-        int stringWidth = fontRenderer.getStringWidth(text);
+    public void createCenteredToast(int x, int y, int maxWidth, ITextComponent text) {
+        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+        int stringWidth = fontRenderer.getStringPropertyWidth(text);
         if (stringWidth > maxWidth) {
-            List<String> strings = fontRenderer.listFormattedStringToWidth(text, maxWidth);
-            toasts.add(new Toast(x - (maxWidth / 2) - 5, y, maxWidth + 10, text.length() * 3, strings.toArray(new String[strings.size()])));
+            List<IReorderingProcessor> strings = fontRenderer.trimStringToWidth(text, maxWidth);
+            toasts.add(new Toast(x - (maxWidth / 2) - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new IReorderingProcessor[strings.size()])));
         }
         else {
-            toasts.add(new Toast(x - (stringWidth / 2) - 5, y, stringWidth + 10, text.length() * 3, text));
+            toasts.add(new Toast(x - (stringWidth / 2) - 5, y, stringWidth + 10, text.getString().length() * 3, text.func_241878_f()));
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onMouseEvent(MouseEvent event) {
         for (Toast toast : toasts) {
             if (toast.mouseOver) {
                 toast.onMouseEvent(event);
             }
         }
-    }
+    }*/
 
     @SubscribeEvent
     public void onClientTickPost(TickEvent.ClientTickEvent event) {
@@ -73,10 +75,10 @@ public class ToastManager {
 
     @SubscribeEvent
     public void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
-        Profiler profiler = Minecraft.getMinecraft().mcProfiler;
+        IProfiler profiler = Minecraft.getInstance().getProfiler();
         profiler.startSection("toastNotification");
         for (Toast toast : toasts) {
-            toast.drawToast(event.getMouseX(), event.getMouseY());
+            toast.drawToast(event.getMatrixStack(), event.getMouseX(), event.getMouseY());
         }
         profiler.endSection();
     }

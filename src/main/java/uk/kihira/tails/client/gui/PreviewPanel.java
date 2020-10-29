@@ -1,20 +1,25 @@
 package uk.kihira.tails.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.settings.PointOfView;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.TranslationTextComponent;
 
 class PreviewPanel extends Panel<GuiEditor> {
 
     private float yaw = 0F;
     private float pitch = 10F;
-    private int prevMouseX = -1;
-    private ScaledResolution scaledRes;
+    private double prevMouseX = -1;
+    //private ScaledResolution scaledRes;
     private boolean doRender;
 
     PreviewPanel(GuiEditor parent, int left, int top, int right, int bottom) {
@@ -22,43 +27,36 @@ class PreviewPanel extends Panel<GuiEditor> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void initGui() {
-        doRender = Minecraft.getMinecraft().gameSettings.thirdPersonView == 0;
+    public void init() {
+        doRender = Minecraft.getInstance().gameSettings.getPointOfView() == PointOfView.FIRST_PERSON;
         if (!doRender)
             return;
-        scaledRes = new ScaledResolution(this.mc);
-        //Reset Camera
-        buttonList.add(new GuiIconButton(0, width - 18, 22, GuiIconButton.Icons.UNDO, I18n.format("gui.button.reset.camera")));
-        //Help
-        buttonList.add(new GuiIconButton(1, width - 18, 4, GuiIconButton.Icons.QUESTION, I18n.format("gui.button.help.camera.0"), I18n.format("gui.button.help.camera.1")));
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if (!doRender)
-            return;
-        zLevel = -1000;
-        //Background
-        drawGradientRect(0, 0, width, height, 0xEE000000, 0xEE000000);
-
-        //Player
-        drawEntity((width / 2), (height / 2) + (scaledRes.getScaledHeight() / 4), scaledRes.getScaledHeight() / 4, yaw, pitch, mc.player);
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton button) {
-        //Reset Camera
-        if (button.id == 1) {
+        //scaledRes = new ScaledResolution(minecraft);
+        // Reset Camera
+        addButton(new GuiIconButton(width - 18, 22, GuiIconButton.Icons.UNDO, b -> {
             yaw = 0;
             pitch = 10F;
-        }
+        }, new TranslationTextComponent("gui.button.reset.camera")));
+        // Help
+        addButton(new GuiIconButton(width - 18, 4, GuiIconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("gui.button.help.camera.0"), new TranslationTextComponent("gui.button.help.camera.1")));
     }
 
     @Override
-    public void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeSinceMouseClick) {
-        if (lastButtonClicked == 0) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        if (!doRender)
+            return;
+        setBlitOffset(-1000);
+        // Background
+        fillGradient(matrixStack, 0, 0, width, height, 0xEE000000, 0xEE000000);
+
+        // Player
+        drawEntity(width / 2, height / 2 + Minecraft.getInstance().getMainWindow().getScaledHeight() / 4, Minecraft.getInstance().getMainWindow().getScaledHeight() / 4, yaw, pitch, Minecraft.getInstance().player);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        if (button == 0) {
             //Yaw
             if (prevMouseX == -1) prevMouseX = mouseX;
             else {
@@ -66,26 +64,35 @@ class PreviewPanel extends Panel<GuiEditor> {
                 prevMouseX = mouseX;
             }
         }
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+    public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
         prevMouseX = -1;
-        super.mouseReleased(mouseX, mouseY, mouseButton);
+        return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
-    private static void drawEntity(int x, int y, int scale, float yaw, float pitch, EntityLivingBase entity) {
-        float prevHeadYaw = entity.rotationYawHead;
-        float prevRotYaw = entity.rotationYaw;
-        float prevRotPitch = entity.rotationPitch;
+    @SuppressWarnings("deprecation")
+    private static void drawEntity(int x, int y, int scale, float yaw, float pitch, LivingEntity entity) {
+        RenderSystem.pushMatrix();
+        RenderSystem.translatef(x, y, 100F);
+        RenderSystem.scalef(1F, 1F, -1F);
 
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, 100F);
-        GlStateManager.scale(-scale, scale, scale);
-        GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
-        GlStateManager.translate(0.0F, (float) entity.getYOffset(), 0.0F);
-        GlStateManager.rotate(pitch, 1F, 0.0F, 0.0F);
-        GlStateManager.rotate(yaw, 0F, 1F, 0.0F);
+        MatrixStack matrixStack = new MatrixStack();
+
+    	matrixStack.translate(0, 0, 1000);
+    	matrixStack.scale(scale, scale, scale);
+
+    	Quaternion quaternion = Vector3f.ZP.rotationDegrees(180f);
+    	Quaternion quaternion1 = Vector3f.XP.rotationDegrees(pitch * 20F);
+
+    	quaternion.multiply(quaternion1);
+    	matrixStack.rotate(quaternion);
+
+    	float oldRotationYawHead = entity.rotationYawHead;
+    	float oldRotationYaw = entity.rotationYaw;
+    	float oldRotationPitch = entity.rotationPitch;
 
         entity.rotationYawHead = 0F;
         entity.rotationYaw = 0F;
@@ -93,17 +100,27 @@ class PreviewPanel extends Panel<GuiEditor> {
         entity.renderYawOffset = 0F;
         entity.setSneaking(false);
 
-        RenderHelper.enableStandardItemLighting();
-        Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
-        Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity, 0D, 0D, 0D, 0F, 1F, false);
-        RenderHelper.disableStandardItemLighting();
-        OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+    	EntityRendererManager rendererManager = Minecraft.getInstance().getRenderManager();
 
-        entity.rotationYawHead = prevHeadYaw;
-        entity.rotationYaw = prevRotYaw;
-        entity.rotationPitch = prevRotPitch;
+    	quaternion1.conjugate();
 
-        GlStateManager.popMatrix();
+    	rendererManager.setCameraOrientation(quaternion1);
+    	rendererManager.setRenderShadow(false);
+
+    	IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+
+    	RenderSystem.runAsFancy(() -> {
+    	    rendererManager.renderEntityStatic(entity, 0, 0, 0, 0f, 1f, matrixStack, impl, 15728880);
+    	});
+
+    	impl.finish();
+
+    	rendererManager.setRenderShadow(true);
+
+        entity.rotationYawHead = oldRotationYawHead;
+        entity.rotationYaw = oldRotationYaw;
+        entity.rotationPitch = oldRotationPitch;
+
+        RenderSystem.popMatrix();
     }
 }

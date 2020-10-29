@@ -14,24 +14,27 @@ import uk.kihira.tails.client.render.RenderPart;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.list.ExtendedList;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
-
+import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsPanel.PartEntry> {
 
     private GuiList<PartEntry> partList;
-    private GuiButton partTypeButton;
+    private Button partTypeButton;
 
     private final FakeEntity fakeEntity;
     private final int listTop = 35;
@@ -40,33 +43,14 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
         super(parent, left, top, right, bottom);
         alwaysReceiveMouse = true;
 
-        fakeEntity = new FakeEntity(Minecraft.getMinecraft().world);
+        fakeEntity = new FakeEntity(Minecraft.getInstance().world);
     }
 
     @Override
-    public void initGui() {
+    public void init() {
         initPartList();
 
-        buttonList.add(partTypeButton = new GuiButtonExt(0, width/2 - 25, 16, 50, 16, parent.getPartType().name()));
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float p_73863_3_) {
-        zLevel = -100;
-        drawGradientRect(0, 0, width, listTop, 0xEA000000, 0xEA000000);
-        drawGradientRect(0, listTop, width, height, 0xCC000000, 0xCC000000);
-        zLevel = 0;
-        GlStateManager.color(1, 1, 1, 1);
-        drawCenteredString(fontRenderer, I18n.format("gui.partselect"), width/2, 5, 0xFFFFFF);
-        //Tails list
-        partList.drawScreen(mouseX, mouseY, p_73863_3_);
-
-        super.drawScreen(mouseX, mouseY, p_73863_3_);
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton button) {
-        if (button.id == 0) {
+        addButton(partTypeButton = new ExtendedButton(width / 2 - 25, 16, 50, 16, new StringTextComponent(parent.getPartType().name()), b -> {
             if (parent.getPartType().ordinal() + 1 >= PartsData.PartType.values().length) {
                 parent.setPartType(PartsData.PartType.values()[0]);
             }
@@ -74,29 +58,39 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
                 parent.setPartType(PartsData.PartType.values()[parent.getPartType().ordinal() + 1]);
             }
 
-            partTypeButton.displayString = parent.getPartType().name();
-        }
+            partTypeButton.setMessage(new StringTextComponent(parent.getPartType().name()));
+        }));
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-        this.partList.mouseClicked(mouseX, mouseY, mouseButton);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        setBlitOffset(-100);
+        fillGradient(matrixStack, 0, 0, width, listTop, 0xEA000000, 0xEA000000);
+        fillGradient(matrixStack, 0, listTop, width, height, 0xCC000000, 0xCC000000);
+
+        setBlitOffset(0);
+        RenderSystem.color4f(1, 1, 1, 1);
+        drawCenteredString(matrixStack, Minecraft.getInstance().fontRenderer, I18n.format("gui.partselect"), width / 2, 5, 0xFFFFFF);
+        //Tails list
+        partList.render(matrixStack, mouseX, mouseY, partialTicks);
+
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY, int state) {
-        super.mouseReleased(mouseX, mouseY, state);
-        this.partList.mouseReleased(mouseX, mouseY, state);
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+        partList.mouseClicked(mouseX, mouseY, mouseButton);
+        return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void handleMouseInput() throws IOException {
-        this.partList.handleMouseInput();
+    public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
+        partList.mouseReleased(mouseX, mouseY, mouseButton);
+        return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void onGuiClosed() {
+    public void onClose() {
         //Delete textures on close
         for (PartEntry entry : this.partList.getEntries()) {
             entry.partInfo.setTexture(null);
@@ -129,40 +123,42 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
         }
 
         this.partList = new GuiList<>(this, width, height - listTop, listTop, height, 55, partList);
-        this.partList.width = width;
+        //this.partList.width = width;
         selectDefaultListEntry();
     }
 
     void selectDefaultListEntry() {
         //Default selection
-        for (GuiListExtended.IGuiListEntry entry : partList.getEntries()) {
-            PartEntry partEntry = (PartEntry) entry;
+        for (PartEntry entry : partList.getEntries()) {
+            PartEntry partEntry = entry;
             PartInfo partInfo = parent.getEditingPartInfo();
             if ((!partEntry.partInfo.hasPart && !partInfo.hasPart) || (partInfo.hasPart && partEntry.partInfo.hasPart
                     && partEntry.partInfo.typeid == partInfo.typeid && partEntry.partInfo.subid == partInfo.subid)) {
-                partList.setCurrrentIndex(partList.getEntries().indexOf(partEntry));
+                partList.setCurrentIndex(partList.getEntries().indexOf(partEntry));
                 break;
             }
         }
     }
 
-    private void renderPart(int x, int y, int z, int scale, PartInfo partInfo) {
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, z);
-        GlStateManager.scale(-scale, scale, 1F);
+    private void renderPart(MatrixStack matrixStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTicks) {
+        matrixStack.push();
+        matrixStack.translate(x, y, z);
+        matrixStack.scale(-scale, scale, 1F);
 
-        RenderHelper.enableStandardItemLighting();
-        Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
-        PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid).render(fakeEntity, partInfo, 0, 0, 0, 0);
-        RenderHelper.disableStandardItemLighting();
-        OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+        //RenderHelper.enableStandardItemLighting();
+        //Minecraft.getInstance().getRenderManager().playerViewY = 180.0F;
+        final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+        PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid).render(matrixStack, fakeEntity, partInfo, impl, 0, 0, 0, partialTicks, -1, OverlayTexture.NO_OVERLAY);
+        impl.finish();
+        //RenderHelper.disableStandardItemLighting();
+        //OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
         //GlStateManager.disableTexture2D(); //Why was this needed? It produces graphical issues when enabled...
-        OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+        //OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
-        GlStateManager.popMatrix();
+        matrixStack.pop();
     }
 
-    class PartEntry implements GuiListExtended.IGuiListEntry {
+    class PartEntry extends ExtendedList.AbstractListEntry<PartEntry> {
 
         final PartInfo partInfo;
 
@@ -171,45 +167,44 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
         }
 
         @Override
-        public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-            GlStateManager.color(1, 1, 1, 1);
-            zLevel = 0;
+        public void render(MatrixStack matrixStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+            RenderSystem.color4f(1, 1, 1, 1);
+            setBlitOffset(0);
             if (partInfo.hasPart) {
-                boolean currentPart = partList.getCurrrentIndex() == slotIndex;
-                renderPart(right - 25, y - 25, currentPart ? 10 : 1, 50, partInfo);
-                ClientUtils.drawStringMultiLine(fontRenderer, I18n.format(PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid)
+                boolean currentPart = partList.getCurrentIndex() == slotIndex;
+                renderPart(matrixStack, right - 25, y - 25, currentPart ? 10 : 1, 50, partInfo, partialTicks);
+                ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid)
                         .getUnlocalisedName(partInfo.subid)), 5, y + 17, 0xFFFFFF);
 
                 if (currentPart) {
                     RenderPart renderPart = PartRegistry.getRenderPart(parent.getPartType(), partInfo.typeid);
                     if (renderPart.getModelAuthor() != null) {
                         //Yeah its not nice but eh, works
-                        GlStateManager.pushMatrix();
-                        GlStateManager.translate(5, y + 27, 0);
-                        GlStateManager.scale(0.6F, 0.6F, 1F);
-                        zLevel = 100;
-                        fontRenderer.drawString(I18n.format("gui.createdby") + ":", 0, 0, 0xFFFFFF);
-                        GlStateManager.translate(0, 10, 0);
-                        fontRenderer.drawString(TextFormatting.AQUA + renderPart.getModelAuthor(), 0, 0, 0xFFFFFF);
-                        GlStateManager.popMatrix();
-                        zLevel = 0;
+                        matrixStack.push();
+                        matrixStack.translate(5, y + 27, 0);
+                        matrixStack.scale(0.6F, 0.6F, 1F);
+                        setBlitOffset(100);
+                        font.drawString(matrixStack, I18n.format("gui.createdby") + ":", 0, 0, 0xFFFFFF);
+                        matrixStack.translate(0, 10, 0);
+                        font.drawString(matrixStack, TextFormatting.AQUA + renderPart.getModelAuthor(), 0, 0, 0xFFFFFF);
+                        matrixStack.pop();
+                        setBlitOffset(0);
                     }
                 }
             }
             else {
-                fontRenderer.drawString(I18n.format("tail.none.name"), 5, y + (partList.slotHeight / 2) - 5, 0xFFFFFF);
+                font.drawString(matrixStack, I18n.format("tail.none.name"), 5, y + (partList.getItemHeight() / 2) - 5, 0xFFFFFF);
             }
         }
 
         @Override
-        public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {}
-
-        @Override
-        public boolean mousePressed(int index, int mouseX, int mouseY, int mouseEvent, int mouseSlotX, int mouseSlotY) {
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
             return true;
         }
 
         @Override
-        public void mouseReleased(int index, int mouseX, int mouseY, int mouseEvent, int mouseSlotX, int mouseSlotY) {}
+        public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        	return false;
+        }
     }
 }

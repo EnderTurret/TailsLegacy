@@ -1,23 +1,29 @@
 package uk.kihira.tails.client.gui.controls;
 
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraftforge.fml.client.config.GuiSlider;
-import net.minecraftforge.fml.client.config.GuiUtils;
 import uk.kihira.tails.client.gui.ITooltip;
 import uk.kihira.tails.common.Tails;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.AbstractSlider;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 
 
-import java.awt.*;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class GuiHSBSlider extends GuiSlider implements ITooltip {
+public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 
     private static final ResourceLocation sliderTexture = new ResourceLocation(Tails.MOD_ID, "texture/gui/controls/slider_hue.png");
     
@@ -25,35 +31,35 @@ public class GuiHSBSlider extends GuiSlider implements ITooltip {
     private final IHSBSliderCallback callback;
     private float hueValue;
     private float briValue;
-    private List<String> tooltips;
+    private List<IReorderingProcessor> tooltips;
     
     public GuiHSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
-        super(id, xPos, yPos, width, height, "", "", 0, 256 * 6 - 5, 0, false, false);
+        super(xPos, yPos, width, height, new StringTextComponent(""), 0);
         this.type = type;
         this.hueValue = 0;
         this.briValue = 0;
         this.callback = callback;
     }
 
-    public GuiHSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, String ... tooltips) {
+    public GuiHSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, ITextComponent ... tooltips) {
         this(id, xPos, yPos, width, height, callback, type);
-        this.tooltips = Arrays.asList(tooltips);
+        this.tooltips = Arrays.stream(tooltips).map(ITextComponent::func_241878_f).collect(Collectors.toList());
     }
     
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY, float partial) {
+    public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partial) {
         if (this.visible) {
-            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+            this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 
-            GuiUtils.drawContinuousTexturedBox(GuiButton.BUTTON_TEXTURES, this.x, this.y, 0, 46, this.width, this.height, 200, 20, 2, 3, 2, 2, this.zLevel);
-            mc.renderEngine.bindTexture(sliderTexture);
+            GuiUtils.drawContinuousTexturedBox(matrixStack, WIDGETS_LOCATION, this.x, this.y, 0, 46, this.width, this.height, 200, 20, 2, 3, 2, 2, this.getBlitOffset());
+            Minecraft.getInstance().getTextureManager().bindTexture(sliderTexture);
             
             if (type == HSBSliderType.SATURATION) {
                 Color hueColour = Color.getHSBColor(hueValue, 1F, 1F);
                 float red = (float) hueColour.getRed() / 255;
                 float green = (float) hueColour.getGreen() / 255;
                 float blue = (float) hueColour.getBlue() / 255;
-                GlStateManager.color(red, green, blue, 1.0F);
+                RenderSystem.color4f(red, green, blue, 1.0F);
                 drawTexturedModalRectScaled(x + 1, y + 1, 0, 176, 256, 20, this.width - 2, this.height - 2);
             }
             
@@ -70,35 +76,33 @@ public class GuiHSBSlider extends GuiSlider implements ITooltip {
                 float red = (float) hueColour.getRed() / 255;
                 float green = (float) hueColour.getGreen() / 255;
                 float blue = (float) hueColour.getBlue() / 255;
-                GlStateManager.color(red, green, blue, 1.0F);
+                RenderSystem.color4f(red, green, blue, 1.0F);
                 drawTexturedModalRectScaled(x + 1, y + 1, 0, srcY, 231, 20, this.width - 2, this.height - 2);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             } else {
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 drawTexturedModalRectScaled(x + 1, y + 1, 0, srcY, 256, 20, this.width - 2, this.height - 2);
             }
             
-            this.mouseDragged(mc, mouseX, mouseY);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            //RenderHelper.startGlScissor(x, y, width, height);
+            Minecraft.getInstance().getTextureManager().bindTexture(sliderTexture);
+            this.blit(matrixStack, this.x + (int)(this.sliderValue * (this.width - 3) - 2), this.y, 0, 0, 7, 4);
+            this.blit(matrixStack, this.x + (int)(this.sliderValue * (this.width - 3) - 2), this.y + this.height - 4, 7, 0, 7, 4);
+            //RenderHelper.endGlScissor();
         }
     }
     
     @Override
-    protected void mouseDragged(Minecraft mc, int par2, int par3) {
+    public void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
         if (this.visible) {
-            if (this.dragging) {
-                this.sliderValue = (par2 - (this.x + 4)) / (float)(this.width - 8);
-                updateSlider();
+            //if (this.dragging) {
+                this.sliderValue = (mouseX - (this.x + 4)) / (this.width - 8);
+                func_230972_a_();
                 if (callback != null) {
                     callback.onValueChangeHSBSlider(this, this.sliderValue);
                 }
-            }
-
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            //RenderHelper.startGlScissor(x, y, width, height);
-            mc.renderEngine.bindTexture(sliderTexture);
-            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (float)(this.width - 3) - 2), this.y, 0, 0, 7, 4);
-            this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (float)(this.width - 3) - 2), this.y + this.height - 4, 7, 0, 7, 4);
-            //RenderHelper.endGlScissor();
+            //}
         }
     }
     
@@ -106,7 +110,7 @@ public class GuiHSBSlider extends GuiSlider implements ITooltip {
         return type;
     }
     
-    @Override
+    //@Override
     public double getValue() {
         return sliderValue;
     }
@@ -115,10 +119,10 @@ public class GuiHSBSlider extends GuiSlider implements ITooltip {
      * Sets the current slider value between 0-1F
      * @param value New value
      */
-    @Override
+    //@Override
     public void setValue(double value) {
         this.sliderValue = value;
-        updateSlider();
+        func_230972_a_();
     }
 
     /**
@@ -127,7 +131,7 @@ public class GuiHSBSlider extends GuiSlider implements ITooltip {
      */
     public void setValueWithCallback(double value) {
         this.sliderValue = value;
-        updateSlider();
+        func_230972_a_();
         if (callback != null) {
             callback.onValueChangeHSBSlider(this, this.sliderValue);
         }
@@ -149,21 +153,29 @@ public class GuiHSBSlider extends GuiSlider implements ITooltip {
         this.briValue = value;
     }
     
-    void drawTexturedModalRectScaled (int x, int y, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
+    void drawTexturedModalRectScaled(int x, int y, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
         float f = 0.00390625F;
         float f1 = 0.00390625F;
         BufferBuilder renderer = Tessellator.getInstance().getBuffer();
         renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        renderer.pos((double) (x + 0), (double) (y + tarHeight), (double) this.zLevel).tex((double) ((float) (u + 0) * f), (double) ((float) (v + srcHeight) * f1)).endVertex();
-        renderer.pos((double) (x + tarWidth), (double) (y + tarHeight), (double) this.zLevel).tex((double) ((float) (u + srcWidth) * f), (double) ((float) (v + srcHeight) * f1)).endVertex();
-        renderer.pos((double) (x + tarWidth), (double) (y + 0), (double) this.zLevel).tex((double) ((float) (u + srcWidth) * f), (double) ((float) (v + 0) * f1)).endVertex();
-        renderer.pos((double) (x + 0), (double) (y + 0), (double) this.zLevel).tex((double) ((float) (u + 0) * f), (double) ((float) (v + 0) * f1)).endVertex();
+        renderer.pos(x + 0, y + tarHeight, this.getBlitOffset()).tex((u + 0) * f, (v + srcHeight) * f1).endVertex();
+        renderer.pos(x + tarWidth, y + tarHeight, this.getBlitOffset()).tex((u + srcWidth) * f, (v + srcHeight) * f1).endVertex();
+        renderer.pos(x + tarWidth, y + 0, this.getBlitOffset()).tex((u + srcWidth) * f, (v + 0) * f1).endVertex();
+        renderer.pos(x + 0, y + 0, this.getBlitOffset()).tex((u + 0) * f, (v + 0) * f1).endVertex();
         Tessellator.getInstance().draw();
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
+    public List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
         return tooltips;
+    }
+
+    @Override
+    protected void func_230972_a_() {
+    }
+
+    @Override
+    protected void func_230979_b_() {
     }
 
     public enum HSBSliderType {

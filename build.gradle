@@ -1,15 +1,19 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
+
+apply plugin: 'net.minecraftforge.gradle'
+
+apply plugin: 'eclipse'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 repositories {
     mavenCentral()
@@ -19,71 +23,79 @@ repositories {
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'maven'
-
-sourceCompatibility='1.8'
-targetCompatibility='1.8'
-
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
-
-configurations {
-    deployerJars
-    all {
-        resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
-    }
-}
-
 ext {
     massive = "1"
     major = "10"
     minor = "0"
-    mcVersion = "1.12"
-    forgeVersion = "14.21.1.2387"
+    mcVersion = "1.16.3"
+    forgeVersion = "34.1.34"
 }
 
-group= "uk.kihira.tails"
+group = "uk.kihira.tails"
 archivesBaseName = "Tails"
 version = "${project.mcVersion}-${project.massive}.${project.major}.${project.minor}"
 
 dependencies {
-    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
+    minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
 }
 
 minecraft {
-    version = "${project.mcVersion}-${project.forgeVersion}"
-    runDir = "run"
-    mappings = "snapshot_20170624"
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
 
-    replace '@VERSION@', project.version
-    replace '@MCVERSION@', project.mcVersion
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            mods {
+                tails {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            mods {
+                tails {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
-//noinspection GroovyAssignabilityCheck
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "Tails",
+            "Specification-Vendor": "Kihira",
+            "Specification-Version": "1",
+            "Implementation-Title": project.name,
+            "Implementation-Version": "${version}",
+            "Implementation-Vendor" :"EnderTurret",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+        include 'mods.toml'
 
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version
     }
 
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude 'mods.toml'
     }
 }
 
 /**
  * Maven uploading
- */
+ *
 def deployer = {
     repository(url: project.properties.maven_url) {
         configuration = configurations.deployerJars
@@ -135,4 +147,4 @@ def deployer = {
 
 uploadArchives {
     repositories.mavenDeployer(deployer)
-}
+}*/

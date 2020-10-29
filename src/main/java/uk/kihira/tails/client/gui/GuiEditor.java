@@ -9,8 +9,8 @@
 package uk.kihira.tails.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.StringTextComponent;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
@@ -39,7 +39,7 @@ public class GuiEditor extends GuiBase {
     LibraryImportPanel libraryImportPanel;
 
     public GuiEditor() {
-        super(4);
+        super(4, new StringTextComponent(""));
         //Backup original PartInfo or create default one
         PartInfo partInfo;
         if (Tails.localPartsData == null) {
@@ -54,7 +54,7 @@ public class GuiEditor extends GuiBase {
             }
         }
         partInfo = Tails.localPartsData.getPartInfo(partType);
-        playerUUID = EntityPlayer.getUUID(Minecraft.getMinecraft().getSession().getProfile());
+        playerUUID = PlayerEntity.getUUID(Minecraft.getInstance().getSession().getProfile());
 
         originalPartInfo = partInfo.deepCopy();
         setPartsData(Tails.localPartsData.deepCopy());
@@ -65,8 +65,7 @@ public class GuiEditor extends GuiBase {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void initGui() {
+    public void init() {
         int previewWindowEdgeOffset = 110;
         int previewWindowRight = width - previewWindowEdgeOffset;
         int previewWindowBottom = height - 30;
@@ -97,14 +96,14 @@ public class GuiEditor extends GuiBase {
             libraryImportPanel.resize(previewWindowRight, height - 60, width - previewWindowRight, 60);
             controlsPanel.resize(previewWindowEdgeOffset, previewWindowBottom, previewWindowRight - previewWindowEdgeOffset, height - previewWindowBottom);
         }
-        super.initGui();
+        super.init();
     }
 
     @Override
-    public void onGuiClosed() {
+    public void onClose() {
         Tails.proxy.addPartsData(playerUUID, Tails.localPartsData);
         //setScale(guiScale);
-        super.onGuiClosed();
+        super.onClose();
     }
 
     void refreshTintPane() {
@@ -162,10 +161,7 @@ public class GuiEditor extends GuiBase {
     }
 
     private void setScale(int scale) {
-        Minecraft.getMinecraft().gameSettings.guiScale = scale;
-        ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
-        int j = scaledresolution.getScaledWidth();
-        int k = scaledresolution.getScaledHeight();
-        this.setWorldAndResolution(Minecraft.getMinecraft(), j, k);
+        Minecraft.getInstance().gameSettings.guiScale = scale;
+        this.resize(Minecraft.getInstance(), Minecraft.getInstance().getMainWindow().getScaledWidth(), Minecraft.getInstance().getMainWindow().getScaledHeight());
     }
 }

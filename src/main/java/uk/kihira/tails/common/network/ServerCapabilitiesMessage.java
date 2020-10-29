@@ -1,12 +1,13 @@
 package uk.kihira.tails.common.network;
 
-import io.netty.buffer.ByteBuf;
-import uk.kihira.tails.common.Tails;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import java.util.function.Supplier;
 
-public class ServerCapabilitiesMessage implements IMessage {
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
+import uk.kihira.tails.common.Tails;
+
+public class ServerCapabilitiesMessage {
 
     private boolean library;
 
@@ -14,22 +15,17 @@ public class ServerCapabilitiesMessage implements IMessage {
     public ServerCapabilitiesMessage(boolean library) {
         this.library = library;
     }
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        library = buf.readBoolean();
+
+    public static ServerCapabilitiesMessage fromBytes(PacketBuffer buf) {
+        return new ServerCapabilitiesMessage(buf.readBoolean());
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        buf.writeBoolean(library);
+    public static void toBytes(ServerCapabilitiesMessage msg, PacketBuffer buf) {
+        buf.writeBoolean(msg.library);
     }
 
-    public static class Handler implements IMessageHandler<ServerCapabilitiesMessage, IMessage> {
-
-        @Override
-        public IMessage onMessage(ServerCapabilitiesMessage message, MessageContext ctx) {
+        public static void onMessage(ServerCapabilitiesMessage message, Supplier<NetworkEvent.Context> ctx) {
             Tails.libraryEnabled = message.library;
-            return null;
+            ctx.get().setPacketHandled(true);
         }
-    }
 }

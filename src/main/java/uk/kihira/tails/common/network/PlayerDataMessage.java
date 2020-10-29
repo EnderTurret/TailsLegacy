@@ -12,16 +12,18 @@ import com.google.common.base.Strings;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.util.UUIDTypeAdapter;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.network.PacketDistributor;
 import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
-public class PlayerDataMessage implements IMessage {
+public class PlayerDataMessage {
 
     private UUID uuid;
     private PartsData partsData;
@@ -34,40 +36,36 @@ public class PlayerDataMessage implements IMessage {
         this.shouldRemove = shouldRemove;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        uuid = UUIDTypeAdapter.fromString(ByteBufUtils.readUTF8String(buf));
-        String tailInfoJson = ByteBufUtils.readUTF8String(buf);
+    public static PlayerDataMessage fromBytes(PacketBuffer buf) {
+        PlayerDataMessage msg = new PlayerDataMessage();
+        msg.uuid = UUIDTypeAdapter.fromString(buf.readString(Short.MAX_VALUE));
+        String tailInfoJson = buf.readString(Short.MAX_VALUE);
         if (!Strings.isNullOrEmpty(tailInfoJson)) {
             try {
-                partsData = Tails.gson.fromJson(tailInfoJson, PartsData.class);
+                msg.partsData = Tails.gson.fromJson(tailInfoJson, PartsData.class);
             } catch (JsonSyntaxException e) {
                 Tails.logger.warn(e);
             }
         }
-        else partsData = null;
+        else msg.partsData = null;
+        return msg;
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        ByteBufUtils.writeUTF8String(buf, UUIDTypeAdapter.fromUUID(uuid));
-        String tailInfoJson = partsData == null ? "" : Tails.gson.toJson(this.partsData);
-        ByteBufUtils.writeUTF8String(buf, tailInfoJson);
+    public static void toBytes(PlayerDataMessage msg, PacketBuffer buf) {
+        buf.writeString(UUIDTypeAdapter.fromUUID(msg.uuid), Short.MAX_VALUE);
+        String tailInfoJson = msg.partsData == null ? "" : Tails.gson.toJson(msg.partsData);
+        buf.writeString(tailInfoJson, Short.MAX_VALUE);
     }
 
-    public static class Handler implements IMessageHandler<PlayerDataMessage, IMessage> {
-
-        @Override
-        public IMessage onMessage(PlayerDataMessage message, MessageContext ctx) {
+        public static void onMessage(PlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
             if (message.shouldRemove) Tails.proxy.removePartsData(message.uuid);
             else if (message.partsData != null) {
                 Tails.proxy.addPartsData(message.uuid, message.partsData);
                 //Tell other clients about the change
-                if (ctx.side.isServer()) {
-                    Tails.networkWrapper.sendToAll(new PlayerDataMessage(message.uuid, message.partsData, false));
+                if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER) {
+                    Tails.networkWrapper.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData, false));
                 }
             }
-            return null;
+            ctx.get().setPacketHandled(true);
         }
-    }
 }

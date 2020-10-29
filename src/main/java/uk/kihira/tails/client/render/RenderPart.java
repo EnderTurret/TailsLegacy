@@ -8,25 +8,28 @@
 
 package uk.kihira.tails.client.render;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.model.ModelPartBase;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.PartInfo;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import java.util.HashMap;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderPart {
 
-    private static final HashMap<Class<? extends EntityLivingBase>, IRenderHelper> renderHelpers = new HashMap<>();
+    private static final HashMap<Class<? extends LivingEntity>, IRenderHelper> renderHelpers = new HashMap<>();
 
     protected final String name;
     protected final String[] textureNames;
@@ -44,29 +47,32 @@ public class RenderPart {
         this.authors = new String[subTypes + 1][textureNames.length];
     }
 
-    public void render(EntityLivingBase entity, PartInfo info, double x, double y, double z, float partialTicks) {
+    public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
         if (info.needsTextureCompile || info.getTexture() == null) {
             info.setTexture(TextureHelper.generateTexture(entity.getUniqueID(), info));
             info.needsTextureCompile = false;
         }
 
-        GlStateManager.pushMatrix();
+        matrixStack.push();
 
         IRenderHelper helper;
         //Support for Galacticraft as it adds its own EntityPlayer
-        if (entity instanceof EntityPlayer) helper = getRenderHelper(EntityPlayer.class);
+        if (entity instanceof PlayerEntity) helper = getRenderHelper(PlayerEntity.class);
         else helper = getRenderHelper(entity.getClass());
         if (helper != null) {
-            helper.onPreRenderTail(entity, this, info, x, y, z);
+            helper.onPreRenderTail(matrixStack, entity, this, info, x, y, z);
         }
 
-        this.doRender(entity, info, partialTicks);
-        GlStateManager.popMatrix();
+        modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
+        modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
+        this.doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+        matrixStack.pop();
     }
 
-    protected void doRender(EntityLivingBase entity, PartInfo info, float partialTicks) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(info.getTexture());
-        this.modelPart.render(entity, info.subid, partialTicks);
+    protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
+        //Minecraft.getInstance().getTextureManager().bindTexture(info.getTexture());
+        final IVertexBuilder buf = bufferIn.getBuffer(modelPart.getRenderType(info.getTexture()));
+        this.modelPart.render(matrixStack, buf, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
     }
 
     /**
@@ -122,7 +128,7 @@ public class RenderPart {
         return getAuthor(subID, textureID) != null;
     }
 
-    public static void registerRenderHelper(Class<? extends EntityLivingBase> clazz, IRenderHelper helper) {
+    public static void registerRenderHelper(Class<? extends LivingEntity> clazz, IRenderHelper helper) {
         if (!renderHelpers.containsKey(clazz) && helper != null) {
             renderHelpers.put(clazz, helper);
         }
@@ -131,7 +137,7 @@ public class RenderPart {
         }
     }
 
-    public static IRenderHelper getRenderHelper(Class<? extends EntityLivingBase> clazz) {
+    public static IRenderHelper getRenderHelper(Class<? extends LivingEntity> clazz) {
         return renderHelpers.getOrDefault(clazz, null);
     }
 }

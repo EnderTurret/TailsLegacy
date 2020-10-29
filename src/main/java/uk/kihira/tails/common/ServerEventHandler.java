@@ -8,26 +8,28 @@
 
 package uk.kihira.tails.common;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.network.PacketDistributor;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 public class ServerEventHandler {
 
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+    	ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
         //Send current known tails to uk.kihira.tails.client
-        Tails.networkWrapper.sendTo(new PlayerDataMapMessage(Tails.proxy.getPartsData()), (EntityPlayerMP) event.player);
-        Tails.networkWrapper.sendTo(new ServerCapabilitiesMessage(Tails.libraryEnabled), (EntityPlayerMP) event.player);
-        Tails.logger.debug(String.format("Sent tail data of size %d to %s ", Tails.proxy.getPartsData().size(), event.player.getName()));
+        Tails.networkWrapper.send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.proxy.getPartsData()));
+        Tails.networkWrapper.send(PacketDistributor.PLAYER.with(() -> player), new ServerCapabilitiesMessage(Tails.libraryEnabled));
+        Tails.logger.debug(String.format("Sent tail data of size %d to %s ", Tails.proxy.getPartsData().size(), event.getPlayer().getName()));
     }
 
     @SubscribeEvent
     public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         //Server doesn't save tails so we discard
-        Tails.proxy.removePartsData(EntityPlayer.getUUID(event.player.getGameProfile()));
+        Tails.proxy.removePartsData(PlayerEntity.getUUID(event.getPlayer().getGameProfile()));
     }
 }

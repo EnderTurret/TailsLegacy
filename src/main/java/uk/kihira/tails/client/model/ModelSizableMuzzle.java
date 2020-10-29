@@ -1,8 +1,10 @@
 package uk.kihira.tails.client.model;
 
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLivingBase;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.LivingEntity;
 
 public class ModelSizableMuzzle extends ModelPartBase {
     private final ModelRenderer stubMuzzle;
@@ -28,27 +30,29 @@ public class ModelSizableMuzzle extends ModelPartBase {
     }
 
     @Override
-    public void render(EntityLivingBase theEntity, int subtype, float partialTicks) {
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+    	matrixStackIn.push();
         switch (subtype) {
             case 0: // Very Short
-                GlStateManager.translate(0f, 0f, 4f / 16f);
-                muzzle.render(ModelPartBase.SCALE);
+            	matrixStackIn.translate(0f, 0f, 4f / 16f);
+                muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
                 break;
             case 1: // Short
-                GlStateManager.translate(0f, 0f, 3f / 16f);
-                muzzle.render(ModelPartBase.SCALE);
+            	matrixStackIn.translate(0f, 0f, 3f / 16f);
+                muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
                 break;
             case 2: // Standard
-                GlStateManager.translate(0f, 0f, 2f / 16f);
-                muzzle.render(ModelPartBase.SCALE);
+            	matrixStackIn.translate(0f, 0f, 2f / 16f);
+                muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
                 break;
             case 3: // Long
-                GlStateManager.translate(0f, 0f, 1f / 16f);
-                muzzle.render(ModelPartBase.SCALE);
+            	matrixStackIn.translate(0f, 0f, 1f / 16f);
+                muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
                 break;
             case 4: // Very Long
-                muzzle.render(ModelPartBase.SCALE);
+                muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
                 break;
         }
+        matrixStackIn.pop();
     }
 }

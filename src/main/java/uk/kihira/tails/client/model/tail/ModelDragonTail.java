@@ -9,10 +9,14 @@
 package uk.kihira.tails.client.model.tail;
 
 import uk.kihira.tails.client.model.ModelPartBase;
-import net.minecraft.client.model.ModelRenderer;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
 public class ModelDragonTail extends ModelPartBase {
@@ -76,12 +80,12 @@ public class ModelDragonTail extends ModelPartBase {
     }
 
     @Override
-    public void setRotationAngles(float par1, float par2, float par3, float par4, float subtype, float partialTicks, Entity entity) {
+    public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
         double xAngleOffset = 0;
         double yAngleMultiplier = 1; //Used to suppress sway when running
-        if (!entity.isRiding()) {
-            if (entity instanceof EntityPlayer) {
-                double[] angles = getMotionAngles((EntityPlayer) entity, partialTicks);
+        if (entity.getRidingEntity() == null) {
+            if (entity instanceof PlayerEntity) {
+                double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
                 xAngleOffset = MathHelper.clamp(angles[0] / 5F, -1D, 0.45D);
                 yAngleMultiplier = (1 - (xAngleOffset * 2F)); //Used to suppress sway when running
@@ -107,15 +111,12 @@ public class ModelDragonTail extends ModelPartBase {
         }
     }
 
-
     @Override
-    public void render(EntityLivingBase theEntity, int subtype, float partialTicks) {
-        this.setRotationAngles(0, 0, 0, 0, subtype, partialTicks, theEntity);
-
-        this.tailBase.render(0.0625F);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+        this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
         if (subtype == 1) {
-            this.tailSubBase.render(0.0625F);
+            this.tailSubBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         }
     }
 }

@@ -1,10 +1,14 @@
 package uk.kihira.tails.client.model.tail;
 
 import uk.kihira.tails.client.model.ModelPartBase;
-import net.minecraft.client.model.ModelRenderer;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
 public class ModelBirdTail extends ModelPartBase {
@@ -69,14 +73,14 @@ public class ModelBirdTail extends ModelPartBase {
     }
 
     @Override
-    public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float partialTicks, Entity entity) {
+    public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
         float timestep = getAnimationTime(8000, entity);
         double xAngleOffset = 0;
         double zAngleOffset = 0;
 
-        if (!entity.isRiding()) {
-            if (entity instanceof EntityPlayer) {
-                double[] angles = getMotionAngles((EntityPlayer) entity, partialTicks);
+        if (entity.getRidingEntity() == null) {
+            if (entity instanceof PlayerEntity) {
+                double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
                 xAngleOffset = angles[0];
                 zAngleOffset = angles[2];
 
@@ -101,8 +105,7 @@ public class ModelBirdTail extends ModelPartBase {
     }
 
     @Override
-    public void render(EntityLivingBase theEntity, int subtype, float partialTicks) {
-        this.setRotationAngles(0, 0, 0, 0, 0, partialTicks, theEntity);
-        this.center.render(.0625f);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+        this.center.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 }

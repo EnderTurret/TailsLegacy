@@ -9,6 +9,10 @@
 package uk.kihira.tails.client.gui;
 
 import javax.annotation.Nonnull;
+
+import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.text.ITextComponent;
+
 import java.util.List;
 
 /**
@@ -16,5 +20,5 @@ import java.util.List;
  */
 @Nonnull
 public interface ITooltip {
-    List<String> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
+    List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
 }

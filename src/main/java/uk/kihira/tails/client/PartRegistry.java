@@ -18,13 +18,13 @@ import uk.kihira.tails.client.model.tail.*;
 import uk.kihira.tails.client.render.RenderPart;
 import uk.kihira.tails.client.render.RenderWings;
 import uk.kihira.tails.common.PartsData;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
 //Yeah using side only isn't nice but as this is static, it means it only gets constructed on the uk.kihira.tails.client
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class PartRegistry {
 
     private static final ArrayListMultimap<PartsData.PartType, RenderPart> partRegistry = ArrayListMultimap.create();
@@ -54,7 +54,6 @@ public class PartRegistry {
         registerPart(PartsData.PartType.MUZZLE, new RenderPart("muzzle.standard", 4, new ModelSizableMuzzle(-2f, -3f, -9f, 4, 3, 5), null, "standard_muzzle", "alt_muzzle"));
         registerPart(PartsData.PartType.MUZZLE, new RenderPart("muzzle.slim", 4, new ModelSizableMuzzle(-2f, -2f, -9f, 4, 2, 5), null, "standard_muzzle", "alt_muzzle"));
         registerPart(PartsData.PartType.MUZZLE, new RenderPart("muzzle.thin", 4, new ModelSizableMuzzle(-1.5f, -2f, -9f, 3, 2, 5, 0, 9), null, "standard_muzzle", "alt_muzzle"));
-
     }
 
     public static void registerPart(PartsData.PartType partType, RenderPart renderPart) {

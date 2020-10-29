@@ -11,17 +11,17 @@ package uk.kihira.tails.common.network;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonSyntaxException;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkEvent;
 import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
-public class PlayerDataMapMessage implements IMessage {
+public class PlayerDataMapMessage {
 
     private Map<UUID, PartsData> partsDataMap;
 
@@ -31,31 +31,27 @@ public class PlayerDataMapMessage implements IMessage {
         this.partsDataMap = partsDataMap;
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    public void fromBytes(ByteBuf buf) {
-        String tailInfoJson = ByteBufUtils.readUTF8String(buf);
+    public static PlayerDataMapMessage fromBytes(PacketBuffer buf) {
+        String tailInfoJson = buf.readString(Short.MAX_VALUE);
+        PlayerDataMapMessage msg = new PlayerDataMapMessage();
         try {
-            this.partsDataMap = Tails.gson.fromJson(tailInfoJson, new TypeToken<Map<UUID, PartsData>>() {}.getType());
+            msg.partsDataMap = Tails.gson.fromJson(tailInfoJson, new TypeToken<Map<UUID, PartsData>>() {}.getType());
         } catch (JsonSyntaxException e) {
             Tails.logger.catching(e);
         }
+        return msg;
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        String tailInfoJson = Tails.gson.toJson(this.partsDataMap);
-        ByteBufUtils.writeUTF8String(buf, tailInfoJson);
+    public static void toBytes(PlayerDataMapMessage msg, PacketBuffer buf) {
+        String tailInfoJson = Tails.gson.toJson(msg.partsDataMap);
+        buf.writeString(tailInfoJson, Short.MAX_VALUE);
     }
 
-    public static class Handler implements IMessageHandler<PlayerDataMapMessage, IMessage> {
-
-        @Override
-        public IMessage onMessage(PlayerDataMapMessage message, MessageContext ctx) {
+        public static void onMessage(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
             for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet()) {
                 Tails.proxy.addPartsData(entry.getKey(), entry.getValue());
             }
-            return null;
+            ctx.get().setPacketHandled(true);
         }
-    }
 }

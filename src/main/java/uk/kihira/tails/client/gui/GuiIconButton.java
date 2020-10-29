@@ -9,49 +9,56 @@
 package uk.kihira.tails.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+
+import org.lwjgl.opengl.GL11;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class GuiIconButton extends GuiButton implements ITooltip {
+public class GuiIconButton extends Button implements ITooltip {
 
     public static final ResourceLocation iconsTextures = new ResourceLocation("tails", "texture/gui/icons.png");
 
     protected final Icons icon;
-    private final List<String> tooltip;
+    private final List<IReorderingProcessor> tooltip;
 
-    public GuiIconButton(int id, int x, int y, Icons icon, String ... tooltips) {
-        super(id, x, y, 16 ,16, "");
+    public GuiIconButton(int x, int y, Icons icon, IPressable onPress, ITextComponent... tooltips) {
+        super(x, y, 16 ,16, new StringTextComponent(""), onPress);
         this.icon = icon;
-        this.tooltip = Arrays.asList(tooltips);
+        this.tooltip = Arrays.stream(tooltips).map(ITextComponent::func_241878_f).collect(Collectors.toList());
     }
 
     @Override
-    public void drawButton(Minecraft minecraft, int mouseX, int mouseY, float partial) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if (visible) {
-            minecraft.getTextureManager().bindTexture(iconsTextures);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.enableBlend();
-            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+            Minecraft.getInstance().getTextureManager().bindTexture(iconsTextures);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
             //Check mouse over
-            hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-            int textureOffset = getHoverState(hovered);
+            isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+            int textureOffset = getYImage(isHovered);
 
-            drawTexturedModalRect(x, y, icon.u, icon.v + (textureOffset * 16), 16, 16);
+            blit(matrixStack, x, y, icon.u, icon.v + (textureOffset * 16), 16, 16);
         }
     }
 
     public void setHover(boolean hover) {
-        hovered = hover;
+        isHovered = hover;
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
+    public List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
         return tooltip;
     }
 
@@ -59,32 +66,31 @@ public class GuiIconButton extends GuiButton implements ITooltip {
 
         public boolean toggled;
 
-        public GuiIconToggleButton(int id, int x, int y, Icons icon, String... tooltips) {
-            super(id, x, y, icon, tooltips);
+        public GuiIconToggleButton(int x, int y, Icons icon, IPressable onPress, ITextComponent... tooltips) {
+            super(x, y, icon, onPress, tooltips);
         }
 
         @Override
-        public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY) {
-            if (this.visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height) {
-                this.toggled = !this.toggled;
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height) {
+                toggled = !toggled;
                 return true;
             }
             return false;
         }
 
         @Override
-        public void drawButton(Minecraft minecraft, int mouseX, int mouseY, float partial) {
+        public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
             if (visible && toggled) {
-                minecraft.getTextureManager().bindTexture(iconsTextures);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                GlStateManager.enableBlend();
-                OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+                Minecraft.getInstance().getTextureManager().bindTexture(iconsTextures);
+                RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.enableBlend();
+                RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
                 //Check mouse over
-                hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-                drawTexturedModalRect(x, y, icon.u, icon.v + 32, 16, 16);
-            }
-            else {
-                super.drawButton(minecraft, mouseX, mouseY, partial);
+                isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+                blit(matrixStack, x, y, icon.u, icon.v + 32, 16, 16);
+            } else {
+                super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
             }
         }
     }

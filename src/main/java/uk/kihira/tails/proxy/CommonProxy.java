@@ -8,17 +8,19 @@
 
 package uk.kihira.tails.proxy;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.common.thread.EffectiveSide;
+import net.minecraftforge.fml.network.NetworkDirection;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.ServerEventHandler;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.*;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class CommonProxy {
@@ -32,15 +34,15 @@ public class CommonProxy {
         libraryManager = new LibraryManager();
     }
 
-    public void registerMessages() {
-        Tails.networkWrapper.registerMessage(PlayerDataMessage.Handler.class, PlayerDataMessage.class, 0, Side.SERVER);
-        Tails.networkWrapper.registerMessage(PlayerDataMapMessage.Handler.class, PlayerDataMapMessage.class, 1, Side.SERVER);
-        Tails.networkWrapper.registerMessage(LibraryEntriesMessage.Handler.class, LibraryEntriesMessage.class, 2, Side.SERVER);
-        Tails.networkWrapper.registerMessage(LibraryRequestMessage.Handler.class, LibraryRequestMessage.class, 3, Side.SERVER);
-        Tails.networkWrapper.registerMessage(ServerCapabilitiesMessage.Handler.class, ServerCapabilitiesMessage.class, 4, Side.SERVER);
+    protected void registerMessages() {
+    	Tails.networkWrapper.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::toBytes, PlayerDataMessage::fromBytes, PlayerDataMessage::onMessage);
+    	Tails.networkWrapper.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::toBytes, PlayerDataMapMessage::fromBytes, PlayerDataMapMessage::onMessage);
+    	Tails.networkWrapper.registerMessage(2, LibraryEntriesMessage.class, LibraryEntriesMessage::toBytes, LibraryEntriesMessage::fromBytes, LibraryEntriesMessage::onMessage);
+    	Tails.networkWrapper.registerMessage(3, LibraryRequestMessage.class, LibraryRequestMessage::toBytes, LibraryRequestMessage::fromBytes, LibraryRequestMessage::onMessage);
+    	Tails.networkWrapper.registerMessage(4, ServerCapabilitiesMessage.class, ServerCapabilitiesMessage::toBytes, ServerCapabilitiesMessage::fromBytes, ServerCapabilitiesMessage::onMessage);
     }
 
-    public void registerHandlers() {
+    protected void registerHandlers() {
         MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
     }
 
@@ -56,7 +58,7 @@ public class CommonProxy {
 
     public void removePartsData(UUID uuid) {
         if (hasPartsData(uuid)) {
-            if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            if (EffectiveSide.get() == LogicalSide.SERVER) {
                 //todo Tell uk.kihira.tails.client to remove textures
                 //Tails.networkWrapper.sendToAll(new PlayerDataMessage(uuid, this.partsData.get(uuid), true));
             }

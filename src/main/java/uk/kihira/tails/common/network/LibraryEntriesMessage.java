@@ -5,14 +5,15 @@ import com.google.gson.reflect.TypeToken;
 import io.netty.buffer.ByteBuf;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-public class LibraryEntriesMessage implements IMessage {
+public class LibraryEntriesMessage {
 
     private List<LibraryEntryData> entries;
     private boolean delete; //Only used when sending to server
@@ -23,29 +24,27 @@ public class LibraryEntriesMessage implements IMessage {
         this.delete = delete;
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        String dataJson = ByteBufUtils.readUTF8String(buf);
+    public static LibraryEntriesMessage fromBytes(PacketBuffer buf) {
+        String dataJson = buf.readString(Short.MAX_VALUE);
+        LibraryEntriesMessage msg = new LibraryEntriesMessage();
         try {
-            entries = Tails.gson.fromJson(dataJson, new TypeToken<List<LibraryEntryData>>() {}.getType());
+            msg.entries = Tails.gson.fromJson(dataJson, new TypeToken<List<LibraryEntryData>>() {}.getType());
         } catch (JsonParseException e) {
             e.printStackTrace();
         }
-        delete = buf.readBoolean();
+        msg.delete = buf.readBoolean();
+
+        return msg;
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        ByteBufUtils.writeUTF8String(buf, Tails.gson.toJson(entries, new TypeToken<List<LibraryEntryData>>() {}.getType()));
-        buf.writeBoolean(delete);
+    public static void toBytes(LibraryEntriesMessage msg, PacketBuffer buf) {
+        buf.writeString(Tails.gson.toJson(msg.entries, new TypeToken<List<LibraryEntryData>>() {}.getType()), Short.MAX_VALUE);
+        buf.writeBoolean(msg.delete);
     }
 
-    public static class Handler implements IMessageHandler<LibraryEntriesMessage, IMessage> {
-
-        @Override
-        public IMessage onMessage(LibraryEntriesMessage message, MessageContext ctx) {
+        public static void onMessage(LibraryEntriesMessage message, Supplier<NetworkEvent.Context> ctx) {
             //Client
-            if (ctx.side.isClient()) {
+            if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
                 //Yeah this isn't exactly a nice way of doing this.
                 for (LibraryEntryData entry : message.entries) {
                     entry.remoteEntry = true;
@@ -66,8 +65,6 @@ public class LibraryEntriesMessage implements IMessage {
                     Tails.proxy.getLibraryManager().addEntries(message.entries);
                 }
                 Tails.proxy.getLibraryManager().saveLibrary();
-            }
-            return null;
         }
     }
 }

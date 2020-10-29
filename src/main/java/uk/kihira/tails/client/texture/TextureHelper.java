@@ -11,11 +11,15 @@ package uk.kihira.tails.client.texture;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.util.UUIDTypeAdapter;
-import net.minecraft.client.renderer.ThreadDownloadImageData;
+
+import net.minecraft.client.renderer.texture.DownloadingTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.ITextureObject;
+import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.apache.commons.io.IOUtils;
 import uk.kihira.tails.client.PartRegistry;
@@ -24,21 +28,19 @@ import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.util.Point;
 
 import javax.imageio.ImageIO;
+
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.UUID;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class TextureHelper {
 
     private static final int switch1Colour = 0xFFFF10F0;
@@ -62,13 +64,13 @@ public class TextureHelper {
      * @param player The player
      * @return Has part info(s).
      */
-    public static boolean hasSkinData(AbstractClientPlayer player) {
+    public static boolean hasSkinData(AbstractClientPlayerEntity player) {
         BufferedImage image = getPlayerSkinAsBufferedImage(player);
         if (image != null) {
             for (PartsData.PartType partType : PartsData.PartType.values()) {
                 int ordinal = partType.ordinal();
-                int scol1 = image.getRGB(switchPoints[ordinal][0].getX(), switchPoints[ordinal][0].getY());
-                int scol2 = image.getRGB(switchPoints[ordinal][1].getX(), switchPoints[ordinal][1].getY());
+                int scol1 = image.getRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY());
+                int scol2 = image.getRGB((int) switchPoints[ordinal][1].getX(), (int) switchPoints[ordinal][1].getY());
 
                 if (scol1 == switch1Colour && scol2 == switch2Colour) {
                     return true;
@@ -79,7 +81,7 @@ public class TextureHelper {
     }
 
     @SuppressWarnings("rawtypes")
-	public static void buildPlayerPartsData(AbstractClientPlayer player) {
+	public static void buildPlayerPartsData(AbstractClientPlayerEntity player) {
 		GameProfile profile = player.getGameProfile();
 		UUID uuid = profile.getId();
         BufferedImage image = getPlayerSkinAsBufferedImage(player);
@@ -93,8 +95,8 @@ public class TextureHelper {
             //Load part data from skin
             for (PartsData.PartType partType : PartsData.PartType.values()) {
                 int ordinal = partType.ordinal();
-                int scol1 = image.getRGB(switchPoints[ordinal][0].getX(), switchPoints[ordinal][0].getY());
-                int scol2 = image.getRGB(switchPoints[ordinal][1].getX(), switchPoints[ordinal][1].getY());
+                int scol1 = image.getRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY());
+                int scol2 = image.getRGB((int) switchPoints[ordinal][1].getX(), (int) switchPoints[ordinal][1].getY());
 
                 PartInfo tailInfo;
                 if (scol1 == switch1Colour && scol2 == switch2Colour) {
@@ -109,14 +111,14 @@ public class TextureHelper {
             Tails.proxy.addPartsData(uuid, partsData);
 
             //If local player, send our skin info the server.
-            if (player == Minecraft.getMinecraft().player) {
+            if (player == Minecraft.getInstance().player) {
                 Tails.setLocalPartsData(partsData);
-                Tails.networkWrapper.sendToServer(new PlayerDataMessage(UUIDTypeAdapter.fromString(Minecraft.getMinecraft().getSession().getPlayerID()), partsData, false));
+                Tails.networkWrapper.sendToServer(new PlayerDataMessage(UUIDTypeAdapter.fromString(Minecraft.getInstance().getSession().getPlayerID()), partsData, false));
             }
         }
 	}
 
-    public static BufferedImage writePartsDataToSkin(PartsData partsData, AbstractClientPlayer player) {
+    public static BufferedImage writePartsDataToSkin(PartsData partsData, AbstractClientPlayerEntity player) {
         BufferedImage image = getPlayerSkinAsBufferedImage(player);
 
         //Check we have the players skin
@@ -136,15 +138,15 @@ public class TextureHelper {
                     dataColour = dataColour | partInfo.typeid << 16;
                     dataColour = dataColour | partInfo.subid << 8;
                     dataColour = dataColour | partInfo.textureID;
-                    image.setRGB(dataPoints[ordinal].getX(), dataPoints[ordinal].getY(), dataColour);
+                    image.setRGB((int) dataPoints[ordinal].getX(), (int) dataPoints[ordinal].getY(), dataColour);
                     //Tints
-                    image.setRGB(tintPoints[ordinal][0].getX(), tintPoints[ordinal][0].getY(), partInfo.tints[0]);
-                    image.setRGB(tintPoints[ordinal][1].getX(), tintPoints[ordinal][1].getY(), partInfo.tints[1]);
-                    image.setRGB(tintPoints[ordinal][2].getX(), tintPoints[ordinal][2].getY(), partInfo.tints[2]);
+                    image.setRGB((int) tintPoints[ordinal][0].getX(), (int) tintPoints[ordinal][0].getY(), partInfo.tints[0]);
+                    image.setRGB((int) tintPoints[ordinal][1].getX(), (int) tintPoints[ordinal][1].getY(), partInfo.tints[1]);
+                    image.setRGB((int) tintPoints[ordinal][2].getX(), (int) tintPoints[ordinal][2].getY(), partInfo.tints[2]);
                 }
                 //Switch colours
-                image.setRGB(switchPoints[ordinal][0].getX(), switchPoints[ordinal][0].getY(), switch1);
-                image.setRGB(switchPoints[ordinal][1].getX(), switchPoints[ordinal][1].getY(), switch2);
+                image.setRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY(), switch1);
+                image.setRGB((int) switchPoints[ordinal][1].getX(), (int) switchPoints[ordinal][1].getY(), switch2);
             }
         }
         else Tails.logger.warn("Attempted to write PartInfo to skin but player doesn't have a skin!");
@@ -154,7 +156,7 @@ public class TextureHelper {
 
 	private static PartInfo buildPartInfoFromSkin(PartsData.PartType partType, BufferedImage skin, UUID uuid) {
         int ordinal = partType.ordinal();
-		int data = skin.getRGB(dataPoints[ordinal].getX(), dataPoints[ordinal].getY());
+		int data = skin.getRGB((int) dataPoints[ordinal].getX(), (int) dataPoints[ordinal].getY());
 		int typeid = (data >> 16) & 0xFF;
         int subtype = (data >> 8) & 0xFF;
         int textureid = (data) & 0xFF;
@@ -162,9 +164,9 @@ public class TextureHelper {
 
 		textureid = textureid >= textures.length ? 0 : textureid;
 		
-		int tint1 = skin.getRGB(tintPoints[ordinal][0].getX(), tintPoints[ordinal][0].getY());
-		int tint2 = skin.getRGB(tintPoints[ordinal][1].getX(), tintPoints[ordinal][1].getY());
-		int tint3 = skin.getRGB(tintPoints[ordinal][2].getX(), tintPoints[ordinal][2].getY());
+		int tint1 = skin.getRGB((int) tintPoints[ordinal][0].getX(), (int) tintPoints[ordinal][0].getY());
+		int tint2 = skin.getRGB((int) tintPoints[ordinal][1].getX(), (int) tintPoints[ordinal][1].getY());
+		int tint3 = skin.getRGB((int) tintPoints[ordinal][2].getX(), (int) tintPoints[ordinal][2].getY());
 		
 		ResourceLocation tailTexture = generateTexture(uuid, partType, typeid, subtype, textureid, new int[] {tint1, tint2, tint3});
 		
@@ -187,7 +189,7 @@ public class TextureHelper {
 
         //Add UUID to prevent deleting similar textures.
         ResourceLocation tailTexture = new ResourceLocation("tails_"+uuid+"_"+partType.name()+"_"+typeid+"_"+subid+"_"+textureID+"_"+tints[0]+"_"+tints[1]+"_"+tints[2]);
-        Minecraft.getMinecraft().getTextureManager().loadTexture(tailTexture, new TripleTintTexture("tails", texturePath, tints[0], tints[1], tints[2]));
+        Minecraft.getInstance().getTextureManager().loadTexture(tailTexture, new TripleTintTexture("tails", texturePath, tints[0], tints[1], tints[2]));
 
         return tailTexture;
     }
@@ -196,17 +198,17 @@ public class TextureHelper {
         return generateTexture(uuid, partInfo.partType, partInfo.typeid, partInfo.subid, partInfo.textureID, partInfo.tints);
     }
 	
-	public static boolean needsBuild(EntityPlayer player) {
-		return !Tails.proxy.hasPartsData(player.getPersistentID()) && player.getGameProfile().getProperties().containsKey("textures");
+	public static boolean needsBuild(PlayerEntity player) {
+		return !Tails.proxy.hasPartsData(player.getUniqueID()) && player.getGameProfile().getProperties().containsKey("textures");
 	}
 
-    private static BufferedImage getPlayerSkinAsBufferedImage(AbstractClientPlayer player) {
+    private static BufferedImage getPlayerSkinAsBufferedImage(AbstractClientPlayerEntity player) {
         BufferedImage bufferedImage = null;
         InputStream inputStream = null;
-        Minecraft mc = Minecraft.getMinecraft();
+        Minecraft mc = Minecraft.getInstance();
         Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = mc.getSkinManager().loadSkinFromCache(player.getGameProfile());
-        ITextureObject skintex;
-        String playerName = player.getDisplayNameString();
+        Texture skintex;
+        String playerName = player.getGameProfile().getName();
 
         try {
             if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
@@ -216,22 +218,23 @@ public class TextureHelper {
                 skintex = mc.getTextureManager().getTexture(player.getLocationSkin());
             }
 
-            if (skintex instanceof ThreadDownloadImageData) {
-                ThreadDownloadImageData imagedata = (ThreadDownloadImageData) skintex;
+            if (skintex instanceof DownloadingTexture) {
+            	DownloadingTexture imagedata = (DownloadingTexture) skintex;
                 Tails.logger.debug("Loading "+playerName+" skin");
-                bufferedImage = ObfuscationReflectionHelper.getPrivateValue(ThreadDownloadImageData.class, imagedata, "field_110560_d", "bufferedImage");
+                
+                //bufferedImage = ObfuscationReflectionHelper.getPrivateValue(DownloadingTexture.class, imagedata, "field_110560_d", "bufferedImage");
             }
             else if (skintex instanceof DynamicTexture) {
                 Tails.logger.warn(playerName+" skin is a DynamicTexture! Attempting to load anyway");
                 DynamicTexture imagedata = (DynamicTexture) skintex;
-                int width = ObfuscationReflectionHelper.getPrivateValue(DynamicTexture.class, imagedata, "field_94233_j", "width");
-                int height = ObfuscationReflectionHelper.getPrivateValue(DynamicTexture.class, imagedata, "field_94234_k", "height");
+                int width = imagedata.getTextureData().getWidth();
+                int height = imagedata.getTextureData().getHeight();
                 bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-                bufferedImage.setRGB(0, 0, width, height, imagedata.getTextureData(), 0, width);
+                bufferedImage.setRGB(0, 0, width, height, imagedata.getTextureData().makePixelArray(), 0, width);
             }
             else {
                 Tails.logger.warn("Could not fetch "+playerName+" skin, loading default skin");
-                inputStream = Minecraft.getMinecraft().getResourceManager().getResource(DefaultPlayerSkin.getDefaultSkinLegacy()).getInputStream();
+                inputStream = Minecraft.getInstance().getResourceManager().getResource(DefaultPlayerSkin.getDefaultSkinLegacy()).getInputStream();
                 bufferedImage = ImageIO.read(inputStream);
             }
         }
@@ -244,7 +247,7 @@ public class TextureHelper {
         return bufferedImage;
     }
 
-    private static void uploadTexture(ITextureObject textureObject, BufferedImage bufferedImage) {
-        TextureUtil.uploadTextureImage(textureObject.getGlTextureId(), bufferedImage);
+    private static void uploadTexture(Texture textureObject, BufferedImage bufferedImage) {
+        //TextureUtil.uploadTextureImage(textureObject.getGlTextureId(), bufferedImage);
     }
 }

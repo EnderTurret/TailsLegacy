@@ -8,9 +8,12 @@
 
 package uk.kihira.tails.client.model.ears;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.ModelPartBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.EntityLivingBase;
 
 public class ModelCatEars extends ModelPartBase {
 
@@ -133,22 +136,22 @@ public class ModelCatEars extends ModelPartBase {
     }
     
     @Override
-    public void render(EntityLivingBase theEntity, int subtype, float partialTicks) {
-        leftEarBottom.render(0.0635F);
-        leftEarRearTop.render(0.0635F);
-        leftEarRearLayer1.render(0.0635F);
-        leftEarRearBottom.render(0.0635F);
-        leftEarLayer1.render(0.0635F);
-        leftEarTop.render(0.0635F);
-        leftEarLayer3.render(0.0635F);
-        leftEarLayer2.render(0.0635F);
-        rightEarBottom.render(0.0635F);
-        rightEarLayer1.render(0.0635F);
-        rightEarRearTop.render(0.0635F);
-        rightEarRearLayer1.render(0.0635F);
-        rightEarRearBottom.render(0.0635F);
-        rightEarLayer2.render(0.0635F);
-        rightEarTop.render(0.0635F);
-        rightEarLayer3.render(0.0635F);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+        leftEarBottom.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarRearTop.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarRearLayer1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarRearBottom.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarLayer1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarTop.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarLayer3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarLayer2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarBottom.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarLayer1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarRearTop.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarRearLayer1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarRearBottom.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarLayer2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarTop.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarLayer3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 }

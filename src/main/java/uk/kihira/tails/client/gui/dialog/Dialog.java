@@ -1,9 +1,10 @@
 package uk.kihira.tails.client.gui.dialog;
 
 import com.google.common.base.Strings;
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import uk.kihira.tails.client.gui.GuiBase;
 import uk.kihira.tails.client.gui.Panel;
-import net.minecraft.client.gui.GuiButton;
 import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;
@@ -11,8 +12,8 @@ import java.io.IOException;
 public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
 
     protected boolean dragging;
-    private int mouseXStart;
-    private int mouseYStart;
+    private double mouseXStart;
+    private double mouseYStart;
 
     protected String title;
 
@@ -27,32 +28,28 @@ public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
-        parent.buttonPressed(this, button);
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float p_73863_3_) {
-        drawGradientRect(0, 0, width, height, 0xFF808080, 0xFF808080);
-        drawGradientRect(1, 12, width - 1, height - 1, 0xFF000000, 0xFF000000);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float p_73863_3_) {
+        fillGradient(matrixStack, 0, 0, width, height, 0xFF808080, 0xFF808080);
+        fillGradient(matrixStack, 1, 12, width - 1, height - 1, 0xFF000000, 0xFF000000);
 
         if (!Strings.isNullOrEmpty(title)) {
-            drawString(fontRenderer, title, 2, 2, 0xFFFFFFFF);
+            drawString(matrixStack, font, title, 2, 2, 0xFFFFFFFF);
         }
 
-        super.drawScreen(mouseX, mouseY, p_73863_3_);
+        super.render(matrixStack, mouseX, mouseY, p_73863_3_);
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
         //Only if they grab the top
         if (mouseButton == 0 && mouseY < 12) {
             dragging = true;
             mouseXStart = mouseX;
             mouseYStart = mouseY;
+            return true;
         }
         else {
-            super.mouseClicked(mouseX, mouseY, mouseButton);
+            return super.mouseClicked(mouseX, mouseY, mouseButton);
         }
     }
 
@@ -67,7 +64,7 @@ public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
     }*/
 
     @Override
-    public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long pressTime) {
+    public boolean mouseDragged(double mouseX, double mouseY, int mouseButton, double dragX, double dragY) {
         if (dragging) {
             if (mouseX != mouseXStart) {
                 left -= mouseXStart - mouseX;
@@ -79,9 +76,10 @@ public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
                 bottom = top + height;
             }
 
+            return true;
         }
         else {
-            super.mouseClickMove(mouseX, mouseY, mouseButton, pressTime);
+            return super.mouseDragged(mouseX, mouseY, mouseButton, dragX, dragY);
         }
     }
 }

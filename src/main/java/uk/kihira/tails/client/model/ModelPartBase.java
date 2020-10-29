@@ -8,19 +8,31 @@
 
 package uk.kihira.tails.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import java.util.function.Function;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * A base class that all tails extend
  */
-public abstract class ModelPartBase extends ModelBase {
+public abstract class ModelPartBase extends EntityModel<LivingEntity> {
 
-    public static final float SCALE = 0.0625F;
+    public ModelPartBase() {
+		super(RenderType::getEntityCutout);
+	}
+
+	public static final float SCALE = 0.0625F;
 
     /**
      * Renders the tail with the optional parts list provided
@@ -28,7 +40,14 @@ public abstract class ModelPartBase extends ModelBase {
      * @param subtype The subtype
      * @param partialTicks
      */
-    public abstract void render(EntityLivingBase theEntity, int subtype, float partialTicks);
+    public abstract void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks);
+
+    @Override
+    @Deprecated
+    public final void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {}
+
+    @Override
+    public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {}
 
     /**
      * Sets the rotation on a model where the provided params are in radians
@@ -59,10 +78,10 @@ public abstract class ModelPartBase extends ModelBase {
         return (float) ((((entity.hashCode() + System.currentTimeMillis()) % cycleTime) / cycleTime) * 2F * Math.PI);
     }
 
-    protected double[] getMotionAngles(EntityPlayer player, double partialTicks) {
-        double xMotion = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * partialTicks - (player.prevPosX + (player.posX - player.prevPosX) * partialTicks);
-        double yMotion = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * partialTicks - (player.prevPosY + (player.posY - player.prevPosY) * partialTicks); //Positive when falling, negative when climbing
-        double zMotion = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * partialTicks - (player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks);
+    protected double[] getMotionAngles(PlayerEntity player, double partialTicks) {
+        double xMotion = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * partialTicks - (player.prevPosX + (player.getPosX() - player.prevPosX) * partialTicks);
+        double yMotion = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * partialTicks - (player.prevPosY + (player.getPosY() - player.prevPosY) * partialTicks); //Positive when falling, negative when climbing
+        double zMotion = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * partialTicks - (player.prevPosZ + (player.getPosZ() - player.prevPosZ) * partialTicks);
         float bodyYaw = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * (float) partialTicks;
         //Pretty sure renderYawOffset is actually the way the body is "pointing"
         //In degrees, not bound 0-360, be warned!
@@ -77,7 +96,7 @@ public abstract class ModelPartBase extends ModelBase {
         return new double[] {Math.toRadians(f1 / 2.5F + (xOffset + getTailBob(player, (float) partialTicks))), Math.toRadians(-f2 / 20F), Math.toRadians(f2 / 2F)};
     }
 
-    protected float getTailBob(EntityPlayer player, float partialTicks) {
+    protected float getTailBob(PlayerEntity player, float partialTicks) {
         float cameraYaw = player.prevCameraYaw + (player.cameraYaw - player.prevCameraYaw) * partialTicks;
         return MathHelper.sin((player.prevDistanceWalkedModified + (player.distanceWalkedModified - player.prevDistanceWalkedModified) * partialTicks) * 6F) * 12F * cameraYaw;
     }

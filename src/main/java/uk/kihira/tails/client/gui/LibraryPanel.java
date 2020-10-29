@@ -3,93 +3,81 @@ package uk.kihira.tails.client.gui;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<LibraryListEntry> {
 
     private static final LibrarySorter sorter = new LibrarySorter();
     private GuiList<LibraryListEntry> list;
-    private GuiTextField searchField;
+    private TextFieldWidget searchField;
 
     public LibraryPanel(GuiEditor parent, int left, int top, int width, int height) {
         super(parent, left, top, width, height);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void initGui() {
+    public void init() {
         initList();
 
-        buttonList.add(new GuiButtonExt(0, 3, height - 18, width - 6, 15, I18n.format("gui.button.all")));
-        searchField = new GuiTextField(1, fontRenderer, 5, height - 31, width - 10, 10);
-        super.initGui();
+        addButton(new ExtendedButton(3, height - 18, width - 6, 15, new TranslationTextComponent("gui.button.all"), b -> {}));
+        searchField = new TextFieldWidget(font, 5, height - 31, width - 10, 10, null);
+        super.init();
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float p_73863_3_) {
-        zLevel = -100;
-        drawGradientRect(0, 0, width, height, 0xCC000000, 0xCC000000);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        setBlitOffset(-100);
+        fillGradient(matrixStack, 0, 0, width, height, 0xCC000000, 0xCC000000);
 
-        searchField.drawTextBox();
-        list.drawScreen(mouseX, mouseY, p_73863_3_);
+        searchField.render(matrixStack, mouseX, mouseY, partialTicks);
+        list.render(matrixStack, mouseX, mouseY, partialTicks);
 
-        zLevel = 0;
-        Minecraft.getMinecraft().renderEngine.bindTexture(GuiIconButton.iconsTextures);
-        GlStateManager.pushMatrix();
-        GlStateManager.color(1, 1, 1, 1);
-        GlStateManager.translate(width - 16, height - 32, 0);
-        GlStateManager.scale(0.75F, 0.75F, 0F);
-        drawTexturedModalRect(0, 0, 160, 0, 16, 16);
-        GlStateManager.popMatrix();
+        setBlitOffset(0);
+        Minecraft.getInstance().getTextureManager().bindTexture(GuiIconButton.iconsTextures);
+        matrixStack.push();
+        RenderSystem.color4f(1f, 1f, 1f, 1f);
+        matrixStack.translate(width - 16, height - 32, 0);
+        matrixStack.scale(0.75F, 0.75F, 0F);
+        blit(matrixStack, 0, 0, 160, 0, 16, 16);
+        matrixStack.pop();
 
-        super.drawScreen(mouseX, mouseY, p_73863_3_);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
-        if (button.id == 0) {
-            // todo?
-        }
-    }
-
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
         list.mouseClicked(mouseX, mouseY, mouseButton);
         searchField.mouseClicked(mouseX, mouseY, mouseButton);
+        return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-        super.mouseReleased(mouseX, mouseY, mouseButton);
+    public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
         list.mouseReleased(mouseX, mouseY, mouseButton);
+        return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void handleMouseInput() throws IOException {
-        list.handleMouseInput();
-    }
-
-    @Override
-    public void keyTyped(char key, int keycode) {
-        searchField.textboxKeyTyped(key, keycode);
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        searchField.keyPressed(keyCode, scanCode, modifiers);
         if (searchField.getVisible() && searchField.isFocused()) {
             List<LibraryListEntry> newEntries = filterListEntries(searchField.getText().toLowerCase());
             newEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
             list.getEntries().clear();
             list.getEntries().addAll(newEntries);
         }
-        super.keyTyped(key, keycode);
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
@@ -117,7 +105,7 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 
     public void addSelectedEntry(LibraryListEntry entry) {
         list.getEntries().add(entry);
-        list.setCurrrentIndex(list.getEntries().size() - 1);
+        list.setCurrentIndex(list.getEntries().size() - 1);
         parent.libraryInfoPanel.setEntry(entry);
     }
 
@@ -143,9 +131,9 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
     }
 
     @Override
-    public void onGuiClosed() {
+    public void onClose() {
         Tails.proxy.getLibraryManager().removeRemoteEntries();
-        super.onGuiClosed();
+        super.onClose();
     }
 
     private static class LibrarySorter implements Comparator<LibraryListEntry> {
@@ -158,16 +146,14 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 
             if (entry1 instanceof LibraryListEntry.NewLibraryListEntry) {
                 return Integer.MIN_VALUE;
-            }
-            else if (entry2 instanceof LibraryListEntry.NewLibraryListEntry) {
+            } else if (entry2 instanceof LibraryListEntry.NewLibraryListEntry) {
                 return Integer.MAX_VALUE;
             }
 
             //Put favourites at the top
             if (entry1.data.favourite && !entry2.data.favourite) {
                 return -1;
-            }
-            else if (!entry1.data.favourite && entry2.data.favourite) {
+            } else if (!entry1.data.favourite && entry2.data.favourite) {
                 return 1;
             }
 

@@ -1,9 +1,13 @@
 package uk.kihira.tails.client.model.tail;
 
 import uk.kihira.tails.client.model.ModelPartBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
 public class ModelSharkTail extends ModelPartBase {
@@ -95,12 +99,12 @@ public class ModelSharkTail extends ModelPartBase {
     }
 
     @Override
-    public void render(EntityLivingBase entity, int subtype, float partialTicks) {
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
         double xAngleOffset = 0;
         double yAngleMultiplier = 1; //Used to suppress sway when running
-        if (!entity.isRiding()) {
-            if (entity instanceof EntityPlayer) {
-                double[] angles = getMotionAngles((EntityPlayer) entity, partialTicks);
+        if (entity.getRidingEntity() != null) {
+            if (entity instanceof PlayerEntity) {
+                double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
                 xAngleOffset = MathHelper.clamp(angles[0] / 5F, -1D, 0.45D);
                 yAngleMultiplier = (1 - (xAngleOffset * 2F)); //Used to suppress sway when running
@@ -119,6 +123,6 @@ public class ModelSharkTail extends ModelPartBase {
         setRotationRadians(tail3, 0.22759093446006054F - xAngleOffset, ((float) Math.cos(timestep - 4) / 5F) * yAngleMultiplier, 0F);
         setRotationRadians(finBase, 2.5953045977155678F, ((float) Math.cos(timestep - 10) / 5F) * yAngleMultiplier, 0F);
 
-        tailBase.render(0.0625F);
+        tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 }

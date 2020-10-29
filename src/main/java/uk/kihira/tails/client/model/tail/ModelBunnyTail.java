@@ -1,8 +1,11 @@
 package uk.kihira.tails.client.model.tail;
 
-import net.minecraft.client.model.ModelRenderer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.ModelPartBase;
 
 public class ModelBunnyTail extends ModelPartBase {
@@ -16,16 +19,15 @@ public class ModelBunnyTail extends ModelPartBase {
     }
 
     @Override
-    public void render(EntityLivingBase theEntity, int subtype, float partialTicks) {
-        float timestep = getAnimationTime(4000F, theEntity);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+        float timestep = getAnimationTime(4000F, entity);
 
-        this.setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTicks, theEntity);
+        this.setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTicks, entity);
 
-        this.tailBase.render(0.0625F);
+        this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     private void setRotationAngles(int subtype, float timestep, float yOffset, float xOffset, float xAngle, float yAngle, float partialTicks, Entity entity) {
         this.setRotationDegrees(this.tailBase, xAngle, yAngle, 0F);
     }
-
 }

@@ -8,11 +8,12 @@
 
 package uk.kihira.tails.client.model.ears;
 
-import net.minecraft.client.renderer.GlStateManager;
-import uk.kihira.tails.client.model.ModelPartBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.EntityLivingBase;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.LivingEntity;
+import uk.kihira.tails.client.model.ModelPartBase;
 
 public class ModelFoxEars extends ModelPartBase {
     private final ModelRenderer leftEarInnerSmall;
@@ -121,37 +122,37 @@ public class ModelFoxEars extends ModelPartBase {
     }
 
     @Override
-    public void render(EntityLivingBase theEntity, int subtype, float partialTicks) {
-        GlStateManager.pushMatrix();
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+    	matrixStackIn.push();
         if (subtype == 1) {
-            GlStateManager.translate(0f, 0f, -0.0625f);
-            GlStateManager.translate(-0.4375f, 0f, 0f);
+        	matrixStackIn.translate(0f, 0f, -0.0625f);
+        	matrixStackIn.translate(-0.4375f, 0f, 0f);
         }
-        leftEarInnerSmall.render(0.0625F);
-        leftEarInnerBig.render(0.0625F);
-        leftEarInnerEdge.render(0.0625F);
-        leftEarMiddleEdge.render(0.0625F);
-        leftEarTopEdge.render(0.0625F);
-        leftEarOuterEdge.render(0.0625F);
-        leftEarBottomEdge.render(0.0625F);
-        leftEarBackBig.render(0.0625F);
-        leftEarBackSmall.render(0.0625F);
+        leftEarInnerSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarInnerBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarInnerEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarMiddleEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarTopEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarOuterEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarBottomEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarBackBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftEarBackSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         if (subtype == 1) {
-            GlStateManager.translate(0.875f, 0f, 0f);
+        	matrixStackIn.translate(0.875f, 0f, 0f);
         }
-        rightEarInnerSmall.render(0.0625F);
-        rightEarInnerBig.render(0.0625F);
-        rightEarInnerEdge.render(0.0625F);
-        rightEarMiddleEdge.render(0.0625F);
-        rightEarTopEdge.render(0.0625F);
-        rightEarOuterEdge.render(0.0625F);
-        rightEarBottomEdge.render(0.0625F);
-        rightEarBackBig.render(0.0625F);
-        lightEarBackSmall.render(0.0625F);
+        rightEarInnerSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarInnerBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarInnerEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarMiddleEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarTopEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarOuterEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarBottomEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightEarBackBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        lightEarBackSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         if (subtype == 1) {
-            GlStateManager.translate(-0.4375f, 0f, 0f);
-            GlStateManager.translate(0f, 0f, 0.0625f);
+        	matrixStackIn.translate(-0.4375f, 0f, 0f);
+        	matrixStackIn.translate(0f, 0f, 0.0625f);
         }
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
     }
 }

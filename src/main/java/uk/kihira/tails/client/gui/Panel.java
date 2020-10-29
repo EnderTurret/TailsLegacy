@@ -2,6 +2,8 @@ package uk.kihira.tails.client.gui;
 
 import org.apache.commons.lang3.Validate;
 
+import net.minecraft.util.text.StringTextComponent;
+
 import java.io.IOException;
 
 public abstract class Panel<T extends GuiBase> extends GuiBaseScreen {
@@ -15,6 +17,7 @@ public abstract class Panel<T extends GuiBase> extends GuiBaseScreen {
     public boolean enabled = true;
 
     public Panel(T parent, int x, int y, int width, int height) {
+        super(new StringTextComponent(""));
         Validate.isInstanceOf(GuiBase.class, parent);
 
         this.parent = parent;
@@ -40,28 +43,4 @@ public abstract class Panel<T extends GuiBase> extends GuiBaseScreen {
         this.width = width;
         right = left + width;
     }
-
-    //All this stuff is to make them public
-    public void keyTyped(char key, int keycode) {}
-
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-        super.mouseReleased(mouseX, mouseY, mouseButton);
-    }
-
-    public void mouseClickMove(int mouseX, int mouseY, int mouseButton, long pressTime) {
-        super.mouseClickMove(mouseX, mouseY, mouseButton, pressTime);
-    }
-
-    /**
-     * Handles mouse input if required
-     * This is ALWAYS called regardless of if the mouse is in the bounds or not
-     * It is also generally the first method to be called
-     * Does not call super as we never want to call super from a panel for this method
-     * @throws IOException
-     */
-    public void handleMouseInput() throws IOException {}
 }

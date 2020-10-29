@@ -5,12 +5,12 @@ import com.google.gson.reflect.TypeToken;
 import uk.kihira.tails.client.gui.GuiEditor;
 import uk.kihira.tails.common.network.LibraryEntriesMessage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class LibraryManager {
@@ -115,7 +115,7 @@ public class LibraryManager {
         @Override
         public void addEntries(List<? extends LibraryEntryData> entries) {
             super.addEntries(entries);
-            GuiScreen guiScreen = Minecraft.getMinecraft().currentScreen;
+            Screen guiScreen = Minecraft.getInstance().currentScreen;
 
             if (guiScreen instanceof GuiEditor) {
                 GuiEditor editor = (GuiEditor) guiScreen;

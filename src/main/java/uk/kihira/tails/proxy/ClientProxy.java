@@ -1,27 +1,34 @@
 package uk.kihira.tails.proxy;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModList;
 import uk.kihira.tails.client.ClientEventHandler;
 import uk.kihira.tails.client.FakeEntity;
+import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.model.ModelRendererWrapper;
-import uk.kihira.tails.client.render.*;
+import uk.kihira.tails.client.render.FakeEntityRenderHelper;
+import uk.kihira.tails.client.render.LayerPart;
+import uk.kihira.tails.client.render.PlayerRenderHelper;
+import uk.kihira.tails.client.render.RenderPart;
+import uk.kihira.tails.client.render.RenderingHandler;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.TailsConfig;
 import uk.kihira.tails.common.network.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Map;
 import java.util.UUID;
 
-@SideOnly(Side.CLIENT)
+import com.mojang.blaze3d.systems.RenderSystem;
+
+@OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
 
     @Override
@@ -30,7 +37,7 @@ public class ClientProxy extends CommonProxy {
         registerHandlers();
         libraryManager = new LibraryManager.ClientLibraryManager();
 
-        RenderPart.registerRenderHelper(EntityPlayer.class, new PlayerRenderHelper());
+        RenderPart.registerRenderHelper(PlayerEntity.class, new PlayerRenderHelper());
         RenderPart.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
     }
 
@@ -60,17 +67,17 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void registerMessages() {
-        Tails.networkWrapper.registerMessage(PlayerDataMessage.Handler.class, PlayerDataMessage.class, 0, Side.CLIENT);
-        Tails.networkWrapper.registerMessage(PlayerDataMapMessage.Handler.class, PlayerDataMapMessage.class, 1, Side.CLIENT);
-        Tails.networkWrapper.registerMessage(LibraryEntriesMessage.Handler.class, LibraryEntriesMessage.class, 2, Side.CLIENT);
-        Tails.networkWrapper.registerMessage(LibraryRequestMessage.Handler.class, LibraryRequestMessage.class, 3, Side.CLIENT);
-        Tails.networkWrapper.registerMessage(ServerCapabilitiesMessage.Handler.class, ServerCapabilitiesMessage.class, 4, Side.CLIENT);
-        super.registerMessages();
+    protected void registerMessages() {
+    	Tails.networkWrapper.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::toBytes, PlayerDataMessage::fromBytes, PlayerDataMessage::onMessage);
+    	Tails.networkWrapper.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::toBytes, PlayerDataMapMessage::fromBytes, PlayerDataMapMessage::onMessage);
+    	Tails.networkWrapper.registerMessage(2, LibraryEntriesMessage.class, LibraryEntriesMessage::toBytes, LibraryEntriesMessage::fromBytes, LibraryEntriesMessage::onMessage);
+    	Tails.networkWrapper.registerMessage(3, LibraryRequestMessage.class, LibraryRequestMessage::toBytes, LibraryRequestMessage::fromBytes, LibraryRequestMessage::onMessage);
+    	Tails.networkWrapper.registerMessage(4, ServerCapabilitiesMessage.class, ServerCapabilitiesMessage::toBytes, ServerCapabilitiesMessage::fromBytes, ServerCapabilitiesMessage::onMessage);
+        //super.registerMessages();
     }
 
     @Override
-    public void registerHandlers() {
+    protected void registerHandlers() {
         ClientEventHandler eventHandler = new ClientEventHandler();
         MinecraftForge.EVENT_BUS.register(eventHandler);
 
@@ -79,9 +86,9 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void registerRenderers() {
-        boolean legacyRenderer = Tails.configuration.getBoolean(Configuration.CATEGORY_CLIENT, "ForceLegacyRendering", false, "Forces the legacy renderer which may have better compatibility with other mods");
+        boolean legacyRenderer = TailsConfig.CLIENT_INSTANCE.forceLegacyRendering.get();
         if (legacyRenderer) Tails.logger.info("Legacy Renderer has been forced enabled");
-        else if (Loader.isModLoaded("SmartMoving")) {
+        else if (ModList.get().isLoaded("SmartMoving")) {
             Tails.logger.info("Legacy Renderer enabled automatically for mod compatibility");
             legacyRenderer = true;
         }
@@ -89,34 +96,33 @@ public class ClientProxy extends CommonProxy {
         if (legacyRenderer) {
             MinecraftForge.EVENT_BUS.register(new RenderingHandler());
 
-            Map<String, RenderPlayer> skinMap = Minecraft.getMinecraft().getRenderManager().getSkinMap();
+            Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
             // Default
-            ModelPlayer model = skinMap.get("default").getMainModel();
+            PlayerModel model = skinMap.get("default").getEntityModel();
             model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.TAIL));
             model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.WINGS));
             model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.EARS));
             model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.MUZZLE));
             // Slim
-            model = skinMap.get("slim").getMainModel();
+            model = skinMap.get("slim").getEntityModel();
             model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.TAIL));
             model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.WINGS));
             model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.EARS));
             model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.MUZZLE));
-        }
-        else {
-            Map<String, RenderPlayer> skinMap = Minecraft.getMinecraft().getRenderManager().getSkinMap();
+        } else {
+            Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
             // Default
-            RenderPlayer renderPlayer = skinMap.get("default");
-            renderPlayer.addLayer(new LayerPart(renderPlayer.getMainModel().bipedBody, PartsData.PartType.TAIL));
-            renderPlayer.addLayer(new LayerPart(renderPlayer.getMainModel().bipedBody, PartsData.PartType.WINGS));
-            renderPlayer.addLayer(new LayerPart(renderPlayer.getMainModel().bipedHead, PartsData.PartType.EARS));
-            renderPlayer.addLayer(new LayerPart(renderPlayer.getMainModel().bipedHead, PartsData.PartType.MUZZLE));
+            PlayerRenderer renderPlayer = skinMap.get("default");
+            renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.TAIL));
+            renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.WINGS));
+            renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedHead, PartsData.PartType.EARS));
+            renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedHead, PartsData.PartType.MUZZLE));
             // Slim
             renderPlayer = skinMap.get("slim");
-            renderPlayer.addLayer(new LayerPart(renderPlayer.getMainModel().bipedBody, PartsData.PartType.TAIL));
-            renderPlayer.addLayer(new LayerPart(renderPlayer.getMainModel().bipedBody, PartsData.PartType.WINGS));
-            renderPlayer.addLayer(new LayerPart(renderPlayer.getMainModel().bipedHead, PartsData.PartType.EARS));
-            renderPlayer.addLayer(new LayerPart(renderPlayer.getMainModel().bipedHead, PartsData.PartType.MUZZLE));
+            renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.TAIL));
+            renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.WINGS));
+            renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedHead, PartsData.PartType.EARS));
+            renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedHead, PartsData.PartType.MUZZLE));
         }
     }
 }

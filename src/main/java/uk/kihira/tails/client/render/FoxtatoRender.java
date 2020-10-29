@@ -5,7 +5,7 @@ import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 //import vazkii.botania.api.item.TinyPotatoRenderEvent;
 
 public class FoxtatoRender {
@@ -17,12 +17,12 @@ public class FoxtatoRender {
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload e) {
         if (fakeEntity != null) {
-            fakeEntity.setDead();
+            fakeEntity.remove();
             fakeEntity = null;
         }
     }
 
-/*    @SubscribeEvent
+    /*@SubscribeEvent
     public void onPotatoRender(TinyPotatoRenderEvent e) {
         if (e.name.equalsIgnoreCase("foxtato")) {
             if (fakeEntity == null) {

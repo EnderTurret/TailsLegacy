@@ -1,18 +1,21 @@
 package uk.kihira.tails.client.gui;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.text.ITextComponent;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 public abstract class GuiBase extends GuiBaseScreen {
 
     //0 is bottom layer
     private final ArrayList<ArrayList<Panel>> layers = new ArrayList<>();
 
-    public GuiBase(int layerCount) {
+    public GuiBase(int layerCount, ITextComponent title) {
+    	super(title);
         for (int i = 0; i < layerCount; i++) {
             layers.add(new ArrayList<>());
         }
@@ -23,107 +26,95 @@ public abstract class GuiBase extends GuiBaseScreen {
     }
 
     @Override
-    public void setWorldAndResolution(Minecraft mc, int width, int height) {
-        super.setWorldAndResolution(mc, width, height);
+    public void resize(Minecraft mc, int width, int height) {
+        super.resize(mc, width, height);
         for (ArrayList<Panel> layer : layers) {
             for (Panel panel : layer) {
                 //todo switch over to using scaled resolution to allow for cramming more stuff on screen
                 // Gotta cache displayWidth/Height as it can't be passed in as params anymore
-                int displayWidth = mc.displayWidth;
-                int displayHeight = mc.displayHeight;
-                mc.displayWidth = panel.right - panel.left;
-                mc.displayHeight = panel.bottom - panel.top;
-                ScaledResolution scaledRes = new ScaledResolution(mc);
-                panel.setWorldAndResolution(mc, scaledRes.getScaledWidth(), scaledRes.getScaledHeight());
-                mc.displayWidth = displayWidth;
-                mc.displayHeight = displayHeight;
+                //int displayWidth = mc.getMainWindow().getWidth();
+                //int displayHeight = mc.getMainWindow().getHeight();
+                //mc.displayWidth = panel.right - panel.left;
+                //mc.displayHeight = panel.bottom - panel.top;
+                //ScaledResolution scaledRes = new ScaledResolution(mc);
+                panel.resize(mc, mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight());
+                //mc.displayWidth = displayWidth;
+                //mc.displayHeight = displayHeight;
             }
         }
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float p_73863_3_) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         for (ArrayList<Panel> layer : layers) {
             for (Panel panel : layer) {
                 if (panel.enabled) {
-                    GlStateManager.pushMatrix();
-                    GlStateManager.translate(panel.left, panel.top, 0);
-                    GlStateManager.color(1, 1, 1, 1);
-                    panel.drawScreen(mouseX - panel.left, mouseY - panel.top, p_73863_3_);
-                    GlStateManager.disableLighting();
-                    GlStateManager.popMatrix();
+                    matrixStack.push();
+                    matrixStack.translate(panel.left, panel.top, 0);
+                    RenderSystem.color4f(1f, 1f, 1f, 1f);
+                    panel.render(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
+                    RenderSystem.disableLighting();
+                    matrixStack.pop();
                 }
             }
         }
-        GlStateManager.color(1, 1, 1, 1);
-        super.drawScreen(mouseX, mouseY, p_73863_3_);
+        RenderSystem.color4f(1f, 1f, 1f, 1f);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    protected void keyTyped(char key, int keycode) throws IOException {
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         for (ArrayList<Panel> layer : layers) {
             for (Panel panel : layer) {
-                if (panel.enabled) panel.keyTyped(key, keycode);
+                if (panel.enabled) panel.keyPressed(keyCode, scanCode, modifiers);
             }
         }
-        super.keyTyped(key, keycode);
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
         for (ArrayList<Panel> layer : layers) {
             for (Panel panel : layer) {
                 if (panel.enabled && mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom || panel.alwaysReceiveMouse) {
-                    panel.mouseClicked(mouseX - panel.left, mouseY - panel.top, mouseButton);
+                    panel.mouseClicked(mouseX - panel.left, mouseY - panel.top, button);
                 }
             }
         }
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
-    protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
         for (ArrayList<Panel> layer : layers) {
             for (Panel panel : layer) {
                 if (panel.enabled && mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom || panel.alwaysReceiveMouse) {
-                    panel.mouseReleased(mouseX - panel.left, mouseY - panel.top, mouseButton);
+                    panel.mouseReleased(mouseX - panel.left, mouseY - panel.top, button);
                 }
             }
         }
-        super.mouseReleased(mouseX, mouseY, mouseButton);
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
-    protected void mouseClickMove(int mouseX, int mouseY, int mouseButton, long pressTime) {
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         for (ArrayList<Panel> layer : layers) {
             for (Panel panel : layer) {
                 if (panel.enabled && mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom || panel.alwaysReceiveMouse) {
-                    panel.mouseClickMove(mouseX - panel.left, mouseY - panel.top, mouseButton, pressTime);
+                    panel.mouseDragged(mouseX - panel.left, mouseY - panel.top, button, dragX, dragY);
                 }
             }
         }
-        super.mouseClickMove(mouseX, mouseY, mouseButton, pressTime);
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
-    public void handleMouseInput() throws IOException {
+    public void onClose() {
         for (ArrayList<Panel> layer : layers) {
             for (Panel panel : layer) {
-                if (panel.enabled) {
-                    panel.handleMouseInput();
-                }
+                panel.onClose();
             }
         }
-        super.handleMouseInput();
-    }
-
-    @Override
-    public void onGuiClosed() {
-        for (ArrayList<Panel> layer : layers) {
-            for (Panel panel : layer) {
-                panel.onGuiClosed();
-            }
-        }
-        super.onGuiClosed();
+        super.onClose();
     }
 }

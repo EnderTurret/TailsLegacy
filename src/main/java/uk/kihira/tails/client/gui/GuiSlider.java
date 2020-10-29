@@ -8,11 +8,14 @@
 
 package uk.kihira.tails.client.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.util.math.MathHelper;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-public class GuiSlider extends GuiButton implements IControl<Float> {
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
+
+public class GuiSlider extends ExtendedButton implements IControl<Float> {
 
     public float currentValue;
     private final float minValue;
@@ -21,37 +24,46 @@ public class GuiSlider extends GuiButton implements IControl<Float> {
     private boolean dragging = false;
     private IControlCallback<GuiSlider, Float> parent;
 
-    public GuiSlider(int id, int x, int y, int width, float minValue, float maxValue, float defaultValue) {
-        super(id, x, y, width, 20, String.valueOf(defaultValue));
+    public GuiSlider(int x, int y, int width, float minValue, float maxValue, float defaultValue) {
+        super(x, y, width, 20, new StringTextComponent(String.valueOf(defaultValue)), b -> {});
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.currentValue = defaultValue;
         this.sliderValue = MathHelper.clamp((this.currentValue - this.minValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
     }
 
-    public GuiSlider(IControlCallback<GuiSlider, Float> parent, int id, int x, int y, int width, float minValue, float maxValue, float defaultValue) {
-        this(id, x, y, width, minValue, maxValue, defaultValue);
+    public GuiSlider(IControlCallback<GuiSlider, Float> parent, int x, int y, int width, float minValue, float maxValue, float defaultValue) {
+        this(x, y, width, minValue, maxValue, defaultValue);
         this.parent = parent;
     }
 
     @Override
-    protected void mouseDragged(Minecraft minecraft, int xPos, int yPos) {
-        if (this.visible) {
-            if (this.dragging) {
-                this.updateValues(xPos, yPos);
-            }
+    public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partial) {
+    	super.renderButton(matrixStack, mouseX, mouseY, partial);
 
-            minecraft.renderEngine.bindTexture(BUTTON_TEXTURES);
-            this.drawTexturedModalRect((int) (this.x + (this.sliderValue * (this.width - 8))), this.y, 0, 66, 4, 20);
-            this.drawTexturedModalRect((int) (this.x + (this.sliderValue * (this.width - 8)) + 4), this.y, 196, 66, 4, 20);
-        }
+        if (visible) {
+    		Minecraft.getInstance().getTextureManager().bindTexture(WIDGETS_LOCATION);
+    		blit(matrixStack, (int) (x + (sliderValue * (width - 8))), y, 0, 66, 4, height);
+    		blit(matrixStack, (int) (x + (sliderValue * (width - 8)) + 4), y, 196, 66, 4, height);
+    	}
     }
 
     @Override
-    public boolean mousePressed(Minecraft minecraft, int xPos, int yPos) {
-        if (super.mousePressed(minecraft, xPos, yPos)) {
-            this.updateValues(xPos, yPos);
-            this.dragging = true;
+    public boolean mouseDragged(double xPos, double yPos, int button, double dragX, double dragY) {
+        if (visible) {
+            if (dragging) {
+                updateValues(xPos, yPos);
+            }
+        }
+
+        return super.mouseDragged(xPos, yPos, button, dragX, dragY);
+    }
+
+    @Override
+    public boolean mouseClicked(double xPos, double yPos, int button) {
+        if (super.mouseClicked(xPos, yPos, button)) {
+            updateValues(xPos, yPos);
+            dragging = true;
             return true;
         }
         else {
@@ -60,20 +72,21 @@ public class GuiSlider extends GuiButton implements IControl<Float> {
     }
 
     @Override
-    public int getHoverState(boolean bool) {
+    public int getYImage(boolean bool) {
         return 0;
     }
 
     @Override
-    public void mouseReleased(int xPos, int yPos) {
-        this.dragging = false;
+    public boolean mouseReleased(double xPos, double yPos, int button) {
+        dragging = false;
+        return super.mouseReleased(xPos, yPos, button);
     }
 
     @Override
-    public void setValue(Float currentValue) {
-        this.currentValue = currentValue;
-        this.sliderValue = MathHelper.clamp((this.currentValue - this.minValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
-        this.displayString = String.valueOf(this.currentValue);
+    public void setValue(Float newValue) {
+        currentValue = newValue;
+        sliderValue = MathHelper.clamp((currentValue - minValue) / (maxValue - minValue), 0.0F, 1.0F);
+        setMessage(new StringTextComponent(String.valueOf(currentValue)));
     }
 
     @Override
@@ -81,15 +94,15 @@ public class GuiSlider extends GuiButton implements IControl<Float> {
         return currentValue;
     }
 
-    private void updateValues(int xPos, int yPos) {
-        float prevValue = this.currentValue;
+    private void updateValues(double xPos, double yPos) {
+        float prevValue = currentValue;
 
-        this.sliderValue = MathHelper.clamp((xPos - (this.x + 4F)) / (this.width - 8F), 0F, 1F);
-        this.currentValue = (int) (this.sliderValue * (this.maxValue - this.minValue) + this.minValue);
+        sliderValue = (float) MathHelper.clamp((xPos - (x + 4F)) / (width - 8F), 0F, 1F);
+        currentValue = (int) (sliderValue * (maxValue - minValue) + minValue);
 
-        if (this.parent != null && !this.parent.onValueChange(this, prevValue, this.currentValue)) {
-            this.setValue(prevValue);
+        if (parent != null && !parent.onValueChange(this, prevValue, currentValue)) {
+            setValue(prevValue);
         }
-        else this.displayString = String.valueOf(this.currentValue);
+        else setMessage(new StringTextComponent(String.valueOf(currentValue)));
     }
 }

@@ -1,24 +1,21 @@
 package uk.kihira.tails.common.network;
 
+import java.util.function.Supplier;
+
 import io.netty.buffer.ByteBuf;
 import uk.kihira.tails.common.Tails;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class LibraryRequestMessage implements IMessage {
+public class LibraryRequestMessage {
 
-    @Override
-    public void fromBytes(ByteBuf buf) {}
+    public static LibraryRequestMessage fromBytes(PacketBuffer buf) {
+        return new LibraryRequestMessage();
+    }
 
-    @Override
-    public void toBytes(ByteBuf buf) {}
+    public static void toBytes(LibraryRequestMessage msg, PacketBuffer buf) {}
 
-    public static class Handler implements IMessageHandler<LibraryRequestMessage, LibraryEntriesMessage> {
-
-        @Override
-        public LibraryEntriesMessage onMessage(LibraryRequestMessage message, MessageContext ctx) {
+    public static LibraryEntriesMessage onMessage(LibraryRequestMessage message, Supplier<NetworkEvent.Context> ctx) {
             return new LibraryEntriesMessage(Tails.proxy.getLibraryManager().libraryEntries, false);
-        }
     }
 }

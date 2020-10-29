@@ -8,13 +8,19 @@
 
 package uk.kihira.tails.client.render;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.client.model.ModelPartBase;
 import uk.kihira.tails.common.PartInfo;
 
@@ -24,41 +30,43 @@ public class RenderWings extends RenderPart {
         super(name, subTypes, modelPart, modelAuthor, textureNames);
     }
 
+    // TODO: This is absolutely not gonna work with BufferBuilder. Switch to IVertexBuilder as soon as possible.
     @Override
-    protected void doRender(EntityLivingBase entity, PartInfo info, float partialTicks) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(info.getTexture());
-        BufferBuilder renderer = Tessellator.getInstance().getBuffer();
-        boolean isFlying = entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isFlying && entity.isAirBorne || entity.fallDistance > 0F;
+    protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
+        //Minecraft.getInstance().getTextureManager().bindTexture(info.getTexture());
+    	final IVertexBuilder renderer = bufferIn.getBuffer(RenderStates.getWings(info.getTexture()));
+        //BufferBuilder renderer = Tessellator.getInstance().getBuffer();
+        boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 0F;
         float timestep = ModelPartBase.getAnimationTime(isFlying ? 500 : 6500, entity);
         float angle = (float) Math.sin(timestep) * (isFlying ? 24F : 4F);
         float scale = info.subid == 1 ? 1F : 2F;
 
-        GlStateManager.translate(0, -(scale * 8F) * ModelPartBase.SCALE + (info.subid == 1 ? 0.1F : 0), 0.1F);
-        GlStateManager.rotate(90, 0, 1, 0);
-        GlStateManager.rotate(90, 0, 0, 1);
-        GlStateManager.scale(scale, scale, scale);
-        GlStateManager.translate(0.1F, -0.4F * ModelPartBase.SCALE, -0.025F);
+        matrixStack.translate(0, -(scale * 8F) * ModelPartBase.SCALE + (info.subid == 1 ? 0.1F : 0), 0.1F);
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(90));
+        matrixStack.rotate(Vector3f.ZP.rotationDegrees(90));
+        matrixStack.scale(scale, scale, scale);
+        matrixStack.translate(0.1F, -0.4F * ModelPartBase.SCALE, -0.025F);
 
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0F, 0F, 1F * ModelPartBase.SCALE);
-        GlStateManager.rotate(30F - angle, 1F, 0F, 0F);
-        renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        renderer.pos(0, 1, 0).tex(0, 0).endVertex();
-        renderer.pos(1, 1, 0).tex(1, 0).endVertex();
-        renderer.pos(1, 0, 0).tex(1, 1).endVertex();
-        renderer.pos(0, 0, 0).tex(0, 1).endVertex();
-        Tessellator.getInstance().draw();
-        GlStateManager.popMatrix();
+        matrixStack.push();
+        matrixStack.translate(0F, 0F, 1F * ModelPartBase.SCALE);
+        matrixStack.rotate(Vector3f.XP.rotationDegrees(30F - angle));
+        //renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        renderer.pos(matrixStack.getLast().getMatrix(), 0, 1, 0).tex(0, 0).endVertex();
+        renderer.pos(matrixStack.getLast().getMatrix(), 1, 1, 0).tex(1, 0).endVertex();
+        renderer.pos(matrixStack.getLast().getMatrix(), 1, 0, 0).tex(1, 1).endVertex();
+        renderer.pos(matrixStack.getLast().getMatrix(), 0, 0, 0).tex(0, 1).endVertex();
+        //Tessellator.getInstance().draw();
+        matrixStack.pop();
 
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0F, 0.3F * ModelPartBase.SCALE, 0F);
-        GlStateManager.rotate(-30F + angle, 1F, 0F, 0F);
-        renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        renderer.pos(0, 1, 0).tex(0, 0).endVertex();
-        renderer.pos(1, 1, 0).tex(1, 0).endVertex();
-        renderer.pos(1, 0, 0).tex(1, 1).endVertex();
-        renderer.pos(0, 0, 0).tex(0, 1).endVertex();
-        Tessellator.getInstance().draw();
-        GlStateManager.popMatrix();
+        matrixStack.push();
+        matrixStack.translate(0F, 0.3F * ModelPartBase.SCALE, 0F);
+        matrixStack.rotate(Vector3f.XP.rotationDegrees(-30F + angle));
+        //renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        renderer.pos(matrixStack.getLast().getMatrix(), 0, 1, 0).tex(0, 0).endVertex();
+        renderer.pos(matrixStack.getLast().getMatrix(), 1, 1, 0).tex(1, 0).endVertex();
+        renderer.pos(matrixStack.getLast().getMatrix(), 1, 0, 0).tex(1, 1).endVertex();
+        renderer.pos(matrixStack.getLast().getMatrix(), 0, 0, 0).tex(0, 1).endVertex();
+        //Tessellator.getInstance().draw();
+        matrixStack.pop();
     }
 }

@@ -43,218 +43,218 @@ import java.net.URLEncoder;
 
 class GuiExport extends GuiBaseScreen {
 
-    private final GuiEditor parent;
-    private final PartsData partsData;
+	private final GuiEditor parent;
+	private final PartsData partsData;
 
-    //private ScaledResolution scaledRes;
-    private ITextComponent exportMessage = null;
-    private URI exportLoc;
-    private Button openFolderButton;
+	//private ScaledResolution scaledRes;
+	private ITextComponent exportMessage = null;
+	private URI exportLoc;
+	private Button openFolderButton;
 
-    GuiExport(GuiEditor parent, PartsData partsData) {
-    	super(new StringTextComponent(""));
-        this.parent = parent;
-        this.partsData = partsData;
-    }
+	GuiExport(GuiEditor parent, PartsData partsData) {
+		super(new StringTextComponent(""));
+		this.parent = parent;
+		this.partsData = partsData;
+	}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void init() {
-        // todo this screws up when switching back to editor
-        //this.scaledRes = new ScaledResolution(this.mc);
+	@Override
+	@SuppressWarnings("unchecked")
+	public void init() {
+		// todo this screws up when switching back to editor
+		//this.scaledRes = new ScaledResolution(this.mc);
 
-        //Left
-        addButton(new GuiButtonTooltip(20, this.height - 90, 130, 20, new TranslationTextComponent("gui.button.export.userdir"),
-        		minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(0), new TranslationTextComponent("gui.button.export.tooltip", System.getProperty("user.home"))));
-        addButton(new GuiButtonTooltip(20, this.height - 65, 130, 20, new TranslationTextComponent("gui.button.export.minecraftdir"),
-        		minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(1), new TranslationTextComponent("gui.button.export.tooltip", System.getProperty("user.dir"))));
-        addButton(new GuiButtonTooltip(20, this.height - 40, 130, 20, new TranslationTextComponent("gui.button.export.custom"),
-        		minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(2), new TranslationTextComponent("gui.button.export.custom.tooltip")));
+		//Left
+		addButton(new GuiButtonTooltip(20, this.height - 90, 130, 20, new TranslationTextComponent("gui.button.export.userdir"),
+				minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(0), new TranslationTextComponent("gui.button.export.tooltip", System.getProperty("user.home"))));
+		addButton(new GuiButtonTooltip(20, this.height - 65, 130, 20, new TranslationTextComponent("gui.button.export.minecraftdir"),
+				minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(1), new TranslationTextComponent("gui.button.export.tooltip", System.getProperty("user.dir"))));
+		addButton(new GuiButtonTooltip(20, this.height - 40, 130, 20, new TranslationTextComponent("gui.button.export.custom"),
+				minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(2), new TranslationTextComponent("gui.button.export.custom.tooltip")));
 
-        //Right
-        addButton(openFolderButton = new GuiButtonTooltip(this.width - 150, this.height - 65, 130, 20, new TranslationTextComponent("gui.button.openfolder"),
-        		minecraft.getMainWindow().getScaledWidth() / 2, b -> {
-        			if (exportLoc != null)
-        				try {
-        					Desktop.getDesktop().browse(this.exportLoc);
-        				} catch (IOException e) {
-        					setExportMessage(new StringTextComponent("Failed to open export location: " + e).mergeStyle(TextFormatting.DARK_RED));
-        					e.printStackTrace();
-        				}
-        		}, new TranslationTextComponent("gui.button.openfolder.tooltip")));
-        this.openFolderButton.visible = exportMessage != null;
+		//Right
+		addButton(openFolderButton = new GuiButtonTooltip(this.width - 150, this.height - 65, 130, 20, new TranslationTextComponent("gui.button.openfolder"),
+				minecraft.getMainWindow().getScaledWidth() / 2, b -> {
+					if (exportLoc != null)
+						try {
+							Desktop.getDesktop().browse(this.exportLoc);
+						} catch (IOException e) {
+							setExportMessage(new StringTextComponent("Failed to open export location: " + e).mergeStyle(TextFormatting.DARK_RED));
+							e.printStackTrace();
+						}
+				}, new TranslationTextComponent("gui.button.openfolder.tooltip")));
+		this.openFolderButton.visible = exportMessage != null;
 
-        addButton(new GuiButtonTooltip(this.width - 150, this.height - 40, 130, 20, new TranslationTextComponent("gui.button.upload"),
-        		minecraft.getMainWindow().getScaledWidth() / 2, b -> {
-        			final BufferedImage image = TextureHelper.writePartsDataToSkin(this.partsData, minecraft.player);
-                    Runnable runnable = () -> {
-                        exportMessage = new TranslationTextComponent("tails.uploading");
-                        new ImgurUpload().uploadImage(image);
-                    };
-                    runnable.run();
-        		}, new TranslationTextComponent("tails.upload.tooltip")));
-    }
+		addButton(new GuiButtonTooltip(this.width - 150, this.height - 40, 130, 20, new TranslationTextComponent("gui.button.upload"),
+				minecraft.getMainWindow().getScaledWidth() / 2, b -> {
+					final BufferedImage image = TextureHelper.writePartsDataToSkin(this.partsData, minecraft.player);
+					Runnable runnable = () -> {
+						exportMessage = new TranslationTextComponent("tails.uploading");
+						new ImgurUpload().uploadImage(image);
+					};
+					runnable.run();
+				}, new TranslationTextComponent("tails.upload.tooltip")));
+	}
 
-    @Override
-    public void render(MatrixStack matrixStackIn, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStackIn);
+	@Override
+	public void render(MatrixStack matrixStackIn, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(matrixStackIn);
 
-        this.drawCenteredString(matrixStackIn, this.font, I18n.format("gui.export.title"), this.width / 2, 25, 0xFFFFFF);
-        this.font.func_238418_a_(new TranslationTextComponent("gui.export.information"), this.width / 6, 50, (int) (minecraft.getMainWindow().getScaledWidth() / 1.5F), 0xFFFFFF);
-        if (exportMessage != null)
-        	this.font.func_238418_a_(this.exportMessage, 160, this.height - 88, this.width - 160, 0xFFFFFF);
+		this.drawCenteredString(matrixStackIn, this.font, I18n.format("gui.export.title"), this.width / 2, 25, 0xFFFFFF);
+		this.font.func_238418_a_(new TranslationTextComponent("gui.export.information"), this.width / 6, 50, (int) (minecraft.getMainWindow().getScaledWidth() / 1.5F), 0xFFFFFF);
+		if (exportMessage != null)
+			this.font.func_238418_a_(this.exportMessage, 160, this.height - 88, this.width - 160, 0xFFFFFF);
 
-        super.render(matrixStackIn, mouseX, mouseY, partialTicks);
-    }
+		super.render(matrixStackIn, mouseX, mouseY, partialTicks);
+	}
 
-    private void handleExport(int id) {
-        //Export to file
-            AbstractClientPlayerEntity player = this.minecraft.player;
-            File file;
+	private void handleExport(int id) {
+		//Export to file
+		AbstractClientPlayerEntity player = this.minecraft.player;
+		File file;
 
-            this.exportMessage = null;
-            this.exportLoc = null;
-            if (id == 0) file = new File(System.getProperty("user.home"));
-            else if (id == 1) file = new File(System.getProperty("user.dir"));
-            else {
-                JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    file = fileChooser.getSelectedFile();
-                }
-                else return;
-            }
+		this.exportMessage = null;
+		this.exportLoc = null;
+		if (id == 0) file = new File(System.getProperty("user.home"));
+		else if (id == 1) file = new File(System.getProperty("user.dir"));
+		else {
+			JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+				file = fileChooser.getSelectedFile();
+			}
+			else return;
+		}
 
-            if (file.exists() && file.canWrite()) {
-                this.exportLoc = file.toURI();
-                file = new File(file, File.separatorChar + player.getGameProfile().getName() + ".png");
+		if (file.exists() && file.canWrite()) {
+			this.exportLoc = file.toURI();
+			file = new File(file, File.separatorChar + player.getGameProfile().getName() + ".png");
 
-                if (!file.exists()) {
-                    try {
-                        file.createNewFile();
-                    } catch (IOException e) {
-                        setExportMessage(new StringTextComponent("Failed to create skin file! " + e).mergeStyle(TextFormatting.DARK_RED));
-                        e.printStackTrace();
-                    }
-                }
+			if (!file.exists()) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					setExportMessage(new StringTextComponent("Failed to create skin file! " + e).mergeStyle(TextFormatting.DARK_RED));
+					e.printStackTrace();
+				}
+			}
 
-                BufferedImage image = TextureHelper.writePartsDataToSkin(this.partsData, player);
-                if (image != null) {
-                    try {
-                        ImageIO.write(image, "png", file);
-                    } catch (IOException e) {
-                        setExportMessage(new StringTextComponent("Failed to save skin file! " + e).mergeStyle(TextFormatting.DARK_RED));
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    setExportMessage(new StringTextComponent("Failed to export skin, image was null!").mergeStyle(TextFormatting.DARK_RED));
-                    file.delete();
-                }
-            }
+			BufferedImage image = TextureHelper.writePartsDataToSkin(this.partsData, player);
+			if (image != null) {
+				try {
+					ImageIO.write(image, "png", file);
+				} catch (IOException e) {
+					setExportMessage(new StringTextComponent("Failed to save skin file! " + e).mergeStyle(TextFormatting.DARK_RED));
+					e.printStackTrace();
+				}
+			}
+			else {
+				setExportMessage(new StringTextComponent("Failed to export skin, image was null!").mergeStyle(TextFormatting.DARK_RED));
+				file.delete();
+			}
+		}
 
-            if (exportMessage == null) {
-                savePartsData();
-                this.openFolderButton.visible = true;
-                setExportMessage(new TranslationTextComponent("tails.export.success", file).mergeStyle(TextFormatting.GREEN));
-            }
-    }
+		if (exportMessage == null) {
+			savePartsData();
+			this.openFolderButton.visible = true;
+			setExportMessage(new TranslationTextComponent("tails.export.success", file).mergeStyle(TextFormatting.GREEN));
+		}
+	}
 
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == 1) {
-            minecraft.displayGuiScreen(parent);
-            return true;
-        }
-        else {
-            return super.keyPressed(keyCode, scanCode, modifiers);
-        }
-    }
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (keyCode == 1) {
+			minecraft.displayGuiScreen(parent);
+			return true;
+		}
+		else {
+			return super.keyPressed(keyCode, scanCode, modifiers);
+		}
+	}
 
-    private void setExportMessage(ITextComponent message) {
-        exportMessage = message;
-        ToastManager.INSTANCE.createCenteredToast(width / 2, height - 45, minecraft.getMainWindow().getScaledWidth() / 3, exportMessage);
-    }
+	private void setExportMessage(ITextComponent message) {
+		exportMessage = message;
+		ToastManager.INSTANCE.createCenteredToast(width / 2, height - 45, minecraft.getMainWindow().getScaledWidth() / 3, exportMessage);
+	}
 
-    private void savePartsData() {
-        Tails.setLocalPartsData(partsData);
-        Tails.proxy.addPartsData(minecraft.player.getUniqueID(), partsData);
-        Tails.networkWrapper.sendToServer(new PlayerDataMessage(minecraft.getSession().getProfile().getId(), partsData, false));
-    }
+	private void savePartsData() {
+		Tails.setLocalPartsData(partsData);
+		Tails.proxy.addPartsData(minecraft.player.getUniqueID(), partsData);
+		Tails.networkWrapper.sendToServer(new PlayerDataMessage(minecraft.getSession().getProfile().getId(), partsData, false));
+	}
 
-    private class ImgurUpload {
-        static final String CLIENT_ID = "ceb9fca19ef9a31";
+	private class ImgurUpload {
+		static final String CLIENT_ID = "ceb9fca19ef9a31";
 
-        void uploadImage(BufferedImage image) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            BufferedReader in = null;
+		void uploadImage(BufferedImage image) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			BufferedReader in = null;
 
-            try {
-                URL url = new URL("https://api.imgur.com/3/upload.json");
+			try {
+				URL url = new URL("https://api.imgur.com/3/upload.json");
 
-                ImageIO.write(image, "png", baos);
-                baos.flush();
+				ImageIO.write(image, "png", baos);
+				baos.flush();
 
-                String base64Image = DatatypeConverter.printBase64Binary(baos.toByteArray());
-                String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(base64Image, "UTF-8");
+				String base64Image = DatatypeConverter.printBase64Binary(baos.toByteArray());
+				String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(base64Image, "UTF-8");
 
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setDoOutput(true);
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setDoOutput(true);
 
-                conn.setRequestProperty("Authorization", "Client-ID " + CLIENT_ID);
+				conn.setRequestProperty("Authorization", "Client-ID " + CLIENT_ID);
 
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.close();
+				OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+				wr.write(data);
+				wr.close();
 
-                //Successful uploading!
-                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
-                    if (jsonElement.get("status").getAsInt() == 200) {
-                        JsonObject dataJson = jsonElement.get("data").getAsJsonObject();
-                        String id = dataJson.get("id").getAsString();
+				//Successful uploading!
+				if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
+					if (jsonElement.get("status").getAsInt() == 200) {
+						JsonObject dataJson = jsonElement.get("data").getAsJsonObject();
+						String id = dataJson.get("id").getAsString();
 
-                        String imgurURL = "http://imgur.com/" + id + ".png";
-                        String skinURL = "https://minecraft.net/profile/skin/remote?url=";
+						String imgurURL = "http://imgur.com/" + id + ".png";
+						String skinURL = "https://minecraft.net/profile/skin/remote?url=";
 
-                        setExportMessage(new TranslationTextComponent("tails.upload.success").mergeStyle(TextFormatting.GREEN));
-                        exportLoc = URI.create(skinURL + imgurURL);
-                        openFolderButton.visible = true;
-                        savePartsData();
+						setExportMessage(new TranslationTextComponent("tails.upload.success").mergeStyle(TextFormatting.GREEN));
+						exportLoc = URI.create(skinURL + imgurURL);
+						openFolderButton.visible = true;
+						savePartsData();
 
-                        Desktop.getDesktop().browse(exportLoc);
-                    }
-                    else {
-                        handleError(jsonElement);
-                    }
-                }
-                else {
-                    if (conn.getResponseCode() != 500) {
-                        in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
-                        handleError(jsonElement);
-                    }
-                    else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));
-                }
+						Desktop.getDesktop().browse(exportLoc);
+					}
+					else {
+						handleError(jsonElement);
+					}
+				}
+				else {
+					if (conn.getResponseCode() != 500) {
+						in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+						JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
+						handleError(jsonElement);
+					}
+					else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));
+				}
 
-            } catch (IOException | JsonParseException e) {
-                Tails.logger.catching(e);
-            } finally {
-                IOUtils.closeQuietly(baos);
-                IOUtils.closeQuietly(in);
-            }
-        }
+			} catch (IOException | JsonParseException e) {
+				Tails.logger.catching(e);
+			} finally {
+				IOUtils.closeQuietly(baos);
+				IOUtils.closeQuietly(in);
+			}
+		}
 
-        private void handleError(JsonObject json) {
-            int status = json.get("status").getAsInt();
+		private void handleError(JsonObject json) {
+			int status = json.get("status").getAsInt();
 
-            //Rate limiting
-            if (status == 429 || status == 403) {
-                setExportMessage(new TranslationTextComponent("tails.upload.ratelimit").mergeStyle(TextFormatting.DARK_RED));
-            }
-            else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));
-        }
-    }
+			//Rate limiting
+			if (status == 429 || status == 403) {
+				setExportMessage(new TranslationTextComponent("tails.upload.ratelimit").mergeStyle(TextFormatting.DARK_RED));
+			}
+			else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));
+		}
+	}
 
 }

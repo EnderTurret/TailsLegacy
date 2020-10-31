@@ -23,35 +23,35 @@ import java.util.function.Supplier;
 
 public class PlayerDataMapMessage {
 
-    private Map<UUID, PartsData> partsDataMap;
+	private Map<UUID, PartsData> partsDataMap;
 
-    public PlayerDataMapMessage() {}
-    @SuppressWarnings("unchecked")
-    public PlayerDataMapMessage(Map partsDataMap) {
-        this.partsDataMap = partsDataMap;
-    }
+	public PlayerDataMapMessage() {}
+	@SuppressWarnings("unchecked")
+	public PlayerDataMapMessage(Map partsDataMap) {
+		this.partsDataMap = partsDataMap;
+	}
 
-    @SuppressWarnings("unchecked")
-    public static PlayerDataMapMessage fromBytes(PacketBuffer buf) {
-        String tailInfoJson = buf.readString(Short.MAX_VALUE);
-        PlayerDataMapMessage msg = new PlayerDataMapMessage();
-        try {
-            msg.partsDataMap = Tails.gson.fromJson(tailInfoJson, new TypeToken<Map<UUID, PartsData>>() {}.getType());
-        } catch (JsonSyntaxException e) {
-            Tails.logger.catching(e);
-        }
-        return msg;
-    }
+	@SuppressWarnings("unchecked")
+	public static PlayerDataMapMessage fromBytes(PacketBuffer buf) {
+		String tailInfoJson = buf.readString(Short.MAX_VALUE);
+		PlayerDataMapMessage msg = new PlayerDataMapMessage();
+		try {
+			msg.partsDataMap = Tails.gson.fromJson(tailInfoJson, new TypeToken<Map<UUID, PartsData>>() {}.getType());
+		} catch (JsonSyntaxException e) {
+			Tails.logger.catching(e);
+		}
+		return msg;
+	}
 
-    public static void toBytes(PlayerDataMapMessage msg, PacketBuffer buf) {
-        String tailInfoJson = Tails.gson.toJson(msg.partsDataMap);
-        buf.writeString(tailInfoJson, Short.MAX_VALUE);
-    }
+	public static void toBytes(PlayerDataMapMessage msg, PacketBuffer buf) {
+		String tailInfoJson = Tails.gson.toJson(msg.partsDataMap);
+		buf.writeString(tailInfoJson, Short.MAX_VALUE);
+	}
 
-        public static void onMessage(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
-            for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet()) {
-                Tails.proxy.addPartsData(entry.getKey(), entry.getValue());
-            }
-            ctx.get().setPacketHandled(true);
-        }
+	public static void onMessage(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
+		for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet()) {
+			Tails.proxy.addPartsData(entry.getKey(), entry.getValue());
+		}
+		ctx.get().setPacketHandled(true);
+	}
 }

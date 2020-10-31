@@ -25,34 +25,34 @@ import java.util.List;
 
 public class ToastManager {
 
-    public static final ToastManager INSTANCE = new ToastManager();
+	public static final ToastManager INSTANCE = new ToastManager();
 
-    private final ArrayList<Toast> toasts = new ArrayList<>();
+	private final ArrayList<Toast> toasts = new ArrayList<>();
 
-    private ToastManager() {
-        MinecraftForge.EVENT_BUS.register(this);
-    }
+	private ToastManager() {
+		MinecraftForge.EVENT_BUS.register(this);
+	}
 
-    public void createToast(int x, int y, ITextComponent text) {
-        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-        IReorderingProcessor processor = text.func_241878_f();
-        int stringWidth = fontRenderer.func_243245_a(processor);
-        toasts.add(new Toast(x, y, stringWidth + 10,  stringWidth * 3, processor));
-    }
+	public void createToast(int x, int y, ITextComponent text) {
+		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+		IReorderingProcessor processor = text.func_241878_f();
+		int stringWidth = fontRenderer.func_243245_a(processor);
+		toasts.add(new Toast(x, y, stringWidth + 10,  stringWidth * 3, processor));
+	}
 
-    public void createCenteredToast(int x, int y, int maxWidth, ITextComponent text) {
-        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-        int stringWidth = fontRenderer.getStringPropertyWidth(text);
-        if (stringWidth > maxWidth) {
-            List<IReorderingProcessor> strings = fontRenderer.trimStringToWidth(text, maxWidth);
-            toasts.add(new Toast(x - (maxWidth / 2) - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new IReorderingProcessor[strings.size()])));
-        }
-        else {
-            toasts.add(new Toast(x - (stringWidth / 2) - 5, y, stringWidth + 10, text.getString().length() * 3, text.func_241878_f()));
-        }
-    }
+	public void createCenteredToast(int x, int y, int maxWidth, ITextComponent text) {
+		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+		int stringWidth = fontRenderer.getStringPropertyWidth(text);
+		if (stringWidth > maxWidth) {
+			List<IReorderingProcessor> strings = fontRenderer.trimStringToWidth(text, maxWidth);
+			toasts.add(new Toast(x - (maxWidth / 2) - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new IReorderingProcessor[strings.size()])));
+		}
+		else {
+			toasts.add(new Toast(x - (stringWidth / 2) - 5, y, stringWidth + 10, text.getString().length() * 3, text.func_241878_f()));
+		}
+	}
 
-    /*@SubscribeEvent
+	/*@SubscribeEvent
     public void onMouseEvent(MouseEvent event) {
         for (Toast toast : toasts) {
             if (toast.mouseOver) {
@@ -61,25 +61,25 @@ public class ToastManager {
         }
     }*/
 
-    @SubscribeEvent
-    public void onClientTickPost(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            Iterator<Toast> toasts = this.toasts.iterator();
-            while (toasts.hasNext()) {
-                Toast toast = toasts.next();
-                toast.time--;
-                if (toast.time <= 0) toasts.remove();
-            }
-        }
-    }
+	@SubscribeEvent
+	public void onClientTickPost(TickEvent.ClientTickEvent event) {
+		if (event.phase == TickEvent.Phase.END) {
+			Iterator<Toast> toasts = this.toasts.iterator();
+			while (toasts.hasNext()) {
+				Toast toast = toasts.next();
+				toast.time--;
+				if (toast.time <= 0) toasts.remove();
+			}
+		}
+	}
 
-    @SubscribeEvent
-    public void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
-        IProfiler profiler = Minecraft.getInstance().getProfiler();
-        profiler.startSection("toastNotification");
-        for (Toast toast : toasts) {
-            toast.drawToast(event.getMatrixStack(), event.getMouseX(), event.getMouseY());
-        }
-        profiler.endSection();
-    }
+	@SubscribeEvent
+	public void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
+		IProfiler profiler = Minecraft.getInstance().getProfiler();
+		profiler.startSection("toastNotification");
+		for (Toast toast : toasts) {
+			toast.drawToast(event.getMatrixStack(), event.getMouseX(), event.getMouseY());
+		}
+		profiler.endSection();
+	}
 }

@@ -26,29 +26,29 @@ import java.util.UUID;
 @OnlyIn(Dist.CLIENT)
 public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> {
 
-    private final ModelRenderer modelRenderer;
-    private final PartsData.PartType partType;
-    private final boolean mpmCompat;
+	private final ModelRenderer modelRenderer;
+	private final PartsData.PartType partType;
+	private final boolean mpmCompat;
 
-    public LayerPart(IEntityRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartsData.PartType partType) {
-        super(renderer);
-        this.modelRenderer = modelRenderer;
-        this.partType = partType;
-        this.mpmCompat = ModList.get().isLoaded("moreplayermodels");
-    }
+	public LayerPart(IEntityRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartsData.PartType partType) {
+		super(renderer);
+		this.modelRenderer = modelRenderer;
+		this.partType = partType;
+		this.mpmCompat = ModList.get().isLoaded("moreplayermodels");
+	}
 
-    @Override
-    public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        UUID uuid = PlayerEntity.getUUID(entity.getGameProfile());
-        if (Tails.proxy.hasPartsData(uuid)) {
-            PartsData partsData = Tails.proxy.getPartsData(uuid);
-            if (partsData.hasPartInfo(partType)) {
-                PartInfo tailInfo = partsData.getPartInfo(partType);
+	@Override
+	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+		UUID uuid = PlayerEntity.getUUID(entity.getGameProfile());
+		if (Tails.proxy.hasPartsData(uuid)) {
+			PartsData partsData = Tails.proxy.getPartsData(uuid);
+			if (partsData.hasPartInfo(partType)) {
+				PartInfo tailInfo = partsData.getPartInfo(partType);
 
-                matrixStackIn.push();
+				matrixStackIn.push();
 
-                if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE) {
-                    /*if (entity.isSneaking())
+				if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE) {
+					/*if (entity.isSneaking())
                         matrixStackIn.translate(0f, 0.2F, 0f);
 
                     // TODO should really do transforms on the model instead, should hopefully be "fixed" on model rewrite
@@ -59,12 +59,12 @@ public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
                         matrixStackIn.rotate(Vector3f.XP.rotationDegrees(headPitch * 0.017453292F));
                         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(netHeadYaw * 0.017453292F));
                     }*/
-                	getEntityModel().bipedHead.translateRotate(matrixStackIn);
-                }
+					getEntityModel().bipedHead.translateRotate(matrixStackIn);
+				}
 
-                PartRegistry.getRenderPart(tailInfo.partType, tailInfo.typeid).render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
-                matrixStackIn.pop();
-            }
-        }
-    }
+				PartRegistry.getRenderPart(tailInfo.partType, tailInfo.typeid).render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
+				matrixStackIn.pop();
+			}
+		}
+	}
 }

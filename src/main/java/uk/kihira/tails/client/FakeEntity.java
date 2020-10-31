@@ -23,15 +23,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class FakeEntity extends LivingEntity {
 
-    public FakeEntity(World world) {
-        super(EntityType.BAT, world);
-    }
+	public FakeEntity(World world) {
+		super(EntityType.BAT, world);
+	}
 
-    @Override
-    public void writeAdditional(CompoundNBT tagCompound) {}
+	@Override
+	public void writeAdditional(CompoundNBT tagCompound) {}
 
-    @Override
-    public void readAdditional(CompoundNBT tagCompound) {}
+	@Override
+	public void readAdditional(CompoundNBT tagCompound) {}
 
 	@Override
 	public Iterable<ItemStack> getArmorInventoryList() {

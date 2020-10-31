@@ -14,187 +14,187 @@ public abstract class GuiBase extends GuiBaseScreen {
 
 	private static final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
 
-    //0 is bottom layer
-    private final List<List<Panel>> layers = new ArrayList<>();
+	//0 is bottom layer
+	private final List<List<Panel>> layers = new ArrayList<>();
 
-    public GuiBase(int layerCount, ITextComponent title) {
-    	super(title);
-        for (int i = 0; i < layerCount; i++)
-            layers.add(new ArrayList<>());
-    }
+	public GuiBase(int layerCount, ITextComponent title) {
+		super(title);
+		for (int i = 0; i < layerCount; i++)
+			layers.add(new ArrayList<>());
+	}
 
-    public List<Panel> getLayer(int layer) {
-        return layers.get(layer);
-    }
+	public List<Panel> getLayer(int layer) {
+		return layers.get(layer);
+	}
 
-    @Override
-    protected void init() {
-    	for (List<Panel> layer : layers)
-    		for (Panel panel : layer)
-    			panel.init(minecraft, width, height);
-    }
+	@Override
+	protected void init() {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				panel.init(minecraft, width, height);
+	}
 
-    @Override
-    public void resize(Minecraft mc, int width, int height) {
-        super.resize(mc, width, height);
-        for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                panel.resize(mc, mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight());
-    }
+	@Override
+	public void resize(Minecraft mc, int width, int height) {
+		super.resize(mc, width, height);
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				panel.resize(mc, mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight());
+	}
 
-    @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-    	int color = 0;
-        for (List<Panel> layer : layers) {
-            for (Panel panel : layer) {
-                if (panel.enabled) {
-                    matrixStack.push();
-                    matrixStack.translate(panel.left, panel.top, 0);
-                    RenderSystem.color4f(1f, 1f, 1f, 1f);
+	@Override
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		int color = 0;
+		for (List<Panel> layer : layers) {
+			for (Panel panel : layer) {
+				if (panel.enabled) {
+					matrixStack.push();
+					matrixStack.translate(panel.left, panel.top, 0);
+					RenderSystem.color4f(1f, 1f, 1f, 1f);
 
-                    panel.render(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
+					panel.render(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
 
-                    if (color == -1) {
-                    	matrixStack.translate(0, 0, 100);
+					if (color == -1) {
+						matrixStack.translate(0, 0, 100);
 
-                    	final int c = COLORS[color >= COLORS.length ? COLORS.length - 1 : color];
+						final int c = COLORS[color >= COLORS.length ? COLORS.length - 1 : color];
 
-                    	final int right = panel.right - panel.left;
-                    	final int bottom = panel.bottom - panel.top;
+						final int right = panel.right - panel.left;
+						final int bottom = panel.bottom - panel.top;
 
-                    	hLine(matrixStack, 0, right, 0, c);
-                    	hLine(matrixStack, 0, right, bottom, c);
-                    	vLine(matrixStack, 0, 0, bottom, c);
-                    	vLine(matrixStack, right, 0, bottom, c);
+						hLine(matrixStack, 0, right, 0, c);
+						hLine(matrixStack, 0, right, bottom, c);
+						vLine(matrixStack, 0, 0, bottom, c);
+						vLine(matrixStack, right, 0, bottom, c);
 
-                    	font.drawStringWithShadow(matrixStack, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c);
-                    }
+						font.drawStringWithShadow(matrixStack, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c);
+					}
 
-                    color++;
+					color++;
 
-                    RenderSystem.disableLighting();
-                    matrixStack.pop();
-                }
-            }
-        }
+					RenderSystem.disableLighting();
+					matrixStack.pop();
+				}
+			}
+		}
 
-        RenderSystem.color4f(1f, 1f, 1f, 1f);
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
 
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
-        for (List<Panel> layer : layers) {
-            for (Panel panel : layer) {
-                if (panel.enabled) {
-                    matrixStack.push();
-                    matrixStack.translate(panel.left, panel.top, 0);
-                    RenderSystem.color4f(1f, 1f, 1f, 1f);
+		for (List<Panel> layer : layers) {
+			for (Panel panel : layer) {
+				if (panel.enabled) {
+					matrixStack.push();
+					matrixStack.translate(panel.left, panel.top, 0);
+					RenderSystem.color4f(1f, 1f, 1f, 1f);
 
-                    panel.renderTooltips(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
+					panel.renderTooltips(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
 
-                    RenderSystem.disableLighting();
-                    matrixStack.pop();
-                }
-            }
-        }
-    }
+					RenderSystem.disableLighting();
+					matrixStack.pop();
+				}
+			}
+		}
+	}
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                if (shouldRecieveMouse(panel, mouseX, mouseY))
-                    if (panel.mouseClicked(mouseX - panel.left, mouseY - panel.top, button))
-                    	return true;
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				if (shouldRecieveMouse(panel, mouseX, mouseY))
+					if (panel.mouseClicked(mouseX - panel.left, mouseY - panel.top, button))
+						return true;
 
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
+		return super.mouseClicked(mouseX, mouseY, button);
+	}
 
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                if (shouldRecieveMouse(panel, mouseX, mouseY))
-                    if (panel.mouseReleased(mouseX - panel.left, mouseY - panel.top, button))
-                    	return true;
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				if (shouldRecieveMouse(panel, mouseX, mouseY))
+					if (panel.mouseReleased(mouseX - panel.left, mouseY - panel.top, button))
+						return true;
 
-        return super.mouseReleased(mouseX, mouseY, button);
-    }
+		return super.mouseReleased(mouseX, mouseY, button);
+	}
 
-    @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                if (shouldRecieveMouse(panel, mouseX, mouseY))
-                    if (panel.mouseDragged(mouseX - panel.left, mouseY - panel.top, button, dragX, dragY))
-                    	return true;
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				if (shouldRecieveMouse(panel, mouseX, mouseY))
+					if (panel.mouseDragged(mouseX - panel.left, mouseY - panel.top, button, dragX, dragY))
+						return true;
 
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
-    }
+		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+	}
 
-    @Override
-    public void mouseMoved(double mouseX, double mouseY) {
-    	for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                if (shouldRecieveMouse(panel, mouseX, mouseY))
-                    panel.mouseMoved(mouseX - panel.left, mouseY - panel.top);
+	@Override
+	public void mouseMoved(double mouseX, double mouseY) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				if (shouldRecieveMouse(panel, mouseX, mouseY))
+					panel.mouseMoved(mouseX - panel.left, mouseY - panel.top);
 
-    	super.mouseMoved(mouseX, mouseY);
-    }
+		super.mouseMoved(mouseX, mouseY);
+	}
 
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-    	for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                if (shouldRecieveMouse(panel, mouseX, mouseY))
-                    if (panel.mouseScrolled(mouseX - panel.left, mouseY - panel.top, delta))
-                    	return true;
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				if (shouldRecieveMouse(panel, mouseX, mouseY))
+					if (panel.mouseScrolled(mouseX - panel.left, mouseY - panel.top, delta))
+						return true;
 
-    	return super.mouseScrolled(mouseX, mouseY, delta);
-    }
+		return super.mouseScrolled(mouseX, mouseY, delta);
+	}
 
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                if (panel.enabled)
-                	if (panel.keyPressed(keyCode, scanCode, modifiers))
-                		return true;
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				if (panel.enabled)
+					if (panel.keyPressed(keyCode, scanCode, modifiers))
+						return true;
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
+		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
 
-    @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-    	for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                if (panel.enabled)
-                    if (panel.keyReleased(keyCode, scanCode, modifiers))
-                    	return true;
+	@Override
+	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				if (panel.enabled)
+					if (panel.keyReleased(keyCode, scanCode, modifiers))
+						return true;
 
-    	return super.keyReleased(keyCode, scanCode, modifiers);
-    }
+		return super.keyReleased(keyCode, scanCode, modifiers);
+	}
 
-    @Override
-    public boolean charTyped(char codePoint, int modifiers) {
-    	for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                if (panel.enabled)
-                    if (panel.charTyped(codePoint, modifiers))
-                    	return true;
+	@Override
+	public boolean charTyped(char codePoint, int modifiers) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				if (panel.enabled)
+					if (panel.charTyped(codePoint, modifiers))
+						return true;
 
-    	return super.charTyped(codePoint, modifiers);
-    }
+		return super.charTyped(codePoint, modifiers);
+	}
 
-    @Override
-    public void onClose() {
-        for (List<Panel> layer : layers)
-            for (Panel panel : layer)
-                panel.onClose();
+	@Override
+	public void onClose() {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
+				panel.onClose();
 
-        super.onClose();
-    }
+		super.onClose();
+	}
 
-    private static boolean shouldRecieveMouse(Panel panel, double mouseX, double mouseY) {
-    	return panel.enabled && ((mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom) || panel.alwaysReceiveMouse);
-    }
+	private static boolean shouldRecieveMouse(Panel panel, double mouseX, double mouseY) {
+		return panel.enabled && ((mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom) || panel.alwaysReceiveMouse);
+	}
 }

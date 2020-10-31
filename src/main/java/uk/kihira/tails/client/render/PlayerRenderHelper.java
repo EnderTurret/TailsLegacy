@@ -22,32 +22,32 @@ import net.minecraft.entity.LivingEntity;
 
 public class PlayerRenderHelper implements IRenderHelper {
 
-    private boolean mpmCompat;
+	private boolean mpmCompat;
 
-    public PlayerRenderHelper() {
-        mpmCompat = ModList.get().isLoaded("moreplayermodels");
-    }
+	public PlayerRenderHelper() {
+		mpmCompat = ModList.get().isLoaded("moreplayermodels");
+	}
 
-    @Override
-    public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, RenderPart tail, PartInfo info, double x, double y, double z) {
-        if (info.partType == PartsData.PartType.EARS || info.partType == PartsData.PartType.MUZZLE || info.partType == PartsData.PartType.WINGS) return;
-        if (mpmCompat && entity.isSneaking()) {
-            matrixStack.translate(0f, -0.1f, 0.4f);
-        }
-        if (tail.modelPart instanceof ModelDragonTail) {
-            if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
-            else matrixStack.translate(0F, 0.68F, 0.1F);
-            matrixStack.scale(0.8F, 0.8F, 0.8F);
-        }
-        else if (tail.modelPart instanceof ModelCatTail || tail.modelPart instanceof ModelDevilTail) {
-            if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
-            else matrixStack.translate(0F, 0.65F, 0.1F);
-            matrixStack.scale(0.9F, 0.9F, 0.9F);
-        }
-        else {
-            if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
-            else matrixStack.translate(0F, 0.65F, 0.1F);
-            matrixStack.scale(0.8F, 0.8F, 0.8F);
-        }
-    }
+	@Override
+	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, RenderPart tail, PartInfo info, double x, double y, double z) {
+		if (info.partType == PartsData.PartType.EARS || info.partType == PartsData.PartType.MUZZLE || info.partType == PartsData.PartType.WINGS) return;
+		if (mpmCompat && entity.isSneaking()) {
+			matrixStack.translate(0f, -0.1f, 0.4f);
+		}
+		if (tail.modelPart instanceof ModelDragonTail) {
+			if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
+			else matrixStack.translate(0F, 0.68F, 0.1F);
+			matrixStack.scale(0.8F, 0.8F, 0.8F);
+		}
+		else if (tail.modelPart instanceof ModelCatTail || tail.modelPart instanceof ModelDevilTail) {
+			if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
+			else matrixStack.translate(0F, 0.65F, 0.1F);
+			matrixStack.scale(0.9F, 0.9F, 0.9F);
+		}
+		else {
+			if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
+			else matrixStack.translate(0F, 0.65F, 0.1F);
+			matrixStack.scale(0.8F, 0.8F, 0.8F);
+		}
+	}
 }

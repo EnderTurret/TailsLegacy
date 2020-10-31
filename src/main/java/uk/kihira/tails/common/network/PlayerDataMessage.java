@@ -25,47 +25,47 @@ import java.util.function.Supplier;
 
 public class PlayerDataMessage {
 
-    private UUID uuid;
-    private PartsData partsData;
-    private boolean shouldRemove;
+	private UUID uuid;
+	private PartsData partsData;
+	private boolean shouldRemove;
 
-    public PlayerDataMessage() {}
-    public PlayerDataMessage(UUID uuid, PartsData partsData, boolean shouldRemove) {
-        this.uuid = uuid;
-        this.partsData = partsData;
-        this.shouldRemove = shouldRemove;
-    }
+	public PlayerDataMessage() {}
+	public PlayerDataMessage(UUID uuid, PartsData partsData, boolean shouldRemove) {
+		this.uuid = uuid;
+		this.partsData = partsData;
+		this.shouldRemove = shouldRemove;
+	}
 
-    public static PlayerDataMessage fromBytes(PacketBuffer buf) {
-        PlayerDataMessage msg = new PlayerDataMessage();
-        msg.uuid = UUIDTypeAdapter.fromString(buf.readString(Short.MAX_VALUE));
-        String tailInfoJson = buf.readString(Short.MAX_VALUE);
-        if (!Strings.isNullOrEmpty(tailInfoJson)) {
-            try {
-                msg.partsData = Tails.gson.fromJson(tailInfoJson, PartsData.class);
-            } catch (JsonSyntaxException e) {
-                Tails.logger.warn(e);
-            }
-        }
-        else msg.partsData = null;
-        return msg;
-    }
+	public static PlayerDataMessage fromBytes(PacketBuffer buf) {
+		PlayerDataMessage msg = new PlayerDataMessage();
+		msg.uuid = UUIDTypeAdapter.fromString(buf.readString(Short.MAX_VALUE));
+		String tailInfoJson = buf.readString(Short.MAX_VALUE);
+		if (!Strings.isNullOrEmpty(tailInfoJson)) {
+			try {
+				msg.partsData = Tails.gson.fromJson(tailInfoJson, PartsData.class);
+			} catch (JsonSyntaxException e) {
+				Tails.logger.warn(e);
+			}
+		}
+		else msg.partsData = null;
+		return msg;
+	}
 
-    public static void toBytes(PlayerDataMessage msg, PacketBuffer buf) {
-        buf.writeString(UUIDTypeAdapter.fromUUID(msg.uuid), Short.MAX_VALUE);
-        String tailInfoJson = msg.partsData == null ? "" : Tails.gson.toJson(msg.partsData);
-        buf.writeString(tailInfoJson, Short.MAX_VALUE);
-    }
+	public static void toBytes(PlayerDataMessage msg, PacketBuffer buf) {
+		buf.writeString(UUIDTypeAdapter.fromUUID(msg.uuid), Short.MAX_VALUE);
+		String tailInfoJson = msg.partsData == null ? "" : Tails.gson.toJson(msg.partsData);
+		buf.writeString(tailInfoJson, Short.MAX_VALUE);
+	}
 
-        public static void onMessage(PlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
-            if (message.shouldRemove) Tails.proxy.removePartsData(message.uuid);
-            else if (message.partsData != null) {
-                Tails.proxy.addPartsData(message.uuid, message.partsData);
-                //Tell other clients about the change
-                if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER) {
-                    Tails.networkWrapper.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData, false));
-                }
-            }
-            ctx.get().setPacketHandled(true);
-        }
+	public static void onMessage(PlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
+		if (message.shouldRemove) Tails.proxy.removePartsData(message.uuid);
+		else if (message.partsData != null) {
+			Tails.proxy.addPartsData(message.uuid, message.partsData);
+			//Tell other clients about the change
+			if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER) {
+				Tails.networkWrapper.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData, false));
+			}
+		}
+		ctx.get().setPacketHandled(true);
+	}
 }

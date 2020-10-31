@@ -20,5 +20,5 @@ import java.util.List;
  */
 @Nonnull
 public interface ITooltip {
-    List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
+	List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
 }

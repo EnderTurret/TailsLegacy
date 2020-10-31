@@ -21,58 +21,58 @@ import java.util.UUID;
 
 public class LibraryImportPanel extends Panel<GuiEditor> {
 
-    TextFieldWidget inputField;
+	TextFieldWidget inputField;
 
-    public LibraryImportPanel(GuiEditor parent, int left, int top, int width, int height) {
-        super(parent, left, top, width, height);
-    }
+	public LibraryImportPanel(GuiEditor parent, int left, int top, int width, int height) {
+		super(parent, left, top, width, height);
+	}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void init() {
+	@Override
+	@SuppressWarnings("unchecked")
+	public void init() {
 
-        //Import Skin
-    	Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("gui.library.import.skin"), b -> {
-        	TextureHelper.buildPlayerPartsData(minecraft.player);
-            ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));
-        });
-        button.active = TextureHelper.hasSkinData(minecraft.player);
-        addButton(button);
+		//Import Skin
+		Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("gui.library.import.skin"), b -> {
+			TextureHelper.buildPlayerPartsData(minecraft.player);
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));
+		});
+		button.active = TextureHelper.hasSkinData(minecraft.player);
+		addButton(button);
 
-        addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("gui.library.import.string"), b -> {
-        	if (Strings.isNullOrEmpty(inputField.getText()) || inputField.getText().split(":", 3).length != 3) {
-                ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-                        new TranslationTextComponent("gui.library.import.toast.invalid").mergeStyle(TextFormatting.RED));
-            }
-            else {
-                String[] strings = inputField.getText().split(":", 4);
-                try {
-                    LibraryEntryData entryData = new LibraryEntryData(UUID.fromString(strings[1]), strings[2], strings[0], Tails.gson.fromJson(strings[3], PartsData.class));
-                    Tails.proxy.getLibraryManager().addEntry(entryData);
-                    parent.libraryPanel.initList();
+		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("gui.library.import.string"), b -> {
+			if (Strings.isNullOrEmpty(inputField.getText()) || inputField.getText().split(":", 3).length != 3) {
+				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
+						new TranslationTextComponent("gui.library.import.toast.invalid").mergeStyle(TextFormatting.RED));
+			}
+			else {
+				String[] strings = inputField.getText().split(":", 4);
+				try {
+					LibraryEntryData entryData = new LibraryEntryData(UUID.fromString(strings[1]), strings[2], strings[0], Tails.gson.fromJson(strings[3], PartsData.class));
+					Tails.proxy.getLibraryManager().addEntry(entryData);
+					parent.libraryPanel.initList();
 
-                    ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-                            new TranslationTextComponent("gui.library.import.toast.success", strings[0]).mergeStyle(TextFormatting.GREEN));
+					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
+							new TranslationTextComponent("gui.library.import.toast.success", strings[0]).mergeStyle(TextFormatting.GREEN));
 
-                } catch (IllegalArgumentException e) {
-                    ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-                            new TranslationTextComponent("gui.library.import.toast.invalid.uuid").mergeStyle(TextFormatting.RED));
-                } catch (JsonSyntaxException e) {
-                    ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-                            new TranslationTextComponent("gui.library.import.toast.invalid.parts").mergeStyle(TextFormatting.RED));
-                }
-            }
-        }));
+				} catch (IllegalArgumentException e) {
+					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
+							new TranslationTextComponent("gui.library.import.toast.invalid.uuid").mergeStyle(TextFormatting.RED));
+				} catch (JsonSyntaxException e) {
+					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
+							new TranslationTextComponent("gui.library.import.toast.invalid.parts").mergeStyle(TextFormatting.RED));
+				}
+			}
+		}));
 
-        inputField = new TextFieldWidget(font, 3, 41, right - left - 6, 15, null);
-        inputField.setMaxStringLength(5000);
-        addButton(inputField);
-    }
+		inputField = new TextFieldWidget(font, 3, 41, right - left - 6, 15, null);
+		inputField.setMaxStringLength(5000);
+		addButton(inputField);
+	}
 
-    @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xDE000000, 0xDE000000);
+	@Override
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xDE000000, 0xDE000000);
 
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-    }
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+	}
 }

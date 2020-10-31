@@ -24,9 +24,9 @@ public class ColorUtil {
 
 	public static int toJavaColor(int combined) {
 		return ((NativeImage.getAlpha(combined) & 0xFF) << 24) |
-                ((NativeImage.getRed(combined) & 0xFF) << 16) |
-                ((NativeImage.getGreen(combined) & 0xFF) << 8)  |
-                ((NativeImage.getBlue(combined) & 0xFF) << 0);
+				((NativeImage.getRed(combined) & 0xFF) << 16) |
+				((NativeImage.getGreen(combined) & 0xFF) << 8)  |
+				((NativeImage.getBlue(combined) & 0xFF) << 0);
 	}
 
 	public static String hex(int combined, boolean ignoreAlpha) {

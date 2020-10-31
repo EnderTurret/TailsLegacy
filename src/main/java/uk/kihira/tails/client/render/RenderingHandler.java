@@ -12,25 +12,25 @@ import java.util.UUID;
 
 public class RenderingHandler {
 
-    public static RenderPlayerEvent.Pre currentEvent = null;
-    public static PartsData currentPartsData = null;
-    public static ResourceLocation currentPlayerTexture = null;
+	public static RenderPlayerEvent.Pre currentEvent = null;
+	public static PartsData currentPartsData = null;
+	public static ResourceLocation currentPlayerTexture = null;
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onPlayerRenderTick(RenderPlayerEvent.Pre e) {
-        UUID uuid = e.getPlayer().getGameProfile().getId();
-        if (Tails.proxy.hasPartsData(uuid) && !e.getPlayer().isInvisible()) {
-            currentPartsData = Tails.proxy.getPartsData(uuid);
-            currentPlayerTexture = ((AbstractClientPlayerEntity) e.getPlayer()).getLocationSkin();
-            currentEvent = e;
-        }
-    }
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onPlayerRenderTick(RenderPlayerEvent.Pre e) {
+		UUID uuid = e.getPlayer().getGameProfile().getId();
+		if (Tails.proxy.hasPartsData(uuid) && !e.getPlayer().isInvisible()) {
+			currentPartsData = Tails.proxy.getPartsData(uuid);
+			currentPlayerTexture = ((AbstractClientPlayerEntity) e.getPlayer()).getLocationSkin();
+			currentEvent = e;
+		}
+	}
 
-    @SubscribeEvent
-    public void onPlayerRenderTickPost(RenderPlayerEvent.Post e) {
-        //Reset to null after rendering the current tail
-        currentPartsData = null;
-        currentPlayerTexture = null;
-        currentEvent = null;
-    }
+	@SubscribeEvent
+	public void onPlayerRenderTickPost(RenderPlayerEvent.Post e) {
+		//Reset to null after rendering the current tail
+		currentPartsData = null;
+		currentPlayerTexture = null;
+		currentEvent = null;
+	}
 }

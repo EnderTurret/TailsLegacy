@@ -9,13 +9,13 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 public class LibraryRequestMessage {
 
-    public static LibraryRequestMessage fromBytes(PacketBuffer buf) {
-        return new LibraryRequestMessage();
-    }
+	public static LibraryRequestMessage fromBytes(PacketBuffer buf) {
+		return new LibraryRequestMessage();
+	}
 
-    public static void toBytes(LibraryRequestMessage msg, PacketBuffer buf) {}
+	public static void toBytes(LibraryRequestMessage msg, PacketBuffer buf) {}
 
-    public static LibraryEntriesMessage onMessage(LibraryRequestMessage message, Supplier<NetworkEvent.Context> ctx) {
-            return new LibraryEntriesMessage(Tails.proxy.getLibraryManager().libraryEntries, false);
-    }
+	public static LibraryEntriesMessage onMessage(LibraryRequestMessage message, Supplier<NetworkEvent.Context> ctx) {
+		return new LibraryEntriesMessage(Tails.proxy.getLibraryManager().libraryEntries, false);
+	}
 }

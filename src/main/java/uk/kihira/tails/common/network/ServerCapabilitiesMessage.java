@@ -9,23 +9,23 @@ import uk.kihira.tails.common.Tails;
 
 public class ServerCapabilitiesMessage {
 
-    private boolean library;
+	private boolean library;
 
-    public ServerCapabilitiesMessage() {}
-    public ServerCapabilitiesMessage(boolean library) {
-        this.library = library;
-    }
+	public ServerCapabilitiesMessage() {}
+	public ServerCapabilitiesMessage(boolean library) {
+		this.library = library;
+	}
 
-    public static ServerCapabilitiesMessage fromBytes(PacketBuffer buf) {
-        return new ServerCapabilitiesMessage(buf.readBoolean());
-    }
+	public static ServerCapabilitiesMessage fromBytes(PacketBuffer buf) {
+		return new ServerCapabilitiesMessage(buf.readBoolean());
+	}
 
-    public static void toBytes(ServerCapabilitiesMessage msg, PacketBuffer buf) {
-        buf.writeBoolean(msg.library);
-    }
+	public static void toBytes(ServerCapabilitiesMessage msg, PacketBuffer buf) {
+		buf.writeBoolean(msg.library);
+	}
 
-        public static void onMessage(ServerCapabilitiesMessage message, Supplier<NetworkEvent.Context> ctx) {
-            Tails.libraryEnabled = message.library;
-            ctx.get().setPacketHandled(true);
-        }
+	public static void onMessage(ServerCapabilitiesMessage message, Supplier<NetworkEvent.Context> ctx) {
+		Tails.libraryEnabled = message.library;
+		ctx.get().setPacketHandled(true);
+	}
 }

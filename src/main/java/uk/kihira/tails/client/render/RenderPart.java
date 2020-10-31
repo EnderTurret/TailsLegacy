@@ -30,116 +30,116 @@ import java.util.HashMap;
 @OnlyIn(Dist.CLIENT)
 public class RenderPart {
 
-    private static final HashMap<Class<? extends LivingEntity>, IRenderHelper> renderHelpers = new HashMap<>();
+	private static final HashMap<Class<? extends LivingEntity>, IRenderHelper> renderHelpers = new HashMap<>();
 
-    protected final String name;
-    protected final String[] textureNames;
-    protected final int subTypes;
-    protected final String[][] authors;
-    protected final String modelAuthor;
-    public final ModelPartBase modelPart;
+	protected final String name;
+	protected final String[] textureNames;
+	protected final int subTypes;
+	protected final String[][] authors;
+	protected final String modelAuthor;
+	public final ModelPartBase modelPart;
 
-    public RenderPart(String name, int subTypes, ModelPartBase modelPart, @Nullable String modelAuthor, String... textureNames) {
-        this.name = name;
-        this.subTypes = subTypes;
-        this.modelAuthor = modelAuthor;
-        this.modelPart = modelPart;
-        this.textureNames = textureNames;
-        this.authors = new String[subTypes + 1][textureNames.length];
-    }
+	public RenderPart(String name, int subTypes, ModelPartBase modelPart, @Nullable String modelAuthor, String... textureNames) {
+		this.name = name;
+		this.subTypes = subTypes;
+		this.modelAuthor = modelAuthor;
+		this.modelPart = modelPart;
+		this.textureNames = textureNames;
+		this.authors = new String[subTypes + 1][textureNames.length];
+	}
 
-    public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
-        if (info.needsTextureCompile || info.getTexture() == null) {
-            info.setTexture(TextureHelper.generateTexture(entity.getUniqueID(), info));
-            info.needsTextureCompile = false;
-        }
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+		if (info.needsTextureCompile || info.getTexture() == null) {
+			info.setTexture(TextureHelper.generateTexture(entity.getUniqueID(), info));
+			info.needsTextureCompile = false;
+		}
 
-        matrixStack.push();
+		matrixStack.push();
 
-        IRenderHelper helper;
-        //Support for Galacticraft as it adds its own EntityPlayer
-        if (entity instanceof PlayerEntity) helper = getRenderHelper(PlayerEntity.class);
-        else helper = getRenderHelper(entity.getClass());
-        if (helper != null) {
-            helper.onPreRenderTail(matrixStack, entity, this, info, x, y, z);
-        }
+		IRenderHelper helper;
+		//Support for Galacticraft as it adds its own EntityPlayer
+		if (entity instanceof PlayerEntity) helper = getRenderHelper(PlayerEntity.class);
+		else helper = getRenderHelper(entity.getClass());
+		if (helper != null) {
+			helper.onPreRenderTail(matrixStack, entity, this, info, x, y, z);
+		}
 
-        if (modelPart != null) {
-        	modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
-        	modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
-        	this.doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
-        }
-        matrixStack.pop();
-    }
+		if (modelPart != null) {
+			modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
+			modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
+			this.doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+		}
+		matrixStack.pop();
+	}
 
-    protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
-    	final IVertexBuilder buf = bufferIn.getBuffer(modelPart.getRenderType(info.getTexture()));
-    	modelPart.render(matrixStack, buf, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
-    }
+	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
+		final IVertexBuilder buf = bufferIn.getBuffer(modelPart.getRenderType(info.getTexture()));
+		modelPart.render(matrixStack, buf, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
+	}
 
-    /**
-     * Gets the available textures for this tail subid.
-     * By default, this provides {@link #textureNames} for all subid's but you can override for finer control
-     * @return Available textures
-     * @param subid The subid
-     */
-    public String[] getTextureNames(int subid) {
-        return textureNames;
-    }
+	/**
+	 * Gets the available textures for this tail subid.
+	 * By default, this provides {@link #textureNames} for all subid's but you can override for finer control
+	 * @return Available textures
+	 * @param subid The subid
+	 */
+	public String[] getTextureNames(int subid) {
+		return textureNames;
+	}
 
-    /**
-     * Gets the available subtypes for this tail
-     * @return subtypes
-     */
-    public int getAvailableSubTypes() {
-        return subTypes;
-    }
+	/**
+	 * Gets the available subtypes for this tail
+	 * @return subtypes
+	 */
+	public int getAvailableSubTypes() {
+		return subTypes;
+	}
 
-    public String getUnlocalisedName(int subType) {
-        return this.name+"."+subType+".name";
-    }
+	public String getUnlocalisedName(int subType) {
+		return this.name+"."+subType+".name";
+	}
 
-    public RenderPart setAuthor(String author, int subID, int textureID) {
-        authors[subID][textureID] = author;
-        return this;
-    }
+	public RenderPart setAuthor(String author, int subID, int textureID) {
+		authors[subID][textureID] = author;
+		return this;
+	}
 
-    public RenderPart setAuthor(String author, int subID) {
-        for (int textureID = 0; textureID < getTextureNames(subID).length; textureID++) {
-            setAuthor(author, subID, textureID);
-        }
-        return this;
-    }
+	public RenderPart setAuthor(String author, int subID) {
+		for (int textureID = 0; textureID < getTextureNames(subID).length; textureID++) {
+			setAuthor(author, subID, textureID);
+		}
+		return this;
+	}
 
-    public RenderPart setAuthor(String author) {
-        for (int subID = 0; subID <= subTypes; subID++) {
-            setAuthor(author, subID);
-        }
-        return this;
-    }
+	public RenderPart setAuthor(String author) {
+		for (int subID = 0; subID <= subTypes; subID++) {
+			setAuthor(author, subID);
+		}
+		return this;
+	}
 
-    public String getModelAuthor() {
-        return modelAuthor;
-    }
+	public String getModelAuthor() {
+		return modelAuthor;
+	}
 
-    public String getAuthor(int subID, int textureID) {
-        return authors[subID][textureID];
-    }
+	public String getAuthor(int subID, int textureID) {
+		return authors[subID][textureID];
+	}
 
-    public boolean hasAuthor(int subID, int textureID) {
-        return getAuthor(subID, textureID) != null;
-    }
+	public boolean hasAuthor(int subID, int textureID) {
+		return getAuthor(subID, textureID) != null;
+	}
 
-    public static void registerRenderHelper(Class<? extends LivingEntity> clazz, IRenderHelper helper) {
-        if (!renderHelpers.containsKey(clazz) && helper != null) {
-            renderHelpers.put(clazz, helper);
-        }
-        else {
-            throw new IllegalArgumentException("An invalid RenderHelper was registered!");
-        }
-    }
+	public static void registerRenderHelper(Class<? extends LivingEntity> clazz, IRenderHelper helper) {
+		if (!renderHelpers.containsKey(clazz) && helper != null) {
+			renderHelpers.put(clazz, helper);
+		}
+		else {
+			throw new IllegalArgumentException("An invalid RenderHelper was registered!");
+		}
+	}
 
-    public static IRenderHelper getRenderHelper(Class<? extends LivingEntity> clazz) {
-        return renderHelpers.getOrDefault(clazz, null);
-    }
+	public static IRenderHelper getRenderHelper(Class<? extends LivingEntity> clazz) {
+		return renderHelpers.getOrDefault(clazz, null);
+	}
 }

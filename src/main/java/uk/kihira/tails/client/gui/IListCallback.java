@@ -12,5 +12,5 @@ import net.minecraft.client.gui.widget.list.ExtendedList;
 
 public interface IListCallback<T extends ExtendedList.AbstractListEntry<T>> {
 
-    boolean onEntrySelected(GuiList guiList, int index, T entry);
+	boolean onEntrySelected(GuiList guiList, int index, T entry);
 }

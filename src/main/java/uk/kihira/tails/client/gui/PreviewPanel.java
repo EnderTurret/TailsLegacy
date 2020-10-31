@@ -16,119 +16,119 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 class PreviewPanel extends Panel<GuiEditor> {
 
-    private float yaw = 0F;
-    private float pitch = 10F;
-    private double prevMouseX = -1;
-    //private ScaledResolution scaledRes;
-    private boolean doRender;
+	private float yaw = 0F;
+	private float pitch = 10F;
+	private double prevMouseX = -1;
+	//private ScaledResolution scaledRes;
+	private boolean doRender;
 
-    PreviewPanel(GuiEditor parent, int left, int top, int right, int bottom) {
-        super(parent, left, top, right, bottom);
-    }
+	PreviewPanel(GuiEditor parent, int left, int top, int right, int bottom) {
+		super(parent, left, top, right, bottom);
+	}
 
-    @Override
-    public void init() {
-        doRender = Minecraft.getInstance().gameSettings.getPointOfView() == PointOfView.FIRST_PERSON;
-        if (!doRender)
-            return;
-        //scaledRes = new ScaledResolution(minecraft);
-        // Reset Camera
-        addButton(new GuiIconButton((right - left) - 18, 22, GuiIconButton.Icons.UNDO, b -> {
-            yaw = 0;
-            pitch = 10F;
-        }, new TranslationTextComponent("gui.button.reset.camera")));
-        // Help
-        addButton(new GuiIconButton((right - left) - 18, 4, GuiIconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("gui.button.help.camera.0"), new TranslationTextComponent("gui.button.help.camera.1")));
-    }
+	@Override
+	public void init() {
+		doRender = Minecraft.getInstance().gameSettings.getPointOfView() == PointOfView.FIRST_PERSON;
+		if (!doRender)
+			return;
+		//scaledRes = new ScaledResolution(minecraft);
+		// Reset Camera
+		addButton(new GuiIconButton((right - left) - 18, 22, GuiIconButton.Icons.UNDO, b -> {
+			yaw = 0;
+			pitch = 10F;
+		}, new TranslationTextComponent("gui.button.reset.camera")));
+		// Help
+		addButton(new GuiIconButton((right - left) - 18, 4, GuiIconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("gui.button.help.camera.0"), new TranslationTextComponent("gui.button.help.camera.1")));
+	}
 
-    @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        if (!doRender)
-            return;
-        setBlitOffset(-1000);
-        // Background
-        fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
+	@Override
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		if (!doRender)
+			return;
+		setBlitOffset(-1000);
+		// Background
+		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
 
-        RenderSystem.color4f(1F, 1F, 1F, 1F);
-        setBlitOffset(0);
+		RenderSystem.color4f(1F, 1F, 1F, 1F);
+		setBlitOffset(0);
 
-        // Player
-        drawEntity(width / 2, height / 2 + Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
-        		Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
-        		yaw, pitch, partialTicks, Minecraft.getInstance().player);
+		// Player
+		drawEntity(width / 2, height / 2 + Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
+				Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
+				yaw, pitch, partialTicks, Minecraft.getInstance().player);
 
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-    }
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+	}
 
-    @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (button == 0) {
-            //Yaw
-            if (prevMouseX == -1) prevMouseX = mouseX;
-            else {
-                yaw += (mouseX - prevMouseX) * 1.5F;
-                prevMouseX = mouseX;
-            }
-        }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
-    }
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+		if (button == 0) {
+			//Yaw
+			if (prevMouseX == -1) prevMouseX = mouseX;
+			else {
+				yaw += (mouseX - prevMouseX) * 1.5F;
+				prevMouseX = mouseX;
+			}
+		}
+		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+	}
 
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
-        prevMouseX = -1;
-        return super.mouseReleased(mouseX, mouseY, mouseButton);
-    }
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
+		prevMouseX = -1;
+		return super.mouseReleased(mouseX, mouseY, mouseButton);
+	}
 
-    @SuppressWarnings("deprecation")
-    private static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTicks, LivingEntity entity) {
-        RenderSystem.pushMatrix();
-        RenderSystem.translatef(x, y, 100F);
-        RenderSystem.scalef(1F, 1F, -1F);
+	@SuppressWarnings("deprecation")
+	private static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTicks, LivingEntity entity) {
+		RenderSystem.pushMatrix();
+		RenderSystem.translatef(x, y, 100F);
+		RenderSystem.scalef(1F, 1F, -1F);
 
-        MatrixStack matrixStack = new MatrixStack();
+		MatrixStack matrixStack = new MatrixStack();
 
-    	matrixStack.translate(0, 0, 1000);
-    	matrixStack.scale(scale, scale, scale);
+		matrixStack.translate(0, 0, 1000);
+		matrixStack.scale(scale, scale, scale);
 
-    	Quaternion quaternion = Vector3f.ZP.rotationDegrees(180f);
-    	Quaternion quaternion1 = Vector3f.XP.rotationDegrees(pitch * 20F);
+		Quaternion quaternion = Vector3f.ZP.rotationDegrees(180f);
+		Quaternion quaternion1 = Vector3f.XP.rotationDegrees(pitch * 20F);
 
-    	quaternion.multiply(quaternion1);
-    	matrixStack.rotate(quaternion);
-    	matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-    	matrixStack.rotate(Vector3f.YP.rotationDegrees(yaw));
+		quaternion.multiply(quaternion1);
+		matrixStack.rotate(quaternion);
+		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+		matrixStack.rotate(Vector3f.YP.rotationDegrees(yaw));
 
-    	float oldRotationYawHead = entity.rotationYawHead;
-    	float oldRotationYaw = entity.rotationYaw;
-    	float oldRotationPitch = entity.rotationPitch;
+		float oldRotationYawHead = entity.rotationYawHead;
+		float oldRotationYaw = entity.rotationYaw;
+		float oldRotationPitch = entity.rotationPitch;
 
-        entity.rotationYawHead = 0F;
-        entity.rotationYaw = 0F;
-        entity.rotationPitch = 0F;
-        entity.renderYawOffset = 0F;
-        entity.setSneaking(false);
+		entity.rotationYawHead = 0F;
+		entity.rotationYaw = 0F;
+		entity.rotationPitch = 0F;
+		entity.renderYawOffset = 0F;
+		entity.setSneaking(false);
 
-    	EntityRendererManager rendererManager = Minecraft.getInstance().getRenderManager();
+		EntityRendererManager rendererManager = Minecraft.getInstance().getRenderManager();
 
-    	quaternion1.conjugate();
+		quaternion1.conjugate();
 
-    	rendererManager.setCameraOrientation(quaternion1);
-    	rendererManager.setRenderShadow(false);
+		rendererManager.setCameraOrientation(quaternion1);
+		rendererManager.setRenderShadow(false);
 
-    	IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 
-    	RenderSystem.runAsFancy(() -> {
-    	    rendererManager.renderEntityStatic(entity, 0, 0, 0, 0f, 1F, matrixStack, impl, 15728880);
-    	});
+		RenderSystem.runAsFancy(() -> {
+			rendererManager.renderEntityStatic(entity, 0, 0, 0, 0f, 1F, matrixStack, impl, 15728880);
+		});
 
-    	impl.finish();
+		impl.finish();
 
-    	rendererManager.setRenderShadow(true);
+		rendererManager.setRenderShadow(true);
 
-        entity.rotationYawHead = oldRotationYawHead;
-        entity.rotationYaw = oldRotationYaw;
-        entity.rotationPitch = oldRotationPitch;
+		entity.rotationYawHead = oldRotationYawHead;
+		entity.rotationYaw = oldRotationYaw;
+		entity.rotationPitch = oldRotationPitch;
 
-        RenderSystem.popMatrix();
-    }
+		RenderSystem.popMatrix();
+	}
 }

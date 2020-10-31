@@ -50,51 +50,51 @@ public class TripleTintTexture extends Texture {
 		this.tint2 = ColorUtil.fromJavaColor(tint2, true);
 		this.tint3 = ColorUtil.fromJavaColor(tint3, true);
 	}
-	
+
 	@Override
 	public void loadTexture(IResourceManager manager) throws IOException {
 		deleteGlTexture();
 
-        try
-        {
-            if (texturename != null)
-            {
-                InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
-                NativeImage texture = NativeImage.read(PixelFormat.RGBA, inputstream);
+		try
+		{
+			if (texturename != null)
+			{
+				InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
+				NativeImage texture = NativeImage.read(PixelFormat.RGBA, inputstream);
 
-                for (int x = 0; x < texture.getWidth(); x++)
-                	for (int y = 0; y < texture.getHeight(); y++) {
-                		final int rgb = texture.getPixelRGBA(x, y);
-                		final int a = getAlpha(rgb);
-                		if (a == 0) continue;
-                		final int r = getRed(rgb);
-                		final int g = getGreen(rgb);
-                		final int b = getBlue(rgb);
+				for (int x = 0; x < texture.getWidth(); x++)
+					for (int y = 0; y < texture.getHeight(); y++) {
+						final int rgb = texture.getPixelRGBA(x, y);
+						final int a = getAlpha(rgb);
+						if (a == 0) continue;
+						final int r = getRed(rgb);
+						final int g = getGreen(rgb);
+						final int b = getBlue(rgb);
 
-                		texture.setPixelRGBA(x, y, colourise(r, this.tint1, g, this.tint2, b, this.tint3, a));
-                	}
+						texture.setPixelRGBA(x, y, colourise(r, this.tint1, g, this.tint2, b, this.tint3, a));
+					}
 
-                TextureUtil.prepareImage(getGlTextureId(), texture.getWidth(), texture.getHeight());
-                texture.uploadTextureSub(0, 0, 0, true);
-            }
-        }
-        catch (IOException ioexception)
-        {
-        	LogManager.getLogger().error("Couldn't load triple tint texture image", ioexception);
+				TextureUtil.prepareImage(getGlTextureId(), texture.getWidth(), texture.getHeight());
+				texture.uploadTextureSub(0, 0, 0, true);
+			}
+		}
+		catch (IOException ioexception)
+		{
+			LogManager.getLogger().error("Couldn't load triple tint texture image", ioexception);
 		}
 	}
 
-    /**
-     * Colourises a pixel that has the color model TYPE_INT_ARGB
-     * @param tone
-     * @param c1
-     * @param weight1
-     * @param c2
-     * @param weight2
-     * @param c3
-     * @param a Alpha
-     * @return The colorised pixel
-     */
+	/**
+	 * Colourises a pixel that has the color model TYPE_INT_ARGB
+	 * @param tone
+	 * @param c1
+	 * @param weight1
+	 * @param c2
+	 * @param weight2
+	 * @param c3
+	 * @param a Alpha
+	 * @return The colorised pixel
+	 */
 	private int colourise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
 		double g = green / 255D;
 		double b = blue / 255D;
@@ -121,7 +121,7 @@ public class TripleTintTexture extends Texture {
 
 		return NativeImage.getCombined(alpha, bfinal, gfinal, rfinal);
 	}
-	
+
 	private double scale(int color, int min) {
 		return min + (int) Math.floor(color * ((255 - min) / 255.0));
 	}

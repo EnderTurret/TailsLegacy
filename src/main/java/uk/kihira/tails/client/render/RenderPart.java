@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 @OnlyIn(Dist.CLIENT)
@@ -63,16 +64,17 @@ public class RenderPart {
             helper.onPreRenderTail(matrixStack, entity, this, info, x, y, z);
         }
 
-        modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
-        modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
-        this.doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+        if (modelPart != null) {
+        	modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
+        	modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
+        	this.doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+        }
         matrixStack.pop();
     }
 
     protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
-        //Minecraft.getInstance().getTextureManager().bindTexture(info.getTexture());
-        final IVertexBuilder buf = bufferIn.getBuffer(modelPart.getRenderType(info.getTexture()));
-        this.modelPart.render(matrixStack, buf, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
+    	final IVertexBuilder buf = bufferIn.getBuffer(modelPart.getRenderType(info.getTexture()));
+    	modelPart.render(matrixStack, buf, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
     }
 
     /**

@@ -74,6 +74,7 @@ public class GuiIconButton extends Button implements ITooltip {
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             if (visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height) {
                 toggled = !toggled;
+                onPress();
                 return true;
             }
             return false;

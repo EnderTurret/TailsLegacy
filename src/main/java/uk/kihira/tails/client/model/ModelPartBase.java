@@ -29,7 +29,7 @@ import net.minecraft.util.math.MathHelper;
 public abstract class ModelPartBase extends EntityModel<LivingEntity> {
 
     public ModelPartBase() {
-		super(RenderType::getEntityCutout);
+		super(RenderType::getEntityCutoutNoCull);
 	}
 
 	public static final float SCALE = 0.0625F;

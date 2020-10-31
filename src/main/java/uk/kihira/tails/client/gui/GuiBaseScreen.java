@@ -33,14 +33,20 @@ public abstract class GuiBaseScreen extends Screen {
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    	super.render(matrixStack, mouseX, mouseY, partialTicks);
 
         // Tooltips
-        for (Widget btn : buttons) {
+        
+    }
+
+    public void renderTooltips(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    	for (Widget btn : buttons) {
             if (btn instanceof ITooltip && btn.isMouseOver(mouseX, mouseY)) {
                 if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTicks;
                 else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
+
                 renderToolTip(matrixStack, ((ITooltip) btn).getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY, font);
+
                 prevMouseX = mouseX;
                 prevMouseY = mouseY;
                 break;
@@ -86,8 +92,7 @@ public abstract class GuiBaseScreen extends Screen {
         @Override
         public void renderButton(MatrixStack matrixStack, int x, int y, float partialTicks) {
             ArrayList<IReorderingProcessor> list = new ArrayList<>(this.tooltip);
-            list.add((!this.active ? new StringTextComponent("Enabled").mergeStyle(TextFormatting.GREEN, TextFormatting.ITALIC).func_241878_f() : new StringTextComponent("Disabled").mergeStyle(TextFormatting.RED, TextFormatting.ITALIC).func_241878_f()));
-            //drawHoveringText(list, x, y);
+            list.add((!active ? new StringTextComponent("Enabled").mergeStyle(TextFormatting.GREEN, TextFormatting.ITALIC).func_241878_f() : new StringTextComponent("Disabled").mergeStyle(TextFormatting.RED, TextFormatting.ITALIC).func_241878_f()));
             GuiBaseScreen.this.renderToolTip(matrixStack, list, x, y, font);
         }
     }

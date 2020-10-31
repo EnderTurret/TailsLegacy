@@ -22,17 +22,18 @@ import uk.kihira.tails.common.network.PlayerDataMessage;
 
 public class ControlsPanel extends Panel<GuiEditor> {
 
+	private boolean libraryMode = false;
+
     public ControlsPanel(GuiEditor parent, int left, int top, int right, int bottom) {
         super(parent, left, top, right, bottom);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void init() {
         //Mode Switch
-        addButton(new Button(3, height - 25, 46, 20, new TranslationTextComponent("gui.button.mode.library"), b -> {
+        addButton(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.button.mode.library"), b -> {
             //TODO change parts data when switching? clear libraryinfo panel?
-            boolean libraryMode = b.getMessage().getUnformattedComponentText().equals("gui.button.mode.library");
+            libraryMode = !libraryMode;
             parent.partsPanel.enabled = !libraryMode;
             parent.texturePanel.enabled = !libraryMode;
             parent.tintPanel.enabled = !libraryMode;
@@ -55,7 +56,7 @@ public class ControlsPanel extends Panel<GuiEditor> {
             b.setMessage(libraryMode ? new TranslationTextComponent("gui.button.mode.editor") : new TranslationTextComponent("gui.button.mode.library"));
         }));
         //Reset/Save
-        addButton(new Button(width/2 - 23, height - 25, 46, 20, new TranslationTextComponent("gui.button.reset"), b -> {
+        addButton(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.button.reset"), b -> {
             PartInfo partInfo = parent.originalPartInfo.deepCopy();
             parent.partsPanel.selectDefaultListEntry();
             parent.libraryPanel.initList();
@@ -64,7 +65,7 @@ public class ControlsPanel extends Panel<GuiEditor> {
             parent.refreshTintPane();
             parent.setPartsInfo(partInfo);
         }));
-        addButton(new Button(width - 49, height - 25, 46, 20, new TranslationTextComponent("gui.done"), b -> {
+        addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.done"), b -> {
             //Update part info, set local and send it to the server
         	final PartsData partsData = parent.getPartsData();
             Tails.setLocalPartsData(partsData);
@@ -77,8 +78,10 @@ public class ControlsPanel extends Panel<GuiEditor> {
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        fill(matrixStack, 0, 0, width, height, 0xDD000000);
+        fill(matrixStack, 0, 0, right - left, bottom - top, 0xDD000000);
 
         super.render(matrixStack, mouseX, mouseY, partialTicks);
+
+        font.drawString(matrixStack, "Yes this is pog", left, top, 0xFFFFFF);
     }
 }

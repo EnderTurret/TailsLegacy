@@ -16,29 +16,40 @@ import net.minecraft.client.renderer.Tessellator;
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
-public class GuiList<T extends ExtendedList.AbstractListEntry<T>> extends ExtendedList {
+public class GuiList<T extends ExtendedList.AbstractListEntry<T>> extends ExtendedList<T> {
 
     private final IListCallback<T> parent;
-    private final List<T> entries;
     private int currentIndex;
 
     public GuiList(IListCallback<T> parent, int width, int height, int top, int bottom, int slotHeight, List<T> entries) {
         super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
         this.parent = parent;
-        this.entries = entries;
-        x0 = -3;
+        this.replaceEntries(entries);
+        //x0 = -3;
     }
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        RenderHelper.startGlScissor(this.x0, this.y0, this.width + 3, this.height);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        RenderHelper.startGlScissor(x0, y0, width + 3, height);
+        try {
+        	// TODO: Lists draw the dirt background. How do we want to handle this? Copy the code and draw black instead? Or adopt it in other panels?
+        	// Alternatively, we could just ignore it, as it is very subtle.
+        	super.render(matrixStack, mouseX, mouseY, partialTicks);
+        } catch (IndexOutOfBoundsException e) {
+        	// Thanks mojang.
+        }
         RenderHelper.endGlScissor();
     }
 
     @Override
     protected void renderBackground(MatrixStack matrixStack) {}
+
+    @Override
+    public int getRowWidth() {
+    	return width;
+    }
 
     /*@Override
     protected void elementClicked(int index, boolean doubleClick, int mouseX, int mouseY) {
@@ -48,40 +59,18 @@ public class GuiList<T extends ExtendedList.AbstractListEntry<T>> extends Extend
 
     @Override
     protected int getScrollbarPosition() {
-        return this.x1 - 6;
+        return this.x1/* - 6*/;
     }
 
     @Override
-    protected boolean isSelectedItem(int index) {
-        return this.currentIndex == index;
+    public boolean isSelectedItem(int index) {
+    	return super.isSelectedItem(index);
     }
 
-    @Override
-    public T getEntry(int index) {
-        return this.entries.isEmpty() ? null : this.entries.get(index);
-    }
-
-    @Override
-    protected int getItemCount() {
-        return this.entries.size();
-    }
-
-    @Override
+    /*@Override
     public int getWidth() {
         return width - 8;
-    }
-
-    public int getCurrentIndex() {
-        return this.currentIndex;
-    }
-
-    public void setCurrentIndex(int currentIndex) {
-        this.currentIndex = currentIndex;
-    }
-
-    public List<T> getEntries() {
-        return this.entries;
-    }
+    }*/
 
     public int getItemHeight() {
     	return itemHeight;

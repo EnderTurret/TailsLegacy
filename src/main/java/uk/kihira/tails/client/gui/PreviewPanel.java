@@ -33,12 +33,12 @@ class PreviewPanel extends Panel<GuiEditor> {
             return;
         //scaledRes = new ScaledResolution(minecraft);
         // Reset Camera
-        addButton(new GuiIconButton(width - 18, 22, GuiIconButton.Icons.UNDO, b -> {
+        addButton(new GuiIconButton((right - left) - 18, 22, GuiIconButton.Icons.UNDO, b -> {
             yaw = 0;
             pitch = 10F;
         }, new TranslationTextComponent("gui.button.reset.camera")));
         // Help
-        addButton(new GuiIconButton(width - 18, 4, GuiIconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("gui.button.help.camera.0"), new TranslationTextComponent("gui.button.help.camera.1")));
+        addButton(new GuiIconButton((right - left) - 18, 4, GuiIconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("gui.button.help.camera.0"), new TranslationTextComponent("gui.button.help.camera.1")));
     }
 
     @Override
@@ -47,10 +47,16 @@ class PreviewPanel extends Panel<GuiEditor> {
             return;
         setBlitOffset(-1000);
         // Background
-        fillGradient(matrixStack, 0, 0, width, height, 0xEE000000, 0xEE000000);
+        fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
+
+        RenderSystem.color4f(1F, 1F, 1F, 1F);
+        setBlitOffset(0);
 
         // Player
-        drawEntity(width / 2, height / 2 + Minecraft.getInstance().getMainWindow().getScaledHeight() / 4, Minecraft.getInstance().getMainWindow().getScaledHeight() / 4, yaw, pitch, Minecraft.getInstance().player);
+        drawEntity(width / 2, height / 2 + Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
+        		Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
+        		yaw, pitch, partialTicks, Minecraft.getInstance().player);
+
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
@@ -74,7 +80,7 @@ class PreviewPanel extends Panel<GuiEditor> {
     }
 
     @SuppressWarnings("deprecation")
-    private static void drawEntity(int x, int y, int scale, float yaw, float pitch, LivingEntity entity) {
+    private static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTicks, LivingEntity entity) {
         RenderSystem.pushMatrix();
         RenderSystem.translatef(x, y, 100F);
         RenderSystem.scalef(1F, 1F, -1F);
@@ -89,6 +95,8 @@ class PreviewPanel extends Panel<GuiEditor> {
 
     	quaternion.multiply(quaternion1);
     	matrixStack.rotate(quaternion);
+    	matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+    	matrixStack.rotate(Vector3f.YP.rotationDegrees(yaw));
 
     	float oldRotationYawHead = entity.rotationYawHead;
     	float oldRotationYaw = entity.rotationYaw;
@@ -110,7 +118,7 @@ class PreviewPanel extends Panel<GuiEditor> {
     	IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 
     	RenderSystem.runAsFancy(() -> {
-    	    rendererManager.renderEntityStatic(entity, 0, 0, 0, 0f, 1f, matrixStack, impl, 15728880);
+    	    rendererManager.renderEntityStatic(entity, 0, 0, 0, 0f, 1F, matrixStack, impl, 15728880);
     	});
 
     	impl.finish();

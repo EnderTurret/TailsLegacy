@@ -30,17 +30,16 @@ public class LibraryImportPanel extends Panel<GuiEditor> {
     @Override
     @SuppressWarnings("unchecked")
     public void init() {
-        Button button;
 
         //Import Skin
-        button = new ExtendedButton(3, 3, width - 6, 18, new TranslationTextComponent("gui.library.import.skin"), b -> {
+    	Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("gui.library.import.skin"), b -> {
         	TextureHelper.buildPlayerPartsData(minecraft.player);
             ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));
         });
         button.active = TextureHelper.hasSkinData(minecraft.player);
         addButton(button);
 
-        addButton(new ExtendedButton(3, 21, width - 6, 18, new TranslationTextComponent("gui.library.import.string"), b -> {
+        addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("gui.library.import.string"), b -> {
         	if (Strings.isNullOrEmpty(inputField.getText()) || inputField.getText().split(":", 3).length != 3) {
                 ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
                         new TranslationTextComponent("gui.library.import.toast.invalid").mergeStyle(TextFormatting.RED));
@@ -65,26 +64,14 @@ public class LibraryImportPanel extends Panel<GuiEditor> {
             }
         }));
 
-        inputField = new TextFieldWidget(font, 3, 41, width - 6, 15, null);
+        inputField = new TextFieldWidget(font, 3, 41, right - left - 6, 15, null);
         inputField.setMaxStringLength(5000);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        inputField.keyPressed(keyCode, scanCode, modifiers);
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        inputField.mouseClicked(mouseX, mouseY, mouseButton);
-        return super.mouseClicked(mouseX, mouseY, mouseButton);
+        addButton(inputField);
     }
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        fillGradient(matrixStack, 0, 0, width, height, 0xDE000000, 0xDE000000);
-        inputField.render(matrixStack, mouseX, mouseY, partialTicks);
+        fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xDE000000, 0xDE000000);
 
         super.render(matrixStack, mouseX, mouseY, partialTicks);
     }

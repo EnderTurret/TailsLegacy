@@ -8,15 +8,24 @@
 
 package uk.kihira.tails.client.texture;
 
+import static net.minecraft.client.renderer.texture.NativeImage.getAlpha;
+import static net.minecraft.client.renderer.texture.NativeImage.getRed;
+import static net.minecraft.client.renderer.texture.NativeImage.getBlue;
+import static net.minecraft.client.renderer.texture.NativeImage.getGreen;
+
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.renderer.texture.NativeImage.PixelFormat;
 import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import uk.kihira.tails.client.ColorUtil;
+
 import org.apache.logging.log4j.LogManager;
 
 import javax.imageio.ImageIO;
+
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,46 +40,41 @@ public class TripleTintTexture extends Texture {
 	private final int tint1;
 	private final int tint2;
 	private final int tint3;
-	
+
 	private static final int MINBRIGHTNESS = 22;
-	
+
 	public TripleTintTexture(String namespace, String texturename, int tint1, int tint2, int tint3) {
 		this.namespace = namespace;
 		this.texturename = texturename; 
-		this.tint1 = tint1;
-		this.tint2 = tint2;
-		this.tint3 = tint3;
+		this.tint1 = ColorUtil.fromJavaColor(tint1, true);
+		this.tint2 = ColorUtil.fromJavaColor(tint2, true);
+		this.tint3 = ColorUtil.fromJavaColor(tint3, true);
 	}
 	
 	@Override
 	public void loadTexture(IResourceManager manager) throws IOException {
-		this.deleteGlTexture();
-		NativeImage texture;
+		deleteGlTexture();
 
         try
         {
             if (texturename != null)
             {
                 InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
-                texture = NativeImage.read(PixelFormat.RGBA, inputstream);
+                NativeImage texture = NativeImage.read(PixelFormat.RGBA, inputstream);
 
-                int w = texture.getWidth();
-                int h = texture.getHeight();
-
-                int c,r,g,b,a;
-
-                for (int x = 0; x < w; x++)
-                	for (int y = 0; y < h; y++) {
-                		c = texture.getPixelRGBA(x, y);
-                		a = alpha(c);
-                		r = red(c);
-                		g = green(c);
-                		b = blue(c);
+                for (int x = 0; x < texture.getWidth(); x++)
+                	for (int y = 0; y < texture.getHeight(); y++) {
+                		final int rgb = texture.getPixelRGBA(x, y);
+                		final int a = getAlpha(rgb);
+                		if (a == 0) continue;
+                		final int r = getRed(rgb);
+                		final int g = getGreen(rgb);
+                		final int b = getBlue(rgb);
 
                 		texture.setPixelRGBA(x, y, colourise(r, this.tint1, g, this.tint2, b, this.tint3, a));
                 	}
 
-                TextureUtil.prepareImage(this.getGlTextureId(), texture.getWidth(), texture.getHeight());
+                TextureUtil.prepareImage(getGlTextureId(), texture.getWidth(), texture.getHeight());
                 texture.uploadTextureSub(0, 0, 0, true);
             }
         }
@@ -91,88 +95,34 @@ public class TripleTintTexture extends Texture {
      * @param a Alpha
      * @return The colorised pixel
      */
-	private int colourise(int tone, int c1, int weight1, int c2, int weight2, int c3, int a) {
-		double w2 = weight1/255.0;
-		double w3 = weight2/255.0;
-		
-		w2 *= (1.0 - (w3));
-		
-		double w1 = 1.0 - (w2+w3);
-		
-		double r1 = scale(red(c1), MINBRIGHTNESS) / 255.0;
-		double g1 = scale(green(c1), MINBRIGHTNESS) / 255.0;
-		double b1 = scale(blue(c1), MINBRIGHTNESS) / 255.0;
-		
-		double r2 = scale(red(c2), MINBRIGHTNESS) / 255.0;
-		double g2 = scale(green(c2), MINBRIGHTNESS) / 255.0;
-		double b2 = scale(blue(c2), MINBRIGHTNESS) / 255.0;
-		
-		double r3 = scale(red(c3), MINBRIGHTNESS) / 255.0;
-		double g3 = scale(green(c3), MINBRIGHTNESS) / 255.0;
-		double b3 = scale(blue(c3), MINBRIGHTNESS) / 255.0;
-		
-		int rfinal = (int)Math.floor(tone * (r1*w1 + r2*w2 + r3*w3));
-		int gfinal = (int)Math.floor(tone * (g1*w1 + g2*w2 + g3*w3));
-		int bfinal = (int)Math.floor(tone * (b1*w1 + b2*w2 + b3*w3));
-		
-		//System.out.println(rfinal+", "+gfinal+", "+bfinal);
-		
-		return compose(rfinal, gfinal, bfinal, a);
-	}
+	private int colourise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
+		double g = green / 255D;
+		double b = blue / 255D;
 
-    /**
-     * Composes the provided values into an int that in the the TYPE_INT_ARGB colour model
-     * @param r The red value
-     * @param g The green value
-     * @param b The blue value
-     * @param a The alpha value
-     * @return The TYPE_INT_ARGB colour
-     */
-	private int compose(int r, int g, int b, int a) {
-		int rgb = a;
-		rgb = (rgb << 8) + r;
-		rgb = (rgb << 8) + g;
-		rgb = (rgb << 8) + b;
-		return rgb;
-	}
+		g *= 1 - b;
 
-    /**
-     * Gets the alpha value from a value that has the colour model TYPE_INT_ARGB
-     * @param c The colour value
-     * @return The alpha value
-     */
-	private int alpha(int c) {
-		return (c >> 24) & 0xFF;
-	}
+		double r = 1 - (g + b);
 
-    /**
-     * Gets the red value from a value that has the colour model TYPE_INT_ARGB
-     * @param c The colour value
-     * @return The red value
-     */
-	private int red(int c) {
-		return (c >> 16) & 0xFF;
-	}
+		double r1 = scale(getRed(tint1), MINBRIGHTNESS) / 255;
+		double g1 = scale(getGreen(tint1), MINBRIGHTNESS) / 255;
+		double b1 = scale(getBlue(tint1), MINBRIGHTNESS) / 255;
 
-    /**
-     * Gets the green value from a value that has the colour model TYPE_INT_ARGB
-     * @param c The colour value
-     * @return The green value
-     */
-	private int green(int c) {
-		return (c >> 8) & 0xFF;
-	}
+		double r2 = scale(getRed(tint2), MINBRIGHTNESS) / 255;
+		double g2 = scale(getGreen(tint2), MINBRIGHTNESS) / 255;
+		double b2 = scale(getBlue(tint2), MINBRIGHTNESS) / 255;
 
-    /**
-     * Gets the blue value from a value that has the colour model TYPE_INT_ARGB
-     * @param c The colour value
-     * @return The blue value
-     */
-	private int blue(int c) {
-		return (c) & 0xFF;
+		double r3 = scale(getRed(tint3), MINBRIGHTNESS) / 255;
+		double g3 = scale(getGreen(tint3), MINBRIGHTNESS) / 255;
+		double b3 = scale(getBlue(tint3), MINBRIGHTNESS) / 255;
+
+		int rfinal = (int) (Math.floor(red * (r1 * r + r2 * g + r3 * b)));
+		int gfinal = (int) (Math.floor(red * (g1 * r + g2 * g + g3 * b)));
+		int bfinal = (int) (Math.floor(red * (b1 * r + b2 * g + b3 * b)));
+
+		return NativeImage.getCombined(alpha, bfinal, gfinal, rfinal);
 	}
 	
-	private int scale(int c, int min) {
-		return min + (int)Math.floor(c * ((255-min)/255.0));
+	private double scale(int color, int min) {
+		return min + (int) Math.floor(color * ((255 - min) / 255.0));
 	}
 }

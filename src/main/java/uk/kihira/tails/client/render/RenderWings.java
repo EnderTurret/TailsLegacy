@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.client.model.ModelPartBase;
 import uk.kihira.tails.common.PartInfo;
@@ -30,16 +31,17 @@ public class RenderWings extends RenderPart {
         super(name, subTypes, modelPart, modelAuthor, textureNames);
     }
 
-    // TODO: This is absolutely not gonna work with BufferBuilder. Switch to IVertexBuilder as soon as possible.
     @Override
     protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
         //Minecraft.getInstance().getTextureManager().bindTexture(info.getTexture());
     	final IVertexBuilder renderer = bufferIn.getBuffer(RenderStates.getWings(info.getTexture()));
         //BufferBuilder renderer = Tessellator.getInstance().getBuffer();
-        boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 0F;
-        float timestep = ModelPartBase.getAnimationTime(isFlying ? 500 : 6500, entity);
-        float angle = (float) Math.sin(timestep) * (isFlying ? 24F : 4F);
-        float scale = info.subid == 1 ? 1F : 2F;
+        final boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 0F;
+        final float timestep = ModelPartBase.getAnimationTime(isFlying ? 500 : 6500, entity);
+        final float angle = MathHelper.sin(timestep) * (isFlying ? 24F : 4F);
+        final float scale = info.subid == 1 ? 1F : 2F;
+
+        matrixStack.push();
 
         matrixStack.translate(0, -(scale * 8F) * ModelPartBase.SCALE + (info.subid == 1 ? 0.1F : 0), 0.1F);
         matrixStack.rotate(Vector3f.YP.rotationDegrees(90));
@@ -67,6 +69,7 @@ public class RenderWings extends RenderPart {
         renderer.pos(matrixStack.getLast().getMatrix(), 1, 0, 0).tex(1, 1).endVertex();
         renderer.pos(matrixStack.getLast().getMatrix(), 0, 0, 0).tex(0, 1).endVertex();
         //Tessellator.getInstance().draw();
+        matrixStack.pop();
         matrixStack.pop();
     }
 }

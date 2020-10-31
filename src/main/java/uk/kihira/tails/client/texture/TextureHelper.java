@@ -37,6 +37,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -185,10 +186,10 @@ public class TextureHelper {
     private static ResourceLocation generateTexture(UUID uuid, PartsData.PartType partType, int typeid, int subid, int textureID, int[] tints) {
         String[] textures = PartRegistry.getRenderPart(partType, typeid).getTextureNames(subid);
         textureID = textureID >= textures.length ? 0 : textureID;
-        String texturePath = "texture/" + partType.name().toLowerCase() + "/"+textures[textureID]+".png";
+        String texturePath = "texture/" + partType.name().toLowerCase(Locale.ROOT) + "/" + textures[textureID] + ".png";
 
         //Add UUID to prevent deleting similar textures.
-        ResourceLocation tailTexture = new ResourceLocation("tails_"+uuid+"_"+partType.name()+"_"+typeid+"_"+subid+"_"+textureID+"_"+tints[0]+"_"+tints[1]+"_"+tints[2]);
+        ResourceLocation tailTexture = new ResourceLocation("tails_" + uuid + "_" + partType.name().toLowerCase(Locale.ROOT) + "_" + typeid + "_" + subid + "_" + textureID + "_" + tints[0] + "_" + tints[1] + "_" + tints[2]);
         Minecraft.getInstance().getTextureManager().loadTexture(tailTexture, new TripleTintTexture("tails", texturePath, tints[0], tints[1], tints[2]));
 
         return tailTexture;

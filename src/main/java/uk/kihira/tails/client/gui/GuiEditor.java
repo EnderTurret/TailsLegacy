@@ -41,19 +41,16 @@ public class GuiEditor extends GuiBase {
     public GuiEditor() {
         super(4, new StringTextComponent(""));
         //Backup original PartInfo or create default one
-        PartInfo partInfo;
-        if (Tails.localPartsData == null) {
+        if (Tails.localPartsData == null)
             Tails.setLocalPartsData(new PartsData());
-        }
 
         //Default to Tail
         partType = PartsData.PartType.TAIL;
-        for (PartsData.PartType partType : PartsData.PartType.values()) {
-            if (!Tails.localPartsData.hasPartInfo(partType)) {
+        for (PartsData.PartType partType : PartsData.PartType.values())
+            if (!Tails.localPartsData.hasPartInfo(partType))
                 Tails.localPartsData.setPartInfo(partType, PartInfo.none(partType));
-            }
-        }
-        partInfo = Tails.localPartsData.getPartInfo(partType);
+
+        PartInfo partInfo = Tails.localPartsData.getPartInfo(partType);
         playerUUID = PlayerEntity.getUUID(Minecraft.getInstance().getSession().getProfile());
 
         originalPartInfo = partInfo.deepCopy();
@@ -96,6 +93,7 @@ public class GuiEditor extends GuiBase {
             libraryImportPanel.resize(previewWindowRight, height - 60, width - previewWindowRight, 60);
             controlsPanel.resize(previewWindowEdgeOffset, previewWindowBottom, previewWindowRight - previewWindowEdgeOffset, height - previewWindowBottom);
         }
+
         super.init();
     }
 

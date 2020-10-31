@@ -10,6 +10,7 @@ package uk.kihira.tails.client;
 
 import java.util.Collections;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -23,7 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class FakeEntity extends LivingEntity {
 
     public FakeEntity(World world) {
-        super(null, world);
+        super(EntityType.BAT, world);
     }
 
     @Override

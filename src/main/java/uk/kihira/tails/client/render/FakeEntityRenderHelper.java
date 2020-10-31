@@ -22,9 +22,8 @@ public class FakeEntityRenderHelper implements IRenderHelper {
 		switch (info.partType) {
 		case TAIL: {
 			//Nine tails
-			if (info.typeid == 0 && info.subid == 2) {
+			if (info.typeid == 0 && info.subid == 2)
 				matrixStack.translate(0F, 0.85F, 0F);
-			}
 			else matrixStack.translate(0F, 0.65F, 0F);
 			matrixStack.scale(0.9F, 0.9F, 0.9F);
 			break;

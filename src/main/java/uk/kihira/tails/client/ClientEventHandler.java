@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,11 +34,10 @@ public class ClientEventHandler {
 	 */
 	@SubscribeEvent
 	public void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
-		if (event.getGui() instanceof IngameMenuScreen) {
-			event.addWidget(new Button((event.getGui().width / 2) - 35, event.getGui().height - 25, 70, 20, new TranslationTextComponent("gui.button.editor"), b -> {
+		if (event.getGui() instanceof IngameMenuScreen)
+			event.addWidget(new Button(event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20, new TranslationTextComponent("gui.button.editor"), b -> {
 				Minecraft.getInstance().displayGuiScreen(new GuiEditor());
 			}));
-		}
 	}
 
 	/*
@@ -48,9 +46,8 @@ public class ClientEventHandler {
 	@SubscribeEvent
 	public void onConnectToServer(PlayerEvent.PlayerLoggedInEvent event) {
 		//Add local player texture to map
-		if (Tails.localPartsData != null) {
+		if (Tails.localPartsData != null)
 			Tails.proxy.addPartsData(Minecraft.getInstance().getSession().getProfile().getId(), Tails.localPartsData);
-		}
 	}
 
 	@SubscribeEvent
@@ -64,25 +61,22 @@ public class ClientEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-		if (e.phase == TickEvent.Phase.START) {
-			if (TextureHelper.needsBuild(e.player) && e.player instanceof AbstractClientPlayerEntity) {
+		if (e.phase == TickEvent.Phase.START)
+			if (TextureHelper.needsBuild(e.player) && e.player instanceof AbstractClientPlayerEntity)
 				TextureHelper.buildPlayerPartsData((AbstractClientPlayerEntity) e.player);
-			}
-		}
 	}
 
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent e) {
-		if (e.phase == TickEvent.Phase.START) {
+		if (e.phase == TickEvent.Phase.START)
 			if (clearAllPartInfo) {
 				Tails.proxy.clearAllPartsData();
 				clearAllPartInfo = false;
 			}
-			//World can't be null if we want to send a packet it seems
+		//World can't be null if we want to send a packet it seems
 			else if (!sentPartInfoToServer && Minecraft.getInstance().world != null) {
 				Tails.networkWrapper.sendToServer(new PlayerDataMessage(Minecraft.getInstance().getSession().getProfile().getId(), Tails.localPartsData, false));
 				sentPartInfoToServer = true;
 			}
-		}
 	}
 }

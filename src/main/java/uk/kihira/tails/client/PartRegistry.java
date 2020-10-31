@@ -8,20 +8,28 @@
 
 package uk.kihira.tails.client;
 
+import java.util.List;
+
 import com.google.common.collect.ArrayListMultimap;
+
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.model.ModelSizableMuzzle;
 import uk.kihira.tails.client.model.ears.ModelCatEars;
 import uk.kihira.tails.client.model.ears.ModelCatSmallEars;
 import uk.kihira.tails.client.model.ears.ModelFoxEars;
 import uk.kihira.tails.client.model.ears.ModelPandaEars;
-import uk.kihira.tails.client.model.tail.*;
+import uk.kihira.tails.client.model.tail.ModelBirdTail;
+import uk.kihira.tails.client.model.tail.ModelBunnyTail;
+import uk.kihira.tails.client.model.tail.ModelCatTail;
+import uk.kihira.tails.client.model.tail.ModelDevilTail;
+import uk.kihira.tails.client.model.tail.ModelDragonTail;
+import uk.kihira.tails.client.model.tail.ModelFluffyTail;
+import uk.kihira.tails.client.model.tail.ModelRaccoonTail;
+import uk.kihira.tails.client.model.tail.ModelSharkTail;
 import uk.kihira.tails.client.render.RenderPart;
 import uk.kihira.tails.client.render.RenderWings;
 import uk.kihira.tails.common.PartsData;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.List;
 
 //Yeah using side only isn't nice but as this is static, it means it only gets constructed on the uk.kihira.tails.client
 @OnlyIn(Dist.CLIENT)

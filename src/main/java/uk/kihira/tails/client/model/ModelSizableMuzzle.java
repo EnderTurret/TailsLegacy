@@ -34,9 +34,9 @@ public class ModelSizableMuzzle extends ModelPartBase {
 		matrixStackIn.push();
 		switch (subtype) {
 		case 0: // Very Short
-		matrixStackIn.translate(0f, 0f, 4f / 16f);
-		muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-		break;
+			matrixStackIn.translate(0f, 0f, 4f / 16f);
+			muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			break;
 		case 1: // Short
 			matrixStackIn.translate(0f, 0f, 3f / 16f);
 			muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);

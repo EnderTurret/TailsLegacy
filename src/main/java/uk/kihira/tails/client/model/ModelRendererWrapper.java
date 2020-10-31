@@ -1,10 +1,5 @@
 package uk.kihira.tails.client.model;
 
-import uk.kihira.tails.client.PartRegistry;
-import uk.kihira.tails.client.render.RenderingHandler;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
@@ -13,6 +8,10 @@ import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.client.render.RenderingHandler;
+import uk.kihira.tails.common.PartInfo;
+import uk.kihira.tails.common.PartsData;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelRendererWrapper extends ModelRenderer {

@@ -1,15 +1,13 @@
 package uk.kihira.tails.client.model.tail;
 
-import uk.kihira.tails.client.model.ModelPartBase;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import uk.kihira.tails.client.model.ModelPartBase;
 
 public class ModelBirdTail extends ModelPartBase {
 	final ModelRenderer center;
@@ -91,9 +89,8 @@ public class ModelBirdTail extends ModelPartBase {
 			}
 		}
 		//Mounted
-		else {
+		else
 			xAngleOffset = Math.toRadians(60F);
-		}
 
 		setRotationRadians(center, Math.toRadians(50) + xAngleOffset, -zAngleOffset, 0);
 		setRotationRadians(left0, Math.toRadians(-2F), Math.toRadians(-5), Math.toRadians(11) + xAngleOffset / 10F);
@@ -106,6 +103,6 @@ public class ModelBirdTail extends ModelPartBase {
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		this.center.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		center.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 }

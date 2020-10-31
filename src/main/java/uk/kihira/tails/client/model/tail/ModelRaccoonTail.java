@@ -8,16 +8,14 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import uk.kihira.tails.client.model.ModelPartBase;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import uk.kihira.tails.client.model.ModelPartBase;
 
 public class ModelRaccoonTail extends ModelPartBase {
 
@@ -26,27 +24,27 @@ public class ModelRaccoonTail extends ModelPartBase {
 	private final ModelRenderer tail2;
 
 	public ModelRaccoonTail() {
-		this.tailBase = new ModelRenderer(this, 12, 16);
-		this.tailBase.addBox(-1F, -1F, 0F, 2, 2, 2);
-		this.tailBase.setRotationPoint(0F, 0F, 0F);
+		tailBase = new ModelRenderer(this, 12, 16);
+		tailBase.addBox(-1F, -1F, 0F, 2, 2, 2);
+		tailBase.setRotationPoint(0F, 0F, 0F);
 
-		this.tail1 = new ModelRenderer(this, 0, 16);
-		this.tail1.addBox(-1.5F, -1.5F, 0F, 3, 3, 3);
-		this.tail1.setRotationPoint(0F, 0F, 1F);
-		this.setRotationDegrees(this.tail1, -40F, 0F, 0F);
+		tail1 = new ModelRenderer(this, 0, 16);
+		tail1.addBox(-1.5F, -1.5F, 0F, 3, 3, 3);
+		tail1.setRotationPoint(0F, 0F, 1F);
+		setRotationDegrees(tail1, -40F, 0F, 0F);
 
-		this.tail2 = new ModelRenderer(this, 0, 0);
-		this.tail2.addBox(-2F, -2F, 0F, 4, 4, 12);
-		this.tail2.setRotationPoint(0F, 0F, 2F);
-		this.setRotationDegrees(this.tail2, -30F, 0F, 0F);
+		tail2 = new ModelRenderer(this, 0, 0);
+		tail2.addBox(-2F, -2F, 0F, 4, 4, 12);
+		tail2.setRotationPoint(0F, 0F, 2F);
+		setRotationDegrees(tail2, -30F, 0F, 0F);
 
 		ModelRenderer tailTip = new ModelRenderer(this, 0, 22);
 		tailTip.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
 		tailTip.setRotationPoint(0F, 0F, 12F);
 
-		this.tail2.addChild(tailTip);
-		this.tail1.addChild(this.tail2);
-		this.tailBase.addChild(this.tail1);
+		tail2.addChild(tailTip);
+		tail1.addChild(tail2);
+		tailBase.addChild(tail1);
 	}
 
 	@Override
@@ -64,7 +62,7 @@ public class ModelRaccoonTail extends ModelPartBase {
 				xAngleOffset = angles[0];
 				yAngleOffset = angles[1];
 				zAngleOffset = angles[2];
-				yAngleMultiplier = (1 - (xAngleOffset * 2F)); //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
 
 				xAngleOffset = MathHelper.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 				zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
@@ -83,6 +81,6 @@ public class ModelRaccoonTail extends ModelPartBase {
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 }

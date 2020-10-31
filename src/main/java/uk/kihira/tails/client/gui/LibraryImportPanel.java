@@ -1,23 +1,21 @@
 package uk.kihira.tails.client.gui;
 
+import java.util.UUID;
+
 import com.google.common.base.Strings;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import uk.kihira.tails.client.toast.ToastManager;
-import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.common.LibraryEntryData;
-import uk.kihira.tails.common.PartsData;
-import uk.kihira.tails.common.Tails;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-
-import java.io.IOException;
-import java.util.UUID;
+import uk.kihira.tails.client.texture.TextureHelper;
+import uk.kihira.tails.client.toast.ToastManager;
+import uk.kihira.tails.common.LibraryEntryData;
+import uk.kihira.tails.common.PartsData;
+import uk.kihira.tails.common.Tails;
 
 public class LibraryImportPanel extends Panel<GuiEditor> {
 
@@ -40,10 +38,9 @@ public class LibraryImportPanel extends Panel<GuiEditor> {
 		addButton(button);
 
 		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("gui.library.import.string"), b -> {
-			if (Strings.isNullOrEmpty(inputField.getText()) || inputField.getText().split(":", 3).length != 3) {
+			if (Strings.isNullOrEmpty(inputField.getText()) || inputField.getText().split(":", 3).length != 3)
 				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
 						new TranslationTextComponent("gui.library.import.toast.invalid").mergeStyle(TextFormatting.RED));
-			}
 			else {
 				String[] strings = inputField.getText().split(":", 4);
 				try {

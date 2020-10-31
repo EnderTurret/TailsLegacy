@@ -8,7 +8,11 @@
 
 package uk.kihira.tails.client.gui;
 
-import net.minecraft.client.Minecraft;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.IReorderingProcessor;
@@ -16,11 +20,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
 
 public abstract class GuiBaseScreen extends Screen {
 	private int prevMouseX;
@@ -40,7 +39,7 @@ public abstract class GuiBaseScreen extends Screen {
 	}
 
 	public void renderTooltips(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		for (Widget btn : buttons) {
+		for (Widget btn : buttons)
 			if (btn instanceof ITooltip && btn.isMouseOver(mouseX, mouseY)) {
 				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTicks;
 				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
@@ -51,7 +50,6 @@ public abstract class GuiBaseScreen extends Screen {
 				prevMouseY = mouseY;
 				break;
 			}
-		}
 	}
 
 	public class GuiButtonTooltip extends ExtendedButton implements ITooltip {
@@ -61,16 +59,14 @@ public abstract class GuiBaseScreen extends Screen {
 		public GuiButtonTooltip(int x, int y, int width, int height, ITextComponent text, int maxTextWidth, IPressable pressable, ITextComponent... tooltips) {
 			super(x, y, width, height, text, pressable);
 			this.maxTextWidth = maxTextWidth;
-			if (tooltips != null && tooltips.length > 0) {
-				for (ITextComponent s : tooltips) {
+			if (tooltips != null && tooltips.length > 0)
+				for (ITextComponent s : tooltips)
 					tooltip.addAll(font.trimStringToWidth(s, this.maxTextWidth));
-				}
-			}
 		}
 
 		@Override
 		public List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
-			return this.tooltip;
+			return tooltip;
 		}
 	}
 
@@ -82,8 +78,8 @@ public abstract class GuiBaseScreen extends Screen {
 
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int button) {
-			if (this.visible && button == 0 && GuiBaseScreen.isMouseOver(mouseX, mouseY, x, y, width, height)) {
-				this.active = !this.active;
+			if (visible && button == 0 && GuiBaseScreen.isMouseOver(mouseX, mouseY, x, y, width, height)) {
+				active = !active;
 				return true;
 			}
 			return false;
@@ -91,8 +87,8 @@ public abstract class GuiBaseScreen extends Screen {
 
 		@Override
 		public void renderButton(MatrixStack matrixStack, int x, int y, float partialTicks) {
-			ArrayList<IReorderingProcessor> list = new ArrayList<>(this.tooltip);
-			list.add((!active ? new StringTextComponent("Enabled").mergeStyle(TextFormatting.GREEN, TextFormatting.ITALIC).func_241878_f() : new StringTextComponent("Disabled").mergeStyle(TextFormatting.RED, TextFormatting.ITALIC).func_241878_f()));
+			ArrayList<IReorderingProcessor> list = new ArrayList<>(tooltip);
+			list.add(!active ? new StringTextComponent("Enabled").mergeStyle(TextFormatting.GREEN, TextFormatting.ITALIC).func_241878_f() : new StringTextComponent("Disabled").mergeStyle(TextFormatting.RED, TextFormatting.ITALIC).func_241878_f());
 			GuiBaseScreen.this.renderToolTip(matrixStack, list, x, y, font);
 		}
 	}

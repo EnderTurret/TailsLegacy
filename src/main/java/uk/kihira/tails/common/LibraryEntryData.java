@@ -1,9 +1,9 @@
 package uk.kihira.tails.common;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.Calendar;
 import java.util.UUID;
+
+import com.google.gson.annotations.Expose;
 
 public class LibraryEntryData {
 	@Expose public final PartsData partsData;
@@ -19,9 +19,9 @@ public class LibraryEntryData {
 	public boolean remoteEntry = false;
 
 	public LibraryEntryData(UUID creatorUUID, String creatorName, String name, PartsData partsData) {
-		this.entryName = name;
+		entryName = name;
 		this.partsData = partsData;
-		this.creationDate = Calendar.getInstance().getTimeInMillis();
+		creationDate = Calendar.getInstance().getTimeInMillis();
 		this.creatorUUID = creatorUUID;
 		this.creatorName = creatorName;
 	}
@@ -51,7 +51,7 @@ public class LibraryEntryData {
 		result = 31 * result + comment.hashCode();
 		result = 31 * result + creatorUUID.hashCode();
 		result = 31 * result + (favourite ? 1 : 0);
-		result = 31 * result + (int) (creationDate ^ (creationDate >>> 32));
+		result = 31 * result + (int) (creationDate ^ creationDate >>> 32);
 		return result;
 	}
 }

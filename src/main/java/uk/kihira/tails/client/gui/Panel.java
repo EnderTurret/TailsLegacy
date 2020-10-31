@@ -2,11 +2,7 @@ package uk.kihira.tails.client.gui;
 
 import org.apache.commons.lang3.Validate;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.util.text.StringTextComponent;
-
-import java.io.IOException;
 
 public abstract class Panel<T extends GuiBase> extends GuiBaseScreen {
 

@@ -8,16 +8,14 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import uk.kihira.tails.client.model.ModelPartBase;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import uk.kihira.tails.client.model.ModelPartBase;
 
 public class ModelDragonTail extends ModelPartBase {
 
@@ -32,51 +30,51 @@ public class ModelDragonTail extends ModelPartBase {
 	private final ModelRenderer tailSub3;
 
 	public ModelDragonTail() {
-		this.tailBase = new ModelRenderer(this, 22, 0);
-		this.tailBase.addBox(-2.5F, -2.5F, -2F, 5, 5, 8);
-		this.setRotationDegrees(this.tailBase, -40F, 0F, 0F);
+		tailBase = new ModelRenderer(this, 22, 0);
+		tailBase.addBox(-2.5F, -2.5F, -2F, 5, 5, 8);
+		setRotationDegrees(tailBase, -40F, 0F, 0F);
 
-		this.tail1 = new ModelRenderer(this, 0, 0);
-		this.tail1.addBox(-2F, -2F, 0F, 4, 4, 7);
-		this.tail1.setRotationPoint(0F, 0.3F, 5F);
-		this.setRotationDegrees(this.tail1, -8F, 0F, 0F);
+		tail1 = new ModelRenderer(this, 0, 0);
+		tail1.addBox(-2F, -2F, 0F, 4, 4, 7);
+		tail1.setRotationPoint(0F, 0.3F, 5F);
+		setRotationDegrees(tail1, -8F, 0F, 0F);
 
-		this.tail2 = new ModelRenderer(this, 0, 11);
-		this.tail2.addBox(-1.5F, -1.5F, 0F, 3, 3, 8);
-		this.tail2.setRotationPoint(0F, 0.2F, 5.5F);
-		this.setRotationDegrees(this.tail2, 10F, 0F, 0F);
+		tail2 = new ModelRenderer(this, 0, 11);
+		tail2.addBox(-1.5F, -1.5F, 0F, 3, 3, 8);
+		tail2.setRotationPoint(0F, 0.2F, 5.5F);
+		setRotationDegrees(tail2, 10F, 0F, 0F);
 
-		this.tail3 = new ModelRenderer(this, 0, 22);
-		this.tail3.addBox(-1F, -1F, 0F, 2, 2, 7);
-		this.tail3.setRotationPoint(0F, 0.4F, 7.5F);
-		this.setRotationDegrees(this.tail3, 20F, 0F, 0F);
+		tail3 = new ModelRenderer(this, 0, 22);
+		tail3.addBox(-1F, -1F, 0F, 2, 2, 7);
+		tail3.setRotationPoint(0F, 0.4F, 7.5F);
+		setRotationDegrees(tail3, 20F, 0F, 0F);
 
-		this.tail2.addChild(this.tail3);
-		this.tail1.addChild(this.tail2);
-		this.tailBase.addChild(this.tail1);
+		tail2.addChild(tail3);
+		tail1.addChild(tail2);
+		tailBase.addChild(tail1);
 
-		this.tailSubBase = new ModelRenderer(this, 22, 5);
-		this.tailSubBase.addBox(0F, -7.25F, -2F, 0, 5, 8);
-		this.setRotationDegrees(this.tailSubBase, -40F, 0F, 0F);
+		tailSubBase = new ModelRenderer(this, 22, 5);
+		tailSubBase.addBox(0F, -7.25F, -2F, 0, 5, 8);
+		setRotationDegrees(tailSubBase, -40F, 0F, 0F);
 
-		this.tailSub1 = new ModelRenderer(this, 22, 11);
-		this.tailSub1.addBox(0F, -6.75F, 1F, 0, 5, 7);
-		this.tailSub1.setRotationPoint(0F, 0.3F, 5F);
-		this.setRotationDegrees(this.tailSub1, -8F, 0F, 0F);
+		tailSub1 = new ModelRenderer(this, 22, 11);
+		tailSub1.addBox(0F, -6.75F, 1F, 0, 5, 7);
+		tailSub1.setRotationPoint(0F, 0.3F, 5F);
+		setRotationDegrees(tailSub1, -8F, 0F, 0F);
 
-		this.tailSub2 = new ModelRenderer(this, 22, 15);
-		this.tailSub2.addBox(0F, -6.25F, 1F, 0, 5, 8);
-		this.tailSub2.setRotationPoint(0F, 0.2F, 5.5F);
-		this.setRotationDegrees(this.tailSub2, 10F, 0F, 0F);
+		tailSub2 = new ModelRenderer(this, 22, 15);
+		tailSub2.addBox(0F, -6.25F, 1F, 0, 5, 8);
+		tailSub2.setRotationPoint(0F, 0.2F, 5.5F);
+		setRotationDegrees(tailSub2, 10F, 0F, 0F);
 
-		this.tailSub3 = new ModelRenderer(this, 29, 6);
-		this.tailSub3.addBox(0F, -5.75F, 1F, 0, 5, 7);
-		this.tailSub3.setRotationPoint(0F, 0.4F, 7.5F);
-		this.setRotationDegrees(this.tailSub3, 20F, 0F, 0F);
+		tailSub3 = new ModelRenderer(this, 29, 6);
+		tailSub3.addBox(0F, -5.75F, 1F, 0, 5, 7);
+		tailSub3.setRotationPoint(0F, 0.4F, 7.5F);
+		setRotationDegrees(tailSub3, 20F, 0F, 0F);
 
-		this.tailSub2.addChild(this.tailSub3);
-		this.tailSub1.addChild(this.tailSub2);
-		this.tailSubBase.addChild(this.tailSub1);
+		tailSub2.addChild(tailSub3);
+		tailSub1.addChild(tailSub2);
+		tailSubBase.addChild(tailSub1);
 	}
 
 	@Override
@@ -88,7 +86,7 @@ public class ModelDragonTail extends ModelPartBase {
 				double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = MathHelper.clamp(angles[0] / 5F, -1D, 0.45D);
-				yAngleMultiplier = (1 - (xAngleOffset * 2F)); //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
 			}
 		}
 		//Mounted
@@ -98,25 +96,24 @@ public class ModelDragonTail extends ModelPartBase {
 		}
 
 		float timestep = getAnimationTime(4000D, entity);
-		setRotationRadians(tailBase, Math.toRadians(-40F) + xAngleOffset * 2F, ((float) Math.cos(timestep - 1) / 5F) * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, Math.toRadians(-8F) + xAngleOffset * 2F, ((float) Math.cos(timestep - 2) / 5F) * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, Math.toRadians(10F) - xAngleOffset / 4F, ((float) Math.cos(timestep - 3) / 5F) * yAngleMultiplier, 0F);
-		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset, ((float) Math.cos(timestep - 4) / 5F) * yAngleMultiplier, 0F);
+		setRotationRadians(tailBase, Math.toRadians(-40F) + xAngleOffset * 2F, (float) Math.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail1, Math.toRadians(-8F) + xAngleOffset * 2F, (float) Math.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail2, Math.toRadians(10F) - xAngleOffset / 4F, (float) Math.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset, (float) Math.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
 
 		if (subtype == 1) {
-			setRotationRadians(tailSubBase, Math.toRadians(-40F) + xAngleOffset * 2F, ((float) Math.cos(timestep - 1) / 5F) * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub1, Math.toRadians(-8F) + xAngleOffset * 2F, ((float) Math.cos(timestep - 2) / 5F) * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub2, Math.toRadians(10F) - xAngleOffset / 4F, ((float) Math.cos(timestep - 3) / 5F) * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub3, Math.toRadians(20F) - xAngleOffset, ((float) Math.cos(timestep - 4) / 5F) * yAngleMultiplier, 0F);
+			setRotationRadians(tailSubBase, Math.toRadians(-40F) + xAngleOffset * 2F, (float) Math.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub1, Math.toRadians(-8F) + xAngleOffset * 2F, (float) Math.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub2, Math.toRadians(10F) - xAngleOffset / 4F, (float) Math.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub3, Math.toRadians(20F) - xAngleOffset, (float) Math.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
 		}
 	}
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-		if (subtype == 1) {
-			this.tailSubBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-		}
+		if (subtype == 1)
+			tailSubBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 }

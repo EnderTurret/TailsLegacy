@@ -8,24 +8,22 @@
 
 package uk.kihira.tails.client.render;
 
-import uk.kihira.tails.api.IRenderHelper;
-import uk.kihira.tails.client.model.ModelPartBase;
-import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.common.PartInfo;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import java.io.FileNotFoundException;
-import java.util.HashMap;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import uk.kihira.tails.api.IRenderHelper;
+import uk.kihira.tails.client.model.ModelPartBase;
+import uk.kihira.tails.client.texture.TextureHelper;
+import uk.kihira.tails.common.PartInfo;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderPart {
@@ -45,7 +43,7 @@ public class RenderPart {
 		this.modelAuthor = modelAuthor;
 		this.modelPart = modelPart;
 		this.textureNames = textureNames;
-		this.authors = new String[subTypes + 1][textureNames.length];
+		authors = new String[subTypes + 1][textureNames.length];
 	}
 
 	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
@@ -60,14 +58,13 @@ public class RenderPart {
 		//Support for Galacticraft as it adds its own EntityPlayer
 		if (entity instanceof PlayerEntity) helper = getRenderHelper(PlayerEntity.class);
 		else helper = getRenderHelper(entity.getClass());
-		if (helper != null) {
+		if (helper != null)
 			helper.onPreRenderTail(matrixStack, entity, this, info, x, y, z);
-		}
 
 		if (modelPart != null) {
 			modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
 			modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
-			this.doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
 		}
 		matrixStack.pop();
 	}
@@ -96,7 +93,7 @@ public class RenderPart {
 	}
 
 	public String getUnlocalisedName(int subType) {
-		return this.name+"."+subType+".name";
+		return name+"."+subType+".name";
 	}
 
 	public RenderPart setAuthor(String author, int subID, int textureID) {
@@ -105,16 +102,14 @@ public class RenderPart {
 	}
 
 	public RenderPart setAuthor(String author, int subID) {
-		for (int textureID = 0; textureID < getTextureNames(subID).length; textureID++) {
+		for (int textureID = 0; textureID < getTextureNames(subID).length; textureID++)
 			setAuthor(author, subID, textureID);
-		}
 		return this;
 	}
 
 	public RenderPart setAuthor(String author) {
-		for (int subID = 0; subID <= subTypes; subID++) {
+		for (int subID = 0; subID <= subTypes; subID++)
 			setAuthor(author, subID);
-		}
 		return this;
 	}
 
@@ -131,12 +126,10 @@ public class RenderPart {
 	}
 
 	public static void registerRenderHelper(Class<? extends LivingEntity> clazz, IRenderHelper helper) {
-		if (!renderHelpers.containsKey(clazz) && helper != null) {
+		if (!renderHelpers.containsKey(clazz) && helper != null)
 			renderHelpers.put(clazz, helper);
-		}
-		else {
+		else
 			throw new IllegalArgumentException("An invalid RenderHelper was registered!");
-		}
 	}
 
 	public static IRenderHelper getRenderHelper(Class<? extends LivingEntity> clazz) {

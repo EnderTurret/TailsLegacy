@@ -22,7 +22,7 @@ public class ClientUtils {
 		String[] lines = NEWLINE_SPLITTER.split(string);
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i];
-			fontRenderer.drawString(matrixStack, line, x, y + (fontRenderer.FONT_HEIGHT * i), color);
+			fontRenderer.drawString(matrixStack, line, x, y + fontRenderer.FONT_HEIGHT * i, color);
 		}
 	}
 

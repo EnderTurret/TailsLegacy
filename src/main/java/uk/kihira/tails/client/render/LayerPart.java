@@ -1,9 +1,9 @@
 package uk.kihira.tails.client.render;
 
-import uk.kihira.tails.client.PartRegistry;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
-import uk.kihira.tails.common.Tails;
+import java.util.UUID;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
@@ -12,16 +12,13 @@ import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
-
-import javax.annotation.Nonnull;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import java.util.UUID;
+import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.common.PartInfo;
+import uk.kihira.tails.common.PartsData;
+import uk.kihira.tails.common.Tails;
 
 @OnlyIn(Dist.CLIENT)
 public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> {
@@ -34,7 +31,7 @@ public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 		super(renderer);
 		this.modelRenderer = modelRenderer;
 		this.partType = partType;
-		this.mpmCompat = ModList.get().isLoaded("moreplayermodels");
+		mpmCompat = ModList.get().isLoaded("moreplayermodels");
 	}
 
 	@Override
@@ -47,7 +44,7 @@ public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 
 				matrixStackIn.push();
 
-				if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE) {
+				if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE)
 					/*if (entity.isSneaking())
                         matrixStackIn.translate(0f, 0.2F, 0f);
 
@@ -60,7 +57,6 @@ public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
                         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(netHeadYaw * 0.017453292F));
                     }*/
 					getEntityModel().bipedHead.translateRotate(matrixStackIn);
-				}
 
 				PartRegistry.getRenderPart(tailInfo.partType, tailInfo.typeid).render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
 				matrixStackIn.pop();

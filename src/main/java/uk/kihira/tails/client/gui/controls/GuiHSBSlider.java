@@ -1,29 +1,27 @@
 package uk.kihira.tails.client.gui.controls;
 
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import uk.kihira.tails.client.gui.ITooltip;
-import uk.kihira.tails.common.Tails;
+import java.awt.Color;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.AbstractSlider;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
-
-
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import uk.kihira.tails.client.gui.ITooltip;
+import uk.kihira.tails.common.Tails;
 
 public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 
@@ -38,8 +36,8 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 	public GuiHSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
 		super(xPos, yPos, width, height, new StringTextComponent(""), 0);
 		this.type = type;
-		this.hueValue = 0;
-		this.briValue = 0;
+		hueValue = 0;
+		briValue = 0;
 		this.callback = callback;
 	}
 
@@ -50,8 +48,8 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 
 	@Override
 	public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partial) {
-		if (this.visible) {
-			this.isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+		if (visible) {
+			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
 			GuiUtils.drawContinuousTexturedBox(matrixStack, WIDGETS_LOCATION, x, y, 0, 46, width, height, 200, 20, 2, 3, 2, 2, getBlitOffset());
 			Minecraft.getInstance().getTextureManager().bindTexture(sliderTexture);
@@ -67,9 +65,8 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 
 			int srcY = 236;
 
-			if (type == HSBSliderType.BRIGHTNESS) {
+			if (type == HSBSliderType.BRIGHTNESS)
 				srcY -= 20;
-			}
 
 			if (type == HSBSliderType.SATURATION) {
 				srcY -= 40;
@@ -79,11 +76,11 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 				float green = (float) hueColour.getGreen() / 255;
 				float blue = (float) hueColour.getBlue() / 255;
 				RenderSystem.color4f(red, green, blue, 1F);
-				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, srcY, 231, 20, this.width - 2, this.height - 2);
+				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, srcY, 231, 20, width - 2, height - 2);
 				RenderSystem.color4f(1F, 1F, 1F, 1F);
 			} else {
 				RenderSystem.color4f(1F, 1F, 1F, 1F);
-				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, srcY, 256, 20, this.width - 2, this.height - 2);
+				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, srcY, 256, 20, width - 2, height - 2);
 			}
 
 			RenderSystem.color4f(1F, 1F, 1F, 1F);
@@ -116,7 +113,7 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 	 */
 	public void setValue(double value) { // Copied from setSliderValue (private)
 		double oldValue = sliderValue;
-		this.sliderValue = MathHelper.clamp(value, 0.0D, 1.0D);
+		sliderValue = MathHelper.clamp(value, 0.0D, 1.0D);
 
 		func_230979_b_();
 	}
@@ -135,7 +132,7 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 	 * @param value New value
 	 */
 	public void setHue(float value) {
-		this.hueValue = value;
+		hueValue = value;
 	}
 
 	/**
@@ -143,7 +140,7 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 	 * @param value New value
 	 */
 	public void setBrightness(float value) {
-		this.briValue = value;
+		briValue = value;
 	}
 
 	void drawTexturedModalRectScaled(MatrixStack matrixStack, int x, int y, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {

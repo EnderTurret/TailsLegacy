@@ -137,9 +137,8 @@ public class ModelFoxEars extends ModelPartBase {
 		leftEarBottomEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		leftEarBackBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		leftEarBackSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-		if (subtype == 1) {
+		if (subtype == 1)
 			matrixStackIn.translate(0.875f, 0f, 0f);
-		}
 		rightEarInnerSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		rightEarInnerBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		rightEarInnerEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);

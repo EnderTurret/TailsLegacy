@@ -8,19 +8,15 @@
 
 package uk.kihira.tails.client.model;
 
-import java.util.function.Function;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -70,12 +66,12 @@ public abstract class ModelPartBase extends EntityModel<LivingEntity> {
 	 * @param z The z angle
 	 */
 	protected void setRotationDegrees(ModelRenderer model, float x, float y, float z) {
-		this.setRotationRadians(model, (float) Math.toRadians(x), (float) Math.toRadians(y), (float) Math.toRadians(z));
+		setRotationRadians(model, (float) Math.toRadians(x), (float) Math.toRadians(y), (float) Math.toRadians(z));
 	}
 
 	public static float getAnimationTime(double cycleTime, Entity entity) {
 		//Returns between 0-360 in radians depending on far in the "cycle" we are.
-		return (float) ((((entity.hashCode() + System.currentTimeMillis()) % cycleTime) / cycleTime) * 2F * Math.PI);
+		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2F * Math.PI);
 	}
 
 	protected double[] getMotionAngles(PlayerEntity player, double partialTicks) {

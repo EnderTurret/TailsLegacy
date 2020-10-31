@@ -1,17 +1,16 @@
 package uk.kihira.tails.common.network;
 
-import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
-import io.netty.buffer.ByteBuf;
-import uk.kihira.tails.common.LibraryEntryData;
-import uk.kihira.tails.common.Tails;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
-
 import java.util.List;
 import java.util.function.Supplier;
+
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkEvent;
+import uk.kihira.tails.common.LibraryEntryData;
+import uk.kihira.tails.common.Tails;
 
 public class LibraryEntriesMessage {
 
@@ -46,9 +45,8 @@ public class LibraryEntriesMessage {
 		//Client
 		if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
 			//Yeah this isn't exactly a nice way of doing this.
-			for (LibraryEntryData entry : message.entries) {
+			for (LibraryEntryData entry : message.entries)
 				entry.remoteEntry = true;
-			}
 
 			//We add server entries to the uk.kihira.tails.client
 			Tails.proxy.getLibraryManager().removeRemoteEntries();

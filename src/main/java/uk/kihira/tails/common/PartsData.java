@@ -8,11 +8,11 @@
 
 package uk.kihira.tails.common;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 public class PartsData {
 
@@ -34,9 +34,8 @@ public class PartsData {
 	}
 
 	public void clearTextures() {
-		for (PartInfo partInfo : partInfoMap.values()) {
+		for (PartInfo partInfo : partInfoMap.values())
 			if (partInfo != null) partInfo.setTexture(null);
-		}
 	}
 
 	public PartsData deepCopy() {

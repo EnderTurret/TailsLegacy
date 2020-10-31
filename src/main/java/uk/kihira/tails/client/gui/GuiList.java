@@ -8,15 +8,13 @@
 
 package uk.kihira.tails.client.gui;
 
-import uk.kihira.tails.client.RenderHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.list.ExtendedList;
-import net.minecraft.client.renderer.Tessellator;
-
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.list.ExtendedList;
+import uk.kihira.tails.client.RenderHelper;
 
 public class GuiList<T extends ExtendedList.AbstractListEntry<T>> extends ExtendedList<T> {
 
@@ -26,7 +24,7 @@ public class GuiList<T extends ExtendedList.AbstractListEntry<T>> extends Extend
 	public GuiList(IListCallback<T> parent, int width, int height, int top, int bottom, int slotHeight, List<T> entries) {
 		super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
 		this.parent = parent;
-		this.replaceEntries(entries);
+		replaceEntries(entries);
 		//x0 = -3;
 	}
 
@@ -59,7 +57,7 @@ public class GuiList<T extends ExtendedList.AbstractListEntry<T>> extends Extend
 
 	@Override
 	protected int getScrollbarPosition() {
-		return this.x1/* - 6*/;
+		return x1/* - 6*/;
 	}
 
 	@Override

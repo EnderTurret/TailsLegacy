@@ -8,21 +8,21 @@
 
 package uk.kihira.tails.client.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 public class GuiIconButton extends Button implements ITooltip {
 
@@ -34,7 +34,7 @@ public class GuiIconButton extends Button implements ITooltip {
 	public GuiIconButton(int x, int y, Icons icon, IPressable onPress, ITextComponent... tooltips) {
 		super(x, y, 16 ,16, new StringTextComponent(""), onPress);
 		this.icon = icon;
-		this.tooltip = Arrays.stream(tooltips).map(ITextComponent::func_241878_f).collect(Collectors.toList());
+		tooltip = Arrays.stream(tooltips).map(ITextComponent::func_241878_f).collect(Collectors.toList());
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class GuiIconButton extends Button implements ITooltip {
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			int textureOffset = getYImage(isHovered);
 
-			blit(matrixStack, x, y, icon.u, icon.v + (textureOffset * 16), 16, 16);
+			blit(matrixStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
 		}
 	}
 
@@ -90,9 +90,8 @@ public class GuiIconButton extends Button implements ITooltip {
 				//Check mouse over
 				isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 				blit(matrixStack, x, y, icon.u, icon.v + 32, 16, 16);
-			} else {
+			} else
 				super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
-			}
 		}
 	}
 

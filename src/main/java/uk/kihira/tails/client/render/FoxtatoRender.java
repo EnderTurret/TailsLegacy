@@ -1,12 +1,12 @@
 package uk.kihira.tails.client.render;
 
-import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 //import vazkii.botania.api.item.TinyPotatoRenderEvent;
+import uk.kihira.tails.client.FakeEntity;
+import uk.kihira.tails.common.PartInfo;
+import uk.kihira.tails.common.PartsData;
 
 public class FoxtatoRender {
 

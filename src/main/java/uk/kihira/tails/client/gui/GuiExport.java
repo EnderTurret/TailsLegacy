@@ -8,17 +8,30 @@
 
 package uk.kihira.tails.client.gui;
 
-import com.google.common.base.Strings;
+import java.awt.Desktop;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.xml.bind.DatatypeConverter;
+
+import org.apache.commons.io.IOUtils;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import uk.kihira.tails.client.toast.ToastManager;
-import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.common.PartsData;
-import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.PlayerDataMessage;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
@@ -26,20 +39,11 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-
-import org.apache.commons.io.IOUtils;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.xml.bind.DatatypeConverter;
-
-import java.awt.Desktop;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
+import uk.kihira.tails.client.texture.TextureHelper;
+import uk.kihira.tails.client.toast.ToastManager;
+import uk.kihira.tails.common.PartsData;
+import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.network.PlayerDataMessage;
 
 class GuiExport extends GuiBaseScreen {
 
@@ -64,29 +68,29 @@ class GuiExport extends GuiBaseScreen {
 		//this.scaledRes = new ScaledResolution(this.mc);
 
 		//Left
-		addButton(new GuiButtonTooltip(20, this.height - 90, 130, 20, new TranslationTextComponent("gui.button.export.userdir"),
+		addButton(new GuiButtonTooltip(20, height - 90, 130, 20, new TranslationTextComponent("gui.button.export.userdir"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(0), new TranslationTextComponent("gui.button.export.tooltip", System.getProperty("user.home"))));
-		addButton(new GuiButtonTooltip(20, this.height - 65, 130, 20, new TranslationTextComponent("gui.button.export.minecraftdir"),
+		addButton(new GuiButtonTooltip(20, height - 65, 130, 20, new TranslationTextComponent("gui.button.export.minecraftdir"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(1), new TranslationTextComponent("gui.button.export.tooltip", System.getProperty("user.dir"))));
-		addButton(new GuiButtonTooltip(20, this.height - 40, 130, 20, new TranslationTextComponent("gui.button.export.custom"),
+		addButton(new GuiButtonTooltip(20, height - 40, 130, 20, new TranslationTextComponent("gui.button.export.custom"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(2), new TranslationTextComponent("gui.button.export.custom.tooltip")));
 
 		//Right
-		addButton(openFolderButton = new GuiButtonTooltip(this.width - 150, this.height - 65, 130, 20, new TranslationTextComponent("gui.button.openfolder"),
+		addButton(openFolderButton = new GuiButtonTooltip(width - 150, height - 65, 130, 20, new TranslationTextComponent("gui.button.openfolder"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> {
 					if (exportLoc != null)
 						try {
-							Desktop.getDesktop().browse(this.exportLoc);
+							Desktop.getDesktop().browse(exportLoc);
 						} catch (IOException e) {
 							setExportMessage(new StringTextComponent("Failed to open export location: " + e).mergeStyle(TextFormatting.DARK_RED));
 							e.printStackTrace();
 						}
 				}, new TranslationTextComponent("gui.button.openfolder.tooltip")));
-		this.openFolderButton.visible = exportMessage != null;
+		openFolderButton.visible = exportMessage != null;
 
-		addButton(new GuiButtonTooltip(this.width - 150, this.height - 40, 130, 20, new TranslationTextComponent("gui.button.upload"),
+		addButton(new GuiButtonTooltip(width - 150, height - 40, 130, 20, new TranslationTextComponent("gui.button.upload"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> {
-					final BufferedImage image = TextureHelper.writePartsDataToSkin(this.partsData, minecraft.player);
+					final BufferedImage image = TextureHelper.writePartsDataToSkin(partsData, minecraft.player);
 					Runnable runnable = () -> {
 						exportMessage = new TranslationTextComponent("tails.uploading");
 						new ImgurUpload().uploadImage(image);
@@ -99,54 +103,51 @@ class GuiExport extends GuiBaseScreen {
 	public void render(MatrixStack matrixStackIn, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStackIn);
 
-		this.drawCenteredString(matrixStackIn, this.font, I18n.format("gui.export.title"), this.width / 2, 25, 0xFFFFFF);
-		this.font.func_238418_a_(new TranslationTextComponent("gui.export.information"), this.width / 6, 50, (int) (minecraft.getMainWindow().getScaledWidth() / 1.5F), 0xFFFFFF);
+		this.drawCenteredString(matrixStackIn, font, I18n.format("gui.export.title"), width / 2, 25, 0xFFFFFF);
+		font.func_238418_a_(new TranslationTextComponent("gui.export.information"), width / 6, 50, (int) (minecraft.getMainWindow().getScaledWidth() / 1.5F), 0xFFFFFF);
 		if (exportMessage != null)
-			this.font.func_238418_a_(this.exportMessage, 160, this.height - 88, this.width - 160, 0xFFFFFF);
+			font.func_238418_a_(exportMessage, 160, height - 88, width - 160, 0xFFFFFF);
 
 		super.render(matrixStackIn, mouseX, mouseY, partialTicks);
 	}
 
 	private void handleExport(int id) {
 		//Export to file
-		AbstractClientPlayerEntity player = this.minecraft.player;
+		AbstractClientPlayerEntity player = minecraft.player;
 		File file;
 
-		this.exportMessage = null;
-		this.exportLoc = null;
+		exportMessage = null;
+		exportLoc = null;
 		if (id == 0) file = new File(System.getProperty("user.home"));
 		else if (id == 1) file = new File(System.getProperty("user.dir"));
 		else {
 			JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
 				file = fileChooser.getSelectedFile();
-			}
 			else return;
 		}
 
 		if (file.exists() && file.canWrite()) {
-			this.exportLoc = file.toURI();
+			exportLoc = file.toURI();
 			file = new File(file, File.separatorChar + player.getGameProfile().getName() + ".png");
 
-			if (!file.exists()) {
+			if (!file.exists())
 				try {
 					file.createNewFile();
 				} catch (IOException e) {
 					setExportMessage(new StringTextComponent("Failed to create skin file! " + e).mergeStyle(TextFormatting.DARK_RED));
 					e.printStackTrace();
 				}
-			}
 
-			BufferedImage image = TextureHelper.writePartsDataToSkin(this.partsData, player);
-			if (image != null) {
+			BufferedImage image = TextureHelper.writePartsDataToSkin(partsData, player);
+			if (image != null)
 				try {
 					ImageIO.write(image, "png", file);
 				} catch (IOException e) {
 					setExportMessage(new StringTextComponent("Failed to save skin file! " + e).mergeStyle(TextFormatting.DARK_RED));
 					e.printStackTrace();
 				}
-			}
 			else {
 				setExportMessage(new StringTextComponent("Failed to export skin, image was null!").mergeStyle(TextFormatting.DARK_RED));
 				file.delete();
@@ -155,7 +156,7 @@ class GuiExport extends GuiBaseScreen {
 
 		if (exportMessage == null) {
 			savePartsData();
-			this.openFolderButton.visible = true;
+			openFolderButton.visible = true;
 			setExportMessage(new TranslationTextComponent("tails.export.success", file).mergeStyle(TextFormatting.GREEN));
 		}
 	}
@@ -165,10 +166,8 @@ class GuiExport extends GuiBaseScreen {
 		if (keyCode == 1) {
 			minecraft.displayGuiScreen(parent);
 			return true;
-		}
-		else {
+		} else
 			return super.keyPressed(keyCode, scanCode, modifiers);
-		}
 	}
 
 	private void setExportMessage(ITextComponent message) {
@@ -224,19 +223,14 @@ class GuiExport extends GuiBaseScreen {
 						savePartsData();
 
 						Desktop.getDesktop().browse(exportLoc);
-					}
-					else {
+					} else
 						handleError(jsonElement);
-					}
+				} else if (conn.getResponseCode() != 500) {
+					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
+					handleError(jsonElement);
 				}
-				else {
-					if (conn.getResponseCode() != 500) {
-						in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-						JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
-						handleError(jsonElement);
-					}
-					else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));
-				}
+				else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));
 
 			} catch (IOException | JsonParseException e) {
 				Tails.logger.catching(e);
@@ -250,9 +244,8 @@ class GuiExport extends GuiBaseScreen {
 			int status = json.get("status").getAsInt();
 
 			//Rate limiting
-			if (status == 429 || status == 403) {
+			if (status == 429 || status == 403)
 				setExportMessage(new TranslationTextComponent("tails.upload.ratelimit").mergeStyle(TextFormatting.DARK_RED));
-			}
 			else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));
 		}
 	}

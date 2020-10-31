@@ -1,13 +1,12 @@
 package uk.kihira.tails.client.gui.dialog;
 
+import org.apache.commons.lang3.Validate;
+
 import com.google.common.base.Strings;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import uk.kihira.tails.client.gui.GuiBase;
 import uk.kihira.tails.client.gui.Panel;
-import org.apache.commons.lang3.Validate;
-
-import java.io.IOException;
 
 public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
 
@@ -32,9 +31,8 @@ public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
 		fillGradient(matrixStack, 0, 0, width, height, 0xFF808080, 0xFF808080);
 		fillGradient(matrixStack, 1, 12, width - 1, height - 1, 0xFF000000, 0xFF000000);
 
-		if (!Strings.isNullOrEmpty(title)) {
+		if (!Strings.isNullOrEmpty(title))
 			drawString(matrixStack, font, title, 2, 2, 0xFFFFFFFF);
-		}
 
 		super.render(matrixStack, mouseX, mouseY, p_73863_3_);
 	}
@@ -47,10 +45,8 @@ public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
 			mouseXStart = mouseX;
 			mouseYStart = mouseY;
 			return true;
-		}
-		else {
+		} else
 			return super.mouseClicked(mouseX, mouseY, mouseButton);
-		}
 	}
 
 	/*    @Override
@@ -77,9 +73,7 @@ public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
 			}
 
 			return true;
-		}
-		else {
+		} else
 			return super.mouseDragged(mouseX, mouseY, mouseButton, dragX, dragY);
-		}
 	}
 }

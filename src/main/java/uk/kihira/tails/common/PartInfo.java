@@ -8,12 +8,13 @@
 
 package uk.kihira.tails.common;
 
+import java.util.Arrays;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-
-import java.util.Arrays;
 
 public class PartInfo implements Cloneable {
 
@@ -29,8 +30,8 @@ public class PartInfo implements Cloneable {
 
 	public PartInfo(boolean hasPart, int type, int subtype, int textureID, int[] tints, PartsData.PartType partType, float scale, ResourceLocation texture) {
 		this.hasPart = hasPart;
-		this.typeid = type;
-		this.subid = subtype;
+		typeid = type;
+		subid = subtype;
 		this.textureID = textureID;
 		this.tints = tints;
 		this.partType = partType;
@@ -47,20 +48,18 @@ public class PartInfo implements Cloneable {
 	}
 
 	public ResourceLocation getTexture() {
-		return this.texture;
+		return texture;
 	}
 
 	public void setTexture(ResourceLocation texture) {
-		if (texture == null || (this.texture != null && !this.texture.equals(texture))) {
+		if (texture == null || this.texture != null && !this.texture.equals(texture)) {
 			try {
 				Minecraft.getInstance().getTextureManager().deleteTexture(this.texture);
 			} catch (Exception ignored) {}
 
-			this.needsTextureCompile = true;
-		}
-		else {
-			this.needsTextureCompile = false;
-		}
+			needsTextureCompile = true;
+		} else
+			needsTextureCompile = false;
 		this.texture = texture;
 	}
 
@@ -84,7 +83,7 @@ public class PartInfo implements Cloneable {
 
 	@Override
 	public int hashCode() {
-		int result = (hasPart ? 1 : 0);
+		int result = hasPart ? 1 : 0;
 		result = 31 * result + typeid;
 		result = 31 * result + subid;
 		result = 31 * result + Arrays.hashCode(tints);

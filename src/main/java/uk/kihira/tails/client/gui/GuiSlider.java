@@ -28,8 +28,8 @@ public class GuiSlider extends ExtendedButton implements IControl<Float> {
 		super(x, y, width, 20, new StringTextComponent(String.valueOf(defaultValue)), b -> {});
 		this.minValue = minValue;
 		this.maxValue = maxValue;
-		this.currentValue = defaultValue;
-		this.sliderValue = MathHelper.clamp((this.currentValue - this.minValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
+		currentValue = defaultValue;
+		sliderValue = MathHelper.clamp((currentValue - this.minValue) / (this.maxValue - this.minValue), 0.0F, 1.0F);
 	}
 
 	public GuiSlider(IControlCallback<GuiSlider, Float> parent, int x, int y, int width, float minValue, float maxValue, float defaultValue) {
@@ -43,18 +43,16 @@ public class GuiSlider extends ExtendedButton implements IControl<Float> {
 
 		if (visible) {
 			Minecraft.getInstance().getTextureManager().bindTexture(WIDGETS_LOCATION);
-			blit(matrixStack, (int) (x + (sliderValue * (width - 8))), y, 0, 66, 4, height);
-			blit(matrixStack, (int) (x + (sliderValue * (width - 8)) + 4), y, 196, 66, 4, height);
+			blit(matrixStack, (int) (x + sliderValue * (width - 8)), y, 0, 66, 4, height);
+			blit(matrixStack, (int) (x + sliderValue * (width - 8) + 4), y, 196, 66, 4, height);
 		}
 	}
 
 	@Override
 	public boolean mouseDragged(double xPos, double yPos, int button, double dragX, double dragY) {
-		if (visible) {
-			if (dragging) {
+		if (visible)
+			if (dragging)
 				updateValues(xPos, yPos);
-			}
-		}
 
 		return super.mouseDragged(xPos, yPos, button, dragX, dragY);
 	}
@@ -65,10 +63,8 @@ public class GuiSlider extends ExtendedButton implements IControl<Float> {
 			updateValues(xPos, yPos);
 			dragging = true;
 			return true;
-		}
-		else {
+		} else
 			return false;
-		}
 	}
 
 	@Override
@@ -100,9 +96,8 @@ public class GuiSlider extends ExtendedButton implements IControl<Float> {
 		sliderValue = (float) MathHelper.clamp((xPos - (x + 4F)) / (width - 8F), 0F, 1F);
 		currentValue = (int) (sliderValue * (maxValue - minValue) + minValue);
 
-		if (parent != null && !parent.onValueChange(this, prevValue, currentValue)) {
+		if (parent != null && !parent.onValueChange(this, prevValue, currentValue))
 			setValue(prevValue);
-		}
 		else setMessage(new StringTextComponent(String.valueOf(currentValue)));
 	}
 }

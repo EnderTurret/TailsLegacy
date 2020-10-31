@@ -1,17 +1,22 @@
 package uk.kihira.tails.common;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import uk.kihira.tails.client.gui.GuiEditor;
-import uk.kihira.tails.common.network.LibraryEntriesMessage;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
+import uk.kihira.tails.client.gui.GuiEditor;
+import uk.kihira.tails.common.network.LibraryEntriesMessage;
 
 public class LibraryManager {
 
@@ -55,13 +60,10 @@ public class LibraryManager {
 		try {
 			fileReader = new FileReader(getLibraryFile());
 			List<LibraryEntryData> loadedEntries = gson.fromJson(fileReader, new TypeToken<List<LibraryEntryData>>() {}.getType());
-			if (loadedEntries != null && loadedEntries.size() > 0) {
-				for (LibraryEntryData libEntry : loadedEntries) {
-					if (libEntry.partsData != null) {
+			if (loadedEntries != null && loadedEntries.size() > 0)
+				for (LibraryEntryData libEntry : loadedEntries)
+					if (libEntry.partsData != null)
 						libraryEntries.add(libEntry);
-					}
-				}
-			}
 
 		} catch (FileNotFoundException e) {
 			Tails.logger.catching(e);
@@ -79,11 +81,9 @@ public class LibraryManager {
 		FileWriter fileWriter = null;
 
 		//Remove remote entries before saving
-		for (LibraryEntryData libraryListEntry : this.libraryEntries) {
-			if (!libraryListEntry.remoteEntry) {
+		for (LibraryEntryData libraryListEntry : libraryEntries)
+			if (!libraryListEntry.remoteEntry)
 				entries.add(libraryListEntry);
-			}
-		}
 
 		try {
 			fileWriter = new FileWriter(getLibraryFile());
@@ -98,15 +98,13 @@ public class LibraryManager {
 	private File getLibraryFile() {
 		File libraryFile = new File("tailslibrary.json");
 
-		if (!libraryFile.exists()) {
+		if (!libraryFile.exists())
 			try {
-				if (!libraryFile.createNewFile()) {
+				if (!libraryFile.createNewFile())
 					Tails.logger.error("Failed to create a library file!");
-				}
 			} catch (IOException e) {
 				Tails.logger.error("Failed to create a library file!", e);
 			}
-		}
 		return libraryFile;
 	}
 
@@ -127,12 +125,10 @@ public class LibraryManager {
 
 		@Override
 		public void removeEntry(final LibraryEntryData data) {
-			if (data.remoteEntry) {
+			if (data.remoteEntry)
 				Tails.networkWrapper.sendToServer(new LibraryEntriesMessage(new ArrayList<LibraryEntryData>() {{ add(data); }}, true));
-			}
-			else {
+			else
 				super.removeEntry(data);
-			}
 		}
 	}
 }

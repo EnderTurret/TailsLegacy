@@ -1,26 +1,24 @@
 package uk.kihira.tails.client.gui;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import org.lwjgl.glfw.GLFW;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TranslationTextComponent;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.LibraryEntriesMessage;
 import uk.kihira.tails.common.network.LibraryRequestMessage;
-
-import org.lwjgl.glfw.GLFW;
-
-import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 public class LibraryInfoPanel extends Panel<GuiEditor> {
 
@@ -46,12 +44,10 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 			entry.data.favourite = ((GuiIconButton.GuiIconToggleButton) b).toggled;
 		}, new TranslationTextComponent("gui.button.favourite")));
 		addButton(deleteButton = new GuiIconButton(21, bottom - top - 20, GuiIconButton.Icons.DELETE, b -> {
-			if (entry.data.remoteEntry) {
+			if (entry.data.remoteEntry)
 				//Only allow removing if player owns the entry
-				if (!entry.data.creatorUUID.equals(minecraft.player.getUniqueID())) {
+				if (!entry.data.creatorUUID.equals(minecraft.player.getUniqueID()))
 					return;
-				}
-			}
 			((GuiIconButton) b).setHover(false);
 			parent.libraryPanel.removeEntry(entry);
 			setEntry(null);
@@ -78,9 +74,8 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 		super.init();
 
 		//Only request library if on remote server
-		if (!Minecraft.getInstance().isIntegratedServerRunning()) {
+		if (!Minecraft.getInstance().isIntegratedServerRunning())
 			Tails.networkWrapper.sendToServer(new LibraryRequestMessage());
-		}
 
 		setEntry(null);
 	}
@@ -159,6 +154,6 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 	}
 
 	public LibraryListEntry getEntry() {
-		return this.entry;
+		return entry;
 	}
 }

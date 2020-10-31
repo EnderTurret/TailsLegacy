@@ -7,30 +7,27 @@
  */
 package uk.kihira.tails.client.gui;
 
-import com.google.common.base.Strings;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.IntBuffer;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.button.Button.IPressable;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TranslationTextComponent;
-import uk.kihira.tails.client.gui.controls.GuiHSBSlider;
+import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import javax.imageio.ImageIO;
+import com.google.common.base.Strings;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.IntBuffer;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TranslationTextComponent;
+import uk.kihira.tails.client.gui.controls.GuiHSBSlider;
 
 public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSliderCallback, IControlCallback<GuiSlider,Float> {
 
@@ -148,9 +145,8 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 		if (hexText.keyPressed(keyCode, scanCode, modifiers)) {
 			try {
 				//Gets the current colour from the hex text
-				if (!Strings.isNullOrEmpty(hexText.getText())) {
-					this.currTintColour = Integer.parseInt(hexText.getText(), 16);
-				}
+				if (!Strings.isNullOrEmpty(hexText.getText()))
+					currTintColour = Integer.parseInt(hexText.getText(), 16);
 			} catch (NumberFormatException ignored) {}
 			return true;
 		}
@@ -179,12 +175,11 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 
 	@Override
 	public void onValueChangeHSBSlider(GuiHSBSlider source, double sliderValue) {
-		if (source == rgbSliders[0] || source == rgbSliders[1] || source == rgbSliders[2]) {
+		if (source == rgbSliders[0] || source == rgbSliders[1] || source == rgbSliders[2])
 			currTintColour = new Color(
-					(int) (MathHelper.clamp(rgbSliders[0].getValue() * 255F, 0, 255)),
-					(int) (MathHelper.clamp(rgbSliders[1].getValue() * 255F, 0, 255)),
-					(int) (MathHelper.clamp(rgbSliders[2].getValue() * 255F, 0, 255))).getRGB();
-		}
+					(int) MathHelper.clamp(rgbSliders[0].getValue() * 255F, 0, 255),
+					(int) MathHelper.clamp(rgbSliders[1].getValue() * 255F, 0, 255),
+					(int) MathHelper.clamp(rgbSliders[2].getValue() * 255F, 0, 255)).getRGB();
 		else {
 			float[] hsbvals = {(float) hsbSliders[0].getValue(), (float) hsbSliders[1].getValue(), (float) hsbSliders[2].getValue()};
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;
@@ -198,9 +193,8 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 		int[] pixelData;
 		int pixels = 1;
 
-		if (pixelBuffer == null) {
+		if (pixelBuffer == null)
 			pixelBuffer = BufferUtils.createIntBuffer(pixels);
-		}
 		pixelData = new int[pixels];
 
 		GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
@@ -218,7 +212,7 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 	private void setSelectingColour(boolean selectingColour) {
 		this.selectingColour = selectingColour;
 
-		if (selectingColour) {
+		if (selectingColour)
 			try {
 				BufferedImage bufferedImage = ImageIO.read(minecraft.getResourceManager().getResource(GuiIconButton.iconsTextures).getInputStream());
 				int[] pixelData;
@@ -231,7 +225,6 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
 		else {
 			/*try {
                 Mouse.setNativeCursor(null);

@@ -8,20 +8,22 @@
 
 package uk.kihira.tails.proxy;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
-import net.minecraftforge.fml.network.NetworkDirection;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.ServerEventHandler;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.*;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import uk.kihira.tails.common.network.LibraryEntriesMessage;
+import uk.kihira.tails.common.network.LibraryRequestMessage;
+import uk.kihira.tails.common.network.PlayerDataMapMessage;
+import uk.kihira.tails.common.network.PlayerDataMessage;
+import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
 
 public class CommonProxy {
 
@@ -62,26 +64,26 @@ public class CommonProxy {
 				//todo Tell uk.kihira.tails.client to remove textures
 				//Tails.networkWrapper.sendToAll(new PlayerDataMessage(uuid, this.partsData.get(uuid), true));
 			}
-			this.partsData.remove(uuid);
+			partsData.remove(uuid);
 			Tails.logger.debug(String.format("Removed part data for %s", uuid.toString()));
 		}
 	}
 
 	public void clearAllPartsData() {
-		this.partsData.clear();
+		partsData.clear();
 		Tails.logger.debug("Clearing parts data");
 	}
 
 	public boolean hasPartsData(UUID uuid) {
-		return uuid != null && this.partsData.containsKey(uuid);
+		return uuid != null && partsData.containsKey(uuid);
 	}
 
 	public PartsData getPartsData(UUID uuid) {
-		return this.partsData.get(uuid);
+		return partsData.get(uuid);
 	}
 
 	public Map<UUID, PartsData> getPartsData() {
-		return this.partsData;
+		return partsData;
 	}
 
 	public LibraryManager getLibraryManager() {

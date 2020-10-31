@@ -2,7 +2,6 @@ package uk.kihira.tails.common.network;
 
 import java.util.function.Supplier;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import uk.kihira.tails.common.Tails;

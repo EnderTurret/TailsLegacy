@@ -9,9 +9,14 @@
 package uk.kihira.tails.client.texture;
 
 import static net.minecraft.client.renderer.texture.NativeImage.getAlpha;
-import static net.minecraft.client.renderer.texture.NativeImage.getRed;
 import static net.minecraft.client.renderer.texture.NativeImage.getBlue;
 import static net.minecraft.client.renderer.texture.NativeImage.getGreen;
+import static net.minecraft.client.renderer.texture.NativeImage.getRed;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.logging.log4j.LogManager;
 
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.renderer.texture.NativeImage.PixelFormat;
@@ -20,15 +25,6 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import uk.kihira.tails.client.ColorUtil;
-
-import org.apache.logging.log4j.LogManager;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * A tinted texture that has 3 different tints, each tint defined in a different RGB channel
@@ -45,7 +41,7 @@ public class TripleTintTexture extends Texture {
 
 	public TripleTintTexture(String namespace, String texturename, int tint1, int tint2, int tint3) {
 		this.namespace = namespace;
-		this.texturename = texturename; 
+		this.texturename = texturename;
 		this.tint1 = ColorUtil.fromJavaColor(tint1, true);
 		this.tint2 = ColorUtil.fromJavaColor(tint2, true);
 		this.tint3 = ColorUtil.fromJavaColor(tint3, true);
@@ -71,7 +67,7 @@ public class TripleTintTexture extends Texture {
 						final int g = getGreen(rgb);
 						final int b = getBlue(rgb);
 
-						texture.setPixelRGBA(x, y, colourise(r, this.tint1, g, this.tint2, b, this.tint3, a));
+						texture.setPixelRGBA(x, y, colourise(r, tint1, g, tint2, b, tint3, a));
 					}
 
 				TextureUtil.prepareImage(getGlTextureId(), texture.getWidth(), texture.getHeight());
@@ -115,9 +111,9 @@ public class TripleTintTexture extends Texture {
 		double g3 = scale(getGreen(tint3), MINBRIGHTNESS) / 255;
 		double b3 = scale(getBlue(tint3), MINBRIGHTNESS) / 255;
 
-		int rfinal = (int) (Math.floor(red * (r1 * r + r2 * g + r3 * b)));
-		int gfinal = (int) (Math.floor(red * (g1 * r + g2 * g + g3 * b)));
-		int bfinal = (int) (Math.floor(red * (b1 * r + b2 * g + b3 * b)));
+		int rfinal = (int) Math.floor(red * (r1 * r + r2 * g + r3 * b));
+		int gfinal = (int) Math.floor(red * (g1 * r + g2 * g + g3 * b));
+		int bfinal = (int) Math.floor(red * (b1 * r + b2 * g + b3 * b));
 
 		return NativeImage.getCombined(alpha, bfinal, gfinal, rfinal);
 	}

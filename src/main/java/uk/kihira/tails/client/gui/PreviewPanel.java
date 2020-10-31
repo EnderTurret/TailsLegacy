@@ -5,9 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.PointOfView;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.vector.Quaternion;
@@ -33,12 +31,12 @@ class PreviewPanel extends Panel<GuiEditor> {
 			return;
 		//scaledRes = new ScaledResolution(minecraft);
 		// Reset Camera
-		addButton(new GuiIconButton((right - left) - 18, 22, GuiIconButton.Icons.UNDO, b -> {
+		addButton(new GuiIconButton(right - left - 18, 22, GuiIconButton.Icons.UNDO, b -> {
 			yaw = 0;
 			pitch = 10F;
 		}, new TranslationTextComponent("gui.button.reset.camera")));
 		// Help
-		addButton(new GuiIconButton((right - left) - 18, 4, GuiIconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("gui.button.help.camera.0"), new TranslationTextComponent("gui.button.help.camera.1")));
+		addButton(new GuiIconButton(right - left - 18, 4, GuiIconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("gui.button.help.camera.0"), new TranslationTextComponent("gui.button.help.camera.1")));
 	}
 
 	@Override
@@ -62,14 +60,13 @@ class PreviewPanel extends Panel<GuiEditor> {
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		if (button == 0) {
+		if (button == 0)
 			//Yaw
 			if (prevMouseX == -1) prevMouseX = mouseX;
 			else {
 				yaw += (mouseX - prevMouseX) * 1.5F;
 				prevMouseX = mouseX;
 			}
-		}
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
 

@@ -8,16 +8,14 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import uk.kihira.tails.client.model.ModelPartBase;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import uk.kihira.tails.client.model.ModelPartBase;
 
 public class ModelCatTail extends ModelPartBase {
 
@@ -80,7 +78,7 @@ public class ModelCatTail extends ModelPartBase {
 				double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = MathHelper.clamp(angles[0] / 3.5F, -1F, 0.33D);
-				yAngleMultiplier = (1 - (xAngleOffset * 2F)); //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
 			}
 		}
 		else {

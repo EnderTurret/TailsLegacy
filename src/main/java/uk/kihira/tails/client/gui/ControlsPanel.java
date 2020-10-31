@@ -10,7 +10,6 @@ package uk.kihira.tails.client.gui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -48,9 +47,8 @@ public class ControlsPanel extends Panel<GuiEditor> {
 			parent.clearCurrTintEdit();
 			parent.refreshTintPane();
 
-			if (!libraryMode) {
+			if (!libraryMode)
 				Tails.setLocalPartsData(parent.getPartsData());
-			}
 			parent.setPartsData(Tails.localPartsData);
 
 			b.setMessage(libraryMode ? new TranslationTextComponent("gui.button.mode.editor") : new TranslationTextComponent("gui.button.mode.library"));
@@ -72,7 +70,7 @@ public class ControlsPanel extends Panel<GuiEditor> {
 			Tails.proxy.addPartsData(minecraft.player.getUniqueID(), partsData);
 			Tails.networkWrapper.sendToServer(new PlayerDataMessage(minecraft.getSession().getProfile().getId(), partsData, false));
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new StringTextComponent("Saved!").mergeStyle(TextFormatting.GREEN));
-			this.minecraft.displayGuiScreen(null);
+			minecraft.displayGuiScreen(null);
 		}));
 	}
 

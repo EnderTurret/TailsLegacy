@@ -8,6 +8,9 @@
 
 package uk.kihira.tails.client.render;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.ModList;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.model.tail.ModelCatTail;
@@ -15,10 +18,6 @@ import uk.kihira.tails.client.model.tail.ModelDevilTail;
 import uk.kihira.tails.client.model.tail.ModelDragonTail;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import net.minecraft.entity.LivingEntity;
 
 public class PlayerRenderHelper implements IRenderHelper {
 
@@ -31,9 +30,8 @@ public class PlayerRenderHelper implements IRenderHelper {
 	@Override
 	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, RenderPart tail, PartInfo info, double x, double y, double z) {
 		if (info.partType == PartsData.PartType.EARS || info.partType == PartsData.PartType.MUZZLE || info.partType == PartsData.PartType.WINGS) return;
-		if (mpmCompat && entity.isSneaking()) {
+		if (mpmCompat && entity.isSneaking())
 			matrixStack.translate(0f, -0.1f, 0.4f);
-		}
 		if (tail.modelPart instanceof ModelDragonTail) {
 			if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
 			else matrixStack.translate(0F, 0.68F, 0.1F);

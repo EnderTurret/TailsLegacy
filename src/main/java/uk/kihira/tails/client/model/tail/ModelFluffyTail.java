@@ -8,8 +8,6 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import uk.kihira.tails.client.model.ModelPartBase;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
@@ -19,6 +17,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
+import uk.kihira.tails.client.model.ModelPartBase;
 
 public class ModelFluffyTail extends ModelPartBase {
 	private final ModelRenderer tailBase;
@@ -29,41 +28,41 @@ public class ModelFluffyTail extends ModelPartBase {
 	private final ModelRenderer tail5;
 
 	public ModelFluffyTail() {
-		this.tailBase = new ModelRenderer(this);
-		this.tailBase.addBox(-1, -1, 0, 2, 2, 3);
-		this.tailBase.setRotationPoint(0, 0, 0);
-		this.setRotationDegrees(this.tailBase, -15F, 0, 0);
+		tailBase = new ModelRenderer(this);
+		tailBase.addBox(-1, -1, 0, 2, 2, 3);
+		tailBase.setRotationPoint(0, 0, 0);
+		setRotationDegrees(tailBase, -15F, 0, 0);
 
-		this.tail1 = new ModelRenderer(this, 10, 0);
-		this.tail1.addBox(-1.5F, -1.5F, 0, 3, 3, 2);
-		this.tail1.setRotationPoint(0, 0, 1.5F);
-		this.setRotationDegrees(this.tail1, -15F, 0, 0);
+		tail1 = new ModelRenderer(this, 10, 0);
+		tail1.addBox(-1.5F, -1.5F, 0, 3, 3, 2);
+		tail1.setRotationPoint(0, 0, 1.5F);
+		setRotationDegrees(tail1, -15F, 0, 0);
 
-		this.tail2 = new ModelRenderer(this, 0, 5);
-		this.tail2.addBox(-2, -2, 0, 4, 4, 4);
-		this.tail2.setRotationPoint(0, 0, 1.5F);
-		this.setRotationDegrees(this.tail2, -15F, 0, 0);
+		tail2 = new ModelRenderer(this, 0, 5);
+		tail2.addBox(-2, -2, 0, 4, 4, 4);
+		tail2.setRotationPoint(0, 0, 1.5F);
+		setRotationDegrees(tail2, -15F, 0, 0);
 
-		this.tail3 = new ModelRenderer(this, 0, 13);
-		this.tail3.addBox(-2.5F, -2.5F, 0, 5, 5, 8);
-		this.tail3.setRotationPoint(0, 0, 3F);
-		this.setRotationDegrees(this.tail3, -25F, 0, 0);
+		tail3 = new ModelRenderer(this, 0, 13);
+		tail3.addBox(-2.5F, -2.5F, 0, 5, 5, 8);
+		tail3.setRotationPoint(0, 0, 3F);
+		setRotationDegrees(tail3, -25F, 0, 0);
 
-		this.tail4 = new ModelRenderer(this, 0, 26);
-		this.tail4.addBox(-2, -2, 0, 4, 4, 2);
-		this.tail4.setRotationPoint(0, 0, 7.4F);
-		this.setRotationDegrees(this.tail4, 15F, 0, 0);
+		tail4 = new ModelRenderer(this, 0, 26);
+		tail4.addBox(-2, -2, 0, 4, 4, 2);
+		tail4.setRotationPoint(0, 0, 7.4F);
+		setRotationDegrees(tail4, 15F, 0, 0);
 
-		this.tail5 = new ModelRenderer(this, 12, 26);
-		this.tail5.addBox(-1.5F, -1.5F, 0, 3, 3, 2);
-		this.tail5.setRotationPoint(0, 0, 1.4F);
-		this.setRotationDegrees(this.tail5, 15F, 0, 0);
+		tail5 = new ModelRenderer(this, 12, 26);
+		tail5.addBox(-1.5F, -1.5F, 0, 3, 3, 2);
+		tail5.setRotationPoint(0, 0, 1.4F);
+		setRotationDegrees(tail5, 15F, 0, 0);
 
-		this.tail4.addChild(this.tail5);
-		this.tail3.addChild(this.tail4);
-		this.tail2.addChild(this.tail3);
-		this.tail1.addChild(this.tail2);
-		this.tailBase.addChild(this.tail1);
+		tail4.addChild(tail5);
+		tail3.addChild(tail4);
+		tail2.addChild(tail3);
+		tail1.addChild(tail2);
+		tailBase.addChild(tail1);
 	}
 
 	public void setRotationAngles(int subtype, float timestep, float yOffset, float xOffset, float xAngle, float yAngle, float partialTicks, Entity entity) {
@@ -93,14 +92,14 @@ public class ModelFluffyTail extends ModelPartBase {
 				case 2:
 					zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -1D, 0.5D);
 					xAngleOffset = MathHelper.clamp(xAngleOffset * 0.25D, -1D, 0.2D);
-					xAngleOffset += (Math.cos(timestep + xOffset) / 30F);
+					xAngleOffset += Math.cos(timestep + xOffset) / 30F;
 					break;
 				}
-				yAngleMultiplier = (1 - (xAngleOffset * 2F)); //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
 			}
 		}
 		//Mounted
-		else {
+		else
 			switch (subtype) {
 			//Fox Tail
 			case 0:
@@ -118,14 +117,13 @@ public class ModelFluffyTail extends ModelPartBase {
 				yAngleMultiplier = 0.75F;
 				break;
 			}
-		}
 
-		this.setRotationRadians(this.tailBase, xAngle + xAngleOffset, (((-zAngleOffset / 2F) + yAngle + (Math.cos(timestep + yOffset) / 8F)) * yAngleMultiplier) + yAngleOffset, -zAngleOffset / 8F);
-		this.setRotationRadians(this.tail1, -0.2617993877991494 + xAngleOffset + Math.abs(zAngleOffset / 2F), ((-zAngleOffset / 2F) + Math.cos(timestep - 1 + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
-		this.setRotationRadians(this.tail2, -0.2617993877991494 + (xAngleOffset / 2F), ((-zAngleOffset / 2F) + Math.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
-		this.setRotationRadians(this.tail3, -0.4363323129985824 + (xAngleOffset / 2F), ((-zAngleOffset / 2F) + Math.cos(timestep - 2 + yOffset) / 20F) * yAngleMultiplier, -zAngleOffset / 20F);
-		this.setRotationRadians(this.tail4, 0.2617993877991494 - (xAngleOffset / 2F), ((-zAngleOffset / 2F) + Math.cos(timestep - 3 + yOffset) / 8F) * yAngleMultiplier, 0F);
-		this.setRotationRadians(this.tail5, 0.2617993877991494 - (xAngleOffset / 2.5F), ((-zAngleOffset / 2F) + Math.cos(timestep - 4 + yOffset) / 8F) * yAngleMultiplier, 0F);
+		setRotationRadians(tailBase, xAngle + xAngleOffset, (-zAngleOffset / 2F + yAngle + Math.cos(timestep + yOffset) / 8F) * yAngleMultiplier + yAngleOffset, -zAngleOffset / 8F);
+		setRotationRadians(tail1, -0.2617993877991494 + xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + Math.cos(timestep - 1 + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
+		setRotationRadians(tail2, -0.2617993877991494 + xAngleOffset / 2F, (-zAngleOffset / 2F + Math.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
+		setRotationRadians(tail3, -0.4363323129985824 + xAngleOffset / 2F, (-zAngleOffset / 2F + Math.cos(timestep - 2 + yOffset) / 20F) * yAngleMultiplier, -zAngleOffset / 20F);
+		setRotationRadians(tail4, 0.2617993877991494 - xAngleOffset / 2F, (-zAngleOffset / 2F + Math.cos(timestep - 3 + yOffset) / 8F) * yAngleMultiplier, 0F);
+		setRotationRadians(tail5, 0.2617993877991494 - xAngleOffset / 2.5F, (-zAngleOffset / 2F + Math.cos(timestep - 4 + yOffset) / 8F) * yAngleMultiplier, 0F);
 	}
 
 	@Override
@@ -136,48 +134,48 @@ public class ModelFluffyTail extends ModelPartBase {
 			this.setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTicks, entity);
 			matrixStackIn.push();
 			matrixStackIn.rotate(Vector3f.XP.rotationDegrees(-20F));
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			matrixStackIn.pop();
 		}
 		else if (subtype == 1) {
 			this.setRotationAngles(1, timestep, 1F, 1F, 0F, (float) Math.toRadians(40F), partialTicks, entity);
 			matrixStackIn.push();
 			matrixStackIn.rotate(Vector3f.XP.rotationDegrees(-20F));
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(1, timestep, 1.4F, 0F, 0F, (float) Math.toRadians(-40F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			matrixStackIn.pop();
 		}
 		else if (subtype == 2) {
 			timestep = getAnimationTime(6500F, entity);
 
 			this.setRotationAngles(2, timestep, -1.5F, 2.5F, 0F, 0, partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(2, timestep, -1.3F, 1.6F, 0, (float) Math.toRadians(30F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(2, timestep, -1.1F, 0.7F, 0, (float) Math.toRadians(-30F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(2, timestep, -1.2F, 2.6F, (float) Math.toRadians(20F), (float) Math.toRadians(-15F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(2, timestep, -0.9F, 1.1F, (float) Math.toRadians(20F), (float) Math.toRadians(15F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(2, timestep, -0.8F, 2F, (float) Math.toRadians(20F), (float) Math.toRadians(45F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(2, timestep, -1.25F, 0.6F, (float) Math.toRadians(20F), (float) Math.toRadians(-45F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(2, timestep, -1.4F, 0.9F, (float) Math.toRadians(45F), (float) Math.toRadians(15F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(2, timestep, -1.1F, 1.6F, (float) Math.toRadians(45F), (float) Math.toRadians(-15F), partialTicks, entity);
-			this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		}
 	}
 }

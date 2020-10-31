@@ -1,5 +1,8 @@
 package uk.kihira.tails.proxy;
 
+import java.util.Map;
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
@@ -10,7 +13,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import uk.kihira.tails.client.ClientEventHandler;
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.model.ModelRendererWrapper;
 import uk.kihira.tails.client.render.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.LayerPart;
@@ -21,12 +23,11 @@ import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
-import uk.kihira.tails.common.network.*;
-
-import java.util.Map;
-import java.util.UUID;
-
-import com.mojang.blaze3d.systems.RenderSystem;
+import uk.kihira.tails.common.network.LibraryEntriesMessage;
+import uk.kihira.tails.common.network.LibraryRequestMessage;
+import uk.kihira.tails.common.network.PlayerDataMapMessage;
+import uk.kihira.tails.common.network.PlayerDataMessage;
+import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -43,26 +44,23 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void addPartsData(UUID uuid, PartsData partsData) {
-		if (hasPartsData(uuid)) {
+		if (hasPartsData(uuid))
 			this.partsData.get(uuid).clearTextures();
-		}
 
 		super.addPartsData(uuid, partsData);
 	}
 
 	@Override
 	public void removePartsData(UUID uuid) {
-		if (hasPartsData(uuid)) {
-			this.partsData.get(uuid).clearTextures();
-		}
+		if (hasPartsData(uuid))
+			partsData.get(uuid).clearTextures();
 		super.removePartsData(uuid);
 	}
 
 	@Override
 	public void clearAllPartsData() {
-		for (PartsData partInfo : this.partsData.values()) {
+		for (PartsData partInfo : partsData.values())
 			partInfo.clearTextures();
-		}
 		super.clearAllPartsData();
 	}
 

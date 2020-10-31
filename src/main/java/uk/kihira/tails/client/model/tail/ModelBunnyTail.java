@@ -12,10 +12,10 @@ public class ModelBunnyTail extends ModelPartBase {
 	private final ModelRenderer tailBase;
 
 	public ModelBunnyTail() {
-		this.tailBase = new ModelRenderer(this);
+		tailBase = new ModelRenderer(this);
 
-		this.tailBase.addBox(0.0F, 0.0F, 0.0F, 4, 3, 3, 0.0F);
-		this.tailBase.setRotationPoint(-2.0F, -1.5F, 0.0F);
+		tailBase.addBox(0.0F, 0.0F, 0.0F, 4, 3, 3, 0.0F);
+		tailBase.setRotationPoint(-2.0F, -1.5F, 0.0F);
 	}
 
 	@Override
@@ -24,10 +24,10 @@ public class ModelBunnyTail extends ModelPartBase {
 
 		this.setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTicks, entity);
 
-		this.tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	private void setRotationAngles(int subtype, float timestep, float yOffset, float xOffset, float xAngle, float yAngle, float partialTicks, Entity entity) {
-		this.setRotationDegrees(this.tailBase, xAngle, yAngle, 0F);
+		setRotationDegrees(tailBase, xAngle, yAngle, 0F);
 	}
 }

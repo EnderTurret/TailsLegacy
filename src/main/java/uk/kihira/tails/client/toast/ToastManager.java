@@ -8,20 +8,19 @@
 
 package uk.kihira.tails.client.toast;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.profiler.IProfiler;
-import net.minecraft.profiler.Profiler;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class ToastManager {
 
@@ -45,11 +44,9 @@ public class ToastManager {
 		int stringWidth = fontRenderer.getStringPropertyWidth(text);
 		if (stringWidth > maxWidth) {
 			List<IReorderingProcessor> strings = fontRenderer.trimStringToWidth(text, maxWidth);
-			toasts.add(new Toast(x - (maxWidth / 2) - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new IReorderingProcessor[strings.size()])));
-		}
-		else {
-			toasts.add(new Toast(x - (stringWidth / 2) - 5, y, stringWidth + 10, text.getString().length() * 3, text.func_241878_f()));
-		}
+			toasts.add(new Toast(x - maxWidth / 2 - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new IReorderingProcessor[strings.size()])));
+		} else
+			toasts.add(new Toast(x - stringWidth / 2 - 5, y, stringWidth + 10, text.getString().length() * 3, text.func_241878_f()));
 	}
 
 	/*@SubscribeEvent
@@ -77,9 +74,8 @@ public class ToastManager {
 	public void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
 		IProfiler profiler = Minecraft.getInstance().getProfiler();
 		profiler.startSection("toastNotification");
-		for (Toast toast : toasts) {
+		for (Toast toast : toasts)
 			toast.drawToast(event.getMatrixStack(), event.getMouseX(), event.getMouseY());
-		}
 		profiler.endSection();
 	}
 }

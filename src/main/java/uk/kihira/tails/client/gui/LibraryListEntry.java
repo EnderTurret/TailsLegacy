@@ -6,7 +6,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.client.gui.widget.list.ExtendedList;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
@@ -25,7 +24,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 
 	public LibraryListEntry(LibraryPanel panel, LibraryEntryData libraryEntryData) {
 		this.panel = panel;
-		this.data = libraryEntryData;
+		data = libraryEntryData;
 	}
 
 	@Override
@@ -44,19 +43,17 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 		fontRenderer.drawString(matrixStack, (data.partsData.equals(Tails.localPartsData) ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
-		for (PartsData.PartType type : PartsData.PartType.values()) {
+		for (PartsData.PartType type : PartsData.PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
 				PartInfo partInfo = data.partsData.getPartInfo(type);
 				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid).getUnlocalisedName(partInfo.subid)),
-						rowLeft + 5, rowTop + 12 + (8 * type.ordinal()), 0xFFFFFF);
-				for (int i = 1; i < 4; i++) {
+						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
+				for (int i = 1; i < 4; i++)
 					AbstractGui.fill(matrixStack,
-							listWidth - (8 * i), rowTop + 13 + (type.ordinal() * 8),
-							listWidth + 7 - (8 * i), rowTop + 20 + (type.ordinal() * 8),
+							listWidth - 8 * i, rowTop + 13 + type.ordinal() * 8,
+							listWidth + 7 - 8 * i, rowTop + 20 + type.ordinal() * 8,
 							partInfo.tints[i - 1]);
-				}
 			}
-		}
 
 		if (data.favourite) {
 			Minecraft.getInstance().getTextureManager().bindTexture(GuiIconButton.iconsTextures);
@@ -85,7 +82,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 
 		@Override
 		public void render(MatrixStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-			Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format("gui.library.create"), rowLeft + 3, rowTop + (slotHeight / 2) - 4, 0xFFFFFF);
+			Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format("gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
 		}
 
 		@Override

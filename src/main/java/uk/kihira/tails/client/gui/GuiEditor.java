@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.gui;
 
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
@@ -15,8 +17,6 @@ import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
-
-import java.util.UUID;
 
 public class GuiEditor extends GuiBase {
 
@@ -136,9 +136,8 @@ public class GuiEditor extends GuiBase {
 		this.partType = partType;
 
 		PartInfo newPartInfo = partsData.getPartInfo(partType);
-		if (newPartInfo == null) {
+		if (newPartInfo == null)
 			newPartInfo = PartInfo.none(partType);
-		}
 		originalPartInfo = newPartInfo.deepCopy();
 		PartInfo partInfo = originalPartInfo.deepCopy();
 
@@ -160,6 +159,6 @@ public class GuiEditor extends GuiBase {
 
 	private void setScale(int scale) {
 		Minecraft.getInstance().gameSettings.guiScale = scale;
-		this.resize(Minecraft.getInstance(), Minecraft.getInstance().getMainWindow().getScaledWidth(), Minecraft.getInstance().getMainWindow().getScaledHeight());
+		resize(Minecraft.getInstance(), Minecraft.getInstance().getMainWindow().getScaledWidth(), Minecraft.getInstance().getMainWindow().getScaledHeight());
 	}
 }

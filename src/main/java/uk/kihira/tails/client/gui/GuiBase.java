@@ -1,14 +1,13 @@
 package uk.kihira.tails.client.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.ITextComponent;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.ITextComponent;
 
 public abstract class GuiBase extends GuiBaseScreen {
 
@@ -45,8 +44,8 @@ public abstract class GuiBase extends GuiBaseScreen {
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		int color = 0;
-		for (List<Panel> layer : layers) {
-			for (Panel panel : layer) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (panel.enabled) {
 					matrixStack.push();
 					matrixStack.translate(panel.left, panel.top, 0);
@@ -75,15 +74,13 @@ public abstract class GuiBase extends GuiBaseScreen {
 					RenderSystem.disableLighting();
 					matrixStack.pop();
 				}
-			}
-		}
 
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
-		for (List<Panel> layer : layers) {
-			for (Panel panel : layer) {
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (panel.enabled) {
 					matrixStack.push();
 					matrixStack.translate(panel.left, panel.top, 0);
@@ -94,8 +91,6 @@ public abstract class GuiBase extends GuiBaseScreen {
 					RenderSystem.disableLighting();
 					matrixStack.pop();
 				}
-			}
-		}
 	}
 
 	@Override
@@ -195,6 +190,6 @@ public abstract class GuiBase extends GuiBaseScreen {
 	}
 
 	private static boolean shouldRecieveMouse(Panel panel, double mouseX, double mouseY) {
-		return panel.enabled && ((mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom) || panel.alwaysReceiveMouse);
+		return panel.enabled && (mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom || panel.alwaysReceiveMouse);
 	}
 }

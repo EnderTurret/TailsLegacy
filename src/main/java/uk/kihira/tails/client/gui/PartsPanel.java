@@ -7,29 +7,27 @@
  */
 package uk.kihira.tails.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.list.ExtendedList;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.render.RenderPart;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.list.ExtendedList;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsPanel.PartEntry> {
 
@@ -51,12 +49,10 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 		initPartList();
 
 		addButton(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new StringTextComponent(parent.getPartType().name()), b -> {
-			if (parent.getPartType().ordinal() + 1 >= PartsData.PartType.values().length) {
+			if (parent.getPartType().ordinal() + 1 >= PartsData.PartType.values().length)
 				parent.setPartType(PartsData.PartType.values()[0]);
-			}
-			else {
+			else
 				parent.setPartType(PartsData.PartType.values()[parent.getPartType().ordinal() + 1]);
-			}
 
 			partTypeButton.setMessage(new StringTextComponent(parent.getPartType().name()));
 			initPartList();
@@ -82,9 +78,8 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 	@Override
 	public void onClose() {
 		//Delete textures on close
-		for (PartEntry entry : this.partList.getEventListeners()) {
+		for (PartEntry entry : partList.getEventListeners())
 			entry.partInfo.setTexture(null);
-		}
 	}
 
 	@Override
@@ -105,12 +100,11 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 		partList.add(new PartEntry(PartInfo.none(partType))); //No tail
 		//Generate tail preview textures and add to list
 		List<RenderPart> parts = PartRegistry.getParts(partType);
-		for (int type = 0; type < parts.size(); type++) {
+		for (int type = 0; type < parts.size(); type++)
 			for (int subType = 0; subType <= parts.get(type).getAvailableSubTypes(); subType++) {
 				PartInfo partInfo = new PartInfo(true, type, subType, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 1, null, partType);
 				partList.add(new PartEntry(partInfo));
 			}
-		}
 
 		children.remove(this.partList);
 		this.partList = new GuiList<>(this, 120, height - listTop, listTop, height, 55, partList);
@@ -121,14 +115,13 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 	void selectDefaultListEntry() {
 		//Default selection
 		PartInfo partInfo = parent.getEditingPartInfo();
-		for (PartEntry entry : partList.getEventListeners()) {
-			if ((!entry.partInfo.hasPart && !partInfo.hasPart) || (partInfo.hasPart && entry.partInfo.hasPart
-					&& entry.partInfo.typeid == partInfo.typeid && entry.partInfo.subid == partInfo.subid)) {
+		for (PartEntry entry : partList.getEventListeners())
+			if (!entry.partInfo.hasPart && !partInfo.hasPart || partInfo.hasPart && entry.partInfo.hasPart
+					&& entry.partInfo.typeid == partInfo.typeid && entry.partInfo.subid == partInfo.subid) {
 				partList.setSelected(entry);
 				onEntrySelected(partList, partList.getEventListeners().indexOf(entry), entry);
 				break;
 			}
-		}
 	}
 
 	private void renderPart(MatrixStack matrixStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTicks) {
@@ -179,11 +172,8 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 						setBlitOffset(0);
 					}
 				}
-			}
-
-			else {
-				font.drawString(matrixStack, I18n.format("tail.none.name"), 5, x + (partList.getItemHeight() / 2) - 5, 0xFFFFFF);
-			}
+			} else
+				font.drawString(matrixStack, I18n.format("tail.none.name"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
 		}
 
 		@Override

@@ -1,20 +1,18 @@
 package uk.kihira.tails.client.gui;
 
-import uk.kihira.tails.common.LibraryEntryData;
-import uk.kihira.tails.common.Tails;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
+import uk.kihira.tails.common.LibraryEntryData;
+import uk.kihira.tails.common.Tails;
 
 public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<LibraryListEntry> {
 
@@ -104,9 +102,8 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 
 	public void initList() {
 		List<LibraryListEntry> libraryEntries = new ArrayList<>();
-		for (LibraryEntryData data : Tails.proxy.getLibraryManager().libraryEntries) {
+		for (LibraryEntryData data : Tails.proxy.getLibraryManager().libraryEntries)
 			libraryEntries.add(new LibraryListEntry(this, data));
-		}
 
 		//Add in new entry creation
 		libraryEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
@@ -132,15 +129,12 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 		ArrayList<LibraryListEntry> filteredEntries = new ArrayList<>();
 		List<LibraryListEntry> entries = new ArrayList<>();
 
-		for (LibraryEntryData data : Tails.proxy.getLibraryManager().libraryEntries) {
+		for (LibraryEntryData data : Tails.proxy.getLibraryManager().libraryEntries)
 			entries.add(new LibraryListEntry(this, data));
-		}
 
-		for (LibraryListEntry entry : entries) {
-			if (entry instanceof LibraryListEntry.NewLibraryListEntry || entry.data.entryName.toLowerCase().contains(filter)) {
+		for (LibraryListEntry entry : entries)
+			if (entry instanceof LibraryListEntry.NewLibraryListEntry || entry.data.entryName.toLowerCase().contains(filter))
 				filteredEntries.add(entry);
-			}
-		}
 		return filteredEntries;
 	}
 
@@ -163,11 +157,10 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 				return 1;
 
 			//Put favourites at the top
-			if (entry1.data.favourite && !entry2.data.favourite) {
+			if (entry1.data.favourite && !entry2.data.favourite)
 				return -1;
-			} else if (!entry1.data.favourite && entry2.data.favourite) {
+			else if (!entry1.data.favourite && entry2.data.favourite)
 				return 1;
-			}
 
 			return 0;
 		}

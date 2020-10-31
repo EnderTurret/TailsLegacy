@@ -1,14 +1,13 @@
 package uk.kihira.tails.client.gui;
 
-import uk.kihira.tails.client.PartRegistry;
-import uk.kihira.tails.client.render.RenderPart;
-import uk.kihira.tails.common.PartInfo;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
+import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.client.render.RenderPart;
+import uk.kihira.tails.common.PartInfo;
 
 public class TexturePanel extends Panel<GuiEditor> {
 	private final int texSelectX = 17;
@@ -34,7 +33,7 @@ public class TexturePanel extends Panel<GuiEditor> {
 					originalPartInfo.tints, originalPartInfo.partType, originalPartInfo.scale, null);
 			parent.setPartsInfo(partInfo);
 		}));
-		addButton(rightBtn = new ExtendedButton((right - left) - 20, texSelectX, 15, 15, new StringTextComponent(">"), b -> {
+		addButton(rightBtn = new ExtendedButton(right - left - 20, texSelectX, 15, 15, new StringTextComponent(">"), b -> {
 			PartInfo originalPartInfo = parent.getEditingPartInfo();
 			RenderPart part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
 			if (part.getTextureNames(originalPartInfo.subid).length > parent.textureID + 1)
@@ -57,7 +56,7 @@ public class TexturePanel extends Panel<GuiEditor> {
 		setBlitOffset(-10);
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 		setBlitOffset(-5);
-		fillGradient(matrixStack, 7, texSelectX, (right - left) - 15, texSelectX + 15, 0x55000000, 0x55000000); //Use gradientRect so it actually takes into account zlevel
+		fillGradient(matrixStack, 7, texSelectX, right - left - 15, texSelectX + 15, 0x55000000, 0x55000000); //Use gradientRect so it actually takes into account zlevel
 
 		//Texture select
 		drawCenteredString(matrixStack, font, I18n.format("gui.texture"), right / 2, texSelectX - 12, 0xFFFFFF);

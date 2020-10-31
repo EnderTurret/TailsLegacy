@@ -1,24 +1,26 @@
-##gradle
-/.gradle
-/build
-/eclipse
+# Gradle
+.gradle/
+build/
 
-##ForgeGradle
-/run
-/out
+# ForgeGradle
+run/
+logs/
 
-## idea
+# IntelliJ
 *.iml
 *.ipr
 *.iws
-
-## eclipse
-/.settings
-/.metadata
-/.classpath
-/.project
-/bin
 .idea/
-classes/
 
-/libs
+# Eclipse
+*.launch
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+
+classes/
+libs/
+
+update.sh

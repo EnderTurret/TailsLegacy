@@ -69,7 +69,7 @@ public class PartInfo implements Cloneable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		PartInfo partInfo = (PartInfo) o;
+		final PartInfo partInfo = (PartInfo) o;
 
 		if (hasPart != partInfo.hasPart) return false;
 		if (subid != partInfo.subid) return false;
@@ -106,7 +106,7 @@ public class PartInfo implements Cloneable {
 	}
 
 	public PartInfo deepCopy() {
-		Gson gson = new Gson();
+		final Gson gson = new Gson();
 		return gson.fromJson(gson.toJson(this), PartInfo.class);
 	}
 }

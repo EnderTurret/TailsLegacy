@@ -36,9 +36,9 @@ public class PlayerDataMessage {
 	}
 
 	public static PlayerDataMessage fromBytes(PacketBuffer buf) {
-		PlayerDataMessage msg = new PlayerDataMessage();
+		final PlayerDataMessage msg = new PlayerDataMessage();
 		msg.uuid = UUIDTypeAdapter.fromString(buf.readString(Short.MAX_VALUE));
-		String tailInfoJson = buf.readString(Short.MAX_VALUE);
+		final String tailInfoJson = buf.readString(Short.MAX_VALUE);
 		if (!Strings.isNullOrEmpty(tailInfoJson))
 			try {
 				msg.partsData = Tails.gson.fromJson(tailInfoJson, PartsData.class);
@@ -51,7 +51,7 @@ public class PlayerDataMessage {
 
 	public static void toBytes(PlayerDataMessage msg, PacketBuffer buf) {
 		buf.writeString(UUIDTypeAdapter.fromUUID(msg.uuid), Short.MAX_VALUE);
-		String tailInfoJson = msg.partsData == null ? "" : Tails.gson.toJson(msg.partsData);
+		final String tailInfoJson = msg.partsData == null ? "" : Tails.gson.toJson(msg.partsData);
 		buf.writeString(tailInfoJson, Short.MAX_VALUE);
 	}
 

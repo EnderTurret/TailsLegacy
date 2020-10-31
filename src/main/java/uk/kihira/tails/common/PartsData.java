@@ -39,7 +39,7 @@ public class PartsData {
 	}
 
 	public PartsData deepCopy() {
-		Gson gson = new Gson();
+		final Gson gson = new Gson();
 		return gson.fromJson(gson.toJson(this), PartsData.class);
 	}
 
@@ -48,7 +48,7 @@ public class PartsData {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		PartsData partsData = (PartsData) o;
+		final PartsData partsData = (PartsData) o;
 
 		return partInfoMap != null ? partInfoMap.equals(partsData.partInfoMap) : partsData.partInfoMap == null;
 

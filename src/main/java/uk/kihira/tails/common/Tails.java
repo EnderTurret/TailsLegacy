@@ -52,7 +52,7 @@ public class Tails {
 	public static PartsData localPartsData;
 
 	public Tails() {
-		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modBus.addListener(this::onPreInit);
 		modBus.addListener(this::onPostInit);
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (version,local) -> true));
@@ -92,7 +92,7 @@ public class Tails {
 		//Load local player info
 		try {
 			//Load Player Data
-			String localPlayerOutfit = TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.get();
+			final String localPlayerOutfit = TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.get();
 
 			//Load default if none exists
 			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty()) {

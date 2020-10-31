@@ -87,7 +87,7 @@ public abstract class GuiBaseScreen extends Screen {
 
 		@Override
 		public void renderButton(MatrixStack matrixStack, int x, int y, float partialTicks) {
-			ArrayList<IReorderingProcessor> list = new ArrayList<>(tooltip);
+			final ArrayList<IReorderingProcessor> list = new ArrayList<>(tooltip);
 			list.add(!active ? new StringTextComponent("Enabled").mergeStyle(TextFormatting.GREEN, TextFormatting.ITALIC).func_241878_f() : new StringTextComponent("Disabled").mergeStyle(TextFormatting.RED, TextFormatting.ITALIC).func_241878_f());
 			GuiBaseScreen.this.renderToolTip(matrixStack, list, x, y, font);
 		}

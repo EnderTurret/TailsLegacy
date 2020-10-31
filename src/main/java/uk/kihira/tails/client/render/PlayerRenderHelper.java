@@ -21,7 +21,7 @@ import uk.kihira.tails.common.PartsData;
 
 public class PlayerRenderHelper implements IRenderHelper {
 
-	private boolean mpmCompat;
+	private final boolean mpmCompat;
 
 	public PlayerRenderHelper() {
 		mpmCompat = ModList.get().isLoaded("moreplayermodels");

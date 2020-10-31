@@ -18,7 +18,7 @@ public class RenderingHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerRenderTick(RenderPlayerEvent.Pre e) {
-		UUID uuid = e.getPlayer().getGameProfile().getId();
+		final UUID uuid = e.getPlayer().getGameProfile().getId();
 		if (Tails.proxy.hasPartsData(uuid) && !e.getPlayer().isInvisible()) {
 			currentPartsData = Tails.proxy.getPartsData(uuid);
 			currentPlayerTexture = ((AbstractClientPlayerEntity) e.getPlayer()).getLocationSkin();

@@ -55,8 +55,8 @@ public class TripleTintTexture extends Texture {
 		{
 			if (texturename != null)
 			{
-				InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
-				NativeImage texture = NativeImage.read(PixelFormat.RGBA, inputstream);
+				final InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
+				final NativeImage texture = NativeImage.read(PixelFormat.RGBA, inputstream);
 
 				for (int x = 0; x < texture.getWidth(); x++)
 					for (int y = 0; y < texture.getHeight(); y++) {
@@ -93,27 +93,27 @@ public class TripleTintTexture extends Texture {
 	 */
 	private int colourise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
 		double g = green / 255D;
-		double b = blue / 255D;
+		final double b = blue / 255D;
 
 		g *= 1 - b;
 
-		double r = 1 - (g + b);
+		final double r = 1 - (g + b);
 
-		double r1 = scale(getRed(tint1), MINBRIGHTNESS) / 255;
-		double g1 = scale(getGreen(tint1), MINBRIGHTNESS) / 255;
-		double b1 = scale(getBlue(tint1), MINBRIGHTNESS) / 255;
+		final double r1 = scale(getRed(tint1), MINBRIGHTNESS) / 255;
+		final double g1 = scale(getGreen(tint1), MINBRIGHTNESS) / 255;
+		final double b1 = scale(getBlue(tint1), MINBRIGHTNESS) / 255;
 
-		double r2 = scale(getRed(tint2), MINBRIGHTNESS) / 255;
-		double g2 = scale(getGreen(tint2), MINBRIGHTNESS) / 255;
-		double b2 = scale(getBlue(tint2), MINBRIGHTNESS) / 255;
+		final double r2 = scale(getRed(tint2), MINBRIGHTNESS) / 255;
+		final double g2 = scale(getGreen(tint2), MINBRIGHTNESS) / 255;
+		final double b2 = scale(getBlue(tint2), MINBRIGHTNESS) / 255;
 
-		double r3 = scale(getRed(tint3), MINBRIGHTNESS) / 255;
-		double g3 = scale(getGreen(tint3), MINBRIGHTNESS) / 255;
-		double b3 = scale(getBlue(tint3), MINBRIGHTNESS) / 255;
+		final double r3 = scale(getRed(tint3), MINBRIGHTNESS) / 255;
+		final double g3 = scale(getGreen(tint3), MINBRIGHTNESS) / 255;
+		final double b3 = scale(getBlue(tint3), MINBRIGHTNESS) / 255;
 
-		int rfinal = (int) Math.floor(red * (r1 * r + r2 * g + r3 * b));
-		int gfinal = (int) Math.floor(red * (g1 * r + g2 * g + g3 * b));
-		int bfinal = (int) Math.floor(red * (b1 * r + b2 * g + b3 * b));
+		final int rfinal = (int) Math.floor(red * (r1 * r + r2 * g + r3 * b));
+		final int gfinal = (int) Math.floor(red * (g1 * r + g2 * g + g3 * b));
+		final int bfinal = (int) Math.floor(red * (b1 * r + b2 * g + b3 * b));
 
 		return NativeImage.getCombined(alpha, bfinal, gfinal, rfinal);
 	}

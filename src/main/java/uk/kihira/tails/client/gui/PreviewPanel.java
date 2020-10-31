@@ -82,22 +82,22 @@ class PreviewPanel extends Panel<GuiEditor> {
 		RenderSystem.translatef(x, y, 100F);
 		RenderSystem.scalef(1F, 1F, -1F);
 
-		MatrixStack matrixStack = new MatrixStack();
+		final MatrixStack matrixStack = new MatrixStack();
 
 		matrixStack.translate(0, 0, 1000);
 		matrixStack.scale(scale, scale, scale);
 
-		Quaternion quaternion = Vector3f.ZP.rotationDegrees(180f);
-		Quaternion quaternion1 = Vector3f.XP.rotationDegrees(pitch * 20F);
+		final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180f);
+		final Quaternion quaternion1 = Vector3f.XP.rotationDegrees(pitch * 20F);
 
 		quaternion.multiply(quaternion1);
 		matrixStack.rotate(quaternion);
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.rotate(Vector3f.YP.rotationDegrees(yaw));
 
-		float oldRotationYawHead = entity.rotationYawHead;
-		float oldRotationYaw = entity.rotationYaw;
-		float oldRotationPitch = entity.rotationPitch;
+		final float oldRotationYawHead = entity.rotationYawHead;
+		final float oldRotationYaw = entity.rotationYaw;
+		final float oldRotationPitch = entity.rotationPitch;
 
 		entity.rotationYawHead = 0F;
 		entity.rotationYaw = 0F;
@@ -105,14 +105,14 @@ class PreviewPanel extends Panel<GuiEditor> {
 		entity.renderYawOffset = 0F;
 		entity.setSneaking(false);
 
-		EntityRendererManager rendererManager = Minecraft.getInstance().getRenderManager();
+		final EntityRendererManager rendererManager = Minecraft.getInstance().getRenderManager();
 
 		quaternion1.conjugate();
 
 		rendererManager.setCameraOrientation(quaternion1);
 		rendererManager.setRenderShadow(false);
 
-		IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 
 		RenderSystem.runAsFancy(() -> {
 			rendererManager.renderEntityStatic(entity, 0, 0, 0, 0f, 1F, matrixStack, impl, 15728880);

@@ -103,7 +103,7 @@ public class ModelSharkTail extends ModelPartBase {
 		double yAngleMultiplier = 1; //Used to suppress sway when running
 		if (entity.getRidingEntity() != null) {
 			if (entity instanceof PlayerEntity) {
-				double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = MathHelper.clamp(angles[0] / 5F, -1D, 0.45D);
 				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
@@ -115,7 +115,7 @@ public class ModelSharkTail extends ModelPartBase {
 			yAngleMultiplier = 0.25F;
 		}
 
-		float timestep = getAnimationTime(3000D, entity);
+		final float timestep = getAnimationTime(3000D, entity);
 		setRotationRadians(tailBase, -0.6522295414702809F + xAngleOffset * 4F, (float) Math.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
 		setRotationRadians(tail1, 0.0013962634015954637F + xAngleOffset * 1F, (float) Math.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
 		setRotationRadians(tail2, 0.278554548618295F - xAngleOffset * 2F, (float) Math.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);

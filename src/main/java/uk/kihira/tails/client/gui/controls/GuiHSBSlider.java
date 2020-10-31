@@ -55,10 +55,10 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 			Minecraft.getInstance().getTextureManager().bindTexture(sliderTexture);
 
 			if (type == HSBSliderType.SATURATION) {
-				Color hueColour = Color.getHSBColor(hueValue, 1F, 1F);
-				float red = (float) hueColour.getRed() / 255;
-				float green = (float) hueColour.getGreen() / 255;
-				float blue = (float) hueColour.getBlue() / 255;
+				final Color hueColour = Color.getHSBColor(hueValue, 1F, 1F);
+				final float red = (float) hueColour.getRed() / 255;
+				final float green = (float) hueColour.getGreen() / 255;
+				final float blue = (float) hueColour.getBlue() / 255;
 				RenderSystem.color4f(red, green, blue, 1.0F);
 				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, 176, 256, 20, width - 2, height - 2);
 			}
@@ -71,10 +71,10 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 			if (type == HSBSliderType.SATURATION) {
 				srcY -= 40;
 
-				Color hueColour = Color.getHSBColor(0F, 0F, briValue);
-				float red = (float) hueColour.getRed() / 255;
-				float green = (float) hueColour.getGreen() / 255;
-				float blue = (float) hueColour.getBlue() / 255;
+				final Color hueColour = Color.getHSBColor(0F, 0F, briValue);
+				final float red = (float) hueColour.getRed() / 255;
+				final float green = (float) hueColour.getGreen() / 255;
+				final float blue = (float) hueColour.getBlue() / 255;
 				RenderSystem.color4f(red, green, blue, 1F);
 				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, srcY, 231, 20, width - 2, height - 2);
 				RenderSystem.color4f(1F, 1F, 1F, 1F);
@@ -112,7 +112,7 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 	 * @param value New value
 	 */
 	public void setValue(double value) { // Copied from setSliderValue (private)
-		double oldValue = sliderValue;
+		final double oldValue = sliderValue;
 		sliderValue = MathHelper.clamp(value, 0.0D, 1.0D);
 
 		func_230979_b_();
@@ -144,10 +144,10 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 	}
 
 	void drawTexturedModalRectScaled(MatrixStack matrixStack, int x, int y, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
-		float f = 0.00390625F;
-		float f1 = 0.00390625F;
+		final float f = 0.00390625F;
+		final float f1 = 0.00390625F;
 		final MatrixStack.Entry e = matrixStack.getLast();
-		BufferBuilder renderer = Tessellator.getInstance().getBuffer();
+		final BufferBuilder renderer = Tessellator.getInstance().getBuffer();
 		renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		renderer.pos(e.getMatrix(), x + 0,			y + tarHeight,	getBlitOffset()).tex((u + 0) * f, (v + srcHeight) * f1).endVertex();
 		renderer.pos(e.getMatrix(), x + tarWidth,	y + tarHeight,	getBlitOffset()).tex((u + srcWidth) * f, (v + srcHeight) * f1).endVertex();

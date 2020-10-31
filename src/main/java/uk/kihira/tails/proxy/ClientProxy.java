@@ -76,7 +76,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	protected void registerHandlers() {
-		ClientEventHandler eventHandler = new ClientEventHandler();
+		final ClientEventHandler eventHandler = new ClientEventHandler();
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 
 		//super.registerHandlers();
@@ -94,7 +94,7 @@ public class ClientProxy extends CommonProxy {
 		if (legacyRenderer) {
 			MinecraftForge.EVENT_BUS.register(new RenderingHandler());
 
-			Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
+			final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
 			// Default
 			PlayerModel model = skinMap.get("default").getEntityModel();
 			model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.TAIL));
@@ -108,7 +108,7 @@ public class ClientProxy extends CommonProxy {
 			model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.EARS));
 			model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.MUZZLE));
 		} else {
-			Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
+			final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
 			// Default
 			PlayerRenderer renderPlayer = skinMap.get("default");
 			renderPlayer.addLayer(new LayerPart(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.TAIL));

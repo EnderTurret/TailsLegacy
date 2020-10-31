@@ -30,7 +30,7 @@ public class LibraryImportPanel extends Panel<GuiEditor> {
 	public void init() {
 
 		//Import Skin
-		Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("gui.library.import.skin"), b -> {
+		final Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("gui.library.import.skin"), b -> {
 			TextureHelper.buildPlayerPartsData(minecraft.player);
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));
 		});
@@ -42,9 +42,9 @@ public class LibraryImportPanel extends Panel<GuiEditor> {
 				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
 						new TranslationTextComponent("gui.library.import.toast.invalid").mergeStyle(TextFormatting.RED));
 			else {
-				String[] strings = inputField.getText().split(":", 4);
+				final String[] strings = inputField.getText().split(":", 4);
 				try {
-					LibraryEntryData entryData = new LibraryEntryData(UUID.fromString(strings[1]), strings[2], strings[0], Tails.gson.fromJson(strings[3], PartsData.class));
+					final LibraryEntryData entryData = new LibraryEntryData(UUID.fromString(strings[1]), strings[2], strings[0], Tails.gson.fromJson(strings[3], PartsData.class));
 					Tails.proxy.getLibraryManager().addEntry(entryData);
 					parent.libraryPanel.initList();
 

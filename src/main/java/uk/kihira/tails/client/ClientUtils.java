@@ -19,15 +19,15 @@ public class ClientUtils {
 	 * @param color Text Colour
 	 */
 	public static void drawStringMultiLine(MatrixStack matrixStack, FontRenderer fontRenderer, String string, int x, int y, int color) {
-		String[] lines = NEWLINE_SPLITTER.split(string);
+		final String[] lines = NEWLINE_SPLITTER.split(string);
 		for (int i = 0; i < lines.length; i++) {
-			String line = lines[i];
+			final String line = lines[i];
 			fontRenderer.drawString(matrixStack, line, x, y + fontRenderer.FONT_HEIGHT * i, color);
 		}
 	}
 
 	public static void drawCenteredString(MatrixStack matrixStack, FontRenderer fontRenderer, String string, int x, int y, int color) {
-		int width = fontRenderer.getStringWidth(string);
+		final int width = fontRenderer.getStringWidth(string);
 		fontRenderer.drawString(matrixStack, string, x - width / 2, y, color);
 	}
 }

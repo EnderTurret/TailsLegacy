@@ -82,7 +82,7 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 		final boolean value = super.keyPressed(keyCode, scanCode, modifiers);
 
 		if (value) {
-			List<LibraryListEntry> newEntries = filterListEntries(searchField.getText().toLowerCase());
+			final List<LibraryListEntry> newEntries = filterListEntries(searchField.getText().toLowerCase());
 			newEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
 			list.getEventListeners().clear();
 			list.getEventListeners().addAll(newEntries);
@@ -101,7 +101,7 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 	}
 
 	public void initList() {
-		List<LibraryListEntry> libraryEntries = new ArrayList<>();
+		final List<LibraryListEntry> libraryEntries = new ArrayList<>();
 		for (LibraryEntryData data : Tails.proxy.getLibraryManager().libraryEntries)
 			libraryEntries.add(new LibraryListEntry(this, data));
 
@@ -126,8 +126,8 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 	}
 
 	private List<LibraryListEntry> filterListEntries(String filter) {
-		ArrayList<LibraryListEntry> filteredEntries = new ArrayList<>();
-		List<LibraryListEntry> entries = new ArrayList<>();
+		final ArrayList<LibraryListEntry> filteredEntries = new ArrayList<>();
+		final List<LibraryListEntry> entries = new ArrayList<>();
 
 		for (LibraryEntryData data : Tails.proxy.getLibraryManager().libraryEntries)
 			entries.add(new LibraryListEntry(this, data));

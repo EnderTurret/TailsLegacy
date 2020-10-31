@@ -32,7 +32,7 @@ public class LibraryEntryData {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		LibraryEntryData data = (LibraryEntryData) o;
+		final LibraryEntryData data = (LibraryEntryData) o;
 
 		if (creationDate != data.creationDate) return false;
 		if (favourite != data.favourite) return false;

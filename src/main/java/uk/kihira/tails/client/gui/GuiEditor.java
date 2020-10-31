@@ -25,7 +25,7 @@ public class GuiEditor extends GuiBase {
 	private PartsData partsData;
 	private PartInfo editingPartInfo;
 	PartInfo originalPartInfo;
-	private UUID playerUUID;
+	private final UUID playerUUID;
 
 	private int guiScale;
 
@@ -50,7 +50,7 @@ public class GuiEditor extends GuiBase {
 			if (!Tails.localPartsData.hasPartInfo(partType))
 				Tails.localPartsData.setPartInfo(partType, PartInfo.none(partType));
 
-		PartInfo partInfo = Tails.localPartsData.getPartInfo(partType);
+		final PartInfo partInfo = Tails.localPartsData.getPartInfo(partType);
 		playerUUID = PlayerEntity.getUUID(Minecraft.getInstance().getSession().getProfile());
 
 		originalPartInfo = partInfo.deepCopy();
@@ -63,10 +63,10 @@ public class GuiEditor extends GuiBase {
 
 	@Override
 	public void init() {
-		int previewWindowEdgeOffset = 110;
-		int previewWindowRight = width - previewWindowEdgeOffset;
-		int previewWindowBottom = height - 30;
-		int texSelectHeight = 35;
+		final int previewWindowEdgeOffset = 110;
+		final int previewWindowRight = width - previewWindowEdgeOffset;
+		final int previewWindowBottom = height - 30;
+		final int texSelectHeight = 35;
 
 		//Not an ideal solution but keeps everything from resetting on resize
 		if (tintPanel == null) {
@@ -139,7 +139,7 @@ public class GuiEditor extends GuiBase {
 		if (newPartInfo == null)
 			newPartInfo = PartInfo.none(partType);
 		originalPartInfo = newPartInfo.deepCopy();
-		PartInfo partInfo = originalPartInfo.deepCopy();
+		final PartInfo partInfo = originalPartInfo.deepCopy();
 
 		clearCurrTintEdit();
 		setPartsInfo(partInfo);

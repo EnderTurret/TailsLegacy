@@ -38,9 +38,9 @@ public class ModelMetalWings extends ModelPartBase {
 		matrixStackIn.rotate(Vector3f.YP.rotationDegrees(90));
 		matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90));
 
-		boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 0F;
-		float timestep = getAnimationTime(isFlying ? 500 : 6000, entity);
-		float angle = (float) Math.sin(timestep) * (isFlying ? 20F : 6F);
+		final boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 0F;
+		final float timestep = getAnimationTime(isFlying ? 500 : 6000, entity);
+		final float angle = (float) Math.sin(timestep) * (isFlying ? 20F : 6F);
 
 		matrixStackIn.translate(0F, -0.5F * SCALE, 0F);
 

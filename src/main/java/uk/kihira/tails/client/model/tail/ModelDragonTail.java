@@ -83,7 +83,7 @@ public class ModelDragonTail extends ModelPartBase {
 		double yAngleMultiplier = 1; //Used to suppress sway when running
 		if (entity.getRidingEntity() == null) {
 			if (entity instanceof PlayerEntity) {
-				double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = MathHelper.clamp(angles[0] / 5F, -1D, 0.45D);
 				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
@@ -95,7 +95,7 @@ public class ModelDragonTail extends ModelPartBase {
 			yAngleMultiplier = 0.25F;
 		}
 
-		float timestep = getAnimationTime(4000D, entity);
+		final float timestep = getAnimationTime(4000D, entity);
 		setRotationRadians(tailBase, Math.toRadians(-40F) + xAngleOffset * 2F, (float) Math.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
 		setRotationRadians(tail1, Math.toRadians(-8F) + xAngleOffset * 2F, (float) Math.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
 		setRotationRadians(tail2, Math.toRadians(10F) - xAngleOffset / 4F, (float) Math.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);

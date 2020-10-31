@@ -87,7 +87,7 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 		//Reset texture ID
 		parent.textureID = 0;
 		//Need to keep tints from original part
-		PartInfo partInfo = new PartInfo(entry.partInfo.hasPart, entry.partInfo.typeid, entry.partInfo.subid, entry.partInfo.textureID,
+		final PartInfo partInfo = new PartInfo(entry.partInfo.hasPart, entry.partInfo.typeid, entry.partInfo.subid, entry.partInfo.textureID,
 				parent.getEditingPartInfo().tints.clone(), entry.partInfo.partType, entry.partInfo.scale, null);
 		parent.setPartsInfo(partInfo);
 		return true;
@@ -95,14 +95,14 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 
 	void initPartList() {
 		//Part List
-		List<PartEntry> partList = new ArrayList<>();
-		PartsData.PartType partType = parent.getPartType();
+		final List<PartEntry> partList = new ArrayList<>();
+		final PartsData.PartType partType = parent.getPartType();
 		partList.add(new PartEntry(PartInfo.none(partType))); //No tail
 		//Generate tail preview textures and add to list
-		List<RenderPart> parts = PartRegistry.getParts(partType);
+		final List<RenderPart> parts = PartRegistry.getParts(partType);
 		for (int type = 0; type < parts.size(); type++)
 			for (int subType = 0; subType <= parts.get(type).getAvailableSubTypes(); subType++) {
-				PartInfo partInfo = new PartInfo(true, type, subType, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 1, null, partType);
+				final PartInfo partInfo = new PartInfo(true, type, subType, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 1, null, partType);
 				partList.add(new PartEntry(partInfo));
 			}
 
@@ -114,7 +114,7 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 
 	void selectDefaultListEntry() {
 		//Default selection
-		PartInfo partInfo = parent.getEditingPartInfo();
+		final PartInfo partInfo = parent.getEditingPartInfo();
 		for (PartEntry entry : partList.getEventListeners())
 			if (!entry.partInfo.hasPart && !partInfo.hasPart || partInfo.hasPart && entry.partInfo.hasPart
 					&& entry.partInfo.typeid == partInfo.typeid && entry.partInfo.subid == partInfo.subid) {
@@ -140,7 +140,7 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 	class PartEntry extends ExtendedList.AbstractListEntry<PartEntry> {
 
 		final PartInfo partInfo;
-		private int clickTime = 0;
+		private final int clickTime = 0;
 
 		PartEntry(PartInfo partInfo) {
 			this.partInfo = partInfo;
@@ -152,13 +152,13 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 			setBlitOffset(0);
 
 			if (partInfo.hasPart) {
-				boolean currentPart = partList.isSelectedItem(slotIndex);
+				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(matrixStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTicks);
 				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid)
 						.getUnlocalisedName(partInfo.subid)), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {
-					RenderPart renderPart = PartRegistry.getRenderPart(parent.getPartType(), partInfo.typeid);
+					final RenderPart renderPart = PartRegistry.getRenderPart(parent.getPartType(), partInfo.typeid);
 					if (renderPart.getModelAuthor() != null) {
 						//Yeah its not nice but eh, works
 						matrixStack.push();

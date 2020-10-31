@@ -91,7 +91,7 @@ class GuiExport extends GuiBaseScreen {
 		addButton(new GuiButtonTooltip(width - 150, height - 40, 130, 20, new TranslationTextComponent("gui.button.upload"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> {
 					final BufferedImage image = TextureHelper.writePartsDataToSkin(partsData, minecraft.player);
-					Runnable runnable = () -> {
+					final Runnable runnable = () -> {
 						exportMessage = new TranslationTextComponent("tails.uploading");
 						new ImgurUpload().uploadImage(image);
 					};
@@ -113,7 +113,7 @@ class GuiExport extends GuiBaseScreen {
 
 	private void handleExport(int id) {
 		//Export to file
-		AbstractClientPlayerEntity player = minecraft.player;
+		final AbstractClientPlayerEntity player = minecraft.player;
 		File file;
 
 		exportMessage = null;
@@ -121,7 +121,7 @@ class GuiExport extends GuiBaseScreen {
 		if (id == 0) file = new File(System.getProperty("user.home"));
 		else if (id == 1) file = new File(System.getProperty("user.dir"));
 		else {
-			JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
+			final JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
 				file = fileChooser.getSelectedFile();
@@ -140,7 +140,7 @@ class GuiExport extends GuiBaseScreen {
 					e.printStackTrace();
 				}
 
-			BufferedImage image = TextureHelper.writePartsDataToSkin(partsData, player);
+			final BufferedImage image = TextureHelper.writePartsDataToSkin(partsData, player);
 			if (image != null)
 				try {
 					ImageIO.write(image, "png", file);
@@ -185,37 +185,37 @@ class GuiExport extends GuiBaseScreen {
 		static final String CLIENT_ID = "ceb9fca19ef9a31";
 
 		void uploadImage(BufferedImage image) {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			BufferedReader in = null;
 
 			try {
-				URL url = new URL("https://api.imgur.com/3/upload.json");
+				final URL url = new URL("https://api.imgur.com/3/upload.json");
 
 				ImageIO.write(image, "png", baos);
 				baos.flush();
 
-				String base64Image = DatatypeConverter.printBase64Binary(baos.toByteArray());
-				String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(base64Image, "UTF-8");
+				final String base64Image = DatatypeConverter.printBase64Binary(baos.toByteArray());
+				final String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(base64Image, "UTF-8");
 
-				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setDoOutput(true);
 
 				conn.setRequestProperty("Authorization", "Client-ID " + CLIENT_ID);
 
-				OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+				final OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 				wr.write(data);
 				wr.close();
 
 				//Successful uploading!
 				if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
 					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-					JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
+					final JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
 					if (jsonElement.get("status").getAsInt() == 200) {
-						JsonObject dataJson = jsonElement.get("data").getAsJsonObject();
-						String id = dataJson.get("id").getAsString();
+						final JsonObject dataJson = jsonElement.get("data").getAsJsonObject();
+						final String id = dataJson.get("id").getAsString();
 
-						String imgurURL = "http://imgur.com/" + id + ".png";
-						String skinURL = "https://minecraft.net/profile/skin/remote?url=";
+						final String imgurURL = "http://imgur.com/" + id + ".png";
+						final String skinURL = "https://minecraft.net/profile/skin/remote?url=";
 
 						setExportMessage(new TranslationTextComponent("tails.upload.success").mergeStyle(TextFormatting.GREEN));
 						exportLoc = URI.create(skinURL + imgurURL);
@@ -227,7 +227,7 @@ class GuiExport extends GuiBaseScreen {
 						handleError(jsonElement);
 				} else if (conn.getResponseCode() != 500) {
 					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-					JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
+					final JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
 					handleError(jsonElement);
 				}
 				else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));
@@ -241,7 +241,7 @@ class GuiExport extends GuiBaseScreen {
 		}
 
 		private void handleError(JsonObject json) {
-			int status = json.get("status").getAsInt();
+			final int status = json.get("status").getAsInt();
 
 			//Rate limiting
 			if (status == 429 || status == 403)

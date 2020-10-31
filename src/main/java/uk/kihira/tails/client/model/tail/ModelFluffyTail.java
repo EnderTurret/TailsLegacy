@@ -72,7 +72,7 @@ public class ModelFluffyTail extends ModelPartBase {
 		double yAngleMultiplier = 1; //Used to suppress sway when running
 		if (entity.getRidingEntity() != null) {
 			if (entity instanceof PlayerEntity) {
-				double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 				xAngleOffset = angles[0];
 				yAngleOffset = angles[1];
 				zAngleOffset = angles[2];

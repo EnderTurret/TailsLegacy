@@ -53,13 +53,13 @@ public class LibraryManager {
 	 * Loads the library of entries from disk
 	 */
 	private List<LibraryEntryData> loadLibrary() {
-		Gson gson = Tails.gson;
-		ArrayList<LibraryEntryData> libraryEntries = new ArrayList<>();
+		final Gson gson = Tails.gson;
+		final ArrayList<LibraryEntryData> libraryEntries = new ArrayList<>();
 		FileReader fileReader = null;
 
 		try {
 			fileReader = new FileReader(getLibraryFile());
-			List<LibraryEntryData> loadedEntries = gson.fromJson(fileReader, new TypeToken<List<LibraryEntryData>>() {}.getType());
+			final List<LibraryEntryData> loadedEntries = gson.fromJson(fileReader, new TypeToken<List<LibraryEntryData>>() {}.getType());
 			if (loadedEntries != null && loadedEntries.size() > 0)
 				for (LibraryEntryData libEntry : loadedEntries)
 					if (libEntry.partsData != null)
@@ -77,7 +77,7 @@ public class LibraryManager {
 	 * Saves the library to disk
 	 */
 	public void saveLibrary() {
-		List<LibraryEntryData> entries = new ArrayList<>();
+		final List<LibraryEntryData> entries = new ArrayList<>();
 		FileWriter fileWriter = null;
 
 		//Remove remote entries before saving
@@ -96,7 +96,7 @@ public class LibraryManager {
 	}
 
 	private File getLibraryFile() {
-		File libraryFile = new File("tailslibrary.json");
+		final File libraryFile = new File("tailslibrary.json");
 
 		if (!libraryFile.exists())
 			try {
@@ -113,10 +113,10 @@ public class LibraryManager {
 		@Override
 		public void addEntries(List<? extends LibraryEntryData> entries) {
 			super.addEntries(entries);
-			Screen guiScreen = Minecraft.getInstance().currentScreen;
+			final Screen guiScreen = Minecraft.getInstance().currentScreen;
 
 			if (guiScreen instanceof GuiEditor) {
-				GuiEditor editor = (GuiEditor) guiScreen;
+				final GuiEditor editor = (GuiEditor) guiScreen;
 				if (editor.libraryPanel != null && editor.libraryInfoPanel != null)
 					((GuiEditor) guiScreen).libraryPanel.initList();
 				((GuiEditor) guiScreen).libraryInfoPanel.setEntry(null);

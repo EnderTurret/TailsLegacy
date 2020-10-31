@@ -69,13 +69,13 @@ public class ModelCatTail extends ModelPartBase {
 
 	@Override
 	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
-		float seed = getAnimationTime(6000, entity);
-		float xseed = getAnimationTime(12000, entity);
+		final float seed = getAnimationTime(6000, entity);
+		final float xseed = getAnimationTime(12000, entity);
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; //Used to suppress sway when running
 		if (entity.getRidingEntity() == null) {
 			if (entity instanceof PlayerEntity) {
-				double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = MathHelper.clamp(angles[0] / 3.5F, -1F, 0.33D);
 				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running

@@ -97,9 +97,8 @@ public abstract class GuiBase extends GuiBaseScreen {
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				if (shouldRecieveMouse(panel, mouseX, mouseY))
-					if (panel.mouseClicked(mouseX - panel.left, mouseY - panel.top, button))
-						return true;
+				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseClicked(mouseX - panel.left, mouseY - panel.top, button))
+					return true;
 
 		return super.mouseClicked(mouseX, mouseY, button);
 	}
@@ -108,9 +107,8 @@ public abstract class GuiBase extends GuiBaseScreen {
 	public boolean mouseReleased(double mouseX, double mouseY, int button) {
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				if (shouldRecieveMouse(panel, mouseX, mouseY))
-					if (panel.mouseReleased(mouseX - panel.left, mouseY - panel.top, button))
-						return true;
+				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseReleased(mouseX - panel.left, mouseY - panel.top, button))
+					return true;
 
 		return super.mouseReleased(mouseX, mouseY, button);
 	}
@@ -119,9 +117,8 @@ public abstract class GuiBase extends GuiBaseScreen {
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				if (shouldRecieveMouse(panel, mouseX, mouseY))
-					if (panel.mouseDragged(mouseX - panel.left, mouseY - panel.top, button, dragX, dragY))
-						return true;
+				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseDragged(mouseX - panel.left, mouseY - panel.top, button, dragX, dragY))
+					return true;
 
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
@@ -140,9 +137,8 @@ public abstract class GuiBase extends GuiBaseScreen {
 	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				if (shouldRecieveMouse(panel, mouseX, mouseY))
-					if (panel.mouseScrolled(mouseX - panel.left, mouseY - panel.top, delta))
-						return true;
+				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseScrolled(mouseX - panel.left, mouseY - panel.top, delta))
+					return true;
 
 		return super.mouseScrolled(mouseX, mouseY, delta);
 	}
@@ -151,9 +147,8 @@ public abstract class GuiBase extends GuiBaseScreen {
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				if (panel.enabled)
-					if (panel.keyPressed(keyCode, scanCode, modifiers))
-						return true;
+				if (panel.enabled && panel.keyPressed(keyCode, scanCode, modifiers))
+					return true;
 
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
@@ -162,9 +157,8 @@ public abstract class GuiBase extends GuiBaseScreen {
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				if (panel.enabled)
-					if (panel.keyReleased(keyCode, scanCode, modifiers))
-						return true;
+				if (panel.enabled && panel.keyReleased(keyCode, scanCode, modifiers))
+					return true;
 
 		return super.keyReleased(keyCode, scanCode, modifiers);
 	}
@@ -173,9 +167,8 @@ public abstract class GuiBase extends GuiBaseScreen {
 	public boolean charTyped(char codePoint, int modifiers) {
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				if (panel.enabled)
-					if (panel.charTyped(codePoint, modifiers))
-						return true;
+				if (panel.enabled && panel.charTyped(codePoint, modifiers))
+					return true;
 
 		return super.charTyped(codePoint, modifiers);
 	}

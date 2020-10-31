@@ -55,7 +55,7 @@ public class ControlsPanel extends Panel<GuiEditor> {
 		}));
 		//Reset/Save
 		addButton(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.button.reset"), b -> {
-			PartInfo partInfo = parent.originalPartInfo.deepCopy();
+			final PartInfo partInfo = parent.originalPartInfo.deepCopy();
 			parent.partsPanel.selectDefaultListEntry();
 			parent.libraryPanel.initList();
 			parent.libraryInfoPanel.setEntry(null);

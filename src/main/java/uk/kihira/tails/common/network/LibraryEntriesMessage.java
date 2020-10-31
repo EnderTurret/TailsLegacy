@@ -24,8 +24,8 @@ public class LibraryEntriesMessage {
 	}
 
 	public static LibraryEntriesMessage fromBytes(PacketBuffer buf) {
-		String dataJson = buf.readString(Short.MAX_VALUE);
-		LibraryEntriesMessage msg = new LibraryEntriesMessage();
+		final String dataJson = buf.readString(Short.MAX_VALUE);
+		final LibraryEntriesMessage msg = new LibraryEntriesMessage();
 		try {
 			msg.entries = Tails.gson.fromJson(dataJson, new TypeToken<List<LibraryEntryData>>() {}.getType());
 		} catch (JsonParseException e) {

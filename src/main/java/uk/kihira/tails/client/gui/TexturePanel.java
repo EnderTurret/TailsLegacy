@@ -23,24 +23,24 @@ public class TexturePanel extends Panel<GuiEditor> {
 	public void init() {
 		//Texture select
 		addButton(leftBtn = new ExtendedButton(5, texSelectX, 15, 15, new StringTextComponent("<"), b -> {
-			PartInfo originalPartInfo = parent.getEditingPartInfo();
-			RenderPart part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
+			final PartInfo originalPartInfo = parent.getEditingPartInfo();
+			final RenderPart part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
 			if (parent.textureID - 1 >= 0)
 				parent.textureID--;
 			else
 				parent.textureID = part.getTextureNames(originalPartInfo.subid).length - 1;
-			PartInfo partInfo = new PartInfo(true, originalPartInfo.typeid, originalPartInfo.subid, parent.textureID,
+			final PartInfo partInfo = new PartInfo(true, originalPartInfo.typeid, originalPartInfo.subid, parent.textureID,
 					originalPartInfo.tints, originalPartInfo.partType, originalPartInfo.scale, null);
 			parent.setPartsInfo(partInfo);
 		}));
 		addButton(rightBtn = new ExtendedButton(right - left - 20, texSelectX, 15, 15, new StringTextComponent(">"), b -> {
-			PartInfo originalPartInfo = parent.getEditingPartInfo();
-			RenderPart part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
+			final PartInfo originalPartInfo = parent.getEditingPartInfo();
+			final RenderPart part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
 			if (part.getTextureNames(originalPartInfo.subid).length > parent.textureID + 1)
 				parent.textureID++;
 			else
 				parent.textureID = 0;
-			PartInfo partInfo = new PartInfo(true, originalPartInfo.typeid, originalPartInfo.subid, parent.textureID,
+			final PartInfo partInfo = new PartInfo(true, originalPartInfo.typeid, originalPartInfo.subid, parent.textureID,
 					originalPartInfo.tints, originalPartInfo.partType, originalPartInfo.scale, null);
 			parent.setPartsInfo(partInfo);
 		}));
@@ -51,7 +51,7 @@ public class TexturePanel extends Panel<GuiEditor> {
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		PartInfo partInfo = parent.getEditingPartInfo();
+		final PartInfo partInfo = parent.getEditingPartInfo();
 
 		setBlitOffset(-10);
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
@@ -67,10 +67,10 @@ public class TexturePanel extends Panel<GuiEditor> {
 	}
 
 	void updateButtons() {
-		PartInfo originalPartInfo = parent.getEditingPartInfo();
-		RenderPart part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
+		final PartInfo originalPartInfo = parent.getEditingPartInfo();
+		final RenderPart part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
 
-		int texCount = part.getTextureNames(originalPartInfo.subid).length;
+		final int texCount = part.getTextureNames(originalPartInfo.subid).length;
 		if (leftBtn != null && rightBtn != null)
 			leftBtn.active = rightBtn.active = texCount > 1;
 	}

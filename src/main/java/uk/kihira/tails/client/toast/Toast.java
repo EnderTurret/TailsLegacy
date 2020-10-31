@@ -44,7 +44,7 @@ public class Toast {
 
 	public void drawToast(MatrixStack matrixStack, int mouseX, int mouseY) {
 		if (time > 0) {
-			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+			final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 			mouseOver = mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height;
 			int opacity = mouseOver ? 255 : (int) (time * 256F / 10F);
 			if (opacity > 255) opacity = 255;
@@ -56,9 +56,9 @@ public class Toast {
 				RenderSystem.disableLighting();
 				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 				drawBackdrop(matrixStack, xPos, yPos, width, height);
-				int colour = 0xFFFFFF | opacity << 24;
+				final int colour = 0xFFFFFF | opacity << 24;
 				for (int i = 0; i < message.size(); i++) {
-					IReorderingProcessor s = message.get(i);
+					final IReorderingProcessor s = message.get(i);
 					fontRenderer.func_238407_a_(matrixStack, s, xPos + width / 2 - fontRenderer.func_243245_a(s) / 2, yPos + 4 + fontRenderer.FONT_HEIGHT * i, colour);
 				}
 				RenderSystem.disableBlend();

@@ -113,7 +113,7 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 		//Tints
 		int topOffset = 10;
 		for (int tint = 1; tint <= 3; tint++) {
-			int colour = parent.getEditingPartInfo().tints[tint - 1] | 0xFF << 24;
+			final int colour = parent.getEditingPartInfo().tints[tint - 1] | 0xFF << 24;
 			fillGradient(matrixStack, 5, topOffset + 10, 25, topOffset + 30, colour, colour);
 			font.drawString(matrixStack, I18n.format("gui.tint", tint), 5, topOffset, 0xFFFFFF);
 			topOffset += 35;
@@ -181,7 +181,7 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 					(int) MathHelper.clamp(rgbSliders[1].getValue() * 255F, 0, 255),
 					(int) MathHelper.clamp(rgbSliders[2].getValue() * 255F, 0, 255)).getRGB();
 		else {
-			float[] hsbvals = {(float) hsbSliders[0].getValue(), (float) hsbSliders[1].getValue(), (float) hsbSliders[2].getValue()};
+			final float[] hsbvals = {(float) hsbSliders[0].getValue(), (float) hsbSliders[1].getValue(), (float) hsbSliders[2].getValue()};
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;
 			currTintColour = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
 		}
@@ -191,7 +191,7 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 
 	private int getColourAtPoint(double x, double y) {
 		int[] pixelData;
-		int pixels = 1;
+		final int pixels = 1;
 
 		if (pixelBuffer == null)
 			pixelBuffer = BufferUtils.createIntBuffer(pixels);
@@ -214,11 +214,11 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 
 		if (selectingColour)
 			try {
-				BufferedImage bufferedImage = ImageIO.read(minecraft.getResourceManager().getResource(GuiIconButton.iconsTextures).getInputStream());
+				final BufferedImage bufferedImage = ImageIO.read(minecraft.getResourceManager().getResource(GuiIconButton.iconsTextures).getInputStream());
 				int[] pixelData;
-				int pixels = 16 * 16;
+				final int pixels = 16 * 16;
 				pixelData = new int[pixels];
-				IntBuffer buffer = IntBuffer.wrap(bufferedImage.getRGB(GuiIconButton.Icons.EYEDROPPER.u, GuiIconButton.Icons.EYEDROPPER.v + 16, 16, 16, pixelData, 0, 16));
+				final IntBuffer buffer = IntBuffer.wrap(bufferedImage.getRGB(GuiIconButton.Icons.EYEDROPPER.u, GuiIconButton.Icons.EYEDROPPER.v + 16, 16, 16, pixelData, 0, 16));
 				//Cursor cursor = new Cursor(16, 16, 0, 15, 1, buffer, null);
 
 				//Mouse.setNativeCursor(cursor);
@@ -238,13 +238,13 @@ public class TintPanel extends Panel<GuiEditor> implements GuiHSBSlider.IHSBSlid
 		hexText.setTextColor(currTintColour);
 
 		//RGB Sliders
-		Color c = new Color(currTintColour);
+		final Color c = new Color(currTintColour);
 		rgbSliders[0].setValue(c.getRed() / 255F);
 		rgbSliders[1].setValue(c.getGreen() / 255F);
 		rgbSliders[2].setValue(c.getBlue() / 255F);
 
 		//HSB Sliders
-		float[] hsbvals = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
+		final float[] hsbvals = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
 		hsbSliders[0].setValue(hsbvals[0]);
 		hsbSliders[1].setValue(hsbvals[1]);
 		hsbSliders[2].setValue(hsbvals[2]);

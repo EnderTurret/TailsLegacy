@@ -50,9 +50,8 @@ public class GuiSlider extends ExtendedButton implements IControl<Float> {
 
 	@Override
 	public boolean mouseDragged(double xPos, double yPos, int button, double dragX, double dragY) {
-		if (visible)
-			if (dragging)
-				updateValues(xPos, yPos);
+		if (visible && dragging)
+			updateValues(xPos, yPos);
 
 		return super.mouseDragged(xPos, yPos, button, dragX, dragY);
 	}
@@ -91,7 +90,7 @@ public class GuiSlider extends ExtendedButton implements IControl<Float> {
 	}
 
 	private void updateValues(double xPos, double yPos) {
-		float prevValue = currentValue;
+		final float prevValue = currentValue;
 
 		sliderValue = (float) MathHelper.clamp((xPos - (x + 4F)) / (width - 8F), 0F, 1F);
 		currentValue = (int) (sliderValue * (maxValue - minValue) + minValue);

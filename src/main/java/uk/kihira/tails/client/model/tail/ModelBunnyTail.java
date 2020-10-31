@@ -20,7 +20,7 @@ public class ModelBunnyTail extends ModelPartBase {
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		float timestep = getAnimationTime(4000F, entity);
+		final float timestep = getAnimationTime(4000F, entity);
 
 		this.setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTicks, entity);
 

@@ -13,9 +13,9 @@ class PartsDataDeserializer implements JsonDeserializer<PartsData> {
 	public PartsData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		// Load old data if exists
 		if (json.getAsJsonObject().has("partInfos")) {
-			PartsData partsData = new PartsData();
+			final PartsData partsData = new PartsData();
 			for (JsonElement e : json.getAsJsonObject().get("partInfos").getAsJsonArray()) {
-				PartInfo info = context.deserialize(e, PartInfo.class);
+				final PartInfo info = context.deserialize(e, PartInfo.class);
 				partsData.partInfoMap.put(info.partType, info);
 			}
 

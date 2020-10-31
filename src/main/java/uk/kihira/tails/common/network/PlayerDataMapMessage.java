@@ -32,8 +32,8 @@ public class PlayerDataMapMessage {
 
 	@SuppressWarnings("unchecked")
 	public static PlayerDataMapMessage fromBytes(PacketBuffer buf) {
-		String tailInfoJson = buf.readString(Short.MAX_VALUE);
-		PlayerDataMapMessage msg = new PlayerDataMapMessage();
+		final String tailInfoJson = buf.readString(Short.MAX_VALUE);
+		final PlayerDataMapMessage msg = new PlayerDataMapMessage();
 		try {
 			msg.partsDataMap = Tails.gson.fromJson(tailInfoJson, new TypeToken<Map<UUID, PartsData>>() {}.getType());
 		} catch (JsonSyntaxException e) {
@@ -43,7 +43,7 @@ public class PlayerDataMapMessage {
 	}
 
 	public static void toBytes(PlayerDataMapMessage msg, PacketBuffer buf) {
-		String tailInfoJson = Tails.gson.toJson(msg.partsDataMap);
+		final String tailInfoJson = Tails.gson.toJson(msg.partsDataMap);
 		buf.writeString(tailInfoJson, Short.MAX_VALUE);
 	}
 

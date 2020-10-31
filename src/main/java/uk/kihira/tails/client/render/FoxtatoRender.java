@@ -11,8 +11,8 @@ import uk.kihira.tails.common.PartsData;
 public class FoxtatoRender {
 
 	private FoxtatoFakeEntity fakeEntity;
-	private PartInfo tailPartInfo = new PartInfo(true, 0, 0, 0, new int[]{-5480951, -6594259, -5197647}, PartsData.PartType.TAIL, 1.f, null);
-	private PartInfo earPartInfo = new PartInfo(true, 0, 0, 0, new int[]{-5480951, 0xFF000000, -5197647}, PartsData.PartType.EARS, 1.f, null);
+	private final PartInfo tailPartInfo = new PartInfo(true, 0, 0, 0, new int[]{-5480951, -6594259, -5197647}, PartsData.PartType.TAIL, 1.f, null);
+	private final PartInfo earPartInfo = new PartInfo(true, 0, 0, 0, new int[]{-5480951, 0xFF000000, -5197647}, PartsData.PartType.EARS, 1.f, null);
 
 	@SubscribeEvent
 	public void onWorldUnload(WorldEvent.Unload e) {

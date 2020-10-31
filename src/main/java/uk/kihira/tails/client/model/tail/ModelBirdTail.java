@@ -72,13 +72,13 @@ public class ModelBirdTail extends ModelPartBase {
 
 	@Override
 	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
-		float timestep = getAnimationTime(8000, entity);
+		final float timestep = getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double zAngleOffset = 0;
 
 		if (entity.getRidingEntity() == null) {
 			if (entity instanceof PlayerEntity) {
-				double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 				xAngleOffset = angles[0];
 				zAngleOffset = angles[2];
 

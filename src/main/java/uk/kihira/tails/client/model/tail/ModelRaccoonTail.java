@@ -38,7 +38,7 @@ public class ModelRaccoonTail extends ModelPartBase {
 		tail2.setRotationPoint(0F, 0F, 2F);
 		setRotationDegrees(tail2, -30F, 0F, 0F);
 
-		ModelRenderer tailTip = new ModelRenderer(this, 0, 22);
+		final ModelRenderer tailTip = new ModelRenderer(this, 0, 22);
 		tailTip.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
 		tailTip.setRotationPoint(0F, 0F, 12F);
 
@@ -49,7 +49,7 @@ public class ModelRaccoonTail extends ModelPartBase {
 
 	@Override
 	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
-		float timestep = getAnimationTime(8000, entity);
+		final float timestep = getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
@@ -57,7 +57,7 @@ public class ModelRaccoonTail extends ModelPartBase {
 
 		if (entity.getRidingEntity() == null) {
 			if (entity instanceof PlayerEntity) {
-				double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = angles[0];
 				yAngleOffset = angles[1];

@@ -44,10 +44,9 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 			entry.data.favourite = ((GuiIconButton.GuiIconToggleButton) b).toggled;
 		}, new TranslationTextComponent("gui.button.favourite")));
 		addButton(deleteButton = new GuiIconButton(21, bottom - top - 20, GuiIconButton.Icons.DELETE, b -> {
-			if (entry.data.remoteEntry)
-				//Only allow removing if player owns the entry
-				if (!entry.data.creatorUUID.equals(minecraft.player.getUniqueID()))
-					return;
+			//Only allow removing if player owns the entry
+			if (entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUniqueID()))
+				return;
 			((GuiIconButton) b).setHover(false);
 			parent.libraryPanel.removeEntry(entry);
 			setEntry(null);
@@ -61,8 +60,8 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 			b.active = false;
 		}, new TranslationTextComponent("gui.button.savelocal")));
 		addButton(new GuiIconButton(68, bottom - top - 20, GuiIconButton.Icons.EXPORT, b -> {
-			StringBuilder sb = new StringBuilder();
-			LibraryEntryData libData = parent.libraryInfoPanel.getEntry().data;
+			final StringBuilder sb = new StringBuilder();
+			final LibraryEntryData libData = parent.libraryInfoPanel.getEntry().data;
 			sb.append(libData.entryName).append(":");
 			sb.append(libData.creatorUUID).append(":");
 			sb.append(Tails.gson.toJson(libData.partsData));
@@ -96,7 +95,7 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 			font.drawString(matrixStack, I18n.format("gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
 			font.drawString(matrixStack, entry.data.creatorName, right - left - 5 - font.getStringWidth(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
 			font.drawString(matrixStack, I18n.format("gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
-			String date = new SimpleDateFormat("dd/MM/YY").format(new Date(entry.data.creationDate));
+			final String date = new SimpleDateFormat("dd/MM/YY").format(new Date(entry.data.creationDate));
 			font.drawString(matrixStack, date, right - left - 5 - font.getStringWidth(date), bottom - top - 32, 0xAAAAAA);
 		}
 

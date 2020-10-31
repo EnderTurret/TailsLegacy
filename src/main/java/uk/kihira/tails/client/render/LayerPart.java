@@ -36,11 +36,11 @@ public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		UUID uuid = PlayerEntity.getUUID(entity.getGameProfile());
+		final UUID uuid = PlayerEntity.getUUID(entity.getGameProfile());
 		if (Tails.proxy.hasPartsData(uuid)) {
-			PartsData partsData = Tails.proxy.getPartsData(uuid);
+			final PartsData partsData = Tails.proxy.getPartsData(uuid);
 			if (partsData.hasPartInfo(partType)) {
-				PartInfo tailInfo = partsData.getPartInfo(partType);
+				final PartInfo tailInfo = partsData.getPartInfo(partType);
 
 				matrixStackIn.push();
 

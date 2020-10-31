@@ -20,7 +20,7 @@ public class ServerEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+		final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
 		//Send current known tails to uk.kihira.tails.client
 		Tails.networkWrapper.send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.proxy.getPartsData()));
 		Tails.networkWrapper.send(PacketDistributor.PLAYER.with(() -> player), new ServerCapabilitiesMessage(Tails.libraryEnabled));

@@ -80,7 +80,7 @@ public class PartRegistry {
 	 * @return The render part
 	 */
 	public static RenderPart getRenderPart(PartsData.PartType partType, int index) {
-		List<RenderPart> parts = PartRegistry.getParts(partType);
+		final List<RenderPart> parts = PartRegistry.getParts(partType);
 		index = index >= parts.size() ? 0 : index;
 		return parts.get(index);
 	}

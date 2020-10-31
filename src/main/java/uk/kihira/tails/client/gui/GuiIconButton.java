@@ -47,7 +47,7 @@ public class GuiIconButton extends Button implements ITooltip {
 
 			//Check mouse over
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			int textureOffset = getYImage(isHovered);
+			final int textureOffset = getYImage(isHovered);
 
 			blit(matrixStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
 		}

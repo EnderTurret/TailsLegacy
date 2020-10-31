@@ -65,12 +65,12 @@ public class TextureHelper {
 	 * @return Has part info(s).
 	 */
 	public static boolean hasSkinData(AbstractClientPlayerEntity player) {
-		BufferedImage image = getPlayerSkinAsBufferedImage(player);
+		final BufferedImage image = getPlayerSkinAsBufferedImage(player);
 		if (image != null)
 			for (PartsData.PartType partType : PartsData.PartType.values()) {
-				int ordinal = partType.ordinal();
-				int scol1 = image.getRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY());
-				int scol2 = image.getRGB((int) switchPoints[ordinal][1].getX(), (int) switchPoints[ordinal][1].getY());
+				final int ordinal = partType.ordinal();
+				final int scol1 = image.getRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY());
+				final int scol2 = image.getRGB((int) switchPoints[ordinal][1].getX(), (int) switchPoints[ordinal][1].getY());
 
 				if (scol1 == switch1Colour && scol2 == switch2Colour)
 					return true;
@@ -80,9 +80,9 @@ public class TextureHelper {
 
 	@SuppressWarnings("rawtypes")
 	public static void buildPlayerPartsData(AbstractClientPlayerEntity player) {
-		GameProfile profile = player.getGameProfile();
-		UUID uuid = profile.getId();
-		BufferedImage image = getPlayerSkinAsBufferedImage(player);
+		final GameProfile profile = player.getGameProfile();
+		final UUID uuid = profile.getId();
+		final BufferedImage image = getPlayerSkinAsBufferedImage(player);
 		if (image != null) {
 			//Players part data
 			PartsData partsData = Tails.proxy.getPartsData(uuid);
@@ -91,9 +91,9 @@ public class TextureHelper {
 
 			//Load part data from skin
 			for (PartsData.PartType partType : PartsData.PartType.values()) {
-				int ordinal = partType.ordinal();
-				int scol1 = image.getRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY());
-				int scol2 = image.getRGB((int) switchPoints[ordinal][1].getX(), (int) switchPoints[ordinal][1].getY());
+				final int ordinal = partType.ordinal();
+				final int scol1 = image.getRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY());
+				final int scol2 = image.getRGB((int) switchPoints[ordinal][1].getX(), (int) switchPoints[ordinal][1].getY());
 
 				PartInfo tailInfo;
 				if (scol1 == switch1Colour && scol2 == switch2Colour)
@@ -114,13 +114,13 @@ public class TextureHelper {
 	}
 
 	public static BufferedImage writePartsDataToSkin(PartsData partsData, AbstractClientPlayerEntity player) {
-		BufferedImage image = getPlayerSkinAsBufferedImage(player);
+		final BufferedImage image = getPlayerSkinAsBufferedImage(player);
 
 		//Check we have the players skin
 		if (image != null)
 			for (PartsData.PartType partType : PartsData.PartType.values()) {
-				PartInfo partInfo = partsData.getPartInfo(partType);
-				int ordinal = partType.ordinal();
+				final PartInfo partInfo = partsData.getPartInfo(partType);
+				final int ordinal = partType.ordinal();
 				int switch1 = 0x00000000, switch2 = 0x00000000;
 				if (partInfo != null) {
 					if (partInfo.hasPart) {
@@ -149,20 +149,20 @@ public class TextureHelper {
 	}
 
 	private static PartInfo buildPartInfoFromSkin(PartsData.PartType partType, BufferedImage skin, UUID uuid) {
-		int ordinal = partType.ordinal();
-		int data = skin.getRGB((int) dataPoints[ordinal].getX(), (int) dataPoints[ordinal].getY());
-		int typeid = data >> 16 & 0xFF;
-					int subtype = data >> 8 & 0xFF;
+		final int ordinal = partType.ordinal();
+		final int data = skin.getRGB((int) dataPoints[ordinal].getX(), (int) dataPoints[ordinal].getY());
+		final int typeid = data >> 16 & 0xFF;
+					final int subtype = data >> 8 & 0xFF;
 					int textureid = data & 0xFF;
-					String[] textures = PartRegistry.getRenderPart(partType, typeid).getTextureNames(subtype);
+					final String[] textures = PartRegistry.getRenderPart(partType, typeid).getTextureNames(subtype);
 
 					textureid = textureid >= textures.length ? 0 : textureid;
 
-					int tint1 = skin.getRGB((int) tintPoints[ordinal][0].getX(), (int) tintPoints[ordinal][0].getY());
-					int tint2 = skin.getRGB((int) tintPoints[ordinal][1].getX(), (int) tintPoints[ordinal][1].getY());
-					int tint3 = skin.getRGB((int) tintPoints[ordinal][2].getX(), (int) tintPoints[ordinal][2].getY());
+					final int tint1 = skin.getRGB((int) tintPoints[ordinal][0].getX(), (int) tintPoints[ordinal][0].getY());
+					final int tint2 = skin.getRGB((int) tintPoints[ordinal][1].getX(), (int) tintPoints[ordinal][1].getY());
+					final int tint3 = skin.getRGB((int) tintPoints[ordinal][2].getX(), (int) tintPoints[ordinal][2].getY());
 
-					ResourceLocation tailTexture = generateTexture(uuid, partType, typeid, subtype, textureid, new int[] {tint1, tint2, tint3});
+					final ResourceLocation tailTexture = generateTexture(uuid, partType, typeid, subtype, textureid, new int[] {tint1, tint2, tint3});
 
 					return new PartInfo(true, typeid, subtype, 0, tint1, tint2, tint3, 1.f, tailTexture, partType);
 	}
@@ -177,12 +177,12 @@ public class TextureHelper {
 	 * @param tints An array of int[3]     @return A resource location for the generated texture
 	 */
 	private static ResourceLocation generateTexture(UUID uuid, PartsData.PartType partType, int typeid, int subid, int textureID, int[] tints) {
-		String[] textures = PartRegistry.getRenderPart(partType, typeid).getTextureNames(subid);
+		final String[] textures = PartRegistry.getRenderPart(partType, typeid).getTextureNames(subid);
 		textureID = textureID >= textures.length ? 0 : textureID;
-		String texturePath = "texture/" + partType.name().toLowerCase(Locale.ROOT) + "/" + textures[textureID] + ".png";
+		final String texturePath = "texture/" + partType.name().toLowerCase(Locale.ROOT) + "/" + textures[textureID] + ".png";
 
 		//Add UUID to prevent deleting similar textures.
-		ResourceLocation tailTexture = new ResourceLocation("tails_" + uuid + "_" + partType.name().toLowerCase(Locale.ROOT) + "_" + typeid + "_" + subid + "_" + textureID + "_" + tints[0] + "_" + tints[1] + "_" + tints[2]);
+		final ResourceLocation tailTexture = new ResourceLocation("tails_" + uuid + "_" + partType.name().toLowerCase(Locale.ROOT) + "_" + typeid + "_" + subid + "_" + textureID + "_" + tints[0] + "_" + tints[1] + "_" + tints[2]);
 		Minecraft.getInstance().getTextureManager().loadTexture(tailTexture, new TripleTintTexture("tails", texturePath, tints[0], tints[1], tints[2]));
 
 		return tailTexture;
@@ -199,10 +199,10 @@ public class TextureHelper {
 	private static BufferedImage getPlayerSkinAsBufferedImage(AbstractClientPlayerEntity player) {
 		BufferedImage bufferedImage = null;
 		InputStream inputStream = null;
-		Minecraft mc = Minecraft.getInstance();
-		Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = mc.getSkinManager().loadSkinFromCache(player.getGameProfile());
+		final Minecraft mc = Minecraft.getInstance();
+		final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = mc.getSkinManager().loadSkinFromCache(player.getGameProfile());
 		Texture skintex;
-		String playerName = player.getGameProfile().getName();
+		final String playerName = player.getGameProfile().getName();
 
 		try {
 			if (map.containsKey(MinecraftProfileTexture.Type.SKIN))
@@ -211,16 +211,16 @@ public class TextureHelper {
 				skintex = mc.getTextureManager().getTexture(player.getLocationSkin());
 
 			if (skintex instanceof DownloadingTexture) {
-				DownloadingTexture imagedata = (DownloadingTexture) skintex;
+				final DownloadingTexture imagedata = (DownloadingTexture) skintex;
 				Tails.logger.debug("Loading "+playerName+" skin");
 
 				//bufferedImage = ObfuscationReflectionHelper.getPrivateValue(DownloadingTexture.class, imagedata, "field_110560_d", "bufferedImage");
 			}
 			else if (skintex instanceof DynamicTexture) {
 				Tails.logger.warn(playerName+" skin is a DynamicTexture! Attempting to load anyway");
-				DynamicTexture imagedata = (DynamicTexture) skintex;
-				int width = imagedata.getTextureData().getWidth();
-				int height = imagedata.getTextureData().getHeight();
+				final DynamicTexture imagedata = (DynamicTexture) skintex;
+				final int width = imagedata.getTextureData().getWidth();
+				final int height = imagedata.getTextureData().getHeight();
 				bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 				bufferedImage.setRGB(0, 0, width, height, imagedata.getTextureData().makePixelArray(), 0, width);
 			}

@@ -50,7 +50,6 @@ class GuiExport extends GuiBaseScreen {
 	private final GuiEditor parent;
 	private final PartsData partsData;
 
-	//private ScaledResolution scaledRes;
 	private ITextComponent exportMessage = null;
 	private URI exportLoc;
 	private Button openFolderButton;
@@ -64,10 +63,7 @@ class GuiExport extends GuiBaseScreen {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void init() {
-		// todo this screws up when switching back to editor
-		//this.scaledRes = new ScaledResolution(this.mc);
-
-		//Left
+		// Left
 		addButton(new GuiButtonTooltip(20, height - 90, 130, 20, new TranslationTextComponent("gui.button.export.userdir"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(0), new TranslationTextComponent("gui.button.export.tooltip", System.getProperty("user.home"))));
 		addButton(new GuiButtonTooltip(20, height - 65, 130, 20, new TranslationTextComponent("gui.button.export.minecraftdir"),
@@ -75,7 +71,7 @@ class GuiExport extends GuiBaseScreen {
 		addButton(new GuiButtonTooltip(20, height - 40, 130, 20, new TranslationTextComponent("gui.button.export.custom"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> handleExport(2), new TranslationTextComponent("gui.button.export.custom.tooltip")));
 
-		//Right
+		// Right
 		addButton(openFolderButton = new GuiButtonTooltip(width - 150, height - 65, 130, 20, new TranslationTextComponent("gui.button.openfolder"),
 				minecraft.getMainWindow().getScaledWidth() / 2, b -> {
 					if (exportLoc != null)
@@ -112,7 +108,7 @@ class GuiExport extends GuiBaseScreen {
 	}
 
 	private void handleExport(int id) {
-		//Export to file
+		// Export to file.
 		final AbstractClientPlayerEntity player = minecraft.player;
 		File file;
 
@@ -206,7 +202,7 @@ class GuiExport extends GuiBaseScreen {
 				wr.write(data);
 				wr.close();
 
-				//Successful uploading!
+				// Successful uploading!
 				if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
 					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					final JsonObject jsonElement = new JsonParser().parse(in).getAsJsonObject();
@@ -243,7 +239,7 @@ class GuiExport extends GuiBaseScreen {
 		private void handleError(JsonObject json) {
 			final int status = json.get("status").getAsInt();
 
-			//Rate limiting
+			// Rate limiting.
 			if (status == 429 || status == 403)
 				setExportMessage(new TranslationTextComponent("tails.upload.ratelimit").mergeStyle(TextFormatting.DARK_RED));
 			else setExportMessage(new TranslationTextComponent("tails.upload.failed").mergeStyle(TextFormatting.DARK_RED));

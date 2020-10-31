@@ -29,9 +29,8 @@ public class ControlsPanel extends Panel<GuiEditor> {
 
 	@Override
 	public void init() {
-		//Mode Switch
+		// Mode Switch
 		addButton(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.button.mode.library"), b -> {
-			//TODO change parts data when switching? clear libraryinfo panel?
 			libraryMode = !libraryMode;
 			parent.partsPanel.enabled = !libraryMode;
 			parent.texturePanel.enabled = !libraryMode;
@@ -53,7 +52,7 @@ public class ControlsPanel extends Panel<GuiEditor> {
 
 			b.setMessage(libraryMode ? new TranslationTextComponent("gui.button.mode.editor") : new TranslationTextComponent("gui.button.mode.library"));
 		}));
-		//Reset/Save
+		// Reset/Save
 		addButton(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.button.reset"), b -> {
 			final PartInfo partInfo = parent.originalPartInfo.deepCopy();
 			parent.partsPanel.selectDefaultListEntry();
@@ -64,7 +63,7 @@ public class ControlsPanel extends Panel<GuiEditor> {
 			parent.setPartsInfo(partInfo);
 		}));
 		addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.done"), b -> {
-			//Update part info, set local and send it to the server
+			// Update part info, set local and send it to the server.
 			final PartsData partsData = parent.getPartsData();
 			Tails.setLocalPartsData(partsData);
 			Tails.proxy.addPartsData(minecraft.player.getUniqueID(), partsData);

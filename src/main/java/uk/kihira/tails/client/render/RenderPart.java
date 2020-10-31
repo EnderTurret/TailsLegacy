@@ -55,7 +55,7 @@ public class RenderPart {
 		matrixStack.push();
 
 		IRenderHelper helper;
-		//Support for Galacticraft as it adds its own EntityPlayer
+		// Support for Galacticraft as it adds its own EntityPlayer.
 		if (entity instanceof PlayerEntity) helper = getRenderHelper(PlayerEntity.class);
 		else helper = getRenderHelper(entity.getClass());
 		if (helper != null)

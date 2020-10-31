@@ -61,7 +61,7 @@ public class CommonProxy {
 	public void removePartsData(UUID uuid) {
 		if (hasPartsData(uuid)) {
 			if (EffectiveSide.get() == LogicalSide.SERVER) {
-				//todo Tell uk.kihira.tails.client to remove textures
+				// TODO Tell uk.kihira.tails.client to remove textures.
 				//Tails.networkWrapper.sendToAll(new PlayerDataMessage(uuid, this.partsData.get(uuid), true));
 			}
 			partsData.remove(uuid);

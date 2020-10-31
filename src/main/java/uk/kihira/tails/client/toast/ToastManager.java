@@ -49,15 +49,6 @@ public class ToastManager {
 			toasts.add(new Toast(x - stringWidth / 2 - 5, y, stringWidth + 10, text.getString().length() * 3, text.func_241878_f()));
 	}
 
-	/*@SubscribeEvent
-    public void onMouseEvent(MouseEvent event) {
-        for (Toast toast : toasts) {
-            if (toast.mouseOver) {
-                toast.onMouseEvent(event);
-            }
-        }
-    }*/
-
 	@SubscribeEvent
 	public void onClientTickPost(TickEvent.ClientTickEvent event) {
 		if (event.phase == TickEvent.Phase.END) {

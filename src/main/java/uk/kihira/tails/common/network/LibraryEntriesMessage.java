@@ -15,7 +15,7 @@ import uk.kihira.tails.common.Tails;
 public class LibraryEntriesMessage {
 
 	private List<LibraryEntryData> entries;
-	private boolean delete; //Only used when sending to server
+	private boolean delete; // Only used when sending to server.
 
 	public LibraryEntriesMessage() {}
 	public LibraryEntriesMessage(List<LibraryEntryData> entries, boolean delete) {
@@ -42,17 +42,17 @@ public class LibraryEntriesMessage {
 	}
 
 	public static void onMessage(LibraryEntriesMessage message, Supplier<NetworkEvent.Context> ctx) {
-		//Client
+		// Client
 		if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
-			//Yeah this isn't exactly a nice way of doing this.
+			// Yeah this isn't exactly a nice way of doing this.
 			for (LibraryEntryData entry : message.entries)
 				entry.remoteEntry = true;
 
-			//We add server entries to the uk.kihira.tails.client
+			// We add server entries to the uk.kihira.tails.client
 			Tails.proxy.getLibraryManager().removeRemoteEntries();
 			Tails.proxy.getLibraryManager().addEntries(message.entries);
 		}
-		//Server
+		// Server
 		else {
 			if (message.delete) {
 				Tails.logger.debug("Removing Library Entries: " + message.entries.size());

@@ -25,7 +25,6 @@ public class GuiList<T extends ExtendedList.AbstractListEntry<T>> extends Extend
 		super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
 		this.parent = parent;
 		replaceEntries(entries);
-		//x0 = -3;
 	}
 
 	@Override
@@ -49,26 +48,15 @@ public class GuiList<T extends ExtendedList.AbstractListEntry<T>> extends Extend
 		return width;
 	}
 
-	/*@Override
-    protected void elementClicked(int index, boolean doubleClick, int mouseX, int mouseY) {
-        this.currentIndex = index;
-        if (this.parent != null) this.parent.onEntrySelected(this, index, this.getEntry(index));
-    }*/
-
 	@Override
 	protected int getScrollbarPosition() {
-		return x1/* - 6*/;
+		return x1;
 	}
 
 	@Override
 	public boolean isSelectedItem(int index) {
 		return super.isSelectedItem(index);
 	}
-
-	/*@Override
-    public int getWidth() {
-        return width - 8;
-    }*/
 
 	public int getItemHeight() {
 		return itemHeight;

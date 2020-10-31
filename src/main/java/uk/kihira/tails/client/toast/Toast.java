@@ -40,8 +40,6 @@ public class Toast {
 		height = this.message.size() * Minecraft.getInstance().fontRenderer.FONT_HEIGHT + 7;
 	}
 
-	//public void onMouseEvent(MouseEvent mouseEvent) {}
-
 	public void drawToast(MatrixStack matrixStack, int mouseX, int mouseY) {
 		if (time > 0) {
 			final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
@@ -72,13 +70,13 @@ public class Toast {
 		int opacity = mouseOver ? 255 : (int) (time * 256F / 25F);
 		if (opacity > 255) opacity = 255;
 
-		//Black back
+		// Black back
 		int colour = opacity << 24;
 		AbstractGui.fill(matrixStack, x + 1, y, x + width - 1, y + height, colour);
 		AbstractGui.fill(matrixStack, x, y + 1, x + 1, y + height - 1, colour);
 		AbstractGui.fill(matrixStack, x + width - 1, y + 1, x + width, y + height - 1, colour);
 
-		//Border
+		// Border
 		colour = 0x28025c | opacity << 24;
 		AbstractGui.fill(matrixStack, x + 1, y + 1, x + width - 1, y + 2, colour);
 		AbstractGui.fill(matrixStack, x + 1, y + height - 1, x + width - 1, y + height - 2, colour);

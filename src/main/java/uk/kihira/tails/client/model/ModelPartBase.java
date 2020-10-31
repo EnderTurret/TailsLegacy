@@ -70,17 +70,17 @@ public abstract class ModelPartBase extends EntityModel<LivingEntity> {
 	}
 
 	public static float getAnimationTime(double cycleTime, Entity entity) {
-		//Returns between 0-360 in radians depending on far in the "cycle" we are.
+		// Returns between 0-360 in radians depending on far in the "cycle" we are.
 		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2F * Math.PI);
 	}
 
 	protected double[] getMotionAngles(PlayerEntity player, double partialTicks) {
 		final double xMotion = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * partialTicks - (player.prevPosX + (player.getPosX() - player.prevPosX) * partialTicks);
-		final double yMotion = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * partialTicks - (player.prevPosY + (player.getPosY() - player.prevPosY) * partialTicks); //Positive when falling, negative when climbing
+		final double yMotion = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * partialTicks - (player.prevPosY + (player.getPosY() - player.prevPosY) * partialTicks); // Positive when falling, negative when climbing
 		final double zMotion = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * partialTicks - (player.prevPosZ + (player.getPosZ() - player.prevPosZ) * partialTicks);
 		final float bodyYaw = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * (float) partialTicks;
-		//Pretty sure renderYawOffset is actually the way the body is "pointing"
-		//In degrees, not bound 0-360, be warned!
+		// Pretty sure renderYawOffset is actually the way the body is "pointing"
+		// In degrees, not bound 0-360, be warned!
 		final double bodyYawSin = Math.sin(bodyYaw * (float) Math.PI / 180F);
 		final double bodyYawCos = -Math.cos(bodyYaw * (float) Math.PI / 180F);
 		final float xOffset = MathHelper.clamp((float) yMotion * 10F, -6F, 32F);

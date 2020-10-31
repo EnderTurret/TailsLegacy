@@ -66,7 +66,7 @@ public class PartsData {
 				'}';
 	}
 
-	//NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons
+	// NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons.
 	public enum PartType {
 		TAIL,
 		EARS,

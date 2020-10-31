@@ -31,14 +31,14 @@ import uk.kihira.tails.client.render.RenderPart;
 import uk.kihira.tails.client.render.RenderWings;
 import uk.kihira.tails.common.PartsData;
 
-//Yeah using side only isn't nice but as this is static, it means it only gets constructed on the uk.kihira.tails.client
+// Yeah using OnlyIn isn't nice but as this is static, it means it only gets constructed on the uk.kihira.tails.client.
 @OnlyIn(Dist.CLIENT)
 public class PartRegistry {
 
 	private static final ArrayListMultimap<PartsData.PartType, RenderPart> partRegistry = ArrayListMultimap.create();
 
 	static {
-		//Tails
+		// Tails
 		registerPart(PartsData.PartType.TAIL, new RenderPart("tail.fluffy", 2, new ModelFluffyTail(), null, "fox_tail"));
 		registerPart(PartsData.PartType.TAIL, new RenderPart("tail.dragon", 1, new ModelDragonTail(), null, "dragon_tail", "dragon_tail_striped").setAuthor("@TTFTCUTS", 0, 0).setAuthor("@TTFTCUTS", 1, 0));
 		registerPart(PartsData.PartType.TAIL, new RenderPart("tail.raccoon", 0, new ModelRaccoonTail(), null, "racoon_tail"));
@@ -48,13 +48,13 @@ public class PartRegistry {
 		registerPart(PartsData.PartType.TAIL, new RenderPart("tail.shark", 0, new ModelSharkTail(), "access_denied", "shark_tail"));
 		registerPart(PartsData.PartType.TAIL, new RenderPart("tail.bunny", 0, new ModelBunnyTail(), "@carrotcodes", "bunny_tail"));
 
-		//Ears
+		// Ears
 		registerPart(PartsData.PartType.EARS, new RenderPart("ears.fox", 1, new ModelFoxEars(), "@Adeon", "fox_ears"));
 		registerPart(PartsData.PartType.EARS, new RenderPart("ears.cat", 0, new ModelCatEars(), null, "cat_ears"));
 		registerPart(PartsData.PartType.EARS, new RenderPart("ears.panda", 0, new ModelPandaEars(), null, "panda_ears"));
 		registerPart(PartsData.PartType.EARS, new RenderPart("ears.catSmall", 0, new ModelCatSmallEars(), null, "cat_small_ears"));
 
-		//Wings
+		// Wings
 		registerPart(PartsData.PartType.WINGS, new RenderWings("wings.big", 1, null, null, "big_wings", "metal_wings", "dragon_wings", "dragon_boneless_wings")
 				.setAuthor("@littlechippie").setAuthor("Dracyoshi", 0, 2).setAuthor("Dracyoshi", 0, 3).setAuthor("Dracyoshi", 1, 2).setAuthor("Dracyoshi", 1, 3));
 

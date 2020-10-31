@@ -59,7 +59,7 @@ public class PlayerDataMessage {
 		if (message.shouldRemove) Tails.proxy.removePartsData(message.uuid);
 		else if (message.partsData != null) {
 			Tails.proxy.addPartsData(message.uuid, message.partsData);
-			//Tell other clients about the change
+			// Tell other clients about the change.
 			if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER)
 				Tails.networkWrapper.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData, false));
 		}

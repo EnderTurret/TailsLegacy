@@ -45,7 +45,6 @@ public class GuiIconButton extends Button implements ITooltip {
 			RenderSystem.enableBlend();
 			RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
-			//Check mouse over
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			final int textureOffset = getYImage(isHovered);
 
@@ -87,7 +86,7 @@ public class GuiIconButton extends Button implements ITooltip {
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				RenderSystem.enableBlend();
 				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-				//Check mouse over
+
 				isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 				blit(matrixStack, x, y, icon.u, icon.v + 32, 16, 16);
 			} else

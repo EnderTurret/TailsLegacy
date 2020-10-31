@@ -80,16 +80,16 @@ public class ModelDragonTail extends ModelPartBase {
 	@Override
 	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
 		double xAngleOffset = 0;
-		double yAngleMultiplier = 1; //Used to suppress sway when running
+		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getRidingEntity() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = MathHelper.clamp(angles[0] / 5F, -1D, 0.45D);
-				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
 			}
 		}
-		//Mounted
+		// Mounted
 		else {
 			xAngleOffset = Math.toRadians(12F);
 			yAngleMultiplier = 0.25F;

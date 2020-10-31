@@ -64,19 +64,6 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 		matrixStack.pop();
 	}
 
-	/*@Override
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        list.mouseClicked(mouseX, mouseY, mouseButton);
-        searchField.mouseClicked(mouseX, mouseY, mouseButton);
-        return super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
-        list.mouseReleased(mouseX, mouseY, mouseButton);
-        return super.mouseReleased(mouseX, mouseY, mouseButton);
-    }*/
-
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		final boolean value = super.keyPressed(keyCode, scanCode, modifiers);
@@ -105,7 +92,7 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 		for (LibraryEntryData data : Tails.proxy.getLibraryManager().libraryEntries)
 			libraryEntries.add(new LibraryListEntry(this, data));
 
-		//Add in new entry creation
+		// Add in new entry creation.
 		libraryEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
 
 		libraryEntries.sort(sorter);
@@ -156,7 +143,7 @@ public class LibraryPanel extends Panel<GuiEditor> implements IListCallback<Libr
 			else if (entry2 instanceof LibraryListEntry.NewLibraryListEntry)
 				return 1;
 
-			//Put favourites at the top
+			// Put favorites at the top.
 			if (entry1.data.favourite && !entry2.data.favourite)
 				return -1;
 			else if (!entry1.data.favourite && entry2.data.favourite)

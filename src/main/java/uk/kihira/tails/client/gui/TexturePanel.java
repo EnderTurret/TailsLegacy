@@ -21,7 +21,7 @@ public class TexturePanel extends Panel<GuiEditor> {
 
 	@Override
 	public void init() {
-		//Texture select
+		// Texture select
 		addButton(leftBtn = new ExtendedButton(5, texSelectX, 15, 15, new StringTextComponent("<"), b -> {
 			final PartInfo originalPartInfo = parent.getEditingPartInfo();
 			final RenderPart part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
@@ -56,9 +56,9 @@ public class TexturePanel extends Panel<GuiEditor> {
 		setBlitOffset(-10);
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 		setBlitOffset(-5);
-		fillGradient(matrixStack, 7, texSelectX, right - left - 15, texSelectX + 15, 0x55000000, 0x55000000); //Use gradientRect so it actually takes into account zlevel
+		fillGradient(matrixStack, 7, texSelectX, right - left - 15, texSelectX + 15, 0x55000000, 0x55000000); // Use fillGradient so it actually takes into account blitOffset.
 
-		//Texture select
+		// Texture select
 		drawCenteredString(matrixStack, font, I18n.format("gui.texture"), right / 2, texSelectX - 12, 0xFFFFFF);
 		font.drawString(matrixStack, I18n.format(parent.getPartType().name().toLowerCase() + ".texture." + PartRegistry.getRenderPart(parent.getPartType(),
 				partInfo.typeid).getTextureNames(partInfo.subid)[parent.textureID] + ".name"), 25, texSelectX + 4, 0xFFFFFF);

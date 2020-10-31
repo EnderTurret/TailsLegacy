@@ -44,7 +44,7 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 			entry.data.favourite = ((GuiIconButton.GuiIconToggleButton) b).toggled;
 		}, new TranslationTextComponent("gui.button.favourite")));
 		addButton(deleteButton = new GuiIconButton(21, bottom - top - 20, GuiIconButton.Icons.DELETE, b -> {
-			//Only allow removing if player owns the entry
+			// Only allow removing if player owns the entry.
 			if (entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUniqueID()))
 				return;
 			((GuiIconButton) b).setHover(false);
@@ -72,7 +72,7 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 
 		super.init();
 
-		//Only request library if on remote server
+		// Only request library if on remote server.
 		if (!Minecraft.getInstance().isIntegratedServerRunning())
 			Tails.networkWrapper.sendToServer(new LibraryRequestMessage());
 
@@ -142,10 +142,10 @@ public class LibraryInfoPanel extends Panel<GuiEditor> {
 
 				if (button == deleteButton && entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUniqueID()))
 					button.visible = false;
-				//Download
+				// Download
 				else if (button == downloadButton && !entry.data.remoteEntry)
 					button.visible = false;
-				//Upload
+				// Upload
 				else if (button == uploadButton && (entry.data.remoteEntry || minecraft.isSingleplayer() || !Tails.hasRemote))
 					button.visible = false;
 			}

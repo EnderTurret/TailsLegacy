@@ -63,13 +63,13 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		setBlitOffset(-100);
 		fillGradient(matrixStack, 0, 0, right - left + 12, listTop, 0xEA000000, 0xEA000000);
-		// TODO: This darkens the player preview. Do we actually need this?
+
 		//fillGradient(matrixStack, 0, listTop, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
 		setBlitOffset(0);
 		RenderSystem.color4f(1, 1, 1, 1);
 		drawCenteredString(matrixStack, font, I18n.format("gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
-		//Tails list
+		// Tails list
 		partList.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -77,16 +77,16 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 
 	@Override
 	public void onClose() {
-		//Delete textures on close
+		// Delete textures on close.
 		for (PartEntry entry : partList.getEventListeners())
 			entry.partInfo.setTexture(null);
 	}
 
 	@Override
 	public boolean onEntrySelected(GuiList guiList, int index, PartEntry entry) {
-		//Reset texture ID
+		// Reset texture ID.
 		parent.textureID = 0;
-		//Need to keep tints from original part
+		// Need to keep tints from original part.
 		final PartInfo partInfo = new PartInfo(entry.partInfo.hasPart, entry.partInfo.typeid, entry.partInfo.subid, entry.partInfo.textureID,
 				parent.getEditingPartInfo().tints.clone(), entry.partInfo.partType, entry.partInfo.scale, null);
 		parent.setPartsInfo(partInfo);
@@ -94,11 +94,11 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 	}
 
 	void initPartList() {
-		//Part List
+		// Part List
 		final List<PartEntry> partList = new ArrayList<>();
 		final PartsData.PartType partType = parent.getPartType();
-		partList.add(new PartEntry(PartInfo.none(partType))); //No tail
-		//Generate tail preview textures and add to list
+		partList.add(new PartEntry(PartInfo.none(partType))); // No tail
+		// Generate tail preview textures and add to list.
 		final List<RenderPart> parts = PartRegistry.getParts(partType);
 		for (int type = 0; type < parts.size(); type++)
 			for (int subType = 0; subType <= parts.get(type).getAvailableSubTypes(); subType++) {
@@ -113,7 +113,7 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 	}
 
 	void selectDefaultListEntry() {
-		//Default selection
+		// Default selection.
 		final PartInfo partInfo = parent.getEditingPartInfo();
 		for (PartEntry entry : partList.getEventListeners())
 			if (!entry.partInfo.hasPart && !partInfo.hasPart || partInfo.hasPart && entry.partInfo.hasPart
@@ -160,7 +160,7 @@ public class PartsPanel extends Panel<GuiEditor> implements IListCallback<PartsP
 				if (currentPart) {
 					final RenderPart renderPart = PartRegistry.getRenderPart(parent.getPartType(), partInfo.typeid);
 					if (renderPart.getModelAuthor() != null) {
-						//Yeah its not nice but eh, works
+						// Yeah its not nice but eh, works.
 						matrixStack.push();
 						matrixStack.translate(5, x + 27, 0);
 						matrixStack.scale(0.6F, 0.6F, 1F);

@@ -53,7 +53,7 @@ public class ModelRaccoonTail extends ModelPartBase {
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
-		double yAngleMultiplier = 1; //Used to suppress sway when running
+		double yAngleMultiplier = 1; // Used to suppress sway when running.
 
 		if (entity.getRidingEntity() == null) {
 			if (entity instanceof PlayerEntity) {
@@ -62,13 +62,13 @@ public class ModelRaccoonTail extends ModelPartBase {
 				xAngleOffset = angles[0];
 				yAngleOffset = angles[1];
 				zAngleOffset = angles[2];
-				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
 
 				xAngleOffset = MathHelper.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 				zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
 			}
 		}
-		//Mounted
+		// Mounted
 		else {
 			xAngleOffset = Math.toRadians(20F);
 			yAngleMultiplier = 0.2F;

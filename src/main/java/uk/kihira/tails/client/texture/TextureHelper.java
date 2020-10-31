@@ -84,12 +84,11 @@ public class TextureHelper {
 		final UUID uuid = profile.getId();
 		final BufferedImage image = getPlayerSkinAsBufferedImage(player);
 		if (image != null) {
-			//Players part data
 			PartsData partsData = Tails.proxy.getPartsData(uuid);
 			if (partsData == null)
 				partsData = new PartsData();
 
-			//Load part data from skin
+			// Load part data from skin.
 			for (PartsData.PartType partType : PartsData.PartType.values()) {
 				final int ordinal = partType.ordinal();
 				final int scol1 = image.getRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY());
@@ -105,7 +104,7 @@ public class TextureHelper {
 
 			Tails.proxy.addPartsData(uuid, partsData);
 
-			//If local player, send our skin info the server.
+			// If local player, send our skin info the server.
 			if (player == Minecraft.getInstance().player) {
 				Tails.setLocalPartsData(partsData);
 				Tails.networkWrapper.sendToServer(new PlayerDataMessage(UUIDTypeAdapter.fromString(Minecraft.getInstance().getSession().getPlayerID()), partsData, false));
@@ -116,7 +115,7 @@ public class TextureHelper {
 	public static BufferedImage writePartsDataToSkin(PartsData partsData, AbstractClientPlayerEntity player) {
 		final BufferedImage image = getPlayerSkinAsBufferedImage(player);
 
-		//Check we have the players skin
+		// Check we have the players skin.
 		if (image != null)
 			for (PartsData.PartType partType : PartsData.PartType.values()) {
 				final PartInfo partInfo = partsData.getPartInfo(partType);
@@ -128,18 +127,18 @@ public class TextureHelper {
 						switch2 = switch2Colour;
 					}
 
-					//Type, subtype and texture
+					// Type, subtype and texture
 					int dataColour = 0xFF000000;
 					dataColour = dataColour | partInfo.typeid << 16;
 					dataColour = dataColour | partInfo.subid << 8;
 					dataColour = dataColour | partInfo.textureID;
 					image.setRGB((int) dataPoints[ordinal].getX(), (int) dataPoints[ordinal].getY(), dataColour);
-					//Tints
+					// Tints
 					image.setRGB((int) tintPoints[ordinal][0].getX(), (int) tintPoints[ordinal][0].getY(), partInfo.tints[0]);
 					image.setRGB((int) tintPoints[ordinal][1].getX(), (int) tintPoints[ordinal][1].getY(), partInfo.tints[1]);
 					image.setRGB((int) tintPoints[ordinal][2].getX(), (int) tintPoints[ordinal][2].getY(), partInfo.tints[2]);
 				}
-				//Switch colours
+				// Switch colors
 				image.setRGB((int) switchPoints[ordinal][0].getX(), (int) switchPoints[ordinal][0].getY(), switch1);
 				image.setRGB((int) switchPoints[ordinal][1].getX(), (int) switchPoints[ordinal][1].getY(), switch2);
 			}
@@ -181,7 +180,7 @@ public class TextureHelper {
 		textureID = textureID >= textures.length ? 0 : textureID;
 		final String texturePath = "texture/" + partType.name().toLowerCase(Locale.ROOT) + "/" + textures[textureID] + ".png";
 
-		//Add UUID to prevent deleting similar textures.
+		// Add UUID to prevent deleting similar textures.
 		final ResourceLocation tailTexture = new ResourceLocation("tails_" + uuid + "_" + partType.name().toLowerCase(Locale.ROOT) + "_" + typeid + "_" + subid + "_" + textureID + "_" + tints[0] + "_" + tints[1] + "_" + tints[2]);
 		Minecraft.getInstance().getTextureManager().loadTexture(tailTexture, new TripleTintTexture("tails", texturePath, tints[0], tints[1], tints[2]));
 

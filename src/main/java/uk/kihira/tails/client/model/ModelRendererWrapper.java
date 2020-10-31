@@ -21,7 +21,7 @@ public class ModelRendererWrapper extends ModelRenderer {
 	public ModelRendererWrapper(Model model, PartsData.PartType partType) {
 		super(model);
 		this.partType = partType;
-		addBox(0, 0, 0, 0, 0, 0); //Adds in a blank box as it's required in certain cases such as rendering arrows in entities
+		addBox(0, 0, 0, 0, 0, 0); // Adds in a blank box as it's required in certain cases such as rendering arrows in entities.
 	}
 
 	@Override

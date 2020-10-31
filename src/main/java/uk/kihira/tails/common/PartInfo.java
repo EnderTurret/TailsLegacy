@@ -23,7 +23,7 @@ public class PartInfo implements Cloneable {
 	@Expose public final int subid;
 	@Expose public final int[] tints;
 	@Expose public final int textureID;
-	@Expose public PartsData.PartType partType; //Not final to preserve compat
+	@Expose public PartsData.PartType partType; // Not final to preserve compat.
 	@Expose public final float scale;
 	private ResourceLocation texture;
 	public boolean needsTextureCompile = true;

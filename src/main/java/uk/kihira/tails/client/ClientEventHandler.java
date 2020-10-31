@@ -30,7 +30,7 @@ public class ClientEventHandler {
 	private boolean clearAllPartInfo = false;
 
 	/*
-	 *** Tails Editor Button ***
+	 * Tails Editor Button
 	 */
 	@SubscribeEvent
 	public void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
@@ -41,11 +41,11 @@ public class ClientEventHandler {
 	}
 
 	/*
-	 *** Tails syncing ***
+	 * Tails Syncing
 	 */
 	@SubscribeEvent
 	public void onConnectToServer(PlayerEvent.PlayerLoggedInEvent event) {
-		//Add local player texture to map
+		// Add local player texture to map.
 		if (Tails.localPartsData != null)
 			Tails.proxy.addPartsData(Minecraft.getInstance().getSession().getProfile().getId(), Tails.localPartsData);
 	}
@@ -73,7 +73,7 @@ public class ClientEventHandler {
 				Tails.proxy.clearAllPartsData();
 				clearAllPartInfo = false;
 			}
-		//World can't be null if we want to send a packet it seems
+			// World can't be null if we want to send a packet it seems.
 			else if (!sentPartInfoToServer && Minecraft.getInstance().world != null) {
 				Tails.networkWrapper.sendToServer(new PlayerDataMessage(Minecraft.getInstance().getSession().getProfile().getId(), Tails.localPartsData, false));
 				sentPartInfoToServer = true;

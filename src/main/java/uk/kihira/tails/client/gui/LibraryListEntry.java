@@ -87,7 +87,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-			//Create entry and add to library
+			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
 			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.format("gui.library.entry.default"), Tails.localPartsData);
 			Tails.proxy.getLibraryManager().addEntry(data);

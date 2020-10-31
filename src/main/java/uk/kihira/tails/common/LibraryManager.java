@@ -80,7 +80,7 @@ public class LibraryManager {
 		final List<LibraryEntryData> entries = new ArrayList<>();
 		FileWriter fileWriter = null;
 
-		//Remove remote entries before saving
+		// Remove remote entries before saving.
 		for (LibraryEntryData libraryListEntry : libraryEntries)
 			if (!libraryListEntry.remoteEntry)
 				entries.add(libraryListEntry);

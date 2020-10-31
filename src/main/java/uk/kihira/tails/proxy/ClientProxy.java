@@ -71,15 +71,11 @@ public class ClientProxy extends CommonProxy {
 		Tails.networkWrapper.registerMessage(2, LibraryEntriesMessage.class, LibraryEntriesMessage::toBytes, LibraryEntriesMessage::fromBytes, LibraryEntriesMessage::onMessage);
 		Tails.networkWrapper.registerMessage(3, LibraryRequestMessage.class, LibraryRequestMessage::toBytes, LibraryRequestMessage::fromBytes, LibraryRequestMessage::onMessage);
 		Tails.networkWrapper.registerMessage(4, ServerCapabilitiesMessage.class, ServerCapabilitiesMessage::toBytes, ServerCapabilitiesMessage::fromBytes, ServerCapabilitiesMessage::onMessage);
-		//super.registerMessages();
 	}
 
 	@Override
 	protected void registerHandlers() {
-		final ClientEventHandler eventHandler = new ClientEventHandler();
-		MinecraftForge.EVENT_BUS.register(eventHandler);
-
-		//super.registerHandlers();
+		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 	}
 
 	@Override

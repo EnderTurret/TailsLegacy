@@ -21,14 +21,14 @@ public class FakeEntityRenderHelper implements IRenderHelper {
 	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, RenderPart tail, PartInfo info, double x, double y, double z) {
 		switch (info.partType) {
 		case TAIL: {
-			//Nine tails
+			// Nine tails
 			if (info.typeid == 0 && info.subid == 2)
 				matrixStack.translate(0F, 0.85F, 0F);
 			else matrixStack.translate(0F, 0.65F, 0F);
 			matrixStack.scale(0.9F, 0.9F, 0.9F);
 			break;
 		}
-		// todo fake head using players skin?
+		// TODO fake head using players skin?
 		case MUZZLE:
 			matrixStack.translate(0.2F, 1.25F, 0F);
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));

@@ -17,7 +17,6 @@ class PreviewPanel extends Panel<GuiEditor> {
 	private float yaw = 0F;
 	private float pitch = 10F;
 	private double prevMouseX = -1;
-	//private ScaledResolution scaledRes;
 	private boolean doRender;
 
 	PreviewPanel(GuiEditor parent, int left, int top, int right, int bottom) {
@@ -29,7 +28,6 @@ class PreviewPanel extends Panel<GuiEditor> {
 		doRender = Minecraft.getInstance().gameSettings.getPointOfView() == PointOfView.FIRST_PERSON;
 		if (!doRender)
 			return;
-		//scaledRes = new ScaledResolution(minecraft);
 		// Reset Camera
 		addButton(new GuiIconButton(right - left - 18, 22, GuiIconButton.Icons.UNDO, b -> {
 			yaw = 0;
@@ -61,7 +59,7 @@ class PreviewPanel extends Panel<GuiEditor> {
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 		if (button == 0)
-			//Yaw
+			// Yaw
 			if (prevMouseX == -1) prevMouseX = mouseX;
 			else {
 				yaw += (mouseX - prevMouseX) * 1.5F;

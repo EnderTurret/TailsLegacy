@@ -69,7 +69,7 @@ public class ModelFluffyTail extends ModelPartBase {
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
-		double yAngleMultiplier = 1; //Used to suppress sway when running
+		double yAngleMultiplier = 1; // Used to suppress sway when running
 		if (entity.getRidingEntity() != null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
@@ -78,40 +78,40 @@ public class ModelFluffyTail extends ModelPartBase {
 				zAngleOffset = angles[2];
 
 				switch (subtype) {
-				//Fox Tail
+				// Fox Tail
 				case 0:
 					xAngleOffset = MathHelper.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 					zAngleOffset = MathHelper.clamp(zAngleOffset, -0.5D, 0.5D);
 					break;
-					//Twin Tails
+					// Twin Tails
 				case 1:
 					xAngleOffset = MathHelper.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 					zAngleOffset = MathHelper.clamp(zAngleOffset, -0.5D, 0.5D);
 					break;
-					//Nine tails
+					// Nine tails
 				case 2:
 					zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -1D, 0.5D);
 					xAngleOffset = MathHelper.clamp(xAngleOffset * 0.25D, -1D, 0.2D);
 					xAngleOffset += Math.cos(timestep + xOffset) / 30F;
 					break;
 				}
-				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running
 			}
 		}
-		//Mounted
+		// Mounted
 		else
 			switch (subtype) {
-			//Fox Tail
+			// Fox Tail
 			case 0:
 				xAngleOffset = Math.toRadians(22F);
 				yAngleMultiplier = 0.5F;
 				break;
-				//Twin Tails
+				// Twin Tails
 			case 1:
 				xAngleOffset = Math.toRadians(20F);
 				yAngleMultiplier = 0.5F;
 				break;
-				//Nine tails
+				// Nine tails
 			case 2:
 				xAngleOffset = Math.toRadians(15F);
 				yAngleMultiplier = 0.75F;

@@ -73,28 +73,13 @@ public class Tails {
 			loadConfig();
 	}
 
-	/*@NetworkCheckHandler
-    public boolean checkRemoteVersions(Map<String, String> versions, Dist side) {
-        if (versions.containsKey(MOD_ID)) {
-            String clientVer = Loader.instance().getReversedModObjectList().get(this).getVersion();
-            if (!VersionParser.parseRange("[" + clientVer + ",)").containsVersion(new DefaultArtifactVersion(versions.get(MOD_ID)))) {
-                logger.warn(String.format("Remote version not in acceptable version bounds! Local is %s, Remote (%s) is %s", clientVer, side.toString(), versions.get(MOD_ID)));
-            }
-            else {
-                logger.debug(String.format("Remote version is in acceptable version bounds. Local is %s, Remote (%s) is %s", clientVer, side.toString(), versions.get(MOD_ID)));
-                hasRemote = true;
-            }
-        }
-        return true;
-    }*/
-
 	public static void loadConfig() {
-		//Load local player info
+		// Load local player info.
 		try {
-			//Load Player Data
+			// Load player data.
 			final String localPlayerOutfit = TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.get();
 
-			//Load default if none exists
+			// Load default if none exists.
 			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty()) {
 				localPartsData = new PartsData();
 				for (PartsData.PartType partType : PartsData.PartType.values())

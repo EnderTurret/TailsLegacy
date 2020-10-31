@@ -84,20 +84,11 @@ public class GuiHSBSlider extends AbstractSlider implements ITooltip {
 			}
 
 			RenderSystem.color4f(1F, 1F, 1F, 1F);
-			//RenderHelper.startGlScissor(x, y, width, height);
 			Minecraft.getInstance().getTextureManager().bindTexture(sliderTexture);
 			blit(matrixStack, x + (int)(sliderValue * (width - 3) - 2), y, 0, 0, 7, 4);
 			blit(matrixStack, x + (int)(sliderValue * (width - 3) - 2), y + height - 4, 7, 0, 7, 4);
-			//RenderHelper.endGlScissor();
 		}
 	}
-
-	/*@Override
-    public void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-        if (visible) {
-        	setValue((mouseX - (x + 4)) / (width - 8));
-        }
-    }*/
 
 	public HSBSliderType getType() {
 		return type;

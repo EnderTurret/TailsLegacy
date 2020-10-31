@@ -29,7 +29,7 @@ public class LibraryImportPanel extends Panel<GuiEditor> {
 	@SuppressWarnings("unchecked")
 	public void init() {
 
-		//Import Skin
+		// Import Skin
 		final Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("gui.library.import.skin"), b -> {
 			TextureHelper.buildPlayerPartsData(minecraft.player);
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));

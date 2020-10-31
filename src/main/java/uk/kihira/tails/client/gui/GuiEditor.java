@@ -40,11 +40,11 @@ public class GuiEditor extends GuiBase {
 
 	public GuiEditor() {
 		super(4, new StringTextComponent(""));
-		//Backup original PartInfo or create default one
+		// Backup original PartInfo or create default one.
 		if (Tails.localPartsData == null)
 			Tails.setLocalPartsData(new PartsData());
 
-		//Default to Tail
+		// Default to Tail.
 		partType = PartsData.PartType.TAIL;
 		for (PartsData.PartType partType : PartsData.PartType.values())
 			if (!Tails.localPartsData.hasPartInfo(partType))
@@ -56,9 +56,6 @@ public class GuiEditor extends GuiBase {
 		originalPartInfo = partInfo.deepCopy();
 		setPartsData(Tails.localPartsData.deepCopy());
 		editingPartInfo = originalPartInfo.deepCopy();
-
-		//guiScale = Minecraft.getMinecraft().gameSettings.guiScale;
-		//setScale(4);
 	}
 
 	@Override
@@ -68,7 +65,7 @@ public class GuiEditor extends GuiBase {
 		final int previewWindowBottom = height - 30;
 		final int texSelectHeight = 35;
 
-		//Not an ideal solution but keeps everything from resetting on resize
+		// Not an ideal solution but keeps everything from resetting on resize.
 		if (tintPanel == null) {
 			getLayer(0).add(previewPanel = new PreviewPanel(this, previewWindowEdgeOffset, 0, previewWindowRight - previewWindowEdgeOffset, previewWindowBottom));
 			getLayer(1).add(partsPanel = new PartsPanel(this, 0, 0, previewWindowEdgeOffset, height - texSelectHeight));
@@ -100,7 +97,6 @@ public class GuiEditor extends GuiBase {
 	@Override
 	public void onClose() {
 		Tails.proxy.addPartsData(playerUUID, Tails.localPartsData);
-		//setScale(guiScale);
 		super.onClose();
 	}
 
@@ -109,7 +105,7 @@ public class GuiEditor extends GuiBase {
 	}
 
 	void setPartsInfo(PartInfo newPartInfo) {
-		//editingPartInfo.setTexture(null); //Clear texture data as we will no longer need it
+		//editingPartInfo.setTexture(null); // Clear texture data as we will no longer need it.
 		editingPartInfo = newPartInfo;
 		if (editingPartInfo.hasPart) editingPartInfo.setTexture(TextureHelper.generateTexture(playerUUID, editingPartInfo));
 

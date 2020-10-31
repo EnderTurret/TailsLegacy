@@ -88,7 +88,7 @@ public class ModelBirdTail extends ModelPartBase {
 				zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
 			}
 		}
-		//Mounted
+		// Mounted
 		else
 			xAngleOffset = Math.toRadians(60F);
 

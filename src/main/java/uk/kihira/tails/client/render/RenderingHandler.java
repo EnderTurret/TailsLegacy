@@ -28,7 +28,7 @@ public class RenderingHandler {
 
 	@SubscribeEvent
 	public void onPlayerRenderTickPost(RenderPlayerEvent.Post e) {
-		//Reset to null after rendering the current tail
+		// Reset to null after rendering the current tail.
 		currentPartsData = null;
 		currentPlayerTexture = null;
 		currentEvent = null;

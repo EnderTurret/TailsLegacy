@@ -13,7 +13,7 @@ public abstract class GuiBase extends GuiBaseScreen {
 
 	private static final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
 
-	//0 is bottom layer
+	// 0 is bottom layer.
 	private final List<List<Panel>> layers = new ArrayList<>();
 
 	public GuiBase(int layerCount, ITextComponent title) {

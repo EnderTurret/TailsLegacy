@@ -27,19 +27,19 @@ public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float p_73863_3_) {
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		fillGradient(matrixStack, 0, 0, width, height, 0xFF808080, 0xFF808080);
 		fillGradient(matrixStack, 1, 12, width - 1, height - 1, 0xFF000000, 0xFF000000);
 
 		if (!Strings.isNullOrEmpty(title))
 			drawString(matrixStack, font, title, 2, 2, 0xFFFFFFFF);
 
-		super.render(matrixStack, mouseX, mouseY, p_73863_3_);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-		//Only if they grab the top
+		// Only if they grab the top.
 		if (mouseButton == 0 && mouseY < 12) {
 			dragging = true;
 			mouseXStart = mouseX;
@@ -48,16 +48,6 @@ public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
 		} else
 			return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
-
-	/*    @Override
-    TODO public void mouseMovedOrUp(int mouseX, int mouseY, int mouseButton) {
-        if (dragging && mouseButton == 0) {
-            dragging = false;
-        }
-        else {
-            super.mouseMovedOrUp(mouseX, mouseY, mouseButton);
-        }
-    }*/
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int mouseButton, double dragX, double dragY) {

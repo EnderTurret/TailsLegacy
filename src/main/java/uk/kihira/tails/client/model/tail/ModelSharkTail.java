@@ -59,10 +59,6 @@ public class ModelSharkTail extends ModelPartBase {
 		finBot2.setRotationPoint(0.0F, 0.0F, -2.0F);
 		finBot2.addBox(0.0F, 0.0F, -3.0F, 1, 3, 3, 0.0F);
 		setRotateAngle(finBot2, 0.136659280431156F, -0.0F, 0.0F);
-		/*        this.fin = new ModelRenderer(this, 58, 0);
-        this.fin.setRotationPoint(0.0F, -0.5F, 1.5F);
-        this.fin.addBox(0.0F, -3.0F, 0.0F, 0, 2, 3, 0.0F);
-        this.setRotateAngle(fin, -0.11728612573401893F, -0.0F, 0.0F);*/
 		tail3 = new ModelRenderer(this, 0, 3);
 		tail3.setRotationPoint(0.0F, 0.0F, 4.4F);
 		tail3.addBox(-1.0F, -1.0F, 0.0F, 2, 2, 4, 0.0F);
@@ -82,7 +78,6 @@ public class ModelSharkTail extends ModelPartBase {
 		finTop2.addChild(finTop3);
 		tail3.addChild(finBase);
 		finBot1.addChild(finBot2);
-		//this.tail1.addChild(this.fin);
 		tail2.addChild(tail3);
 		finTop1.addChild(finTop2);
 		finBot2.addChild(fubBot3);
@@ -100,16 +95,16 @@ public class ModelSharkTail extends ModelPartBase {
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		double xAngleOffset = 0;
-		double yAngleMultiplier = 1; //Used to suppress sway when running
+		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getRidingEntity() != null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = MathHelper.clamp(angles[0] / 5F, -1D, 0.45D);
-				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
 			}
 		}
-		//Mounted
+		// Mounted
 		else {
 			xAngleOffset = Math.toRadians(12F);
 			yAngleMultiplier = 0.25F;

@@ -45,17 +45,6 @@ public class LayerPart extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 				matrixStackIn.push();
 
 				if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE)
-					/*if (entity.isSneaking())
-                        matrixStackIn.translate(0f, 0.2F, 0f);
-
-                    // TODO should really do transforms on the model instead, should hopefully be "fixed" on model rewrite
-                    if (mpmCompat) {
-                        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(netHeadYaw));
-                        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(headPitch));
-                    } else {
-                        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(headPitch * 0.017453292F));
-                        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(netHeadYaw * 0.017453292F));
-                    }*/
 					getEntityModel().bipedHead.translateRotate(matrixStackIn);
 
 				PartRegistry.getRenderPart(tailInfo.partType, tailInfo.typeid).render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);

@@ -72,13 +72,13 @@ public class ModelCatTail extends ModelPartBase {
 		final float seed = getAnimationTime(6000, entity);
 		final float xseed = getAnimationTime(12000, entity);
 		double xAngleOffset = 0;
-		double yAngleMultiplier = 1; //Used to suppress sway when running
+		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getRidingEntity() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
 				xAngleOffset = MathHelper.clamp(angles[0] / 3.5F, -1F, 0.33D);
-				yAngleMultiplier = 1 - xAngleOffset * 2F; //Used to suppress sway when running
+				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
 			}
 		}
 		else {

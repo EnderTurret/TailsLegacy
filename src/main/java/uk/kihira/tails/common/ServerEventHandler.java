@@ -21,7 +21,7 @@ public class ServerEventHandler {
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-		//Send current known tails to uk.kihira.tails.client
+		// Send current known tails to uk.kihira.tails.client
 		Tails.networkWrapper.send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.proxy.getPartsData()));
 		Tails.networkWrapper.send(PacketDistributor.PLAYER.with(() -> player), new ServerCapabilitiesMessage(Tails.libraryEnabled));
 		Tails.logger.debug(String.format("Sent tail data of size %d to %s ", Tails.proxy.getPartsData().size(), event.getPlayer().getName()));
@@ -29,7 +29,7 @@ public class ServerEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-		//Server doesn't save tails so we discard
+		// Server doesn't save tails so we discard.
 		Tails.proxy.removePartsData(PlayerEntity.getUUID(event.getPlayer().getGameProfile()));
 	}
 }

@@ -61,8 +61,10 @@ public class PartRenderer {
 		if (helper != null)
 			helper.onPreRenderTail(matrixStack, entity, this, info, x, y, z);
 
-		modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
-		modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
+		if (modelPart != null) {
+			modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
+			modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
+		}
 	}
 
 	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {

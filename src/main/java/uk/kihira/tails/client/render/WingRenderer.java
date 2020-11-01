@@ -15,6 +15,8 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Matrix3f;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.common.PartInfo;
@@ -26,11 +28,30 @@ public class WingRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
-		//Minecraft.getInstance().getTextureManager().bindTexture(info.getTexture());
-		final IVertexBuilder renderer = bufferIn.getBuffer(RenderStates.getWings(info.getTexture()));
-		//BufferBuilder renderer = Tessellator.getInstance().getBuffer();
-		final boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 0F;
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+		matrixStack.push();
+
+		preRender(matrixStack, entity, info, x, y, z, partialTicks);
+
+		doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+
+		matrixStack.pop();
+	}
+
+	@Override
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+		matrixStack.push();
+
+		preRender(matrixStack, entity, info, x, y, z, partialTicks);
+
+		doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+
+		matrixStack.pop();
+	}
+
+	@Override
+	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder renderer, float partialTicks, int packedLightIn, int packedOverlayIn) {
+		final boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
 		final float angle = MathHelper.sin(timestep) * (isFlying ? 24F : 4F);
 		final float scale = info.subid == 1 ? 1F : 2F;
@@ -44,26 +65,32 @@ public class WingRenderer extends PartRenderer {
 		matrixStack.translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
 
 		matrixStack.push();
+
 		matrixStack.translate(0F, 0F, 1F * PartModel.SCALE);
 		matrixStack.rotate(Vector3f.XP.rotationDegrees(30F - angle));
-		//renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		renderer.pos(matrixStack.getLast().getMatrix(), 0, 1, 0).tex(0, 0).endVertex();
-		renderer.pos(matrixStack.getLast().getMatrix(), 1, 1, 0).tex(1, 0).endVertex();
-		renderer.pos(matrixStack.getLast().getMatrix(), 1, 0, 0).tex(1, 1).endVertex();
-		renderer.pos(matrixStack.getLast().getMatrix(), 0, 0, 0).tex(0, 1).endVertex();
-		//Tessellator.getInstance().draw();
+		Matrix4f m = matrixStack.getLast().getMatrix();
+		Matrix3f n = matrixStack.getLast().getNormal();
+
+		renderer.pos(m, 0, 1, 0).color(1F, 1F, 1F, 1F).tex(0, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 1, 1, 0).color(1F, 1F, 1F, 1F).tex(1, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 1, 0, 0).color(1F, 1F, 1F, 1F).tex(1, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 0, 0, 0).color(1F, 1F, 1F, 1F).tex(0, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+
 		matrixStack.pop();
 
 		matrixStack.push();
+
 		matrixStack.translate(0F, 0.3F * PartModel.SCALE, 0F);
 		matrixStack.rotate(Vector3f.XP.rotationDegrees(-30F + angle));
-		//renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		renderer.pos(matrixStack.getLast().getMatrix(), 0, 1, 0).tex(0, 0).endVertex();
-		renderer.pos(matrixStack.getLast().getMatrix(), 1, 1, 0).tex(1, 0).endVertex();
-		renderer.pos(matrixStack.getLast().getMatrix(), 1, 0, 0).tex(1, 1).endVertex();
-		renderer.pos(matrixStack.getLast().getMatrix(), 0, 0, 0).tex(0, 1).endVertex();
-		//Tessellator.getInstance().draw();
+		m = matrixStack.getLast().getMatrix();
+		n = matrixStack.getLast().getNormal();
+		renderer.pos(m, 0, 1, 0).color(1F, 1F, 1F, 1F).tex(0, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 1, 1, 0).color(1F, 1F, 1F, 1F).tex(1, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 1, 0, 0).color(1F, 1F, 1F, 1F).tex(1, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 0, 0, 0).color(1F, 1F, 1F, 1F).tex(0, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+
 		matrixStack.pop();
+
 		matrixStack.pop();
 	}
 }

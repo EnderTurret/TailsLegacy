@@ -58,7 +58,10 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 				else if (partType == PartsData.PartType.TAIL)
 					getEntityModel().bipedBody.translateRotate(matrixStackIn);
 
-				PartRegistry.getPartRenderer(tailInfo.partType, tailInfo.typeid).render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
+				final PartRenderer renderer = PartRegistry.getPartRenderer(tailInfo.partType, tailInfo.typeid);
+
+				renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
+
 				matrixStackIn.pop();
 			}
 		}

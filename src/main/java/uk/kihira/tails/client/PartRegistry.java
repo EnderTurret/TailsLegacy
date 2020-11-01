@@ -40,11 +40,13 @@ public class PartRegistry {
 	static {
 		// Tails
 		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.fluffy", 2, new FluffyTailModel(), null, "fox_tail"));
-		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.dragon", 1, new DragonTailModel(), null, "dragon_tail", "dragon_tail_striped").setAuthor("@TTFTCUTS", 0, 0).setAuthor("@TTFTCUTS", 1, 0));
+		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.dragon", 1, new DragonTailModel(), null, "dragon_tail", "dragon_tail_striped")
+				.setAuthor("@TTFTCUTS", 0, 0).setAuthor("@TTFTCUTS", 1, 0));
 		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.raccoon", 0, new RaccoonTailModel(), null, "racoon_tail"));
 		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.devil", 1, new DevilTailModel(), null, "devil_tail"));
 		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.cat", 0, new CatTailModel(), null, "tabby_tail", "tiger_tail"));
-		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.bird", 0, new BirdTailModel(), null, "bird_tail").setAuthor("@blusunrize", 0, 0));
+		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.bird", 0, new BirdTailModel(), null, "bird_tail")
+				.setAuthor("@blusunrize", 0, 0));
 		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.shark", 0, new SharkTailModel(), "access_denied", "shark_tail"));
 		registerPart(PartsData.PartType.TAIL, new PartRenderer("tail.bunny", 0, new BunnyTailModel(), "@carrotcodes", "bunny_tail"));
 

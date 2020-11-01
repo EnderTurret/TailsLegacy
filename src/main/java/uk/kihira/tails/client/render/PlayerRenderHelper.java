@@ -43,8 +43,7 @@ public class PlayerRenderHelper implements IRenderHelper {
 			matrixStack.scale(0.9F, 0.9F, 0.9F);
 		}
 		else {
-			if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
-			else matrixStack.translate(0F, 0.65F, 0.1F);
+			matrixStack.translate(0F, 0.65F, 0.1F);
 			matrixStack.scale(0.8F, 0.8F, 0.8F);
 		}
 	}

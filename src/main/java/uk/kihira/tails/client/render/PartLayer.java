@@ -55,6 +55,9 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 				if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE)
 					getEntityModel().bipedHead.translateRotate(matrixStackIn);
 
+				else if (partType == PartsData.PartType.TAIL)
+					getEntityModel().bipedBody.translateRotate(matrixStackIn);
+
 				PartRegistry.getPartRenderer(tailInfo.partType, tailInfo.typeid).render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
 				matrixStackIn.pop();
 			}

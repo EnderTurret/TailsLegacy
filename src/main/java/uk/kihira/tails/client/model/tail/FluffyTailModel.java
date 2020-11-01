@@ -71,7 +71,7 @@ public class FluffyTailModel extends PartModel {
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running
-		if (entity.getRidingEntity() != null) {
+		if (entity.getRidingEntity() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 				xAngleOffset = angles[0];
@@ -102,18 +102,15 @@ public class FluffyTailModel extends PartModel {
 		// Mounted
 		else
 			switch (subtype) {
-			// Fox Tail
-			case 0:
+			case 0: // Fox Tail
 				xAngleOffset = Math.toRadians(22F);
 				yAngleMultiplier = 0.5F;
 				break;
-				// Twin Tails
-			case 1:
+			case 1: // Twin Tails
 				xAngleOffset = Math.toRadians(20F);
 				yAngleMultiplier = 0.5F;
 				break;
-				// Nine tails
-			case 2:
+			case 2: // Nine Tails
 				xAngleOffset = Math.toRadians(15F);
 				yAngleMultiplier = 0.75F;
 				break;

@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Zoe Lee (Kihira)
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.client.model.ears;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -8,6 +16,7 @@ import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
 public class SmallCatEarsModel extends PartModel {
+
 	public ModelRenderer leftEarBottom;
 	public ModelRenderer leftEarRearLayer1;
 	public ModelRenderer leftEarRearBottom;

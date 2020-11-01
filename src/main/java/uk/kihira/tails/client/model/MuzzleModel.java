@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Zoe Lee (Kihira)
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -7,6 +15,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 public class MuzzleModel extends PartModel {
+
 	private final ModelRenderer stubMuzzle;
 	private final ModelRenderer tinyMuzzle;
 

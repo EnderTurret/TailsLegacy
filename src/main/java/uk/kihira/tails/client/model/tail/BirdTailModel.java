@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Zoe Lee (Kihira)
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.client.model.tail;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -10,6 +18,7 @@ import net.minecraft.util.math.MathHelper;
 import uk.kihira.tails.client.model.PartModel;
 
 public class BirdTailModel extends PartModel {
+
 	final ModelRenderer center;
 	final ModelRenderer left0;
 	final ModelRenderer left1;

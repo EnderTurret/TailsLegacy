@@ -20,6 +20,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.client.model.PartModel;
 
 public class FluffyTailModel extends PartModel {
+
 	private final ModelRenderer tailBase;
 	private final ModelRenderer tail1;
 	private final ModelRenderer tail2;

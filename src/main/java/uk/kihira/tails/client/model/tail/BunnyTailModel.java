@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Zoe Lee (Kihira)
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.client.model.tail;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -9,6 +17,7 @@ import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
 public class BunnyTailModel extends PartModel {
+
 	private final ModelRenderer tailBase;
 
 	public BunnyTailModel() {

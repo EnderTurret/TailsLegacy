@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Zoe Lee (Kihira)
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.common;
 
 import java.lang.reflect.Type;
@@ -9,6 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 class PartsDataDeserializer implements JsonDeserializer<PartsData> {
+
 	@Override
 	public PartsData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		// Load old data if exists
@@ -23,7 +32,7 @@ class PartsDataDeserializer implements JsonDeserializer<PartsData> {
 			return partsData;
 		}
 
-		// Default serializer. Not the most efficent but works for now
+		// Default serializer. Not the most efficient but works for now
 		return new Gson().fromJson(json, typeOfT);
 	}
 }

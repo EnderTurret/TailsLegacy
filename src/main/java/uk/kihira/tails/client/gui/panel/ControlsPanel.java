@@ -77,10 +77,14 @@ public class ControlsPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		matrixStack.push();
+
+		matrixStack.translate(0, 0, -400);
+
 		fill(matrixStack, 0, 0, right - left, bottom - top, 0xDD000000);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
-		font.drawString(matrixStack, "Yes this is pog", left, top, 0xFFFFFF);
+		matrixStack.pop();
 	}
 }

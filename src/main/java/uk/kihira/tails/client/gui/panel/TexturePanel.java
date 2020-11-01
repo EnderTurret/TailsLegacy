@@ -69,10 +69,27 @@ public class TexturePanel extends Panel<EditorScreen> {
 
 		// Texture select
 		drawCenteredString(matrixStack, font, I18n.format("gui.texture"), right / 2, texSelectX - 12, 0xFFFFFF);
-		font.drawString(matrixStack, I18n.format(parent.getPartType().name().toLowerCase() + ".texture." + PartRegistry.getPartRenderer(parent.getPartType(),
-				partInfo.typeid).getTextureNames(partInfo.subid)[parent.getTextureId()] + ".name"), 25, texSelectX + 4, 0xFFFFFF);
 
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		final PartRenderer renderer = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.typeid);
+
+		final String langKey = parent.getPartType().name().toLowerCase() + ".texture." + renderer.getTextureNames(partInfo.subid)[parent.getTextureId()] + ".name";
+		final String formatted = I18n.format(langKey);
+
+		if (formatted.equals(langKey)) {
+			super.render(matrixStack, mouseX, mouseY, partialTicks);
+
+			matrixStack.push();
+
+			matrixStack.translate(0, 0, 1000);
+
+			fill(matrixStack, 25, texSelectX + 4, 25 + font.getStringWidth(formatted), texSelectX + 4 + font.FONT_HEIGHT, 0xFFFFFFFF);
+			font.drawString(matrixStack, formatted, 25, texSelectX + 4, 0xFF0000);
+
+			matrixStack.pop();
+		} else {
+			font.drawString(matrixStack, formatted, 25, texSelectX + 4, formatted.equals(langKey) ? 0xFF0000 : 0xFFFFFF);
+			super.render(matrixStack, mouseX, mouseY, partialTicks);
+		}
 	}
 
 	public void updateButtons() {

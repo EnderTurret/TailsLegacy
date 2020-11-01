@@ -70,10 +70,7 @@ public abstract class LayeredScreen extends BaseScreen {
 						final int right = panel.right - panel.left;
 						final int bottom = panel.bottom - panel.top;
 
-						hLine(matrixStack, 0, right, 0, c);
-						hLine(matrixStack, 0, right, bottom, c);
-						vLine(matrixStack, 0, 0, bottom, c);
-						vLine(matrixStack, right, 0, bottom, c);
+						rect(matrixStack, 0, 0, right, bottom, c);
 
 						font.drawStringWithShadow(matrixStack, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c);
 					}

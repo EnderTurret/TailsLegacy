@@ -17,6 +17,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,13 +48,11 @@ public class PartRenderer {
 		authors = new String[subTypes + 1][textureNames.length];
 	}
 
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+	public void preRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, double x, double y, double z, float partialTicks) {
 		if (info.needsTextureCompile || info.getTexture() == null) {
 			info.setTexture(TextureHelper.generateTexture(entity.getUniqueID(), info));
 			info.needsTextureCompile = false;
 		}
-
-		matrixStack.push();
 
 		IRenderHelper helper;
 		// Support for Galacticraft as it adds its own EntityPlayer.
@@ -62,19 +61,43 @@ public class PartRenderer {
 		if (helper != null)
 			helper.onPreRenderTail(matrixStack, entity, this, info, x, y, z);
 
-		if (modelPart != null) {
-			modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
-			modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
-			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
-		}
+		modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
+		modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
+	}
 
-		matrixStack.pop();
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+		if (modelPart != null) {
+			matrixStack.push();
+
+			preRender(matrixStack, entity, info, x, y, z, partialTicks);
+
+			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+
+			matrixStack.pop();
+		}
+	}
+
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+		if (modelPart != null) {
+			matrixStack.push();
+
+			preRender(matrixStack, entity, info, x, y, z, partialTicks);
+
+			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+
+			matrixStack.pop();
+		}
 	}
 
 	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
-		final IVertexBuilder buf = bufferIn.getBuffer(modelPart.getRenderType(info.getTexture()));
+		final RenderType type = RenderType.getEntityCutoutNoCull(info.getTexture());
+		final IVertexBuilder buf = bufferIn.getBuffer(type);
 
-		modelPart.render(matrixStack, buf, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
+		doRender(matrixStack, entity, info, buf, partialTicks, packedLightIn, packedOverlayIn);
+	}
+
+	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
+		modelPart.render(matrixStack, bufferIn, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
 	}
 
 	/**

@@ -30,6 +30,8 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IListCallback;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.render.PartRenderer;
+import uk.kihira.tails.client.render.RenderStates;
+import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
 
@@ -66,7 +68,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		setBlitOffset(-100);
-		fillGradient(matrixStack, 0, 0, right - left + 12, listTop, 0xEA000000, 0xEA000000);
+		fillGradient(matrixStack, 0, 0, right - left, listTop, 0xEA000000, 0xEA000000);
 
 		//fillGradient(matrixStack, 0, listTop, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
@@ -111,7 +113,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			}
 
 		children.remove(this.partList);
-		this.partList = new ListWidget<>(this, 120, height - listTop, listTop, height, 55, partList);
+		this.partList = new ListWidget<>(this, 108, bottom - top - listTop, listTop, bottom - top, 55, partList);
 		addListener(this.partList);
 		selectDefaultListEntry();
 	}
@@ -129,13 +131,20 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	}
 
 	private void renderPart(MatrixStack matrixStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTicks) {
+		if (partInfo.needsTextureCompile || partInfo.getTexture() == null) {
+			partInfo.setTexture(TextureHelper.generateTexture(fakeEntity.getUniqueID(), partInfo));
+			partInfo.needsTextureCompile = false;
+		}
+
+		if (partInfo.getTexture() == null) return;
+
 		matrixStack.push();
 		matrixStack.translate(x, y, z);
 		matrixStack.scale(-scale, scale, 1F);
 
 		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 		PartRegistry.getPartRenderer(partInfo.partType, partInfo.typeid)
-		.render(matrixStack, fakeEntity, partInfo, impl, 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY);
+		.render(matrixStack, fakeEntity, partInfo, impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture())), 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY);
 		impl.finish();
 
 		matrixStack.pop();

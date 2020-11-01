@@ -17,10 +17,12 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 
 repositories {
     mavenCentral()
-    maven {
+    maven { url 'https://maven.blamejared.com' }
+    maven { url 'https://maven.theillusivec4.top/' }
+    /*maven {
         name = 'Kihira Maven'
         url = 'http://maven.foxes.rocks'
-    }
+    }*/
 }
 
 ext {
@@ -37,6 +39,11 @@ version = "${project.mcVersion}-${project.massive}.${project.major}.${project.mi
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
+
+    compileOnly fg.deobf("vazkii.botania:Botania:1.16.3-409:api")
+    runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.3-409")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.3-4.0.2.0")
 }
 
 minecraft {

@@ -1,12 +1,16 @@
 package uk.kihira.tails.client.render;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-//import vazkii.botania.api.item.TinyPotatoRenderEvent;
 import uk.kihira.tails.client.FakeEntity;
+import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
+import vazkii.botania.api.item.TinyPotatoRenderEvent;
 
 public class FoxtatoRender {
 
@@ -22,20 +26,31 @@ public class FoxtatoRender {
 		}
 	}
 
-	/*@SubscribeEvent
-    public void onPotatoRender(TinyPotatoRenderEvent e) {
-        if (e.name.equalsIgnoreCase("foxtato")) {
-            if (fakeEntity == null) {
-                fakeEntity = new FoxtatoFakeEntity(Minecraft.getMinecraft().world);
-            }
-            RenderPart fox_tailRender = PartRegistry.getRenderPart(PartsData.PartType.TAIL, 0);
-            RenderPart foxEarRender = PartRegistry.getRenderPart(PartsData.PartType.EARS, 0);
+	@SubscribeEvent
+	public void onPotatoRender(TinyPotatoRenderEvent e) {
+		if (e.name.getString().equalsIgnoreCase("foxtato")) {
+			if (fakeEntity == null) fakeEntity = new FoxtatoFakeEntity(Minecraft.getInstance().world);
 
-            fox_tailRender.render(fakeEntity, tailPartInfo, e.x, e.y, e.z, e.partTicks);
-            foxEarRender.render(fakeEntity, earPartInfo, e.x, e.y, e.z, e.partTicks);
-            GlStateManager.glColor3f(1f, 0f, 1f);
-        }
-    }*/
+			final RenderPart foxTailRenderer = PartRegistry.getRenderPart(PartsData.PartType.TAIL, 0);
+			final RenderPart foxEarRenderer = PartRegistry.getRenderPart(PartsData.PartType.EARS, 0);
+
+			e.ms.push();
+
+			e.ms.scale(0.5F, 0.5F, 0.5F);
+
+			e.ms.translate(0, 2.8F, 0);
+
+			foxTailRenderer.render(e.ms, fakeEntity, tailPartInfo, e.buffers, e.tile.getPos().getX(), e.tile.getPos().getY(), e.tile.getPos().getZ(), e.partTicks, e.light, e.overlay);
+
+			e.ms.translate(0, 0.0, -0.1F);
+
+			foxEarRenderer.render(e.ms, fakeEntity, earPartInfo, e.buffers, e.tile.getPos().getX(), e.tile.getPos().getY(), e.tile.getPos().getZ(), e.partTicks, e.light, e.overlay);
+
+			e.ms.pop();
+
+			RenderSystem.color4f(1F, 0F, 1F, 1F);
+		}
+	}
 
 	public static class FoxtatoFakeEntity extends FakeEntity {
 		public FoxtatoFakeEntity(World world) {

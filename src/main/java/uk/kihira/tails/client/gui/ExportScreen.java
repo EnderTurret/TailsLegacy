@@ -172,7 +172,7 @@ class ExportScreen extends BaseScreen {
 	}
 
 	private void savePartsData() {
-		Tails.setLocalPartsData(partsData);
+		Tails.setLocalPartsData(partsData, null);
 		Tails.PROXY.addPartsData(minecraft.player.getUniqueID(), partsData);
 		Tails.CHANNEL.sendToServer(new PlayerDataMessage(minecraft.getSession().getProfile().getId(), partsData));
 	}

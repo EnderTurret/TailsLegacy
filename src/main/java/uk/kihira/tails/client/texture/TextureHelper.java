@@ -106,7 +106,7 @@ public class TextureHelper {
 
 			// If local player, send our skin info the server.
 			if (player == Minecraft.getInstance().player) {
-				Tails.setLocalPartsData(partsData);
+				Tails.setLocalPartsData(partsData, null);
 				Tails.CHANNEL.sendToServer(new PlayerDataMessage(UUIDTypeAdapter.fromString(Minecraft.getInstance().getSession().getPlayerID()), partsData));
 			}
 		}

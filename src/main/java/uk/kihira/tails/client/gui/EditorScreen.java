@@ -50,7 +50,7 @@ public class EditorScreen extends LayeredScreen {
 		super(4, new StringTextComponent(""));
 		// Backup original PartInfo or create default one.
 		if (Tails.localPartsData == null)
-			Tails.setLocalPartsData(new PartsData());
+			Tails.setLocalPartsData(new PartsData(), null);
 
 		// Default to Tail.
 		partType = PartsData.PartType.TAIL;

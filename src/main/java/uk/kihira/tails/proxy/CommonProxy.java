@@ -30,6 +30,11 @@ public class CommonProxy {
 	protected final HashMap<UUID, PartsData> partsData = new HashMap<>();
 	protected LibraryManager libraryManager;
 
+	/**
+	 * Uses the power of <em>quiet class references</em> <sup>(reflection)</sup> to create and return a ClientProxy.<br>
+	 * Please handle with care. <sup>(Read: enclose within 5,000 Suppliers and place calling code deep inside a forgotten package.)</sup>
+	 * @return A ClientProxy, made with a sprinkle of <strike>love</strike> Dist.CLIENT.
+	 */
 	public static CommonProxy makeClientProxy() {
 		try {
 			return (CommonProxy) Class.forName("uk.kihira.tails.proxy.client.ClientProxy").newInstance();

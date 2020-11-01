@@ -49,7 +49,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			parent.refreshTintPane();
 
 			if (!libraryMode)
-				Tails.setLocalPartsData(parent.getPartsData());
+				Tails.setLocalPartsData(parent.getPartsData(), null);
 			parent.setPartsData(Tails.localPartsData);
 
 			b.setMessage(libraryMode ? new TranslationTextComponent("gui.button.mode.editor") : new TranslationTextComponent("gui.button.mode.library"));
@@ -67,7 +67,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 		addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.done"), b -> {
 			// Update part info, set local and send it to the server.
 			final PartsData partsData = parent.getPartsData();
-			Tails.setLocalPartsData(partsData);
+			Tails.setLocalPartsData(partsData, null);
 			Tails.PROXY.addPartsData(minecraft.player.getUniqueID(), partsData);
 			Tails.CHANNEL.sendToServer(new PlayerDataMessage(minecraft.getSession().getProfile().getId(), partsData));
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new StringTextComponent("Saved!").mergeStyle(TextFormatting.GREEN));

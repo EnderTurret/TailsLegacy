@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.common;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +49,8 @@ public class Tails {
 	public static boolean libraryEnabled;
 	public static boolean hasRemote;
 
+	// I know this looks bad, but it's the only way to prevent class loading ClientProxy.
+	// Placing ClientProxy::new in here class loads it anyway.
 	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> CommonProxy::makeClientProxy, () -> CommonProxy::new);
 
 	public static PartsData localPartsData;
@@ -63,7 +67,7 @@ public class Tails {
 
 	private void setup(FMLCommonSetupEvent e) {
 		PROXY.init();
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> Tails::loadConfig);
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> loadConfig(null));
 	}
 
 	private void loadComplete(FMLLoadCompleteEvent e) {
@@ -72,10 +76,10 @@ public class Tails {
 
 	private void onConfigChange(ModConfig.ModConfigEvent event) {
 		if (event.getConfig().getSpec() == TailsConfig.CLIENT_SPEC)
-			loadConfig();
+			loadConfig(event.getConfig());
 	}
 
-	public static void loadConfig() {
+	public static void loadConfig(@Nullable ModConfig instance) {
 		// Load local player info.
 		try {
 			// Load player data.
@@ -84,27 +88,38 @@ public class Tails {
 			// Load default if none exists.
 			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty()) {
 				localPartsData = new PartsData();
+
 				for (PartsData.PartType partType : PartsData.PartType.values())
 					localPartsData.setPartInfo(partType, PartInfo.none(partType));
-				setLocalPartsData(localPartsData);
-				Tails.LOGGER.debug("Created new parts data.");
+
+				setLocalPartsData(localPartsData, instance);
+
+				//Tails.LOGGER.debug("Created new parts data.");
 			} else
 				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (JsonSyntaxException e) {
 			TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set("");
-			Tails.LOGGER.error("Failed to load local player data: Invalid JSON syntax! Invalid data being removed");
+			Tails.LOGGER.error("Failed to load local player data: Invalid JSON syntax! Invalid data has been removed.", e);
 		}
 
 		libraryEnabled = TailsConfig.CLIENT_INSTANCE.enableLibrary.get();
 
-		TailsConfig.CLIENT_SPEC.save();
+		if (instance == null)
+			instance = TailsConfig.getConfig(ModConfig.Type.CLIENT);
+
+		if (instance != null)
+			instance.save();
 	}
 
-	public static void setLocalPartsData(PartsData partsData) {
+	public static void setLocalPartsData(PartsData partsData, @Nullable ModConfig instance) {
 		localPartsData = partsData;
 
 		TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set(GSON.toJson(localPartsData));
 
-		TailsConfig.CLIENT_SPEC.save();
+		if (instance == null)
+			instance = TailsConfig.getConfig(ModConfig.Type.CLIENT);
+
+		if (instance != null)
+			instance.save();
 	}
 }

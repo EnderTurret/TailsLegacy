@@ -28,7 +28,7 @@ class PartsDataDeserializer implements JsonDeserializer<PartsData> {
 				partsData.partInfoMap.put(info.partType, info);
 			}
 
-			Tails.LOGGER.info("Loading old parts data");
+			//Tails.LOGGER.info("Loading old parts data");
 			return partsData;
 		}
 

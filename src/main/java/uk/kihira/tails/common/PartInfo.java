@@ -9,6 +9,7 @@
 package uk.kihira.tails.common;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -94,15 +95,47 @@ public class PartInfo implements Cloneable {
 
 	@Override
 	public String toString() {
-		return "PartInfo{" +
-				"hasPart=" + hasPart +
-				", typeid=" + typeid +
-				", subid=" + subid +
-				", tints=" + Arrays.toString(tints) +
-				", textureID=" + textureID +
-				", partType=" + partType +
-				", texture=" + texture +
-				'}';
+		final StringBuilder sb = new StringBuilder();
+
+		sb.append("PartInfo{");
+		sb.append("hasPart=").append(hasPart);
+		sb.append(", typeId=").append(guessTypeFromId());
+		sb.append(", subid=").append(subid);
+		sb.append(", tints=").append(Arrays.stream(tints).mapToObj(tint -> "0x" + Integer.toHexString(tint)).collect(Collectors.joining(", ", "[", "]")));
+		if (textureID != 0)
+			sb.append(", textureID=").append(textureID);
+		sb.append(", partType=").append(partType.name());
+		if (texture != null)
+			sb.append(", texture=").append(texture);
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	public String guessTypeFromId() {
+		if (partType == PartsData.PartType.TAIL) {
+			if (typeid == 0) return "Fluffy";
+			if (typeid == 1) return "Dragon";
+			if (typeid == 2) return "Raccoon";
+			if (typeid == 3) return "Devil";
+			if (typeid == 4) return "Cat";
+			if (typeid == 5) return "Bird";
+			if (typeid == 6) return "Shark";
+			if (typeid == 7) return "Bunny";
+		} else if (partType == PartsData.PartType.EARS) {
+			if (typeid == 0) return "Fox";
+			if (typeid == 1) return "Cat";
+			if (typeid == 2) return "Panda";
+			if (typeid == 3) return "Small Cat";
+		} else if (partType == PartsData.PartType.WINGS) {
+			if (typeid == 0) return "Wings";
+		} else if (partType == PartsData.PartType.MUZZLE) {
+			if (typeid == 0) return "Standard";
+			if (typeid == 1) return "Slim";
+			if (typeid == 2) return "Thin";
+		}
+
+		return "Unknown";
 	}
 
 	public PartInfo deepCopy() {

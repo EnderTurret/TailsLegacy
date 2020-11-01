@@ -52,23 +52,25 @@ public class Tails {
 	public static PartsData localPartsData;
 
 	public Tails() {
-		final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-		modBus.addListener(this::onPreInit);
-		modBus.addListener(this::onPostInit);
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (version,local) -> true));
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
+
+		final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		modBus.addListener(this::setup);
+		modBus.addListener(this::loadComplete);
+		modBus.addListener(this::onConfigChange);
 	}
 
-	public void onPreInit(FMLCommonSetupEvent e) {
+	private void setup(FMLCommonSetupEvent e) {
 		Tails.PROXY.init();
+		loadConfig();
 	}
 
-	public void onPostInit(FMLLoadCompleteEvent e) {
+	private void loadComplete(FMLLoadCompleteEvent e) {
 		PROXY.registerRenderers();
 	}
 
-	@SubscribeEvent
-	public void onConfigChange(ModConfig.ModConfigEvent event) {
+	private void onConfigChange(ModConfig.ModConfigEvent event) {
 		if (event.getConfig().getSpec() == TailsConfig.CLIENT_SPEC)
 			loadConfig();
 	}
@@ -85,6 +87,7 @@ public class Tails {
 				for (PartsData.PartType partType : PartsData.PartType.values())
 					localPartsData.setPartInfo(partType, PartInfo.none(partType));
 				setLocalPartsData(localPartsData);
+				Tails.LOGGER.debug("Created new parts data.");
 			} else
 				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (JsonSyntaxException e) {

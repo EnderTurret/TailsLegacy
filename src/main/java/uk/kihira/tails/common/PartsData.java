@@ -11,6 +11,7 @@ package uk.kihira.tails.common;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -69,9 +70,10 @@ public class PartsData {
 
 	@Override
 	public String toString() {
-		return "PartsData{" +
-				"partInfoMap=" + partInfoMap +
-				'}';
+		return "PartsData{" + partInfoMap.entrySet().stream()
+				.filter(e -> e.getValue().hasPart)
+				.map(e -> e.getKey().name() + "=" + e.getValue().toString())
+				.collect(Collectors.joining(", ")) + '}';
 	}
 
 	// NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons.

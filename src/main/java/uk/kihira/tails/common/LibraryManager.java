@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -15,7 +16,7 @@ import com.google.gson.reflect.TypeToken;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import uk.kihira.tails.client.gui.GuiEditor;
+import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.common.network.LibraryEntriesMessage;
 
 public class LibraryManager {
@@ -53,7 +54,7 @@ public class LibraryManager {
 	 * Loads the library of entries from disk
 	 */
 	private List<LibraryEntryData> loadLibrary() {
-		final Gson gson = Tails.gson;
+		final Gson gson = Tails.GSON;
 		final ArrayList<LibraryEntryData> libraryEntries = new ArrayList<>();
 		FileReader fileReader = null;
 
@@ -66,7 +67,7 @@ public class LibraryManager {
 						libraryEntries.add(libEntry);
 
 		} catch (FileNotFoundException e) {
-			Tails.logger.catching(e);
+			Tails.LOGGER.catching(e);
 		} finally {
 			IOUtils.closeQuietly(fileReader);
 		}
@@ -87,7 +88,7 @@ public class LibraryManager {
 
 		try {
 			fileWriter = new FileWriter(getLibraryFile());
-			Tails.gson.toJson(entries, fileWriter);
+			Tails.GSON.toJson(entries, fileWriter);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -101,9 +102,9 @@ public class LibraryManager {
 		if (!libraryFile.exists())
 			try {
 				if (!libraryFile.createNewFile())
-					Tails.logger.error("Failed to create a library file!");
+					Tails.LOGGER.error("Failed to create a library file!");
 			} catch (IOException e) {
-				Tails.logger.error("Failed to create a library file!", e);
+				Tails.LOGGER.error("Failed to create a library file!", e);
 			}
 		return libraryFile;
 	}
@@ -115,18 +116,18 @@ public class LibraryManager {
 			super.addEntries(entries);
 			final Screen guiScreen = Minecraft.getInstance().currentScreen;
 
-			if (guiScreen instanceof GuiEditor) {
-				final GuiEditor editor = (GuiEditor) guiScreen;
-				if (editor.libraryPanel != null && editor.libraryInfoPanel != null)
-					((GuiEditor) guiScreen).libraryPanel.initList();
-				((GuiEditor) guiScreen).libraryInfoPanel.setEntry(null);
+			if (guiScreen instanceof EditorScreen) {
+				final EditorScreen editor = (EditorScreen) guiScreen;
+				if (editor.getLibraryPanel() != null && editor.getLibraryInfoPanel() != null)
+					((EditorScreen) guiScreen).getLibraryPanel().initList();
+				((EditorScreen) guiScreen).getLibraryInfoPanel().setEntry(null);
 			}
 		}
 
 		@Override
 		public void removeEntry(final LibraryEntryData data) {
 			if (data.remoteEntry)
-				Tails.networkWrapper.sendToServer(new LibraryEntriesMessage(new ArrayList<LibraryEntryData>() {{ add(data); }}, true));
+				Tails.CHANNEL.sendToServer(new LibraryEntriesMessage(Collections.singletonList(data), true));
 			else
 				super.removeEntry(data);
 		}

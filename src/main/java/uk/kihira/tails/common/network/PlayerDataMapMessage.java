@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.common.network;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -22,34 +23,36 @@ import uk.kihira.tails.common.Tails;
 
 public class PlayerDataMapMessage {
 
-	private Map<UUID, PartsData> partsDataMap;
+	private static final Type PART_DATA_MAP_TYPE = new TypeToken<Map<UUID,PartsData>>() {}.getType();
+
+	private Map<UUID,PartsData> partsDataMap;
 
 	public PlayerDataMapMessage() {}
-	@SuppressWarnings("unchecked")
-	public PlayerDataMapMessage(Map partsDataMap) {
+	public PlayerDataMapMessage(Map<UUID,PartsData> partsDataMap) {
 		this.partsDataMap = partsDataMap;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static PlayerDataMapMessage fromBytes(PacketBuffer buf) {
+	public static PlayerDataMapMessage decode(PacketBuffer buf) {
 		final String tailInfoJson = buf.readString(Short.MAX_VALUE);
 		final PlayerDataMapMessage msg = new PlayerDataMapMessage();
+
 		try {
-			msg.partsDataMap = Tails.gson.fromJson(tailInfoJson, new TypeToken<Map<UUID, PartsData>>() {}.getType());
+			msg.partsDataMap = Tails.GSON.fromJson(tailInfoJson, PART_DATA_MAP_TYPE);
 		} catch (JsonSyntaxException e) {
-			Tails.logger.catching(e);
+			Tails.LOGGER.catching(e);
 		}
+
 		return msg;
 	}
 
-	public static void toBytes(PlayerDataMapMessage msg, PacketBuffer buf) {
-		final String tailInfoJson = Tails.gson.toJson(msg.partsDataMap);
-		buf.writeString(tailInfoJson, Short.MAX_VALUE);
+	public static void encode(PlayerDataMapMessage msg, PacketBuffer buf) {
+		buf.writeString(Tails.GSON.toJson(msg.partsDataMap), Short.MAX_VALUE);
 	}
 
-	public static void onMessage(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
-		for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet())
-			Tails.proxy.addPartsData(entry.getKey(), entry.getValue());
+	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
+		for (Map.Entry<UUID,PartsData> entry : message.partsDataMap.entrySet())
+			Tails.PROXY.addPartsData(entry.getKey(), entry.getValue());
+
 		ctx.get().setPacketHandled(true);
 	}
 }

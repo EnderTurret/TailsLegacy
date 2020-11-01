@@ -11,9 +11,9 @@ package uk.kihira.tails.api;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.LivingEntity;
-import uk.kihira.tails.client.render.RenderPart;
+import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.PartInfo;
 
 public interface IRenderHelper {
-	void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, RenderPart tail, PartInfo info, double x, double y, double z);
+	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, PartRenderer tail, PartInfo info, double x, double y, double z);
 }

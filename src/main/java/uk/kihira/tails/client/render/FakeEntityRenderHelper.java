@@ -18,7 +18,7 @@ import uk.kihira.tails.common.PartInfo;
 public class FakeEntityRenderHelper implements IRenderHelper {
 
 	@Override
-	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, RenderPart tail, PartInfo info, double x, double y, double z) {
+	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, PartRenderer tail, PartInfo info, double x, double y, double z) {
 		switch (info.partType) {
 		case TAIL: {
 			// Nine tails

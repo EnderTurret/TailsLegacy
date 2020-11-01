@@ -32,20 +32,16 @@ public class CommonProxy {
 
 	public void init() {
 		registerMessages();
-		registerHandlers();
+		MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
 		libraryManager = new LibraryManager();
 	}
 
 	protected void registerMessages() {
-		Tails.networkWrapper.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::toBytes, PlayerDataMessage::fromBytes, PlayerDataMessage::onMessage);
-		Tails.networkWrapper.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::toBytes, PlayerDataMapMessage::fromBytes, PlayerDataMapMessage::onMessage);
-		Tails.networkWrapper.registerMessage(2, LibraryEntriesMessage.class, LibraryEntriesMessage::toBytes, LibraryEntriesMessage::fromBytes, LibraryEntriesMessage::onMessage);
-		Tails.networkWrapper.registerMessage(3, LibraryRequestMessage.class, LibraryRequestMessage::toBytes, LibraryRequestMessage::fromBytes, LibraryRequestMessage::onMessage);
-		Tails.networkWrapper.registerMessage(4, ServerCapabilitiesMessage.class, ServerCapabilitiesMessage::toBytes, ServerCapabilitiesMessage::fromBytes, ServerCapabilitiesMessage::onMessage);
-	}
-
-	protected void registerHandlers() {
-		MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
+		Tails.CHANNEL.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::encode, PlayerDataMessage::decode, PlayerDataMessage::handle);
+		Tails.CHANNEL.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle);
+		Tails.CHANNEL.registerMessage(2, LibraryEntriesMessage.class, LibraryEntriesMessage::encode, LibraryEntriesMessage::decode, LibraryEntriesMessage::handle);
+		Tails.CHANNEL.registerMessage(3, LibraryRequestMessage.class, LibraryRequestMessage::encode, LibraryRequestMessage::decode, LibraryRequestMessage::handle);
+		Tails.CHANNEL.registerMessage(4, ServerCapabilitiesMessage.class, ServerCapabilitiesMessage::encode, ServerCapabilitiesMessage::decode, ServerCapabilitiesMessage::handle);
 	}
 
 	public void registerRenderers() {}
@@ -53,9 +49,9 @@ public class CommonProxy {
 	public void addPartsData(UUID uuid, PartsData partsData) {
 		if (uuid != null) {
 			this.partsData.put(uuid, partsData);
-			Tails.logger.debug(String.format("Added part data for %s: %s", uuid.toString(), partsData));
+			Tails.LOGGER.debug(String.format("Added part data for %s: %s", uuid.toString(), partsData));
 		}
-		else Tails.logger.warn(String.format("Attempted to add part data with null UUID! %s", partsData));
+		else Tails.LOGGER.warn(String.format("Attempted to add part data with null UUID! %s", partsData));
 	}
 
 	public void removePartsData(UUID uuid) {
@@ -65,13 +61,13 @@ public class CommonProxy {
 				//Tails.networkWrapper.sendToAll(new PlayerDataMessage(uuid, this.partsData.get(uuid), true));
 			}
 			partsData.remove(uuid);
-			Tails.logger.debug(String.format("Removed part data for %s", uuid.toString()));
+			Tails.LOGGER.debug(String.format("Removed part data for %s", uuid.toString()));
 		}
 	}
 
 	public void clearAllPartsData() {
 		partsData.clear();
-		Tails.logger.debug("Clearing parts data");
+		Tails.LOGGER.debug("Clearing parts data");
 	}
 
 	public boolean hasPartsData(UUID uuid) {

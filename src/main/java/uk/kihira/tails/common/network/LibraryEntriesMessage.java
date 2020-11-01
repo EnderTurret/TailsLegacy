@@ -23,11 +23,11 @@ public class LibraryEntriesMessage {
 		this.delete = delete;
 	}
 
-	public static LibraryEntriesMessage fromBytes(PacketBuffer buf) {
+	public static LibraryEntriesMessage decode(PacketBuffer buf) {
 		final String dataJson = buf.readString(Short.MAX_VALUE);
 		final LibraryEntriesMessage msg = new LibraryEntriesMessage();
 		try {
-			msg.entries = Tails.gson.fromJson(dataJson, new TypeToken<List<LibraryEntryData>>() {}.getType());
+			msg.entries = Tails.GSON.fromJson(dataJson, new TypeToken<List<LibraryEntryData>>() {}.getType());
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		}
@@ -36,12 +36,12 @@ public class LibraryEntriesMessage {
 		return msg;
 	}
 
-	public static void toBytes(LibraryEntriesMessage msg, PacketBuffer buf) {
-		buf.writeString(Tails.gson.toJson(msg.entries, new TypeToken<List<LibraryEntryData>>() {}.getType()), Short.MAX_VALUE);
+	public static void encode(LibraryEntriesMessage msg, PacketBuffer buf) {
+		buf.writeString(Tails.GSON.toJson(msg.entries, new TypeToken<List<LibraryEntryData>>() {}.getType()), Short.MAX_VALUE);
 		buf.writeBoolean(msg.delete);
 	}
 
-	public static void onMessage(LibraryEntriesMessage message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(LibraryEntriesMessage message, Supplier<NetworkEvent.Context> ctx) {
 		// Client
 		if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
 			// Yeah this isn't exactly a nice way of doing this.
@@ -49,20 +49,22 @@ public class LibraryEntriesMessage {
 				entry.remoteEntry = true;
 
 			// We add server entries to the uk.kihira.tails.client
-			Tails.proxy.getLibraryManager().removeRemoteEntries();
-			Tails.proxy.getLibraryManager().addEntries(message.entries);
+			Tails.PROXY.getLibraryManager().removeRemoteEntries();
+			Tails.PROXY.getLibraryManager().addEntries(message.entries);
 		}
 		// Server
 		else {
 			if (message.delete) {
-				Tails.logger.debug("Removing Library Entries: " + message.entries.size());
-				Tails.proxy.getLibraryManager().libraryEntries.removeAll(message.entries);
+				Tails.LOGGER.debug("Removing Library Entries: " + message.entries.size());
+				Tails.PROXY.getLibraryManager().libraryEntries.removeAll(message.entries);
 			}
 			else {
-				Tails.logger.debug("Adding Library Entries: " + message.entries.size());
-				Tails.proxy.getLibraryManager().addEntries(message.entries);
+				Tails.LOGGER.debug("Adding Library Entries: " + message.entries.size());
+				Tails.PROXY.getLibraryManager().addEntries(message.entries);
 			}
-			Tails.proxy.getLibraryManager().saveLibrary();
+			Tails.PROXY.getLibraryManager().saveLibrary();
 		}
+
+		ctx.get().setPacketHandled(true);
 	}
 }

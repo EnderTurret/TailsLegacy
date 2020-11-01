@@ -12,6 +12,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.client.gui.panel.LibraryPanel;
+import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.PartInfo;
 import uk.kihira.tails.common.PartsData;
@@ -30,8 +32,8 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 	@Override
 	public void render(MatrixStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
 		if (data.remoteEntry) {
-			Minecraft.getInstance().getTextureManager().bindTexture(GuiIconButton.iconsTextures);
-			final GuiIconButton.Icons icon = GuiIconButton.Icons.SERVER;
+			Minecraft.getInstance().getTextureManager().bindTexture(IconButton.iconsTextures);
+			final IconButton.Icons icon = IconButton.Icons.SERVER;
 			matrixStack.push();
 			matrixStack.translate(rowLeft + listWidth - 16, rowTop + slotHeight - 12, 0F);
 			matrixStack.scale(0.8F, 0.8F, 1F);
@@ -56,8 +58,8 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 			}
 
 		if (data.favourite) {
-			Minecraft.getInstance().getTextureManager().bindTexture(GuiIconButton.iconsTextures);
-			final GuiIconButton.Icons icon = GuiIconButton.Icons.STAR;
+			Minecraft.getInstance().getTextureManager().bindTexture(IconButton.iconsTextures);
+			final IconButton.Icons icon = IconButton.Icons.STAR;
 			matrixStack.push();
 			matrixStack.translate(rowLeft + listWidth - 16, rowTop, 0F);
 			matrixStack.scale(0.8F, 0.8F, 1F);
@@ -69,8 +71,8 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		panel.getList().setSelected(this);
-		panel.parent.libraryInfoPanel.setEntry(this);
-		panel.parent.setPartsData(data.partsData.deepCopy());
+		panel.getParent().getLibraryInfoPanel().setEntry(this);
+		panel.getParent().setPartsData(data.partsData.deepCopy());
 		return true;
 	}
 
@@ -90,7 +92,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
 			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.format("gui.library.entry.default"), Tails.localPartsData);
-			Tails.proxy.getLibraryManager().addEntry(data);
+			Tails.PROXY.getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
 			return true;
 		}

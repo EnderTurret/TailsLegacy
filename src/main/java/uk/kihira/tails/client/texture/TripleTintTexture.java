@@ -27,7 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import uk.kihira.tails.client.ColorUtil;
 
 /**
- * A tinted texture that has 3 different tints, each tint defined in a different RGB channel
+ * A tinted texture that has 3 different tints, each tint defined in a different RGB channel.
  */
 public class TripleTintTexture extends Texture {
 
@@ -67,7 +67,7 @@ public class TripleTintTexture extends Texture {
 						final int g = getGreen(rgb);
 						final int b = getBlue(rgb);
 
-						texture.setPixelRGBA(x, y, colourise(r, tint1, g, tint2, b, tint3, a));
+						texture.setPixelRGBA(x, y, colorise(r, tint1, g, tint2, b, tint3, a));
 					}
 
 				TextureUtil.prepareImage(getGlTextureId(), texture.getWidth(), texture.getHeight());
@@ -81,17 +81,17 @@ public class TripleTintTexture extends Texture {
 	}
 
 	/**
-	 * Colourises a pixel that has the color model TYPE_INT_ARGB
-	 * @param tone
-	 * @param c1
-	 * @param weight1
-	 * @param c2
-	 * @param weight2
-	 * @param c3
-	 * @param a Alpha
-	 * @return The colorised pixel
+	 * Colorises a pixel.
+	 * @param red
+	 * @param tint1
+	 * @param green
+	 * @param tint2
+	 * @param blue
+	 * @param tint3
+	 * @param alpha
+	 * @return The colorised pixel, packed using {@link NativeImage#getCombined(int, int, int, int)}.
 	 */
-	private int colourise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
+	private int colorise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
 		double g = green / 255D;
 		final double b = blue / 255D;
 

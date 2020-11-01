@@ -9,9 +9,9 @@ import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-import uk.kihira.tails.client.gui.GuiBase;
+import uk.kihira.tails.client.gui.LayeredScreen;
 
-public class ConfirmationDialog<T extends GuiBase & IDialogCallback> extends Dialog<T> {
+public class ConfirmationDialog<T extends LayeredScreen & IDialogCallback> extends Dialog<T> {
 
 	private final List<IReorderingProcessor> messageList;
 

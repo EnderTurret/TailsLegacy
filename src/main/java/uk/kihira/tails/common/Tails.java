@@ -37,9 +37,9 @@ import uk.kihira.tails.proxy.CommonProxy;
 public class Tails {
 
 	public static final String MOD_ID = "tails";
-	public static final Logger logger = LogManager.getLogger(MOD_ID);
-	public static final SimpleChannel networkWrapper = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "channel"), () -> FMLNetworkConstants.IGNORESERVERONLY, v -> true, v -> true);
-	public static final Gson gson = new GsonBuilder()
+	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "channel"), () -> FMLNetworkConstants.IGNORESERVERONLY, v -> true, v -> true);
+	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
 			.registerTypeAdapter(PartsData.class, new PartsDataDeserializer())
 			.create();
@@ -47,7 +47,7 @@ public class Tails {
 	public static boolean libraryEnabled;
 	public static boolean hasRemote;
 
-	public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
 	public static PartsData localPartsData;
 
@@ -60,11 +60,11 @@ public class Tails {
 	}
 
 	public void onPreInit(FMLCommonSetupEvent e) {
-		Tails.proxy.init();
+		Tails.PROXY.init();
 	}
 
 	public void onPostInit(FMLLoadCompleteEvent e) {
-		proxy.registerRenderers();
+		PROXY.registerRenderers();
 	}
 
 	@SubscribeEvent
@@ -86,10 +86,10 @@ public class Tails {
 					localPartsData.setPartInfo(partType, PartInfo.none(partType));
 				setLocalPartsData(localPartsData);
 			} else
-				localPartsData = gson.fromJson(localPlayerOutfit, PartsData.class);
+				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (JsonSyntaxException e) {
 			TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set("");
-			Tails.logger.error("Failed to load local player data: Invalid JSON syntax! Invalid data being removed");
+			Tails.LOGGER.error("Failed to load local player data: Invalid JSON syntax! Invalid data being removed");
 		}
 
 		libraryEnabled = TailsConfig.CLIENT_INSTANCE.enableLibrary.get();
@@ -100,7 +100,7 @@ public class Tails {
 	public static void setLocalPartsData(PartsData partsData) {
 		localPartsData = partsData;
 
-		TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set(gson.toJson(localPartsData));
+		TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set(GSON.toJson(localPartsData));
 
 		TailsConfig.CLIENT_SPEC.save();
 	}

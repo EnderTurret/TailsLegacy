@@ -26,43 +26,45 @@ public class PlayerDataMessage {
 
 	private UUID uuid;
 	private PartsData partsData;
-	private boolean shouldRemove;
 
 	public PlayerDataMessage() {}
-	public PlayerDataMessage(UUID uuid, PartsData partsData, boolean shouldRemove) {
+	public PlayerDataMessage(UUID uuid, PartsData partsData) {
 		this.uuid = uuid;
 		this.partsData = partsData;
-		this.shouldRemove = shouldRemove;
 	}
 
-	public static PlayerDataMessage fromBytes(PacketBuffer buf) {
+	public static PlayerDataMessage decode(PacketBuffer buf) {
 		final PlayerDataMessage msg = new PlayerDataMessage();
-		msg.uuid = UUIDTypeAdapter.fromString(buf.readString(Short.MAX_VALUE));
+
+		msg.uuid = buf.readUniqueId();
+
 		final String tailInfoJson = buf.readString(Short.MAX_VALUE);
+
 		if (!Strings.isNullOrEmpty(tailInfoJson))
 			try {
-				msg.partsData = Tails.gson.fromJson(tailInfoJson, PartsData.class);
+				msg.partsData = Tails.GSON.fromJson(tailInfoJson, PartsData.class);
 			} catch (JsonSyntaxException e) {
-				Tails.logger.warn(e);
+				Tails.LOGGER.warn(e);
 			}
 		else msg.partsData = null;
+
 		return msg;
 	}
 
-	public static void toBytes(PlayerDataMessage msg, PacketBuffer buf) {
-		buf.writeString(UUIDTypeAdapter.fromUUID(msg.uuid), Short.MAX_VALUE);
-		final String tailInfoJson = msg.partsData == null ? "" : Tails.gson.toJson(msg.partsData);
+	public static void encode(PlayerDataMessage msg, PacketBuffer buf) {
+		buf.writeUniqueId(msg.uuid);
+		final String tailInfoJson = msg.partsData == null ? "" : Tails.GSON.toJson(msg.partsData);
 		buf.writeString(tailInfoJson, Short.MAX_VALUE);
 	}
 
-	public static void onMessage(PlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
-		if (message.shouldRemove) Tails.proxy.removePartsData(message.uuid);
-		else if (message.partsData != null) {
-			Tails.proxy.addPartsData(message.uuid, message.partsData);
+	public static void handle(PlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
+		if (message.partsData != null) {
+			Tails.PROXY.addPartsData(message.uuid, message.partsData);
 			// Tell other clients about the change.
 			if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER)
-				Tails.networkWrapper.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData, false));
+				Tails.CHANNEL.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData));
 		}
+
 		ctx.get().setPacketHandled(true);
 	}
 }

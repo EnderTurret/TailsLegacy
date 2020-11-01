@@ -5,10 +5,10 @@ import org.apache.commons.lang3.Validate;
 import com.google.common.base.Strings;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import uk.kihira.tails.client.gui.GuiBase;
-import uk.kihira.tails.client.gui.Panel;
+import uk.kihira.tails.client.gui.LayeredScreen;
+import uk.kihira.tails.client.gui.panel.Panel;
 
-public class Dialog<T extends GuiBase & IDialogCallback> extends Panel<T> {
+public class Dialog<T extends LayeredScreen & IDialogCallback> extends Panel<T> {
 
 	protected boolean dragging;
 	private double mouseXStart;

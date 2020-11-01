@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.proxy;
+package uk.kihira.tails.proxy.client;
 
 import java.util.Map;
 import java.util.UUID;
@@ -37,6 +37,7 @@ import uk.kihira.tails.common.network.LibraryRequestMessage;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
+import uk.kihira.tails.proxy.CommonProxy;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {

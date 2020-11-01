@@ -30,6 +30,14 @@ public class CommonProxy {
 	protected final HashMap<UUID, PartsData> partsData = new HashMap<>();
 	protected LibraryManager libraryManager;
 
+	public static CommonProxy makeClientProxy() {
+		try {
+			return (CommonProxy) Class.forName("uk.kihira.tails.proxy.client.ClientProxy").newInstance();
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
 	public void init() {
 		registerMessages();
 		MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
@@ -49,9 +57,9 @@ public class CommonProxy {
 	public void addPartsData(UUID uuid, PartsData partsData) {
 		if (uuid != null) {
 			this.partsData.put(uuid, partsData);
-			Tails.LOGGER.debug("Added part data for {}: {}", uuid.toString(), partsData);
+			//Tails.LOGGER.debug("Added part data for {}: {}", uuid.toString(), partsData);
 		}
-		else Tails.LOGGER.warn("Attempted to add part data with null UUID! {}", partsData);
+		//else Tails.LOGGER.warn("Attempted to add part data with null UUID! {}", partsData);
 	}
 
 	public void removePartsData(UUID uuid) {
@@ -61,13 +69,13 @@ public class CommonProxy {
 				//Tails.networkWrapper.sendToAll(new PlayerDataMessage(uuid, this.partsData.get(uuid), true));
 			}
 			partsData.remove(uuid);
-			Tails.LOGGER.debug("Removed part data for {}", uuid.toString());
+			//Tails.LOGGER.debug("Removed part data for {}", uuid.toString());
 		}
 	}
 
 	public void clearAllPartsData() {
 		partsData.clear();
-		Tails.LOGGER.debug("Clearing parts data");
+		//Tails.LOGGER.debug("Clearing parts data");
 	}
 
 	public boolean hasPartsData(UUID uuid) {

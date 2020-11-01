@@ -17,6 +17,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -30,7 +31,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-import uk.kihira.tails.proxy.ClientProxy;
 import uk.kihira.tails.proxy.CommonProxy;
 
 @Mod(Tails.MOD_ID)
@@ -47,7 +47,7 @@ public class Tails {
 	public static boolean libraryEnabled;
 	public static boolean hasRemote;
 
-	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> CommonProxy::makeClientProxy, () -> CommonProxy::new);
 
 	public static PartsData localPartsData;
 
@@ -62,8 +62,8 @@ public class Tails {
 	}
 
 	private void setup(FMLCommonSetupEvent e) {
-		Tails.PROXY.init();
-		loadConfig();
+		PROXY.init();
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> Tails::loadConfig);
 	}
 
 	private void loadComplete(FMLLoadCompleteEvent e) {

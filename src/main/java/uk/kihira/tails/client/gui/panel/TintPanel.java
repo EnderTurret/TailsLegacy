@@ -25,17 +25,19 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.HSBSlider;
 import uk.kihira.tails.client.gui.widget.IconButton;
+import uk.kihira.tails.client.gui.widget.RelativeTextField;
 
 public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSliderCallback {
 
-	int currTintEdit = 0;
-	int currTintColour = 0xFFFFFF;
+	private int editingTint = 0;
+	private int currentTint = 0xFFFFFF;
 	private TextFieldWidget hexText;
 	private HSBSlider[] hsbSliders;
 	private HSBSlider[] rgbSliders;
@@ -62,9 +64,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		}
 
 		// Tint edit pane
-		hexText = new TextFieldWidget(font, 30, editPaneTop + 20, 73, 10, null);
+		hexText = new RelativeTextField(font, 30, editPaneTop + 20, 73, 10, null);
 		hexText.setMaxStringLength(6);
-		hexText.setText(Integer.toHexString(currTintColour));
+		hexText.setText(Integer.toHexString(currentTint));
 		addListener(hexText);
 
 		// RGB sliders
@@ -80,7 +82,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		addButton(rgbSliders[1]);
 		addButton(rgbSliders[2]);
 
-		// HBS sliders
+		// HSB sliders
 		hsbSliders = new HSBSlider[3];
 		hsbSliders[0] = new HSBSlider(15, 5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, new TranslationTextComponent("gui.slider.hue.tooltip"));
 		hsbSliders[1] = new HSBSlider(16, 5, editPaneTop + 45, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslationTextComponent("gui.slider.saturation.tooltip"));
@@ -91,16 +93,16 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		addButton(hsbSliders[2]);
 
 		// Reset/Save
-		addButton(tintReset = new IconButton(width - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
-			currTintColour = parent.getOriginalPartInfo().tints[currTintEdit - 1] & 0xFFFFFF; // Ignore the alpha bits.
-			hexText.setText(Integer.toHexString(currTintColour));
+		addButton(tintReset = new IconButton(right - left - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
+			currentTint = parent.getOriginalPartInfo().tints[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
+			hexText.setText(Integer.toHexString(currentTint));
 			refreshTintPane();
 			tintReset.active = false;
 		}, new TranslationTextComponent("gui.button.reset")));
 		tintReset.active = false;
 
 		// Color Picker
-		addButton(colourPicker = new IconButton(width - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), new TranslationTextComponent("gui.button.picker.0"), new TranslationTextComponent("gui.button.picker.1")));
+		addButton(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), new TranslationTextComponent("gui.button.picker.0"), new TranslationTextComponent("gui.button.picker.1")));
 		colourPicker.visible = false;
 
 		refreshTintPane();
@@ -123,11 +125,12 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		}
 
 		// Editing tint pane
-		if (currTintEdit > 0) {
+		if (editingTint > 0) {
 			hLine(matrixStack, 0, width, editPaneTop, 0xFF000000);
-			font.drawString(matrixStack, I18n.format("gui.tint.edit", currTintEdit), 5, editPaneTop + 5, 0xFFFFFF);
+			font.drawString(matrixStack, I18n.format("gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
 
 			font.drawString(matrixStack, I18n.format("gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
+
 			hexText.render(matrixStack, mouseX, mouseY, partialTicks);
 		}
 
@@ -135,9 +138,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	}
 
 	protected void handleTintButton(int id) {
-		currTintEdit = id - 1;
-		currTintColour = parent.getEditingPartInfo().tints[currTintEdit - 1] & 0xFFFFFF; // Ignore the alpha bits.
-		hexText.setText(Integer.toHexString(currTintColour));
+		editingTint = id - 1;
+		currentTint = parent.getEditingPartInfo().tints[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
+		hexText.setText(Integer.toHexString(currentTint));
 		refreshTintPane();
 		tintReset.active = false;
 		colourPicker.active = true;
@@ -147,14 +150,14 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (hexText.keyPressed(keyCode, scanCode, modifiers)) {
 			try {
-				// Gets the current color from the hex text.
 				if (!Strings.isNullOrEmpty(hexText.getText()))
-					currTintColour = Integer.parseInt(hexText.getText(), 16);
+					currentTint = Integer.parseInt(hexText.getText(), 16);
 			} catch (NumberFormatException ignored) {}
+
+			refreshTintPane();
+
 			return true;
 		}
-
-		refreshTintPane();
 
 		if (keyCode == GLFW.GLFW_KEY_ESCAPE && selectingColour) {
 			setSelectingColour(false);
@@ -165,9 +168,25 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	}
 
 	@Override
+	public boolean charTyped(char codePoint, int modifiers) {
+		if (hexText.charTyped(codePoint, modifiers)) {
+			try {
+				if (!Strings.isNullOrEmpty(hexText.getText()))
+					currentTint = Integer.parseInt(hexText.getText(), 16);
+			} catch (NumberFormatException ignored) {}
+
+			refreshTintPane();
+
+			return true;
+		}
+
+		return super.charTyped(codePoint, modifiers);
+	}
+
+	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		if (selectingColour && mouseButton == 0) {
-			currTintColour = getColourAtPoint(mouseX, mouseY); // Ignore alpha.
+			currentTint = getColourAtPoint(mouseX, mouseY); // Ignore alpha.
 			setSelectingColour(false);
 			refreshTintPane();
 			return true;
@@ -179,16 +198,16 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	@Override
 	public void onValueChangeHSBSlider(HSBSlider source, double sliderValue) {
 		if (source == rgbSliders[0] || source == rgbSliders[1] || source == rgbSliders[2])
-			currTintColour = new Color(
+			currentTint = new Color(
 					(int) MathHelper.clamp(rgbSliders[0].getValue() * 255F, 0, 255),
 					(int) MathHelper.clamp(rgbSliders[1].getValue() * 255F, 0, 255),
 					(int) MathHelper.clamp(rgbSliders[2].getValue() * 255F, 0, 255)).getRGB();
 		else {
 			final float[] hsbvals = {(float) hsbSliders[0].getValue(), (float) hsbSliders[1].getValue(), (float) hsbSliders[2].getValue()};
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;
-			currTintColour = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
+			currentTint = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
 		}
-		hexText.setText(Integer.toHexString(currTintColour));
+		hexText.setText(Integer.toHexString(currentTint));
 		refreshTintPane();
 	}
 
@@ -237,10 +256,10 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	}
 
 	public void refreshTintPane() {
-		hexText.setTextColor(currTintColour);
+		hexText.setTextColor(currentTint);
 
 		// RGB Sliders
-		final Color c = new Color(currTintColour);
+		final Color c = new Color(currentTint);
 		rgbSliders[0].setValue(c.getRed() / 255F);
 		rgbSliders[1].setValue(c.getGreen() / 255F);
 		rgbSliders[2].setValue(c.getBlue() / 255F);
@@ -254,7 +273,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		hsbSliders[1].setHue((float) hsbSliders[0].getValue());
 		hsbSliders[1].setBrightness((float) hsbSliders[2].getValue());
 
-		if (currTintEdit > 0) {
+		if (editingTint > 0) {
 			rgbSliders[0].visible = rgbSliders[1].visible = rgbSliders[2].visible = true;
 			hsbSliders[0].visible = hsbSliders[1].visible = hsbSliders[2].visible = true;
 			tintReset.visible = true;
@@ -268,15 +287,16 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 		tintReset.active = true;
 
-		if (currTintEdit > 0) parent.getEditingPartInfo().tints[currTintEdit - 1] = currTintColour | 0xFF << 24; // Add the alpha manually.
+		if (editingTint > 0)
+			parent.getEditingPartInfo().tints[editingTint - 1] = currentTint | 0xFF000000; // Add the alpha manually.
 		parent.setPartsInfo(parent.getEditingPartInfo());
 	}
 
 	public void setEditingTint(int value) {
-		currTintEdit = value;
+		editingTint = value;
 	}
 
 	public int getEditingTint() {
-		return currTintEdit;
+		return editingTint;
 	}
 }

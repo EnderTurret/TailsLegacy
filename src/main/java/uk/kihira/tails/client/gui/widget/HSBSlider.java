@@ -32,7 +32,7 @@ import uk.kihira.tails.common.Tails;
 
 public class HSBSlider extends AbstractSlider implements ITooltip {
 
-	private static final ResourceLocation sliderTexture = new ResourceLocation(Tails.MOD_ID, "texture/gui/controls/slider_hue.png");
+	private static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(Tails.MOD_ID, "texture/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
@@ -59,7 +59,7 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
 			GuiUtils.drawContinuousTexturedBox(matrixStack, WIDGETS_LOCATION, x, y, 0, 46, width, height, 200, 20, 2, 3, 2, 2, getBlitOffset());
-			Minecraft.getInstance().getTextureManager().bindTexture(sliderTexture);
+			Minecraft.getInstance().getTextureManager().bindTexture(SLIDER_TEXTURE);
 
 			if (type == HSBSliderType.SATURATION) {
 				final Color hueColour = Color.getHSBColor(hueValue, 1F, 1F);
@@ -91,7 +91,7 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 			}
 
 			RenderSystem.color4f(1F, 1F, 1F, 1F);
-			Minecraft.getInstance().getTextureManager().bindTexture(sliderTexture);
+			Minecraft.getInstance().getTextureManager().bindTexture(SLIDER_TEXTURE);
 			blit(matrixStack, x + (int)(sliderValue * (width - 3) - 2), y, 0, 0, 7, 4);
 			blit(matrixStack, x + (int)(sliderValue * (width - 3) - 2), y + height - 4, 7, 0, 7, 4);
 		}

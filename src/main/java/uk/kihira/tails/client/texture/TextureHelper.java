@@ -196,7 +196,8 @@ public class TextureHelper {
 	}
 
 	private static BufferedImage getPlayerSkinAsBufferedImage(AbstractClientPlayerEntity player) {
-		BufferedImage bufferedImage = null;
+		return null;
+		/*BufferedImage bufferedImage = null;
 		InputStream inputStream = null;
 		final Minecraft mc = Minecraft.getInstance();
 		final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = mc.getSkinManager().loadSkinFromCache(player.getGameProfile());
@@ -211,7 +212,7 @@ public class TextureHelper {
 
 			if (skintex instanceof DownloadingTexture) {
 				final DownloadingTexture imagedata = (DownloadingTexture) skintex;
-				Tails.LOGGER.debug("Loading "+playerName+" skin");
+				Tails.LOGGER.debug("Loading " + playerName + " skin");
 
 				//bufferedImage = ObfuscationReflectionHelper.getPrivateValue(DownloadingTexture.class, imagedata, "field_110560_d", "bufferedImage");
 			}
@@ -235,7 +236,7 @@ public class TextureHelper {
 		finally {
 			IOUtils.closeQuietly(inputStream);
 		}
-		return bufferedImage;
+		return bufferedImage;*/
 	}
 
 	private static void uploadTexture(Texture textureObject, BufferedImage bufferedImage) {

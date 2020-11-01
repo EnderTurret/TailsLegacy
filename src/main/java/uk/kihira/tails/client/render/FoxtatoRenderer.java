@@ -31,8 +31,8 @@ public class FoxtatoRenderer {
 		if (e.name.getString().equalsIgnoreCase("foxtato")) {
 			if (fakeEntity == null) fakeEntity = new FoxtatoFakeEntity(Minecraft.getInstance().world);
 
-			final PartRenderer foxTailRenderer = PartRegistry.getRenderPart(PartsData.PartType.TAIL, 0);
-			final PartRenderer foxEarRenderer = PartRegistry.getRenderPart(PartsData.PartType.EARS, 0);
+			final PartRenderer foxTailRenderer = PartRegistry.getPartRenderer(PartsData.PartType.TAIL, 0);
+			final PartRenderer foxEarRenderer = PartRegistry.getPartRenderer(PartsData.PartType.EARS, 0);
 
 			e.ms.push();
 

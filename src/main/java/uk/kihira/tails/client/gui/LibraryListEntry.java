@@ -48,7 +48,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 		for (PartsData.PartType type : PartsData.PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
 				final PartInfo partInfo = data.partsData.getPartInfo(type);
-				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid).getUnlocalisedName(partInfo.subid)),
+				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(PartRegistry.getPartRenderer(partInfo.partType, partInfo.typeid).getUnlocalisedName(partInfo.subid)),
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
 					AbstractGui.fill(matrixStack,

@@ -79,7 +79,7 @@ public class PartRegistry {
 	 * @param index The index/type id
 	 * @return The render part
 	 */
-	public static PartRenderer getRenderPart(PartsData.PartType partType, int index) {
+	public static PartRenderer getPartRenderer(PartsData.PartType partType, int index) {
 		final List<PartRenderer> parts = PartRegistry.getParts(partType);
 
 		index = index >= parts.size() ? 0 : index;

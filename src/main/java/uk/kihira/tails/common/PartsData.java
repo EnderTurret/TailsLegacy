@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.common;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +18,12 @@ import com.google.gson.annotations.Expose;
 public class PartsData {
 
 	@Expose
-	public Map<PartType, PartInfo> partInfoMap = new HashMap<>(PartType.values().length);
+	public Map<PartType, PartInfo> partInfoMap = new EnumMap<>(PartType.class);
 
 	public PartsData() {}
+	public PartsData(Map<PartType,PartInfo> partData) {
+		partInfoMap = partData;
+	}
 
 	public void setPartInfo(PartType partType, PartInfo partInfo) {
 		partInfoMap.put(partType, partInfo);
@@ -39,8 +43,12 @@ public class PartsData {
 	}
 
 	public PartsData deepCopy() {
-		final Gson gson = new Gson();
-		return gson.fromJson(gson.toJson(this), PartsData.class);
+		final Map<PartType,PartInfo> data = new EnumMap<>(PartType.class);
+		for (Map.Entry<PartType,PartInfo> e : partInfoMap.entrySet()) {
+			data.put(e.getKey(), e.getValue().deepCopy());
+		}
+
+		return new PartsData(data);
 	}
 
 	@Override
@@ -67,7 +75,7 @@ public class PartsData {
 	}
 
 	// NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons.
-	public enum PartType {
+	public static enum PartType {
 		TAIL,
 		EARS,
 		WINGS,

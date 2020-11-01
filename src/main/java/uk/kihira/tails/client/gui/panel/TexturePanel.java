@@ -25,7 +25,7 @@ public class TexturePanel extends Panel<EditorScreen> {
 		// Texture select
 		addButton(leftBtn = new ExtendedButton(5, texSelectX, 15, 15, new StringTextComponent("<"), b -> {
 			final PartInfo originalPartInfo = parent.getEditingPartInfo();
-			final PartRenderer part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
+			final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.typeid);
 			if (parent.getTextureId() - 1 >= 0)
 				parent.setTextureId(parent.getTextureId() - 1);
 			else
@@ -36,7 +36,7 @@ public class TexturePanel extends Panel<EditorScreen> {
 		}));
 		addButton(rightBtn = new ExtendedButton(right - left - 20, texSelectX, 15, 15, new StringTextComponent(">"), b -> {
 			final PartInfo originalPartInfo = parent.getEditingPartInfo();
-			final PartRenderer part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
+			final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.typeid);
 			if (part.getTextureNames(originalPartInfo.subid).length > parent.getTextureId() + 1)
 				parent.setTextureId(parent.getTextureId() + 1);
 			else
@@ -61,7 +61,7 @@ public class TexturePanel extends Panel<EditorScreen> {
 
 		// Texture select
 		drawCenteredString(matrixStack, font, I18n.format("gui.texture"), right / 2, texSelectX - 12, 0xFFFFFF);
-		font.drawString(matrixStack, I18n.format(parent.getPartType().name().toLowerCase() + ".texture." + PartRegistry.getRenderPart(parent.getPartType(),
+		font.drawString(matrixStack, I18n.format(parent.getPartType().name().toLowerCase() + ".texture." + PartRegistry.getPartRenderer(parent.getPartType(),
 				partInfo.typeid).getTextureNames(partInfo.subid)[parent.getTextureId()] + ".name"), 25, texSelectX + 4, 0xFFFFFF);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -69,7 +69,7 @@ public class TexturePanel extends Panel<EditorScreen> {
 
 	public void updateButtons() {
 		final PartInfo originalPartInfo = parent.getEditingPartInfo();
-		final PartRenderer part = PartRegistry.getRenderPart(parent.getPartType(), originalPartInfo.typeid);
+		final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.typeid);
 
 		final int texCount = part.getTextureNames(originalPartInfo.subid).length;
 		if (leftBtn != null && rightBtn != null)

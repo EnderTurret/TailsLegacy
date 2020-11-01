@@ -9,6 +9,7 @@
 package uk.kihira.tails.client.render;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -28,7 +29,7 @@ import uk.kihira.tails.common.PartInfo;
 @OnlyIn(Dist.CLIENT)
 public class PartRenderer {
 
-	private static final HashMap<Class<? extends LivingEntity>, IRenderHelper> RENDER_HELPERS = new HashMap<>();
+	private static final Map<Class<? extends LivingEntity>, IRenderHelper> RENDER_HELPERS = new HashMap<>();
 
 	protected final String name;
 	protected final String[] textureNames;
@@ -66,11 +67,13 @@ public class PartRenderer {
 			modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
 			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
 		}
+
 		matrixStack.pop();
 	}
 
 	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
 		final IVertexBuilder buf = bufferIn.getBuffer(modelPart.getRenderType(info.getTexture()));
+
 		modelPart.render(matrixStack, buf, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
 	}
 
@@ -85,31 +88,34 @@ public class PartRenderer {
 	}
 
 	/**
-	 * Gets the available subtypes for this tail
-	 * @return subtypes
+	 * Gets the available subtypes for this part.
+	 * @return The subtypes.
 	 */
 	public int getAvailableSubTypes() {
 		return subTypes;
 	}
 
 	public String getUnlocalisedName(int subType) {
-		return name+"."+subType+".name";
+		return name + "." + subType + ".name";
 	}
 
-	public PartRenderer setAuthor(String author, int subID, int textureID) {
-		authors[subID][textureID] = author;
+	public PartRenderer setAuthor(String author, int subType, int textureID) {
+		authors[subType][textureID] = author;
+
 		return this;
 	}
 
-	public PartRenderer setAuthor(String author, int subID) {
-		for (int textureID = 0; textureID < getTextureNames(subID).length; textureID++)
-			setAuthor(author, subID, textureID);
+	public PartRenderer setAuthor(String author, int subType) {
+		for (int i = 0; i < getTextureNames(subType).length; i++)
+			setAuthor(author, subType, i);
+
 		return this;
 	}
 
 	public PartRenderer setAuthor(String author) {
-		for (int subID = 0; subID <= subTypes; subID++)
-			setAuthor(author, subID);
+		for (int i = 0; i <= subTypes; i++)
+			setAuthor(author, i);
+
 		return this;
 	}
 
@@ -117,16 +123,16 @@ public class PartRenderer {
 		return modelAuthor;
 	}
 
-	public String getAuthor(int subID, int textureID) {
-		return authors[subID][textureID];
+	public String getAuthor(int subType, int textureID) {
+		return authors[subType][textureID];
 	}
 
-	public boolean hasAuthor(int subID, int textureID) {
-		return getAuthor(subID, textureID) != null;
+	public boolean hasAuthor(int subType, int textureID) {
+		return getAuthor(subType, textureID) != null;
 	}
 
 	public static void registerRenderHelper(Class<? extends LivingEntity> clazz, IRenderHelper helper) {
-		if (!RENDER_HELPERS.containsKey(clazz) && helper != null)
+		if (helper != null && !RENDER_HELPERS.containsKey(clazz))
 			RENDER_HELPERS.put(clazz, helper);
 		else
 			throw new IllegalArgumentException("An invalid RenderHelper was registered!");

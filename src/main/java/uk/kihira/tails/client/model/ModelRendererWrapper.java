@@ -29,7 +29,7 @@ public class ModelRendererWrapper extends ModelRenderer {
 		if (RenderingHandler.currentEvent != null && RenderingHandler.currentPartsData != null && RenderingHandler.currentPlayerTexture != null) {
 			final PartInfo info = RenderingHandler.currentPartsData.getPartInfo(partType);
 			if (info != null && info.hasPart) {
-				PartRegistry.getRenderPart(info.partType, info.typeid).render(matrixStackIn, RenderingHandler.currentEvent.getPlayer(),
+				PartRegistry.getPartRenderer(info.partType, info.typeid).render(matrixStackIn, RenderingHandler.currentEvent.getPlayer(),
 						info, Minecraft.getInstance().getRenderTypeBuffers().getBufferSource(), 0, 0, 0, RenderingHandler.currentEvent.getPartialRenderTick(), packedLightIn, packedOverlayIn);
 
 				Minecraft.getInstance().getTextureManager().bindTexture(RenderingHandler.currentPlayerTexture);

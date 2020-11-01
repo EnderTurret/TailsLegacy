@@ -44,7 +44,7 @@ public class PartInfo implements Cloneable {
 	}
 
 	public static PartInfo none(PartsData.PartType partType) {
-		return new PartInfo(false, 0, 0, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 1.f, null, partType);
+		return new PartInfo(false, 0, 0, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 1F, null, partType);
 	}
 
 	public ResourceLocation getTexture() {
@@ -106,7 +106,10 @@ public class PartInfo implements Cloneable {
 	}
 
 	public PartInfo deepCopy() {
-		final Gson gson = new Gson();
-		return gson.fromJson(gson.toJson(this), PartInfo.class);
+		final int[] tints = new int[this.tints.length];
+		for (int i = 0; i < tints.length; i++)
+			tints[i] = this.tints[i];
+
+		return new PartInfo(hasPart, typeid, subid, textureID, tints, partType, scale, texture);
 	}
 }

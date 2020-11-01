@@ -133,7 +133,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		matrixStack.scale(-scale, scale, 1F);
 
 		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid)
+		PartRegistry.getPartRenderer(partInfo.partType, partInfo.typeid)
 		.render(matrixStack, fakeEntity, partInfo, impl, 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY);
 		impl.finish();
 
@@ -157,11 +157,11 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			if (partInfo.hasPart) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(matrixStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTicks);
-				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(PartRegistry.getRenderPart(partInfo.partType, partInfo.typeid)
+				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(PartRegistry.getPartRenderer(partInfo.partType, partInfo.typeid)
 						.getUnlocalisedName(partInfo.subid)), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {
-					final PartRenderer renderPart = PartRegistry.getRenderPart(parent.getPartType(), partInfo.typeid);
+					final PartRenderer renderPart = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.typeid);
 					if (renderPart.getModelAuthor() != null) {
 						// Yeah its not nice but eh, works.
 						matrixStack.push();

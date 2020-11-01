@@ -78,36 +78,25 @@ public class ClientProxy extends CommonProxy {
 			legacyRenderer = true;
 		}
 
+		final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
+
 		if (legacyRenderer) {
 			MinecraftForge.EVENT_BUS.register(new RenderingHandler());
 
-			final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
-			// Default
-			PlayerModel model = skinMap.get("default").getEntityModel();
-			model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.TAIL));
-			model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.WINGS));
-			model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.EARS));
-			model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.MUZZLE));
-			// Slim
-			model = skinMap.get("slim").getEntityModel();
-			model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.TAIL));
-			model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.WINGS));
-			model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.EARS));
-			model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.MUZZLE));
+			for (PlayerRenderer renderer : skinMap.values()) {
+				final PlayerModel model = renderer.getEntityModel();
+				model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.TAIL));
+				model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.WINGS));
+				model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.EARS));
+				model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.MUZZLE));
+			}
 		} else {
-			final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
-			// Default
-			PlayerRenderer renderPlayer = skinMap.get("default");
-			renderPlayer.addLayer(new PartLayer(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.TAIL));
-			renderPlayer.addLayer(new PartLayer(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.WINGS));
-			renderPlayer.addLayer(new PartLayer(renderPlayer, renderPlayer.getEntityModel().bipedHead, PartsData.PartType.EARS));
-			renderPlayer.addLayer(new PartLayer(renderPlayer, renderPlayer.getEntityModel().bipedHead, PartsData.PartType.MUZZLE));
-			// Slim
-			renderPlayer = skinMap.get("slim");
-			renderPlayer.addLayer(new PartLayer(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.TAIL));
-			renderPlayer.addLayer(new PartLayer(renderPlayer, renderPlayer.getEntityModel().bipedBody, PartsData.PartType.WINGS));
-			renderPlayer.addLayer(new PartLayer(renderPlayer, renderPlayer.getEntityModel().bipedHead, PartsData.PartType.EARS));
-			renderPlayer.addLayer(new PartLayer(renderPlayer, renderPlayer.getEntityModel().bipedHead, PartsData.PartType.MUZZLE));
+			for (PlayerRenderer renderer : skinMap.values()) {
+				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartsData.PartType.TAIL));
+				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartsData.PartType.WINGS));
+				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartsData.PartType.EARS));
+				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartsData.PartType.MUZZLE));
+			}
 		}
 	}
 }

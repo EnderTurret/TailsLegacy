@@ -46,11 +46,11 @@ public class FoxtatoRenderer {
 
 			e.ms.scale(0.5F, 0.5F, 0.5F);
 
-			e.ms.translate(0, 2.8F, 0);
+			e.ms.translate(0, 2.8F, 0.1F);
 
 			foxTailRenderer.render(e.ms, fakeEntity, tailPartInfo, e.buffers, e.tile.getPos().getX(), e.tile.getPos().getY(), e.tile.getPos().getZ(), e.partTicks, e.light, e.overlay);
 
-			e.ms.translate(0, 0.0, -0.1F);
+			e.ms.translate(0, 0, -0.2F);
 
 			foxEarRenderer.render(e.ms, fakeEntity, earPartInfo, e.buffers, e.tile.getPos().getX(), e.tile.getPos().getY(), e.tile.getPos().getZ(), e.partTicks, e.light, e.overlay);
 

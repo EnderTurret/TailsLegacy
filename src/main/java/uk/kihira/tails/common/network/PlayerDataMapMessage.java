@@ -50,8 +50,9 @@ public class PlayerDataMapMessage {
 	}
 
 	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
-		for (Map.Entry<UUID,PartsData> entry : message.partsDataMap.entrySet())
-			Tails.PROXY.addPartsData(entry.getKey(), entry.getValue());
+		if (message.partsDataMap != null)
+			for (Map.Entry<UUID,PartsData> entry : message.partsDataMap.entrySet())
+				Tails.PROXY.addPartsData(entry.getKey(), entry.getValue());
 
 		ctx.get().setPacketHandled(true);
 	}

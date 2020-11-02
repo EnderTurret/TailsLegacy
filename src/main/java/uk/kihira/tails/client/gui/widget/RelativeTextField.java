@@ -12,7 +12,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -43,39 +42,37 @@ public class RelativeTextField extends TextFieldWidget {
 	// Fixes TextFieldWidget#drawSelectionBox not taking into account MatrixStack transformations.
 	@Override
 	public void drawSelectionBox(int startX, int startY, int endX, int endY) {
-	      if (startX < endX) {
-	         int i = startX;
-	         startX = endX;
-	         endX = i;
-	      }
+		if (startX < endX) {
+			int i = startX;
+			startX = endX;
+			endX = i;
+		}
 
-	      if (startY < endY) {
-	         int j = startY;
-	         startY = endY;
-	         endY = j;
-	      }
+		if (startY < endY) {
+			int j = startY;
+			startY = endY;
+			endY = j;
+		}
 
-	      if (endX > this.x + this.width) {
-	         endX = this.x + this.width;
-	      }
+		if (endX > x + width)
+			endX = x + width;
 
-	      if (startX > this.x + this.width) {
-	         startX = this.x + this.width;
-	      }
+		if (startX > x + width)
+			startX = x + width;
 
-	      Tessellator tessellator = Tessellator.getInstance();
-	      BufferBuilder bufferbuilder = tessellator.getBuffer();
-	      RenderSystem.color4f(0.0F, 0.0F, 255.0F, 255.0F);
-	      RenderSystem.disableTexture();
-	      RenderSystem.enableColorLogicOp();
-	      RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
-	      bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
-	      bufferbuilder.pos(matrixStack.getLast().getMatrix(), startX, endY, 0F).endVertex();
-	      bufferbuilder.pos(matrixStack.getLast().getMatrix(), endX, endY, 0F).endVertex();
-	      bufferbuilder.pos(matrixStack.getLast().getMatrix(), endX, startY, 0F).endVertex();
-	      bufferbuilder.pos(matrixStack.getLast().getMatrix(), startX, startY, 0F).endVertex();
-	      tessellator.draw();
-	      RenderSystem.disableColorLogicOp();
-	      RenderSystem.enableTexture();
-	   }
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferbuilder = tessellator.getBuffer();
+		RenderSystem.color4f(0.0F, 0.0F, 255.0F, 255.0F);
+		RenderSystem.disableTexture();
+		RenderSystem.enableColorLogicOp();
+		RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
+		bufferbuilder.pos(matrixStack.getLast().getMatrix(), startX, endY, 0F).endVertex();
+		bufferbuilder.pos(matrixStack.getLast().getMatrix(), endX, endY, 0F).endVertex();
+		bufferbuilder.pos(matrixStack.getLast().getMatrix(), endX, startY, 0F).endVertex();
+		bufferbuilder.pos(matrixStack.getLast().getMatrix(), startX, startY, 0F).endVertex();
+		tessellator.draw();
+		RenderSystem.disableColorLogicOp();
+		RenderSystem.enableTexture();
+	}
 }

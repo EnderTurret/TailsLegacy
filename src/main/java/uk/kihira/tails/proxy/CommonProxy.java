@@ -80,10 +80,9 @@ public class CommonProxy {
 	 * @param partsData The part data.
 	 */
 	public void addPartsData(UUID uuid, PartsData partsData) {
-		if (uuid != null) {
+		if (uuid != null)
 			this.partsData.put(uuid, partsData);
 			//Tails.LOGGER.debug("Added part data for {}: {}", uuid.toString(), partsData);
-		}
 		//else Tails.LOGGER.warn("Attempted to add part data with null UUID! {}", partsData);
 	}
 

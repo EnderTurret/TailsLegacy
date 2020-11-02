@@ -18,17 +18,14 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.api.IRenderHelper;
-import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartType;
 
 /**
  * A renderer for a part. It also keeps track of some metadata.<br>

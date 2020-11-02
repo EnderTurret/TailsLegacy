@@ -13,7 +13,6 @@ import java.util.function.Supplier;
 
 import com.google.common.base.Strings;
 import com.google.gson.JsonSyntaxException;
-import com.mojang.util.UUIDTypeAdapter;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -44,7 +43,7 @@ public class PlayerDataMessage {
 			try {
 				msg.partsData = Tails.GSON.fromJson(tailInfoJson, PartsData.class);
 			} catch (JsonSyntaxException e) {
-				Tails.LOGGER.warn(e);
+				Tails.LOGGER.catching(e);
 			}
 		else msg.partsData = null;
 

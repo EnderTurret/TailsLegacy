@@ -25,17 +25,12 @@ import uk.kihira.tails.client.model.ModelRendererWrapper;
 import uk.kihira.tails.client.render.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.PartLayer;
-import uk.kihira.tails.client.render.PlayerRenderHelper;
 import uk.kihira.tails.client.render.PartRenderer;
+import uk.kihira.tails.client.render.PlayerRenderHelper;
 import uk.kihira.tails.client.render.RenderingHandler;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
-import uk.kihira.tails.common.network.LibraryEntriesMessage;
-import uk.kihira.tails.common.network.LibraryRequestMessage;
-import uk.kihira.tails.common.network.PlayerDataMapMessage;
-import uk.kihira.tails.common.network.PlayerDataMessage;
-import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
@@ -105,13 +100,12 @@ public class ClientProxy extends CommonProxy {
 				model.bipedHead.addChild(new ModelRendererWrapper(model, PartType.EARS));
 				model.bipedHead.addChild(new ModelRendererWrapper(model, PartType.MUZZLE));
 			}
-		} else {
+		} else
 			for (PlayerRenderer renderer : skinMap.values()) {
 				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartType.TAIL));
 				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartType.WINGS));
 				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.EARS));
 				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.MUZZLE));
 			}
-		}
 	}
 }

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import net.minecraft.client.Minecraft;

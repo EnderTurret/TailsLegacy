@@ -13,7 +13,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -21,7 +20,6 @@ import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.render.RenderingHandler;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelRendererWrapper extends ModelRenderer {

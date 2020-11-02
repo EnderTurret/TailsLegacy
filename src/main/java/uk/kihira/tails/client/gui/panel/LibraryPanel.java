@@ -20,12 +20,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
-import uk.kihira.tails.client.gui.LibraryListEntry.NewLibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IListCallback;
 import uk.kihira.tails.client.gui.widget.IconButton;
+import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 

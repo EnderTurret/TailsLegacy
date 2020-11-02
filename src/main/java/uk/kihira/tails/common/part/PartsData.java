@@ -10,12 +10,10 @@ package uk.kihira.tails.common.part;
 
 import java.lang.reflect.Type;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -23,7 +21,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.google.gson.annotations.Expose;
 
 /**
  * The part data class.<br>
@@ -87,9 +84,8 @@ public class PartsData {
 	 */
 	public PartsData deepCopy() {
 		final Map<PartType,PartInfo> data = new EnumMap<>(PartType.class);
-		for (Map.Entry<PartType,PartInfo> e : partInfoMap.entrySet()) {
+		for (Map.Entry<PartType,PartInfo> e : partInfoMap.entrySet())
 			data.put(e.getKey(), e.getValue().deepCopy());
-		}
 
 		return new PartsData(data);
 	}
@@ -128,10 +124,9 @@ public class PartsData {
 			final JsonObject ret = new JsonObject();
 			final JsonObject partInfoMap = new JsonObject();
 
-			for (Map.Entry<PartType,PartInfo> entry : src.partInfoMap.entrySet()) {
+			for (Map.Entry<PartType,PartInfo> entry : src.partInfoMap.entrySet())
 				if (!entry.getValue().isEmpty())
 					partInfoMap.add(entry.getKey().getId(), context.serialize(entry.getValue()));
-			}
 
 			ret.add("partInfoMap", partInfoMap);
 
@@ -151,13 +146,12 @@ public class PartsData {
 					final PartType type = PartType.forId(version == 0 ? entry.getKey().toLowerCase(Locale.ROOT) : entry.getKey());
 					ret.setPartInfo(type, PartInfo.deserialize(entry.getValue().getAsJsonObject()));
 				}
-			} else if (obj.has("partInfos")) {
+			} else if (obj.has("partInfos"))
 				for (JsonElement elem : obj.get("partInfos").getAsJsonArray()) {
 					final PartInfo info = PartInfo.deserialize(elem.getAsJsonObject());
 					if (!info.isEmpty())
 						ret.setPartInfo(info.getPartType(), info);
 				}
-			}
 
 			return ret;
 		}

@@ -10,7 +10,6 @@ package uk.kihira.tails.api;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.part.PartInfo;

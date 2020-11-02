@@ -35,7 +35,6 @@ import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 
 public class PartsPanel extends Panel<EditorScreen> implements IListCallback<PartsPanel.PartEntry> {
 

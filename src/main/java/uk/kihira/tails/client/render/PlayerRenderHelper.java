@@ -18,7 +18,6 @@ import uk.kihira.tails.client.model.tail.DevilTailModel;
 import uk.kihira.tails.client.model.tail.DragonTailModel;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 
 public class PlayerRenderHelper implements IRenderHelper {
 

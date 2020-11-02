@@ -16,9 +16,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.model.MuzzleModel;
 import uk.kihira.tails.client.model.ears.CatEarsModel;
-import uk.kihira.tails.client.model.ears.SmallCatEarsModel;
 import uk.kihira.tails.client.model.ears.FoxEarsModel;
 import uk.kihira.tails.client.model.ears.PandaEarsModel;
+import uk.kihira.tails.client.model.ears.SmallCatEarsModel;
 import uk.kihira.tails.client.model.tail.BirdTailModel;
 import uk.kihira.tails.client.model.tail.BunnyTailModel;
 import uk.kihira.tails.client.model.tail.CatTailModel;
@@ -30,7 +30,6 @@ import uk.kihira.tails.client.model.tail.SharkTailModel;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.WingRenderer;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 
 // Yeah using OnlyIn isn't nice but as this is static, it means it only gets constructed on the uk.kihira.tails.client.
 @OnlyIn(Dist.CLIENT)

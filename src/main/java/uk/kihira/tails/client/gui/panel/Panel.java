@@ -11,8 +11,8 @@ package uk.kihira.tails.client.gui.panel;
 import org.apache.commons.lang3.Validate;
 
 import net.minecraft.util.text.StringTextComponent;
-import uk.kihira.tails.client.gui.LayeredScreen;
 import uk.kihira.tails.client.gui.BaseScreen;
+import uk.kihira.tails.client.gui.LayeredScreen;
 
 /**
  * A panel, for use in {@link LayeredScreen LayeredScreens}.

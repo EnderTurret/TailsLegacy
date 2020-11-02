@@ -10,26 +10,14 @@ package uk.kihira.tails.client.texture;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.IOUtils;
-
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.util.UUIDTypeAdapter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.texture.DownloadingTexture;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.Texture;
-import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;

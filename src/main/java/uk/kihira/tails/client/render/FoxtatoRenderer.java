@@ -18,7 +18,6 @@ import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 import vazkii.botania.api.item.TinyPotatoRenderEvent;
 
 public class FoxtatoRenderer {

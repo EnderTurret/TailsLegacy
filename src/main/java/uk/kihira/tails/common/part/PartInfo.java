@@ -8,7 +8,6 @@
 
 package uk.kihira.tails.common.part;
 
-import java.awt.Color;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Locale;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -26,7 +24,6 @@ import com.google.gson.annotations.Expose;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import uk.kihira.tails.client.PartRegistry;
 
 /**
  * Stores a bunch of customization data for parts.
@@ -68,7 +65,7 @@ public class PartInfo implements Cloneable {
 	public static PartInfo none(PartType partType) {
 		return EMPTY.computeIfAbsent(partType, Empty::new);
 	}
- 
+
 	/**
 	 * Whether this {@link PartInfo} is empty.
 	 * @return {@code false}. ({@code PartInfo.Empty} overrides this to return {@code true}.)

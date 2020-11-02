@@ -119,11 +119,11 @@ public class SharkTailModel extends PartModel {
 		}
 
 		final float timestep = getAnimationTime(3000D, entity);
-		setRotationRadians(tailBase, -0.6522295414702809F + xAngleOffset * 4F, (float) Math.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, 0.0013962634015954637F + xAngleOffset * 1F, (float) Math.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, 0.278554548618295F - xAngleOffset * 2F, (float) Math.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail3, 0.22759093446006054F - xAngleOffset, (float) Math.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(finBase, 2.5953045977155678F, (float) Math.cos(timestep - 10) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tailBase, -0.6522295414702809F + xAngleOffset * 4F, MathHelper.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail1, 0.0013962634015954637F + xAngleOffset * 1F, MathHelper.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail2, 0.278554548618295F - xAngleOffset * 2F, MathHelper.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail3, 0.22759093446006054F - xAngleOffset, MathHelper.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(finBase, 2.5953045977155678F, MathHelper.cos(timestep - 10) / 5F * yAngleMultiplier, 0F);
 
 		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}

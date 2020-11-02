@@ -93,7 +93,7 @@ public class FluffyTailModel extends PartModel {
 				case 2:
 					zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -1D, 0.5D);
 					xAngleOffset = MathHelper.clamp(xAngleOffset * 0.25D, -1D, 0.2D);
-					xAngleOffset += Math.cos(timestep + xOffset) / 30F;
+					xAngleOffset += MathHelper.cos(timestep + xOffset) / 30F;
 					break;
 				}
 				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running
@@ -116,12 +116,12 @@ public class FluffyTailModel extends PartModel {
 				break;
 			}
 
-		setRotationRadians(tailBase, xAngle + xAngleOffset, (-zAngleOffset / 2F + yAngle + Math.cos(timestep + yOffset) / 8F) * yAngleMultiplier + yAngleOffset, -zAngleOffset / 8F);
-		setRotationRadians(tail1, -0.2617993877991494 + xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + Math.cos(timestep - 1 + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
-		setRotationRadians(tail2, -0.2617993877991494 + xAngleOffset / 2F, (-zAngleOffset / 2F + Math.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
-		setRotationRadians(tail3, -0.4363323129985824 + xAngleOffset / 2F, (-zAngleOffset / 2F + Math.cos(timestep - 2 + yOffset) / 20F) * yAngleMultiplier, -zAngleOffset / 20F);
-		setRotationRadians(tail4, 0.2617993877991494 - xAngleOffset / 2F, (-zAngleOffset / 2F + Math.cos(timestep - 3 + yOffset) / 8F) * yAngleMultiplier, 0F);
-		setRotationRadians(tail5, 0.2617993877991494 - xAngleOffset / 2.5F, (-zAngleOffset / 2F + Math.cos(timestep - 4 + yOffset) / 8F) * yAngleMultiplier, 0F);
+		setRotationRadians(tailBase, xAngle + xAngleOffset, (-zAngleOffset / 2F + yAngle + MathHelper.cos(timestep + yOffset) / 8F) * yAngleMultiplier + yAngleOffset, -zAngleOffset / 8F);
+		setRotationRadians(tail1, -0.2617993877991494 + xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + MathHelper.cos(timestep - 1 + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
+		setRotationRadians(tail2, -0.2617993877991494 + xAngleOffset / 2F, (-zAngleOffset / 2F + MathHelper.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
+		setRotationRadians(tail3, -0.4363323129985824 + xAngleOffset / 2F, (-zAngleOffset / 2F + MathHelper.cos(timestep - 2 + yOffset) / 20F) * yAngleMultiplier, -zAngleOffset / 20F);
+		setRotationRadians(tail4, 0.2617993877991494 - xAngleOffset / 2F, (-zAngleOffset / 2F + MathHelper.cos(timestep - 3 + yOffset) / 8F) * yAngleMultiplier, 0F);
+		setRotationRadians(tail5, 0.2617993877991494 - xAngleOffset / 2.5F, (-zAngleOffset / 2F + MathHelper.cos(timestep - 4 + yOffset) / 8F) * yAngleMultiplier, 0F);
 	}
 
 	@Override

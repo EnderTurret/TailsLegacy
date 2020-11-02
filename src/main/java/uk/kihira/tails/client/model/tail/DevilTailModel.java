@@ -91,12 +91,12 @@ public class DevilTailModel extends PartModel {
 			yAngleMultiplier = 0.25F;
 		}
 
-		setRotationRadians(tailBase, Math.toRadians(-30F) + xAngleOffset * 2F, Math.cos(seed - 1) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, Math.toRadians(-30F) + xAngleOffset * 2F, Math.cos(seed - 2) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset * 2F, Math.cos(seed - 3) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset * 2F + Math.cos(xseed - 4) / 6F * yAngleMultiplier, Math.cos(seed - 4) / 8F * yAngleMultiplier, Math.cos(xseed - 4) / 8F * yAngleMultiplier);
-		setRotationRadians(tail4, Math.toRadians(50F) - xAngleOffset * 3F + Math.cos(xseed - 5) / 8F * yAngleMultiplier, Math.cos(seed - 5) / 8F * yAngleMultiplier, Math.cos(xseed - 5) / 8F * yAngleMultiplier);
-		setRotationRadians(tail5, Math.toRadians(50F) - xAngleOffset * 4F + Math.cos(xseed - 6) / 4F  * yAngleMultiplier, Math.cos(seed - 6) / 8F * yAngleMultiplier, Math.cos(xseed - 6) / 8F * yAngleMultiplier);
+		setRotationRadians(tailBase, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 1) / 8F * yAngleMultiplier, 0F);
+		setRotationRadians(tail1, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 2) / 8F * yAngleMultiplier, 0F);
+		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 3) / 8F * yAngleMultiplier, 0F);
+		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset * 2F + MathHelper.cos(xseed - 4) / 6F * yAngleMultiplier, MathHelper.cos(seed - 4) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 4) / 8F * yAngleMultiplier);
+		setRotationRadians(tail4, Math.toRadians(50F) - xAngleOffset * 3F + MathHelper.cos(xseed - 5) / 8F * yAngleMultiplier, MathHelper.cos(seed - 5) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 5) / 8F * yAngleMultiplier);
+		setRotationRadians(tail5, Math.toRadians(50F) - xAngleOffset * 4F + MathHelper.cos(xseed - 6) / 4F  * yAngleMultiplier, MathHelper.cos(seed - 6) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 6) / 8F * yAngleMultiplier);
 		setRotationRadians(tailTip, Math.toRadians(120F) - xAngleOffset, 0F, 0F);
 	}
 

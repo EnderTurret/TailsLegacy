@@ -81,8 +81,8 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		final float bodyYaw = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * (float) partialTicks;
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
-		final double bodyYawSin = Math.sin(bodyYaw * (float) Math.PI / 180F);
-		final double bodyYawCos = -Math.cos(bodyYaw * (float) Math.PI / 180F);
+		final double bodyYawSin = MathHelper.sin(bodyYaw * (float) Math.PI / 180F);
+		final double bodyYawCos = -MathHelper.cos(bodyYaw * (float) Math.PI / 180F);
 		final float xOffset = MathHelper.clamp((float) yMotion * 10F, -6F, 32F);
 		float f1 = (float)(xMotion * bodyYawSin + zMotion * bodyYawCos) * 100F;
 		final float f2 = (float)(xMotion * bodyYawCos - zMotion * bodyYawSin) * 100F;

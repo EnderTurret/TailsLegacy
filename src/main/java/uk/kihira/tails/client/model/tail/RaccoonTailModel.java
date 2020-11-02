@@ -74,9 +74,9 @@ public class RaccoonTailModel extends PartModel {
 			yAngleMultiplier = 0.2F;
 		}
 
-		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + Math.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
-		setRotationRadians(tail1, Math.toRadians(-40F) + xAngleOffset, (-zAngleOffset + Math.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
-		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset, (-zAngleOffset + Math.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
+		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + MathHelper.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
+		setRotationRadians(tail1, Math.toRadians(-40F) + xAngleOffset, (-zAngleOffset + MathHelper.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
+		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset, (-zAngleOffset + MathHelper.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
 	}
 
 	@Override

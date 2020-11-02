@@ -86,12 +86,12 @@ public class CatTailModel extends PartModel {
 			yAngleMultiplier = 0.25F;
 		}
 
-		setRotationRadians(tailBase, Math.toRadians(-30F) + xAngleOffset * 2F, Math.cos(seed - 1) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, Math.toRadians(-30F) + xAngleOffset * 2F, Math.cos(seed - 2) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset * 2F, Math.cos(seed - 3) / 8F * yAngleMultiplier, Math.cos(xseed - 3) / 16F);
-		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset * 2F + (float) Math.cos(xseed - 4) / 8F, Math.cos(seed - 4) / 8F * yAngleMultiplier, Math.cos(xseed - 4) / 8F);
-		setRotationRadians(tail4, Math.toRadians(50F) - xAngleOffset * 2.5F + (float) Math.cos(xseed - 5) / 10F, Math.cos(seed - 5) / 8F * yAngleMultiplier, Math.cos(xseed - 5) / 8F);
-		setRotationRadians(tail5, Math.toRadians(50F) - xAngleOffset * 3F + (float) Math.cos(xseed - 6) / 10F, Math.cos(seed - 6) / 8F * yAngleMultiplier, Math.cos(xseed - 6) / 8F);
+		setRotationRadians(tailBase, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 1) / 8F * yAngleMultiplier, 0F);
+		setRotationRadians(tail1, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 2) / 8F * yAngleMultiplier, 0F);
+		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 3) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 3) / 16F);
+		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset * 2F + MathHelper.cos(xseed - 4) / 8F, MathHelper.cos(seed - 4) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 4) / 8F);
+		setRotationRadians(tail4, Math.toRadians(50F) - xAngleOffset * 2.5F + MathHelper.cos(xseed - 5) / 10F, MathHelper.cos(seed - 5) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 5) / 8F);
+		setRotationRadians(tail5, Math.toRadians(50F) - xAngleOffset * 3F + MathHelper.cos(xseed - 6) / 10F, MathHelper.cos(seed - 6) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 6) / 8F);
 	}
 
 	@Override

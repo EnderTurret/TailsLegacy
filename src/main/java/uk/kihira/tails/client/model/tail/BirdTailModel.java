@@ -91,8 +91,8 @@ public class BirdTailModel extends PartModel {
 				xAngleOffset = angles[0];
 				zAngleOffset = angles[2];
 
-				xAngleOffset -= Math.cos(timestep - 1) / 15F;
-				zAngleOffset -= Math.cos(timestep - 1) / 25F;
+				xAngleOffset -= MathHelper.cos(timestep - 1) / 15F;
+				zAngleOffset -= MathHelper.cos(timestep - 1) / 25F;
 				xAngleOffset = MathHelper.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 				zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
 			}

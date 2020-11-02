@@ -96,16 +96,16 @@ public class DragonTailModel extends PartModel {
 		}
 
 		final float timestep = getAnimationTime(4000D, entity);
-		setRotationRadians(tailBase, Math.toRadians(-40F) + xAngleOffset * 2F, (float) Math.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, Math.toRadians(-8F) + xAngleOffset * 2F, (float) Math.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, Math.toRadians(10F) - xAngleOffset / 4F, (float) Math.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset, (float) Math.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tailBase, Math.toRadians(-40F) + xAngleOffset * 2F, MathHelper.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail1, Math.toRadians(-8F) + xAngleOffset * 2F, MathHelper.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail2, Math.toRadians(10F) - xAngleOffset / 4F, MathHelper.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset, MathHelper.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
 
 		if (subtype == 1) {
-			setRotationRadians(tailSubBase, Math.toRadians(-40F) + xAngleOffset * 2F, (float) Math.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub1, Math.toRadians(-8F) + xAngleOffset * 2F, (float) Math.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub2, Math.toRadians(10F) - xAngleOffset / 4F, (float) Math.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub3, Math.toRadians(20F) - xAngleOffset, (float) Math.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSubBase, Math.toRadians(-40F) + xAngleOffset * 2F, MathHelper.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub1, Math.toRadians(-8F) + xAngleOffset * 2F, MathHelper.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub2, Math.toRadians(10F) - xAngleOffset / 4F, MathHelper.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub3, Math.toRadians(20F) - xAngleOffset, MathHelper.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
 		}
 	}
 

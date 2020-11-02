@@ -13,16 +13,16 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.api.IRenderHelper;
-import uk.kihira.tails.common.PartInfo;
+import uk.kihira.tails.common.part.PartInfo;
 
 public class FakeEntityRenderHelper implements IRenderHelper {
 
 	@Override
 	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, PartRenderer tail, PartInfo info, double x, double y, double z) {
-		switch (info.partType) {
+		switch (info.getPartType()) {
 		case TAIL: {
 			// Nine tails
-			if (info.typeid == 0 && info.subid == 2)
+			if (info.getTypeId() == 0 && info.getSubType() == 2)
 				matrixStack.translate(0F, 0.85F, 0F);
 			else matrixStack.translate(0F, 0.65F, 0F);
 			matrixStack.scale(0.9F, 0.9F, 0.9F);

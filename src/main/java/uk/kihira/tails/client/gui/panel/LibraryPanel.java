@@ -11,6 +11,7 @@ package uk.kihira.tails.client.gui.panel;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -30,9 +31,10 @@ import uk.kihira.tails.common.Tails;
 
 public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<LibraryListEntry> {
 
-	private static final LibrarySorter sorter = new LibrarySorter();
+	private static final LibrarySorter SORTER = new LibrarySorter();
 	private ListWidget<LibraryListEntry> list;
 	private TextFieldWidget searchField;
+	private boolean libraryChanged = false;
 
 	public LibraryPanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
@@ -83,7 +85,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 		final boolean value = super.keyPressed(keyCode, scanCode, modifiers);
 
 		if (value) {
-			final List<LibraryListEntry> newEntries = filterListEntries(searchField.getText().toLowerCase());
+			final List<LibraryListEntry> newEntries = filterListEntries(searchField.getText().toLowerCase(Locale.ROOT));
 			newEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
 			list.getEventListeners().clear();
 			list.getEventListeners().addAll(newEntries);
@@ -109,7 +111,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 		// Add in new entry creation.
 		libraryEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
 
-		libraryEntries.sort(sorter);
+		libraryEntries.sort(SORTER);
 
 		children.remove(list);
 		addListener(list = new ListWidget<>(this, right - left, bottom - top - 34, 0, bottom - top - 34, 50, libraryEntries));
@@ -119,11 +121,13 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 		list.getEventListeners().add(entry);
 		list.setSelected(entry);
 		parent.getLibraryInfoPanel().setEntry(entry);
+		libraryChanged = true;
 	}
 
 	public void removeEntry(LibraryListEntry entry) {
 		Tails.PROXY.getLibraryManager().removeEntry(entry.data);
 		list.getEventListeners().remove(entry);
+		libraryChanged = true;
 	}
 
 	private List<LibraryListEntry> filterListEntries(String filter) {
@@ -134,7 +138,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 			entries.add(new LibraryListEntry(this, data));
 
 		for (LibraryListEntry entry : entries)
-			if (entry instanceof LibraryListEntry.NewLibraryListEntry || entry.data.entryName.toLowerCase().contains(filter))
+			if (entry instanceof LibraryListEntry.NewLibraryListEntry || entry.data.entryName.toLowerCase(Locale.ROOT).contains(filter))
 				filteredEntries.add(entry);
 		return filteredEntries;
 	}
@@ -142,6 +146,8 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 	@Override
 	public void onClose() {
 		Tails.PROXY.getLibraryManager().removeRemoteEntries();
+		if (libraryChanged)
+			Tails.PROXY.getLibraryManager().saveLibrary();
 		super.onClose();
 	}
 

@@ -24,18 +24,19 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import uk.kihira.tails.client.PartRegistry;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 
 @OnlyIn(Dist.CLIENT)
 public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> {
 
 	private final ModelRenderer modelRenderer;
-	private final PartsData.PartType partType;
+	private final PartType partType;
 	private final boolean mpmCompat;
 
-	public PartLayer(IEntityRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartsData.PartType partType) {
+	public PartLayer(IEntityRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartType partType) {
 		super(renderer);
 		this.modelRenderer = modelRenderer;
 		this.partType = partType;
@@ -52,13 +53,13 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 
 				matrixStackIn.push();
 
-				if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE)
+				if (partType == PartType.EARS || partType == PartType.MUZZLE)
 					getEntityModel().bipedHead.translateRotate(matrixStackIn);
 
-				else if (partType == PartsData.PartType.TAIL)
+				else if (partType == PartType.TAIL)
 					getEntityModel().bipedBody.translateRotate(matrixStackIn);
 
-				final PartRenderer renderer = PartRegistry.getPartRenderer(tailInfo.partType, tailInfo.typeid);
+				final PartRenderer renderer = PartRegistry.getPartRenderer(tailInfo.getPartType(), tailInfo.getTypeId());
 
 				renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
 

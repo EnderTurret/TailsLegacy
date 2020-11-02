@@ -29,7 +29,6 @@ import uk.kihira.tails.client.render.PlayerRenderHelper;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderingHandler;
 import uk.kihira.tails.common.LibraryManager;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
 import uk.kihira.tails.common.network.LibraryEntriesMessage;
@@ -37,6 +36,8 @@ import uk.kihira.tails.common.network.LibraryRequestMessage;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
 
 @OnlyIn(Dist.CLIENT)
@@ -94,17 +95,17 @@ public class ClientProxy extends CommonProxy {
 
 			for (PlayerRenderer renderer : skinMap.values()) {
 				final PlayerModel model = renderer.getEntityModel();
-				model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.TAIL));
-				model.bipedBody.addChild(new ModelRendererWrapper(model, PartsData.PartType.WINGS));
-				model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.EARS));
-				model.bipedHead.addChild(new ModelRendererWrapper(model, PartsData.PartType.MUZZLE));
+				model.bipedBody.addChild(new ModelRendererWrapper(model, PartType.TAIL));
+				model.bipedBody.addChild(new ModelRendererWrapper(model, PartType.WINGS));
+				model.bipedHead.addChild(new ModelRendererWrapper(model, PartType.EARS));
+				model.bipedHead.addChild(new ModelRendererWrapper(model, PartType.MUZZLE));
 			}
 		} else {
 			for (PlayerRenderer renderer : skinMap.values()) {
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartsData.PartType.TAIL));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartsData.PartType.WINGS));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartsData.PartType.EARS));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartsData.PartType.MUZZLE));
+				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartType.TAIL));
+				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartType.WINGS));
+				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.EARS));
+				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.MUZZLE));
 			}
 		}
 	}

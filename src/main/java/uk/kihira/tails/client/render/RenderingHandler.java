@@ -15,8 +15,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.part.PartsData;
 
 public class RenderingHandler {
 

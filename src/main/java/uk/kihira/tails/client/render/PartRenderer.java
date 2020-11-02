@@ -25,7 +25,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.common.PartInfo;
+import uk.kihira.tails.common.part.PartInfo;
 
 @OnlyIn(Dist.CLIENT)
 public class PartRenderer {
@@ -49,7 +49,7 @@ public class PartRenderer {
 	}
 
 	public void preRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, double x, double y, double z, float partialTicks) {
-		if (info.needsTextureCompile || info.getTexture() == null) {
+		if (!info.isEmpty() && (info.needsTextureCompile || info.getTexture() == null)) {
 			info.setTexture(TextureHelper.generateTexture(entity.getUniqueID(), info));
 			info.needsTextureCompile = false;
 		}
@@ -62,13 +62,13 @@ public class PartRenderer {
 			helper.onPreRenderTail(matrixStack, entity, this, info, x, y, z);
 
 		if (modelPart != null) {
-			modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.subid, entity.rotationPitch);
+			modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.getSubType(), entity.rotationPitch);
 			modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
 		}
 	}
 
 	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
-		if (modelPart != null) {
+		if (modelPart != null && !info.isEmpty()) {
 			matrixStack.push();
 
 			preRender(matrixStack, entity, info, x, y, z, partialTicks);
@@ -80,7 +80,7 @@ public class PartRenderer {
 	}
 
 	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
-		if (modelPart != null) {
+		if (modelPart != null && !info.isEmpty()) {
 			matrixStack.push();
 
 			preRender(matrixStack, entity, info, x, y, z, partialTicks);
@@ -99,7 +99,7 @@ public class PartRenderer {
 	}
 
 	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
-		modelPart.render(matrixStack, bufferIn, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.subid, partialTicks);
+		modelPart.render(matrixStack, bufferIn, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.getSubType(), partialTicks);
 	}
 
 	/**

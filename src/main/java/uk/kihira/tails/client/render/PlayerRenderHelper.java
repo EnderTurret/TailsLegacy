@@ -16,8 +16,9 @@ import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.model.tail.CatTailModel;
 import uk.kihira.tails.client.model.tail.DevilTailModel;
 import uk.kihira.tails.client.model.tail.DragonTailModel;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 
 public class PlayerRenderHelper implements IRenderHelper {
 
@@ -29,7 +30,7 @@ public class PlayerRenderHelper implements IRenderHelper {
 
 	@Override
 	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, PartRenderer tail, PartInfo info, double x, double y, double z) {
-		if (info.partType == PartsData.PartType.EARS || info.partType == PartsData.PartType.MUZZLE || info.partType == PartsData.PartType.WINGS) return;
+		if (info.getPartType() == PartType.EARS || info.getPartType() == PartType.MUZZLE || info.getPartType() == PartType.WINGS) return;
 		if (mpmCompat && entity.isSneaking())
 			matrixStack.translate(0f, -0.1f, 0.4f);
 		if (tail.modelPart instanceof DragonTailModel) {

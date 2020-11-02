@@ -19,8 +19,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.part.PartsData;
 
 public class PlayerDataMessage {
 

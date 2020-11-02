@@ -94,7 +94,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 		// Reset/Save
 		addButton(tintReset = new IconButton(right - left - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
-			currentTint = parent.getOriginalPartInfo().tints[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
+			currentTint = parent.getOriginalPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
 			hexText.setText(Integer.toHexString(currentTint));
 			refreshTintPane();
 			tintReset.active = false;
@@ -118,7 +118,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		// Tints
 		int topOffset = 10;
 		for (int tint = 1; tint <= 3; tint++) {
-			final int colour = parent.getEditingPartInfo().tints[tint - 1] | 0xFF << 24;
+			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
 			fillGradient(matrixStack, 5, topOffset + 10, 25, topOffset + 30, colour, colour);
 			font.drawString(matrixStack, I18n.format("gui.tint", tint), 5, topOffset, 0xFFFFFF);
 			topOffset += 35;
@@ -139,7 +139,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 	protected void handleTintButton(int id) {
 		editingTint = id - 1;
-		currentTint = parent.getEditingPartInfo().tints[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
+		currentTint = parent.getEditingPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
 		hexText.setText(Integer.toHexString(currentTint));
 		refreshTintPane();
 		tintReset.active = false;
@@ -288,7 +288,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		tintReset.active = true;
 
 		if (editingTint > 0)
-			parent.getEditingPartInfo().tints[editingTint - 1] = currentTint | 0xFF000000; // Add the alpha manually.
+			parent.getEditingPartInfo().getTints()[editingTint - 1] = currentTint | 0xFF000000; // Add the alpha manually.
 		parent.setPartsInfo(parent.getEditingPartInfo());
 	}
 

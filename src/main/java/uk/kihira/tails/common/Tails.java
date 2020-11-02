@@ -33,6 +33,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
 
 @Mod(Tails.MOD_ID)
@@ -43,7 +46,7 @@ public class Tails {
 	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "channel"), () -> FMLNetworkConstants.IGNORESERVERONLY, v -> true, v -> true);
 	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
-			.registerTypeAdapter(PartsData.class, new PartsDataDeserializer())
+			.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
 			.create();
 
 	public static boolean libraryEnabled;
@@ -89,7 +92,7 @@ public class Tails {
 			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty()) {
 				localPartsData = new PartsData();
 
-				for (PartsData.PartType partType : PartsData.PartType.values())
+				for (PartType partType : PartType.values())
 					localPartsData.setPartInfo(partType, PartInfo.none(partType));
 
 				setLocalPartsData(localPartsData, instance);

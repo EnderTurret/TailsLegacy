@@ -18,8 +18,8 @@ import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.part.PartsData;
 
 public class PlayerDataMapMessage {
 

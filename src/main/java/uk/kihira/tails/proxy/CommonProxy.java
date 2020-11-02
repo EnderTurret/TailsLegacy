@@ -16,7 +16,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
 import uk.kihira.tails.common.LibraryManager;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.ServerEventHandler;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.LibraryEntriesMessage;
@@ -24,6 +23,7 @@ import uk.kihira.tails.common.network.LibraryRequestMessage;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
+import uk.kihira.tails.common.part.PartsData;
 
 public class CommonProxy {
 

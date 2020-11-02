@@ -16,7 +16,7 @@ import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.render.PartRenderer;
-import uk.kihira.tails.common.PartInfo;
+import uk.kihira.tails.common.part.PartInfo;
 
 public class TexturePanel extends Panel<EditorScreen> {
 	private final int texSelectX = 17;
@@ -33,27 +33,27 @@ public class TexturePanel extends Panel<EditorScreen> {
 		// Texture select
 		addButton(leftBtn = new ExtendedButton(5, texSelectX, 15, 15, new StringTextComponent("<"), b -> {
 			final PartInfo originalPartInfo = parent.getEditingPartInfo();
-			final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.typeid);
+			final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.getTypeId());
 			if (parent.getTextureId() - 1 >= 0)
 				parent.setTextureId(parent.getTextureId() - 1);
 			else
-				parent.setTextureId(part.getTextureNames(originalPartInfo.subid).length - 1);
-			final PartInfo partInfo = new PartInfo(true, originalPartInfo.typeid, originalPartInfo.subid, parent.getTextureId(),
-					originalPartInfo.tints, originalPartInfo.partType, originalPartInfo.scale, null);
+				parent.setTextureId(part.getTextureNames(originalPartInfo.getSubType()).length - 1);
+			final PartInfo partInfo = new PartInfo(originalPartInfo.getTypeId(), originalPartInfo.getSubType(), parent.getTextureId(),
+					originalPartInfo.getTints(), originalPartInfo.getPartType(), null);
 			parent.setPartsInfo(partInfo);
 		}));
 		addButton(rightBtn = new ExtendedButton(right - left - 20, texSelectX, 15, 15, new StringTextComponent(">"), b -> {
 			final PartInfo originalPartInfo = parent.getEditingPartInfo();
-			final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.typeid);
-			if (part.getTextureNames(originalPartInfo.subid).length > parent.getTextureId() + 1)
+			final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.getTypeId());
+			if (part.getTextureNames(originalPartInfo.getSubType()).length > parent.getTextureId() + 1)
 				parent.setTextureId(parent.getTextureId() + 1);
 			else
 				parent.setTextureId(0);
-			final PartInfo partInfo = new PartInfo(true, originalPartInfo.typeid, originalPartInfo.subid, parent.getTextureId(),
-					originalPartInfo.tints, originalPartInfo.partType, originalPartInfo.scale, null);
+			final PartInfo partInfo = new PartInfo(originalPartInfo.getTypeId(), originalPartInfo.getSubType(), parent.getTextureId(),
+					originalPartInfo.getTints(), originalPartInfo.getPartType(), null);
 			parent.setPartsInfo(partInfo);
 		}));
-		parent.setTextureId(parent.getEditingPartInfo().textureID);
+		parent.setTextureId(parent.getEditingPartInfo().getTextureId());
 
 		updateButtons();
 	}
@@ -70,9 +70,9 @@ public class TexturePanel extends Panel<EditorScreen> {
 		// Texture select
 		drawCenteredString(matrixStack, font, I18n.format("gui.texture"), right / 2, texSelectX - 12, 0xFFFFFF);
 
-		final PartRenderer renderer = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.typeid);
+		final PartRenderer renderer = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
 
-		final String langKey = parent.getPartType().name().toLowerCase() + ".texture." + renderer.getTextureNames(partInfo.subid)[parent.getTextureId()] + ".name";
+		final String langKey = parent.getPartType().getId() + ".texture." + renderer.getTextureNames(partInfo.getSubType())[parent.getTextureId()] + ".name";
 		final String formatted = I18n.format(langKey);
 
 		if (formatted.equals(langKey)) {
@@ -94,9 +94,9 @@ public class TexturePanel extends Panel<EditorScreen> {
 
 	public void updateButtons() {
 		final PartInfo originalPartInfo = parent.getEditingPartInfo();
-		final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.typeid);
+		final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.getTypeId());
 
-		final int texCount = part.getTextureNames(originalPartInfo.subid).length;
+		final int texCount = part.getTextureNames(originalPartInfo.getSubType()).length;
 		if (leftBtn != null && rightBtn != null)
 			leftBtn.active = rightBtn.active = texCount > 1;
 	}

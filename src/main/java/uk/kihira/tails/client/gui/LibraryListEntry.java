@@ -23,9 +23,10 @@ import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.common.LibraryEntryData;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 
 public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryListEntry> {
 
@@ -53,16 +54,16 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 		fontRenderer.drawString(matrixStack, (data.partsData.equals(Tails.localPartsData) ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
-		for (PartsData.PartType type : PartsData.PartType.values())
+		for (PartType type : PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
 				final PartInfo partInfo = data.partsData.getPartInfo(type);
-				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(PartRegistry.getPartRenderer(partInfo.partType, partInfo.typeid).getUnlocalisedName(partInfo.subid)),
+				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId()).getUnlocalisedName(partInfo.getSubType())),
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
 					AbstractGui.fill(matrixStack,
 							listWidth - 8 * i, rowTop + 13 + type.ordinal() * 8,
 							listWidth + 7 - 8 * i, rowTop + 20 + type.ordinal() * 8,
-							partInfo.tints[i - 1]);
+							partInfo.getTints()[i - 1]);
 			}
 
 		if (data.favourite) {

@@ -22,14 +22,15 @@ import uk.kihira.tails.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 
 public class EditorScreen extends LayeredScreen {
 
 	private int textureId;
-	private PartsData.PartType partType;
+	private PartType partType;
 	private PartsData partsData;
 	private PartInfo editingPartInfo;
 	private PartInfo originalPartInfo;
@@ -53,8 +54,8 @@ public class EditorScreen extends LayeredScreen {
 			Tails.setLocalPartsData(new PartsData(), null);
 
 		// Default to Tail.
-		partType = PartsData.PartType.TAIL;
-		for (PartsData.PartType partType : PartsData.PartType.values())
+		partType = PartType.TAIL;
+		for (PartType partType : PartType.values())
 			if (!Tails.localPartsData.hasPartInfo(partType))
 				Tails.localPartsData.setPartInfo(partType, PartInfo.none(partType));
 
@@ -115,7 +116,7 @@ public class EditorScreen extends LayeredScreen {
 	public void setPartsInfo(PartInfo newPartInfo) {
 		//editingPartInfo.setTexture(null); // Clear texture data as we will no longer need it.
 		editingPartInfo = newPartInfo;
-		if (editingPartInfo.hasPart) editingPartInfo.setTexture(TextureHelper.generateTexture(playerUUID, editingPartInfo));
+		if (!editingPartInfo.isEmpty()) editingPartInfo.setTexture(TextureHelper.generateTexture(playerUUID, editingPartInfo));
 
 		partsData.setPartInfo(partType, editingPartInfo);
 		setPartsData(partsData);
@@ -136,7 +137,7 @@ public class EditorScreen extends LayeredScreen {
 		return partsData;
 	}
 
-	public void setPartType(PartsData.PartType partType) {
+	public void setPartType(PartType partType) {
 		this.partType = partType;
 
 		PartInfo newPartInfo = partsData.getPartInfo(partType);
@@ -149,11 +150,11 @@ public class EditorScreen extends LayeredScreen {
 		setPartsInfo(partInfo);
 		partsPanel.initPartList();
 		refreshTintPane();
-		textureId = partInfo.textureID;
+		textureId = partInfo.getTextureId();
 		texturePanel.updateButtons();
 	}
 
-	public PartsData.PartType getPartType() {
+	public PartType getPartType() {
 		return partType;
 	}
 

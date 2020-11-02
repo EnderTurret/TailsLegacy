@@ -8,16 +8,15 @@
 
 package uk.kihira.tails.common;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -62,23 +61,18 @@ public class LibraryManager {
 	 * Loads the library of entries from disk
 	 */
 	private List<LibraryEntryData> loadLibrary() {
-		final Gson gson = Tails.GSON;
-		final ArrayList<LibraryEntryData> libraryEntries = new ArrayList<>();
-		FileReader fileReader = null;
+		final List<LibraryEntryData> libraryEntries = new ArrayList<>();
 
-		try {
-			fileReader = new FileReader(getLibraryFile());
-			final List<LibraryEntryData> loadedEntries = gson.fromJson(fileReader, new TypeToken<List<LibraryEntryData>>() {}.getType());
-			if (loadedEntries != null && loadedEntries.size() > 0)
+		try (BufferedReader br = Files.newBufferedReader(getLibraryFile())) {
+			final List<LibraryEntryData> loadedEntries = Tails.GSON.fromJson(br, new TypeToken<List<LibraryEntryData>>() {}.getType());
+			if (loadedEntries != null && !loadedEntries.isEmpty())
 				for (LibraryEntryData libEntry : loadedEntries)
 					if (libEntry.partsData != null)
 						libraryEntries.add(libEntry);
-
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			Tails.LOGGER.catching(e);
-		} finally {
-			IOUtils.closeQuietly(fileReader);
 		}
+
 		return libraryEntries;
 	}
 
@@ -87,33 +81,29 @@ public class LibraryManager {
 	 */
 	public void saveLibrary() {
 		final List<LibraryEntryData> entries = new ArrayList<>();
-		FileWriter fileWriter = null;
 
 		// Remove remote entries before saving.
 		for (LibraryEntryData libraryListEntry : libraryEntries)
 			if (!libraryListEntry.remoteEntry)
 				entries.add(libraryListEntry);
 
-		try {
-			fileWriter = new FileWriter(getLibraryFile());
-			Tails.GSON.toJson(entries, fileWriter);
+		try (BufferedWriter bw = Files.newBufferedWriter(getLibraryFile())) {
+			Tails.GSON.toJson(entries, bw);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			IOUtils.closeQuietly(fileWriter);
 		}
 	}
 
-	private File getLibraryFile() {
-		final File libraryFile = new File("tailslibrary.json");
+	protected Path getLibraryFile() {
+		final Path libraryFile = Paths.get(".", "tailslibrary.json");
 
-		if (!libraryFile.exists())
+		if (!Files.exists(libraryFile))
 			try {
-				if (!libraryFile.createNewFile())
-					Tails.LOGGER.error("Failed to create a library file!");
+				Files.createFile(libraryFile);
 			} catch (IOException e) {
-				Tails.LOGGER.error("Failed to create a library file!", e);
+				Tails.LOGGER.error("Failed to create library file!", e);
 			}
+
 		return libraryFile;
 	}
 

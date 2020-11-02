@@ -16,10 +16,10 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.toast.ToastManager;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMessage;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartsData;
 
 public class ControlsPanel extends Panel<EditorScreen> {
 

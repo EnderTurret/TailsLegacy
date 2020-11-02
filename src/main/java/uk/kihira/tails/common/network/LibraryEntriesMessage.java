@@ -63,11 +63,11 @@ public class LibraryEntriesMessage {
 		// Server
 		else {
 			if (message.delete) {
-				Tails.LOGGER.debug("Removing Library Entries: " + message.entries.size());
+				//Tails.LOGGER.debug("Removing Library Entries: " + message.entries.size());
 				Tails.PROXY.getLibraryManager().libraryEntries.removeAll(message.entries);
 			}
 			else {
-				Tails.LOGGER.debug("Adding Library Entries: " + message.entries.size());
+				//Tails.LOGGER.debug("Adding Library Entries: " + message.entries.size());
 				Tails.PROXY.getLibraryManager().addEntries(message.entries);
 			}
 			Tails.PROXY.getLibraryManager().saveLibrary();

@@ -10,6 +10,7 @@ package uk.kihira.tails.client.gui.panel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -32,8 +33,9 @@ import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 
 public class PartsPanel extends Panel<EditorScreen> implements IListCallback<PartsPanel.PartEntry> {
 
@@ -54,13 +56,13 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	public void init() {
 		initPartList();
 
-		addButton(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new StringTextComponent(parent.getPartType().name()), b -> {
-			if (parent.getPartType().ordinal() + 1 >= PartsData.PartType.values().length)
-				parent.setPartType(PartsData.PartType.values()[0]);
+		addButton(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new StringTextComponent(parent.getPartType().getId().toUpperCase(Locale.ROOT)), b -> {
+			if (parent.getPartType().ordinal() + 1 >= PartType.values().length)
+				parent.setPartType(PartType.values()[0]);
 			else
-				parent.setPartType(PartsData.PartType.values()[parent.getPartType().ordinal() + 1]);
+				parent.setPartType(PartType.values()[parent.getPartType().ordinal() + 1]);
 
-			partTypeButton.setMessage(new StringTextComponent(parent.getPartType().name()));
+			partTypeButton.setMessage(new StringTextComponent(parent.getPartType().getId().toUpperCase(Locale.ROOT)));
 			initPartList();
 		}));
 	}
@@ -93,8 +95,8 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		// Reset texture ID.
 		parent.setTextureId(0);
 		// Need to keep tints from original part.
-		final PartInfo partInfo = new PartInfo(entry.partInfo.hasPart, entry.partInfo.typeid, entry.partInfo.subid, entry.partInfo.textureID,
-				parent.getEditingPartInfo().tints.clone(), entry.partInfo.partType, entry.partInfo.scale, null);
+		final PartInfo partInfo = new PartInfo(entry.partInfo.getTypeId(), entry.partInfo.getSubType(), entry.partInfo.getTextureId(),
+				parent.getEditingPartInfo().getTints().clone(), entry.partInfo.getPartType(), null);
 		parent.setPartsInfo(partInfo);
 		return true;
 	}
@@ -102,13 +104,13 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	public void initPartList() {
 		// Part List
 		final List<PartEntry> partList = new ArrayList<>();
-		final PartsData.PartType partType = parent.getPartType();
+		final PartType partType = parent.getPartType();
 		partList.add(new PartEntry(PartInfo.none(partType))); // No tail
 		// Generate tail preview textures and add to list.
 		final List<PartRenderer> parts = PartRegistry.getParts(partType);
 		for (int type = 0; type < parts.size(); type++)
 			for (int subType = 0; subType <= parts.get(type).getAvailableSubTypes(); subType++) {
-				final PartInfo partInfo = new PartInfo(true, type, subType, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 1, null, partType);
+				final PartInfo partInfo = new PartInfo(type, subType, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, partType, null);
 				partList.add(new PartEntry(partInfo));
 			}
 
@@ -122,8 +124,8 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		// Default selection.
 		final PartInfo partInfo = parent.getEditingPartInfo();
 		for (PartEntry entry : partList.getEventListeners())
-			if (!entry.partInfo.hasPart && !partInfo.hasPart || partInfo.hasPart && entry.partInfo.hasPart
-					&& entry.partInfo.typeid == partInfo.typeid && entry.partInfo.subid == partInfo.subid) {
+			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && entry.partInfo.isEmpty()
+					&& entry.partInfo.getTypeId() == partInfo.getTypeId() && entry.partInfo.getSubType() == partInfo.getSubType()) {
 				partList.setSelected(entry);
 				onEntrySelected(partList, partList.getEventListeners().indexOf(entry), entry);
 				break;
@@ -143,7 +145,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		matrixStack.scale(-scale, scale, 1F);
 
 		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		PartRegistry.getPartRenderer(partInfo.partType, partInfo.typeid)
+		PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId())
 		.render(matrixStack, fakeEntity, partInfo, impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture())), 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY);
 		impl.finish();
 
@@ -164,14 +166,14 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			RenderSystem.color4f(1, 1, 1, 1);
 			setBlitOffset(0);
 
-			if (partInfo.hasPart) {
+			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(matrixStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTicks);
-				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(PartRegistry.getPartRenderer(partInfo.partType, partInfo.typeid)
-						.getUnlocalisedName(partInfo.subid)), 5, x + 17, 0xFFFFFF);
+				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId())
+						.getUnlocalisedName(partInfo.getSubType())), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {
-					final PartRenderer renderPart = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.typeid);
+					final PartRenderer renderPart = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
 					if (renderPart.getModelAuthor() != null) {
 						// Yeah its not nice but eh, works.
 						matrixStack.push();

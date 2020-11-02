@@ -24,7 +24,7 @@ public class ServerEventHandler {
 		// Send current known tails to uk.kihira.tails.client
 		Tails.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.PROXY.getPartsData()));
 		Tails.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new ServerCapabilitiesMessage(Tails.libraryEnabled));
-		Tails.LOGGER.debug(String.format("Sent tail data of size %d to %s ", Tails.PROXY.getPartsData().size(), event.getPlayer().getName()));
+		//Tails.LOGGER.debug(String.format("Sent tail data of size %d to %s ", Tails.PROXY.getPartsData().size(), event.getPlayer().getName()));
 	}
 
 	@SubscribeEvent

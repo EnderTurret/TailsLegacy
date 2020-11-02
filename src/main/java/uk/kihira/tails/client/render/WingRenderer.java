@@ -19,7 +19,7 @@ import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.common.PartInfo;
+import uk.kihira.tails.common.part.PartInfo;
 
 public class WingRenderer extends PartRenderer {
 
@@ -54,11 +54,11 @@ public class WingRenderer extends PartRenderer {
 		final boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
 		final float angle = MathHelper.sin(timestep) * (isFlying ? 24F : 4F);
-		final float scale = info.subid == 1 ? 1F : 2F;
+		final float scale = info.getSubType() == 1 ? 1F : 2F;
 
 		matrixStack.push();
 
-		matrixStack.translate(0, -(scale * 8F) * PartModel.SCALE + (info.subid == 1 ? 0.1F : 0), 0.1F);
+		matrixStack.translate(0, -(scale * 8F) * PartModel.SCALE + (info.getSubType() == 1 ? 0.1F : 0), 0.1F);
 		matrixStack.rotate(Vector3f.YP.rotationDegrees(90));
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(90));
 		matrixStack.scale(scale, scale, scale);

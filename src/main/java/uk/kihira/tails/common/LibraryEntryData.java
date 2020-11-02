@@ -9,21 +9,29 @@
 package uk.kihira.tails.common;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.google.gson.annotations.Expose;
 
+import uk.kihira.tails.common.part.PartsData;
+
 public class LibraryEntryData {
-	@Expose public final PartsData partsData;
-	@Expose public String entryName = "";
-	@Expose public final String comment = "";
-	@Expose public boolean favourite;
-	@Expose public final long creationDate;
-	@Expose public final UUID creatorUUID;
+	@Expose
+	public final PartsData partsData;
+	@Expose
+	public String entryName = "";
+	@Expose
+	public boolean favourite;
+	@Expose
+	public final long creationDate;
+	@Expose
+	public final UUID creatorUUID;
 	/**
 	 * Name is used purely for display purposes.
 	 */
-	@Expose public String creatorName;
+	@Expose
+	public String creatorName;
 	public boolean remoteEntry = false;
 
 	public LibraryEntryData(UUID creatorUUID, String creatorName, String name, PartsData partsData) {
@@ -44,7 +52,6 @@ public class LibraryEntryData {
 
 		if (creationDate != data.creationDate) return false;
 		if (favourite != data.favourite) return false;
-		if (!comment.equals(data.comment)) return false;
 		if (!creatorUUID.equals(data.creatorUUID)) return false;
 		if (entryName != null ? !entryName.equals(data.entryName) : data.entryName != null) return false;
 		if (partsData != null ? !partsData.equals(data.partsData) : data.partsData != null) return false;
@@ -54,12 +61,6 @@ public class LibraryEntryData {
 
 	@Override
 	public int hashCode() {
-		int result = partsData != null ? partsData.hashCode() : 0;
-		result = 31 * result + (entryName != null ? entryName.hashCode() : 0);
-		result = 31 * result + comment.hashCode();
-		result = 31 * result + creatorUUID.hashCode();
-		result = 31 * result + (favourite ? 1 : 0);
-		result = 31 * result + (int) (creationDate ^ creationDate >>> 32);
-		return result;
+		return Objects.hash(partsData == null ? 0 : partsData.hashCode(), "", creatorUUID, favourite, creationDate);
 	}
 }

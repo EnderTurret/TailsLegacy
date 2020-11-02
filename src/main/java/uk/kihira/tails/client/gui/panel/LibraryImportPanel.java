@@ -23,8 +23,8 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.part.PartsData;
 
 public class LibraryImportPanel extends Panel<EditorScreen> {
 

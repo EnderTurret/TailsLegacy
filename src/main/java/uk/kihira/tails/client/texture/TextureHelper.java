@@ -35,10 +35,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.PartRegistry;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMessage;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 
 @OnlyIn(Dist.CLIENT)
 public class TextureHelper {
@@ -67,7 +68,7 @@ public class TextureHelper {
 	public static boolean hasSkinData(AbstractClientPlayerEntity player) {
 		final BufferedImage image = getPlayerSkinAsBufferedImage(player);
 		if (image != null)
-			for (PartsData.PartType partType : PartsData.PartType.values()) {
+			for (PartType partType : PartType.values()) {
 				final int ordinal = partType.ordinal();
 				final int scol1 = image.getRGB((int) SWITCH_POINTS[ordinal][0].getX(), (int) SWITCH_POINTS[ordinal][0].getY());
 				final int scol2 = image.getRGB((int) SWITCH_POINTS[ordinal][1].getX(), (int) SWITCH_POINTS[ordinal][1].getY());
@@ -89,7 +90,7 @@ public class TextureHelper {
 				partsData = new PartsData();
 
 			// Load part data from skin.
-			for (PartsData.PartType partType : PartsData.PartType.values()) {
+			for (PartType partType : PartType.values()) {
 				final int ordinal = partType.ordinal();
 				final int scol1 = image.getRGB((int) SWITCH_POINTS[ordinal][0].getX(), (int) SWITCH_POINTS[ordinal][0].getY());
 				final int scol2 = image.getRGB((int) SWITCH_POINTS[ordinal][1].getX(), (int) SWITCH_POINTS[ordinal][1].getY());
@@ -117,26 +118,26 @@ public class TextureHelper {
 
 		// Check we have the players skin.
 		if (image != null)
-			for (PartsData.PartType partType : PartsData.PartType.values()) {
+			for (PartType partType : PartType.values()) {
 				final PartInfo partInfo = partsData.getPartInfo(partType);
 				final int ordinal = partType.ordinal();
 				int switch1 = 0x00000000, switch2 = 0x00000000;
 				if (partInfo != null) {
-					if (partInfo.hasPart) {
+					if (!partInfo.isEmpty()) {
 						switch1 = SWITCH_1_COLOR;
 						switch2 = SWITCH_2_COLOR;
 					}
 
 					// Type, subtype and texture
 					int dataColour = 0xFF000000;
-					dataColour = dataColour | partInfo.typeid << 16;
-					dataColour = dataColour | partInfo.subid << 8;
-					dataColour = dataColour | partInfo.textureID;
+					dataColour = dataColour | partInfo.getTypeId() << 16;
+					dataColour = dataColour | partInfo.getSubType() << 8;
+					dataColour = dataColour | partInfo.getTextureId();
 					image.setRGB((int) DATA_POINTS[ordinal].getX(), (int) DATA_POINTS[ordinal].getY(), dataColour);
 					// Tints
-					image.setRGB((int) TINT_POINTS[ordinal][0].getX(), (int) TINT_POINTS[ordinal][0].getY(), partInfo.tints[0]);
-					image.setRGB((int) TINT_POINTS[ordinal][1].getX(), (int) TINT_POINTS[ordinal][1].getY(), partInfo.tints[1]);
-					image.setRGB((int) TINT_POINTS[ordinal][2].getX(), (int) TINT_POINTS[ordinal][2].getY(), partInfo.tints[2]);
+					image.setRGB((int) TINT_POINTS[ordinal][0].getX(), (int) TINT_POINTS[ordinal][0].getY(), partInfo.getTints()[0]);
+					image.setRGB((int) TINT_POINTS[ordinal][1].getX(), (int) TINT_POINTS[ordinal][1].getY(), partInfo.getTints()[1]);
+					image.setRGB((int) TINT_POINTS[ordinal][2].getX(), (int) TINT_POINTS[ordinal][2].getY(), partInfo.getTints()[2]);
 				}
 				// Switch colors
 				image.setRGB((int) SWITCH_POINTS[ordinal][0].getX(), (int) SWITCH_POINTS[ordinal][0].getY(), switch1);
@@ -147,7 +148,7 @@ public class TextureHelper {
 		return image;
 	}
 
-	private static PartInfo buildPartInfoFromSkin(PartsData.PartType partType, BufferedImage skin, UUID uuid) {
+	private static PartInfo buildPartInfoFromSkin(PartType partType, BufferedImage skin, UUID uuid) {
 		final int ordinal = partType.ordinal();
 		final int data = skin.getRGB((int) DATA_POINTS[ordinal].getX(), (int) DATA_POINTS[ordinal].getY());
 		final int typeid = data >> 16 & 0xFF;
@@ -163,7 +164,7 @@ public class TextureHelper {
 
 					final ResourceLocation tailTexture = generateTexture(uuid, partType, typeid, subtype, textureid, new int[] {tint1, tint2, tint3});
 
-					return new PartInfo(true, typeid, subtype, 0, tint1, tint2, tint3, 1.f, tailTexture, partType);
+					return new PartInfo(typeid, subtype, 0, tint1, tint2, tint3, partType, tailTexture);
 	}
 
 	/**
@@ -175,20 +176,20 @@ public class TextureHelper {
 	 * @param textureID The texture ID
 	 * @param tints An array of int[3]     @return A resource location for the generated texture
 	 */
-	private static ResourceLocation generateTexture(UUID uuid, PartsData.PartType partType, int typeid, int subid, int textureID, int[] tints) {
+	private static ResourceLocation generateTexture(UUID uuid, PartType partType, int typeid, int subid, int textureID, int[] tints) {
 		final String[] textures = PartRegistry.getPartRenderer(partType, typeid).getTextureNames(subid);
 		textureID = textureID >= textures.length ? 0 : textureID;
-		final String texturePath = "texture/" + partType.name().toLowerCase(Locale.ROOT) + "/" + textures[textureID] + ".png";
+		final String texturePath = "texture/" + partType.getId() + "/" + textures[textureID] + ".png";
 
 		// Add UUID to prevent deleting similar textures.
-		final ResourceLocation tailTexture = new ResourceLocation("tails_" + uuid + "_" + partType.name().toLowerCase(Locale.ROOT) + "_" + typeid + "_" + subid + "_" + textureID + "_" + tints[0] + "_" + tints[1] + "_" + tints[2]);
+		final ResourceLocation tailTexture = new ResourceLocation("tails_" + uuid + "_" + partType.getId() + "_" + typeid + "_" + subid + "_" + textureID + "_" + tints[0] + "_" + tints[1] + "_" + tints[2]);
 		Minecraft.getInstance().getTextureManager().loadTexture(tailTexture, new TripleTintTexture("tails", texturePath, tints[0], tints[1], tints[2]));
 
 		return tailTexture;
 	}
 
 	public static ResourceLocation generateTexture(UUID uuid, PartInfo partInfo) {
-		return generateTexture(uuid, partInfo.partType, partInfo.typeid, partInfo.subid, partInfo.textureID, partInfo.tints);
+		return generateTexture(uuid, partInfo.getPartType(), partInfo.getTypeId(), partInfo.getSubType(), partInfo.getTextureId(), partInfo.getTints());
 	}
 
 	public static boolean needsBuild(PlayerEntity player) {

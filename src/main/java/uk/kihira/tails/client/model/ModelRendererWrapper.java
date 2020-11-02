@@ -19,16 +19,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.render.RenderingHandler;
-import uk.kihira.tails.common.PartInfo;
-import uk.kihira.tails.common.PartsData;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.PartsData;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelRendererWrapper extends ModelRenderer {
 
-	private final PartsData.PartType partType;
+	private final PartType partType;
 	private final PlayerModel model;
 
-	public ModelRendererWrapper(PlayerModel model, PartsData.PartType partType) {
+	public ModelRendererWrapper(PlayerModel model, PartType partType) {
 		super(model);
 		this.partType = partType;
 		this.model = model;
@@ -39,16 +40,16 @@ public class ModelRendererWrapper extends ModelRenderer {
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (RenderingHandler.currentEvent != null && RenderingHandler.currentPartsData != null && RenderingHandler.currentPlayerTexture != null) {
 			final PartInfo info = RenderingHandler.currentPartsData.getPartInfo(partType);
-			if (info != null && info.hasPart) {
+			if (info != null && !info.isEmpty()) {
 				matrixStackIn.push();
 
-				if (partType == PartsData.PartType.EARS || partType == PartsData.PartType.MUZZLE)
+				if (partType == PartType.EARS || partType == PartType.MUZZLE)
 					model.bipedHead.translateRotate(matrixStackIn);
 
-				else if (partType == PartsData.PartType.TAIL)
+				else if (partType == PartType.TAIL)
 					model.bipedBody.translateRotate(matrixStackIn);
 
-				PartRegistry.getPartRenderer(info.partType, info.typeid).render(matrixStackIn, RenderingHandler.currentEvent.getPlayer(),
+				PartRegistry.getPartRenderer(info.getPartType(), info.getTypeId()).render(matrixStackIn, RenderingHandler.currentEvent.getPlayer(),
 						info, Minecraft.getInstance().getRenderTypeBuffers().getBufferSource(), 0, 0, 0, RenderingHandler.currentEvent.getPartialRenderTick(), packedLightIn, packedOverlayIn);
 
 				matrixStackIn.pop();

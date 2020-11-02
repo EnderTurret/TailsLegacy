@@ -94,8 +94,14 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		// Reset texture ID.
 		parent.setTextureId(0);
 		// Need to keep tints from original part.
-		final PartInfo partInfo = new PartInfo(entry.partInfo.getTypeId(), entry.partInfo.getSubType(), entry.partInfo.getTextureId(),
+		final PartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.deepCopy() : new PartInfo(entry.partInfo.getTypeId(), entry.partInfo.getSubType(), entry.partInfo.getTextureId(),
 				parent.getEditingPartInfo().getTints().clone(), entry.partInfo.getPartType(), null);
+
+		// Breaks immutability, but it's probably fine, right?
+		if (entry.partInfo.isEmpty())
+			for (int i = 0; i < partInfo.getTints().length; i++)
+				partInfo.getTints()[i] = parent.getEditingPartInfo().getTints()[i];
+
 		parent.setPartsInfo(partInfo);
 		return true;
 	}

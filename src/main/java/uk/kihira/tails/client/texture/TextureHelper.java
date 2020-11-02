@@ -12,6 +12,8 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import com.mojang.authlib.GameProfile;
 import com.mojang.util.UUIDTypeAdapter;
 
@@ -183,7 +185,9 @@ public class TextureHelper {
 	 * @param partInfo The part data.
 	 * @return A resource location for the generated texture.
 	 */
+	@Nullable
 	public static ResourceLocation generateTexture(UUID uuid, PartInfo partInfo) {
+		if (partInfo.isEmpty()) return null;
 		return generateTexture(uuid, partInfo.getPartType(), partInfo.getTypeId(), partInfo.getSubType(), partInfo.getTextureId(), partInfo.getTints());
 	}
 

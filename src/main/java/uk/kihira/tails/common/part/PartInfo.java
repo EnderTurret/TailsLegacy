@@ -257,7 +257,7 @@ public class PartInfo implements Cloneable {
 	private static class Empty extends PartInfo {
 
 		private Empty(PartType partType) {
-			super(-1, -1, -1, new int[] {0xFFFF0000, 0xFF00FF00, 0xFF0000FF}, partType, null);
+			super(0, 0, 0, new int[] {0xFFFF0000, 0xFF00FF00, 0xFF0000FF}, partType, null);
 		}
 
 		@Override

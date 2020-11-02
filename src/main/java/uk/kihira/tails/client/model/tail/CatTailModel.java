@@ -17,14 +17,18 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for cat tails.<br>
+ * (Not to be confused with cattails.)
+ */
 public class CatTailModel extends PartModel {
 
-	final ModelRenderer tailBase;
-	final ModelRenderer tail1;
-	final ModelRenderer tail2;
-	final ModelRenderer tail3;
-	final ModelRenderer tail4;
-	final ModelRenderer tail5;
+	private final ModelRenderer tailBase;
+	private final ModelRenderer tail1;
+	private final ModelRenderer tail2;
+	private final ModelRenderer tail3;
+	private final ModelRenderer tail4;
+	private final ModelRenderer tail5;
 
 	public CatTailModel() {
 		textureWidth = 64;

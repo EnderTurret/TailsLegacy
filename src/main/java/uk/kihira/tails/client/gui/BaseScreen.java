@@ -54,6 +54,13 @@ public abstract class BaseScreen extends Screen {
 		vLine(matrixStack, x2, y1, y2, color);
 	}
 
+	public static boolean isMouseOver(double mouseX, double mouseY, int x, int y, int width, int height) {
+		return mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+	}
+
+	/**
+	 * A button that has a tooltip.
+	 */
 	public static class TooltipButton extends ExtendedButton implements ITooltip {
 
 		private final int maxTextWidth;
@@ -76,6 +83,9 @@ public abstract class BaseScreen extends Screen {
 		}
 	}
 
+	/**
+	 * A toggle-able button with a tooltip.
+	 */
 	public class ToggleButton extends TooltipButton {
 
 		public ToggleButton(int x, int y, int width, int height, ITextComponent text, int maxTextWidth, IPressable onPress, FontRenderer font, ITextComponent... tooltips) {
@@ -97,9 +107,5 @@ public abstract class BaseScreen extends Screen {
 			list.add(!active ? new StringTextComponent("Enabled").mergeStyle(TextFormatting.GREEN, TextFormatting.ITALIC).func_241878_f() : new StringTextComponent("Disabled").mergeStyle(TextFormatting.RED, TextFormatting.ITALIC).func_241878_f());
 			BaseScreen.this.renderToolTip(matrixStack, list, x, y, font);
 		}
-	}
-
-	public static boolean isMouseOver(double mouseX, double mouseY, int x, int y, int width, int height) {
-		return mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 	}
 }

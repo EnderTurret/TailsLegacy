@@ -36,7 +36,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 	private LibraryListEntry entry;
 
 	private TextFieldWidget textField;
-	private IconButton.GuiIconToggleButton favButton;
+	private IconButton.Toggle favButton;
 	private IconButton deleteButton;
 	private IconButton downloadButton;
 	private IconButton uploadButton;
@@ -51,8 +51,8 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		textField.setMaxStringLength(16);
 		addListener(textField);
 
-		addButton(favButton = new IconButton.GuiIconToggleButton(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
-			entry.data.favourite = ((IconButton.GuiIconToggleButton) b).toggled;
+		addButton(favButton = new IconButton.Toggle(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
+			entry.data.favourite = ((IconButton.Toggle) b).toggled;
 		}, new TranslationTextComponent("gui.button.favourite")));
 		addButton(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
 			// Only allow removing if player owns the entry.

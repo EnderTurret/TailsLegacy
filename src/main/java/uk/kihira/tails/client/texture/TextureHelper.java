@@ -168,13 +168,14 @@ public class TextureHelper {
 	}
 
 	/**
-	 * Creates and loads the tail texture into memory based upon the provided params
-	 * @param uuid
-	 * @param partType
-	 * @param typeid The type ID
-	 * @param subid The subtype ID
-	 * @param textureID The texture ID
-	 * @param tints An array of int[3]     @return A resource location for the generated texture
+	 * Generates a texture for the given part using the given tints.
+	 * @param uuid The {@link UUID} of the entity wearing the part.
+	 * @param partType The part type.
+	 * @param typeid The type ID.
+	 * @param subid The subtype ID.
+	 * @param textureID The texture ID.
+	 * @param tints An array containing three {@code ints} to use for tinting the texture.
+	 * @return A resource location for the generated texture.
 	 */
 	private static ResourceLocation generateTexture(UUID uuid, PartType partType, int typeid, int subid, int textureID, int[] tints) {
 		final String[] textures = PartRegistry.getPartRenderer(partType, typeid).getTextureNames(subid);
@@ -188,6 +189,12 @@ public class TextureHelper {
 		return tailTexture;
 	}
 
+	/**
+	 * A convenience method for {@link #generateTexture(UUID, PartType, int, int, int, int[])} using data from the given {@link PartInfo}.
+	 * @param uuid The {@link UUID} of the entity wearing the part.
+	 * @param partInfo The part data.
+	 * @return A resource location for the generated texture.
+	 */
 	public static ResourceLocation generateTexture(UUID uuid, PartInfo partInfo) {
 		return generateTexture(uuid, partInfo.getPartType(), partInfo.getTypeId(), partInfo.getSubType(), partInfo.getTextureId(), partInfo.getTints());
 	}

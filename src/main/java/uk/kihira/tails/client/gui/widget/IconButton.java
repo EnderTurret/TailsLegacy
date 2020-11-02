@@ -24,6 +24,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
+/**
+ * A button with an icon and a tooltip.
+ */
 public class IconButton extends Button implements ITooltip {
 
 	public static final ResourceLocation iconsTextures = new ResourceLocation("tails", "texture/gui/icons.png");
@@ -61,11 +64,14 @@ public class IconButton extends Button implements ITooltip {
 		return tooltip;
 	}
 
-	public static class GuiIconToggleButton extends IconButton {
+	/**
+	 * A toggle-able variant of the normal everyday icon button.
+	 */
+	public static class Toggle extends IconButton {
 
 		public boolean toggled;
 
-		public GuiIconToggleButton(int x, int y, Icons icon, IPressable onPress, ITextComponent... tooltips) {
+		public Toggle(int x, int y, Icons icon, IPressable onPress, ITextComponent... tooltips) {
 			super(x, y, icon, onPress, tooltips);
 		}
 
@@ -113,7 +119,7 @@ public class IconButton extends Button implements ITooltip {
 		public final int u;
 		public final int v;
 
-		Icons(int u, int v) {
+		private Icons(int u, int v) {
 			this.u = u;
 			this.v = v;
 		}

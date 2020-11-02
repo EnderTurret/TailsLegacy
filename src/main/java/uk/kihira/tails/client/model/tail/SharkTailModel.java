@@ -17,20 +17,22 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for shark tails.
+ */
 public class SharkTailModel extends PartModel {
 
-	public ModelRenderer tailBase;
-	public ModelRenderer tail1;
-	public ModelRenderer fin;
-	public ModelRenderer tail2;
-	public ModelRenderer tail3;
-	public ModelRenderer finBase;
-	public ModelRenderer finTop1;
-	public ModelRenderer finBot1;
-	public ModelRenderer finTop2;
-	public ModelRenderer finTop3;
-	public ModelRenderer finBot2;
-	public ModelRenderer fubBot3;
+	private final ModelRenderer tailBase;
+	private final ModelRenderer tail1;
+	private final ModelRenderer tail2;
+	private final ModelRenderer tail3;
+	private final ModelRenderer finBase;
+	private final ModelRenderer finTop1;
+	private final ModelRenderer finBot1;
+	private final ModelRenderer finTop2;
+	private final ModelRenderer finTop3;
+	private final ModelRenderer finBot2;
+	private final ModelRenderer fubBot3;
 
 	public SharkTailModel() {
 		textureWidth = 64;
@@ -92,7 +94,11 @@ public class SharkTailModel extends PartModel {
 	}
 
 	/**
-	 * This is a helper function from Tabula to set the rotation of model parts
+	 * A helper function from Tabula to set the rotation of model parts.
+	 * @param modelRenderer The {@link ModelRenderer} to set rotation angles of.
+	 * @param x The x rotation angle.
+	 * @param y The y rotation angle.
+	 * @param z The z rotation angle.
 	 */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;

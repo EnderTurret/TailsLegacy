@@ -15,20 +15,23 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for small cat ears.
+ */
 public class SmallCatEarsModel extends PartModel {
 
-	public ModelRenderer leftEarBottom;
-	public ModelRenderer leftEarRearLayer1;
-	public ModelRenderer leftEarRearBottom;
-	public ModelRenderer leftEarLayer1;
-	public ModelRenderer leftEarLayer3;
-	public ModelRenderer leftEarLayer2;
-	public ModelRenderer rightEarBottom;
-	public ModelRenderer rightEarLayer1;
-	public ModelRenderer rightEarRearLayer1;
-	public ModelRenderer rightEarRearBottom;
-	public ModelRenderer rightEarLayer2;
-	public ModelRenderer rightEarLayer3;
+	private final ModelRenderer leftEarBottom;
+	private final ModelRenderer leftEarRearLayer1;
+	private final ModelRenderer leftEarRearBottom;
+	private final ModelRenderer leftEarLayer1;
+	private final ModelRenderer leftEarLayer3;
+	private final ModelRenderer leftEarLayer2;
+	private final ModelRenderer rightEarBottom;
+	private final ModelRenderer rightEarLayer1;
+	private final ModelRenderer rightEarRearLayer1;
+	private final ModelRenderer rightEarRearBottom;
+	private final ModelRenderer rightEarLayer2;
+	private final ModelRenderer rightEarLayer3;
 
 	public SmallCatEarsModel() {
 		textureWidth = 64;

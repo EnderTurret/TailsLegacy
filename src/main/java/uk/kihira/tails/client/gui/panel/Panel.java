@@ -14,6 +14,11 @@ import net.minecraft.util.text.StringTextComponent;
 import uk.kihira.tails.client.gui.LayeredScreen;
 import uk.kihira.tails.client.gui.BaseScreen;
 
+/**
+ * A panel, for use in {@link LayeredScreen LayeredScreens}.
+ *
+ * @param <T> The parent screen type.
+ */
 public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
 
 	protected final T parent;

@@ -27,7 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import uk.kihira.tails.client.ColorUtil;
 
 /**
- * A tinted texture that has 3 different tints, each tint defined in a different RGB channel.
+ * A texture that tints another texture based on three tint values.
  */
 public class TripleTintTexture extends Texture {
 
@@ -82,13 +82,13 @@ public class TripleTintTexture extends Texture {
 
 	/**
 	 * Colorises a pixel.
-	 * @param red
-	 * @param tint1
-	 * @param green
-	 * @param tint2
-	 * @param blue
-	 * @param tint3
-	 * @param alpha
+	 * @param red The red color value.
+	 * @param tint1 The first tint.
+	 * @param green The green color value.
+	 * @param tint2 The second tint.
+	 * @param blue The blue color value.
+	 * @param tint3 The third tint.
+	 * @param alpha The alpha value.
 	 * @return The colorised pixel, packed using {@link NativeImage#getCombined(int, int, int, int)}.
 	 */
 	private int colorise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {

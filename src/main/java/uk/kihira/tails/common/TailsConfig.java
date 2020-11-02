@@ -13,6 +13,8 @@ import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -23,8 +25,15 @@ import net.minecraftforge.fml.config.ConfigTracker;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.config.ModConfig.Type;
 
+/**
+ * The Tails config, for all your configuration needs.
+ * @author EnderTurret
+ */
 public class TailsConfig {
 
+	/**
+	 * Now with more spicy reflection.
+	 */
 	private static final MethodHandle CONFIGTRACKER_CONFIGSBYMOD;
 
 	static final ForgeConfigSpec CLIENT_SPEC;
@@ -55,6 +64,13 @@ public class TailsConfig {
 		forceLegacyRendering = builder.comment("Forces the legacy renderer which may have better compatibility with other mods.").define("forceLegacyRendering", false);
 	}
 
+	/**
+	 * Returns a TailsConfig registered for the given type.<br>
+	 * Currently, there's only a config for {@link net.minecraftforge.fml.config.ModConfig.Type#CLIENT Type.CLIENT}.
+	 * @param type The type.
+	 * @return The config.
+	 */
+	@Nullable
 	public static ModConfig getConfig(ModConfig.Type type) {
 		try {
 			final Map<String, Map<ModConfig.Type, ModConfig>> configsByMod = (Map<String, Map<Type, ModConfig>>) CONFIGTRACKER_CONFIGSBYMOD.invoke(ConfigTracker.INSTANCE);

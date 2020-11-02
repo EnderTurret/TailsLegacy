@@ -14,6 +14,9 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
+/**
+ * The model used for muzzles.
+ */
 public class MuzzleModel extends PartModel {
 
 	private final ModelRenderer stubMuzzle;

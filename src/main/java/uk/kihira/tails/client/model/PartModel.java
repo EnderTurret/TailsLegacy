@@ -20,7 +20,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * A base class that all tails extend
+ * A base class that all parts extend.
  */
 public abstract class PartModel extends EntityModel<LivingEntity> {
 
@@ -32,9 +32,17 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 	/**
 	 * Renders the tail with the optional parts list provided
-	 * @param theEntity The owner of the tail
-	 * @param subtype The subtype
-	 * @param partialTicks
+	 * @param matrixStackIn The {@link MatrixStack} to use for transformations.
+	 * @param bufferIn The buffer to draw to.
+	 * @param entity The entity the part is attached to.
+	 * @param packedLightIn The packed light.
+	 * @param packedOverlayIn The packed overlay.
+	 * @param red The red color value.
+	 * @param green The green color value.
+	 * @param blue The blue color value.
+	 * @param alpha The alpha color value.
+	 * @param subtype The subtype.
+	 * @param partialTicks The partial ticks.
 	 */
 	public abstract void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks);
 

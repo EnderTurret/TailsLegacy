@@ -15,9 +15,17 @@ import javax.annotation.Nonnull;
 import net.minecraft.util.IReorderingProcessor;
 
 /**
- * Implemented by GuiButton's that has a tooltip
+ * A generic interface for things with tooltips.
  */
-@Nonnull
 public interface ITooltip {
-	List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
+
+	/**
+	 * Returns a tooltip to display.
+	 * @param mouseX The x position of the mouse cursor.
+	 * @param mouseY The y position of the mouse cursor.
+	 * @param mouseIdleTime
+	 * @return The tooltip.
+	 */
+	@Nonnull
+	public List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
 }

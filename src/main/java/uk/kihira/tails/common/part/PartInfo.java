@@ -8,12 +8,15 @@
 
 package uk.kihira.tails.common.part;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -23,9 +26,16 @@ import com.google.gson.annotations.Expose;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import uk.kihira.tails.client.PartRegistry;
 
+/**
+ * Stores a bunch of customization data for parts.
+ */
 public class PartInfo implements Cloneable {
 
+	/**
+	 * A map of empty parts so we can reuse them instead of allocating 300,000 empty instances.
+	 */
 	private static final Map<PartType,PartInfo> EMPTY = new EnumMap<>(PartType.class);
 
 	@Expose
@@ -59,35 +69,75 @@ public class PartInfo implements Cloneable {
 		return EMPTY.computeIfAbsent(partType, Empty::new);
 	}
  
+	/**
+	 * Whether this {@link PartInfo} is empty.
+	 * @return {@code false}. ({@code PartInfo.Empty} overrides this to return {@code true}.)
+	 */
 	public boolean isEmpty() {
 		return false;
 	}
 
+	/**
+	 * Returns the type id, which is a unique identifier for the part.<br>
+	 * The type id is the index of the part in the {@link PartRegistry}.
+	 * @return The type id.
+	 */
 	public int getTypeId() {
 		return typeid;
 	}
 
+	/**
+	 * Returns the subtype, which is a unique identifier for the part subtype.<br>
+	 * For example, the fluffy tail variants are subtypes of the single fluffy tail.<br>
+	 * Subtypes are defined in the {@link PartRegistry}.
+	 * @return The subtype.
+	 */
 	public int getSubType() {
 		return subid;
 	}
 
+	/**
+	 * Returns the tint array, which is an array containing three {@code ints} each of which are packed {@link Color} RGB values.<br>
+	 * As {@link PartInfo PartInfos} are supposed to be immutable, please do not modify the array.
+	 * @return The tints.
+	 */
 	public int[] getTints() {
 		return tints;
 	}
 
+	/**
+	 * Returns the texture id, which is a unique identifier for the part texture.<br>
+	 * Texture ids are like subtypes, however instead of having additional entries in the part list, they use the texture panel instead.<br>
+	 * Texture ids are also defined in the {@link PartRegistry}.
+	 * @return The texture ids.
+	 */
 	public int getTextureId() {
 		return textureID;
 	}
 
+	/**
+	 * @return The part type.
+	 */
 	public PartType getPartType() {
 		return partType;
 	}
 
+	/**
+	 * Returns the texture location.<br>
+	 * If {@link #isEmpty()} is {@code true}, this always returns {@code null}.<br>
+	 * Otherwise, this can return {@code null} if the texture needs regenerating.
+	 * @return The texture.
+	 */
+	@Nullable
 	public ResourceLocation getTexture() {
 		return texture;
 	}
 
-	public void setTexture(ResourceLocation texture) {
+	/**
+	 * Sets the texture location.
+	 * @param texture The new texture.
+	 */
+	public void setTexture(@Nullable ResourceLocation texture) {
 		if (texture == null || this.texture != null && !this.texture.equals(texture)) {
 			try {
 				Minecraft.getInstance().getTextureManager().deleteTexture(this.texture);
@@ -133,6 +183,12 @@ public class PartInfo implements Cloneable {
 		return sb.toString();
 	}
 
+	/**
+	 * Attempts to guess the type, and returns a string containing the name.<br>
+	 * This is completely hard-coded, and returns only english names.<br>
+	 * This is intended for debugging and use in {@link #toString()} so that you don't have to guess what type it is from a vague {@code int}.
+	 * @return The guessed type.
+	 */
 	public String guessTypeFromId() {
 		if (getPartType() == PartType.TAIL) {
 			if (getTypeId() == 0) return "Fluffy";
@@ -156,9 +212,13 @@ public class PartInfo implements Cloneable {
 			if (getTypeId() == 2) return "Thin";
 		}
 
-		return "Unknown";
+		return "Unknown (" + getTypeId() + ")";
 	}
 
+	/**
+	 * Returns a copy of this {@link PartInfo}.
+	 * @return The copy.
+	 */
 	public PartInfo deepCopy() {
 		final int[] tints = new int[getTints().length];
 		for (int i = 0; i < tints.length; i++)
@@ -172,6 +232,12 @@ public class PartInfo implements Cloneable {
 		return deepCopy();
 	}
 
+	/**
+	 * Deserializes this {@link PartInfo} from a {@link JsonObject}.
+	 * @param obj The object to deserialize.
+	 * @return The deserialized {@link PartInfo}.
+	 * @throws JsonParseException
+	 */
 	public static PartInfo deserialize(JsonObject obj) throws JsonParseException {
 		final PartType type = PartType.forId(obj.get("partType").getAsString().toLowerCase(Locale.ROOT));
 
@@ -187,7 +253,12 @@ public class PartInfo implements Cloneable {
 				type, null);
 	}
 
+	/**
+	 * An empty {@link PartInfo}.
+	 * @author EnderTurret
+	 */
 	private static class Empty extends PartInfo {
+
 		private Empty(PartType partType) {
 			super(-1, -1, -1, new int[] {0xFFFF0000, 0xFF00FF00, 0xFF0000FF}, partType, null);
 		}
@@ -202,7 +273,7 @@ public class PartInfo implements Cloneable {
 
 		@Override
 		public String toString() {
-			return "PartInfo.EMPTY";
+			return "PartInfo.EMPTY{" + getPartType().getId() + "}";
 		}
 
 		@Override

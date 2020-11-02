@@ -58,7 +58,8 @@ public class LibraryManager {
 	}
 
 	/**
-	 * Loads the library of entries from disk
+	 * Loads the library data from the file from {@link #getLibraryFile()}.
+	 * @return A list of loaded library data.
 	 */
 	private List<LibraryEntryData> loadLibrary() {
 		final List<LibraryEntryData> libraryEntries = new ArrayList<>();
@@ -77,7 +78,8 @@ public class LibraryManager {
 	}
 
 	/**
-	 * Saves the library to disk
+	 * Writes the current library data to the file from {@link #getLibraryFile()}.<br>
+	 * Remote entries are not written to the file.
 	 */
 	public void saveLibrary() {
 		final List<LibraryEntryData> entries = new ArrayList<>();
@@ -94,6 +96,11 @@ public class LibraryManager {
 		}
 	}
 
+	/**
+	 * Returns the path to the library file.<br>
+	 * By default, this is {@code tailslibrary.json} in the game directory.
+	 * @return The library file.
+	 */
 	protected Path getLibraryFile() {
 		final Path libraryFile = Paths.get(".", "tailslibrary.json");
 

@@ -38,12 +38,30 @@ import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
 
+/**
+ * Look! It's the main mod file!
+ */
 @Mod(Tails.MOD_ID)
 public class Tails {
 
+	/**
+	 * It's <strike>a snow poff</strike> the mod id.
+	 */
 	public static final String MOD_ID = "tails";
+
+	/**
+	 * It's <strike>another snow poff</strike> the mod's logger.
+	 */
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+
+	/**
+	 * <strike>Surprisingly, it's a snow poff.</strike> The channel used for Tails networking.
+	 */
 	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "channel"), () -> FMLNetworkConstants.IGNORESERVERONLY, v -> true, v -> true);
+
+	/**
+	 * A nice {@link Gson} instance for deserializing {@link PartsData}, among other things.
+	 */
 	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
 			.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
@@ -51,12 +69,11 @@ public class Tails {
 
 	public static boolean libraryEnabled;
 	public static boolean hasRemote;
+	public static PartsData localPartsData;
 
 	// I know this looks bad, but it's the only way to prevent class loading ClientProxy.
 	// Placing ClientProxy::new in here class loads it anyway.
 	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> CommonProxy::makeClientProxy, () -> CommonProxy::new);
-
-	public static PartsData localPartsData;
 
 	public Tails() {
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (version,local) -> true));

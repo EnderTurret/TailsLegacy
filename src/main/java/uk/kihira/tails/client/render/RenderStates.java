@@ -13,6 +13,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * Provides an additional {@link RenderType} or two.
+ * @author EnderTurret
+ */
 public class RenderStates extends RenderState {
 
 	private RenderStates() {
@@ -20,20 +24,11 @@ public class RenderStates extends RenderState {
 		throw new IllegalStateException();
 	}
 
-	public static RenderType getWings(ResourceLocation tex) {
-		final RenderType.State state = RenderType.State.getBuilder()
-				.texture(new RenderState.TextureState(tex, false, false))
-				.transparency(NO_TRANSPARENCY)
-				.diffuseLighting(DIFFUSE_LIGHTING_ENABLED)
-				.alpha(DEFAULT_ALPHA)
-				.cull(CULL_DISABLED)
-				.lightmap(LIGHTMAP_DISABLED)
-				.overlay(OVERLAY_DISABLED)
-				.build(false);
-
-		return RenderType.makeType("position_tex", DefaultVertexFormats.POSITION_TEX, 7, 256, true, false, state);
-	}
-
+	/**
+	 * Returns a {@link RenderType} much like {@link RenderType#getEntityCutoutNoCull(ResourceLocation)}, but with diffuse lighting disabled.
+	 * @param locationIn The texture location.
+	 * @return The newly created {@link RenderType}.
+	 */
 	public static RenderType getPartPreview(ResourceLocation locationIn) {
 		final RenderType.State state = RenderType.State.getBuilder()
 				.texture(new RenderState.TextureState(locationIn, false, false))

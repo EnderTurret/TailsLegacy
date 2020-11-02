@@ -30,6 +30,10 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 import uk.kihira.tails.common.Tails;
 
+/**
+ * A specialized version of the {@link AbstractSlider} for {@code HSB} and {@code RGB} values.<br>
+ * Also has tooltip support, as if it couldn't get any better.
+ */
 public class HSBSlider extends AbstractSlider implements ITooltip {
 
 	private static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(Tails.MOD_ID, "texture/gui/controls/slider_hue.png");
@@ -48,7 +52,7 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 		this.callback = callback;
 	}
 
-	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, ITextComponent ... tooltips) {
+	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, ITextComponent... tooltips) {
 		this(id, xPos, yPos, width, height, callback, type);
 		this.tooltips = Arrays.stream(tooltips).map(ITextComponent::func_241878_f).collect(Collectors.toList());
 	}
@@ -170,11 +174,11 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 
 	}
 
-	public enum HSBSliderType {
+	public static enum HSBSliderType {
 		HUE, SATURATION, BRIGHTNESS
 	}
 
-	public interface IHSBSliderCallback {
-		void onValueChangeHSBSlider(HSBSlider source, double sliderValue);
+	public static interface IHSBSliderCallback {
+		public void onValueChangeHSBSlider(HSBSlider source, double sliderValue);
 	}
 }

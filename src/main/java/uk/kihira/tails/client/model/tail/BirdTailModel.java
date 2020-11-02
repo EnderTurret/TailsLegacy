@@ -17,15 +17,18 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for bird tails.
+ */
 public class BirdTailModel extends PartModel {
 
-	final ModelRenderer center;
-	final ModelRenderer left0;
-	final ModelRenderer left1;
-	final ModelRenderer left2;
-	final ModelRenderer right0;
-	final ModelRenderer right2;
-	final ModelRenderer right1;
+	private final ModelRenderer center;
+	private final ModelRenderer left0;
+	private final ModelRenderer left1;
+	private final ModelRenderer left2;
+	private final ModelRenderer right0;
+	private final ModelRenderer right2;
+	private final ModelRenderer right1;
 
 	public BirdTailModel() {
 		center = new ModelRenderer(this, 0, 0);

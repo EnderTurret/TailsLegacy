@@ -15,24 +15,27 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for cat ears.
+ */
 public class CatEarsModel extends PartModel {
 
-	final ModelRenderer leftEarBottom;
-	final ModelRenderer leftEarRearTop;
-	final ModelRenderer leftEarRearLayer1;
-	final ModelRenderer leftEarRearBottom;
-	final ModelRenderer leftEarLayer1;
-	final ModelRenderer leftEarTop;
-	final ModelRenderer leftEarLayer3;
-	final ModelRenderer leftEarLayer2;
-	final ModelRenderer rightEarBottom;
-	final ModelRenderer rightEarLayer1;
-	final ModelRenderer rightEarRearTop;
-	final ModelRenderer rightEarRearLayer1;
-	final ModelRenderer rightEarRearBottom;
-	final ModelRenderer rightEarLayer2;
-	final ModelRenderer rightEarTop;
-	final ModelRenderer rightEarLayer3;
+	private final ModelRenderer leftEarBottom;
+	private final ModelRenderer leftEarRearTop;
+	private final ModelRenderer leftEarRearLayer1;
+	private final ModelRenderer leftEarRearBottom;
+	private final ModelRenderer leftEarLayer1;
+	private final ModelRenderer leftEarTop;
+	private final ModelRenderer leftEarLayer3;
+	private final ModelRenderer leftEarLayer2;
+	private final ModelRenderer rightEarBottom;
+	private final ModelRenderer rightEarLayer1;
+	private final ModelRenderer rightEarRearTop;
+	private final ModelRenderer rightEarRearLayer1;
+	private final ModelRenderer rightEarRearBottom;
+	private final ModelRenderer rightEarLayer2;
+	private final ModelRenderer rightEarTop;
+	private final ModelRenderer rightEarLayer3;
 
 	public CatEarsModel() {
 		textureWidth = 64;

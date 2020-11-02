@@ -67,20 +67,30 @@ public class PartRegistry {
 		registerPart(PartType.MUZZLE, new PartRenderer("muzzle.thin", 4, new MuzzleModel(-1.5f, -2f, -9f, 3, 2, 5, 0, 9), null, "standard_muzzle", "alt_muzzle"));
 	}
 
+	/**
+	 * Adds the given renderer to the registry.
+	 * @param partType The type the renderer is for.
+	 * @param renderPart The renderer.
+	 */
 	public static void registerPart(PartType partType, PartRenderer renderPart) {
 		PART_REGISTRY.put(partType, renderPart);
 	}
 
+	/**
+	 * Returns a list of {@link PartRenderer PartRenderers} under the given type.
+	 * @param partType The desired type of the renderers.
+	 * @return The list.
+	 */
 	public static List<PartRenderer> getParts(PartType partType) {
 		return PART_REGISTRY.get(partType);
 	}
 
 	/**
-	 * Safely gets a render part. By safely, this means it checks if the type id is within bounds of the list for that
-	 * part type and if not, returns the RenderPart associated with type id 0.
-	 * @param partType The part type
-	 * @param index The index/type id
-	 * @return The render part
+	 * Returns the renderer at the given index for the given type.<br>
+	 * If the index is out of bounds, it's normalized to {@code 0}.
+	 * @param partType The part type.
+	 * @param index The type id.
+	 * @return The part renderer.
 	 */
 	public static PartRenderer getPartRenderer(PartType partType, int index) {
 		final List<PartRenderer> parts = PartRegistry.getParts(partType);

@@ -18,9 +18,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import uk.kihira.tails.client.gui.panel.Panel;
 
+/**
+ * A screen that has multiple layers, each with an arbitrary number of {@link Panel Panels}.
+ */
 public abstract class LayeredScreen extends BaseScreen {
 
-	private static final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
+	//private static final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
 
 	// 0 is bottom layer.
 	private final List<List<Panel>> layers = new ArrayList<>();
@@ -52,7 +55,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		int color = 0;
+		//int color = 0;
+
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
 				if (panel.enabled) {
@@ -62,7 +66,7 @@ public abstract class LayeredScreen extends BaseScreen {
 
 					panel.render(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
 
-					if (color == -1) {
+					/*if (color == -1) {
 						matrixStack.translate(0, 0, 100);
 
 						final int c = COLORS[color >= COLORS.length ? COLORS.length - 1 : color];
@@ -75,7 +79,7 @@ public abstract class LayeredScreen extends BaseScreen {
 						font.drawStringWithShadow(matrixStack, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c);
 					}
 
-					color++;
+					color++;*/
 
 					RenderSystem.disableLighting();
 					matrixStack.pop();

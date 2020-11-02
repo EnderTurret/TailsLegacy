@@ -19,12 +19,13 @@ public class ClientUtils {
 	private static final Pattern NEWLINE_SPLITTER = Pattern.compile("\n");
 
 	/**
-	 * Draws a string that respects new lines
-	 * @param fontRenderer Font Renderer
-	 * @param string Text
-	 * @param x X Position
-	 * @param y Y Position
-	 * @param color Text Colour
+	 * Draws a string that respects new lines.
+	 * @param matrixStack The {@link MatrixStack} to use for transformation information.
+	 * @param fontRenderer The {@link FontRenderer} to use for drawing the text.
+	 * @param string The text to draw.
+	 * @param x The x position of the text.
+	 * @param y The y position of the text.
+	 * @param color The color of the text.
 	 */
 	public static void drawStringMultiLine(MatrixStack matrixStack, FontRenderer fontRenderer, String string, int x, int y, int color) {
 		final String[] lines = NEWLINE_SPLITTER.split(string);

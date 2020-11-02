@@ -16,19 +16,21 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
 
+/**
+ * A server event handler, for handling events on the server.
+ */
 public class ServerEventHandler {
 
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+	void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
 		// Send current known tails to uk.kihira.tails.client
 		Tails.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.PROXY.getPartsData()));
 		Tails.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new ServerCapabilitiesMessage(Tails.libraryEnabled));
-		//Tails.LOGGER.debug(String.format("Sent tail data of size %d to %s ", Tails.PROXY.getPartsData().size(), event.getPlayer().getName()));
 	}
 
 	@SubscribeEvent
-	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+	void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
 		// Server doesn't save tails so we discard.
 		Tails.PROXY.removePartsData(PlayerEntity.getUUID(event.getPlayer().getGameProfile()));
 	}

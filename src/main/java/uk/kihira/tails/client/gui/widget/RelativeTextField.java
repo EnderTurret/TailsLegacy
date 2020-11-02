@@ -20,12 +20,17 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.text.ITextComponent;
 
+/**
+ * A {@link TextFieldWidget} that takes into account the {@link MatrixStack} transformations when drawing the selection box.<br>
+ * Without this, the selection overlay will attempt to yeet itself as far off-screen as possible.
+ * @author EnderTurret
+ */
 public class RelativeTextField extends TextFieldWidget {
 
 	private MatrixStack matrixStack;
 
-	public RelativeTextField(FontRenderer font, int p_i232260_2_, int p_i232260_3_, int p_i232260_4_, int p_i232260_5_, ITextComponent p_i232260_6_) {
-		super(font, p_i232260_2_, p_i232260_3_, p_i232260_4_, p_i232260_5_, p_i232260_6_);
+	public RelativeTextField(FontRenderer font, int x, int y, int width, int height, ITextComponent title) {
+		super(font, x, y, width, height, title);
 	}
 
 	@Override

@@ -40,6 +40,11 @@ import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
 
+/**
+ * The client proxy, buried deep inside a random package so that the class loader will be unable to discover it.<br><br>
+ * If the class loader finds this through something other than {@link CommonProxy#makeClientProxy()},<br>
+ * please dispose of the class loader immediately and get one that is not a professional client proxy hunter.
+ */
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
 

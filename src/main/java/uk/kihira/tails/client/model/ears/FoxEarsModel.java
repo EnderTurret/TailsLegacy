@@ -15,7 +15,11 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for fox ears.
+ */
 public class FoxEarsModel extends PartModel {
+
 	private final ModelRenderer leftEarInnerSmall;
 	private final ModelRenderer leftEarInnerBig;
 	private final ModelRenderer rightEarInnerSmall;
@@ -124,10 +128,12 @@ public class FoxEarsModel extends PartModel {
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		matrixStackIn.push();
+
 		if (subtype == 1) {
 			matrixStackIn.translate(0f, 0f, -0.0625f);
 			matrixStackIn.translate(-0.4375f, 0f, 0f);
 		}
+
 		leftEarInnerSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		leftEarInnerBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		leftEarInnerEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -137,8 +143,10 @@ public class FoxEarsModel extends PartModel {
 		leftEarBottomEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		leftEarBackBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		leftEarBackSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+
 		if (subtype == 1)
 			matrixStackIn.translate(0.875f, 0f, 0f);
+
 		rightEarInnerSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		rightEarInnerBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		rightEarInnerEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -148,10 +156,12 @@ public class FoxEarsModel extends PartModel {
 		rightEarBottomEdge.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		rightEarBackBig.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		lightEarBackSmall.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+
 		if (subtype == 1) {
 			matrixStackIn.translate(-0.4375f, 0f, 0f);
 			matrixStackIn.translate(0f, 0f, 0.0625f);
 		}
+
 		matrixStackIn.pop();
 	}
 }

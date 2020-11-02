@@ -17,6 +17,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for dragon tails.
+ */
 public class DragonTailModel extends PartModel {
 
 	private final ModelRenderer tailBase;

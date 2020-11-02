@@ -16,6 +16,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for bunny tails.
+ */
 public class BunnyTailModel extends PartModel {
 
 	private final ModelRenderer tailBase;

@@ -19,6 +19,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for the floofy tail everyone loves.
+ */
 public class FluffyTailModel extends PartModel {
 
 	private final ModelRenderer tailBase;

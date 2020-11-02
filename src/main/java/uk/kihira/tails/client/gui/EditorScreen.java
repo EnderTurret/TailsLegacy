@@ -27,6 +27,9 @@ import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
+/**
+ * The editor screen.
+ */
 public class EditorScreen extends LayeredScreen {
 
 	private int textureId;

@@ -15,10 +15,13 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
+/**
+ * The model for panda ears.
+ */
 public class PandaEarsModel extends PartModel {
 
-	final ModelRenderer leftEar;
-	final ModelRenderer rightEar;
+	private final ModelRenderer leftEar;
+	private final ModelRenderer rightEar;
 
 	public PandaEarsModel() {
 		textureWidth = 32;

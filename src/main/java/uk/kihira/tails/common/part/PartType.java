@@ -10,7 +10,10 @@ package uk.kihira.tails.common.part;
 
 import javax.annotation.Nullable;
 
-//NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons.
+/**
+ * Different types of parts.<br><br>
+ */
+// NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons.
 public enum PartType {
 	TAIL("tail"),
 	EARS("ears"),
@@ -23,10 +26,18 @@ public enum PartType {
 		this.id = id;
 	}
 
+	/**
+	 * @return The {@link PartType}'s id.
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * Returns the {@link PartType} with the given id.
+	 * @param id
+	 * @return The part type, or {@code null} if the given id does not match any {@link PartType} ids.
+	 */
 	@Nullable
 	public static PartType forId(String id) {
 		for (PartType type : values())

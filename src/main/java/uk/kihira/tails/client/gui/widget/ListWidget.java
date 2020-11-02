@@ -16,6 +16,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.list.ExtendedList;
 import uk.kihira.tails.client.RenderHelper;
 
+/**
+ * An extended version of the extended list.<br>
+ * Could have been called {@code ExtendedExtendedList}.
+ *
+ * @param <T> The list type.
+ */
 public class ListWidget<T extends ExtendedList.AbstractListEntry<T>> extends ExtendedList<T> {
 
 	private final IListCallback<T> parent;
@@ -53,6 +59,7 @@ public class ListWidget<T extends ExtendedList.AbstractListEntry<T>> extends Ext
 		return x1;
 	}
 
+	// Exposes isSelectedItem(), don't remove this.
 	@Override
 	public boolean isSelectedItem(int index) {
 		return super.isSelectedItem(index);

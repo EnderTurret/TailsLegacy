@@ -25,34 +25,66 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 
+/**
+ * The part data class.<br>
+ * Holds {@link PartInfo} for every {@link PartType}.
+ */
 public class PartsData {
 
 	private final Map<PartType, PartInfo> partInfoMap = new EnumMap<>(PartType.class);
 
+	/**
+	 * The version.<br>
+	 * 1 is the current version.
+	 */
 	private final int version = 1;
 
 	public PartsData() {}
+
 	public PartsData(Map<PartType,PartInfo> partData) {
 		partInfoMap.putAll(partData);
 	}
 
+	/**
+	 * Sets the {@link PartInfo} for the given type as the given part info.
+	 * @param partType The part type to set the part info as.
+	 * @param partInfo The part info.
+	 */
 	public void setPartInfo(PartType partType, PartInfo partInfo) {
 		partInfoMap.put(partType, partInfo);
 	}
 
+	/**
+	 * Returns the part info for the given type.<br>
+	 * If one is not present, returns {@link PartInfo#none(PartType)}.
+	 * @param partType The part type.
+	 * @return The part info.
+	 */
 	public PartInfo getPartInfo(PartType partType) {
 		return partInfoMap.getOrDefault(partType, PartInfo.none(partType));
 	}
 
+	/**
+	 * Whether this {@link PartsData} contains a {@link PartInfo} for the given type.
+	 * @param partType The part type.
+	 * @return True if this contains a {@link PartInfo} for the given type.
+	 */
 	public boolean hasPartInfo(PartType partType) {
 		return partInfoMap.containsKey(partType) && !partInfoMap.get(partType).isEmpty();
 	}
 
+	/**
+	 * Clears all textures from each {@link PartInfo}.
+	 */
 	public void clearTextures() {
 		for (PartInfo partInfo : partInfoMap.values())
 			if (partInfo != null) partInfo.setTexture(null);
 	}
 
+	/**
+	 * Returns a copy of this {@link PartsData}.
+	 * @return The copy.
+	 */
 	public PartsData deepCopy() {
 		final Map<PartType,PartInfo> data = new EnumMap<>(PartType.class);
 		for (Map.Entry<PartType,PartInfo> e : partInfoMap.entrySet()) {
@@ -85,6 +117,10 @@ public class PartsData {
 				.collect(Collectors.joining(", ")) + '}';
 	}
 
+	/**
+	 * A serializer/deserializer setup for your everyday {@link PartsData} json needs.
+	 * @author EnderTurret
+	 */
 	public static class Serializer implements JsonDeserializer<PartsData>, JsonSerializer<PartsData> {
 
 		@Override

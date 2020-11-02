@@ -16,7 +16,11 @@ import com.google.gson.annotations.Expose;
 
 import uk.kihira.tails.common.part.PartsData;
 
+/**
+ * Represents a single library entry.
+ */
 public class LibraryEntryData {
+
 	@Expose
 	public final PartsData partsData;
 	@Expose

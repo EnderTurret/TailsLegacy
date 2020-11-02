@@ -7,7 +7,7 @@ issueTrackerURL="https://github.com/kihira/Tails/issues"
     displayName="Tails"
 	displayURL="https://github.com/kihira/Tails"
     description='''
-        For all your taily needs.
+    For all your taily needs.
     '''
     version="${version}"
     authors="Kihira"

@@ -29,8 +29,8 @@ repositories {
 ext {
     major = "11"
     minor = "0"
-    mcVersion = "1.16.3"
-    forgeVersion = "34.1.42"
+    mcVersion = "1.16.4"
+    forgeVersion = "35.0.15"
 }
 
 group = "uk.kihira.tails"
@@ -43,7 +43,7 @@ dependencies {
     compileOnly fg.deobf("vazkii.botania:Botania:1.16.3-409:api")
     runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.3-409")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.3-4.0.2.0")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.4-4.0.2.1")
 }
 
 minecraft {

@@ -75,7 +75,7 @@ public class Tails {
 	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> CommonProxy::makeClientProxy, () -> CommonProxy::new);
 
 	public Tails() {
-		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (version,local) -> true));
+		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> "I am in fact a client-side mod.", (version,remote) -> remote));
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
 
 		final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();

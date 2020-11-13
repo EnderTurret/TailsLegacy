@@ -16,10 +16,12 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.api.IRenderHelper;
@@ -94,13 +96,13 @@ public class PartRenderer {
 	 * @param packedLightIn The packed light.
 	 * @param packedOverlayIn The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 */
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (modelPart != null && !info.isEmpty()) {
 			matrixStack.push();
 
 			preRender(matrixStack, entity, info, x, y, z, partialTicks);
 
-			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			matrixStack.pop();
 		}
@@ -119,13 +121,13 @@ public class PartRenderer {
 	 * @param packedLightIn The packed light.
 	 * @param packedOverlayIn The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 */
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (modelPart != null && !info.isEmpty()) {
 			matrixStack.push();
 
 			preRender(matrixStack, entity, info, x, y, z, partialTicks);
 
-			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+			doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			matrixStack.pop();
 		}
@@ -141,11 +143,26 @@ public class PartRenderer {
 	 * @param packedLightIn The packed light.
 	 * @param packedOverlayIn The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 */
-	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
-		final RenderType type = RenderType.getEntityCutoutNoCull(info.getTexture());
-		final IVertexBuilder buf = bufferIn.getBuffer(type);
+	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		final boolean visible = !entity.isInvisible();
+		final boolean visibleToPlayer = !visible && !entity.isInvisibleToPlayer(Minecraft.getInstance().player);
+		final boolean glowing = Minecraft.getInstance().isEntityGlowing(entity);
 
-		doRender(matrixStack, entity, info, buf, partialTicks, packedLightIn, packedOverlayIn);
+		final RenderType type = getRenderType(entity, info.getTexture(), visible, visibleToPlayer, glowing);
+
+		if (type != null)
+			doRender(matrixStack, entity, info, bufferIn.getBuffer(type), partialTicks, packedLightIn, packedOverlayIn, red, green, blue, visibleToPlayer && alpha == 1F ? 0.15F : alpha);
+	}
+
+	@Nullable
+	protected RenderType getRenderType(LivingEntity entity, ResourceLocation tex, boolean visible, boolean visibleToPlayer, boolean glowing) {
+		if (visibleToPlayer) {
+			return RenderType.getItemEntityTranslucentCull(tex);
+		} else if (visible) {
+			return RenderType.getEntityCutoutNoCull(tex);
+		} else {
+			return glowing ? RenderType.getOutline(tex) : null;
+		}
 	}
 
 	/**
@@ -158,8 +175,8 @@ public class PartRenderer {
 	 * @param packedLightIn The packed light.
 	 * @param packedOverlayIn The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 */
-	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn) {
-		modelPart.render(matrixStack, bufferIn, entity, packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F, info.getSubType(), partialTicks);
+	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		modelPart.render(matrixStack, bufferIn, entity, packedLightIn, packedOverlayIn, red, green, blue, alpha, info.getSubType(), partialTicks);
 	}
 
 	/**

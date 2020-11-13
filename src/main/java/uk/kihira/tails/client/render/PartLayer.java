@@ -14,7 +14,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -32,15 +32,17 @@ import uk.kihira.tails.common.part.PartsData;
 @OnlyIn(Dist.CLIENT)
 public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> {
 
-	private final ModelRenderer modelRenderer;
+	private final LivingRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer;
 	private final PartType partType;
-	private final boolean mpmCompat;
+	//private final ModelRenderer modelRenderer;
+	//private final boolean mpmCompat;
 
-	public PartLayer(IEntityRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartType partType) {
+	public PartLayer(LivingRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartType partType) {
 		super(renderer);
-		this.modelRenderer = modelRenderer;
+		this.renderer = renderer;
 		this.partType = partType;
-		mpmCompat = ModList.get().isLoaded("moreplayermodels");
+		//this.modelRenderer = modelRenderer;
+		//mpmCompat = ModList.get().isLoaded("moreplayermodels");
 	}
 
 	@Override
@@ -61,7 +63,7 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 
 				final PartRenderer renderer = PartRegistry.getPartRenderer(tailInfo.getPartType(), tailInfo.getTypeId());
 
-				renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, OverlayTexture.NO_OVERLAY);
+				renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingRenderer.getPackedOverlay(entity, 0F), 1F, 1F, 1F, 1F);
 
 				matrixStackIn.pop();
 			}

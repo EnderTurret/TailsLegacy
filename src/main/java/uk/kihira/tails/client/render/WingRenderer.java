@@ -31,29 +31,29 @@ public class WingRenderer extends PartRenderer {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		matrixStack.push();
 
 		preRender(matrixStack, entity, info, x, y, z, partialTicks);
 
-		doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+		doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 		matrixStack.pop();
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn) {
+	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		matrixStack.push();
 
 		preRender(matrixStack, entity, info, x, y, z, partialTicks);
 
-		doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn);
+		doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 		matrixStack.pop();
 	}
 
 	@Override
-	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder renderer, float partialTicks, int packedLightIn, int packedOverlayIn) {
+	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder renderer, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		final boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isFlying && entity.isAirBorne || entity.fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
 		final float angle = MathHelper.sin(timestep) * (isFlying ? 24F : 4F);
@@ -74,10 +74,10 @@ public class WingRenderer extends PartRenderer {
 		Matrix4f m = matrixStack.getLast().getMatrix();
 		Matrix3f n = matrixStack.getLast().getNormal();
 
-		renderer.pos(m, 0, 1, 0).color(1F, 1F, 1F, 1F).tex(0, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.pos(m, 1, 1, 0).color(1F, 1F, 1F, 1F).tex(1, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.pos(m, 1, 0, 0).color(1F, 1F, 1F, 1F).tex(1, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.pos(m, 0, 0, 0).color(1F, 1F, 1F, 1F).tex(0, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 0, 1, 0).color(red, green, blue, alpha).tex(0, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 1, 1, 0).color(red, green, blue, alpha).tex(1, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 1, 0, 0).color(red, green, blue, alpha).tex(1, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 0, 0, 0).color(red, green, blue, alpha).tex(0, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
 
 		matrixStack.pop();
 
@@ -87,10 +87,10 @@ public class WingRenderer extends PartRenderer {
 		matrixStack.rotate(Vector3f.XP.rotationDegrees(-30F + angle));
 		m = matrixStack.getLast().getMatrix();
 		n = matrixStack.getLast().getNormal();
-		renderer.pos(m, 0, 1, 0).color(1F, 1F, 1F, 1F).tex(0, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.pos(m, 1, 1, 0).color(1F, 1F, 1F, 1F).tex(1, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.pos(m, 1, 0, 0).color(1F, 1F, 1F, 1F).tex(1, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.pos(m, 0, 0, 0).color(1F, 1F, 1F, 1F).tex(0, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 0, 1, 0).color(red, green, blue, alpha).tex(0, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 1, 1, 0).color(red, green, blue, alpha).tex(1, 0).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 1, 0, 0).color(red, green, blue, alpha).tex(1, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		renderer.pos(m, 0, 0, 0).color(red, green, blue, alpha).tex(0, 1).overlay(packedOverlayIn).lightmap(packedLightIn).normal(n, 0, 0, 0).endVertex();
 
 		matrixStack.pop();
 

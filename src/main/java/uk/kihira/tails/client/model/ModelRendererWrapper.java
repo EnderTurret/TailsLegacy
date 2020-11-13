@@ -48,7 +48,7 @@ public class ModelRendererWrapper extends ModelRenderer {
 					model.bipedBody.translateRotate(matrixStackIn);
 
 				PartRegistry.getPartRenderer(info.getPartType(), info.getTypeId()).render(matrixStackIn, RenderingHandler.currentEvent.getPlayer(),
-						info, Minecraft.getInstance().getRenderTypeBuffers().getBufferSource(), 0, 0, 0, RenderingHandler.currentEvent.getPartialRenderTick(), packedLightIn, packedOverlayIn);
+						info, Minecraft.getInstance().getRenderTypeBuffers().getBufferSource(), 0, 0, 0, RenderingHandler.currentEvent.getPartialRenderTick(), packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 				matrixStackIn.pop();
 

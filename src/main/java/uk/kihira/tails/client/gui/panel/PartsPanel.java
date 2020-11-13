@@ -129,7 +129,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		// Default selection.
 		final PartInfo partInfo = parent.getEditingPartInfo();
 		for (PartEntry entry : partList.getEventListeners())
-			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && entry.partInfo.isEmpty()
+			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
 					&& entry.partInfo.getTypeId() == partInfo.getTypeId() && entry.partInfo.getSubType() == partInfo.getSubType()) {
 				partList.setSelected(entry);
 				onEntrySelected(partList, partList.getEventListeners().indexOf(entry), entry);

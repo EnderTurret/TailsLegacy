@@ -11,6 +11,7 @@ package uk.kihira.tails.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,11 +47,12 @@ public class FoxtatoRenderer {
 
 			e.ms.scale(0.5F, 0.5F, 0.5F);
 
-			e.ms.translate(0, 2.8F, 0.1F);
+			e.ms.translate(0, 2F, 0.2F);
 
 			foxTailRenderer.render(e.ms, fakeEntity, tailPartInfo, e.buffers, e.tile.getPos().getX(), e.tile.getPos().getY(), e.tile.getPos().getZ(), e.partTicks, e.light, e.overlay, 1F, 1F, 1F, 1F);
 
-			e.ms.translate(0, 0, -0.2F);
+			e.ms.translate(0, -0.7, -0.3F);
+			e.ms.rotate(Vector3f.YP.rotationDegrees(180));
 
 			foxEarRenderer.render(e.ms, fakeEntity, earPartInfo, e.buffers, e.tile.getPos().getX(), e.tile.getPos().getY(), e.tile.getPos().getZ(), e.partTicks, e.light, e.overlay, 1F, 1F, 1F, 1F);
 

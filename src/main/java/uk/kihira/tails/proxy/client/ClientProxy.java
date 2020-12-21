@@ -25,8 +25,8 @@ import uk.kihira.tails.client.model.ModelRendererWrapper;
 import uk.kihira.tails.client.render.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.PartLayer;
-import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.PlayerRenderHelper;
+import uk.kihira.tails.client.render.RenderHelperManager;
 import uk.kihira.tails.client.render.RenderingHandler;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
@@ -49,8 +49,8 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		libraryManager = new LibraryManager.ClientLibraryManager();
 
-		PartRenderer.registerRenderHelper(PlayerEntity.class, new PlayerRenderHelper());
-		PartRenderer.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
+		RenderHelperManager.registerRenderHelper(PlayerEntity.class, new PlayerRenderHelper());
+		RenderHelperManager.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
 
 		if (ModList.get().isLoaded("botania"))
 			MinecraftForge.EVENT_BUS.register(new FoxtatoRenderer());

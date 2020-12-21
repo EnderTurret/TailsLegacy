@@ -151,7 +151,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 
 		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 		PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId())
-		.render(matrixStack, fakeEntity, partInfo, impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture())), 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
+		.render(matrixStack, fakeEntity, partInfo, impl, impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture())), 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 		impl.finish();
 
 		matrixStack.pop();

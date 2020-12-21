@@ -9,8 +9,10 @@
 package uk.kihira.tails.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.fml.ModList;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.model.tail.CatTailModel;
@@ -19,7 +21,7 @@ import uk.kihira.tails.client.model.tail.DragonTailModel;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 
-public class PlayerRenderHelper implements IRenderHelper {
+public class PlayerRenderHelper implements IRenderHelper<PlayerEntity> {
 
 	private final boolean mpmCompat;
 
@@ -28,7 +30,7 @@ public class PlayerRenderHelper implements IRenderHelper {
 	}
 
 	@Override
-	public void onPreRenderTail(MatrixStack matrixStack, LivingEntity entity, PartRenderer tail, PartInfo info, double x, double y, double z) {
+	public void onPreRenderTail(MatrixStack matrixStack, PlayerEntity entity, PartRenderer tail, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (info.getPartType() == PartType.EARS || info.getPartType() == PartType.MUZZLE || info.getPartType() == PartType.WINGS) return;
 		if (mpmCompat && entity.isSneaking())
 			matrixStack.translate(0f, -0.1f, 0.4f);

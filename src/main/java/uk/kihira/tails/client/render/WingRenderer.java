@@ -11,7 +11,6 @@ package uk.kihira.tails.client.render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -28,28 +27,6 @@ public class WingRenderer extends PartRenderer {
 
 	public WingRenderer(String name, int subTypes, String modelAuthor, PartModel modelPart, String... textureNames) {
 		super(name, subTypes, modelPart, modelAuthor, textureNames);
-	}
-
-	@Override
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		matrixStack.push();
-
-		preRender(matrixStack, entity, info, x, y, z, partialTicks);
-
-		doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-
-		matrixStack.pop();
-	}
-
-	@Override
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		matrixStack.push();
-
-		preRender(matrixStack, entity, info, x, y, z, partialTicks);
-
-		doRender(matrixStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-
-		matrixStack.pop();
 	}
 
 	@Override

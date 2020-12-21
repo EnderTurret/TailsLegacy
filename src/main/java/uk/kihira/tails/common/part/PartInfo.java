@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.common.part;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Locale;
@@ -24,6 +25,7 @@ import com.google.gson.annotations.Expose;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import uk.kihira.tails.client.PartRegistry;
 
 /**
  * Stores a bunch of customization data for parts.

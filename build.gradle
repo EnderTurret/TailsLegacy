@@ -30,7 +30,7 @@ ext {
     major = "11"
     minor = "0"
     mcVersion = "1.16.4"
-    forgeVersion = "35.0.15"
+    forgeVersion = "35.1.11"
 }
 
 group = "uk.kihira.tails"
@@ -40,10 +40,10 @@ version = "1.${project.major}.${project.minor}"
 dependencies {
     minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
 
-    compileOnly fg.deobf("vazkii.botania:Botania:1.16.3-409:api")
-    runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.3-409")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.4-4.0.2.1")
+    compileOnly fg.deobf("vazkii.botania:Botania:1.16.4-410:api")
+    runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.4-410")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-48")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.4-4.0.3.0")
 }
 
 minecraft {
@@ -103,24 +103,34 @@ jar {
 
 jar.finalizedBy('reobfJar')
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifact jar
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
 
-			pom {
-				name = 'Tails'
-				description = 'For all your taily needs.'
-			}
+artifacts {
+    archives sourcesJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+            artifact sourcesJar
+
+            pom {
+                name = 'Tails'
+                description = 'For all your taily needs.'
+            }
 
             pom.withXml {
-			    asNode().dependencies.dependency.each { dep ->
-				    if (dep.artifactId.last().value().last().contains("forge"))
-					    dep.parent().remove(dep)
-				}
-			}
-		}
-	}
+                asNode().dependencies.dependency.each { dep ->
+                    if (dep.artifactId.last().value().last().contains("forge"))
+                        dep.parent().remove(dep)
+                }
+            }
+        }
+    }
 }
 
 /**

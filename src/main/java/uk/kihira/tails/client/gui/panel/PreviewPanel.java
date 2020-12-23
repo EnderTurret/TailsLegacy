@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.settings.PointOfView;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -27,6 +28,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 	private float yaw = 0F;
 	private float pitch = 10F;
 	private double prevMouseX = -1;
+	private double prevMouseY = -1;
 	private boolean doRender;
 
 	public PreviewPanel(EditorScreen parent, int left, int top, int right, int bottom) {
@@ -68,19 +70,28 @@ public class PreviewPanel extends Panel<EditorScreen> {
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		if (button == 0)
+		if (button == 0) {
 			// Yaw
 			if (prevMouseX == -1) prevMouseX = mouseX;
 			else {
 				yaw += (mouseX - prevMouseX) * 1.5F;
 				prevMouseX = mouseX;
 			}
+			// Pitch
+			if (prevMouseY == -1) prevMouseY = mouseY;
+			else {
+				pitch += (mouseY - prevMouseY) * 0.1F;
+				pitch = MathHelper.clamp(pitch, 6, 10);
+				prevMouseY = mouseY;
+			}
+		}
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
 
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
 		prevMouseX = -1;
+		prevMouseY = -1;
 		return super.mouseReleased(mouseX, mouseY, mouseButton);
 	}
 

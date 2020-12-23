@@ -29,11 +29,13 @@
   "ears.cat.0.name":"Cat Ears",
   "ears.catSmall.0.name":"Small Cat Ears",
   "ears.panda.0.name":"Panda Ears",
+  "ears.seaPickle.0.name":"Sea Pickle",
 
   "ears.texture.fox_ears.name":"Fox",
   "ears.texture.cat_ears.name":"Cat",
   "ears.texture.cat_small_ears.name":"Cat",
   "ears.texture.panda_ears.name":"Panda",
+  "ears.texture.sea_pickle.name":"Sea Pickle",
 
   "wings.big.0.name":"Large Wings",
   "wings.big.1.name":"Small Wings",

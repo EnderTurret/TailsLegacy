@@ -115,7 +115,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		final List<PartRenderer> parts = PartRegistry.getParts(partType);
 		for (int type = 0; type < parts.size(); type++)
 			for (int subType = 0; subType <= parts.get(type).getAvailableSubTypes(); subType++) {
-				final PartInfo partInfo = new PartInfo(type, subType, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, partType, null);
+				final PartInfo partInfo = parts.get(type).makeDefaultPartInfo(type, subType, partType);
 				partList.add(new PartEntry(partInfo));
 			}
 

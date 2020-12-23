@@ -51,7 +51,7 @@ public class PartInfo implements Cloneable {
 	private transient ResourceLocation texture;
 	public transient boolean needsTextureCompile = true;
 
-	public PartInfo(int type, int subtype, int textureID, int[] tints, PartType partType, ResourceLocation texture) {
+	public PartInfo(int type, int subtype, int textureID, int[] tints, PartType partType, @Nullable ResourceLocation texture) {
 		typeid = type;
 		subid = subtype;
 		this.textureID = textureID;
@@ -60,7 +60,7 @@ public class PartInfo implements Cloneable {
 		this.texture = texture;
 	}
 
-	public PartInfo(int type, int subtype, int textureID, int tint1, int tint2, int tint3, PartType partType, ResourceLocation texture) {
+	public PartInfo(int type, int subtype, int textureID, int tint1, int tint2, int tint3, PartType partType, @Nullable ResourceLocation texture) {
 		this(type, subtype, textureID, new int[] {tint1, tint2, tint3}, partType, texture);
 	}
 

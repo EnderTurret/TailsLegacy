@@ -28,6 +28,7 @@ import uk.kihira.tails.client.model.tail.FluffyTailModel;
 import uk.kihira.tails.client.model.tail.RaccoonTailModel;
 import uk.kihira.tails.client.model.tail.SharkTailModel;
 import uk.kihira.tails.client.render.PartRenderer;
+import uk.kihira.tails.client.render.SeaPickleRenderer;
 import uk.kihira.tails.client.render.WingRenderer;
 import uk.kihira.tails.common.part.PartType;
 
@@ -55,6 +56,7 @@ public class PartRegistry {
 		registerPart(PartType.EARS, new PartRenderer("ears.cat", 0, new CatEarsModel(), null, "cat_ears"));
 		registerPart(PartType.EARS, new PartRenderer("ears.panda", 0, new PandaEarsModel(), null, "panda_ears"));
 		registerPart(PartType.EARS, new PartRenderer("ears.catSmall", 0, new SmallCatEarsModel(), null, "cat_small_ears"));
+		registerPart(PartType.EARS, new SeaPickleRenderer("ears.seaPickle", 0, null, null, "sea_pickle"));
 
 		// Wings
 		registerPart(PartType.WINGS, new WingRenderer("wings.big", 1, null, null, "big_wings", "metal_wings", "dragon_wings", "dragon_boneless_wings")

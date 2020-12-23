@@ -26,6 +26,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.part.PartInfo;
@@ -265,5 +266,16 @@ public class PartRenderer {
 
 	public boolean hasAuthor(int subType, int textureID) {
 		return getAuthor(subType, textureID) != null;
+	}
+
+	/**
+	 * Returns a default {@link PartInfo} for the {@link PartsPanel} to display.
+	 * @param type The index in the {@link PartRegistry} of this part.
+	 * @param subType The sub type of this part.
+	 * @param partType The {@link PartType} of this part.
+	 * @return The default {@link PartInfo}.
+	 */
+	public PartInfo makeDefaultPartInfo(int type, int subType, PartType partType) {
+		return new PartInfo(type, subType, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, partType, null);
 	}
 }

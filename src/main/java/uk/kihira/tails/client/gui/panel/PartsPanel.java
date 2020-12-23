@@ -71,7 +71,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		setBlitOffset(-100);
 		fillGradient(matrixStack, 0, 0, right - left, listTop, 0xEA000000, 0xEA000000);
 
-		//fillGradient(matrixStack, 0, listTop, right - left, bottom - top, 0xCC000000, 0xCC000000);
+		fillGradient(matrixStack, 0, listTop, right - left, bottom - top, 0xFF000000, 0xFF000000);
 
 		setBlitOffset(0);
 		RenderSystem.color4f(1, 1, 1, 1);

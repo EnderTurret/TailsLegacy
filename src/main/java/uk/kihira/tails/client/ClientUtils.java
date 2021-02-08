@@ -16,8 +16,6 @@ import net.minecraft.client.gui.FontRenderer;
 
 public class ClientUtils {
 
-	private static final Pattern NEWLINE_SPLITTER = Pattern.compile("\n");
-
 	/**
 	 * Draws a string that respects new lines.
 	 * @param matrixStack The {@link MatrixStack} to use for transformation information.
@@ -28,7 +26,7 @@ public class ClientUtils {
 	 * @param color The color of the text.
 	 */
 	public static void drawStringMultiLine(MatrixStack matrixStack, FontRenderer fontRenderer, String string, int x, int y, int color) {
-		final String[] lines = NEWLINE_SPLITTER.split(string);
+		final String[] lines = string.split("\n");
 		for (int i = 0; i < lines.length; i++) {
 			final String line = lines[i];
 			fontRenderer.drawString(matrixStack, line, x, y + fontRenderer.FONT_HEIGHT * i, color);

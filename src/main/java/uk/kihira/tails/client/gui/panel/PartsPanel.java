@@ -138,10 +138,8 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	}
 
 	private void renderPart(MatrixStack matrixStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTicks) {
-		if (partInfo.needsTextureCompile || partInfo.getTexture() == null) {
-			partInfo.setTexture(TextureHelper.generateTexture(fakeEntity.getUniqueID(), partInfo));
-			partInfo.needsTextureCompile = false;
-		}
+		final PartRenderer renderer = PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId());
+		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 
 		if (partInfo.getTexture() == null) return;
 
@@ -150,7 +148,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		matrixStack.scale(-scale, scale, 1F);
 
 		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId())
+		renderer
 		.render(matrixStack, fakeEntity, partInfo, impl, impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture())), 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 		impl.finish();
 

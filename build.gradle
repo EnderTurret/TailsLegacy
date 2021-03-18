@@ -1,11 +1,10 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.+', changing: true
     }
 }
 
@@ -14,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 repositories {
     mavenCentral()
@@ -30,7 +29,7 @@ ext {
     major = "11"
     minor = "0"
     mcVersion = "1.16.5"
-    forgeVersion = "36.0.0"
+    forgeVersion = "36.1.1"
 }
 
 group = "uk.kihira.tails"
@@ -40,10 +39,10 @@ version = "1.${project.major}.${project.minor}"
 dependencies {
     minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
 
-    compileOnly fg.deobf("vazkii.botania:Botania:1.16.4-410:api")
-    runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.4-410")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-48")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.4-4.0.3.0")
+    compileOnly fg.deobf("vazkii.botania:Botania:1.16.4-411:api")
+    runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.4-411")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.4.0")
 }
 
 minecraft {

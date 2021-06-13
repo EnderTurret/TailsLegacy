@@ -102,7 +102,7 @@ public abstract class BaseScreen extends Screen {
 		}
 
 		@Override
-		public void renderButton(MatrixStack matrixStack, int x, int y, float partialTicks) {
+		public void renderWidget(MatrixStack matrixStack, int x, int y, float partialTicks) {
 			final List<IReorderingProcessor> list = new ArrayList<>(tooltip);
 			list.add(!active ? new StringTextComponent("Enabled").mergeStyle(TextFormatting.GREEN, TextFormatting.ITALIC).func_241878_f() : new StringTextComponent("Disabled").mergeStyle(TextFormatting.RED, TextFormatting.ITALIC).func_241878_f());
 			BaseScreen.this.renderToolTip(matrixStack, list, x, y, font);

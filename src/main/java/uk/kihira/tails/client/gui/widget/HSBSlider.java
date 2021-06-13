@@ -58,7 +58,7 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 	}
 
 	@Override
-	public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partial) {
+	public void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partial) {
 		if (visible) {
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 

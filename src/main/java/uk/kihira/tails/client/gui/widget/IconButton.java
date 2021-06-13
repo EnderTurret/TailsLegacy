@@ -86,7 +86,7 @@ public class IconButton extends Button implements ITooltip {
 		}
 
 		@Override
-		public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		public void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 			if (visible && toggled) {
 				Minecraft.getInstance().getTextureManager().bindTexture(iconsTextures);
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -96,7 +96,7 @@ public class IconButton extends Button implements ITooltip {
 				isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 				blit(matrixStack, x, y, icon.u, icon.v + 32, 16, 16);
 			} else
-				super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
+				super.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
 		}
 	}
 

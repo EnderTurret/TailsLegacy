@@ -41,6 +41,6 @@ public class ConfirmationDialog<T extends LayeredScreen & IDialogCallback> exten
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		for (int i = 0; i < messageList.size(); i++)
-			font.func_238407_a_(matrixStack, messageList.get(i), width / 2, 17 + i * 9, 0xFFFFFFFF);
+			font.drawTextWithShadow(matrixStack, messageList.get(i), width / 2, 17 + i * 9, 0xFFFFFFFF);
 	}
 }

@@ -57,7 +57,7 @@ public class Toast {
 				final int colour = 0xFFFFFF | opacity << 24;
 				for (int i = 0; i < message.size(); i++) {
 					final IReorderingProcessor s = message.get(i);
-					fontRenderer.func_238407_a_(matrixStack, s, xPos + width / 2 - fontRenderer.func_243245_a(s) / 2, yPos + 4 + fontRenderer.FONT_HEIGHT * i, colour);
+					fontRenderer.drawTextWithShadow(matrixStack, s, xPos + width / 2 - fontRenderer.func_243245_a(s) / 2, yPos + 4 + fontRenderer.FONT_HEIGHT * i, colour);
 				}
 				RenderSystem.disableBlend();
 				RenderSystem.color4f(0F, 0F, 0F, 1F);

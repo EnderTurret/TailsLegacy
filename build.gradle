@@ -29,7 +29,7 @@ ext {
     major = "11"
     minor = "0"
     mcVersion = "1.16.5"
-    forgeVersion = "36.1.1"
+    forgeVersion = "36.1.24"
 }
 
 group = "uk.kihira.tails"
@@ -46,7 +46,7 @@ dependencies {
 }
 
 minecraft {
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel: 'snapshot', version: '20210309-1.16.5'
 	accessTransformer = file("$rootDir/src/main/resources/META-INF/accesstransformer.cfg")
 
     runs {

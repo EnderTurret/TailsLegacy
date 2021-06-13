@@ -33,9 +33,9 @@ public class RelativeTextField extends TextFieldWidget {
 	}
 
 	@Override
-	public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.matrixStack = matrixStack;
-		super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
+		super.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
 		this.matrixStack = null;
 	}
 

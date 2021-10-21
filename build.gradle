@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.+', changing: true
     }
 }
 
@@ -29,7 +29,7 @@ ext {
     major = "11"
     minor = "0"
     mcVersion = "1.16.5"
-    forgeVersion = "36.2.2"
+    forgeVersion = "36.2.8"
 }
 
 group = "uk.kihira.tails"

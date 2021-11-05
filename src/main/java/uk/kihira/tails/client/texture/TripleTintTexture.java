@@ -91,7 +91,7 @@ public class TripleTintTexture extends Texture {
 	 * @param alpha The alpha value.
 	 * @return The colorised pixel, packed using {@link NativeImage#getCombined(int, int, int, int)}.
 	 */
-	private int colorise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
+	private static int colorise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
 		double g = green / 255D;
 		final double b = blue / 255D;
 
@@ -118,7 +118,7 @@ public class TripleTintTexture extends Texture {
 		return NativeImage.getCombined(alpha, bfinal, gfinal, rfinal);
 	}
 
-	private double scale(int color, int min) {
+	private static double scale(int color, int min) {
 		return min + (int) Math.floor(color * ((255 - min) / 255.0));
 	}
 }

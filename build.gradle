@@ -39,10 +39,10 @@ version = "1.${project.major}.${project.minor}"
 dependencies {
     minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
 
-    compileOnly fg.deobf("vazkii.botania:Botania:1.16.4-411:api")
-    runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.4-411")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.4.0")
+    compileOnly fg.deobf("vazkii.botania:Botania:1.16.5-419:api")
+    runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.5-419")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-53.2")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3")
 }
 
 minecraft {
@@ -52,6 +52,9 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 tails {

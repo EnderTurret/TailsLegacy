@@ -40,41 +40,40 @@ public class PartRegistry {
 
 	static {
 		// Tails
-		registerPart(PartType.TAIL, new PartRenderer("tail.fluffy", 2, new FluffyTailModel(), null, "fox_tail"));
-		registerPart(PartType.TAIL, new PartRenderer("tail.dragon", 1, new DragonTailModel(), null, "dragon_tail", "dragon_tail_striped")
+		register(new PartRenderer(PartType.TAIL, "fluffy", 2, new FluffyTailModel(), null, "fox_tail"));
+		register(new PartRenderer(PartType.TAIL, "dragon", 1, new DragonTailModel(), null, "dragon_tail", "dragon_tail_striped")
 				.setAuthor("@TTFTCUTS", 0, 0).setAuthor("@TTFTCUTS", 1, 0));
-		registerPart(PartType.TAIL, new PartRenderer("tail.raccoon", 0, new RaccoonTailModel(), null, "racoon_tail"));
-		registerPart(PartType.TAIL, new PartRenderer("tail.devil", 1, new DevilTailModel(), null, "devil_tail"));
-		registerPart(PartType.TAIL, new PartRenderer("tail.cat", 0, new CatTailModel(), null, "tabby_tail", "tiger_tail"));
-		registerPart(PartType.TAIL, new PartRenderer("tail.bird", 0, new BirdTailModel(), null, "bird_tail")
+		register(new PartRenderer(PartType.TAIL, "raccoon", 0, new RaccoonTailModel(), null, "racoon_tail"));
+		register(new PartRenderer(PartType.TAIL, "devil", 1, new DevilTailModel(), null, "devil_tail"));
+		register(new PartRenderer(PartType.TAIL, "cat", 0, new CatTailModel(), null, "tabby_tail", "tiger_tail"));
+		register(new PartRenderer(PartType.TAIL, "bird", 0, new BirdTailModel(), null, "bird_tail")
 				.setAuthor("@blusunrize", 0, 0));
-		registerPart(PartType.TAIL, new PartRenderer("tail.shark", 0, new SharkTailModel(), "access_denied", "shark_tail"));
-		registerPart(PartType.TAIL, new PartRenderer("tail.bunny", 0, new BunnyTailModel(), "@carrotcodes", "bunny_tail"));
+		register(new PartRenderer(PartType.TAIL, "shark", 0, new SharkTailModel(), "access_denied", "shark_tail"));
+		register(new PartRenderer(PartType.TAIL, "bunny", 0, new BunnyTailModel(), "@carrotcodes", "bunny_tail"));
 
 		// Ears
-		registerPart(PartType.EARS, new PartRenderer("ears.fox", 1, new FoxEarsModel(), "@Adeon", "fox_ears"));
-		registerPart(PartType.EARS, new PartRenderer("ears.cat", 0, new CatEarsModel(), null, "cat_ears"));
-		registerPart(PartType.EARS, new PartRenderer("ears.panda", 0, new PandaEarsModel(), null, "panda_ears"));
-		registerPart(PartType.EARS, new PartRenderer("ears.catSmall", 0, new SmallCatEarsModel(), null, "cat_small_ears"));
-		registerPart(PartType.EARS, new SeaPickleRenderer("ears.seaPickle", 0, null, null, "sea_pickle"));
+		register(new PartRenderer(PartType.EARS, "fox", 1, new FoxEarsModel(), "@Adeon", "fox_ears"));
+		register(new PartRenderer(PartType.EARS, "cat", 0, new CatEarsModel(), null, "cat_ears"));
+		register(new PartRenderer(PartType.EARS, "panda", 0, new PandaEarsModel(), null, "panda_ears"));
+		register(new PartRenderer(PartType.EARS, "cat_small", 0, new SmallCatEarsModel(), null, "cat_small_ears"));
+		register(new SeaPickleRenderer(PartType.EARS, "sea_pickle", 0, null, null, "sea_pickle"));
 
 		// Wings
-		registerPart(PartType.WINGS, new WingRenderer("wings.big", 1, null, null, "big_wings", "metal_wings", "dragon_wings", "dragon_boneless_wings")
+		register(new WingRenderer(PartType.WINGS, "big", 1, null, null, "big_wings", "metal_wings", "dragon_wings", "dragon_boneless_wings")
 				.setAuthor("@littlechippie").setAuthor("Dracyoshi", 0, 2).setAuthor("Dracyoshi", 0, 3).setAuthor("Dracyoshi", 1, 2).setAuthor("Dracyoshi", 1, 3));
 
 		// Muzzle
-		registerPart(PartType.MUZZLE, new PartRenderer("muzzle.standard", 4, new MuzzleModel(-2f, -3f, -9f, 4, 3, 5), null, "standard_muzzle", "alt_muzzle"));
-		registerPart(PartType.MUZZLE, new PartRenderer("muzzle.slim", 4, new MuzzleModel(-2f, -2f, -9f, 4, 2, 5), null, "standard_muzzle", "alt_muzzle"));
-		registerPart(PartType.MUZZLE, new PartRenderer("muzzle.thin", 4, new MuzzleModel(-1.5f, -2f, -9f, 3, 2, 5, 0, 9), null, "standard_muzzle", "alt_muzzle"));
+		register(new PartRenderer(PartType.MUZZLE, "standard", 4, new MuzzleModel(-2f, -3f, -9f, 4, 3, 5), null, "standard_muzzle", "alt_muzzle"));
+		register(new PartRenderer(PartType.MUZZLE, "slim", 4, new MuzzleModel(-2f, -2f, -9f, 4, 2, 5), null, "standard_muzzle", "alt_muzzle"));
+		register(new PartRenderer(PartType.MUZZLE, "thin", 4, new MuzzleModel(-1.5f, -2f, -9f, 3, 2, 5, 0, 9), null, "standard_muzzle", "alt_muzzle"));
 	}
 
 	/**
 	 * Adds the given renderer to the registry.
-	 * @param partType The type the renderer is for.
-	 * @param renderPart The renderer.
+	 * @param part The part to register.
 	 */
-	public static void registerPart(PartType partType, PartRenderer renderPart) {
-		PART_REGISTRY.put(partType, renderPart);
+	public static void register(PartRenderer part) {
+		PART_REGISTRY.put(part.getType(), part);
 	}
 
 	/**

@@ -38,6 +38,8 @@ public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
 		this.top = y;
 		this.right = x + width;
 		this.bottom = y + height;
+		this.width = width;
+		this.height = height;
 	}
 
 	public void resize(int x, int y, int newWidth, int newHeight) {
@@ -45,6 +47,8 @@ public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
 		top = y;
 		right = x + newWidth;
 		bottom = y + newHeight;
+		width = newWidth;
+		height = newHeight;
 	}
 
 	public void setHeight(int height) {

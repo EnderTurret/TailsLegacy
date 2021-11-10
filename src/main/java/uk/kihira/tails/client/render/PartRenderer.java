@@ -34,11 +34,12 @@ import uk.kihira.tails.common.part.PartType;
 
 /**
  * A renderer for a part. It also keeps track of some metadata.<br>
- * You can register one in {@link PartRegistry#registerPart(PartType, PartRenderer)}.
+ * You can register one in {@link PartRegistry#register(PartRenderer)}.
  */
 @OnlyIn(Dist.CLIENT)
 public class PartRenderer {
 
+	protected final PartType type;
 	protected final String name;
 	protected final String[] textureNames;
 	protected final int subTypes;
@@ -47,7 +48,8 @@ public class PartRenderer {
 	@Nullable
 	public final PartModel modelPart;
 
-	public PartRenderer(String name, int subTypes, @Nullable PartModel modelPart, @Nullable String modelAuthor, String... textureNames) {
+	public PartRenderer(PartType type, String name, int subTypes, @Nullable PartModel modelPart, @Nullable String modelAuthor, String... textureNames) {
+		this.type = type;
 		this.name = name;
 		this.subTypes = subTypes;
 		this.modelAuthor = modelAuthor;
@@ -59,7 +61,11 @@ public class PartRenderer {
 	public String getName() {
 		return name;
 	}
-	
+
+	public PartType getType() {
+		return type;
+	}
+
 	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
 		if (!info.isEmpty() && (info.needsTextureCompile || info.getTexture() == null)) {
 			info.setTexture(TextureHelper.generateTexture(entity.getUniqueID(), info));
@@ -214,12 +220,10 @@ public class PartRenderer {
 	}
 
 	/**
-	 * Returns the translation key with the given subtype.
-	 * @param subType The subtype.
 	 * @return The translation key.
 	 */
-	public String getUnlocalisedName(int subType) {
-		return name + "." + subType + ".name";
+	public String getTranslationKey() {
+		return "tails." + type.getId() + "." + name;
 	}
 
 	/**

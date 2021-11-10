@@ -39,17 +39,17 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	public void init() {
 
 		// Import Skin
-		final Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("gui.library.import.skin"), b -> {
+		final Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("tails.gui.library.import.skin"), b -> {
 			TextureHelper.buildPlayerPartsData(minecraft.player);
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("tails.gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));
 		});
 		button.active = TextureHelper.hasSkinData(minecraft.player);
 		addButton(button);
 
-		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("gui.library.import.string"), b -> {
+		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("tails.gui.library.import.string"), b -> {
 			if (Strings.isNullOrEmpty(inputField.getText()) || inputField.getText().split(":", 3).length != 3)
 				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-						new TranslationTextComponent("gui.library.import.toast.invalid").mergeStyle(TextFormatting.RED));
+						new TranslationTextComponent("tails.gui.library.import.toast.invalid").mergeStyle(TextFormatting.RED));
 			else {
 				final String[] strings = inputField.getText().split(":", 4);
 				try {
@@ -58,14 +58,14 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 					parent.getLibraryPanel().initList();
 
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("gui.library.import.toast.success", strings[0]).mergeStyle(TextFormatting.GREEN));
+							new TranslationTextComponent("tails.gui.library.import.toast.success", strings[0]).mergeStyle(TextFormatting.GREEN));
 
 				} catch (IllegalArgumentException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("gui.library.import.toast.invalid.uuid").mergeStyle(TextFormatting.RED));
+							new TranslationTextComponent("tails.gui.library.import.toast.invalid.uuid").mergeStyle(TextFormatting.RED));
 				} catch (JsonSyntaxException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("gui.library.import.toast.invalid.parts").mergeStyle(TextFormatting.RED));
+							new TranslationTextComponent("tails.gui.library.import.toast.invalid.parts").mergeStyle(TextFormatting.RED));
 				}
 			}
 		}));

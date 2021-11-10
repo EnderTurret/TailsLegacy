@@ -32,7 +32,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		// Mode Switch
-		addButton(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.button.mode.library"), b -> {
+		addButton(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslationTextComponent("tails.gui.button.mode.library"), b -> {
 			libraryMode = !libraryMode;
 			parent.getPartPanel().enabled = !libraryMode;
 			parent.getTexturePanel().enabled = !libraryMode;
@@ -52,10 +52,10 @@ public class ControlsPanel extends Panel<EditorScreen> {
 				Tails.setLocalPartsData(parent.getPartsData(), null);
 			parent.setPartsData(Tails.localPartsData);
 
-			b.setMessage(libraryMode ? new TranslationTextComponent("gui.button.mode.editor") : new TranslationTextComponent("gui.button.mode.library"));
+			b.setMessage(libraryMode ? new TranslationTextComponent("tails.gui.button.mode.editor") : new TranslationTextComponent("tails.gui.button.mode.library"));
 		}));
 		// Reset/Save
-		addButton(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.button.reset"), b -> {
+		addButton(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslationTextComponent("tails.gui.button.reset"), b -> {
 			final PartInfo partInfo = parent.getOriginalPartInfo().deepCopy();
 			parent.getPartPanel().selectDefaultListEntry();
 			parent.getLibraryPanel().initList();
@@ -64,13 +64,13 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			parent.refreshTintPane();
 			parent.setPartsInfo(partInfo);
 		}));
-		addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslationTextComponent("gui.done"), b -> {
+		addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslationTextComponent("tails.gui.done"), b -> {
 			// Update part info, set local and send it to the server.
 			final PartsData partsData = parent.getPartsData();
 			Tails.setLocalPartsData(partsData, null);
 			Tails.PROXY.addPartsData(minecraft.player.getUniqueID(), partsData);
 			Tails.CHANNEL.sendToServer(new PlayerDataMessage(minecraft.getSession().getProfile().getId(), partsData));
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new StringTextComponent("Saved!").mergeStyle(TextFormatting.GREEN));
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new TranslationTextComponent("tails.gui.saved").mergeStyle(TextFormatting.GREEN));
 			minecraft.displayGuiScreen(null);
 		}));
 	}

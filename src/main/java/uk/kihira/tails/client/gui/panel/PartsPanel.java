@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
@@ -55,13 +56,13 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	public void init() {
 		initPartList();
 
-		addButton(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new StringTextComponent(parent.getPartType().getId().toUpperCase(Locale.ROOT)), b -> {
+		addButton(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new TranslationTextComponent("tails.part." + parent.getPartType().getId()), b -> {
 			if (parent.getPartType().ordinal() + 1 >= PartType.values().length)
 				parent.setPartType(PartType.values()[0]);
 			else
 				parent.setPartType(PartType.values()[parent.getPartType().ordinal() + 1]);
 
-			partTypeButton.setMessage(new StringTextComponent(parent.getPartType().getId().toUpperCase(Locale.ROOT)));
+			partTypeButton.setMessage(new TranslationTextComponent("tails.part." + parent.getPartType().getId()));
 			initPartList();
 		}));
 	}
@@ -75,7 +76,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 
 		setBlitOffset(0);
 		RenderSystem.color4f(1, 1, 1, 1);
-		drawCenteredString(matrixStack, font, I18n.format("gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
+		drawCenteredString(matrixStack, font, I18n.format("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 		// Tails list
 		partList.render(matrixStack, mouseX, mouseY, partialTicks);
 
@@ -174,7 +175,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(matrixStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTicks);
 				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId())
-						.getUnlocalisedName(partInfo.getSubType())), 5, x + 17, 0xFFFFFF);
+						.getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {
 					final PartRenderer renderPart = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
@@ -184,7 +185,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 						matrixStack.translate(5, x + 27, 0);
 						matrixStack.scale(0.6F, 0.6F, 1F);
 						setBlitOffset(100);
-						font.drawString(matrixStack, I18n.format("gui.createdby") + ":", 0, 0, 0xFFFFFF);
+						font.drawString(matrixStack, I18n.format("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
 						matrixStack.translate(0, 10, 0);
 						font.drawString(matrixStack, TextFormatting.AQUA + renderPart.getModelAuthor(), 0, 0, 0xFFFFFF);
 						matrixStack.pop();
@@ -192,7 +193,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 					}
 				}
 			} else
-				font.drawString(matrixStack, I18n.format("tail.none.name"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				font.drawString(matrixStack, I18n.format("tails.gui.part.none"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
 		}
 
 		@Override

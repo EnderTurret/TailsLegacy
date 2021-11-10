@@ -93,14 +93,14 @@ public class EditorScreen extends LayeredScreen {
 			libraryPanel.enabled = false;
 		}
 		else {
-			tintPanel.resize(previewWindowRight, 0, width - previewWindowRight, height);
-			libraryInfoPanel.resize(previewWindowRight, 0, width - previewWindowRight, height - 60);
+			previewPanel.resize(previewWindowEdgeOffset, 0, previewWindowRight - previewWindowEdgeOffset, previewWindowBottom);
 			partsPanel.resize(0, 0, previewWindowEdgeOffset, height - texSelectHeight);
 			libraryPanel.resize(0, 0, previewWindowEdgeOffset, height);
-			previewPanel.resize(previewWindowEdgeOffset, 0, previewWindowRight - previewWindowEdgeOffset, previewWindowBottom);
-			texturePanel.resize(0, height - texSelectHeight, previewWindowEdgeOffset, 43);
+			tintPanel.resize(previewWindowRight, 0, width - previewWindowRight, height);
 			libraryImportPanel.resize(previewWindowRight, height - 60, width - previewWindowRight, 60);
+			libraryInfoPanel.resize(previewWindowRight, 0, width - previewWindowRight, height - 60);
 			controlsPanel.resize(previewWindowEdgeOffset, previewWindowBottom, previewWindowRight - previewWindowEdgeOffset, height - previewWindowBottom);
+			texturePanel.resize(0, height - texSelectHeight, previewWindowEdgeOffset, 58);
 		}
 
 		super.init();

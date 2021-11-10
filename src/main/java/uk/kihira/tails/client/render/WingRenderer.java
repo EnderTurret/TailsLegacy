@@ -19,14 +19,15 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartType;
 
 /**
  * A specialized {@link PartRenderer} for wings.
  */
 public class WingRenderer extends PartRenderer {
 
-	public WingRenderer(String name, int subTypes, String modelAuthor, PartModel modelPart, String... textureNames) {
-		super(name, subTypes, modelPart, modelAuthor, textureNames);
+	public WingRenderer(PartType type, String name, int subTypes, String modelAuthor, PartModel modelPart, String... textureNames) {
+		super(type, name, subTypes, modelPart, modelAuthor, textureNames);
 	}
 
 	@Override

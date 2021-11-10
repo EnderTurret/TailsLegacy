@@ -42,7 +42,7 @@ public abstract class LayeredScreen extends BaseScreen {
 	protected void init() {
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				panel.init(minecraft, width, height);
+				panel.init(minecraft, panel.width, panel.height);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public abstract class LayeredScreen extends BaseScreen {
 		super.resize(mc, width, height);
 		for (List<Panel> layer : layers)
 			for (Panel panel : layer)
-				panel.resize(mc, mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight());
+				panel.resize(mc, panel.width, panel.height);
 	}
 
 	@Override

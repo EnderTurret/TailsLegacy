@@ -51,8 +51,8 @@ import uk.kihira.tails.common.part.PartType;
 
 public class SeaPickleRenderer extends PartRenderer {
 
-	public SeaPickleRenderer(String name, int subTypes, PartModel modelPart, String modelAuthor, String... textureNames) {
-		super(name, subTypes, new Model(), modelAuthor, textureNames);
+	public SeaPickleRenderer(PartType type, String name, int subTypes, PartModel modelPart, String modelAuthor, String... textureNames) {
+		super(type, name, subTypes, new Model(), modelAuthor, textureNames);
 	}
 
 	@Override

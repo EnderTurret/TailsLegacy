@@ -44,9 +44,9 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		addButton(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {
 			yaw = 0;
 			pitch = 10F;
-		}, new TranslationTextComponent("gui.button.reset.camera")));
+		}, new TranslationTextComponent("tails.gui.button.reset.camera")));
 		// Help
-		addButton(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("gui.button.help.camera.0"), new TranslationTextComponent("gui.button.help.camera.1")));
+		addButton(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("tails.gui.button.help.camera.0"), new TranslationTextComponent("tails.gui.button.help.camera.1")));
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		setBlitOffset(0);
 
 		// Player
-		drawEntity(width / 2, height / 2 + Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
+		drawEntity(left + width / 2, top + height / 2 + Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
 				Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
 				yaw, pitch, partialTicks, Minecraft.getInstance().player);
 

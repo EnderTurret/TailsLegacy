@@ -54,13 +54,13 @@ public class TexturePanel extends Panel<EditorScreen> {
 		fillGradient(matrixStack, 7, variantSelectY, right - left - 15, texSelectY + 15, 0x55000000, 0x55000000); // Use fillGradient so it actually takes into account blitOffset.
 
 		// Texture select
-		drawCenteredString(matrixStack, font, I18n.format("gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
+		drawCenteredString(matrixStack, font, I18n.format("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
 
 		final PartRenderer renderer = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
 
-		final String texLangKey = (partInfo.isEmpty() ? "texture.none" : parent.getPartType().getId() + ".texture." + renderer.getTextureNames(partInfo.getSubType())[parent.getTextureId()] + ".name");
+		final String texLangKey = (partInfo.isEmpty() ? "tails.texture.none" : "tails." + parent.getPartType().getId() + ".texture." + renderer.getTextureNames(partInfo.getSubType())[parent.getTextureId()]);
 		final String texFormatted = I18n.format(texLangKey);
-		final String variantLangKey = (partInfo.isEmpty() ? "variant.none" : renderer.getName() + ".variant." + partInfo.getSubType());
+		final String variantLangKey = (partInfo.isEmpty() ? "tails.variant.none" : renderer.getTranslationKey() + ".variant." + partInfo.getSubType());
 		final String variantFormatted = I18n.format(variantLangKey);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);

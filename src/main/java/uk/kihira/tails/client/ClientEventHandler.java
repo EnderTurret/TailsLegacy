@@ -36,7 +36,7 @@ public class ClientEventHandler {
 	@SubscribeEvent
 	public void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
 		if (event.getGui() instanceof IngameMenuScreen)
-			event.addWidget(new Button(event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20, new TranslationTextComponent("gui.button.editor"), b -> {
+			event.addWidget(new Button(event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20, new TranslationTextComponent("tails.gui.button.editor"), b -> {
 				Minecraft.getInstance().displayGuiScreen(new EditorScreen());
 			}));
 	}

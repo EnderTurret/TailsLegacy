@@ -56,7 +56,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 		for (PartType type : PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
 				final PartInfo partInfo = data.partsData.getPartInfo(type);
-				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId()).getUnlocalisedName(partInfo.getSubType())),
+				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId()).getTranslationKey()),
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
 					AbstractGui.fill(matrixStack,
@@ -92,14 +92,14 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 
 		@Override
 		public void render(MatrixStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-			Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format("gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
+			Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format("tails.gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
 		}
 
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
-			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.format("gui.library.entry.default"), Tails.localPartsData);
+			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.format("tails.gui.library.entry.default"), Tails.localPartsData);
 			Tails.PROXY.getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
 			return true;

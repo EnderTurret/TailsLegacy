@@ -19,25 +19,14 @@ repositories {
     mavenCentral()
     maven { url 'https://maven.blamejared.com' }
     maven { url 'https://maven.theillusivec4.top/' }
-    /*maven {
-        name = 'Kihira Maven'
-        url = 'http://maven.foxes.rocks'
-    }*/
-}
-
-ext {
-    major = "11"
-    minor = "0"
-    mcVersion = "1.16.5"
-    forgeVersion = "36.2.8"
 }
 
 group = "uk.kihira.tails"
-archivesBaseName = "Tails-${project.mcVersion}"
-version = "1.${project.major}.${project.minor}"
+archivesBaseName = "Tails-1.16.5"
+version = "1.11.0"
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.mcVersion}-${project.forgeVersion}"
+    minecraft "net.minecraftforge:forge:1.16.5-36.2.8"
 
     compileOnly fg.deobf("vazkii.botania:Botania:1.16.5-419:api")
     runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.5-419")
@@ -134,59 +123,3 @@ publishing {
         }
     }
 }
-
-/**
- * Maven uploading
- *
-def deployer = {
-    repository(url: project.properties.maven_url) {
-        configuration = configurations.deployerJars
-        authentication(userName: project.properties.maven_username ?: "", password: project.properties.maven_password ?: "")
-    }
-
-    pom {
-        groupId = project.group
-        version = project.version
-        artifactId = project.archivesBaseName
-
-        project {
-            name project.archivesBaseName
-            packaging 'jar'
-            description 'Tails'
-            url 'https://github.com/kihira/Tails/'
-
-            scm {
-                url 'https://github.com/kihira/Tails/'
-                connection 'scm:git:git://github.com/kihira/Tails.git'
-                developerConnection 'scm:git:git@github.com/kihira/Tails.git'
-            }
-
-            issueManagement {
-                system 'github'
-                url 'https://github.com/kihira/Tails/issues'
-            }
-
-            licenses {
-                license {
-                    name 'The MIT License (MIT)'
-                    url 'https://opensource.org/licenses/MIT'
-                    distribution 'repo'
-                }
-            }
-
-            developers {
-                developer {
-                    id 'Kihira'
-                    name 'Kihira'
-                    roles {
-                        role 'developer'
-                    }
-                }
-            }
-        }
-    }
-}
-
-uploadArchives {
-    repositories.mavenDeployer(deployer)
-}*/

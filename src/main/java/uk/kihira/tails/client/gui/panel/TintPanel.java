@@ -38,7 +38,6 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	private HSBSlider[] rgbSliders;
 	private IconButton tintReset;
 	private IconButton colourPicker;
-	private IntBuffer pixelBuffer;
 	private boolean selectingColour = false;
 	private int editPaneTop;
 
@@ -99,6 +98,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		// Color Picker
 		addButton(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), new TranslationTextComponent("tails.gui.button.picker.0"), new TranslationTextComponent("tails.gui.button.picker.1")));
 		colourPicker.visible = false;
+		colourPicker.active = false;
 
 		refreshTintPane();
 	}
@@ -138,7 +138,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		hexText.setText(Integer.toHexString(currentTint));
 		refreshTintPane();
 		tintReset.active = false;
-		colourPicker.active = true;
+		//colourPicker.active = true;
 	}
 
 	@Override
@@ -207,22 +207,22 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	}
 
 	private int getColourAtPoint(double x, double y) {
-		int[] pixelData;
-		final int pixels = 1;
+		// TODO: Fix color picking.
+		return 0xFF0000;
+		/*final ByteBuffer pixelBuffer = BufferUtils.createByteBuffer(3);
 
-		if (pixelBuffer == null)
-			pixelBuffer = BufferUtils.createIntBuffer(pixels);
-		pixelData = new int[pixels];
+		GL11.glReadBuffer(GL11.GL_FRONT);
 
-		GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
-		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-		pixelBuffer.clear();
+		GL11.glReadPixels((int) x, height - (int) y, 1, 1,
+				GL11.GL_RGB,
+				GL11.GL_UNSIGNED_BYTE,
+				pixelBuffer);
 
-		GL11.glReadPixels((int) x, (int) y, 1, 1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+		final int r = pixelBuffer.get() & 0xFF;
+		final int g = pixelBuffer.get() & 0xFF;
+		final int b = pixelBuffer.get() & 0xFF;
 
-		pixelBuffer.get(pixelData);
-
-		return pixelData[0] & 0xFFFFFF;
+		return (r << 16) | (g << 8) | b;*/
 	}
 
 	private void setSelectingColour(boolean selectingColour) {

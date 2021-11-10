@@ -179,7 +179,9 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 
 				if (currentPart) {
 					final PartRenderer renderPart = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
-					if (renderPart.getModelAuthor() != null) {
+					String author = renderPart.getAuthor(parent.getEditingPartInfo().getSubType(), parent.getTextureId());
+					if (author == null) author = renderPart.getModelAuthor();
+					if (author != null) {
 						// Yeah its not nice but eh, works.
 						matrixStack.push();
 						matrixStack.translate(5, x + 27, 0);
@@ -187,7 +189,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 						setBlitOffset(100);
 						font.drawString(matrixStack, I18n.format("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
 						matrixStack.translate(0, 10, 0);
-						font.drawString(matrixStack, TextFormatting.AQUA + renderPart.getModelAuthor(), 0, 0, 0xFFFFFF);
+						font.drawString(matrixStack, TextFormatting.AQUA + author, 0, 0, 0xFFFFFF);
 						matrixStack.pop();
 						setBlitOffset(0);
 					}

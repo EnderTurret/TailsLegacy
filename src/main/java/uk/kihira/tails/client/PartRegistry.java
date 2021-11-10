@@ -60,7 +60,11 @@ public class PartRegistry {
 
 		// Wings
 		register(new WingRenderer(PartType.WINGS, "big", 1, null, null, "big_wings", "metal_wings", "dragon_wings", "dragon_boneless_wings")
-				.setAuthor("@littlechippie").setAuthor("Dracyoshi", 0, 2).setAuthor("Dracyoshi", 0, 3).setAuthor("Dracyoshi", 1, 2).setAuthor("Dracyoshi", 1, 3));
+				.setAuthor("@littlechippie")
+				.setAuthor("Dracyoshi", 0, 2)
+				.setAuthor("Dracyoshi", 0, 3)
+				.setAuthor("Dracyoshi", 1, 2)
+				.setAuthor("Dracyoshi", 1, 3));
 
 		// Muzzle
 		register(new PartRenderer(PartType.MUZZLE, "standard", 4, new MuzzleModel(-2f, -3f, -9f, 4, 3, 5), null, "standard_muzzle", "alt_muzzle"));

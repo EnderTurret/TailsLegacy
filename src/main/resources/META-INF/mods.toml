@@ -9,7 +9,7 @@ issueTrackerURL="https://github.com/kihira/Tails/issues"
     description='''
     For all your taily needs.
     '''
-    version="${version}"
+    version="${file.jarVersion}"
     authors="Kihira"
 
 [[dependencies.tails]]

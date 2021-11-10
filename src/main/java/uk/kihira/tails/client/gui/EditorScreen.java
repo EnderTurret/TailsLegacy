@@ -75,7 +75,7 @@ public class EditorScreen extends LayeredScreen {
 		final int previewWindowEdgeOffset = 110;
 		final int previewWindowRight = width - previewWindowEdgeOffset;
 		final int previewWindowBottom = height - 30;
-		final int texSelectHeight = 35;
+		final int texSelectHeight = 50;
 
 		// Not an ideal solution but keeps everything from resetting on resize.
 		if (tintPanel == null) {
@@ -86,7 +86,7 @@ public class EditorScreen extends LayeredScreen {
 			getLayer(1).add(libraryImportPanel = new LibraryImportPanel(this, previewWindowRight, height - 60, width - previewWindowRight, 60));
 			getLayer(1).add(libraryInfoPanel = new LibraryInfoPanel(this, previewWindowRight, 0, width - previewWindowRight, height - 60));
 			getLayer(1).add(controlsPanel = new ControlsPanel(this, previewWindowEdgeOffset, previewWindowBottom, previewWindowRight - previewWindowEdgeOffset, height - previewWindowBottom));
-			getLayer(1).add(texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewWindowEdgeOffset, 43));
+			getLayer(1).add(texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewWindowEdgeOffset, 58));
 
 			libraryInfoPanel.enabled = false;
 			libraryImportPanel.enabled = false;

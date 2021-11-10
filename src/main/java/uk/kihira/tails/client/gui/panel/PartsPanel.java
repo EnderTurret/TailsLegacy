@@ -91,16 +91,18 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 
 	@Override
 	public boolean onEntrySelected(ListWidget guiList, int index, PartEntry entry) {
+		final PartInfo oldInfo = parent.getEditingPartInfo();
+		final int subType = oldInfo.getTypeId() == entry.partInfo.getTypeId() ? oldInfo.getSubType() : 0;
 		// Reset texture ID.
 		parent.setTextureId(0);
 		// Need to keep tints from original part.
-		final PartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.deepCopy() : new PartInfo(entry.partInfo.getTypeId(), entry.partInfo.getSubType(), entry.partInfo.getTextureId(),
-				parent.getEditingPartInfo().getTints().clone(), entry.partInfo.getPartType(), null);
+		final PartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.deepCopy() : new PartInfo(entry.partInfo.getTypeId(), subType, entry.partInfo.getTextureId(),
+				oldInfo.getTints().clone(), entry.partInfo.getPartType(), null);
 
 		// Breaks immutability, but it's probably fine, right?
 		if (entry.partInfo.isEmpty())
 			for (int i = 0; i < partInfo.getTints().length; i++)
-				partInfo.getTints()[i] = parent.getEditingPartInfo().getTints()[i];
+				partInfo.getTints()[i] = oldInfo.getTints()[i];
 
 		parent.setPartsInfo(partInfo);
 		return true;
@@ -113,9 +115,8 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		partList.add(new PartEntry(PartInfo.none(partType))); // No tail
 		// Generate tail preview textures and add to list.
 		final List<PartRenderer> parts = PartRegistry.getParts(partType);
-		for (int type = 0; type < parts.size(); type++)
-			for (int subType = 0; subType <= parts.get(type).getAvailableSubTypes(); subType++) {
-				final PartInfo partInfo = parts.get(type).makeDefaultPartInfo(type, subType, partType);
+		for (int type = 0; type < parts.size(); type++) {
+				final PartInfo partInfo = parts.get(type).makeDefaultPartInfo(type, 0, partType);
 				partList.add(new PartEntry(partInfo));
 			}
 
@@ -130,7 +131,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		final PartInfo partInfo = parent.getEditingPartInfo();
 		for (PartEntry entry : partList.getEventListeners())
 			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
-					&& entry.partInfo.getTypeId() == partInfo.getTypeId() && entry.partInfo.getSubType() == partInfo.getSubType()) {
+					&& entry.partInfo.getTypeId() == partInfo.getTypeId()) {
 				partList.setSelected(entry);
 				onEntrySelected(partList, partList.getEventListeners().indexOf(entry), entry);
 				break;

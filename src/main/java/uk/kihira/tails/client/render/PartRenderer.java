@@ -56,6 +56,10 @@ public class PartRenderer {
 		authors = new String[subTypes + 1][textureNames.length];
 	}
 
+	public String getName() {
+		return name;
+	}
+	
 	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
 		if (!info.isEmpty() && (info.needsTextureCompile || info.getTexture() == null)) {
 			info.setTexture(TextureHelper.generateTexture(entity.getUniqueID(), info));

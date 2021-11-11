@@ -1,56 +1,51 @@
 {
-  "ears.cat.0.name": "Oreilles de Chat",
-  "ears.fox.0.name": "Oreilles de Renard",
-  "ears.panda.0.name": "Oreilles de Panda",
-  "ears.texture.cat_ears.name": "Chat",
-  "ears.texture.fox_ears.name": "Renard",
-  "ears.texture.panda_ears.name": "Panda",
-  "gui.button.edit": "Editer",
-  "gui.button.editor": "Editeur de Queue",
-  "gui.button.export": "Exportation",
-  "gui.button.export.0.tooltip": "Exporte une version modifiée de votre skin avec certains pixels inutilisés  pour que les autres joueurs puissent voir votre queue sans avoir Tails installé sur le serveur.",
-  "gui.button.export.custom": "Envoyer vers ...",
-  "gui.button.export.custom.tooltip": "Envoie dans un dossier spécialisé",
-  "gui.button.export.minecraftdir": "Exporte vers le dossier Minecraft",
-  "gui.button.export.tooltip": "Exporte une version modifiée du skin vers %s",
-  "gui.button.export.userdir": "Exporte vers la racine Minecraft",
-  "gui.button.help.camera.0": "Cliquez et tirez dans la fenêtre",
-  "gui.button.help.camera.1": "pour faire tourner votre personnage",
-  "gui.button.livepreview": "Prévisualisation en direct",
-  "gui.button.livepreview.0.tooltip": "Montre votre queue en direct en plus de vous permettre de customisé les données",
-  "gui.button.openfolder": "Ouvre l'emplacement de l'exportation",
-  "gui.button.openfolder.tooltip": "Ouvre le dossier dans lequel vous avez exporté le skin",
-  "gui.button.reset": "Reactualiser",
-  "gui.button.save": "Sauvegarder",
-  "gui.button.upload": "Mettre en ligne sur Mojang",
-  "gui.button.upload.tooltip": "Met en ligne votre Skin. ATTENTION: Ouvre le navigateur",
-  "gui.export.information": "Une des fonctions de Tails est de pouvoir montrer aux autres joueurs votre queue même quand le serveur ne l'a pas installé (les autres joueurs auront cependant besoin d'avoir Tails installé pour la voir). Pour cela, certains pixels inutilisés de votre skin sont utilisés par Tails pour stocker les informations à propos de votre queue. Vous pouvez utiliser cette opition ci-dessous pour choisir où exporter votre queue ou la mettre directement en ligne sur le serveur de skin de Mojang. Survolez les boutons pour voir les emplacements de fichiers.",
-  "gui.export.title": "Options d'Exportation",
-  "gui.hex": "Hex",
-  "gui.tint": "Teinte %s",
-  "gui.tint.edit": "Editer la teinte %s",
-  "tail.bird.0.name": "Queue d'Oiseau",
-  "tail.cat.0.name": "Queue de Chat",
-  "tail.devil.0.name": "Queue de Diable",
-  "tail.devil.1.name": "Queue de Diable (Pas de Bout)",
-  "tail.dragon.0.name": "Queue de Lézard",
-  "tail.dragon.1.name": "Queue de Dragon",
-  "tail.fluffy.0.name": "Queue Câline",
-  "tail.fluffy.1.name": "Double Queue",
-  "tail.fluffy.2.name": "Neuf Queues",
-  "tail.none.name": "Pas de Queue",
-  "tail.raccoon.0.name": "Queue de Raton-Laveur",
-  "tail.texture.bird_tail.name": "Oiseau",
-  "tail.texture.devil_tail.name": "Diable",
-  "tail.texture.dragon_tail.name": "Chat",
-  "tail.texture.dragon_tailStriped.name": "Rayé",
-  "tail.texture.fox_tail.name": "Renard",
-  "tail.texture.racoon_tail.name": "Raton-Laveur",
-  "tail.texture.tiger_tail.name": "Tigre",
-  "tails.export.success": "Skin correctement sauvegarder sous %s",
-  "tails.upload.unavailable": "Cette fonction n'est pas encore ajoutée!",
-  "wings.big.0.name": "Grandes Ailes",
-  "wings.big.1.name": "Petites Ailes",
-  "wings.texture.big_wings.name": "Ailes d'Ange",
-  "wings.texture.metal_wings.name": "Ailes d'Acier"
+  "tails.gui.part.none":"Pas de Queue",
+
+
+  "tails.part.dragon_tail":"Queue de Lézard",
+  "tails.part.fluffy_tail":"Queue Câline",
+  "tails.part.raccoon_tail":"Queue de Raton-Laveur",
+  "tails.part.devil_tail":"Queue de Diable",
+  "tails.part.cat_tail":"Queue de Chat",
+  "tails.part.bird_tail":"Queue d'Oiseau",
+
+
+  "tails.part.texture.fluffy_tail":"Renard",
+  "tails.part.texture.devil_tail":"Diable",
+  "tails.part.texture.raccoon_tail":"Raton-Laveur",
+  "tails.part.texture.dragon_tail":"Chat",
+  "tails.part.texture.dragon_tail_striped":"Rayé",
+  "tails.part.texture.tiger_tail":"Tigre",
+  "tails.part.texture.bird_tail":"Oiseau",
+
+  "tails.part.fox_ears":"Oreilles de Renard",
+  "tails.part.cat_ears":"Oreilles de Chat",
+  "tails.part.panda_ears":"Oreilles de Panda",
+
+
+  "tails.part.texture.fox_ears":"Renard",
+  "tails.part.texture.cat_ears":"Chat",
+  "tails.part.texture.panda_ears":"Panda",
+
+  "tails.part.big_wings":"Grandes Ailes",
+
+  "tails.part.texture.metal_wings":"Ailes d'Acier",
+  "tails.part.texture.big_wings":"Ailes d'Ange",
+
+
+
+
+
+  "tails.gui.button.editor":"Editeur de Queue",
+  "tails.gui.button.reset":"Reactualiser",
+  "tails.gui.button.save":"Sauvegarder",
+  "tails.gui.button.edit":"Editer",
+  "tails.gui.button.help.camera.0":"Cliquez et tirez dans la fenêtre",
+  "tails.gui.button.help.camera.1":"pour faire tourner votre personnage",
+
+
+
+  "tails.gui.tint":"Teinte %s",
+  "tails.gui.tint.edit":"Editer la teinte %s",
+  "tails.gui.hex":"Hex"
 }

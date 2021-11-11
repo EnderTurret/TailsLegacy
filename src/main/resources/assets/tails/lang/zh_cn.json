@@ -2,44 +2,40 @@
   "tails.gui.part.none":"无",
 
 
-  "tails.tail.dragon":"蜥蜴尾巴",
-  "tails.tail.fluffy":"狐狸尾巴",
-  "tails.tail.raccoon":"浣熊尾巴",
-  "tails.tail.devil":"恶魔尾巴",
-  "tails.tail.cat":"猫尾巴",
-  "tails.tail.bird":"鸟尾巴",
+  "tails.part.dragon_tail":"蜥蜴尾巴",
+  "tails.part.fluffy_tail":"狐狸尾巴",
+  "tails.part.raccoon_tail":"浣熊尾巴",
+  "tails.part.devil_tail":"恶魔尾巴",
+  "tails.part.cat_tail":"猫尾巴",
+  "tails.part.bird_tail":"鸟尾巴",
 
 
-  "tails.tail.texture.fox_tail":"狐狸",
-  "tails.tail.texture.devil_tail":"恶魔",
-  "tails.tail.texture.racoon_tail":"浣熊",
-  "tails.tail.texture.dragon_tail":"猫咪",
-  "tails.tail.texture.dragon_tail_striped":"条纹龙尾",
-  "tails.tail.texture.tiger_tail":"老虎",
-  "tails.tail.texture.bird_tail":"小鸟",
+  "tails.part.texture.fluffy_tail":"狐狸",
+  "tails.part.texture.devil_tail":"恶魔",
+  "tails.part.texture.raccoon_tail":"浣熊",
+  "tails.part.texture.dragon_tail":"猫咪",
+  "tails.part.texture.dragon_tail_striped":"条纹龙尾",
+  "tails.part.texture.tiger_tail":"老虎",
+  "tails.part.texture.bird_tail":"小鸟",
 
-  "tails.ears.fox":"狐狸耳朵",
-  "tails.ears.cat":"猫耳朵",
-  "tails.ears.panda":"熊猫耳朵",
-
-
-  "tails.ears.texture.fox_ears":"狐狸",
-  "tails.ears.texture.cat_ears":"猫咪",
-  "tails.ears.texture.panda_ears":"熊猫",
-
-  "tails.wings.big":"大型翅膀",
-
-  "tails.wings.texture.metal_wings":"金属翅膀",
-  "tails.wings.texture.big_wings":"天使翅膀",
+  "tails.part.fox_ears":"狐狸耳朵",
+  "tails.part.cat_ears":"猫耳朵",
+  "tails.part.panda_ears":"熊猫耳朵",
 
 
+  "tails.part.texture.fox_ears":"狐狸",
+  "tails.part.texture.cat_ears":"猫咪",
+  "tails.part.texture.panda_ears":"熊猫",
+
+  "tails.part.big_wings":"大型翅膀",
+
+  "tails.part.texture.metal_wings":"金属翅膀",
+  "tails.part.texture.big_wings":"天使翅膀",
 
 
 
-  "tails.gui.button.livepreview":"实时预览",
-  "tails.gui.button.livepreview.0.tooltip":"当你在编辑时预览窗口将会实时更新尾巴的样子",
-  "tails.gui.button.openfolder":"打开你将皮肤导入的文件夹",
-  "tails.gui.button.openfolder.tooltip":"打开皮肤位置",
+
+
   "tails.gui.button.editor":"尾巴编辑器",
   "tails.gui.button.reset":"还原",
   "tails.gui.button.save":"保存",
@@ -61,7 +57,5 @@
   "tails.gui.tint":"尾巴颜色 %s",
   "tails.gui.tint.edit":"编辑尾巴颜色 %s",
   "tails.gui.hex":"施法",
-  "tails.gui.texture":"材质",
-
-  "tails.export.success":"成功将皮肤导出至 %s"
+  "tails.gui.texture":"材质"
 }

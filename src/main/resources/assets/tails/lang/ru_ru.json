@@ -2,43 +2,40 @@
   "tails.gui.part.none":"Без Хвоста",
 
 
-  "tails.tail.dragon":"Хвост ящера",
-  "tails.tail.fluffy":"Пушистый хвост",
-  "tails.tail.raccoon":"Хвост енота",
-  "tails.tail.devil":"Хвост демона",
-  "tails.tail.cat":"Кошачий хвост",
-  "tails.tail.bird":"Птичий хвост",
+  "tails.part.dragon_tail":"Хвост ящера",
+  "tails.part.fluffy_tail":"Пушистый хвост",
+  "tails.part.raccoon_tail":"Хвост енота",
+  "tails.part.devil_tail":"Хвост демона",
+  "tails.part.cat_tail":"Кошачий хвост",
+  "tails.part.bird_tail":"Птичий хвост",
 
 
-  "tails.tail.texture.fox_tail":"Лиса",
-  "tails.tail.texture.devil_tail":"Демон",
-  "tails.tail.texture.racoon_tail":"Енот",
-  "tails.tail.texture.dragon_tail":"Кот",
-  "tails.tail.texture.dragon_tail_striped":"Полосатый",
-  "tails.tail.texture.tiger_tail":"Тигр",
-  "tails.tail.texture.bird_tail":"Птица",
+  "tails.part.texture.fluffy_tail":"Лиса",
+  "tails.part.texture.devil_tail":"Демон",
+  "tails.part.texture.raccoon_tail":"Енот",
+  "tails.part.texture.dragon_tail":"Кот",
+  "tails.part.texture.dragon_tail_striped":"Полосатый",
+  "tails.part.texture.tiger_tail":"Тигр",
+  "tails.part.texture.bird_tail":"Птица",
 
-  "tails.ears.fox":"Лисьи ушки",
-  "tails.ears.cat":"Кошачьи ушки",
-  "tails.ears.panda":"Ушки панды",
-
-
-  "tails.ears.texture.fox_ears":"Лиса",
-  "tails.ears.texture.cat_ears":"Кот",
-  "tails.ears.texture.panda_ears":"Панда",
-
-  "tails.wings.big":"Большие крылья",
-
-  "tails.wings.texture.metal_wings":"Металлические крылья",
-  "tails.wings.texture.big_wings":"Ангельские крылья",
+  "tails.part.fox_ears":"Лисьи ушки",
+  "tails.part.cat_ears":"Кошачьи ушки",
+  "tails.part.panda_ears":"Ушки панды",
 
 
+  "tails.part.texture.fox_ears":"Лиса",
+  "tails.part.texture.cat_ears":"Кот",
+  "tails.part.texture.panda_ears":"Панда",
+
+  "tails.part.big_wings":"Большие крылья",
+
+  "tails.part.texture.metal_wings":"Металлические крылья",
+  "tails.part.texture.big_wings":"Ангельские крылья",
 
 
-  "tails.gui.button.livepreview":"Живое превью",
-  "tails.gui.button.livepreview.0.tooltip":"Показывает \"живое\" превью хвоста во время его настройки",
-  "tails.gui.button.openfolder":"Открыть каталог экспорта",
-  "tails.gui.button.openfolder.tooltip":"Открыть каталог куда был экспортирован скин",
+
+
+
   "tails.gui.button.editor":"Редактор Tails",
   "tails.gui.button.reset":"Сброс",
   "tails.gui.button.save":"Сохранить",
@@ -60,7 +57,5 @@
   "tails.gui.tint":"Цвет %s",
   "tails.gui.tint.edit":"Настройка цвета %s",
   "tails.gui.hex":"Hex",
-  "tails.gui.texture":"Текстура",
-
-  "tails.export.success":"Скин успешно сохранен в %s"
+  "tails.gui.texture":"Текстура"
 }

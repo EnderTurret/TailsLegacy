@@ -2,10 +2,10 @@
   "tails.gui.part.none":"Nenhuma Cauda",
 
 
-  "tails.tail.dragon":"Cauda de Lagarto",
-  "tails.tail.fluffy":"Cauda de Raposa",
-  "tails.tail.raccoon":"Cauda de guaxinim",
-  "tails.tail.devil":"Cauda de Demônio",
+  "tails.part.dragon_tail":"Cauda de Lagarto",
+  "tails.part.fluffy_tail":"Cauda de Raposa",
+  "tails.part.raccoon_tail":"Cauda de guaxinim",
+  "tails.part.devil_tail":"Cauda de Demônio"
 
 
 
@@ -18,13 +18,7 @@
 
 
 
-  "tails.gui.button.livepreview":"Visualizar",
-  "tails.gui.button.livepreview.0.tooltip":"Mostra uma as mudanças da sua cauda enquanto você edita os valores",
-  "tails.gui.button.openfolder":"Abrir local de exportação",
-  "tails.gui.button.openfolder.tooltip":"Abre a pasta onde sua skin foi exportada",
 
 
 
-
-  "tails.export.success":"Skin salva com sucesso em %s"
 }

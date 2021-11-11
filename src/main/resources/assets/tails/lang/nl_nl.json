@@ -2,44 +2,40 @@
   "tails.gui.part.none":"Geen",
 
 
-  "tails.tail.dragon":"Hagedissenstaart",
-  "tails.tail.fluffy":"Zachte Staart",
-  "tails.tail.raccoon":"Wasberenstaart",
-  "tails.tail.devil":"Duivelsstaart",
-  "tails.tail.cat":"Kattenstaart",
-  "tails.tail.bird":"Vogelsstaart",
+  "tails.part.dragon_tail":"Hagedissenstaart",
+  "tails.part.fluffy_tail":"Zachte Staart",
+  "tails.part.raccoon_tail":"Wasberenstaart",
+  "tails.part.devil_tail":"Duivelsstaart",
+  "tails.part.cat_tail":"Kattenstaart",
+  "tails.part.bird_tail":"Vogelsstaart",
 
 
-  "tails.tail.texture.fox_tail":"Vos",
-  "tails.tail.texture.devil_tail":"Duivel",
-  "tails.tail.texture.racoon_tail":"Wasbeer",
-  "tails.tail.texture.dragon_tail":"Kat",
-  "tails.tail.texture.dragon_tail_striped":"Gestreept",
-  "tails.tail.texture.tiger_tail":"Tijger",
-  "tails.tail.texture.bird_tail":"Vogel",
+  "tails.part.texture.fluffy_tail":"Vos",
+  "tails.part.texture.devil_tail":"Duivel",
+  "tails.part.texture.raccoon_tail":"Wasbeer",
+  "tails.part.texture.dragon_tail":"Kat",
+  "tails.part.texture.dragon_tail_striped":"Gestreept",
+  "tails.part.texture.tiger_tail":"Tijger",
+  "tails.part.texture.bird_tail":"Vogel",
 
-  "tails.ears.fox":"Vossenoren",
-  "tails.ears.cat":"Kattenoren",
-  "tails.ears.panda":"Pandaoren",
-
-
-  "tails.ears.texture.fox_ears":"Vos",
-  "tails.ears.texture.cat_ears":"Kat",
-  "tails.ears.texture.panda_ears":"Panda",
-
-  "tails.wings.big":"Grote Vleugels",
-
-  "tails.wings.texture.metal_wings":"Metalen Vleugels",
-  "tails.wings.texture.big_wings":"Engelenvleugels",
+  "tails.part.fox_ears":"Vossenoren",
+  "tails.part.cat_ears":"Kattenoren",
+  "tails.part.panda_ears":"Pandaoren",
 
 
+  "tails.part.texture.fox_ears":"Vos",
+  "tails.part.texture.cat_ears":"Kat",
+  "tails.part.texture.panda_ears":"Panda",
+
+  "tails.part.big_wings":"Grote Vleugels",
+
+  "tails.part.texture.metal_wings":"Metalen Vleugels",
+  "tails.part.texture.big_wings":"Engelenvleugels",
 
 
 
-  "tails.gui.button.livepreview":"Live Voorbeeld",
-  "tails.gui.button.livepreview.0.tooltip":"Laat een live voorbeeld zien van jouw staart terwijl jij de kleuren aanpast.",
-  "tails.gui.button.openfolder":"Open exporteer locatie",
-  "tails.gui.button.openfolder.tooltip":"Open de folder waar jij jouw skin hebt geexporteerd",
+
+
   "tails.gui.button.editor":"Staart Bewerker",
   "tails.gui.button.reset":"Reset",
   "tails.gui.button.save":"Opslaan",
@@ -72,7 +68,6 @@
   "tails.gui.library.info.createdate":"Gemaakt op",
   "tails.gui.library.info.toast.export":"Bibliotheek onderdeel data gekopieerd naar clipboard!",
   "tails.gui.library.import.skin":"Importeer via skin",
-  "tails.gui.library.import.string":"Importeer via string",
   "tails.gui.library.import.toast.skin":"Data via de skin gelanden!",
   "tails.gui.library.import.toast.success":"Het laden van onderdelen %s successvol!",
   "tails.gui.library.import.toast.invalid":"Kan niet importeren, ongeldige data!",
@@ -83,7 +78,5 @@
   "tails.gui.tint.edit":"Tint %s aan het bewerken",
   "tails.gui.hex":"Hex",
   "tails.gui.texture":"Textuur",
-  "tails.gui.createdby":"Gemaakt door",
-
-  "tails.export.success":"Skin opslaan naar %s gelukt!"
+  "tails.gui.createdby":"Gemaakt door"
 }

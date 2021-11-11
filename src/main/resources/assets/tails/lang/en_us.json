@@ -95,10 +95,6 @@
   "tails.part.texture.thin_muzzle":"Standard",
   "tails.part.texture.alt_muzzle":"Alt",
 
-  "tails.gui.button.livepreview":"Live Preview",
-  "tails.gui.button.livepreview.0.tooltip":"Shows a live preview of your tail as you edit the values",
-  "tails.gui.button.openfolder":"Open Export Location",
-  "tails.gui.button.openfolder.tooltip":"Open the folder where you exported your skin to",
   "tails.gui.button.editor":"Tails Editor",
   "tails.gui.button.reset":"Reset",
   "tails.gui.button.save":"Save",
@@ -130,9 +126,7 @@
   "tails.gui.library.info.created":"Created by",
   "tails.gui.library.info.createdate":"Created on",
   "tails.gui.library.info.toast.export":"Copied library entry data to clipboard!",
-  "tails.gui.library.import.skin":"Import from Skin",
   "tails.gui.library.import.string":"Import from String",
-  "tails.gui.library.import.toast.skin":"Loaded data from your skin!",
   "tails.gui.library.import.toast.success":"Successfully imported the parts data %s",
   "tails.gui.library.import.toast.invalid":"Unable to import, missing or invalid data!",
   "tails.gui.library.import.toast.invalid.uuid":"Unable to import, UUID data may be corrupted!",
@@ -145,7 +139,5 @@
   "tails.gui.createdby":"Created by",
   "tails.gui.partselect":"Part Select",
   "tails.gui.done":"Done",
-  "tails.gui.saved":"Saved!",
-
-  "tails.export.success":"Successfully saved skin to %s"
+  "tails.gui.saved":"Saved!"
 }

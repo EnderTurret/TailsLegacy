@@ -28,7 +28,7 @@ import uk.kihira.tails.common.part.PartsData;
 
 public class LibraryImportPanel extends Panel<EditorScreen> {
 
-	TextFieldWidget inputField;
+	private TextFieldWidget inputField;
 
 	public LibraryImportPanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
@@ -37,14 +37,6 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void init() {
-		// Import Skin
-		final Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("tails.gui.library.import.skin"), b -> {
-			TextureHelper.buildPlayerPartsData(minecraft.player);
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("tails.gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));
-		});
-		button.active = false;//TextureHelper.hasSkinData(minecraft.player);
-		addButton(button);
-
 		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("tails.gui.library.import.string"), b -> {
 			if (Strings.isNullOrEmpty(inputField.getText()) || inputField.getText().split(":", 3).length != 3)
 				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,

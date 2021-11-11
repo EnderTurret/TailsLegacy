@@ -83,8 +83,6 @@ public class CommonProxy {
 	public void addPartsData(UUID uuid, PartsData partsData) {
 		if (uuid != null)
 			this.partsData.put(uuid, partsData);
-		//Tails.LOGGER.debug("Added part data for {}: {}", uuid.toString(), partsData);
-		//else Tails.LOGGER.warn("Attempted to add part data with null UUID! {}", partsData);
 	}
 
 	/**
@@ -98,7 +96,6 @@ public class CommonProxy {
 				//Tails.networkWrapper.sendToAll(new PlayerDataMessage(uuid, this.partsData.get(uuid), true));
 			}
 			partsData.remove(uuid);
-			//Tails.LOGGER.debug("Removed part data for {}", uuid.toString());
 		}
 	}
 
@@ -107,7 +104,6 @@ public class CommonProxy {
 	 */
 	public void clearAllPartsData() {
 		partsData.clear();
-		//Tails.LOGGER.debug("Clearing parts data");
 	}
 
 	/**

@@ -53,7 +53,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run/server')
 
             mods {
                 tails {

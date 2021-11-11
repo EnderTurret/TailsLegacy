@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Zoe Lee (Kihira)
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.client;
 
 import java.util.Collections;
@@ -16,13 +24,16 @@ public class ClientLibraryManager extends LibraryManager {
 	@Override
 	public void addEntries(List<? extends LibraryEntryData> entries) {
 		super.addEntries(entries);
-		final Screen guiScreen = Minecraft.getInstance().currentScreen;
 
-		if (guiScreen instanceof EditorScreen) {
-			final EditorScreen editor = (EditorScreen) guiScreen;
+		final Screen screen = Minecraft.getInstance().currentScreen;
+
+		if (screen instanceof EditorScreen) {
+			final EditorScreen editor = (EditorScreen) screen;
+
 			if (editor.getLibraryPanel() != null && editor.getLibraryInfoPanel() != null)
-				((EditorScreen) guiScreen).getLibraryPanel().initList();
-			((EditorScreen) guiScreen).getLibraryInfoPanel().setEntry(null);
+				editor.getLibraryPanel().initList();
+
+			editor.getLibraryInfoPanel().setEntry(null);
 		}
 	}
 

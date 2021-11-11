@@ -88,7 +88,7 @@ public class LibraryManager {
 		try (BufferedWriter bw = Files.newBufferedWriter(getLibraryFile())) {
 			Tails.GSON.toJson(entries, bw);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Tails.LOGGER.error("Exception writing library:", e);
 		}
 	}
 

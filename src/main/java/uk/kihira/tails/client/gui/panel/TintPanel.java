@@ -235,13 +235,13 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 				Mouse.setNativeCursor(cursor);
 			} catch (IOException e) {
-				e.printStackTrace();
+				Tails.LOGGER.error("Exception setting mouse cursor:", e);
 			}
 		else {
 			try {
                 Mouse.setNativeCursor(null);
             } catch (LWJGLException e) {
-                e.printStackTrace();
+				Tails.LOGGER.error("Exception resetting mouse cursor:", e);
             }
 		}*/
 	}

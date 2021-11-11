@@ -8,8 +8,6 @@
 
 package uk.kihira.tails.client;
 
-import java.util.regex.Pattern;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.FontRenderer;

@@ -19,7 +19,6 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartType;
 
 /**
  * A specialized {@link PartRenderer} for wings.

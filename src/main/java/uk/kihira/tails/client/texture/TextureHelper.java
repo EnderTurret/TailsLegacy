@@ -8,7 +8,6 @@
 
 package uk.kihira.tails.client.texture;
 
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.UUID;
 
@@ -28,7 +27,6 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
@@ -46,9 +44,8 @@ public class TextureHelper {
 				partsData = new PartsData();
 
 			// Load part data from skin.
-			for (PartType partType : PartType.values()) {
+			for (PartType partType : PartType.values())
 				partsData.setPartInfo(partType, PartInfo.none());
-			}
 
 			Tails.PROXY.addPartsData(uuid, partsData);
 

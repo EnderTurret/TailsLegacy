@@ -24,7 +24,6 @@ import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 
 public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryListEntry> {

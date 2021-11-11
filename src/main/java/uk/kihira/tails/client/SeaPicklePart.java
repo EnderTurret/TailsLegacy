@@ -2,7 +2,6 @@ package uk.kihira.tails.client;
 
 import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartType;
 
 public class SeaPicklePart extends Part {
 

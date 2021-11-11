@@ -26,13 +26,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.PartRenderRegistry;
-import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartRegistry;
-import uk.kihira.tails.common.part.PartType;
 
 /**
  * A renderer for a part. It also keeps track of some metadata.<br>

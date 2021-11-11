@@ -14,10 +14,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
-import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartRegistry;
 
 public class TexturePanel extends Panel<EditorScreen> {
 
@@ -59,9 +57,9 @@ public class TexturePanel extends Panel<EditorScreen> {
 
 		final Part part = partInfo.getPart();
 
-		final String texLangKey = (partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part.texture." + part.getTextureNames(partInfo.getSubType())[parent.getTextureId()]);
+		final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part.texture." + part.getTextureNames(partInfo.getSubType())[parent.getTextureId()];
 		final String texFormatted = I18n.format(texLangKey);
-		final String variantLangKey = (partInfo.isEmpty() ? "tails.variant.none" : part.getTranslationKey() + ".variant." + partInfo.getSubType());
+		final String variantLangKey = partInfo.isEmpty() ? "tails.variant.none" : part.getTranslationKey() + ".variant." + partInfo.getSubType();
 		final String variantFormatted = I18n.format(variantLangKey);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);

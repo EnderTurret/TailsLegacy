@@ -5,11 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.util.ResourceLocation;
 import uk.kihira.tails.client.gui.panel.PartsPanel;
-import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.Tails;
 
 public class Part {
@@ -21,10 +18,10 @@ public class Part {
 	protected final String[][] authors;
 
 	public Part(Builder builder) {
-		this.type = builder.type;
-		this.id = builder.id;
-		this.maxSubType = builder.maxSubType;
-		this.textureNames = builder.textureNames.toArray(new String[0]);
+		type = builder.type;
+		id = builder.id;
+		maxSubType = builder.maxSubType;
+		textureNames = builder.textureNames.toArray(new String[0]);
 		authors = builder.authors;
 	}
 

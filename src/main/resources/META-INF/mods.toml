@@ -1,11 +1,11 @@
 modLoader="javafml"
-loaderVersion="[35,)"
+loaderVersion="[36,)"
 license="MIT"
 issueTrackerURL="https://github.com/kihira/Tails/issues"
 [[mods]]
     modId="tails"
     displayName="Tails"
-	displayURL="https://github.com/kihira/Tails"
+    displayURL="https://github.com/kihira/Tails"
     description='''
     For all your taily needs.
     '''
@@ -15,7 +15,7 @@ issueTrackerURL="https://github.com/kihira/Tails/issues"
 [[dependencies.tails]]
     modId="forge"
     mandatory=true
-    versionRange="[35,)"
+    versionRange="[36,)"
     ordering="NONE"
     side="BOTH"
 

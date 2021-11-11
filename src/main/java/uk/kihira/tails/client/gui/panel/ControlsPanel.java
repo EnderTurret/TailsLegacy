@@ -11,7 +11,6 @@ package uk.kihira.tails.client.gui.panel;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import uk.kihira.tails.client.gui.EditorScreen;

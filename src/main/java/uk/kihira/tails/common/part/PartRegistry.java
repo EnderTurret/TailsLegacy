@@ -8,7 +8,10 @@
 
 package uk.kihira.tails.common.part;
 
-import static uk.kihira.tails.common.part.Part.Builder.*;
+import static uk.kihira.tails.common.part.Part.Builder.ears;
+import static uk.kihira.tails.common.part.Part.Builder.muzzle;
+import static uk.kihira.tails.common.part.Part.Builder.tail;
+import static uk.kihira.tails.common.part.Part.Builder.wings;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,25 +20,8 @@ import java.util.Map;
 import com.google.common.collect.ArrayListMultimap;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.SeaPicklePart;
-import uk.kihira.tails.client.model.MuzzleModel;
-import uk.kihira.tails.client.model.ears.CatEarsModel;
-import uk.kihira.tails.client.model.ears.FoxEarsModel;
-import uk.kihira.tails.client.model.ears.PandaEarsModel;
-import uk.kihira.tails.client.model.ears.SmallCatEarsModel;
-import uk.kihira.tails.client.model.tail.BirdTailModel;
-import uk.kihira.tails.client.model.tail.BunnyTailModel;
-import uk.kihira.tails.client.model.tail.CatTailModel;
-import uk.kihira.tails.client.model.tail.DevilTailModel;
-import uk.kihira.tails.client.model.tail.DragonTailModel;
-import uk.kihira.tails.client.model.tail.FluffyTailModel;
-import uk.kihira.tails.client.model.tail.RaccoonTailModel;
-import uk.kihira.tails.client.model.tail.SharkTailModel;
 import uk.kihira.tails.client.render.PartRenderer;
-import uk.kihira.tails.client.render.SeaPickleRenderer;
-import uk.kihira.tails.client.render.WingRenderer;
 
 public class PartRegistry {
 

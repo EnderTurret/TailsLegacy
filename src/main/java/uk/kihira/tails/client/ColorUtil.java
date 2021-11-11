@@ -94,6 +94,6 @@ public class ColorUtil {
 	 * @throws NumberFormatException
 	 */
 	public static int fromRGBAHex(String hex, boolean ignoreAlpha) throws NumberFormatException {
-		return fromJavaColor(Integer.valueOf(hex, 16), ignoreAlpha);
+		return fromJavaColor(Integer.parseInt(hex, 16), ignoreAlpha);
 	}
 }

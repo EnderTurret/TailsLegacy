@@ -9,12 +9,8 @@
 package uk.kihira.tails.client.gui.panel;
 
 import java.awt.Color;
-import java.nio.IntBuffer;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.google.common.base.Strings;
 import com.mojang.blaze3d.matrix.MatrixStack;

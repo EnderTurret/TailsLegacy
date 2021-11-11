@@ -10,7 +10,6 @@ package uk.kihira.tails.client.gui.panel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -21,7 +20,6 @@ import net.minecraft.client.gui.widget.list.ExtendedList;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
@@ -33,7 +31,6 @@ import uk.kihira.tails.client.gui.widget.IListCallback;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderStates;
-import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartRegistry;

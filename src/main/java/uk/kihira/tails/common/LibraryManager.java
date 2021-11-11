@@ -24,6 +24,8 @@ import uk.kihira.tails.common.network.LibraryEntriesMessage;
 
 public class LibraryManager {
 
+	private static final Path LIBRARY_PATH = Paths.get("tailslibrary.json");
+
 	public final List<LibraryEntryData> libraryEntries;
 
 	public LibraryManager() {
@@ -54,27 +56,28 @@ public class LibraryManager {
 	}
 
 	/**
-	 * Loads the library data from the file from {@link #getLibraryFile()}.
+	 * Loads the library data from the file from {@link #createLibraryFile()}.
 	 * @return A list of loaded library data.
 	 */
 	private List<LibraryEntryData> loadLibrary() {
 		final List<LibraryEntryData> libraryEntries = new ArrayList<>();
 
-		try (BufferedReader br = Files.newBufferedReader(getLibraryFile())) {
-			final List<LibraryEntryData> loadedEntries = Tails.GSON.fromJson(br, new TypeToken<List<LibraryEntryData>>() {}.getType());
-			if (loadedEntries != null && !loadedEntries.isEmpty())
-				for (LibraryEntryData libEntry : loadedEntries)
-					if (libEntry.partsData != null)
-						libraryEntries.add(libEntry);
-		} catch (IOException e) {
-			Tails.LOGGER.catching(e);
-		}
+		if (Files.exists(LIBRARY_PATH))
+			try (BufferedReader br = Files.newBufferedReader(createLibraryFile())) {
+				final List<LibraryEntryData> loadedEntries = Tails.GSON.fromJson(br, new TypeToken<List<LibraryEntryData>>() {}.getType());
+				if (loadedEntries != null && !loadedEntries.isEmpty())
+					for (LibraryEntryData libEntry : loadedEntries)
+						if (libEntry.partsData != null)
+							libraryEntries.add(libEntry);
+			} catch (IOException e) {
+				Tails.LOGGER.catching(e);
+			}
 
 		return libraryEntries;
 	}
 
 	/**
-	 * Writes the current library data to the file from {@link #getLibraryFile()}.<br>
+	 * Writes the current library data to the file from {@link #createLibraryFile()}.<br>
 	 * Remote entries are not written to the file.
 	 */
 	public void saveLibrary() {
@@ -85,7 +88,7 @@ public class LibraryManager {
 			if (!libraryListEntry.remoteEntry)
 				entries.add(libraryListEntry);
 
-		try (BufferedWriter bw = Files.newBufferedWriter(getLibraryFile())) {
+		try (BufferedWriter bw = Files.newBufferedWriter(createLibraryFile())) {
 			Tails.GSON.toJson(entries, bw);
 		} catch (IOException e) {
 			Tails.LOGGER.error("Exception writing library:", e);
@@ -97,16 +100,14 @@ public class LibraryManager {
 	 * By default, this is {@code tailslibrary.json} in the game directory.
 	 * @return The library file.
 	 */
-	protected Path getLibraryFile() {
-		final Path libraryFile = Paths.get(".", "tailslibrary.json");
-
-		if (!Files.exists(libraryFile))
+	protected Path createLibraryFile() {
+		if (!Files.exists(LIBRARY_PATH))
 			try {
-				Files.createFile(libraryFile);
+				Files.createFile(LIBRARY_PATH);
 			} catch (IOException e) {
 				Tails.LOGGER.error("Failed to create library file!", e);
 			}
 
-		return libraryFile;
+		return LIBRARY_PATH;
 	}
 }

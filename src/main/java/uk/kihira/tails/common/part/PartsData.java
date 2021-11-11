@@ -53,12 +53,12 @@ public class PartsData {
 
 	/**
 	 * Returns the part info for the given type.<br>
-	 * If one is not present, returns {@link PartInfo#none(PartType)}.
+	 * If one is not present, returns {@link PartInfo#none()}.
 	 * @param partType The part type.
 	 * @return The part info.
 	 */
 	public PartInfo getPartInfo(PartType partType) {
-		return partInfoMap.getOrDefault(partType, PartInfo.none(partType));
+		return partInfoMap.getOrDefault(partType, PartInfo.none());
 	}
 
 	/**
@@ -129,6 +129,7 @@ public class PartsData {
 					partInfoMap.add(entry.getKey().getId(), context.serialize(entry.getValue()));
 
 			ret.add("partInfoMap", partInfoMap);
+			ret.addProperty("version", src.version);
 
 			return ret;
 		}
@@ -144,13 +145,13 @@ public class PartsData {
 
 				for (Map.Entry<String,JsonElement> entry : partInfoMap.entrySet()) {
 					final PartType type = PartType.forId(version == 0 ? entry.getKey().toLowerCase(Locale.ROOT) : entry.getKey());
-					ret.setPartInfo(type, PartInfo.deserialize(entry.getValue().getAsJsonObject()));
+					ret.setPartInfo(type, context.deserialize(entry.getValue().getAsJsonObject(), PartInfo.class));
 				}
 			} else if (obj.has("partInfos"))
 				for (JsonElement elem : obj.get("partInfos").getAsJsonArray()) {
-					final PartInfo info = PartInfo.deserialize(elem.getAsJsonObject());
+					final PartInfo info = context.deserialize(elem.getAsJsonObject(), PartInfo.class);
 					if (!info.isEmpty())
-						ret.setPartInfo(info.getPartType(), info);
+						ret.setPartInfo(info.getPart().getType(), info);
 				}
 
 			return ret;

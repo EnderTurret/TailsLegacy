@@ -27,14 +27,16 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IListCallback;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.texture.TextureHelper;
+import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 
 public class PartsPanel extends Panel<EditorScreen> implements IListCallback<PartsPanel.PartEntry> {
@@ -93,12 +95,12 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	@Override
 	public boolean onEntrySelected(ListWidget guiList, int index, PartEntry entry) {
 		final PartInfo oldInfo = parent.getEditingPartInfo();
-		final int subType = oldInfo.getTypeId() == entry.partInfo.getTypeId() ? oldInfo.getSubType() : 0;
+		final int subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : 0;
 		// Reset texture ID.
 		parent.setTextureId(0);
 		// Need to keep tints from original part.
-		final PartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.deepCopy() : new PartInfo(entry.partInfo.getTypeId(), subType, entry.partInfo.getTextureId(),
-				oldInfo.getTints().clone(), entry.partInfo.getPartType(), null);
+		final PartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.deepCopy() : new PartInfo(entry.partInfo.getPartId(), subType, entry.partInfo.getTextureId(),
+				oldInfo.getTints().clone(), null);
 
 		// Breaks immutability, but it's probably fine, right?
 		if (entry.partInfo.isEmpty())
@@ -113,13 +115,13 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		// Part List
 		final List<PartEntry> partList = new ArrayList<>();
 		final PartType partType = parent.getPartType();
-		partList.add(new PartEntry(PartInfo.none(partType))); // No tail
+		partList.add(new PartEntry(PartInfo.none())); // No tail
 		// Generate tail preview textures and add to list.
-		final List<PartRenderer> parts = PartRegistry.getParts(partType);
+		final List<Part> parts = PartRegistry.getParts(partType);
 		for (int type = 0; type < parts.size(); type++) {
-				final PartInfo partInfo = parts.get(type).makeDefaultPartInfo(type, 0, partType);
-				partList.add(new PartEntry(partInfo));
-			}
+			final PartInfo partInfo = parts.get(type).makeDefaultPartInfo(0);
+			partList.add(new PartEntry(partInfo));
+		}
 
 		children.remove(this.partList);
 		this.partList = new ListWidget<>(this, 108, bottom - top - listTop, listTop, bottom - top, 55, partList);
@@ -132,7 +134,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		final PartInfo partInfo = parent.getEditingPartInfo();
 		for (PartEntry entry : partList.getEventListeners())
 			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
-					&& entry.partInfo.getTypeId() == partInfo.getTypeId()) {
+					&& entry.partInfo.getPart() == partInfo.getPart()) {
 				partList.setSelected(entry);
 				onEntrySelected(partList, partList.getEventListeners().indexOf(entry), entry);
 				break;
@@ -140,7 +142,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	}
 
 	private void renderPart(MatrixStack matrixStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTicks) {
-		final PartRenderer renderer = PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId());
+		final PartRenderer renderer = PartRenderRegistry.getRenderer(partInfo.getPart());
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 
 		if (partInfo.getTexture() == null) return;
@@ -174,13 +176,11 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(matrixStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTicks);
-				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId())
-						.getTranslationKey()), 5, x + 17, 0xFFFFFF);
+				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {
-					final PartRenderer renderPart = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
-					String author = renderPart.getAuthor(parent.getEditingPartInfo().getSubType(), parent.getTextureId());
-					if (author == null) author = renderPart.getModelAuthor();
+					final Part renderPart = partInfo.getPart();
+					final String author = renderPart.getAuthor(parent.getEditingPartInfo().getSubType(), parent.getTextureId());
 					if (author != null) {
 						// Yeah its not nice but eh, works.
 						matrixStack.push();

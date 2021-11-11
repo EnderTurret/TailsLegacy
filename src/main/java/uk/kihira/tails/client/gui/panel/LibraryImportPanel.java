@@ -37,13 +37,12 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void init() {
-
 		// Import Skin
 		final Button button = new ExtendedButton(3, 3, right - left - 6, 18, new TranslationTextComponent("tails.gui.library.import.skin"), b -> {
 			TextureHelper.buildPlayerPartsData(minecraft.player);
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, new TranslationTextComponent("tails.gui.library.import.toast.skin").mergeStyle(TextFormatting.GREEN));
 		});
-		button.active = TextureHelper.hasSkinData(minecraft.player);
+		button.active = false;//TextureHelper.hasSkinData(minecraft.player);
 		addButton(button);
 
 		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("tails.gui.library.import.string"), b -> {

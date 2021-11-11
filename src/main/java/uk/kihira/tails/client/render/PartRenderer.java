@@ -25,45 +25,27 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.api.IRenderHelper;
-import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.texture.TextureHelper;
+import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 
 /**
  * A renderer for a part. It also keeps track of some metadata.<br>
- * You can register one in {@link PartRegistry#register(PartRenderer)}.
+ * You can register one in {@link PartRegistry#register(Part)} and {@link PartRenderRegistry#register(Part, PartRenderer)}.
  */
 @OnlyIn(Dist.CLIENT)
 public class PartRenderer {
 
-	protected final PartType type;
-	protected final String name;
-	protected final String[] textureNames;
-	protected final int subTypes;
-	protected final String[][] authors;
-	protected final String modelAuthor;
 	@Nullable
 	public final PartModel modelPart;
 
-	public PartRenderer(PartType type, String name, int subTypes, @Nullable PartModel modelPart, @Nullable String modelAuthor, String... textureNames) {
-		this.type = type;
-		this.name = name;
-		this.subTypes = subTypes;
-		this.modelAuthor = modelAuthor;
+	public PartRenderer(@Nullable PartModel modelPart) {
 		this.modelPart = modelPart;
-		this.textureNames = textureNames;
-		authors = new String[subTypes + 1][textureNames.length];
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public PartType getType() {
-		return type;
 	}
 
 	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
@@ -199,91 +181,5 @@ public class PartRenderer {
 	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (modelPart != null)
 			modelPart.render(matrixStack, bufferIn, entity, packedLightIn, packedOverlayIn, red, green, blue, alpha, info.getSubType(), partialTicks);
-	}
-
-	/**
-	 * Returns the textures available for the given subtype.<br>
-	 * This can be overriden for more control over texture names for a particular subtype.
-	 * @param subid The part subtype.
-	 * @return The available textures.
-	 */
-	public String[] getTextureNames(int subid) {
-		return textureNames;
-	}
-
-	/**
-	 * Returns the maximum subtype id.
-	 * @return The subtype id.
-	 */
-	public int getAvailableSubTypes() {
-		return subTypes;
-	}
-
-	/**
-	 * @return The translation key.
-	 */
-	public String getTranslationKey() {
-		return "tails." + type.getId() + "." + name;
-	}
-
-	/**
-	 * Sets the author for the given texture for the given subtype.
-	 * @param author The author.
-	 * @param subType The subtype.
-	 * @param textureID The texture id.
-	 * @return {@code this}.
-	 */
-	public PartRenderer setAuthor(String author, int subType, int textureID) {
-		authors[subType][textureID] = author;
-
-		return this;
-	}
-
-	/**
-	 * Sets the author for all textures under the given subtype.
-	 * @param author The author.
-	 * @param subType The subtype.
-	 * @return {@code this}.
-	 */
-	public PartRenderer setAuthor(String author, int subType) {
-		for (int i = 0; i < getTextureNames(subType).length; i++)
-			setAuthor(author, subType, i);
-
-		return this;
-	}
-
-	/**
-	 * Sets the author for all textures under all subtypes.
-	 * @param author The author.
-	 * @return {@code this}.
-	 */
-	public PartRenderer setAuthor(String author) {
-		for (int i = 0; i <= subTypes; i++)
-			setAuthor(author, i);
-
-		return this;
-	}
-
-	public String getModelAuthor() {
-		return modelAuthor;
-	}
-
-	public String getAuthor(int subType, int textureID) {
-		return authors[subType][textureID];
-	}
-
-	public boolean hasAuthor(int subType, int textureID) {
-		return getAuthor(subType, textureID) != null;
-	}
-
-	/**
-	 * Returns a default {@link PartInfo} for the {@link PartsPanel} to display.
-	 * @param type The index in the {@link PartRegistry} of this part.
-	 * @param subType The sub type of this part.
-	 * @param partType The {@link PartType} of this part.
-	 * @return The default {@link PartInfo}.
-	 */
-	public PartInfo makeDefaultPartInfo(int type, int subType, PartType partType) {
-		return new PartInfo(type, subType, 0, 0xFFFF0000, 0xFF00FF00, 0xFF0000FF, partType, null);
 	}
 }

@@ -19,12 +19,12 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 import uk.kihira.tails.client.ClientUtils;
-import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 
 public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryListEntry> {
@@ -56,7 +56,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 		for (PartType type : PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
 				final PartInfo partInfo = data.partsData.getPartInfo(type);
-				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(PartRegistry.getPartRenderer(partInfo.getPartType(), partInfo.getTypeId()).getTranslationKey()),
+				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(partInfo.getPart().getTranslationKey()),
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
 					AbstractGui.fill(matrixStack,

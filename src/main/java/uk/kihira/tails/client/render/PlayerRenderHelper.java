@@ -23,17 +23,17 @@ import uk.kihira.tails.common.part.PartType;
 
 public class PlayerRenderHelper implements IRenderHelper<PlayerEntity> {
 
-	private final boolean mpmCompat;
+	//private final boolean mpmCompat;
 
 	public PlayerRenderHelper() {
-		mpmCompat = ModList.get().isLoaded("moreplayermodels");
+		//mpmCompat = ModList.get().isLoaded("moreplayermodels");
 	}
 
 	@Override
 	public void onPreRenderTail(MatrixStack matrixStack, PlayerEntity entity, PartRenderer tail, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		if (info.getPartType() == PartType.EARS || info.getPartType() == PartType.MUZZLE || info.getPartType() == PartType.WINGS) return;
-		if (mpmCompat && entity.isSneaking())
-			matrixStack.translate(0f, -0.1f, 0.4f);
+		if (info.getPart().getType() != PartType.TAIL) return;
+		//if (mpmCompat && entity.isSneaking())
+		//matrixStack.translate(0f, -0.1f, 0.4f);
 		if (tail.modelPart instanceof DragonTailModel) {
 			if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
 			else matrixStack.translate(0F, 0.68F, 0.1F);

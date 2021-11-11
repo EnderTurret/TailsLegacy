@@ -51,8 +51,8 @@ import uk.kihira.tails.common.part.PartType;
 
 public class SeaPickleRenderer extends PartRenderer {
 
-	public SeaPickleRenderer(PartType type, String name, int subTypes, PartModel modelPart, String modelAuthor, String... textureNames) {
-		super(type, name, subTypes, new Model(), modelAuthor, textureNames);
+	public SeaPickleRenderer() {
+		super(new Model());
 	}
 
 	@Override
@@ -67,12 +67,6 @@ public class SeaPickleRenderer extends PartRenderer {
 	@Override
 	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
 		info.setTexture(new ResourceLocation("tails", "texture/ears/sea_pickle.png"));
-	}
-
-	@Override
-	public PartInfo makeDefaultPartInfo(int type, int subType, PartType partType) {
-		// Red sea pickles are kind of weird, which is why we're overriding this to make all tints white.
-		return new PartInfo(type, subType, 0, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, partType, null);
 	}
 
 	public static class Model extends PartModel {

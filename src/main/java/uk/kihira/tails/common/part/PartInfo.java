@@ -9,6 +9,7 @@
 package uk.kihira.tails.common.part;
 
 import java.awt.Color;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Locale;
@@ -19,53 +20,52 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.common.Tails;
 
 /**
  * Stores a bunch of customization data for parts.
  */
 public class PartInfo implements Cloneable {
 
-	/**
-	 * A map of empty parts so we can reuse them instead of allocating 300,000 empty instances.
-	 */
-	private static final Map<PartType,PartInfo> EMPTY = new EnumMap<>(PartType.class);
+	private static final PartInfo EMPTY = new Empty();
 
 	@Expose
-	private final int typeid;
+	private final ResourceLocation partId;
 	@Expose
 	private final int subid;
 	@Expose
 	private final int[] tints;
 	@Expose
 	private final int textureID;
-	@Expose
-	private final PartType partType;
 
 	private transient ResourceLocation texture;
 	public transient boolean needsTextureCompile = true;
 
-	public PartInfo(int type, int subtype, int textureID, int[] tints, PartType partType, @Nullable ResourceLocation texture) {
-		typeid = type;
+	public PartInfo(ResourceLocation partId, int subtype, int textureID, int[] tints, @Nullable ResourceLocation texture) {
+		this.partId = partId;
 		subid = subtype;
 		this.textureID = textureID;
 		this.tints = tints;
-		this.partType = partType;
 		this.texture = texture;
 	}
 
-	public PartInfo(int type, int subtype, int textureID, int tint1, int tint2, int tint3, PartType partType, @Nullable ResourceLocation texture) {
-		this(type, subtype, textureID, new int[] {tint1, tint2, tint3}, partType, texture);
+	public PartInfo(ResourceLocation partId, int subtype, int textureID, int tint1, int tint2, int tint3, @Nullable ResourceLocation texture) {
+		this(partId, subtype, textureID, new int[] {tint1, tint2, tint3}, texture);
 	}
 
-	public static PartInfo none(PartType partType) {
-		return EMPTY.computeIfAbsent(partType, Empty::new);
+	public static PartInfo none() {
+		return EMPTY;
 	}
 
 	/**
@@ -76,13 +76,16 @@ public class PartInfo implements Cloneable {
 		return false;
 	}
 
+	public Part getPart() {
+		return PartRegistry.get(partId);
+	}
+
 	/**
-	 * Returns the type id, which is a unique identifier for the part.<br>
-	 * The type id is the index of the part in the {@link PartRegistry}.
-	 * @return The type id.
+	 * Returns the part id, which is a unique identifier for the part.
+	 * @return The part id.
 	 */
-	public int getTypeId() {
-		return typeid;
+	public ResourceLocation getPartId() {
+		return partId;
 	}
 
 	/**
@@ -112,13 +115,6 @@ public class PartInfo implements Cloneable {
 	 */
 	public int getTextureId() {
 		return textureID;
-	}
-
-	/**
-	 * @return The part type.
-	 */
-	public PartType getPartType() {
-		return partType;
 	}
 
 	/**
@@ -155,13 +151,13 @@ public class PartInfo implements Cloneable {
 
 		final PartInfo partInfo = (PartInfo) o;
 
-		return getTypeId() == partInfo.getTypeId() && getSubType() == partInfo.getSubType() && Arrays.equals(getTints(), partInfo.getTints())
-				&& getTextureId() == partInfo.getTextureId() && getPartType() == partInfo.getPartType();
+		return getPartId().equals(partInfo.getPartId()) && getSubType() == partInfo.getSubType() && Arrays.equals(getTints(), partInfo.getTints())
+				&& getTextureId() == partInfo.getTextureId();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(true, getTypeId(), getSubType(), getTints(), getTextureId(), getPartType());
+		return Objects.hash(true, getPartId(), getSubType(), getTints(), getTextureId());
 	}
 
 	@Override
@@ -169,49 +165,16 @@ public class PartInfo implements Cloneable {
 		final StringBuilder sb = new StringBuilder();
 
 		sb.append("PartInfo{");
-		sb.append(", typeId=").append(guessTypeFromId());
+		sb.append("partId=").append(getPartId());
 		sb.append(", subid=").append(getSubType());
 		sb.append(", tints=").append(Arrays.stream(getTints()).mapToObj(tint -> "0x" + Integer.toHexString(tint)).collect(Collectors.joining(", ", "[", "]")));
 		if (getTextureId() != 0)
 			sb.append(", textureID=").append(getTextureId());
-		sb.append(", partType=").append(getPartType().getId());
 		if (getTexture() != null)
 			sb.append(", texture=").append(getTexture());
 		sb.append("}");
 
 		return sb.toString();
-	}
-
-	/**
-	 * Attempts to guess the type, and returns a string containing the name.<br>
-	 * This is completely hard-coded, and returns only english names.<br>
-	 * This is intended for debugging and use in {@link #toString()} so that you don't have to guess what type it is from a vague {@code int}.
-	 * @return The guessed type.
-	 */
-	public String guessTypeFromId() {
-		if (getPartType() == PartType.TAIL) {
-			if (getTypeId() == 0) return "Fluffy";
-			if (getTypeId() == 1) return "Dragon";
-			if (getTypeId() == 2) return "Raccoon";
-			if (getTypeId() == 3) return "Devil";
-			if (getTypeId() == 4) return "Cat";
-			if (getTypeId() == 5) return "Bird";
-			if (getTypeId() == 6) return "Shark";
-			if (getTypeId() == 7) return "Bunny";
-		} else if (getPartType() == PartType.EARS) {
-			if (getTypeId() == 0) return "Fox";
-			if (getTypeId() == 1) return "Cat";
-			if (getTypeId() == 2) return "Panda";
-			if (getTypeId() == 3) return "Small Cat";
-		} else if (getPartType() == PartType.WINGS) {
-			if (getTypeId() == 0) return "Wings";
-		} else if (getPartType() == PartType.MUZZLE) {
-			if (getTypeId() == 0) return "Standard";
-			if (getTypeId() == 1) return "Slim";
-			if (getTypeId() == 2) return "Thin";
-		}
-
-		return "Unknown (" + getTypeId() + ")";
 	}
 
 	/**
@@ -223,33 +186,12 @@ public class PartInfo implements Cloneable {
 		for (int i = 0; i < tints.length; i++)
 			tints[i] = getTints()[i];
 
-		return new PartInfo(getTypeId(), getSubType(), getTextureId(), tints, getPartType(), getTexture());
+		return new PartInfo(getPartId(), getSubType(), getTextureId(), tints, getTexture());
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	public PartInfo clone() {
 		return deepCopy();
-	}
-
-	/**
-	 * Deserializes this {@link PartInfo} from a {@link JsonObject}.
-	 * @param obj The object to deserialize.
-	 * @return The deserialized {@link PartInfo}.
-	 * @throws JsonParseException
-	 */
-	public static PartInfo deserialize(JsonObject obj) throws JsonParseException {
-		final PartType type = PartType.forId(obj.get("partType").getAsString().toLowerCase(Locale.ROOT));
-
-		if (obj.has("hasPart") && !obj.get("hasPart").getAsBoolean())
-			return none(type);
-
-		final JsonArray tints = obj.get("tints").getAsJsonArray();
-
-		return new PartInfo(obj.get("typeid").getAsInt(),
-				obj.get("subid").getAsInt(),
-				obj.get("textureID").getAsInt(),
-				tints.get(0).getAsInt(), tints.get(1).getAsInt(), tints.get(2).getAsInt(),
-				type, null);
 	}
 
 	/**
@@ -258,8 +200,13 @@ public class PartInfo implements Cloneable {
 	 */
 	private static class Empty extends PartInfo {
 
-		private Empty(PartType partType) {
-			super(0, 0, 0, new int[] {0xFFFF0000, 0xFF00FF00, 0xFF0000FF}, partType, null);
+		private Empty() {
+			super(new ResourceLocation(Tails.MOD_ID, "empty"), 0, 0, new int[] {0xFFFF0000, 0xFF00FF00, 0xFF0000FF}, null);
+		}
+
+		@Override
+		public Part getPart() {
+			return null;
 		}
 
 		@Override
@@ -272,12 +219,63 @@ public class PartInfo implements Cloneable {
 
 		@Override
 		public String toString() {
-			return "PartInfo.EMPTY{" + getPartType().getId() + "}";
+			return "PartInfo.EMPTY";
 		}
 
 		@Override
 		public boolean isEmpty() {
 			return true;
+		}
+	}
+
+	public static class Serializer implements JsonSerializer<PartInfo>, JsonDeserializer<PartInfo> {
+
+		@Override
+		public PartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+			final JsonObject obj = json.getAsJsonObject();
+
+			if (obj.has("hasPart") && !obj.get("hasPart").getAsBoolean())
+				return none();
+
+			final Part part;
+
+			if (obj.has("partType")) {
+				final PartType type = PartType.forId(obj.get("partType").getAsString().toLowerCase(Locale.ROOT));
+				final int id = obj.get("typeid").getAsInt();
+				part = PartRegistry.byNumericId(type, id);
+			} else {
+				final String id = obj.get("id").getAsString();
+				if ("tails:empty".equals(id)) return none();
+				part = PartRegistry.get(new ResourceLocation(id));
+			}
+
+			final JsonArray tints = obj.get("tints").getAsJsonArray();
+
+			return new PartInfo(part.getId(),
+					obj.get("subid").getAsInt(),
+					obj.get("textureID").getAsInt(),
+					tints.get(0).getAsInt(), tints.get(1).getAsInt(), tints.get(2).getAsInt(),
+					null);
+		}
+
+		@Override
+		public JsonElement serialize(PartInfo src, Type typeOfSrc, JsonSerializationContext context) {
+			final JsonObject obj = new JsonObject();
+
+			obj.addProperty("id", src.getPartId().toString());
+
+			if (!src.isEmpty()) {
+				obj.addProperty("subid", src.getSubType());
+				obj.addProperty("textureID", src.getTextureId());
+
+				final JsonArray tints = new JsonArray();
+				tints.add(src.getTints()[0]);
+				tints.add(src.getTints()[1]);
+				tints.add(src.getTints()[2]);
+				obj.add("tints", tints);
+			}
+
+			return obj;
 		}
 	}
 }

@@ -21,6 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import uk.kihira.tails.client.ClientEventHandler;
 import uk.kihira.tails.client.FakeEntity;
+import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.ModelRendererWrapper;
 import uk.kihira.tails.client.render.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
@@ -31,6 +32,7 @@ import uk.kihira.tails.client.render.RenderingHandler;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
+import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
@@ -54,6 +56,10 @@ public class ClientProxy extends CommonProxy {
 
 		if (ModList.get().isLoaded("botania"))
 			MinecraftForge.EVENT_BUS.register(new FoxtatoRenderer());
+
+		// Class-load PartRegistry and PartRenderRegistry.
+		PartRegistry.FLUFFY_TAIL.getId();
+		PartRenderRegistry.getRenderer(PartRegistry.FLUFFY_TAIL);
 	}
 
 	@Override

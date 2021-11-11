@@ -60,7 +60,7 @@ public class EditorScreen extends LayeredScreen {
 		partType = PartType.TAIL;
 		for (PartType partType : PartType.values())
 			if (!Tails.localPartsData.hasPartInfo(partType))
-				Tails.localPartsData.setPartInfo(partType, PartInfo.none(partType));
+				Tails.localPartsData.setPartInfo(partType, PartInfo.none());
 
 		final PartInfo partInfo = Tails.localPartsData.getPartInfo(partType);
 		playerUUID = PlayerEntity.getUUID(Minecraft.getInstance().getSession().getProfile());
@@ -147,7 +147,7 @@ public class EditorScreen extends LayeredScreen {
 
 		PartInfo newPartInfo = partsData.getPartInfo(partType);
 		if (newPartInfo == null)
-			newPartInfo = PartInfo.none(partType);
+			newPartInfo = PartInfo.none();
 		originalPartInfo = newPartInfo.deepCopy();
 		final PartInfo partInfo = originalPartInfo.deepCopy();
 

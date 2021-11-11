@@ -16,9 +16,10 @@ import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.render.RenderingHandler;
 import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 
 @OnlyIn(Dist.CLIENT)
@@ -47,7 +48,7 @@ public class ModelRendererWrapper extends ModelRenderer {
 				else if (partType == PartType.TAIL)
 					model.bipedBody.translateRotate(matrixStackIn);
 
-				PartRegistry.getPartRenderer(info.getPartType(), info.getTypeId()).render(matrixStackIn, RenderingHandler.currentEvent.getPlayer(),
+				PartRenderRegistry.getRenderer(info.getPart()).render(matrixStackIn, RenderingHandler.currentEvent.getPlayer(),
 						info, Minecraft.getInstance().getRenderTypeBuffers().getBufferSource(), 0, 0, 0, RenderingHandler.currentEvent.getPartialRenderTick(), packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 				matrixStackIn.pop();

@@ -16,16 +16,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.client.PartRegistry;
+import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 import vazkii.botania.api.item.TinyPotatoRenderEvent;
 
 public class FoxtatoRenderer {
 
 	private FoxtatoFakeEntity fakeEntity;
-	private final PartInfo tailPartInfo = new PartInfo(0, 0, 0, new int[]{-5480951, -6594259, -5197647}, PartType.TAIL, null);
-	private final PartInfo earPartInfo = new PartInfo(0, 0, 0, new int[]{-5480951, 0xFF000000, -5197647}, PartType.EARS, null);
+	private final PartInfo tailPartInfo = new PartInfo(PartRegistry.FLUFFY_TAIL.getId(), 0, 0, new int[]{-5480951, -6594259, -5197647}, null);
+	private final PartInfo earPartInfo = new PartInfo(PartRegistry.FOX_EARS.getId(), 0, 0, new int[]{-5480951, 0xFF000000, -5197647}, null);
 
 	@SubscribeEvent
 	public void onWorldUnload(WorldEvent.Unload e) {
@@ -40,8 +41,8 @@ public class FoxtatoRenderer {
 		if (e.name.getString().equalsIgnoreCase("foxtato")) {
 			if (fakeEntity == null) fakeEntity = new FoxtatoFakeEntity(Minecraft.getInstance().world);
 
-			final PartRenderer foxTailRenderer = PartRegistry.getPartRenderer(PartType.TAIL, 0);
-			final PartRenderer foxEarRenderer = PartRegistry.getPartRenderer(PartType.EARS, 0);
+			final PartRenderer foxTailRenderer = PartRenderRegistry.getRenderer(PartRegistry.FLUFFY_TAIL);
+			final PartRenderer foxEarRenderer = PartRenderRegistry.getRenderer(PartRegistry.FOX_EARS);
 
 			e.ms.push();
 

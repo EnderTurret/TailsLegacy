@@ -13,10 +13,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
-import uk.kihira.tails.client.PartRegistry;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.render.PartRenderer;
+import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartRegistry;
 
 public class TexturePanel extends Panel<EditorScreen> {
 
@@ -56,11 +57,11 @@ public class TexturePanel extends Panel<EditorScreen> {
 		// Texture select
 		drawCenteredString(matrixStack, font, I18n.format("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
 
-		final PartRenderer renderer = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
+		final Part part = partInfo.getPart();
 
-		final String texLangKey = (partInfo.isEmpty() ? "tails.texture.none" : "tails." + parent.getPartType().getId() + ".texture." + renderer.getTextureNames(partInfo.getSubType())[parent.getTextureId()]);
+		final String texLangKey = (partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part.texture." + part.getTextureNames(partInfo.getSubType())[parent.getTextureId()]);
 		final String texFormatted = I18n.format(texLangKey);
-		final String variantLangKey = (partInfo.isEmpty() ? "tails.variant.none" : renderer.getTranslationKey() + ".variant." + partInfo.getSubType());
+		final String variantLangKey = (partInfo.isEmpty() ? "tails.variant.none" : part.getTranslationKey() + ".variant." + partInfo.getSubType());
 		final String variantFormatted = I18n.format(variantLangKey);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -80,55 +81,55 @@ public class TexturePanel extends Panel<EditorScreen> {
 
 	private void cycleTexLeft() {
 		final PartInfo originalPartInfo = parent.getEditingPartInfo();
-		final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.getTypeId());
+		final Part part = originalPartInfo.getPart();
 		if (parent.getTextureId() > 0)
 			parent.setTextureId(parent.getTextureId() - 1);
 		else
 			parent.setTextureId(part.getTextureNames(originalPartInfo.getSubType()).length - 1);
-		final PartInfo partInfo = new PartInfo(originalPartInfo.getTypeId(), originalPartInfo.getSubType(), parent.getTextureId(),
-				originalPartInfo.getTints(), originalPartInfo.getPartType(), null);
+		final PartInfo partInfo = new PartInfo(part.getId(), originalPartInfo.getSubType(), parent.getTextureId(),
+				originalPartInfo.getTints(), null);
 		parent.setPartsInfo(partInfo);
 	}
 
 	private void cycleTexRight() {
 		final PartInfo originalPartInfo = parent.getEditingPartInfo();
-		final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), originalPartInfo.getTypeId());
+		final Part part = originalPartInfo.getPart();
 		if (part.getTextureNames(originalPartInfo.getSubType()).length > parent.getTextureId() + 1)
 			parent.setTextureId(parent.getTextureId() + 1);
 		else
 			parent.setTextureId(0);
-		final PartInfo partInfo = new PartInfo(originalPartInfo.getTypeId(), originalPartInfo.getSubType(), parent.getTextureId(),
-				originalPartInfo.getTints(), originalPartInfo.getPartType(), null);
+		final PartInfo partInfo = new PartInfo(part.getId(), originalPartInfo.getSubType(), parent.getTextureId(),
+				originalPartInfo.getTints(), null);
 		parent.setPartsInfo(partInfo);
 	}
 
 	private void cycleVariantLeft() {
 		PartInfo partInfo = parent.getEditingPartInfo();
-		final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
+		final Part part = partInfo.getPart();
 		final int newType;
 		if (partInfo.getSubType() > 0)
 			newType = partInfo.getSubType() - 1;
 		else
 			newType = part.getAvailableSubTypes();
-		partInfo = new PartInfo(partInfo.getTypeId(), newType, partInfo.getTextureId(), partInfo.getTints(), partInfo.getPartType(), null);
+		partInfo = new PartInfo(part.getId(), newType, partInfo.getTextureId(), partInfo.getTints(), null);
 		parent.setPartsInfo(partInfo);
 	}
 
 	private void cycleVariantRight() {
 		PartInfo partInfo = parent.getEditingPartInfo();
-		final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
+		final Part part = partInfo.getPart();
 		final int newType;
 		if (partInfo.getSubType() < part.getAvailableSubTypes())
 			newType = partInfo.getSubType() + 1;
 		else
 			newType = 0;
-		partInfo = new PartInfo(partInfo.getTypeId(), newType, partInfo.getTextureId(), partInfo.getTints(), partInfo.getPartType(), null);
+		partInfo = new PartInfo(part.getId(), newType, partInfo.getTextureId(), partInfo.getTints(), null);
 		parent.setPartsInfo(partInfo);
 	}
 
 	public void updateButtons() {
 		final PartInfo partInfo = parent.getEditingPartInfo();
-		final PartRenderer part = PartRegistry.getPartRenderer(parent.getPartType(), partInfo.getTypeId());
+		final Part part = partInfo.getPart();
 
 		if (leftBtn != null && rightBtn != null)
 			leftBtn.active = rightBtn.active = !partInfo.isEmpty() && part.getTextureNames(partInfo.getSubType()).length > 1;

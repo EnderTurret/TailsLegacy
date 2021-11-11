@@ -15,16 +15,19 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.util.math.vector.Vector3f;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.FakeEntity;
+import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartRegistry;
 
 public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 
 	@Override
 	public void onPreRenderTail(MatrixStack matrixStack, FakeEntity entity, PartRenderer tail, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		switch (info.getPartType()) {
+		final Part part = info.getPart();
+		switch (part.getType()) {
 		case TAIL: {
 			// Nine tails
-			if (info.getTypeId() == 0 && info.getSubType() == 2)
+			if (part == PartRegistry.FLUFFY_TAIL && info.getSubType() == 2)
 				matrixStack.translate(0F, 0.85F, 0F);
 			else matrixStack.translate(0F, 0.65F, 0F);
 			matrixStack.scale(0.9F, 0.9F, 0.9F);

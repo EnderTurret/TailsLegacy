@@ -26,8 +26,8 @@ import uk.kihira.tails.common.part.PartType;
  */
 public class WingRenderer extends PartRenderer {
 
-	public WingRenderer(PartType type, String name, int subTypes, String modelAuthor, PartModel modelPart, String... textureNames) {
-		super(type, name, subTypes, modelPart, modelAuthor, textureNames);
+	public WingRenderer() {
+		super(null);
 	}
 
 	@Override

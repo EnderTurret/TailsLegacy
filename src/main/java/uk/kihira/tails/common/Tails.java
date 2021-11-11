@@ -64,6 +64,7 @@ public class Tails {
 	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
 			.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
+			.registerTypeAdapter(PartInfo.class, new PartInfo.Serializer())
 			.create();
 
 	public static boolean libraryEnabled;
@@ -109,7 +110,7 @@ public class Tails {
 				localPartsData = new PartsData();
 
 				for (PartType partType : PartType.values())
-					localPartsData.setPartInfo(partType, PartInfo.none(partType));
+					localPartsData.setPartInfo(partType, PartInfo.none());
 
 				setLocalPartsData(localPartsData, instance);
 

@@ -44,6 +44,7 @@ public class MuzzleModel extends PartModel {
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		matrixStackIn.push();
+		matrixStackIn.translate(0, -0.001F, 0);
 		switch (subtype) {
 		case 0: // Very Short
 			matrixStackIn.translate(0f, 0f, 4f / 16f);

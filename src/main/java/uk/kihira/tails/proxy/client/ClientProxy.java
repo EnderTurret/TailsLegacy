@@ -15,11 +15,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import uk.kihira.tails.client.ClientEventHandler;
+import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.ModelRendererWrapper;
@@ -49,7 +51,7 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		registerMessages();
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-		libraryManager = new LibraryManager.ClientLibraryManager();
+		libraryManager = new ClientLibraryManager();
 
 		RenderHelperManager.registerRenderHelper(PlayerEntity.class, new PlayerRenderHelper());
 		RenderHelperManager.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
@@ -113,5 +115,10 @@ public class ClientProxy extends CommonProxy {
 				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.EARS));
 				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.MUZZLE));
 			}
+	}
+
+	@Override
+	public void deleteTexture(ResourceLocation tex) {
+		Minecraft.getInstance().getTextureManager().deleteTexture(tex);
 	}
 }

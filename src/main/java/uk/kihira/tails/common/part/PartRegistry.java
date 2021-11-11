@@ -20,8 +20,6 @@ import java.util.Map;
 import com.google.common.collect.ArrayListMultimap;
 
 import net.minecraft.util.ResourceLocation;
-import uk.kihira.tails.client.SeaPicklePart;
-import uk.kihira.tails.client.render.PartRenderer;
 
 public class PartRegistry {
 
@@ -96,7 +94,7 @@ public class PartRegistry {
 	}
 
 	/**
-	 * Returns a list of {@link PartRenderer PartRenderers} under the given type.
+	 * Returns a list of {@link Part Parts} under the given type.
 	 * @param partType The desired type of the renderers.
 	 * @return The list.
 	 */

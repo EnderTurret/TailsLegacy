@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
@@ -142,4 +143,6 @@ public class CommonProxy {
 	public LibraryManager getLibraryManager() {
 		return libraryManager;
 	}
+
+	public void deleteTexture(ResourceLocation tex) {}
 }

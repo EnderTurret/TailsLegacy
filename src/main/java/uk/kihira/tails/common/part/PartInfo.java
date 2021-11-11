@@ -27,7 +27,6 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import uk.kihira.tails.common.Tails;
 
@@ -133,7 +132,7 @@ public class PartInfo implements Cloneable {
 	public void setTexture(@Nullable ResourceLocation texture) {
 		if (texture == null || this.texture != null && !this.texture.equals(texture)) {
 			try {
-				Minecraft.getInstance().getTextureManager().deleteTexture(this.texture);
+				Tails.PROXY.deleteTexture(this.texture);
 			} catch (Exception ignored) {}
 
 			needsTextureCompile = true;

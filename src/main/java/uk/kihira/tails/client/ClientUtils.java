@@ -8,9 +8,13 @@
 
 package uk.kihira.tails.client;
 
+import java.util.UUID;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class ClientUtils {
 
@@ -34,5 +38,12 @@ public class ClientUtils {
 	public static void drawCenteredString(MatrixStack matrixStack, FontRenderer fontRenderer, String string, int x, int y, int color) {
 		final int width = fontRenderer.getStringWidth(string);
 		fontRenderer.drawString(matrixStack, string, x - width / 2, y, color);
+	}
+
+	public static UUID getPlayerUUID() {
+		final Minecraft mc = Minecraft.getInstance();
+		if (mc.player != null && mc.player.getUniqueID() != null)
+			return mc.player.getUniqueID();
+		return PlayerEntity.getUUID(mc.getSession().getProfile());
 	}
 }

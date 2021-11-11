@@ -13,6 +13,7 @@ import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
+import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.ControlsPanel;
 import uk.kihira.tails.client.gui.panel.LibraryImportPanel;
 import uk.kihira.tails.client.gui.panel.LibraryInfoPanel;
@@ -63,7 +64,7 @@ public class EditorScreen extends LayeredScreen {
 				Tails.localPartsData.setPartInfo(partType, PartInfo.none());
 
 		final PartInfo partInfo = Tails.localPartsData.getPartInfo(partType);
-		playerUUID = PlayerEntity.getUUID(Minecraft.getInstance().getSession().getProfile());
+		playerUUID = ClientUtils.getPlayerUUID();
 
 		originalPartInfo = partInfo.deepCopy();
 		setPartsData(Tails.localPartsData.deepCopy());
@@ -123,8 +124,8 @@ public class EditorScreen extends LayeredScreen {
 		if (!editingPartInfo.isEmpty())
 			editingPartInfo.setTexture(TextureHelper.generateTexture(playerUUID, editingPartInfo));
 
-		partsData.setPartInfo(partType, editingPartInfo);
-		setPartsData(partsData);
+		getPartsData().setPartInfo(partType, editingPartInfo);
+		//setPartsData(getPartsData());
 
 		texturePanel.updateButtons();
 	}
@@ -145,7 +146,7 @@ public class EditorScreen extends LayeredScreen {
 	public void setPartType(PartType partType) {
 		this.partType = partType;
 
-		PartInfo newPartInfo = partsData.getPartInfo(partType);
+		PartInfo newPartInfo = getPartsData().getPartInfo(partType);
 		if (newPartInfo == null)
 			newPartInfo = PartInfo.none();
 		originalPartInfo = newPartInfo.deepCopy();

@@ -48,7 +48,7 @@ public class ClientEventHandler {
 	public void onConnectToServer(PlayerEvent.PlayerLoggedInEvent event) {
 		// Add local player texture to map.
 		if (Tails.localPartsData != null)
-			Tails.PROXY.addPartsData(Minecraft.getInstance().getSession().getProfile().getId(), Tails.localPartsData);
+			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), Tails.localPartsData);
 	}
 
 	@SubscribeEvent
@@ -76,7 +76,7 @@ public class ClientEventHandler {
 			}
 			// World can't be null if we want to send a packet it seems.
 			else if (!sentPartInfoToServer && Minecraft.getInstance().world != null) {
-				Tails.CHANNEL.sendToServer(new PlayerDataMessage(Minecraft.getInstance().getSession().getProfile().getId(), Tails.localPartsData));
+				Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), Tails.localPartsData));
 				sentPartInfoToServer = true;
 			}
 	}

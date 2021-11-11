@@ -13,6 +13,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.Tails;
@@ -49,6 +50,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 
 			if (!libraryMode)
 				Tails.setLocalPartsData(parent.getPartsData(), null);
+
 			parent.setPartsData(Tails.localPartsData);
 
 			b.setMessage(libraryMode ? new TranslationTextComponent("tails.gui.button.mode.editor") : new TranslationTextComponent("tails.gui.button.mode.library"));
@@ -66,10 +68,13 @@ public class ControlsPanel extends Panel<EditorScreen> {
 		addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslationTextComponent("tails.gui.done"), b -> {
 			// Update part info, set local and send it to the server.
 			final PartsData partsData = parent.getPartsData();
+
 			Tails.setLocalPartsData(partsData, null);
 			Tails.PROXY.addPartsData(minecraft.player.getUniqueID(), partsData);
-			Tails.CHANNEL.sendToServer(new PlayerDataMessage(minecraft.getSession().getProfile().getId(), partsData));
+			Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), partsData));
+
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new TranslationTextComponent("tails.gui.saved").mergeStyle(TextFormatting.GREEN));
+
 			minecraft.displayGuiScreen(null);
 		}));
 	}

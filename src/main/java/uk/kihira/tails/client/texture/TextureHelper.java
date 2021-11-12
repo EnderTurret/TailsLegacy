@@ -8,28 +8,16 @@
 
 package uk.kihira.tails.client.texture;
 
-import java.awt.image.BufferedImage;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.util.UUIDTypeAdapter;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.texture.Texture;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import uk.kihira.tails.client.ClientUtils;
-import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 
 @OnlyIn(Dist.CLIENT)
 public class TextureHelper {

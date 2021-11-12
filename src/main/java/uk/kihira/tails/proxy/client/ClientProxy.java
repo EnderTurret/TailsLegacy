@@ -31,7 +31,6 @@ import uk.kihira.tails.client.render.PartLayer;
 import uk.kihira.tails.client.render.PlayerRenderHelper;
 import uk.kihira.tails.client.render.RenderHelperManager;
 import uk.kihira.tails.client.render.RenderingHandler;
-import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
 import uk.kihira.tails.common.part.PartRegistry;

@@ -11,7 +11,6 @@ package uk.kihira.tails.client.gui;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.ControlsPanel;

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.player.PlayerEntity;
@@ -101,7 +102,7 @@ public class ClientProxy extends CommonProxy {
 			MinecraftForge.EVENT_BUS.register(new RenderingHandler());
 
 			for (PlayerRenderer renderer : skinMap.values()) {
-				final PlayerModel model = renderer.getEntityModel();
+				final PlayerModel<AbstractClientPlayerEntity> model = renderer.getEntityModel();
 				model.bipedBody.addChild(new ModelRendererWrapper(model, PartType.TAIL));
 				model.bipedBody.addChild(new ModelRendererWrapper(model, PartType.WINGS));
 				model.bipedHead.addChild(new ModelRendererWrapper(model, PartType.EARS));

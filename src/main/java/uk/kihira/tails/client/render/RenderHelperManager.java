@@ -24,12 +24,12 @@ import uk.kihira.tails.api.IRenderHelper;
  */
 public class RenderHelperManager {
 
-	private static final Map<Class<? extends LivingEntity>, List<IRenderHelper>> RENDER_HELPERS = new HashMap<>();
+	private static final Map<Class<? extends LivingEntity>, List<IRenderHelper<?>>> RENDER_HELPERS = new HashMap<>();
 
 	private static boolean dirty = false;
-	private static final Map<Class<? extends LivingEntity>, List<IRenderHelper>> RENDER_HELPER_CACHE = new HashMap<>();
+	private static final Map<Class<? extends LivingEntity>, List<IRenderHelper<?>>> RENDER_HELPER_CACHE = new HashMap<>();
 
-	public static void registerRenderHelper(Class<? extends LivingEntity> clazz, IRenderHelper helper) {
+	public static <T extends LivingEntity> void registerRenderHelper(Class<T> clazz, IRenderHelper<T> helper) {
 		if (helper != null && clazz != null) {
 			RENDER_HELPERS.computeIfAbsent(clazz, k -> new ArrayList<>(1)).add(helper);
 			dirty = true;
@@ -37,7 +37,7 @@ public class RenderHelperManager {
 			throw new IllegalArgumentException("Attempted to register an invalid IRenderHelper (" + helper + ") for class " + (clazz == null ? "null" : clazz.getName()) + "!");
 	}
 
-	public static <T extends LivingEntity> List<IRenderHelper> getRenderHelpers(Class<T> clazz) {
+	public static <T extends LivingEntity> List<IRenderHelper<?>> getRenderHelpers(Class<T> clazz) {
 		if (dirty) {
 			RENDER_HELPER_CACHE.clear();
 			dirty = false;
@@ -46,8 +46,8 @@ public class RenderHelperManager {
 		return RENDER_HELPER_CACHE.computeIfAbsent(clazz, RenderHelperManager::buildCache);
 	}
 
-	private static List<IRenderHelper> buildCache(Class<? extends LivingEntity> clazz) {
-		final List<IRenderHelper> helpers = new ArrayList<>();
+	private static List<IRenderHelper<?>> buildCache(Class<? extends LivingEntity> clazz) {
+		final List<IRenderHelper<?>> helpers = new ArrayList<>();
 
 		Class<?> parent = clazz;
 

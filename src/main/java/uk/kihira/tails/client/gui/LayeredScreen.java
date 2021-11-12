@@ -26,7 +26,7 @@ public abstract class LayeredScreen extends BaseScreen {
 	//private static final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
 
 	// 0 is bottom layer.
-	private final List<List<Panel>> layers = new ArrayList<>();
+	private final List<List<Panel<?>>> layers = new ArrayList<>();
 
 	public LayeredScreen(int layerCount, ITextComponent title) {
 		super(title);
@@ -34,22 +34,22 @@ public abstract class LayeredScreen extends BaseScreen {
 			layers.add(new ArrayList<>());
 	}
 
-	public List<Panel> getLayer(int layer) {
+	public List<Panel<?>> getLayer(int layer) {
 		return layers.get(layer);
 	}
 
 	@Override
 	protected void init() {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				panel.init(minecraft, panel.width, panel.height);
 	}
 
 	@Override
 	public void resize(Minecraft mc, int width, int height) {
 		super.resize(mc, width, height);
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				panel.resize(mc, panel.width, panel.height);
 	}
 
@@ -57,8 +57,8 @@ public abstract class LayeredScreen extends BaseScreen {
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		//int color = 0;
 
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (panel.enabled) {
 					matrixStack.push();
 					matrixStack.translate(panel.left, panel.top, 0);
@@ -89,8 +89,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (panel.enabled) {
 					matrixStack.push();
 					matrixStack.translate(panel.left, panel.top, 0);
@@ -105,8 +105,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseClicked(mouseX - panel.left, mouseY - panel.top, button))
 					return true;
 
@@ -115,8 +115,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseReleased(mouseX - panel.left, mouseY - panel.top, button))
 					return true;
 
@@ -125,8 +125,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseDragged(mouseX - panel.left, mouseY - panel.top, button, dragX, dragY))
 					return true;
 
@@ -135,8 +135,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public void mouseMoved(double mouseX, double mouseY) {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY))
 					panel.mouseMoved(mouseX - panel.left, mouseY - panel.top);
 
@@ -145,8 +145,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseScrolled(mouseX - panel.left, mouseY - panel.top, delta))
 					return true;
 
@@ -155,8 +155,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (panel.enabled && panel.keyPressed(keyCode, scanCode, modifiers))
 					return true;
 
@@ -165,8 +165,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (panel.enabled && panel.keyReleased(keyCode, scanCode, modifiers))
 					return true;
 
@@ -175,8 +175,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean charTyped(char codePoint, int modifiers) {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				if (panel.enabled && panel.charTyped(codePoint, modifiers))
 					return true;
 
@@ -185,14 +185,14 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public void onClose() {
-		for (List<Panel> layer : layers)
-			for (Panel panel : layer)
+		for (List<Panel<?>> layer : layers)
+			for (Panel<?> panel : layer)
 				panel.onClose();
 
 		super.onClose();
 	}
 
-	private static boolean shouldRecieveMouse(Panel panel, double mouseX, double mouseY) {
+	private static boolean shouldRecieveMouse(Panel<?> panel, double mouseX, double mouseY) {
 		return panel.enabled && (mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom || panel.alwaysReceiveMouse);
 	}
 }

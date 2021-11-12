@@ -80,7 +80,7 @@ public class PartRenderer {
 		}
 
 		// Support for Galacticraft as it adds its own EntityPlayer.
-		final List<IRenderHelper> helpers = entity instanceof PlayerEntity ? RenderHelperManager.getRenderHelpers(PlayerEntity.class) : RenderHelperManager.getRenderHelpers(entity.getClass());
+		final List<IRenderHelper<?>> helpers = entity instanceof PlayerEntity ? RenderHelperManager.getRenderHelpers(PlayerEntity.class) : RenderHelperManager.getRenderHelpers(entity.getClass());
 
 		for (IRenderHelper helper : helpers)
 			helper.onPreRenderTail(matrixStack, entity, this, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);

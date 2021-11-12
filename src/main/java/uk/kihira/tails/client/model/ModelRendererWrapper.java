@@ -14,6 +14,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.PartRenderRegistry;
@@ -25,9 +26,9 @@ import uk.kihira.tails.common.part.PartType;
 public class ModelRendererWrapper extends ModelRenderer {
 
 	private final PartType partType;
-	private final PlayerModel model;
+	private final PlayerModel<? extends PlayerEntity> model;
 
-	public ModelRendererWrapper(PlayerModel model, PartType partType) {
+	public ModelRendererWrapper(PlayerModel<? extends PlayerEntity> model, PartType partType) {
 		super(model);
 		this.partType = partType;
 		this.model = model;

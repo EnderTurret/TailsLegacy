@@ -90,7 +90,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	}
 
 	@Override
-	public boolean onEntrySelected(ListWidget guiList, int index, PartEntry entry) {
+	public boolean onEntrySelected(ListWidget<PartEntry> guiList, int index, PartEntry entry) {
 		final PartInfo oldInfo = parent.getEditingPartInfo();
 		final int subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : 0;
 		// Reset texture ID.

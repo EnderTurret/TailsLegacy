@@ -95,7 +95,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 	}
 
 	@Override
-	public boolean onEntrySelected(ListWidget guiList, int index, LibraryListEntry entry) {
+	public boolean onEntrySelected(ListWidget<LibraryListEntry> guiList, int index, LibraryListEntry entry) {
 		if (!(entry instanceof LibraryListEntry.NewLibraryListEntry)) {
 			parent.getLibraryInfoPanel().setEntry(entry);
 			parent.setPartsData(entry.data.partsData.deepCopy());

@@ -25,6 +25,7 @@ import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IListCallback;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
+import uk.kihira.tails.client.gui.widget.RelativeTextField;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
@@ -48,7 +49,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 		initList();
 
 		addButton(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, new TranslationTextComponent("tails.gui.button.all"), b -> {}));
-		addButton(searchField = new TextFieldWidget(font, 5, bottom - top - 31, right - left - 10, 10, null));
+		addButton(searchField = new RelativeTextField(font, 5, bottom - top - 31, right - left - 10, 10, null));
 
 		super.init();
 	}

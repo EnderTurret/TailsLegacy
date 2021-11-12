@@ -19,6 +19,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
+import uk.kihira.tails.client.gui.widget.RelativeTextField;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
@@ -48,7 +49,6 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
 							new TranslationTextComponent("tails.gui.library.import.toast.success", strings[0]).mergeStyle(TextFormatting.GREEN));
-
 				} catch (IllegalArgumentException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
 							new TranslationTextComponent("tails.gui.library.import.toast.invalid.uuid").mergeStyle(TextFormatting.RED));
@@ -59,7 +59,7 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 			}
 		}));
 
-		inputField = new TextFieldWidget(font, 3, 41, right - left - 6, 15, null);
+		inputField = new RelativeTextField(font, 3, 41, right - left - 6, 15, null);
 		inputField.setMaxStringLength(5000);
 		addButton(inputField);
 	}

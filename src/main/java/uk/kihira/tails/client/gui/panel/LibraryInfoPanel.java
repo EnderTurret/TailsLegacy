@@ -25,6 +25,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
+import uk.kihira.tails.client.gui.widget.RelativeTextField;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
@@ -47,7 +48,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		textField = new TextFieldWidget(font, 6, 6, right - left - 12, 15, null);
+		textField = new RelativeTextField(font, 6, 6, right - left - 12, 15, null);
 		textField.setMaxStringLength(16);
 		addListener(textField);
 

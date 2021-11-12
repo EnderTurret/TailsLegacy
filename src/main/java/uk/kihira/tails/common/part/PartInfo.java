@@ -37,13 +37,9 @@ public class PartInfo implements Cloneable {
 
 	private static final PartInfo EMPTY = new Empty();
 
-	@Expose
 	private final ResourceLocation partId;
-	@Expose
 	private final int subid;
-	@Expose
 	private final int[] tints;
-	@Expose
 	private final int textureID;
 
 	private transient ResourceLocation texture;
@@ -154,7 +150,7 @@ public class PartInfo implements Cloneable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(true, getPartId(), getSubType(), getTints(), getTextureId());
+		return Objects.hash(getPartId(), getSubType(), getTints(), getTextureId());
 	}
 
 	@Override

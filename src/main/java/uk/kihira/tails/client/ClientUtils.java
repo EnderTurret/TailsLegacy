@@ -42,8 +42,8 @@ public class ClientUtils {
 
 	public static UUID getPlayerUUID() {
 		final Minecraft mc = Minecraft.getInstance();
-		if (mc.player != null && mc.player.getUniqueID() != null)
-			return mc.player.getUniqueID();
+		/*if (mc.player != null && mc.player.getUniqueID() != null)
+			return mc.player.getUniqueID();*/
 		return PlayerEntity.getUUID(mc.getSession().getProfile());
 	}
 }

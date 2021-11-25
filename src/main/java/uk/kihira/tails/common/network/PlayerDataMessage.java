@@ -45,14 +45,14 @@ public class PlayerDataMessage {
 			} catch (JsonSyntaxException e) {
 				Tails.LOGGER.catching(e);
 			}
-		else msg.partsData = null;
+		else msg.partsData = PartsData.EMPTY;
 
 		return msg;
 	}
 
 	public static void encode(PlayerDataMessage msg, PacketBuffer buf) {
 		buf.writeUniqueId(msg.uuid);
-		final String tailInfoJson = msg.partsData == null ? "" : Tails.GSON.toJson(msg.partsData);
+		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.GSON.toJson(msg.partsData);
 		buf.writeString(tailInfoJson, Short.MAX_VALUE);
 	}
 

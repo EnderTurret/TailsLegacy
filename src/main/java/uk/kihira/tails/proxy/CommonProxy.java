@@ -18,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
+import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.ServerEventHandler;
 import uk.kihira.tails.common.Tails;
@@ -33,6 +34,8 @@ import uk.kihira.tails.common.part.PartsData;
  * This definitely doesn't completely defeat the purpose of proxies. I don't know where you got that idea.<sup>/s</sup>
  */
 public class CommonProxy {
+
+	public static ITailsSyncService sync;
 
 	protected final Map<UUID, PartsData> partsData = new HashMap<>();
 	protected LibraryManager libraryManager;
@@ -112,18 +115,17 @@ public class CommonProxy {
 	 * @return True if the given {@link UUID} has any part data.
 	 */
 	public boolean hasPartsData(UUID uuid) {
-		return uuid != null && partsData.containsKey(uuid);
+		return uuid != null && partsData.containsKey(uuid) && !partsData.get(uuid).isEmpty();
 	}
 
 	/**
 	 * Returns the part data for the given {@link UUID}.<br>
-	 * Returns {@code null} if there is no part data present for it.
+	 * Returns {@link PartsData#EMPTY} if there is no part data present for it.
 	 * @param uuid The {@link UUID} to retrieve part data for.
 	 * @return The part data.
 	 */
-	@Nullable
 	public PartsData getPartsData(UUID uuid) {
-		return partsData.get(uuid);
+		return partsData.computeIfAbsent(uuid, k -> sync != null ? sync.query(k) : PartsData.EMPTY);
 	}
 
 	/**

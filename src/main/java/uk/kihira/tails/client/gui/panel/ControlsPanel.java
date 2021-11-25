@@ -20,6 +20,7 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.proxy.CommonProxy;
 
 public class ControlsPanel extends Panel<EditorScreen> {
 
@@ -70,8 +71,12 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			final PartsData partsData = parent.getPartsData();
 
 			Tails.setLocalPartsData(partsData, null);
-			Tails.PROXY.addPartsData(minecraft.player.getUniqueID(), partsData);
+			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), partsData);
+
 			Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), partsData));
+
+			if (CommonProxy.sync != null)
+				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
 
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new TranslationTextComponent("tails.gui.saved").mergeStyle(TextFormatting.GREEN));
 

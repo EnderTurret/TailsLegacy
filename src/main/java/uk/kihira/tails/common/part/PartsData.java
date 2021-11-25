@@ -28,6 +28,21 @@ import com.google.gson.JsonSerializer;
  */
 public class PartsData {
 
+	public static final PartsData EMPTY = new PartsData() {
+		@Override
+		public PartInfo getPartInfo(PartType partType) { return PartInfo.none(); }
+		@Override
+		public void setPartInfo(PartType partType, PartInfo partInfo) {}
+		@Override
+		public void clearTextures() {}
+		@Override
+		public boolean hasPartInfo(PartType partType) { return false; }
+		@Override
+		public String toString() { return "PartsData#EMPTY"; }
+		@Override
+		public boolean isEmpty() { return true; }
+	};
+
 	private final Map<PartType, PartInfo> partInfoMap = new EnumMap<>(PartType.class);
 
 	/**
@@ -40,6 +55,10 @@ public class PartsData {
 
 	public PartsData(Map<PartType,PartInfo> partData) {
 		partInfoMap.putAll(partData);
+	}
+
+	public boolean isEmpty() {
+		return false;
 	}
 
 	/**

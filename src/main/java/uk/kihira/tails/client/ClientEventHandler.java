@@ -21,6 +21,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMessage;
+import uk.kihira.tails.proxy.CommonProxy;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEventHandler {
@@ -68,6 +69,10 @@ public class ClientEventHandler {
 			// World can't be null if we want to send a packet it seems.
 			else if (!sentPartInfoToServer && Minecraft.getInstance().world != null) {
 				Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), Tails.localPartsData));
+
+				if (CommonProxy.sync != null)
+					CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
+
 				sentPartInfoToServer = true;
 			}
 	}

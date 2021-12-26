@@ -13,20 +13,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.AbstractSlider;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldVertexBufferUploader;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.components.AbstractSliderButton;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 import uk.kihira.tails.common.Tails;
 
@@ -34,7 +34,7 @@ import uk.kihira.tails.common.Tails;
  * A specialized version of the {@link AbstractSlider} for {@code HSB} and {@code RGB} values.<br>
  * Also has tooltip support, as if it couldn't get any better.
  */
-public class HSBSlider extends AbstractSlider implements ITooltip {
+public class HSBSlider extends AbstractSliderButton implements ITooltip {
 
 	private static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(Tails.MOD_ID, "texture/gui/controls/slider_hue.png");
 
@@ -42,23 +42,23 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 	private final IHSBSliderCallback callback;
 	private float hueValue;
 	private float briValue;
-	private List<IReorderingProcessor> tooltips;
+	private List<FormattedCharSequence> tooltips;
 
 	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
-		super(xPos, yPos, width, height, new StringTextComponent(""), 0);
+		super(xPos, yPos, width, height, new TextComponent(""), 0);
 		this.type = type;
 		hueValue = 0;
 		briValue = 0;
 		this.callback = callback;
 	}
 
-	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, ITextComponent... tooltips) {
+	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, Component... tooltips) {
 		this(id, xPos, yPos, width, height, callback, type);
-		this.tooltips = Arrays.stream(tooltips).map(ITextComponent::getVisualOrderText).collect(Collectors.toList());
+		this.tooltips = Arrays.stream(tooltips).map(Component::getVisualOrderText).collect(Collectors.toList());
 	}
 
 	@Override
-	public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partial) {
+	public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partial) {
 		if (visible) {
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
@@ -115,7 +115,7 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 	 */
 	public void setValue(double value) { // Copied from setSliderValue (private)
 		final double oldValue = value;
-		value = MathHelper.clamp(value, 0.0D, 1.0D);
+		value = Mth.clamp(value, 0.0D, 1.0D);
 
 		updateMessage();
 	}
@@ -145,22 +145,22 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 		briValue = value;
 	}
 
-	void drawTexturedModalRectScaled(MatrixStack matrixStack, int x, int y, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
+	void drawTexturedModalRectScaled(PoseStack matrixStack, int x, int y, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
 		final float f = 0.00390625F;
 		final float f1 = 0.00390625F;
-		final MatrixStack.Entry e = matrixStack.last();
-		final BufferBuilder renderer = Tessellator.getInstance().getBuilder();
-		renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+		final PoseStack.Pose e = matrixStack.last();
+		final BufferBuilder renderer = Tesselator.getInstance().getBuilder();
+		renderer.begin(7, DefaultVertexFormat.POSITION_TEX);
 		renderer.vertex(e.pose(), x + 0,			y + tarHeight,	getBlitOffset()).uv((u + 0) * f, (v + srcHeight) * f1).endVertex();
 		renderer.vertex(e.pose(), x + tarWidth,	y + tarHeight,	getBlitOffset()).uv((u + srcWidth) * f, (v + srcHeight) * f1).endVertex();
 		renderer.vertex(e.pose(), x + tarWidth,	y + 0,			getBlitOffset()).uv((u + srcWidth) * f, (v + 0) * f1).endVertex();
 		renderer.vertex(e.pose(), x + 0,			y + 0,			getBlitOffset()).uv((u + 0) * f, (v + 0) * f1).endVertex();
 		renderer.end();
-		WorldVertexBufferUploader.end(renderer);
+		BufferUploader.end(renderer);
 	}
 
 	@Override
-	public List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
+	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
 		return tooltips;
 	}
 

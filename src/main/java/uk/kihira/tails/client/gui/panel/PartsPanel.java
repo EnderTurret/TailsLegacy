@@ -11,17 +11,17 @@ package uk.kihira.tails.client.gui.panel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.list.ExtendedList;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
@@ -55,19 +55,19 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	public void init() {
 		initPartList();
 
-		addButton(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new TranslationTextComponent("tails.part." + parent.getPartType().getId()), b -> {
+		addButton(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new TranslatableComponent("tails.part." + parent.getPartType().getId()), b -> {
 			if (parent.getPartType().ordinal() + 1 >= PartType.values().length)
 				parent.setPartType(PartType.values()[0]);
 			else
 				parent.setPartType(PartType.values()[parent.getPartType().ordinal() + 1]);
 
-			partTypeButton.setMessage(new TranslationTextComponent("tails.part." + parent.getPartType().getId()));
+			partTypeButton.setMessage(new TranslatableComponent("tails.part." + parent.getPartType().getId()));
 			initPartList();
 		}));
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		setBlitOffset(-100);
 		fillGradient(matrixStack, 0, 0, right - left, listTop, 0xEA000000, 0xEA000000);
 
@@ -138,7 +138,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			}
 	}
 
-	private void renderPart(MatrixStack matrixStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTicks) {
+	private void renderPart(PoseStack matrixStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTicks) {
 		final PartRenderer renderer = PartRenderRegistry.getRenderer(partInfo.getPart());
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 
@@ -148,7 +148,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		matrixStack.translate(x, y, z);
 		matrixStack.scale(-scale, scale, 1F);
 
-		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().renderBuffers().bufferSource();
+		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 		renderer
 		.render(matrixStack, fakeEntity, partInfo, impl, impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture())), 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 		impl.endBatch();
@@ -156,7 +156,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		matrixStack.popPose();
 	}
 
-	class PartEntry extends ExtendedList.AbstractListEntry<PartEntry> {
+	class PartEntry extends ObjectSelectionList.Entry<PartEntry> {
 
 		final PartInfo partInfo;
 		private final int clickTime = 0;
@@ -166,7 +166,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		}
 
 		@Override
-		public void render(MatrixStack matrixStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+		public void render(PoseStack matrixStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
 			RenderSystem.color4f(1, 1, 1, 1);
 			setBlitOffset(0);
 
@@ -186,7 +186,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 						setBlitOffset(100);
 						font.draw(matrixStack, I18n.get("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
 						matrixStack.translate(0, 10, 0);
-						font.draw(matrixStack, TextFormatting.AQUA + author, 0, 0, 0xFFFFFF);
+						font.draw(matrixStack, ChatFormatting.AQUA + author, 0, 0, 0xFFFFFF);
 						matrixStack.popPose();
 						setBlitOffset(0);
 					}

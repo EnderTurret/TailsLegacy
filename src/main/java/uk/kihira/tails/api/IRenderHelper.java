@@ -8,11 +8,11 @@
 
 package uk.kihira.tails.api;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.entity.LivingEntity;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.part.PartInfo;
 
@@ -45,5 +45,5 @@ public interface IRenderHelper<T extends LivingEntity> {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void onPreRenderTail(MatrixStack matrixStack, T entity, PartRenderer tail, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha);
+	public void onPreRenderTail(PoseStack matrixStack, T entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha);
 }

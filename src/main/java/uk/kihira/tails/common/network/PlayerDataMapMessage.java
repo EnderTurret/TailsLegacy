@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonSyntaxException;
 
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
@@ -32,7 +32,7 @@ public class PlayerDataMapMessage {
 		this.partsDataMap = partsDataMap;
 	}
 
-	public static PlayerDataMapMessage decode(PacketBuffer buf) {
+	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 		final PlayerDataMapMessage msg = new PlayerDataMapMessage();
 
@@ -45,7 +45,7 @@ public class PlayerDataMapMessage {
 		return msg;
 	}
 
-	public static void encode(PlayerDataMapMessage msg, PacketBuffer buf) {
+	public static void encode(PlayerDataMapMessage msg, FriendlyByteBuf buf) {
 		buf.writeUtf(Tails.GSON.toJson(msg.partsDataMap), Short.MAX_VALUE);
 	}
 

@@ -8,12 +8,12 @@
 
 package uk.kihira.tails.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.resources.ResourceLocation;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.common.part.PartInfo;
 
@@ -24,7 +24,7 @@ public class SeaPickleRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack matrixStack, LivingEntity entity, PartInfo info, VertexConsumer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		final int tint = info.getTints()[0];
 		final float r = (tint >> 16 & 255) / 255F;
 		final float g = (tint >> 8 & 255) / 255F;
@@ -39,18 +39,18 @@ public class SeaPickleRenderer extends PartRenderer {
 
 	public static class Model extends PartModel {
 
-		private ModelRenderer model;
+		private ModelPart model;
 
 		public Model() {
 			texWidth = 32;
 			texHeight = 32;
 
-			model = new ModelRenderer(this);
+			model = new ModelPart(this);
 			model.setPos(0F, 18.2875F, 0F);
 			model.texOffs(0, 1).addBox(-2F, -0.2875F, -2F, 4F, 6F, 4F, 0F, false);
 			model.texOffs(0, 11).addBox(-2F, -0.2375F, -2F, 4F, 0F, 4F, 0F, false);
 
-			final ModelRenderer cube = new ModelRenderer(this);
+			final ModelPart cube = new ModelPart(this);
 			cube.setPos(0F, -2.2875F, 0F);
 			model.addChild(cube);
 			cube.yRot = -0.7854F;
@@ -59,8 +59,8 @@ public class SeaPickleRenderer extends PartRenderer {
 		}
 
 		@Override
-		public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-			model = new ModelRenderer(this);
+		public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+			model = new ModelPart(this);
 			model.setPos(0F, 18.2875F, 0F);
 			model.texOffs(0, 1).addBox(-2F, -0.2875F, -2F, 4F, 6F, 4F, 0F, false);
 			model.texOffs(0, 11).addBox(-2F, -0.2375F, -2F, 4F, 0F, 4F, 0F, false);

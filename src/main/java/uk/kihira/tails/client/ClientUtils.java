@@ -10,11 +10,11 @@ package uk.kihira.tails.client;
 
 import java.util.UUID;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.gui.Font;
+import net.minecraft.world.entity.player.Player;
 
 public class ClientUtils {
 
@@ -27,7 +27,7 @@ public class ClientUtils {
 	 * @param y The y position of the text.
 	 * @param color The color of the text.
 	 */
-	public static void drawStringMultiLine(MatrixStack matrixStack, FontRenderer fontRenderer, String string, int x, int y, int color) {
+	public static void drawStringMultiLine(PoseStack matrixStack, Font fontRenderer, String string, int x, int y, int color) {
 		final String[] lines = string.split("\n");
 		for (int i = 0; i < lines.length; i++) {
 			final String line = lines[i];
@@ -35,7 +35,7 @@ public class ClientUtils {
 		}
 	}
 
-	public static void drawCenteredString(MatrixStack matrixStack, FontRenderer fontRenderer, String string, int x, int y, int color) {
+	public static void drawCenteredString(PoseStack matrixStack, Font fontRenderer, String string, int x, int y, int color) {
 		final int width = fontRenderer.width(string);
 		fontRenderer.draw(matrixStack, string, x - width / 2, y, color);
 	}
@@ -44,6 +44,6 @@ public class ClientUtils {
 		final Minecraft mc = Minecraft.getInstance();
 		/*if (mc.player != null && mc.player.getUniqueID() != null)
 			return mc.player.getUniqueID();*/
-		return PlayerEntity.createPlayerUUID(mc.getUser().getGameProfile());
+		return Player.createPlayerUUID(mc.getUser().getGameProfile());
 	}
 }

@@ -8,13 +8,13 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
 import uk.kihira.tails.client.model.PartModel;
 
 /**
@@ -22,53 +22,53 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class BirdTailModel extends PartModel {
 
-	private final ModelRenderer center;
-	private final ModelRenderer left0;
-	private final ModelRenderer left1;
-	private final ModelRenderer left2;
-	private final ModelRenderer right0;
-	private final ModelRenderer right2;
-	private final ModelRenderer right1;
+	private final ModelPart center;
+	private final ModelPart left0;
+	private final ModelPart left1;
+	private final ModelPart left2;
+	private final ModelPart right0;
+	private final ModelPart right2;
+	private final ModelPart right1;
 
 	public BirdTailModel() {
-		center = new ModelRenderer(this, 0, 0);
+		center = new ModelPart(this, 0, 0);
 		center.addBox(-1.5F, -.5F, -0.5F, 3, 9, 1);
 		center.setPos(0F, 0F, 1F);
 		center.setTexSize(64, 32);
 		setRotationDegrees(center, 55F, 0F, 0F);
 
-		left0 = new ModelRenderer(this, 0, 10);
+		left0 = new ModelPart(this, 0, 10);
 		left0.addBox(-1F, 0F, -0.5F, 2, 8, 1);
 		left0.setPos(-1F, .5F, 0F);
 		left0.setTexSize(64, 32);
 		setRotationDegrees(left0, -2, -8, 11);
 
-		left1 = new ModelRenderer(this, 0, 19);
+		left1 = new ModelPart(this, 0, 19);
 		left1.addBox(-1F, 0F, -0.5F, 2, 7, 1);
 		left1.setPos(-1.5F, 0F, 0F);
 		left1.setTexSize(64, 32);
 		setRotationDegrees(left1, 0, -6, 0);
 
-		left2 = new ModelRenderer(this, 6, 19);
+		left2 = new ModelPart(this, 6, 19);
 		left2.addBox(-0.5F, 0F, -0.5F, 1, 6, 1);
 		left2.setPos(-.5F, 0F, 0F);
 		left2.setTexSize(64, 32);
 		setRotationDegrees(left2, 0, -6, 15);
 
-		right0 = new ModelRenderer(this, 0, 10);
+		right0 = new ModelPart(this, 0, 10);
 		right0.mirror = true;
 		right0.addBox(-1F, 0F, -0.5F, 2, 8, 1);
 		right0.setPos(1F, .5F, 0F);
 		right0.setTexSize(64, 32);
 		setRotationDegrees(right0, -2, 8, -11);
 
-		right1 = new ModelRenderer(this, 0, 19);
+		right1 = new ModelPart(this, 0, 19);
 		right1.addBox(-1F, 0F, -0.5F, 2, 7, 1);
 		right1.setPos(1.5F, 0F, 0F);
 		right1.setTexSize(64, 32);
 		setRotationDegrees(right1, 0, 6, 0);
 
-		right2 = new ModelRenderer(this, 6, 19);
+		right2 = new ModelPart(this, 6, 19);
 		right2.addBox(-0.5F, 0F, -0.5F, 1, 6, 1);
 		right2.setPos(.5F, 0, 0F);
 		right2.setTexSize(64, 32);
@@ -89,15 +89,15 @@ public class BirdTailModel extends PartModel {
 		double zAngleOffset = 0;
 
 		if (entity.getVehicle() == null) {
-			if (entity instanceof PlayerEntity) {
-				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+			if (entity instanceof Player) {
+				final double[] angles = getMotionAngles((Player) entity, partialTicks);
 				xAngleOffset = angles[0];
 				zAngleOffset = angles[2];
 
-				xAngleOffset -= MathHelper.cos(timestep - 1) / 15F;
-				zAngleOffset -= MathHelper.cos(timestep - 1) / 25F;
-				xAngleOffset = MathHelper.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
-				zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
+				xAngleOffset -= Mth.cos(timestep - 1) / 15F;
+				zAngleOffset -= Mth.cos(timestep - 1) / 25F;
+				xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
+				zAngleOffset = Mth.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
 			}
 		}
 		// Mounted
@@ -114,7 +114,7 @@ public class BirdTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		center.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 }

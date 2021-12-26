@@ -9,9 +9,9 @@
 package uk.kihira.tails.client.texture;
 
 import static net.minecraft.client.renderer.texture.NativeImage.getA;
-import static net.minecraft.client.renderer.texture.NativeImage.getB;
+import staticcom.mojang.blaze3d.platform.NativeImagee.getB;
 import static net.minecraft.client.renderer.texture.NativeImage.getG;
-import static net.minecraft.client.renderer.texture.NativeImage.getR;
+import staticcom.mojang.blaze3d.platform.NativeImagee.getR;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,17 +19,17 @@ import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 
 import net.minecraft.client.renderer.texture.NativeImage;
-import net.minecraft.client.renderer.texture.NativeImage.PixelFormat;
-import net.minecraft.client.renderer.texture.Texture;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
+import com.mojang.blaze3d.platform.NativeImage.Format;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import com.mojang.blaze3d.platform.TextureUtil;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.resources.ResourceLocation;
 import uk.kihira.tails.client.ColorUtil;
 
 /**
  * A texture that tints another texture based on three tint values.
  */
-public class TripleTintTexture extends Texture {
+public class TripleTintTexture extends AbstractTexture {
 
 	private final String namespace;
 	private final String texturename;
@@ -48,7 +48,7 @@ public class TripleTintTexture extends Texture {
 	}
 
 	@Override
-	public void load(IResourceManager manager) throws IOException {
+	public void load(ResourceManager manager) throws IOException {
 		releaseId();
 
 		try
@@ -56,7 +56,7 @@ public class TripleTintTexture extends Texture {
 			if (texturename != null)
 			{
 				final InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
-				final NativeImage texture = NativeImage.read(PixelFormat.RGBA, inputstream);
+				final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
 
 				for (int x = 0; x < texture.getWidth(); x++)
 					for (int y = 0; y < texture.getHeight(); y++) {

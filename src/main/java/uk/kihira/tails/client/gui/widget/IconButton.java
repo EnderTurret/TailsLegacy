@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
-import net.minecraft.client.gui.widget.button.Button.IPressable;
+import net.minecraft.client.gui.components.Button.OnPress;
 
 /**
  * A button with an icon and a tooltip.
@@ -34,16 +34,16 @@ public class IconButton extends Button implements ITooltip {
 	public static final ResourceLocation iconsTextures = new ResourceLocation("tails", "texture/gui/icons.png");
 
 	protected final Icons icon;
-	private final List<IReorderingProcessor> tooltip;
+	private final List<FormattedCharSequence> tooltip;
 
-	public IconButton(int x, int y, Icons icon, IPressable onPress, ITextComponent... tooltips) {
-		super(x, y, 16 ,16, new StringTextComponent(""), onPress);
+	public IconButton(int x, int y, Icons icon, OnPress onPress, Component... tooltips) {
+		super(x, y, 16 ,16, new TextComponent(""), onPress);
 		this.icon = icon;
-		tooltip = Arrays.stream(tooltips).map(ITextComponent::getVisualOrderText).collect(Collectors.toList());
+		tooltip = Arrays.stream(tooltips).map(Component::getVisualOrderText).collect(Collectors.toList());
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		if (visible) {
 			Minecraft.getInstance().getTextureManager().bind(iconsTextures);
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -62,7 +62,7 @@ public class IconButton extends Button implements ITooltip {
 	}
 
 	@Override
-	public List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
+	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
 		return tooltip;
 	}
 
@@ -73,7 +73,7 @@ public class IconButton extends Button implements ITooltip {
 
 		public boolean toggled;
 
-		public Toggle(int x, int y, Icons icon, IPressable onPress, ITextComponent... tooltips) {
+		public Toggle(int x, int y, Icons icon, OnPress onPress, Component... tooltips) {
 			super(x, y, icon, onPress, tooltips);
 		}
 
@@ -88,7 +88,7 @@ public class IconButton extends Button implements ITooltip {
 		}
 
 		@Override
-		public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 			if (visible && toggled) {
 				Minecraft.getInstance().getTextureManager().bind(iconsTextures);
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);

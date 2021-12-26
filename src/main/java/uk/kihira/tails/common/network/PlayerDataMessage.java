@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 import com.google.common.base.Strings;
 import com.google.gson.JsonSyntaxException;
 
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -32,7 +32,7 @@ public class PlayerDataMessage {
 		this.partsData = partsData;
 	}
 
-	public static PlayerDataMessage decode(PacketBuffer buf) {
+	public static PlayerDataMessage decode(FriendlyByteBuf buf) {
 		final PlayerDataMessage msg = new PlayerDataMessage();
 
 		msg.uuid = buf.readUUID();
@@ -50,7 +50,7 @@ public class PlayerDataMessage {
 		return msg;
 	}
 
-	public static void encode(PlayerDataMessage msg, PacketBuffer buf) {
+	public static void encode(PlayerDataMessage msg, FriendlyByteBuf buf) {
 		buf.writeUUID(msg.uuid);
 		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.GSON.toJson(msg.partsData);
 		buf.writeUtf(tailInfoJson, Short.MAX_VALUE);

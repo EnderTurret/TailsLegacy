@@ -8,18 +8,18 @@
 
 package uk.kihira.tails.client.gui.panel;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.settings.PointOfView;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.CameraType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.util.Mth;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
+import net.minecraft.network.chat.TranslatableComponent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IconButton;
 
@@ -37,20 +37,20 @@ public class PreviewPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		doRender = Minecraft.getInstance().options.getCameraType() == PointOfView.FIRST_PERSON;
+		doRender = Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
 		if (!doRender)
 			return;
 		// Reset Camera
 		addButton(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {
 			yaw = 0;
 			pitch = 10F;
-		}, new TranslationTextComponent("tails.gui.button.reset.camera")));
+		}, new TranslatableComponent("tails.gui.button.reset.camera")));
 		// Help
-		addButton(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, new TranslationTextComponent("tails.gui.button.help.camera.0"), new TranslationTextComponent("tails.gui.button.help.camera.1")));
+		addButton(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, new TranslatableComponent("tails.gui.button.help.camera.0"), new TranslatableComponent("tails.gui.button.help.camera.1")));
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		if (!doRender)
 			return;
 		setBlitOffset(-1000);
@@ -81,7 +81,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 			if (prevMouseY == -1) prevMouseY = mouseY;
 			else {
 				pitch += (mouseY - prevMouseY) * 0.1F;
-				pitch = MathHelper.clamp(pitch, 6, 10);
+				pitch = Mth.clamp(pitch, 6, 10);
 				prevMouseY = mouseY;
 			}
 		}
@@ -101,7 +101,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		RenderSystem.translatef(x, y, 100F);
 		RenderSystem.scalef(1F, 1F, -1F);
 
-		final MatrixStack matrixStack = new MatrixStack();
+		final PoseStack matrixStack = new PoseStack();
 
 		matrixStack.translate(0, 0, 1000);
 		matrixStack.scale(scale, scale, scale);
@@ -124,14 +124,14 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		entity.yBodyRot = 0F;
 		entity.setShiftKeyDown(false);
 
-		final EntityRendererManager rendererManager = Minecraft.getInstance().getEntityRenderDispatcher();
+		final EntityRenderDispatcher rendererManager = Minecraft.getInstance().getEntityRenderDispatcher();
 
 		quaternion1.conj();
 
 		rendererManager.overrideCameraOrientation(quaternion1);
 		rendererManager.setRenderShadow(false);
 
-		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().renderBuffers().bufferSource();
+		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		RenderSystem.runAsFancy(() -> {
 			rendererManager.render(entity, 0, 0, 0, 0f, 1F, matrixStack, impl, 15728880);

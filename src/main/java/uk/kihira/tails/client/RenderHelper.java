@@ -12,13 +12,13 @@ package uk.kihira.tails.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.MainWindow;
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 
 public class RenderHelper {
 
 	public static void startGlScissor(int x, int y, int width, int height) {
-		final MainWindow mc = Minecraft.getInstance().getWindow();
+		final Window mc = Minecraft.getInstance().getWindow();
 
 		final double scaleW = (double)mc.getScreenWidth() / mc.getGuiScaledWidth();
 		final double scaleH = (double)mc.getScreenHeight() / mc.getGuiScaledHeight();

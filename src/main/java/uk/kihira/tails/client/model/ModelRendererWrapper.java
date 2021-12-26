@@ -8,13 +8,13 @@
 
 package uk.kihira.tails.client.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.PartRenderRegistry;
@@ -23,12 +23,12 @@ import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 
 @OnlyIn(Dist.CLIENT)
-public class ModelRendererWrapper extends ModelRenderer {
+public class ModelRendererWrapper extends ModelPart {
 
 	private final PartType partType;
-	private final PlayerModel<? extends PlayerEntity> model;
+	private final PlayerModel<? extends Player> model;
 
-	public ModelRendererWrapper(PlayerModel<? extends PlayerEntity> model, PartType partType) {
+	public ModelRendererWrapper(PlayerModel<? extends Player> model, PartType partType) {
 		super(model);
 		this.partType = partType;
 		this.model = model;
@@ -36,7 +36,7 @@ public class ModelRendererWrapper extends ModelRenderer {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (RenderingHandler.currentEvent != null && RenderingHandler.currentPartsData != null && RenderingHandler.currentPlayerTexture != null) {
 			final PartInfo info = RenderingHandler.currentPartsData.getPartInfo(partType);
 			if (info != null && !info.isEmpty()) {

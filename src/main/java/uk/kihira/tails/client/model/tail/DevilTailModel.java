@@ -8,13 +8,13 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
 import uk.kihira.tails.client.model.PartModel;
 
 /**
@@ -22,46 +22,46 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class DevilTailModel extends PartModel {
 
-	private final ModelRenderer tailBase;
-	private final ModelRenderer tail1;
-	private final ModelRenderer tail2;
-	private final ModelRenderer tail3;
-	private final ModelRenderer tail4;
-	private final ModelRenderer tail5;
-	private final ModelRenderer tailTip;
+	private final ModelPart tailBase;
+	private final ModelPart tail1;
+	private final ModelPart tail2;
+	private final ModelPart tail3;
+	private final ModelPart tail4;
+	private final ModelPart tail5;
+	private final ModelPart tailTip;
 
 	public DevilTailModel() {
-		tailBase = new ModelRenderer(this, 0, 0);
+		tailBase = new ModelPart(this, 0, 0);
 		tailBase.addBox(-1F, -1F, 0F, 2, 2, 2);
 		tailBase.setPos(0F, 0F, 0F);
 		setRotationDegrees(tailBase, -30F, 0F, 0F);
 
-		tail1 = new ModelRenderer(this, 0, 4);
+		tail1 = new ModelPart(this, 0, 4);
 		tail1.addBox(-0.5F, -0.5F, 0F, 1, 1, 4);
 		tail1.setPos(0F, 0F, 1.8F);
 		setRotationDegrees(tail1, -30F, 0F, 0F);
 
-		tail2 = new ModelRenderer(this, 0, 9);
+		tail2 = new ModelPart(this, 0, 9);
 		tail2.addBox(-0.5F, -0.5F, 0F, 1, 1, 5);
 		tail2.setPos(0F, 0F, 3.8F);
 		setRotationDegrees(tail2, -30F, 0F, 0F);
 
-		tail3 = new ModelRenderer(this, 0, 15);
+		tail3 = new ModelPart(this, 0, 15);
 		tail3.addBox(-0.5F, -0.5F, 0F, 1, 1, 3);
 		tail3.setPos(0F, 0F, 4.8F);
 		setRotationDegrees(tail3, 20F, 0F, 0F);
 
-		tail4 = new ModelRenderer(this, 0, 19);
+		tail4 = new ModelPart(this, 0, 19);
 		tail4.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
 		tail4.setPos(0F, 0F, 2.6F);
 		setRotationDegrees(tail4, 50F, 0F, 0F);
 
-		tail5 = new ModelRenderer(this, 0, 22);
+		tail5 = new ModelPart(this, 0, 22);
 		tail5.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
 		tail5.setPos(0F, 0F, 1.7F);
 		setRotationDegrees(tail5, 50F, 0F, 0F);
 
-		tailTip = new ModelRenderer(this, 12, 0);
+		tailTip = new ModelPart(this, 12, 0);
 		tailTip.addBox(-2.5F, 0F, 0F, 5, 5, 0);
 		tailTip.setPos(0F, 0F, 1.8F);
 		setRotationDegrees(tailTip, 120F, 0F, 0F);
@@ -81,10 +81,10 @@ public class DevilTailModel extends PartModel {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getVehicle() == null) {
-			if (entity instanceof PlayerEntity) {
-				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+			if (entity instanceof Player) {
+				final double[] angles = getMotionAngles((Player) entity, partialTicks);
 
-				xAngleOffset = MathHelper.clamp(angles[0] / 3.5F, -1F, 0.275D);
+				xAngleOffset = Mth.clamp(angles[0] / 3.5F, -1F, 0.275D);
 				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
 			}
 		}
@@ -94,17 +94,17 @@ public class DevilTailModel extends PartModel {
 			yAngleMultiplier = 0.25F;
 		}
 
-		setRotationRadians(tailBase, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 1) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 2) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset * 2F, MathHelper.cos(seed - 3) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset * 2F + MathHelper.cos(xseed - 4) / 6F * yAngleMultiplier, MathHelper.cos(seed - 4) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 4) / 8F * yAngleMultiplier);
-		setRotationRadians(tail4, Math.toRadians(50F) - xAngleOffset * 3F + MathHelper.cos(xseed - 5) / 8F * yAngleMultiplier, MathHelper.cos(seed - 5) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 5) / 8F * yAngleMultiplier);
-		setRotationRadians(tail5, Math.toRadians(50F) - xAngleOffset * 4F + MathHelper.cos(xseed - 6) / 4F  * yAngleMultiplier, MathHelper.cos(seed - 6) / 8F * yAngleMultiplier, MathHelper.cos(xseed - 6) / 8F * yAngleMultiplier);
+		setRotationRadians(tailBase, Math.toRadians(-30F) + xAngleOffset * 2F, Mth.cos(seed - 1) / 8F * yAngleMultiplier, 0F);
+		setRotationRadians(tail1, Math.toRadians(-30F) + xAngleOffset * 2F, Mth.cos(seed - 2) / 8F * yAngleMultiplier, 0F);
+		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset * 2F, Mth.cos(seed - 3) / 8F * yAngleMultiplier, 0F);
+		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset * 2F + Mth.cos(xseed - 4) / 6F * yAngleMultiplier, Mth.cos(seed - 4) / 8F * yAngleMultiplier, Mth.cos(xseed - 4) / 8F * yAngleMultiplier);
+		setRotationRadians(tail4, Math.toRadians(50F) - xAngleOffset * 3F + Mth.cos(xseed - 5) / 8F * yAngleMultiplier, Mth.cos(seed - 5) / 8F * yAngleMultiplier, Mth.cos(xseed - 5) / 8F * yAngleMultiplier);
+		setRotationRadians(tail5, Math.toRadians(50F) - xAngleOffset * 4F + Mth.cos(xseed - 6) / 4F  * yAngleMultiplier, Mth.cos(seed - 6) / 8F * yAngleMultiplier, Mth.cos(xseed - 6) / 8F * yAngleMultiplier);
 		setRotationRadians(tailTip, Math.toRadians(120F) - xAngleOffset, 0F, 0F);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		if (subtype == 1)
 			tailTip.visible = false;
 

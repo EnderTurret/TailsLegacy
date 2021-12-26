@@ -12,16 +12,16 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.api.IRenderHelper;
@@ -71,7 +71,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void preRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void preRender(PoseStack matrixStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		compileTextureIfNeeded(entity, info);
 
 		if (modelPart != null) {
@@ -80,7 +80,7 @@ public class PartRenderer {
 		}
 
 		// Support for Galacticraft as it adds its own EntityPlayer.
-		final List<IRenderHelper<?>> helpers = entity instanceof PlayerEntity ? RenderHelperManager.getRenderHelpers(PlayerEntity.class) : RenderHelperManager.getRenderHelpers(entity.getClass());
+		final List<IRenderHelper<?>> helpers = entity instanceof Player ? RenderHelperManager.getRenderHelpers(Player.class) : RenderHelperManager.getRenderHelpers(entity.getClass());
 
 		for (IRenderHelper helper : helpers)
 			helper.onPreRenderTail(matrixStack, entity, this, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -103,7 +103,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void render(PoseStack matrixStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
 			compileTextureIfNeeded(entity, info);
 
@@ -116,7 +116,7 @@ public class PartRenderer {
 			if (type == null) return;
 
 			alpha = visibleToPlayer && alpha == 1F ? 0.15F : alpha;
-			final IVertexBuilder buf = bufferIn.getBuffer(type);
+			final VertexConsumer buf = bufferIn.getBuffer(type);
 
 			render(matrixStack, entity, info, bufferIn, buf, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		}
@@ -140,7 +140,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void render(PoseStack matrixStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
 			matrixStack.pushPose();
 
@@ -176,7 +176,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack matrixStack, LivingEntity entity, PartInfo info, VertexConsumer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (modelPart != null)
 			modelPart.render(matrixStack, bufferIn, entity, packedLightIn, packedOverlayIn, red, green, blue, alpha, info.getSubType(), partialTicks);
 	}

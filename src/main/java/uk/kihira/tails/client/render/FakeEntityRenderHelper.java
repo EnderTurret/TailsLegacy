@@ -8,11 +8,11 @@
 
 package uk.kihira.tails.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.math.Vector3f;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.common.part.Part;
@@ -22,7 +22,7 @@ import uk.kihira.tails.common.part.PartRegistry;
 public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 
 	@Override
-	public void onPreRenderTail(MatrixStack matrixStack, FakeEntity entity, PartRenderer tail, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void onPreRenderTail(PoseStack matrixStack, FakeEntity entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		final Part part = info.getPart();
 		switch (part.getType()) {
 		case TAIL: {

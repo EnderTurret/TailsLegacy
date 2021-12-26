@@ -8,8 +8,8 @@
 
 package uk.kihira.tails.common;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -23,7 +23,7 @@ public class ServerEventHandler {
 
 	@SubscribeEvent
 	void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+		final ServerPlayer player = (ServerPlayer) event.getPlayer();
 		// Send current known tails to uk.kihira.tails.client
 		Tails.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.PROXY.getPartsData()));
 		Tails.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new ServerCapabilitiesMessage(Tails.libraryEnabled));
@@ -32,6 +32,6 @@ public class ServerEventHandler {
 	@SubscribeEvent
 	void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
 		// Server doesn't save tails so we discard.
-		Tails.PROXY.removePartsData(PlayerEntity.createPlayerUUID(event.getPlayer().getGameProfile()));
+		Tails.PROXY.removePartsData(Player.createPlayerUUID(event.getPlayer().getGameProfile()));
 	}
 }

@@ -8,11 +8,11 @@
 
 package uk.kihira.tails.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.entity.player.Player;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.model.tail.CatTailModel;
 import uk.kihira.tails.client.model.tail.DevilTailModel;
@@ -20,7 +20,7 @@ import uk.kihira.tails.client.model.tail.DragonTailModel;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 
-public class PlayerRenderHelper implements IRenderHelper<PlayerEntity> {
+public class PlayerRenderHelper implements IRenderHelper<Player> {
 
 	//private final boolean mpmCompat;
 
@@ -29,7 +29,7 @@ public class PlayerRenderHelper implements IRenderHelper<PlayerEntity> {
 	}
 
 	@Override
-	public void onPreRenderTail(MatrixStack matrixStack, PlayerEntity entity, PartRenderer tail, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void onPreRenderTail(PoseStack matrixStack, Player entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (info.getPart().getType() != PartType.TAIL) return;
 		//if (mpmCompat && entity.isSneaking())
 		//matrixStack.translate(0f, -0.1f, 0.4f);

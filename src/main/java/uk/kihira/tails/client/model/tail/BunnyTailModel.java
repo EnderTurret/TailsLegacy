@@ -8,12 +8,12 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
 /**
@@ -21,17 +21,17 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class BunnyTailModel extends PartModel {
 
-	private final ModelRenderer tailBase;
+	private final ModelPart tailBase;
 
 	public BunnyTailModel() {
-		tailBase = new ModelRenderer(this);
+		tailBase = new ModelPart(this);
 
 		tailBase.addBox(0.0F, 0.0F, 0.0F, 4, 3, 3, 0.0F);
 		tailBase.setPos(-2.0F, -1.5F, 0.0F);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		final float timestep = getAnimationTime(4000F, entity);
 
 		this.setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTicks, entity);

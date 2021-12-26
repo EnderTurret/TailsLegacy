@@ -8,15 +8,15 @@
 
 package uk.kihira.tails.client.render;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.common.part.PartInfo;
 
@@ -30,10 +30,10 @@ public class WingRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IVertexBuilder renderer, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		final boolean isFlying = entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.flying && entity.hasImpulse || entity.fallDistance > 1.5F;
+	protected void doRender(PoseStack matrixStack, LivingEntity entity, PartInfo info, VertexConsumer renderer, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		final boolean isFlying = entity instanceof Player && ((Player) entity).abilities.flying && entity.hasImpulse || entity.fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
-		final float angle = MathHelper.sin(timestep) * (isFlying ? 24F : 4F);
+		final float angle = Mth.sin(timestep) * (isFlying ? 24F : 4F);
 		final float scale = info.getSubType() == 1 ? 1F : 2F;
 
 		matrixStack.pushPose();

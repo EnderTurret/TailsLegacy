@@ -8,13 +8,13 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
 import uk.kihira.tails.client.model.PartModel;
 
 /**
@@ -22,26 +22,26 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class RaccoonTailModel extends PartModel {
 
-	private final ModelRenderer tailBase;
-	private final ModelRenderer tail1;
-	private final ModelRenderer tail2;
+	private final ModelPart tailBase;
+	private final ModelPart tail1;
+	private final ModelPart tail2;
 
 	public RaccoonTailModel() {
-		tailBase = new ModelRenderer(this, 12, 16);
+		tailBase = new ModelPart(this, 12, 16);
 		tailBase.addBox(-1F, -1F, 0F, 2, 2, 2);
 		tailBase.setPos(0F, 0F, 0F);
 
-		tail1 = new ModelRenderer(this, 0, 16);
+		tail1 = new ModelPart(this, 0, 16);
 		tail1.addBox(-1.5F, -1.5F, 0F, 3, 3, 3);
 		tail1.setPos(0F, 0F, 1F);
 		setRotationDegrees(tail1, -40F, 0F, 0F);
 
-		tail2 = new ModelRenderer(this, 0, 0);
+		tail2 = new ModelPart(this, 0, 0);
 		tail2.addBox(-2F, -2F, 0F, 4, 4, 12);
 		tail2.setPos(0F, 0F, 2F);
 		setRotationDegrees(tail2, -30F, 0F, 0F);
 
-		final ModelRenderer tailTip = new ModelRenderer(this, 0, 22);
+		final ModelPart tailTip = new ModelPart(this, 0, 22);
 		tailTip.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
 		tailTip.setPos(0F, 0F, 12F);
 
@@ -59,16 +59,16 @@ public class RaccoonTailModel extends PartModel {
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 
 		if (entity.getVehicle() == null) {
-			if (entity instanceof PlayerEntity) {
-				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+			if (entity instanceof Player) {
+				final double[] angles = getMotionAngles((Player) entity, partialTicks);
 
 				xAngleOffset = angles[0];
 				yAngleOffset = angles[1];
 				zAngleOffset = angles[2];
 				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
 
-				xAngleOffset = MathHelper.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
-				zAngleOffset = MathHelper.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
+				xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
+				zAngleOffset = Mth.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
 			}
 		}
 		// Mounted
@@ -77,13 +77,13 @@ public class RaccoonTailModel extends PartModel {
 			yAngleMultiplier = 0.2F;
 		}
 
-		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + MathHelper.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
-		setRotationRadians(tail1, Math.toRadians(-40F) + xAngleOffset, (-zAngleOffset + MathHelper.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
-		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset, (-zAngleOffset + MathHelper.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
+		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
+		setRotationRadians(tail1, Math.toRadians(-40F) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
+		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 }

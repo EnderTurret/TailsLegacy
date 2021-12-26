@@ -12,7 +12,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.FormattedCharSequence;
 
 /**
  * A generic interface for things with tooltips.
@@ -27,5 +27,5 @@ public interface ITooltip {
 	 * @return The tooltip.
 	 */
 	@Nonnull
-	public List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
+	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
 }

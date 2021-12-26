@@ -9,14 +9,14 @@
 package uk.kihira.tails.client.gui;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.widget.list.ExtendedList;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.ChatFormatting;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
@@ -26,7 +26,7 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 
-public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryListEntry> {
+public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry> {
 
 	protected final LibraryPanel panel;
 	public final LibraryEntryData data;
@@ -37,7 +37,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+	public void render(PoseStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
 		if (data.remoteEntry) {
 			Minecraft.getInstance().getTextureManager().bind(IconButton.iconsTextures);
 			final IconButton.Icons icon = IconButton.Icons.SERVER;
@@ -48,8 +48,8 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 			matrixStack.popPose();
 		}
 
-		final FontRenderer fontRenderer = Minecraft.getInstance().font;
-		fontRenderer.draw(matrixStack, (data.partsData.equals(Tails.localPartsData) ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName,
+		final Font fontRenderer = Minecraft.getInstance().font;
+		fontRenderer.draw(matrixStack, (data.partsData.equals(Tails.localPartsData) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
 		for (PartType type : PartType.values())
@@ -58,7 +58,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.get(partInfo.getPart().getTranslationKey()),
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
-					AbstractGui.fill(matrixStack,
+					GuiComponent.fill(matrixStack,
 							listWidth - 8 * i, rowTop + 13 + type.ordinal() * 8,
 							listWidth + 7 - 8 * i, rowTop + 20 + type.ordinal() * 8,
 							partInfo.getTints()[i - 1]);
@@ -90,7 +90,7 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 		}
 
 		@Override
-		public void render(MatrixStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+		public void render(PoseStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
 			Minecraft.getInstance().font.draw(matrixStack, I18n.get("tails.gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
 		}
 

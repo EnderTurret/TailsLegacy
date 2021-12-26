@@ -12,11 +12,11 @@ import java.util.UUID;
 
 import com.google.common.base.Strings;
 import com.google.gson.JsonSyntaxException;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextField;
@@ -27,7 +27,7 @@ import uk.kihira.tails.common.part.PartsData;
 
 public class LibraryImportPanel extends Panel<EditorScreen> {
 
-	private TextFieldWidget inputField;
+	private EditBox inputField;
 
 	public LibraryImportPanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
@@ -36,10 +36,10 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void init() {
-		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("tails.gui.library.import.string"), b -> {
+		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslatableComponent("tails.gui.library.import.string"), b -> {
 			if (Strings.isNullOrEmpty(inputField.getValue()) || inputField.getValue().split(":", 3).length != 3)
 				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-						new TranslationTextComponent("tails.gui.library.import.toast.invalid").withStyle(TextFormatting.RED));
+						new TranslatableComponent("tails.gui.library.import.toast.invalid").withStyle(ChatFormatting.RED));
 			else {
 				final String[] strings = inputField.getValue().split(":", 4);
 				try {
@@ -48,13 +48,13 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 					parent.getLibraryPanel().initList();
 
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("tails.gui.library.import.toast.success", strings[0]).withStyle(TextFormatting.GREEN));
+							new TranslatableComponent("tails.gui.library.import.toast.success", strings[0]).withStyle(ChatFormatting.GREEN));
 				} catch (IllegalArgumentException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("tails.gui.library.import.toast.invalid.uuid").withStyle(TextFormatting.RED));
+							new TranslatableComponent("tails.gui.library.import.toast.invalid.uuid").withStyle(ChatFormatting.RED));
 				} catch (JsonSyntaxException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("tails.gui.library.import.toast.invalid.parts").withStyle(TextFormatting.RED));
+							new TranslatableComponent("tails.gui.library.import.toast.invalid.parts").withStyle(ChatFormatting.RED));
 				}
 			}
 		}));
@@ -65,7 +65,7 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xDE000000, 0xDE000000);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);

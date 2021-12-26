@@ -10,10 +10,10 @@ package uk.kihira.tails.client.gui.widget;
 
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.list.ExtendedList;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 import uk.kihira.tails.client.RenderHelper;
 
 /**
@@ -22,7 +22,7 @@ import uk.kihira.tails.client.RenderHelper;
  *
  * @param <T> The list type.
  */
-public class ListWidget<T extends ExtendedList.AbstractListEntry<T>> extends ExtendedList<T> {
+public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSelectionList<T> {
 
 	private final IListCallback<T> parent;
 	private int currentIndex;
@@ -34,7 +34,7 @@ public class ListWidget<T extends ExtendedList.AbstractListEntry<T>> extends Ext
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		RenderHelper.startGlScissor(x0, y0, width + 3, height);
 		try {
 			// TODO: Lists draw the dirt background. How do we want to handle this? Copy the code and draw black instead? Or adopt it in other panels?
@@ -47,7 +47,7 @@ public class ListWidget<T extends ExtendedList.AbstractListEntry<T>> extends Ext
 	}
 
 	@Override
-	protected void renderBackground(MatrixStack matrixStack) {}
+	protected void renderBackground(PoseStack matrixStack) {}
 
 	@Override
 	public int getRowWidth() {

@@ -9,9 +9,9 @@
 package uk.kihira.tails.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.IngameMenuScreen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.PauseScreen;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -34,8 +34,8 @@ public class ClientEventHandler {
 	 */
 	@SubscribeEvent
 	public void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
-		if (event.getGui() instanceof IngameMenuScreen)
-			event.addWidget(new Button(event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20, new TranslationTextComponent("tails.gui.button.editor"), b -> {
+		if (event.getGui() instanceof PauseScreen)
+			event.addWidget(new Button(event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20, new TranslatableComponent("tails.gui.button.editor"), b -> {
 				Minecraft.getInstance().setScreen(new EditorScreen());
 			}));
 	}

@@ -10,8 +10,8 @@ package uk.kihira.tails.client.render;
 
 import java.util.UUID;
 
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,7 +29,7 @@ public class RenderingHandler {
 		final UUID uuid = e.getPlayer().getGameProfile().getId();
 		if (Tails.PROXY.hasPartsData(uuid) && !e.getPlayer().isInvisible()) {
 			currentPartsData = Tails.PROXY.getPartsData(uuid);
-			currentPlayerTexture = ((AbstractClientPlayerEntity) e.getPlayer()).getSkinTextureLocation();
+			currentPlayerTexture = ((AbstractClientPlayer) e.getPlayer()).getSkinTextureLocation();
 			currentEvent = e;
 		}
 	}

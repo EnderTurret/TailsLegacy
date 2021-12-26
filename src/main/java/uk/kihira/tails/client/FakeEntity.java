@@ -10,28 +10,28 @@ package uk.kihira.tails.client;
 
 import java.util.Collections;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.HandSide;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class FakeEntity extends LivingEntity {
 
-	public FakeEntity(World world) {
+	public FakeEntity(Level world) {
 		super(EntityType.BAT, world);
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundNBT tagCompound) {}
+	public void addAdditionalSaveData(CompoundTag tagCompound) {}
 
 	@Override
-	public void readAdditionalSaveData(CompoundNBT tagCompound) {}
+	public void readAdditionalSaveData(CompoundTag tagCompound) {}
 
 	@Override
 	public Iterable<ItemStack> getArmorSlots() {
@@ -39,15 +39,15 @@ public class FakeEntity extends LivingEntity {
 	}
 
 	@Override
-	public ItemStack getItemBySlot(EquipmentSlotType slotIn) {
+	public ItemStack getItemBySlot(EquipmentSlot slotIn) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setItemSlot(EquipmentSlotType slotIn, ItemStack stack) {}
+	public void setItemSlot(EquipmentSlot slotIn, ItemStack stack) {}
 
 	@Override
-	public HandSide getMainArm() {
-		return HandSide.RIGHT;
+	public HumanoidArm getMainArm() {
+		return HumanoidArm.RIGHT;
 	}
 }

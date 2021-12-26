@@ -10,7 +10,7 @@ package uk.kihira.tails.common.network;
 
 import java.util.function.Supplier;
 
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 import uk.kihira.tails.common.Tails;
 
@@ -22,11 +22,11 @@ public class ServerCapabilitiesMessage {
 		this.library = library;
 	}
 
-	public static ServerCapabilitiesMessage decode(PacketBuffer buf) {
+	public static ServerCapabilitiesMessage decode(FriendlyByteBuf buf) {
 		return new ServerCapabilitiesMessage(buf.readBoolean());
 	}
 
-	public static void encode(ServerCapabilitiesMessage msg, PacketBuffer buf) {
+	public static void encode(ServerCapabilitiesMessage msg, FriendlyByteBuf buf) {
 		buf.writeBoolean(msg.library);
 	}
 

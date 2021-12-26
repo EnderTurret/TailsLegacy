@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -53,7 +53,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		libraryManager = new ClientLibraryManager();
 
-		RenderHelperManager.registerRenderHelper(PlayerEntity.class, new PlayerRenderHelper());
+		RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper());
 		RenderHelperManager.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
 
 		if (ModList.get().isLoaded("botania"))
@@ -102,7 +102,7 @@ public class ClientProxy extends CommonProxy {
 			MinecraftForge.EVENT_BUS.register(new RenderingHandler());
 
 			for (PlayerRenderer renderer : skinMap.values()) {
-				final PlayerModel<AbstractClientPlayerEntity> model = renderer.getModel();
+				final PlayerModel<AbstractClientPlayer> model = renderer.getModel();
 				model.body.addChild(new ModelRendererWrapper(model, PartType.TAIL));
 				model.body.addChild(new ModelRendererWrapper(model, PartType.WINGS));
 				model.head.addChild(new ModelRendererWrapper(model, PartType.EARS));

@@ -8,32 +8,32 @@
 
 package uk.kihira.tails.client.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * The model used for muzzles.
  */
 public class MuzzleModel extends PartModel {
 
-	private final ModelRenderer stubMuzzle;
-	private final ModelRenderer tinyMuzzle;
+	private final ModelPart stubMuzzle;
+	private final ModelPart tinyMuzzle;
 
-	private final ModelRenderer muzzle;
+	private final ModelPart muzzle;
 
 	public MuzzleModel(float xOffset, float yOffset, float zOffset, int xSize, int ySize, int zSize, int xTex, int yTex) {
 		texWidth = texHeight = 32;
 
-		muzzle = new ModelRenderer(this, xTex, yTex);
+		muzzle = new ModelPart(this, xTex, yTex);
 		muzzle.addBox(xOffset, yOffset, zOffset, xSize, ySize, zSize);
 
-		stubMuzzle = new ModelRenderer(this);
+		stubMuzzle = new ModelPart(this);
 		stubMuzzle.addBox(-2f, -4f, -7f, 4, 4, 3);
 
-		tinyMuzzle = new ModelRenderer(this);
+		tinyMuzzle = new ModelPart(this);
 		tinyMuzzle.addBox(-2f, -2f, -5f, 4, 2, 1);
 	}
 
@@ -42,7 +42,7 @@ public class MuzzleModel extends PartModel {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		matrixStackIn.pushPose();
 		matrixStackIn.translate(0, -0.001F, 0);
 		switch (subtype) {

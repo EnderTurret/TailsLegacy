@@ -11,11 +11,11 @@ package uk.kihira.tails.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.gui.panel.Panel;
 
 /**
@@ -28,7 +28,7 @@ public abstract class LayeredScreen extends BaseScreen {
 	// 0 is bottom layer.
 	private final List<List<Panel<?>>> layers = new ArrayList<>();
 
-	public LayeredScreen(int layerCount, ITextComponent title) {
+	public LayeredScreen(int layerCount, Component title) {
 		super(title);
 		for (int i = 0; i < layerCount; i++)
 			layers.add(new ArrayList<>());
@@ -54,7 +54,7 @@ public abstract class LayeredScreen extends BaseScreen {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		//int color = 0;
 
 		for (List<Panel<?>> layer : layers)

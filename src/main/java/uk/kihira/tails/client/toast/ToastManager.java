@@ -13,10 +13,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -32,19 +32,19 @@ public class ToastManager {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public void createToast(int x, int y, ITextComponent text) {
-		final FontRenderer fontRenderer = Minecraft.getInstance().font;
-		final IReorderingProcessor processor = text.getVisualOrderText();
+	public void createToast(int x, int y, Component text) {
+		final Font fontRenderer = Minecraft.getInstance().font;
+		final FormattedCharSequence processor = text.getVisualOrderText();
 		final int stringWidth = fontRenderer.width(processor);
 		toasts.add(new Toast(x, y, stringWidth + 10,  stringWidth * 3, processor));
 	}
 
-	public void createCenteredToast(int x, int y, int maxWidth, ITextComponent text) {
-		final FontRenderer fontRenderer = Minecraft.getInstance().font;
+	public void createCenteredToast(int x, int y, int maxWidth, Component text) {
+		final Font fontRenderer = Minecraft.getInstance().font;
 		final int stringWidth = fontRenderer.width(text);
 		if (stringWidth > maxWidth) {
-			final List<IReorderingProcessor> strings = fontRenderer.split(text, maxWidth);
-			toasts.add(new Toast(x - maxWidth / 2 - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new IReorderingProcessor[strings.size()])));
+			final List<FormattedCharSequence> strings = fontRenderer.split(text, maxWidth);
+			toasts.add(new Toast(x - maxWidth / 2 - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new FormattedCharSequence[strings.size()])));
 		} else
 			toasts.add(new Toast(x - stringWidth / 2 - 5, y, stringWidth + 10, text.getString().length() * 3, text.getVisualOrderText()));
 	}
@@ -63,7 +63,7 @@ public class ToastManager {
 
 	@SubscribeEvent
 	public void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
-		final IProfiler profiler = Minecraft.getInstance().getProfiler();
+		final ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
 		profiler.push("toastNotification");
 		for (Toast toast : toasts)
 			toast.drawToast(event.getMatrixStack(), event.getMouseX(), event.getMouseY());

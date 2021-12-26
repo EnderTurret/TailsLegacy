@@ -11,8 +11,8 @@ package uk.kihira.tails.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.World;
+import com.mojang.math.Vector3f;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import uk.kihira.tails.client.FakeEntity;
@@ -63,7 +63,7 @@ public class FoxtatoRenderer {
 	}
 
 	public static class FoxtatoFakeEntity extends FakeEntity {
-		public FoxtatoFakeEntity(World world) {
+		public FoxtatoFakeEntity(Level world) {
 			super(world);
 		}
 	}

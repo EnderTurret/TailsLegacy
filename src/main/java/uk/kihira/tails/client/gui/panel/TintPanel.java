@@ -13,13 +13,13 @@ import java.awt.Color;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.base.Strings;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.util.Mth;
+import net.minecraft.network.chat.TranslatableComponent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.HSBSlider;
 import uk.kihira.tails.client.gui.widget.IconButton;
@@ -29,7 +29,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 	private int editingTint = 0;
 	private int currentTint = 0xFFFFFF;
-	private TextFieldWidget hexText;
+	private EditBox hexText;
 	private HSBSlider[] hsbSliders;
 	private HSBSlider[] rgbSliders;
 	private IconButton tintReset;
@@ -49,7 +49,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		int topOffset = 20;
 		for (int id = 2; id <= 4; id++) {
 			final int finalId = id;
-			addButton(new Button(30, topOffset, 40, 20, new TranslationTextComponent("tails.gui.button.edit"), b -> handleTintButton(finalId)));
+			addButton(new Button(30, topOffset, 40, 20, new TranslatableComponent("tails.gui.button.edit"), b -> handleTintButton(finalId)));
 			topOffset += 35;
 		}
 
@@ -61,9 +61,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 		// RGB sliders
 		rgbSliders = new HSBSlider[3];
-		rgbSliders[0] = new HSBSlider(5, 5, editPaneTop + 70, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslationTextComponent("tails.gui.slider.red.tooltip"));
-		rgbSliders[1] = new HSBSlider(6, 5, editPaneTop + 80, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslationTextComponent("tails.gui.slider.green.tooltip"));
-		rgbSliders[2] = new HSBSlider(7, 5, editPaneTop + 90, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslationTextComponent("tails.gui.slider.blue.tooltip"));
+		rgbSliders[0] = new HSBSlider(5, 5, editPaneTop + 70, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.red.tooltip"));
+		rgbSliders[1] = new HSBSlider(6, 5, editPaneTop + 80, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.green.tooltip"));
+		rgbSliders[2] = new HSBSlider(7, 5, editPaneTop + 90, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.blue.tooltip"));
 		rgbSliders[0].setHue(0);
 		rgbSliders[1].setHue(1F / 3F);
 		rgbSliders[2].setHue(2F / 3F);
@@ -74,9 +74,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 		// HSB sliders
 		hsbSliders = new HSBSlider[3];
-		hsbSliders[0] = new HSBSlider(15, 5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, new TranslationTextComponent("tails.gui.slider.hue.tooltip"));
-		hsbSliders[1] = new HSBSlider(16, 5, editPaneTop + 45, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslationTextComponent("tails.gui.slider.saturation.tooltip"));
-		hsbSliders[2] = new HSBSlider(17, 5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, new TranslationTextComponent("tails.gui.slider.brightness.tooltip"));
+		hsbSliders[0] = new HSBSlider(15, 5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, new TranslatableComponent("tails.gui.slider.hue.tooltip"));
+		hsbSliders[1] = new HSBSlider(16, 5, editPaneTop + 45, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.saturation.tooltip"));
+		hsbSliders[2] = new HSBSlider(17, 5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, new TranslatableComponent("tails.gui.slider.brightness.tooltip"));
 
 		addButton(hsbSliders[0]);
 		addButton(hsbSliders[1]);
@@ -88,11 +88,11 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 			hexText.setValue(Integer.toHexString(currentTint));
 			refreshTintPane();
 			tintReset.active = false;
-		}, new TranslationTextComponent("tails.gui.button.reset")));
+		}, new TranslatableComponent("tails.gui.button.reset")));
 		tintReset.active = false;
 
 		// Color Picker
-		addButton(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), new TranslationTextComponent("tails.gui.button.picker.0"), new TranslationTextComponent("tails.gui.button.picker.1")));
+		addButton(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), new TranslatableComponent("tails.gui.button.picker.0"), new TranslatableComponent("tails.gui.button.picker.1")));
 		colourPicker.visible = false;
 		colourPicker.active = false;
 
@@ -100,7 +100,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		setBlitOffset(-100);
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
@@ -190,9 +190,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	public void onValueChangeHSBSlider(HSBSlider source, double sliderValue) {
 		if (source == rgbSliders[0] || source == rgbSliders[1] || source == rgbSliders[2])
 			currentTint = new Color(
-					(int) MathHelper.clamp(rgbSliders[0].getValue() * 255F, 0, 255),
-					(int) MathHelper.clamp(rgbSliders[1].getValue() * 255F, 0, 255),
-					(int) MathHelper.clamp(rgbSliders[2].getValue() * 255F, 0, 255)).getRGB();
+					(int) Mth.clamp(rgbSliders[0].getValue() * 255F, 0, 255),
+					(int) Mth.clamp(rgbSliders[1].getValue() * 255F, 0, 255),
+					(int) Mth.clamp(rgbSliders[2].getValue() * 255F, 0, 255)).getRGB();
 		else {
 			final float[] hsbvals = {(float) hsbSliders[0].getValue(), (float) hsbSliders[1].getValue(), (float) hsbSliders[2].getValue()};
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;

@@ -11,19 +11,19 @@ package uk.kihira.tails.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.widget.ITooltip;
 
-import net.minecraft.client.gui.widget.button.Button.IPressable;
+import net.minecraft.client.gui.components.Button.OnPress;
 
 public abstract class BaseScreen extends Screen {
 
@@ -31,12 +31,12 @@ public abstract class BaseScreen extends Screen {
 	private int prevMouseY;
 	private float mouseIdleTicks;
 
-	protected BaseScreen(ITextComponent titleIn) {
+	protected BaseScreen(Component titleIn) {
 		super(titleIn);
 	}
 
-	public void renderTooltips(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		for (Widget btn : buttons)
+	public void renderTooltips(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		for (AbstractWidget btn : buttons)
 			if (btn instanceof ITooltip && btn.isMouseOver(mouseX, mouseY)) {
 				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTicks;
 				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
@@ -49,7 +49,7 @@ public abstract class BaseScreen extends Screen {
 			}
 	}
 
-	public void rect(MatrixStack matrixStack, int x1, int y1, int x2, int y2, int color) {
+	public void rect(PoseStack matrixStack, int x1, int y1, int x2, int y2, int color) {
 		hLine(matrixStack, x1, x2, y1, color);
 		hLine(matrixStack, x1, x2, y2, color);
 		vLine(matrixStack, x1, y1, y2, color);
@@ -66,21 +66,21 @@ public abstract class BaseScreen extends Screen {
 	public static class TooltipButton extends ExtendedButton implements ITooltip {
 
 		private final int maxTextWidth;
-		protected final List<IReorderingProcessor> tooltip = new ArrayList<>();
-		protected final FontRenderer font;
+		protected final List<FormattedCharSequence> tooltip = new ArrayList<>();
+		protected final Font font;
 
-		public TooltipButton(int x, int y, int width, int height, ITextComponent text, int maxTextWidth, IPressable pressable, FontRenderer font, ITextComponent... tooltips) {
+		public TooltipButton(int x, int y, int width, int height, Component text, int maxTextWidth, OnPress pressable, Font font, Component... tooltips) {
 			super(x, y, width, height, text, pressable);
 			this.maxTextWidth = maxTextWidth;
 			this.font = font;
 
 			if (tooltips != null && tooltips.length > 0)
-				for (ITextComponent s : tooltips)
+				for (Component s : tooltips)
 					tooltip.addAll(font.split(s, this.maxTextWidth));
 		}
 
 		@Override
-		public List<IReorderingProcessor> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
+		public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
 			return tooltip;
 		}
 	}
@@ -90,7 +90,7 @@ public abstract class BaseScreen extends Screen {
 	 */
 	public class ToggleButton extends TooltipButton {
 
-		public ToggleButton(int x, int y, int width, int height, ITextComponent text, int maxTextWidth, IPressable onPress, FontRenderer font, ITextComponent... tooltips) {
+		public ToggleButton(int x, int y, int width, int height, Component text, int maxTextWidth, OnPress onPress, Font font, Component... tooltips) {
 			super(x, y, width, height, text, maxTextWidth, onPress, font, tooltips);
 		}
 
@@ -104,9 +104,9 @@ public abstract class BaseScreen extends Screen {
 		}
 
 		@Override
-		public void renderButton(MatrixStack matrixStack, int x, int y, float partialTicks) {
-			final List<IReorderingProcessor> list = new ArrayList<>(tooltip);
-			list.add(!active ? new StringTextComponent("Enabled").withStyle(TextFormatting.GREEN, TextFormatting.ITALIC).getVisualOrderText() : new StringTextComponent("Disabled").withStyle(TextFormatting.RED, TextFormatting.ITALIC).getVisualOrderText());
+		public void renderButton(PoseStack matrixStack, int x, int y, float partialTicks) {
+			final List<FormattedCharSequence> list = new ArrayList<>(tooltip);
+			list.add(!active ? new TextComponent("Enabled").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC).getVisualOrderText() : new TextComponent("Disabled").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC).getVisualOrderText());
 			BaseScreen.this.renderToolTip(matrixStack, list, x, y, font);
 		}
 	}

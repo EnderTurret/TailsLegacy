@@ -8,13 +8,13 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
 import uk.kihira.tails.client.model.PartModel;
 
 /**
@@ -22,32 +22,32 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class DragonTailModel extends PartModel {
 
-	private final ModelRenderer tailBase;
-	private final ModelRenderer tail1;
-	private final ModelRenderer tail2;
-	private final ModelRenderer tail3;
+	private final ModelPart tailBase;
+	private final ModelPart tail1;
+	private final ModelPart tail2;
+	private final ModelPart tail3;
 
-	private final ModelRenderer tailSubBase;
-	private final ModelRenderer tailSub1;
-	private final ModelRenderer tailSub2;
-	private final ModelRenderer tailSub3;
+	private final ModelPart tailSubBase;
+	private final ModelPart tailSub1;
+	private final ModelPart tailSub2;
+	private final ModelPart tailSub3;
 
 	public DragonTailModel() {
-		tailBase = new ModelRenderer(this, 22, 0);
+		tailBase = new ModelPart(this, 22, 0);
 		tailBase.addBox(-2.5F, -2.5F, -2F, 5, 5, 8);
 		setRotationDegrees(tailBase, -40F, 0F, 0F);
 
-		tail1 = new ModelRenderer(this, 0, 0);
+		tail1 = new ModelPart(this, 0, 0);
 		tail1.addBox(-2F, -2F, 0F, 4, 4, 7);
 		tail1.setPos(0F, 0.3F, 5F);
 		setRotationDegrees(tail1, -8F, 0F, 0F);
 
-		tail2 = new ModelRenderer(this, 0, 11);
+		tail2 = new ModelPart(this, 0, 11);
 		tail2.addBox(-1.5F, -1.5F, 0F, 3, 3, 8);
 		tail2.setPos(0F, 0.2F, 5.5F);
 		setRotationDegrees(tail2, 10F, 0F, 0F);
 
-		tail3 = new ModelRenderer(this, 0, 22);
+		tail3 = new ModelPart(this, 0, 22);
 		tail3.addBox(-1F, -1F, 0F, 2, 2, 7);
 		tail3.setPos(0F, 0.4F, 7.5F);
 		setRotationDegrees(tail3, 20F, 0F, 0F);
@@ -56,21 +56,21 @@ public class DragonTailModel extends PartModel {
 		tail1.addChild(tail2);
 		tailBase.addChild(tail1);
 
-		tailSubBase = new ModelRenderer(this, 22, 5);
+		tailSubBase = new ModelPart(this, 22, 5);
 		tailSubBase.addBox(0F, -7.25F, -2F, 0, 5, 8);
 		setRotationDegrees(tailSubBase, -40F, 0F, 0F);
 
-		tailSub1 = new ModelRenderer(this, 22, 11);
+		tailSub1 = new ModelPart(this, 22, 11);
 		tailSub1.addBox(0F, -6.75F, 1F, 0, 5, 7);
 		tailSub1.setPos(0F, 0.3F, 5F);
 		setRotationDegrees(tailSub1, -8F, 0F, 0F);
 
-		tailSub2 = new ModelRenderer(this, 22, 15);
+		tailSub2 = new ModelPart(this, 22, 15);
 		tailSub2.addBox(0F, -6.25F, 1F, 0, 5, 8);
 		tailSub2.setPos(0F, 0.2F, 5.5F);
 		setRotationDegrees(tailSub2, 10F, 0F, 0F);
 
-		tailSub3 = new ModelRenderer(this, 29, 6);
+		tailSub3 = new ModelPart(this, 29, 6);
 		tailSub3.addBox(0F, -5.75F, 1F, 0, 5, 7);
 		tailSub3.setPos(0F, 0.4F, 7.5F);
 		setRotationDegrees(tailSub3, 20F, 0F, 0F);
@@ -85,10 +85,10 @@ public class DragonTailModel extends PartModel {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getVehicle() == null) {
-			if (entity instanceof PlayerEntity) {
-				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
+			if (entity instanceof Player) {
+				final double[] angles = getMotionAngles((Player) entity, partialTicks);
 
-				xAngleOffset = MathHelper.clamp(angles[0] / 5F, -1D, 0.45D);
+				xAngleOffset = Mth.clamp(angles[0] / 5F, -1D, 0.45D);
 				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
 			}
 		}
@@ -99,21 +99,21 @@ public class DragonTailModel extends PartModel {
 		}
 
 		final float timestep = getAnimationTime(4000D, entity);
-		setRotationRadians(tailBase, Math.toRadians(-40F) + xAngleOffset * 2F, MathHelper.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, Math.toRadians(-8F) + xAngleOffset * 2F, MathHelper.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, Math.toRadians(10F) - xAngleOffset / 4F, MathHelper.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset, MathHelper.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tailBase, Math.toRadians(-40F) + xAngleOffset * 2F, Mth.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail1, Math.toRadians(-8F) + xAngleOffset * 2F, Mth.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail2, Math.toRadians(10F) - xAngleOffset / 4F, Mth.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset, Mth.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
 
 		if (subtype == 1) {
-			setRotationRadians(tailSubBase, Math.toRadians(-40F) + xAngleOffset * 2F, MathHelper.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub1, Math.toRadians(-8F) + xAngleOffset * 2F, MathHelper.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub2, Math.toRadians(10F) - xAngleOffset / 4F, MathHelper.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub3, Math.toRadians(20F) - xAngleOffset, MathHelper.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSubBase, Math.toRadians(-40F) + xAngleOffset * 2F, Mth.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub1, Math.toRadians(-8F) + xAngleOffset * 2F, Mth.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub2, Math.toRadians(10F) - xAngleOffset / 4F, Mth.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSub3, Math.toRadians(20F) - xAngleOffset, Mth.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
 		}
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 		if (subtype == 1)

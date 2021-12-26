@@ -8,16 +8,16 @@
 
 package uk.kihira.tails.client.render;
 
-import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Provides an additional {@link RenderType} or two.
  * @author EnderTurret
  */
-public class RenderStates extends RenderState {
+public class RenderStates extends RenderStateShard {
 
 	private RenderStates() {
 		super(null, null, null);
@@ -30,8 +30,8 @@ public class RenderStates extends RenderState {
 	 * @return The newly created {@link RenderType}.
 	 */
 	public static RenderType getPartPreview(ResourceLocation locationIn) {
-		final RenderType.State state = RenderType.State.builder()
-				.setTextureState(new RenderState.TextureState(locationIn, false, false))
+		final RenderType.CompositeState state = RenderType.CompositeState.builder()
+				.setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
 				.setTransparencyState(NO_TRANSPARENCY)
 				.setDiffuseLightingState(NO_DIFFUSE_LIGHTING)
 				.setAlphaState(DEFAULT_ALPHA)
@@ -40,6 +40,6 @@ public class RenderStates extends RenderState {
 				.setCullState(NO_CULL)
 				.createCompositeState(true);
 
-		return RenderType.create("part_preview", DefaultVertexFormats.NEW_ENTITY, 7, 256, true, false, state);
+		return RenderType.create("part_preview", DefaultVertexFormat.NEW_ENTITY, 7, 256, true, false, state);
 	}
 }

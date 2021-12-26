@@ -10,15 +10,15 @@ package uk.kihira.tails.client.render;
 
 import java.util.UUID;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.PartRenderRegistry;
@@ -29,14 +29,14 @@ import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
 @OnlyIn(Dist.CLIENT)
-public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> {
+public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
 
-	private final LivingRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer;
+	private final LivingEntityRenderer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> renderer;
 	private final PartType partType;
 	//private final ModelRenderer modelRenderer;
 	//private final boolean mpmCompat;
 
-	public PartLayer(LivingRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartType partType) {
+	public PartLayer(LivingEntityRenderer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> renderer, ModelPart modelRenderer, PartType partType) {
 		super(renderer);
 		this.renderer = renderer;
 		this.partType = partType;
@@ -45,8 +45,8 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		final UUID uuid = PlayerEntity.createPlayerUUID(entity.getGameProfile());
+	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+		final UUID uuid = Player.createPlayerUUID(entity.getGameProfile());
 		if (Tails.PROXY.hasPartsData(uuid)) {
 			final PartsData partsData = Tails.PROXY.getPartsData(uuid);
 			if (partsData.hasPartInfo(partType)) {
@@ -64,7 +64,7 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 					final Part part = tailInfo.getPart();
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
 					if (renderer != null)
-						renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
+						renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
 					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", tailInfo);
 				} catch (Exception e) {
 					Tails.LOGGER.error("Exception rendering part {}: ", tailInfo, e);

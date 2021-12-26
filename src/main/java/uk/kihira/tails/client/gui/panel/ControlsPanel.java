@@ -8,11 +8,11 @@
 
 package uk.kihira.tails.client.gui.panel;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.toast.ToastManager;
@@ -33,7 +33,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		// Mode Switch
-		addButton(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslationTextComponent("tails.gui.button.mode.library"), b -> {
+		addButton(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.mode.library"), b -> {
 			libraryMode = !libraryMode;
 			parent.getPartPanel().enabled = !libraryMode;
 			parent.getTexturePanel().enabled = !libraryMode;
@@ -54,10 +54,10 @@ public class ControlsPanel extends Panel<EditorScreen> {
 
 			parent.setPartsData(Tails.localPartsData);
 
-			b.setMessage(libraryMode ? new TranslationTextComponent("tails.gui.button.mode.editor") : new TranslationTextComponent("tails.gui.button.mode.library"));
+			b.setMessage(libraryMode ? new TranslatableComponent("tails.gui.button.mode.editor") : new TranslatableComponent("tails.gui.button.mode.library"));
 		}));
 		// Reset/Save
-		addButton(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslationTextComponent("tails.gui.button.reset"), b -> {
+		addButton(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.reset"), b -> {
 			final PartInfo partInfo = parent.getOriginalPartInfo().deepCopy();
 			parent.getPartPanel().selectDefaultListEntry();
 			parent.getLibraryPanel().initList();
@@ -66,7 +66,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			parent.refreshTintPane();
 			parent.setPartsInfo(partInfo);
 		}));
-		addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslationTextComponent("tails.gui.done"), b -> {
+		addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.done"), b -> {
 			// Update part info, set local and send it to the server.
 			final PartsData partsData = parent.getPartsData();
 
@@ -78,14 +78,14 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			if (CommonProxy.sync != null)
 				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
 
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new TranslationTextComponent("tails.gui.saved").withStyle(TextFormatting.GREEN));
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new TranslatableComponent("tails.gui.saved").withStyle(ChatFormatting.GREEN));
 
 			minecraft.setScreen(null);
 		}));
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		matrixStack.pushPose();
 
 		matrixStack.translate(0, 0, -400);

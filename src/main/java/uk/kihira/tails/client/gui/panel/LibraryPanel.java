@@ -13,12 +13,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
@@ -33,7 +33,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 
 	private static final LibrarySorter SORTER = new LibrarySorter();
 	private ListWidget<LibraryListEntry> list;
-	private TextFieldWidget searchField;
+	private EditBox searchField;
 	private boolean libraryChanged = false;
 
 	public LibraryPanel(EditorScreen parent, int left, int top, int width, int height) {
@@ -48,14 +48,14 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 	public void init() {
 		initList();
 
-		addButton(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, new TranslationTextComponent("tails.gui.button.all"), b -> {}));
+		addButton(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, new TranslatableComponent("tails.gui.button.all"), b -> {}));
 		addButton(searchField = new RelativeTextField(font, 5, bottom - top - 31, right - left - 10, 10, null));
 
 		super.init();
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		setBlitOffset(-100);
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 

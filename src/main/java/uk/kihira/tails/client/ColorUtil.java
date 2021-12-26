@@ -10,7 +10,7 @@ package uk.kihira.tails.client;
 
 import java.awt.Color;
 
-import net.minecraft.client.renderer.texture.NativeImage;
+import com.mojang.blaze3d.platform.NativeImage;
 
 /**
  * Miscellaneous utilities for converting between {@link NativeImage} color values and {@link Color} color values.<br>

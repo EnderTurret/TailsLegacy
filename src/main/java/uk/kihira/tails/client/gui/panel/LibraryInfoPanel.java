@@ -14,14 +14,14 @@ import java.util.ArrayList;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.TranslatableComponent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
@@ -36,7 +36,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	private LibraryListEntry entry;
 
-	private TextFieldWidget textField;
+	private EditBox textField;
 	private IconButton.Toggle favButton;
 	private IconButton deleteButton;
 	private IconButton downloadButton;
@@ -54,7 +54,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 
 		addButton(favButton = new IconButton.Toggle(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
-		}, new TranslationTextComponent("tails.gui.library.button.favorite")));
+		}, new TranslatableComponent("tails.gui.library.button.favorite")));
 		addButton(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
 			// Only allow removing if player owns the entry.
 			if (entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))
@@ -62,15 +62,15 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			((IconButton) b).setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
-		}, new TranslationTextComponent("tails.gui.library.button.delete")));
+		}, new TranslatableComponent("tails.gui.library.button.delete")));
 		addButton(uploadButton = new IconButton(36, bottom - top - 20, IconButton.Icons.UPLOAD, b -> {
 			Tails.CHANNEL.sendToServer(new LibraryEntriesMessage(new ArrayList<LibraryEntryData>() {{ add(entry.data); }}, false));
 			b.active = false;
-		}, new TranslationTextComponent("tails.gui.library.button.upload")));
+		}, new TranslatableComponent("tails.gui.library.button.upload")));
 		addButton(downloadButton = new IconButton(53, bottom - top - 20, IconButton.Icons.DOWNLOAD, b -> {
 			entry.data.remoteEntry = false;
 			b.active = false;
-		}, new TranslationTextComponent("tails.gui.library.button.savelocal")));
+		}, new TranslatableComponent("tails.gui.library.button.savelocal")));
 		addButton(new IconButton(68, bottom - top - 20, IconButton.Icons.EXPORT, b -> {
 			final StringBuilder sb = new StringBuilder();
 			final LibraryEntryData libData = getEntry().data;
@@ -78,9 +78,9 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			sb.append(libData.creatorUUID).append(":");
 			sb.append(Tails.GSON.toJson(libData.partsData));
 
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, new TranslationTextComponent("tails.gui.library.info.toast.export"));
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, new TranslatableComponent("tails.gui.library.info.toast.export"));
 			GLFW.glfwSetClipboardString(minecraft.getWindow().getWindow(), sb.toString());
-		}, new TranslationTextComponent("tails.gui.library.button.share")));
+		}, new TranslatableComponent("tails.gui.library.button.share")));
 
 		super.init();
 
@@ -92,7 +92,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		setBlitOffset(0);
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
@@ -142,14 +142,14 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		this.entry = entry;
 		if (entry == null) {
 			textField.setVisible(false);
-			for (Widget button : buttons)
+			for (AbstractWidget button : buttons)
 				button.visible = false;
 		}
 		else {
 			favButton.toggled = entry.data.favourite;
 			textField.setVisible(true);
 			textField.setValue(entry.data.entryName);
-			for (Widget button : buttons) {
+			for (AbstractWidget button : buttons) {
 				button.visible = true;
 
 				if (button == deleteButton && entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))

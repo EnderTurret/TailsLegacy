@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.common.Tails;
 

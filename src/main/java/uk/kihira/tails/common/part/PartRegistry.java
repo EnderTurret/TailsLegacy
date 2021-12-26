@@ -19,7 +19,7 @@ import java.util.Map;
 
 import com.google.common.collect.ArrayListMultimap;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class PartRegistry {
 

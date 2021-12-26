@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import uk.kihira.tails.common.LibraryEntryData;
@@ -31,7 +31,7 @@ public class LibraryEntriesMessage {
 		this.delete = delete;
 	}
 
-	public static LibraryEntriesMessage decode(PacketBuffer buf) {
+	public static LibraryEntriesMessage decode(FriendlyByteBuf buf) {
 		final String dataJson = buf.readUtf(Short.MAX_VALUE);
 		final LibraryEntriesMessage msg = new LibraryEntriesMessage();
 
@@ -46,7 +46,7 @@ public class LibraryEntriesMessage {
 		return msg;
 	}
 
-	public static void encode(LibraryEntriesMessage msg, PacketBuffer buf) {
+	public static void encode(LibraryEntriesMessage msg, FriendlyByteBuf buf) {
 		buf.writeUtf(Tails.GSON.toJson(msg.entries, new TypeToken<List<LibraryEntryData>>() {}.getType()), Short.MAX_VALUE);
 		buf.writeBoolean(msg.delete);
 	}

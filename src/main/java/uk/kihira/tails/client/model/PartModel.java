@@ -8,16 +8,16 @@
 
 package uk.kihira.tails.client.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
 
 /**
  * A base class that all parts extend.
@@ -44,11 +44,11 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param subtype The subtype.
 	 * @param partialTicks The partial ticks.
 	 */
-	public abstract void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks);
+	public abstract void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks);
 
 	@Override
 	@Deprecated
-	public final void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {}
+	public final void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {}
 
 	@Override
 	public void setupAnim(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {}
@@ -60,7 +60,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param y The y angle
 	 * @param z The z angle
 	 */
-	protected void setRotationRadians(ModelRenderer model, double x, double y, double z) {
+	protected void setRotationRadians(ModelPart model, double x, double y, double z) {
 		model.xRot = (float) x;
 		model.yRot = (float) y;
 		model.zRot = (float) z;
@@ -73,7 +73,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param y The y angle
 	 * @param z The z angle
 	 */
-	protected void setRotationDegrees(ModelRenderer model, float x, float y, float z) {
+	protected void setRotationDegrees(ModelPart model, float x, float y, float z) {
 		setRotationRadians(model, (float) Math.toRadians(x), (float) Math.toRadians(y), (float) Math.toRadians(z));
 	}
 
@@ -82,16 +82,16 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2F * Math.PI);
 	}
 
-	protected double[] getMotionAngles(PlayerEntity player, double partialTicks) {
+	protected double[] getMotionAngles(Player player, double partialTicks) {
 		final double xMotion = player.xCloakO + (player.xCloak - player.xCloakO) * partialTicks - (player.xo + (player.getX() - player.xo) * partialTicks);
 		final double yMotion = player.yCloakO + (player.yCloak - player.yCloakO) * partialTicks - (player.yo + (player.getY() - player.yo) * partialTicks); // Positive when falling, negative when climbing
 		final double zMotion = player.zCloakO + (player.zCloak - player.zCloakO) * partialTicks - (player.zo + (player.getZ() - player.zo) * partialTicks);
 		final float bodyYaw = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO) * (float) partialTicks;
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
-		final double bodyYawSin = MathHelper.sin(bodyYaw * (float) Math.PI / 180F);
-		final double bodyYawCos = -MathHelper.cos(bodyYaw * (float) Math.PI / 180F);
-		final float xOffset = MathHelper.clamp((float) yMotion * 10F, -6F, 32F);
+		final double bodyYawSin = Mth.sin(bodyYaw * (float) Math.PI / 180F);
+		final double bodyYawCos = -Mth.cos(bodyYaw * (float) Math.PI / 180F);
+		final float xOffset = Mth.clamp((float) yMotion * 10F, -6F, 32F);
 		float f1 = (float)(xMotion * bodyYawSin + zMotion * bodyYawCos) * 100F;
 		final float f2 = (float)(xMotion * bodyYawCos - zMotion * bodyYawSin) * 100F;
 
@@ -100,8 +100,8 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		return new double[] {Math.toRadians(f1 / 2.5F + (xOffset + getTailBob(player, (float) partialTicks))), Math.toRadians(-f2 / 20F), Math.toRadians(f2 / 2F)};
 	}
 
-	protected float getTailBob(PlayerEntity player, float partialTicks) {
+	protected float getTailBob(Player player, float partialTicks) {
 		final float cameraYaw = player.oBob + (player.bob - player.oBob) * partialTicks;
-		return MathHelper.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTicks) * 6F) * 12F * cameraYaw;
+		return Mth.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTicks) * 6F) * 12F * cameraYaw;
 	}
 }

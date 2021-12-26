@@ -8,10 +8,10 @@
 
 package uk.kihira.tails.client.gui.panel;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.common.part.Part;
@@ -34,17 +34,17 @@ public class TexturePanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		// Texture select
-		addButton(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, new StringTextComponent("<"), b -> cycleTexLeft()));
-		addButton(rightBtn = new ExtendedButton(right - left - 20, texSelectY, 15, 15, new StringTextComponent(">"), b -> cycleTexRight()));
-		addButton(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, new StringTextComponent("<"), b -> cycleVariantLeft()));
-		addButton(variantRightBtn = new ExtendedButton(right - left - 20, variantSelectY, 15, 15, new StringTextComponent(">"), b -> cycleVariantRight()));
+		addButton(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, new TextComponent("<"), b -> cycleTexLeft()));
+		addButton(rightBtn = new ExtendedButton(right - left - 20, texSelectY, 15, 15, new TextComponent(">"), b -> cycleTexRight()));
+		addButton(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, new TextComponent("<"), b -> cycleVariantLeft()));
+		addButton(variantRightBtn = new ExtendedButton(right - left - 20, variantSelectY, 15, 15, new TextComponent(">"), b -> cycleVariantRight()));
 		parent.setTextureId(parent.getEditingPartInfo().getTextureId());
 
 		updateButtons();
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		final PartInfo partInfo = parent.getEditingPartInfo();
 
 		setBlitOffset(-10);

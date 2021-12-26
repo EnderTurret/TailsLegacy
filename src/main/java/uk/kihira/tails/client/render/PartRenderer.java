@@ -55,7 +55,7 @@ public class PartRenderer {
 
 	/**
 	 * A pre-render callback for translation, rotation, and making sure the texture exists.
-	 * @param matrixStack The {@link MatrixStack} to use for transformations.
+	 * @param matrixStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity that is about to be used for rendering.
 	 * @param info The {@link PartInfo} about to be rendered.
 	 * @param bufferIn The render type buffers. Usually obtained from {@link Minecraft#renderBuffers()}.
@@ -75,7 +75,7 @@ public class PartRenderer {
 		compileTextureIfNeeded(entity, info);
 
 		if (modelPart != null) {
-			modelPart.setupAnim(entity, entity.animationPosition, entity.animationSpeed, partialTicks, info.getSubType(), entity.xRot);
+			modelPart.setupAnim(entity, entity.animationPosition, entity.animationSpeed, partialTicks, info.getSubType(), entity.getXRot());
 			modelPart.prepareMobModel(entity, entity.animationPosition, entity.animationSpeed, partialTicks);
 		}
 
@@ -88,10 +88,10 @@ public class PartRenderer {
 
 	/**
 	 * Renders the given part on the given entity.
-	 * @param matrixStack The {@link MatrixStack} to use for transformations.
+	 * @param matrixStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
-	 * @param bufferIn The {@link IRenderTypeBuffer} to retrieve an {@link IVertexBuilder} from.
+	 * @param bufferIn The {@link MultiBufferSource} to retrieve an {@link VertexConsumer} from.
 	 * @param x The x location.
 	 * @param y The y location.
 	 * @param z The z location.
@@ -124,7 +124,7 @@ public class PartRenderer {
 
 	/**
 	 * Renders the given part on the given entity.
-	 * @param matrixStack The {@link MatrixStack} to use for transformations.
+	 * @param matrixStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
 	 * @param bufferIn The buffer to retrieve buffers from.
@@ -164,7 +164,7 @@ public class PartRenderer {
 
 	/**
 	 * Renders the given part on the given entity.
-	 * @param matrixStack The {@link MatrixStack} to use for transformations.
+	 * @param matrixStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
 	 * @param bufferIn The buffer to draw to.

@@ -8,17 +8,17 @@
 
 package uk.kihira.tails.client.texture;
 
-import static net.minecraft.client.renderer.texture.NativeImage.getA;
-import staticcom.mojang.blaze3d.platform.NativeImagee.getB;
-import static net.minecraft.client.renderer.texture.NativeImage.getG;
-import staticcom.mojang.blaze3d.platform.NativeImagee.getR;
+import static com.mojang.blaze3d.platform.NativeImage.getA;
+import static com.mojang.blaze3d.platform.NativeImage.getB;
+import static com.mojang.blaze3d.platform.NativeImage.getG;
+import static com.mojang.blaze3d.platform.NativeImage.getR;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.logging.log4j.LogManager;
 
-import net.minecraft.client.renderer.texture.NativeImage;
+import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.NativeImage.Format;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import com.mojang.blaze3d.platform.TextureUtil;

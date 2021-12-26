@@ -20,7 +20,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.network.chat.Component;
 
 /**
- * A {@link TextFieldWidget} that takes into account the {@link MatrixStack} transformations when drawing the selection box.<br>
+ * An {@link EditBox} that takes into account the {@link PoseStack} transformations when drawing the selection box.<br>
  * Without this, the selection overlay will attempt to yeet itself as far off-screen as possible.
  * @author EnderTurret
  */

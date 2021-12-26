@@ -32,7 +32,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 	/**
 	 * Renders the tail with the optional parts list provided
-	 * @param matrixStackIn The {@link MatrixStack} to use for transformations.
+	 * @param matrixStackIn The {@link PoseStack} to use for transformations.
 	 * @param bufferIn The buffer to draw to.
 	 * @param entity The entity the part is attached to.
 	 * @param packedLightIn The packed light.

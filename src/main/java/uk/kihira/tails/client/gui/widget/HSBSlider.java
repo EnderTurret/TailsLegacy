@@ -31,7 +31,7 @@ import net.minecraftforge.fml.client.gui.GuiUtils;
 import uk.kihira.tails.common.Tails;
 
 /**
- * A specialized version of the {@link AbstractSlider} for {@code HSB} and {@code RGB} values.<br>
+ * A specialized version of the {@link AbstractSliderButton} for {@code HSB} and {@code RGB} values.<br>
  * Also has tooltip support, as if it couldn't get any better.
  */
 public class HSBSlider extends AbstractSliderButton implements ITooltip {

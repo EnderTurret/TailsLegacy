@@ -20,8 +20,8 @@ public class ClientUtils {
 
 	/**
 	 * Draws a string that respects new lines.
-	 * @param matrixStack The {@link MatrixStack} to use for transformation information.
-	 * @param fontRenderer The {@link FontRenderer} to use for drawing the text.
+	 * @param matrixStack The {@link PoseStack} to use for transformation information.
+	 * @param fontRenderer The {@link Font} to use for drawing the text.
 	 * @param string The text to draw.
 	 * @param x The x position of the text.
 	 * @param y The y position of the text.

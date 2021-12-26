@@ -18,7 +18,7 @@ import uk.kihira.tails.common.part.PartInfo;
 
 /**
  * A pre-render callback for part rendering.<br>
- * Called just before rendering in {@link PartRenderer#preRender(MatrixStack, LivingEntity, PartInfo, IRenderTypeBuffer, IVertexBuilder, double, double, double, float, int, int, float, float, float, float)}.
+ * Called just before rendering in {@link PartRenderer#preRender(PoseStack, LivingEntity, PartInfo, MultiBufferSource, VertexConsumer, double, double, double, float, int, int, float, float, float, float)}.
  *
  * @param <T> The type of entity this helper is for.
  */
@@ -28,7 +28,7 @@ public interface IRenderHelper<T extends LivingEntity> {
 	/**
 	 * Handles pre-render transformations and other fun stuff.<br><br>
 	 * You could render a sea pickle above the player's head here, if you wanted to.
-	 * @param matrixStack The {@link MatrixStack} to use for transformations.
+	 * @param matrixStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the parts are being rendered on.
 	 * @param tail The part renderer.
 	 * @param info The part being rendered.

@@ -95,7 +95,7 @@ public class SharkTailModel extends PartModel {
 
 	/**
 	 * A helper function from Tabula to set the rotation of model parts.
-	 * @param modelRenderer The {@link ModelRenderer} to set rotation angles of.
+	 * @param modelRenderer The {@link ModelPart} to set rotation angles of.
 	 * @param x The x rotation angle.
 	 * @param y The y rotation angle.
 	 * @param z The z rotation angle.

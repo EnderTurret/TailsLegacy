@@ -19,7 +19,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IListCallback;
@@ -48,8 +48,8 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 	public void init() {
 		initList();
 
-		addButton(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, new TranslatableComponent("tails.gui.button.all"), b -> {}));
-		addButton(searchField = new RelativeTextField(font, 5, bottom - top - 31, right - left - 10, 10, null));
+		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, new TranslatableComponent("tails.gui.button.all"), b -> {}));
+		addRenderableWidget(searchField = new RelativeTextField(font, 5, bottom - top - 31, right - left - 10, 10, null));
 
 		super.init();
 	}
@@ -71,7 +71,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 
 		matrixStack.pushPose();
 
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 		matrixStack.translate(right - left - 16, bottom - top - 32, 0);
 		matrixStack.scale(0.75F, 0.75F, 0F);
 

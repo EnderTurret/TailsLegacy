@@ -33,15 +33,11 @@ public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<Abst
 
 	private final LivingEntityRenderer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> renderer;
 	private final PartType partType;
-	//private final ModelRenderer modelRenderer;
-	//private final boolean mpmCompat;
 
 	public PartLayer(LivingEntityRenderer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> renderer, ModelPart modelRenderer, PartType partType) {
 		super(renderer);
 		this.renderer = renderer;
 		this.partType = partType;
-		//this.modelRenderer = modelRenderer;
-		//mpmCompat = ModList.get().isLoaded("moreplayermodels");
 	}
 
 	@Override

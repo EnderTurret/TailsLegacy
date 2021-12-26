@@ -13,7 +13,10 @@ import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
@@ -96,25 +99,15 @@ public class ClientProxy extends CommonProxy {
 			legacyRenderer = true;
 		}
 
-		final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
+		final Map<String, EntityRenderer<? extends Player>> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
 
-		if (legacyRenderer) {
-			MinecraftForge.EVENT_BUS.register(new RenderingHandler());
-
-			for (PlayerRenderer renderer : skinMap.values()) {
-				final PlayerModel<AbstractClientPlayer> model = renderer.getModel();
-				model.body.addChild(new ModelRendererWrapper(model, PartType.TAIL));
-				model.body.addChild(new ModelRendererWrapper(model, PartType.WINGS));
-				model.head.addChild(new ModelRendererWrapper(model, PartType.EARS));
-				model.head.addChild(new ModelRendererWrapper(model, PartType.MUZZLE));
-			}
-		} else
-			for (PlayerRenderer renderer : skinMap.values()) {
-				renderer.addLayer(new PartLayer(renderer, renderer.getModel().body, PartType.TAIL));
-				renderer.addLayer(new PartLayer(renderer, renderer.getModel().body, PartType.WINGS));
-				renderer.addLayer(new PartLayer(renderer, renderer.getModel().head, PartType.EARS));
-				renderer.addLayer(new PartLayer(renderer, renderer.getModel().head, PartType.MUZZLE));
-			}
+		for (EntityRenderer<? extends Player> renderer : skinMap.values()) {
+			final PlayerRenderer renderer2 = (PlayerRenderer) renderer;
+			renderer2.addLayer(new PartLayer(renderer2, renderer2.getModel().body, PartType.TAIL));
+			renderer2.addLayer(new PartLayer(renderer2, renderer2.getModel().body, PartType.WINGS));
+			renderer2.addLayer(new PartLayer(renderer2, renderer2.getModel().head, PartType.EARS));
+			renderer2.addLayer(new PartLayer(renderer2, renderer2.getModel().head, PartType.MUZZLE));
+		}
 	}
 
 	@Override

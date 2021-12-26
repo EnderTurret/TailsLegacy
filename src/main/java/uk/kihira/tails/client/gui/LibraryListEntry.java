@@ -9,6 +9,7 @@
 package uk.kihira.tails.client.gui;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -16,8 +17,10 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraftforge.client.gui.GuiUtils;
 import net.minecraft.ChatFormatting;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
@@ -39,7 +42,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 	@Override
 	public void render(PoseStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
 		if (data.remoteEntry) {
-			Minecraft.getInstance().getTextureManager().bind(IconButton.iconsTextures);
+			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
 			final IconButton.Icons icon = IconButton.Icons.SERVER;
 			matrixStack.pushPose();
 			matrixStack.translate(rowLeft + listWidth - 16, rowTop + slotHeight - 12, 0F);
@@ -65,7 +68,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 			}
 
 		if (data.favourite) {
-			Minecraft.getInstance().getTextureManager().bind(IconButton.iconsTextures);
+			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
 			final IconButton.Icons icon = IconButton.Icons.STAR;
 			matrixStack.pushPose();
 			matrixStack.translate(rowLeft + listWidth - 16, rowTop, 0F);
@@ -103,5 +106,10 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
 			return true;
 		}
+	}
+
+	@Override
+	public Component getNarration() {
+		return new TextComponent("");
 	}
 }

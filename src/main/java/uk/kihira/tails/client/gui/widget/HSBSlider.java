@@ -20,14 +20,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraftforge.client.gui.GuiUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -63,14 +64,14 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
 			GuiUtils.drawContinuousTexturedBox(matrixStack, WIDGETS_LOCATION, x, y, 0, 46, width, height, 200, 20, 2, 3, 2, 2, getBlitOffset());
-			Minecraft.getInstance().getTextureManager().bind(SLIDER_TEXTURE);
+			RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 
 			if (type == HSBSliderType.SATURATION) {
 				final Color hueColour = Color.getHSBColor(hueValue, 1F, 1F);
 				final float red = (float) hueColour.getRed() / 255;
 				final float green = (float) hueColour.getGreen() / 255;
 				final float blue = (float) hueColour.getBlue() / 255;
-				RenderSystem.color4f(red, green, blue, 1.0F);
+				RenderSystem.setShaderColor(red, green, blue, 1.0F);
 				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, 176, 256, 20, width - 2, height - 2);
 			}
 
@@ -86,16 +87,16 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 				final float red = (float) hueColour.getRed() / 255;
 				final float green = (float) hueColour.getGreen() / 255;
 				final float blue = (float) hueColour.getBlue() / 255;
-				RenderSystem.color4f(red, green, blue, 1F);
+				RenderSystem.setShaderColor(red, green, blue, 1F);
 				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, srcY, 231, 20, width - 2, height - 2);
-				RenderSystem.color4f(1F, 1F, 1F, 1F);
+				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 			} else {
-				RenderSystem.color4f(1F, 1F, 1F, 1F);
+				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 				drawTexturedModalRectScaled(matrixStack, x + 1, y + 1, 0, srcY, 256, 20, width - 2, height - 2);
 			}
 
-			RenderSystem.color4f(1F, 1F, 1F, 1F);
-			Minecraft.getInstance().getTextureManager().bind(SLIDER_TEXTURE);
+			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+			RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 			blit(matrixStack, x + (int)(value * (width - 3) - 2), y, 0, 0, 7, 4);
 			blit(matrixStack, x + (int)(value * (width - 3) - 2), y + height - 4, 7, 0, 7, 4);
 		}
@@ -150,7 +151,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 		final float f1 = 0.00390625F;
 		final PoseStack.Pose e = matrixStack.last();
 		final BufferBuilder renderer = Tesselator.getInstance().getBuilder();
-		renderer.begin(7, DefaultVertexFormat.POSITION_TEX);
+		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 		renderer.vertex(e.pose(), x + 0,			y + tarHeight,	getBlitOffset()).uv((u + 0) * f, (v + srcHeight) * f1).endVertex();
 		renderer.vertex(e.pose(), x + tarWidth,	y + tarHeight,	getBlitOffset()).uv((u + srcWidth) * f, (v + srcHeight) * f1).endVertex();
 		renderer.vertex(e.pose(), x + tarWidth,	y + 0,			getBlitOffset()).uv((u + srcWidth) * f, (v + 0) * f1).endVertex();

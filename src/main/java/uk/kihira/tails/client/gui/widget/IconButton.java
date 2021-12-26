@@ -45,8 +45,8 @@ public class IconButton extends Button implements ITooltip {
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		if (visible) {
-			Minecraft.getInstance().getTextureManager().bind(iconsTextures);
-			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
+			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderSystem.enableBlend();
 			RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
@@ -90,8 +90,8 @@ public class IconButton extends Button implements ITooltip {
 		@Override
 		public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 			if (visible && toggled) {
-				Minecraft.getInstance().getTextureManager().bind(iconsTextures);
-				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
+				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				RenderSystem.enableBlend();
 				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 

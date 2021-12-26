@@ -21,8 +21,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
@@ -55,7 +57,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	public void init() {
 		initPartList();
 
-		addButton(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new TranslatableComponent("tails.part." + parent.getPartType().getId()), b -> {
+		addRenderableWidget(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, new TranslatableComponent("tails.part." + parent.getPartType().getId()), b -> {
 			if (parent.getPartType().ordinal() + 1 >= PartType.values().length)
 				parent.setPartType(PartType.values()[0]);
 			else
@@ -74,7 +76,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		fillGradient(matrixStack, 0, listTop, right - left, bottom - top, 0xFF000000, 0xFF000000);
 
 		setBlitOffset(0);
-		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 		drawCenteredString(matrixStack, font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 		// Tails list
 		partList.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -167,7 +169,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 
 		@Override
 		public void render(PoseStack matrixStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			setBlitOffset(0);
 
 			if (!partInfo.isEmpty()) {
@@ -200,6 +202,11 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			partList.setSelected(this);
 			onEntrySelected(partList, partList.children().indexOf(this), this);
 			return true;
+		}
+
+		@Override
+		public Component getNarration() {
+			return new TextComponent("");
 		}
 	}
 }

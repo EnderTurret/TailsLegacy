@@ -31,7 +31,7 @@ public class WingRenderer extends PartRenderer {
 
 	@Override
 	protected void doRender(PoseStack matrixStack, LivingEntity entity, PartInfo info, VertexConsumer renderer, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		final boolean isFlying = entity instanceof Player && ((Player) entity).abilities.flying && entity.hasImpulse || entity.fallDistance > 1.5F;
+		final boolean isFlying = entity instanceof Player && ((Player) entity).getAbilities().flying && entity.hasImpulse || entity.fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
 		final float angle = Mth.sin(timestep) * (isFlying ? 24F : 4F);
 		final float scale = info.getSubType() == 1 ? 1F : 2F;

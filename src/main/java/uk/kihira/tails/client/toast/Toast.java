@@ -51,7 +51,7 @@ public class Toast {
 			if (opacity > 0) {
 				matrixStack.pushPose();
 				RenderSystem.enableBlend();
-				RenderSystem.disableLighting();
+				//RenderSystem.disableLighting();
 				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 				drawBackdrop(matrixStack, xPos, yPos, width, height);
 				final int colour = 0xFFFFFF | opacity << 24;
@@ -60,7 +60,7 @@ public class Toast {
 					fontRenderer.drawShadow(matrixStack, s, xPos + width / 2 - fontRenderer.width(s) / 2, yPos + 4 + fontRenderer.lineHeight * i, colour);
 				}
 				RenderSystem.disableBlend();
-				RenderSystem.color4f(0F, 0F, 0F, 1F);
+				RenderSystem.setShaderColor(0F, 0F, 0F, 1F);
 				matrixStack.popPose();
 			}
 		}

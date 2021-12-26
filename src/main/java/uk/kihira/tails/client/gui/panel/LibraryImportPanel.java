@@ -17,7 +17,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextField;
 import uk.kihira.tails.client.toast.ToastManager;
@@ -36,7 +36,7 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void init() {
-		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslatableComponent("tails.gui.library.import.string"), b -> {
+		addRenderableWidget(new ExtendedButton(3, 21, right - left - 6, 18, new TranslatableComponent("tails.gui.library.import.string"), b -> {
 			if (Strings.isNullOrEmpty(inputField.getValue()) || inputField.getValue().split(":", 3).length != 3)
 				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
 						new TranslatableComponent("tails.gui.library.import.toast.invalid").withStyle(ChatFormatting.RED));
@@ -61,7 +61,7 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 
 		inputField = new RelativeTextField(font, 3, 41, right - left - 6, 15, null);
 		inputField.setMaxLength(5000);
-		addButton(inputField);
+		addRenderableWidget(inputField);
 	}
 
 	@Override

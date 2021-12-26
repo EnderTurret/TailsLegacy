@@ -17,7 +17,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -62,11 +62,11 @@ public class ToastManager {
 	}
 
 	@SubscribeEvent
-	public void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
+	public void onDrawScreenPost(ScreenEvent.DrawScreenEvent.Post event) {
 		final ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
 		profiler.push("toastNotification");
 		for (Toast toast : toasts)
-			toast.drawToast(event.getMatrixStack(), event.getMouseX(), event.getMouseY());
+			toast.drawToast(event.getPoseStack(), event.getMouseX(), event.getMouseY());
 		profiler.pop();
 	}
 }

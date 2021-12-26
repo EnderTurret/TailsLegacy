@@ -52,10 +52,10 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		textField.setMaxLength(16);
 		addWidget(textField);
 
-		addButton(favButton = new IconButton.Toggle(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
+		addRenderableWidget(favButton = new IconButton.Toggle(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
 		}, new TranslatableComponent("tails.gui.library.button.favorite")));
-		addButton(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
+		addRenderableWidget(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
 			// Only allow removing if player owns the entry.
 			if (entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))
 				return;
@@ -63,15 +63,15 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
 		}, new TranslatableComponent("tails.gui.library.button.delete")));
-		addButton(uploadButton = new IconButton(36, bottom - top - 20, IconButton.Icons.UPLOAD, b -> {
+		addRenderableWidget(uploadButton = new IconButton(36, bottom - top - 20, IconButton.Icons.UPLOAD, b -> {
 			Tails.CHANNEL.sendToServer(new LibraryEntriesMessage(new ArrayList<LibraryEntryData>() {{ add(entry.data); }}, false));
 			b.active = false;
 		}, new TranslatableComponent("tails.gui.library.button.upload")));
-		addButton(downloadButton = new IconButton(53, bottom - top - 20, IconButton.Icons.DOWNLOAD, b -> {
+		addRenderableWidget(downloadButton = new IconButton(53, bottom - top - 20, IconButton.Icons.DOWNLOAD, b -> {
 			entry.data.remoteEntry = false;
 			b.active = false;
 		}, new TranslatableComponent("tails.gui.library.button.savelocal")));
-		addButton(new IconButton(68, bottom - top - 20, IconButton.Icons.EXPORT, b -> {
+		addRenderableWidget(new IconButton(68, bottom - top - 20, IconButton.Icons.EXPORT, b -> {
 			final StringBuilder sb = new StringBuilder();
 			final LibraryEntryData libData = getEntry().data;
 			sb.append(libData.entryName).append(":");
@@ -96,7 +96,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		setBlitOffset(0);
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
-		RenderSystem.color4f(0F, 0F, 0F, 0F);
+		RenderSystem.setShaderColor(0F, 0F, 0F, 0F);
 
 		setBlitOffset(10);
 		fillGradient(matrixStack, 3, 3, right - left - 3, bottom - top - 3, 0xFF000000, 0xFF000000);

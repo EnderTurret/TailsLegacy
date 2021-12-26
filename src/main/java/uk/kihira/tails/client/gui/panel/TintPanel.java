@@ -49,7 +49,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		int topOffset = 20;
 		for (int id = 2; id <= 4; id++) {
 			final int finalId = id;
-			addButton(new Button(30, topOffset, 40, 20, new TranslatableComponent("tails.gui.button.edit"), b -> handleTintButton(finalId)));
+			addRenderableWidget(new Button(30, topOffset, 40, 20, new TranslatableComponent("tails.gui.button.edit"), b -> handleTintButton(finalId)));
 			topOffset += 35;
 		}
 
@@ -68,9 +68,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		rgbSliders[1].setHue(1F / 3F);
 		rgbSliders[2].setHue(2F / 3F);
 
-		addButton(rgbSliders[0]);
-		addButton(rgbSliders[1]);
-		addButton(rgbSliders[2]);
+		addRenderableWidget(rgbSliders[0]);
+		addRenderableWidget(rgbSliders[1]);
+		addRenderableWidget(rgbSliders[2]);
 
 		// HSB sliders
 		hsbSliders = new HSBSlider[3];
@@ -78,12 +78,12 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		hsbSliders[1] = new HSBSlider(16, 5, editPaneTop + 45, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.saturation.tooltip"));
 		hsbSliders[2] = new HSBSlider(17, 5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, new TranslatableComponent("tails.gui.slider.brightness.tooltip"));
 
-		addButton(hsbSliders[0]);
-		addButton(hsbSliders[1]);
-		addButton(hsbSliders[2]);
+		addRenderableWidget(hsbSliders[0]);
+		addRenderableWidget(hsbSliders[1]);
+		addRenderableWidget(hsbSliders[2]);
 
 		// Reset/Save
-		addButton(tintReset = new IconButton(right - left - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
+		addRenderableWidget(tintReset = new IconButton(right - left - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
 			currentTint = parent.getOriginalPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
 			hexText.setValue(Integer.toHexString(currentTint));
 			refreshTintPane();
@@ -92,7 +92,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		tintReset.active = false;
 
 		// Color Picker
-		addButton(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), new TranslatableComponent("tails.gui.button.picker.0"), new TranslatableComponent("tails.gui.button.picker.1")));
+		addRenderableWidget(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), new TranslatableComponent("tails.gui.button.picker.0"), new TranslatableComponent("tails.gui.button.picker.1")));
 		colourPicker.visible = false;
 		colourPicker.active = false;
 

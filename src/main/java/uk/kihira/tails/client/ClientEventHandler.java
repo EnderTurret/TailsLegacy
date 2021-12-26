@@ -14,7 +14,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,9 +33,9 @@ public class ClientEventHandler {
 	 * Tails Editor Button
 	 */
 	@SubscribeEvent
-	public void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
-		if (event.getGui() instanceof PauseScreen)
-			event.addWidget(new Button(event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20, new TranslatableComponent("tails.gui.button.editor"), b -> {
+	public void onScreenInitPost(ScreenEvent.InitScreenEvent.Post event) {
+		if (event.getScreen() instanceof PauseScreen)
+			event.addListener(new Button(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, new TranslatableComponent("tails.gui.button.editor"), b -> {
 				Minecraft.getInstance().setScreen(new EditorScreen());
 			}));
 	}

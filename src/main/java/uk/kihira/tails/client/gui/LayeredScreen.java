@@ -62,7 +62,7 @@ public abstract class LayeredScreen extends BaseScreen {
 				if (panel.enabled) {
 					matrixStack.pushPose();
 					matrixStack.translate(panel.left, panel.top, 0);
-					RenderSystem.color4f(1f, 1f, 1f, 1f);
+					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
 					panel.render(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
 
@@ -81,11 +81,11 @@ public abstract class LayeredScreen extends BaseScreen {
 
 					color++;*/
 
-					RenderSystem.disableLighting();
+					//RenderSystem.disableLighting();
 					matrixStack.popPose();
 				}
 
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
@@ -94,11 +94,11 @@ public abstract class LayeredScreen extends BaseScreen {
 				if (panel.enabled) {
 					matrixStack.pushPose();
 					matrixStack.translate(panel.left, panel.top, 0);
-					RenderSystem.color4f(1f, 1f, 1f, 1f);
+					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
 					panel.renderTooltips(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
 
-					RenderSystem.disableLighting();
+					//RenderSystem.disableLighting();
 					matrixStack.popPose();
 				}
 	}

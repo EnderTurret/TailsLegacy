@@ -33,7 +33,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		// Mode Switch
-		addButton(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.mode.library"), b -> {
+		addRenderableWidget(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.mode.library"), b -> {
 			libraryMode = !libraryMode;
 			parent.getPartPanel().enabled = !libraryMode;
 			parent.getTexturePanel().enabled = !libraryMode;
@@ -57,7 +57,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			b.setMessage(libraryMode ? new TranslatableComponent("tails.gui.button.mode.editor") : new TranslatableComponent("tails.gui.button.mode.library"));
 		}));
 		// Reset/Save
-		addButton(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.reset"), b -> {
+		addRenderableWidget(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.reset"), b -> {
 			final PartInfo partInfo = parent.getOriginalPartInfo().deepCopy();
 			parent.getPartPanel().selectDefaultListEntry();
 			parent.getLibraryPanel().initList();
@@ -66,7 +66,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			parent.refreshTintPane();
 			parent.setPartsInfo(partInfo);
 		}));
-		addButton(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.done"), b -> {
+		addRenderableWidget(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.done"), b -> {
 			// Update part info, set local and send it to the server.
 			final PartsData partsData = parent.getPartsData();
 

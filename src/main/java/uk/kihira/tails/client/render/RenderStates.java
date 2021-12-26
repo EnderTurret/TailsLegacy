@@ -11,6 +11,8 @@ package uk.kihira.tails.client.render;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
+
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -32,14 +34,13 @@ public class RenderStates extends RenderStateShard {
 	public static RenderType getPartPreview(ResourceLocation locationIn) {
 		final RenderType.CompositeState state = RenderType.CompositeState.builder()
 				.setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+				.setShaderState(RENDERTYPE_ENTITY_CUTOUT_NO_CULL_SHADER)
 				.setTransparencyState(NO_TRANSPARENCY)
-				.setDiffuseLightingState(NO_DIFFUSE_LIGHTING)
-				.setAlphaState(DEFAULT_ALPHA)
+				.setCullState(NO_CULL)
 				.setLightmapState(LIGHTMAP)
 				.setOverlayState(OVERLAY)
-				.setCullState(NO_CULL)
 				.createCompositeState(true);
 
-		return RenderType.create("part_preview", DefaultVertexFormat.NEW_ENTITY, 7, 256, true, false, state);
+		return RenderType.create("part_preview", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
 	}
 }

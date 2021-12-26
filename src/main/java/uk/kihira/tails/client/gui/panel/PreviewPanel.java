@@ -41,12 +41,12 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		if (!doRender)
 			return;
 		// Reset Camera
-		addButton(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {
+		addRenderableWidget(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {
 			yaw = 0;
 			pitch = 10F;
 		}, new TranslatableComponent("tails.gui.button.reset.camera")));
 		// Help
-		addButton(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, new TranslatableComponent("tails.gui.button.help.camera.0"), new TranslatableComponent("tails.gui.button.help.camera.1")));
+		addRenderableWidget(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, new TranslatableComponent("tails.gui.button.help.camera.0"), new TranslatableComponent("tails.gui.button.help.camera.1")));
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		// Background
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
 
-		RenderSystem.color4f(1F, 1F, 1F, 1F);
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		setBlitOffset(0);
 
 		// Player
@@ -115,12 +115,12 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		matrixStack.mulPose(Vector3f.YP.rotationDegrees(yaw));
 
 		final float oldRotationYawHead = entity.yHeadRot;
-		final float oldRotationYaw = entity.yRot;
-		final float oldRotationPitch = entity.xRot;
+		final float oldRotationYaw = entity.getYRot();
+		final float oldRotationPitch = entity.getXRot();
 
 		entity.yHeadRot = 0F;
-		entity.yRot = 0F;
-		entity.xRot = 0F;
+		entity.setYRot(0);
+		entity.setXRot(0);
 		entity.yBodyRot = 0F;
 		entity.setShiftKeyDown(false);
 
@@ -142,8 +142,8 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		rendererManager.setRenderShadow(true);
 
 		entity.yHeadRot = oldRotationYawHead;
-		entity.yRot = oldRotationYaw;
-		entity.xRot = oldRotationPitch;
+		entity.setYRot(oldRotationYaw);
+		entity.setXRot(oldRotationPitch);
 
 		RenderSystem.popMatrix();
 	}

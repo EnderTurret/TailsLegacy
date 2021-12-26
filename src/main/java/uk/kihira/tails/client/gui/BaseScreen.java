@@ -17,13 +17,15 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.ChatFormatting;
-import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.widget.ITooltip;
 
 import net.minecraft.client.gui.components.Button.OnPress;
+import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 
 public abstract class BaseScreen extends Screen {
 
@@ -36,12 +38,12 @@ public abstract class BaseScreen extends Screen {
 	}
 
 	public void renderTooltips(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		for (AbstractWidget btn : buttons)
-			if (btn instanceof ITooltip && btn.isMouseOver(mouseX, mouseY)) {
+		for (Widget btn : renderables)
+			if (btn instanceof ITooltip && btn instanceof GuiEventListener && ((GuiEventListener) btn).isMouseOver(mouseX, mouseY)) {
 				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTicks;
 				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
 
-				renderToolTip(matrixStack, ((ITooltip) btn).getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY, font);
+				renderTooltip(matrixStack, ((ITooltip) btn).getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY, font);
 
 				prevMouseX = mouseX;
 				prevMouseY = mouseY;
@@ -107,7 +109,7 @@ public abstract class BaseScreen extends Screen {
 		public void renderButton(PoseStack matrixStack, int x, int y, float partialTicks) {
 			final List<FormattedCharSequence> list = new ArrayList<>(tooltip);
 			list.add(!active ? new TextComponent("Enabled").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC).getVisualOrderText() : new TextComponent("Disabled").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC).getVisualOrderText());
-			BaseScreen.this.renderToolTip(matrixStack, list, x, y, font);
+			BaseScreen.this.renderTooltip(matrixStack, list, x, y, font);
 		}
 	}
 }

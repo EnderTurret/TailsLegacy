@@ -21,12 +21,12 @@ repositories {
     maven { url 'https://maven.theillusivec4.top/' }
 }
 
-group = "uk.kihira.tails"
-archivesBaseName = "Tails-1.16.5"
-version = "1.11.2"
+group = "uk.kihira"
+archivesBaseName = "Tails"
+version = "1.16.5-1.11.3"
 
 dependencies {
-    minecraft "net.minecraftforge:forge:1.16.5-36.2.8"
+    minecraft "net.minecraftforge:forge:1.16.5-36.2.22"
 
     compileOnly fg.deobf("vazkii.botania:Botania:1.16.5-419:api")
     runtimeOnly fg.deobf("vazkii.botania:Botania:1.16.5-419")

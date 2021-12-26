@@ -8,10 +8,10 @@
 
 package uk.kihira.tails.client.texture;
 
-import static net.minecraft.client.renderer.texture.NativeImage.getAlpha;
-import static net.minecraft.client.renderer.texture.NativeImage.getBlue;
-import static net.minecraft.client.renderer.texture.NativeImage.getGreen;
-import static net.minecraft.client.renderer.texture.NativeImage.getRed;
+import static net.minecraft.client.renderer.texture.NativeImage.getA;
+import static net.minecraft.client.renderer.texture.NativeImage.getB;
+import static net.minecraft.client.renderer.texture.NativeImage.getG;
+import static net.minecraft.client.renderer.texture.NativeImage.getR;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,8 +48,8 @@ public class TripleTintTexture extends Texture {
 	}
 
 	@Override
-	public void loadTexture(IResourceManager manager) throws IOException {
-		deleteGlTexture();
+	public void load(IResourceManager manager) throws IOException {
+		releaseId();
 
 		try
 		{
@@ -61,17 +61,17 @@ public class TripleTintTexture extends Texture {
 				for (int x = 0; x < texture.getWidth(); x++)
 					for (int y = 0; y < texture.getHeight(); y++) {
 						final int rgb = texture.getPixelRGBA(x, y);
-						final int a = getAlpha(rgb);
+						final int a = getA(rgb);
 						if (a == 0) continue;
-						final int r = getRed(rgb);
-						final int g = getGreen(rgb);
-						final int b = getBlue(rgb);
+						final int r = getR(rgb);
+						final int g = getG(rgb);
+						final int b = getB(rgb);
 
 						texture.setPixelRGBA(x, y, colorise(r, tint1, g, tint2, b, tint3, a));
 					}
 
-				TextureUtil.prepareImage(getGlTextureId(), texture.getWidth(), texture.getHeight());
-				texture.uploadTextureSub(0, 0, 0, true);
+				TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
+				texture.upload(0, 0, 0, true);
 			}
 		}
 		catch (IOException ioexception)
@@ -89,7 +89,7 @@ public class TripleTintTexture extends Texture {
 	 * @param blue The blue color value.
 	 * @param tint3 The third tint.
 	 * @param alpha The alpha value.
-	 * @return The colorised pixel, packed using {@link NativeImage#getCombined(int, int, int, int)}.
+	 * @return The colorised pixel, packed using {@link NativeImage#combine(int, int, int, int)}.
 	 */
 	private static int colorise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
 		double g = green / 255D;
@@ -99,23 +99,23 @@ public class TripleTintTexture extends Texture {
 
 		final double r = 1 - (g + b);
 
-		final double r1 = scale(getRed(tint1), MINBRIGHTNESS) / 255;
-		final double g1 = scale(getGreen(tint1), MINBRIGHTNESS) / 255;
-		final double b1 = scale(getBlue(tint1), MINBRIGHTNESS) / 255;
+		final double r1 = scale(getR(tint1), MINBRIGHTNESS) / 255;
+		final double g1 = scale(getG(tint1), MINBRIGHTNESS) / 255;
+		final double b1 = scale(getB(tint1), MINBRIGHTNESS) / 255;
 
-		final double r2 = scale(getRed(tint2), MINBRIGHTNESS) / 255;
-		final double g2 = scale(getGreen(tint2), MINBRIGHTNESS) / 255;
-		final double b2 = scale(getBlue(tint2), MINBRIGHTNESS) / 255;
+		final double r2 = scale(getR(tint2), MINBRIGHTNESS) / 255;
+		final double g2 = scale(getG(tint2), MINBRIGHTNESS) / 255;
+		final double b2 = scale(getB(tint2), MINBRIGHTNESS) / 255;
 
-		final double r3 = scale(getRed(tint3), MINBRIGHTNESS) / 255;
-		final double g3 = scale(getGreen(tint3), MINBRIGHTNESS) / 255;
-		final double b3 = scale(getBlue(tint3), MINBRIGHTNESS) / 255;
+		final double r3 = scale(getR(tint3), MINBRIGHTNESS) / 255;
+		final double g3 = scale(getG(tint3), MINBRIGHTNESS) / 255;
+		final double b3 = scale(getB(tint3), MINBRIGHTNESS) / 255;
 
 		final int rfinal = (int) Math.floor(red * (r1 * r + r2 * g + r3 * b));
 		final int gfinal = (int) Math.floor(red * (g1 * r + g2 * g + g3 * b));
 		final int bfinal = (int) Math.floor(red * (b1 * r + b2 * g + b3 * b));
 
-		return NativeImage.getCombined(alpha, bfinal, gfinal, rfinal);
+		return NativeImage.combine(alpha, bfinal, gfinal, rfinal);
 	}
 
 	private static double scale(int color, int min) {

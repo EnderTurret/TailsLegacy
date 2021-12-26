@@ -53,28 +53,28 @@ public class TexturePanel extends Panel<EditorScreen> {
 		fillGradient(matrixStack, 7, variantSelectY, right - left - 15, texSelectY + 15, 0x55000000, 0x55000000); // Use fillGradient so it actually takes into account blitOffset.
 
 		// Texture select
-		drawCenteredString(matrixStack, font, I18n.format("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
+		drawCenteredString(matrixStack, font, I18n.get("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
 
 		final Part part = partInfo.getPart();
 
 		final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part.texture." + part.getTextureNames(partInfo.getSubType())[parent.getTextureId()];
-		final String texFormatted = I18n.format(texLangKey);
+		final String texFormatted = I18n.get(texLangKey);
 		final String variantLangKey = partInfo.isEmpty() ? "tails.variant.none" : part.getTranslationKey() + ".variant." + partInfo.getSubType();
-		final String variantFormatted = I18n.format(variantLangKey);
+		final String variantFormatted = I18n.get(variantLangKey);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		if (texFormatted.equals(texLangKey)) {
-			fill(matrixStack, 25, texSelectY + 4, 25 + font.getStringWidth(texFormatted), texSelectY + 4 + font.FONT_HEIGHT, 0xFFFFFFFF);
-			font.drawString(matrixStack, texFormatted, 25, texSelectY + 4, 0xFF0000);
+			fill(matrixStack, 25, texSelectY + 4, 25 + font.width(texFormatted), texSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
+			font.draw(matrixStack, texFormatted, 25, texSelectY + 4, 0xFF0000);
 		} else
-			font.drawString(matrixStack, texFormatted, 25, texSelectY + 4, 0xFFFFFF);
+			font.draw(matrixStack, texFormatted, 25, texSelectY + 4, 0xFFFFFF);
 
 		if (variantFormatted.equals(variantLangKey)) {
-			fill(matrixStack, 25, variantSelectY + 4, 25 + font.getStringWidth(variantFormatted), variantSelectY + 4 + font.FONT_HEIGHT, 0xFFFFFFFF);
-			font.drawString(matrixStack, variantFormatted, 25, variantSelectY + 4, 0xFF0000);
+			fill(matrixStack, 25, variantSelectY + 4, 25 + font.width(variantFormatted), variantSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
+			font.draw(matrixStack, variantFormatted, 25, variantSelectY + 4, 0xFF0000);
 		} else
-			font.drawString(matrixStack, variantFormatted, 25, variantSelectY + 4, 0xFFFFFF);
+			font.draw(matrixStack, variantFormatted, 25, variantSelectY + 4, 0xFFFFFF);
 	}
 
 	private void cycleTexLeft() {

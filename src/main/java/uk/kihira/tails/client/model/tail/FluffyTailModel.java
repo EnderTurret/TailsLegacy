@@ -34,32 +34,32 @@ public class FluffyTailModel extends PartModel {
 	public FluffyTailModel() {
 		tailBase = new ModelRenderer(this);
 		tailBase.addBox(-1, -1, 0, 2, 2, 3);
-		tailBase.setRotationPoint(0, 0, 0);
+		tailBase.setPos(0, 0, 0);
 		setRotationDegrees(tailBase, -15F, 0, 0);
 
 		tail1 = new ModelRenderer(this, 10, 0);
 		tail1.addBox(-1.5F, -1.5F, 0, 3, 3, 2);
-		tail1.setRotationPoint(0, 0, 1.5F);
+		tail1.setPos(0, 0, 1.5F);
 		setRotationDegrees(tail1, -15F, 0, 0);
 
 		tail2 = new ModelRenderer(this, 0, 5);
 		tail2.addBox(-2, -2, 0, 4, 4, 4);
-		tail2.setRotationPoint(0, 0, 1.5F);
+		tail2.setPos(0, 0, 1.5F);
 		setRotationDegrees(tail2, -15F, 0, 0);
 
 		tail3 = new ModelRenderer(this, 0, 13);
 		tail3.addBox(-2.5F, -2.5F, 0, 5, 5, 8);
-		tail3.setRotationPoint(0, 0, 3F);
+		tail3.setPos(0, 0, 3F);
 		setRotationDegrees(tail3, -25F, 0, 0);
 
 		tail4 = new ModelRenderer(this, 0, 26);
 		tail4.addBox(-2, -2, 0, 4, 4, 2);
-		tail4.setRotationPoint(0, 0, 7.4F);
+		tail4.setPos(0, 0, 7.4F);
 		setRotationDegrees(tail4, 15F, 0, 0);
 
 		tail5 = new ModelRenderer(this, 12, 26);
 		tail5.addBox(-1.5F, -1.5F, 0, 3, 3, 2);
-		tail5.setRotationPoint(0, 0, 1.4F);
+		tail5.setPos(0, 0, 1.4F);
 		setRotationDegrees(tail5, 15F, 0, 0);
 
 		tail4.addChild(tail5);
@@ -74,7 +74,7 @@ public class FluffyTailModel extends PartModel {
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running
-		if (entity.getRidingEntity() == null) {
+		if (entity.getVehicle() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 				xAngleOffset = angles[0];
@@ -133,20 +133,20 @@ public class FluffyTailModel extends PartModel {
 
 		if (subtype == 0) {
 			this.setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTicks, entity);
-			matrixStackIn.push();
-			matrixStackIn.rotate(Vector3f.XP.rotationDegrees(-20F));
+			matrixStackIn.pushPose();
+			matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-20F));
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-			matrixStackIn.pop();
+			matrixStackIn.popPose();
 		}
 		else if (subtype == 1) {
 			this.setRotationAngles(1, timestep, 1F, 1F, 0F, (float) Math.toRadians(40F), partialTicks, entity);
-			matrixStackIn.push();
-			matrixStackIn.rotate(Vector3f.XP.rotationDegrees(-20F));
+			matrixStackIn.pushPose();
+			matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-20F));
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			this.setRotationAngles(1, timestep, 1.4F, 0F, 0F, (float) Math.toRadians(-40F), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-			matrixStackIn.pop();
+			matrixStackIn.popPose();
 		}
 		else if (subtype == 2) {
 			timestep = getAnimationTime(6500F, entity);

@@ -37,30 +37,30 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	@SuppressWarnings("unchecked")
 	public void init() {
 		addButton(new ExtendedButton(3, 21, right - left - 6, 18, new TranslationTextComponent("tails.gui.library.import.string"), b -> {
-			if (Strings.isNullOrEmpty(inputField.getText()) || inputField.getText().split(":", 3).length != 3)
+			if (Strings.isNullOrEmpty(inputField.getValue()) || inputField.getValue().split(":", 3).length != 3)
 				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-						new TranslationTextComponent("tails.gui.library.import.toast.invalid").mergeStyle(TextFormatting.RED));
+						new TranslationTextComponent("tails.gui.library.import.toast.invalid").withStyle(TextFormatting.RED));
 			else {
-				final String[] strings = inputField.getText().split(":", 4);
+				final String[] strings = inputField.getValue().split(":", 4);
 				try {
 					final LibraryEntryData entryData = new LibraryEntryData(UUID.fromString(strings[1]), strings[2], strings[0], Tails.GSON.fromJson(strings[3], PartsData.class));
 					Tails.PROXY.getLibraryManager().addEntry(entryData);
 					parent.getLibraryPanel().initList();
 
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("tails.gui.library.import.toast.success", strings[0]).mergeStyle(TextFormatting.GREEN));
+							new TranslationTextComponent("tails.gui.library.import.toast.success", strings[0]).withStyle(TextFormatting.GREEN));
 				} catch (IllegalArgumentException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("tails.gui.library.import.toast.invalid.uuid").mergeStyle(TextFormatting.RED));
+							new TranslationTextComponent("tails.gui.library.import.toast.invalid.uuid").withStyle(TextFormatting.RED));
 				} catch (JsonSyntaxException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslationTextComponent("tails.gui.library.import.toast.invalid.parts").mergeStyle(TextFormatting.RED));
+							new TranslationTextComponent("tails.gui.library.import.toast.invalid.parts").withStyle(TextFormatting.RED));
 				}
 			}
 		}));
 
 		inputField = new RelativeTextField(font, 3, 41, right - left - 6, 15, null);
-		inputField.setMaxStringLength(5000);
+		inputField.setMaxLength(5000);
 		addButton(inputField);
 	}
 

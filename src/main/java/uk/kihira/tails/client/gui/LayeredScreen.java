@@ -60,7 +60,7 @@ public abstract class LayeredScreen extends BaseScreen {
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
-					matrixStack.push();
+					matrixStack.pushPose();
 					matrixStack.translate(panel.left, panel.top, 0);
 					RenderSystem.color4f(1f, 1f, 1f, 1f);
 
@@ -82,7 +82,7 @@ public abstract class LayeredScreen extends BaseScreen {
 					color++;*/
 
 					RenderSystem.disableLighting();
-					matrixStack.pop();
+					matrixStack.popPose();
 				}
 
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
@@ -92,14 +92,14 @@ public abstract class LayeredScreen extends BaseScreen {
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
-					matrixStack.push();
+					matrixStack.pushPose();
 					matrixStack.translate(panel.left, panel.top, 0);
 					RenderSystem.color4f(1f, 1f, 1f, 1f);
 
 					panel.renderTooltips(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
 
 					RenderSystem.disableLighting();
-					matrixStack.pop();
+					matrixStack.popPose();
 				}
 	}
 
@@ -184,12 +184,12 @@ public abstract class LayeredScreen extends BaseScreen {
 	}
 
 	@Override
-	public void onClose() {
+	public void removed() {
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
-				panel.onClose();
+				panel.removed();
 
-		super.onClose();
+		super.removed();
 	}
 
 	private static boolean shouldRecieveMouse(Panel<?> panel, double mouseX, double mouseY) {

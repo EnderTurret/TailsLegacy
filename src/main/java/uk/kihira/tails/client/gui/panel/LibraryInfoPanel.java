@@ -49,15 +49,15 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		textField = new RelativeTextField(font, 6, 6, right - left - 12, 15, null);
-		textField.setMaxStringLength(16);
-		addListener(textField);
+		textField.setMaxLength(16);
+		addWidget(textField);
 
 		addButton(favButton = new IconButton.Toggle(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
 		}, new TranslationTextComponent("tails.gui.library.button.favorite")));
 		addButton(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
 			// Only allow removing if player owns the entry.
-			if (entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUniqueID()))
+			if (entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))
 				return;
 			((IconButton) b).setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
@@ -79,13 +79,13 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			sb.append(Tails.GSON.toJson(libData.partsData));
 
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, new TranslationTextComponent("tails.gui.library.info.toast.export"));
-			GLFW.glfwSetClipboardString(minecraft.getMainWindow().getHandle(), sb.toString());
+			GLFW.glfwSetClipboardString(minecraft.getWindow().getWindow(), sb.toString());
 		}, new TranslationTextComponent("tails.gui.library.button.share")));
 
 		super.init();
 
 		// Only request library if on remote server.
-		if (!Minecraft.getInstance().isIntegratedServerRunning())
+		if (!Minecraft.getInstance().isLocalServer())
 			Tails.CHANNEL.sendToServer(new LibraryRequestMessage());
 
 		setEntry(null);
@@ -104,11 +104,11 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		if (entry != null) {
 			textField.render(matrixStack, mouseX, mouseY, partialTicks);
 
-			font.drawString(matrixStack, I18n.format("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
-			font.drawString(matrixStack, entry.data.creatorName, right - left - 5 - font.getStringWidth(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
-			font.drawString(matrixStack, I18n.format("tails.gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
+			font.draw(matrixStack, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
+			font.draw(matrixStack, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
+			font.draw(matrixStack, I18n.get("tails.gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
 			final String date = new SimpleDateFormat("dd/MM/YY").format(new Date(entry.data.creationDate));
-			font.drawString(matrixStack, date, right - left - 5 - font.getStringWidth(date), bottom - top - 32, 0xAAAAAA);
+			font.draw(matrixStack, date, right - left - 5 - font.width(date), bottom - top - 32, 0xAAAAAA);
 		}
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -119,11 +119,11 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		final boolean handled = super.keyPressed(keyCode, scanCode, modifiers);
 
 		if (handled && entry != null) {
-			entry.data.entryName = textField.getText();
+			entry.data.entryName = textField.getValue();
 			Tails.PROXY.getLibraryManager().saveLibrary();
 		}
 
-		return handled || textField.canWrite();
+		return handled || textField.canConsumeInput();
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		final boolean handled = super.charTyped(codePoint, modifiers);
 
 		if (handled && entry != null) {
-			entry.data.entryName = textField.getText();
+			entry.data.entryName = textField.getValue();
 			Tails.PROXY.getLibraryManager().saveLibrary();
 		}
 
@@ -148,17 +148,17 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		else {
 			favButton.toggled = entry.data.favourite;
 			textField.setVisible(true);
-			textField.setText(entry.data.entryName);
+			textField.setValue(entry.data.entryName);
 			for (Widget button : buttons) {
 				button.visible = true;
 
-				if (button == deleteButton && entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUniqueID()))
+				if (button == deleteButton && entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))
 					button.visible = false;
 				// Download
 				else if (button == downloadButton && !entry.data.remoteEntry)
 					button.visible = false;
 				// Upload
-				else if (button == uploadButton && (entry.data.remoteEntry || minecraft.isSingleplayer() || !Tails.hasRemote))
+				else if (button == uploadButton && (entry.data.remoteEntry || minecraft.hasSingleplayerServer() || !Tails.hasRemote))
 					button.visible = false;
 			}
 		}

@@ -40,20 +40,20 @@ public class ModelRendererWrapper extends ModelRenderer {
 		if (RenderingHandler.currentEvent != null && RenderingHandler.currentPartsData != null && RenderingHandler.currentPlayerTexture != null) {
 			final PartInfo info = RenderingHandler.currentPartsData.getPartInfo(partType);
 			if (info != null && !info.isEmpty()) {
-				matrixStackIn.push();
+				matrixStackIn.pushPose();
 
 				if (partType == PartType.EARS || partType == PartType.MUZZLE)
-					model.bipedHead.translateRotate(matrixStackIn);
+					model.head.translateAndRotate(matrixStackIn);
 
 				else if (partType == PartType.TAIL)
-					model.bipedBody.translateRotate(matrixStackIn);
+					model.body.translateAndRotate(matrixStackIn);
 
 				PartRenderRegistry.getRenderer(info.getPart()).render(matrixStackIn, RenderingHandler.currentEvent.getPlayer(),
-						info, Minecraft.getInstance().getRenderTypeBuffers().getBufferSource(), 0, 0, 0, RenderingHandler.currentEvent.getPartialRenderTick(), packedLightIn, packedOverlayIn, red, green, blue, alpha);
+						info, Minecraft.getInstance().renderBuffers().bufferSource(), 0, 0, 0, RenderingHandler.currentEvent.getPartialRenderTick(), packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-				matrixStackIn.pop();
+				matrixStackIn.popPose();
 
-				Minecraft.getInstance().getTextureManager().bindTexture(RenderingHandler.currentPlayerTexture);
+				Minecraft.getInstance().getTextureManager().bind(RenderingHandler.currentPlayerTexture);
 			}
 		}
 	}

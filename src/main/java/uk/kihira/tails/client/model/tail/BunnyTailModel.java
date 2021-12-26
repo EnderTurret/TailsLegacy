@@ -27,7 +27,7 @@ public class BunnyTailModel extends PartModel {
 		tailBase = new ModelRenderer(this);
 
 		tailBase.addBox(0.0F, 0.0F, 0.0F, 4, 3, 3, 0.0F);
-		tailBase.setRotationPoint(-2.0F, -1.5F, 0.0F);
+		tailBase.setPos(-2.0F, -1.5F, 0.0F);
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public class ClientEventHandler {
 	public void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
 		if (event.getGui() instanceof IngameMenuScreen)
 			event.addWidget(new Button(event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20, new TranslationTextComponent("tails.gui.button.editor"), b -> {
-				Minecraft.getInstance().displayGuiScreen(new EditorScreen());
+				Minecraft.getInstance().setScreen(new EditorScreen());
 			}));
 	}
 
@@ -67,7 +67,7 @@ public class ClientEventHandler {
 				clearAllPartInfo = false;
 			}
 			// World can't be null if we want to send a packet it seems.
-			else if (!sentPartInfoToServer && Minecraft.getInstance().world != null) {
+			else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
 				Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), Tails.localPartsData));
 
 				if (CommonProxy.sync != null)

@@ -33,37 +33,37 @@ public class DevilTailModel extends PartModel {
 	public DevilTailModel() {
 		tailBase = new ModelRenderer(this, 0, 0);
 		tailBase.addBox(-1F, -1F, 0F, 2, 2, 2);
-		tailBase.setRotationPoint(0F, 0F, 0F);
+		tailBase.setPos(0F, 0F, 0F);
 		setRotationDegrees(tailBase, -30F, 0F, 0F);
 
 		tail1 = new ModelRenderer(this, 0, 4);
 		tail1.addBox(-0.5F, -0.5F, 0F, 1, 1, 4);
-		tail1.setRotationPoint(0F, 0F, 1.8F);
+		tail1.setPos(0F, 0F, 1.8F);
 		setRotationDegrees(tail1, -30F, 0F, 0F);
 
 		tail2 = new ModelRenderer(this, 0, 9);
 		tail2.addBox(-0.5F, -0.5F, 0F, 1, 1, 5);
-		tail2.setRotationPoint(0F, 0F, 3.8F);
+		tail2.setPos(0F, 0F, 3.8F);
 		setRotationDegrees(tail2, -30F, 0F, 0F);
 
 		tail3 = new ModelRenderer(this, 0, 15);
 		tail3.addBox(-0.5F, -0.5F, 0F, 1, 1, 3);
-		tail3.setRotationPoint(0F, 0F, 4.8F);
+		tail3.setPos(0F, 0F, 4.8F);
 		setRotationDegrees(tail3, 20F, 0F, 0F);
 
 		tail4 = new ModelRenderer(this, 0, 19);
 		tail4.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tail4.setRotationPoint(0F, 0F, 2.6F);
+		tail4.setPos(0F, 0F, 2.6F);
 		setRotationDegrees(tail4, 50F, 0F, 0F);
 
 		tail5 = new ModelRenderer(this, 0, 22);
 		tail5.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tail5.setRotationPoint(0F, 0F, 1.7F);
+		tail5.setPos(0F, 0F, 1.7F);
 		setRotationDegrees(tail5, 50F, 0F, 0F);
 
 		tailTip = new ModelRenderer(this, 12, 0);
 		tailTip.addBox(-2.5F, 0F, 0F, 5, 5, 0);
-		tailTip.setRotationPoint(0F, 0F, 1.8F);
+		tailTip.setPos(0F, 0F, 1.8F);
 		setRotationDegrees(tailTip, 120F, 0F, 0F);
 
 		tail5.addChild(tailTip);
@@ -75,12 +75,12 @@ public class DevilTailModel extends PartModel {
 	}
 
 	@Override
-	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
 		final float seed = getAnimationTime(6000, entity);
 		final float xseed = getAnimationTime(12000, entity);
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
-		if (entity.getRidingEntity() == null) {
+		if (entity.getVehicle() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 
@@ -106,9 +106,9 @@ public class DevilTailModel extends PartModel {
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		if (subtype == 1)
-			tailTip.showModel = false;
+			tailTip.visible = false;
 
 		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-		tailTip.showModel = true;
+		tailTip.visible = true;
 	}
 }

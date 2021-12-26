@@ -32,6 +32,6 @@ public class ServerEventHandler {
 	@SubscribeEvent
 	void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
 		// Server doesn't save tails so we discard.
-		Tails.PROXY.removePartsData(PlayerEntity.getUUID(event.getPlayer().getGameProfile()));
+		Tails.PROXY.removePartsData(PlayerEntity.createPlayerUUID(event.getPlayer().getGameProfile()));
 	}
 }

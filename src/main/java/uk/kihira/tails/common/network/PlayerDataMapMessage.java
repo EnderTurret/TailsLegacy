@@ -33,7 +33,7 @@ public class PlayerDataMapMessage {
 	}
 
 	public static PlayerDataMapMessage decode(PacketBuffer buf) {
-		final String tailInfoJson = buf.readString(Short.MAX_VALUE);
+		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 		final PlayerDataMapMessage msg = new PlayerDataMapMessage();
 
 		try {
@@ -46,7 +46,7 @@ public class PlayerDataMapMessage {
 	}
 
 	public static void encode(PlayerDataMapMessage msg, PacketBuffer buf) {
-		buf.writeString(Tails.GSON.toJson(msg.partsDataMap), Short.MAX_VALUE);
+		buf.writeUtf(Tails.GSON.toJson(msg.partsDataMap), Short.MAX_VALUE);
 	}
 
 	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {

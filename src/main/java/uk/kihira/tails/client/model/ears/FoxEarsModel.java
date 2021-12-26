@@ -40,94 +40,94 @@ public class FoxEarsModel extends PartModel {
 	private final ModelRenderer lightEarBackSmall;
 
 	public FoxEarsModel() {
-		textureWidth = 16;
-		textureHeight = 32;
+		texWidth = 16;
+		texHeight = 32;
 
 		leftEarInnerSmall = new ModelRenderer(this, 0, 16);
 		leftEarInnerSmall.addBox(0F, 0F, 0F, 1, 1, 1);
-		leftEarInnerSmall.setRotationPoint(4F, -11F, 1F);
+		leftEarInnerSmall.setPos(4F, -11F, 1F);
 		leftEarInnerSmall.mirror = true;
 
 		leftEarInnerBig = new ModelRenderer(this, 4, 16);
 		leftEarInnerBig.addBox(0F, 0F, 0F, 2, 2, 1);
-		leftEarInnerBig.setRotationPoint(3F, -10F, 1F);
+		leftEarInnerBig.setPos(3F, -10F, 1F);
 		leftEarInnerBig.mirror = true;
 
 		rightEarInnerSmall = new ModelRenderer(this, 0, 19);
 		rightEarInnerSmall.addBox(0F, 0F, 0F, 1, 1, 1);
-		rightEarInnerSmall.setRotationPoint(-5F, -11F, 1F);
+		rightEarInnerSmall.setPos(-5F, -11F, 1F);
 
 		rightEarInnerBig = new ModelRenderer(this, 4, 19);
 		rightEarInnerBig.addBox(0F, 0F, 0F, 2, 2, 1);
-		rightEarInnerBig.setRotationPoint(-5F, -10F, 1F);
+		rightEarInnerBig.setPos(-5F, -10F, 1F);
 
 		leftEarInnerEdge = new ModelRenderer(this, 0, 0);
 		leftEarInnerEdge.addBox(0F, 0F, 0F, 1, 3, 1);
-		leftEarInnerEdge.setRotationPoint(2F, -10F, 1F);
+		leftEarInnerEdge.setPos(2F, -10F, 1F);
 		leftEarInnerEdge.mirror = true;
 
 		rightEarInnerEdge = new ModelRenderer(this, 0, 4);
 		rightEarInnerEdge.addBox(0F, 0F, 0F, 1, 3, 1);
-		rightEarInnerEdge.setRotationPoint(-3F, -10F, 1F);
+		rightEarInnerEdge.setPos(-3F, -10F, 1F);
 
 		leftEarMiddleEdge = new ModelRenderer(this, 4, 0);
 		leftEarMiddleEdge.addBox(0F, 0F, 0F, 1, 1, 1);
-		leftEarMiddleEdge.setRotationPoint(3F, -11F, 1F);
+		leftEarMiddleEdge.setPos(3F, -11F, 1F);
 		leftEarMiddleEdge.mirror = true;
 
 		rightEarMiddleEdge = new ModelRenderer(this, 4, 2);
 		rightEarMiddleEdge.addBox(0F, 0F, 0F, 1, 1, 1);
-		rightEarMiddleEdge.setRotationPoint(-4F, -11F, 1F);
+		rightEarMiddleEdge.setPos(-4F, -11F, 1F);
 
 		leftEarTopEdge = new ModelRenderer(this, 4, 4);
 		leftEarTopEdge.addBox(0F, 0F, 0F, 1, 1, 1);
-		leftEarTopEdge.setRotationPoint(4F, -12F, 1F);
+		leftEarTopEdge.setPos(4F, -12F, 1F);
 		leftEarTopEdge.mirror = true;
 
 		rightEarTopEdge = new ModelRenderer(this, 4, 6);
 		rightEarTopEdge.addBox(0F, 0F, 0F, 1, 1, 1);
-		rightEarTopEdge.setRotationPoint(-5F, -12F, 1F);
+		rightEarTopEdge.setPos(-5F, -12F, 1F);
 
 		leftEarOuterEdge = new ModelRenderer(this, 0, 8);
 		leftEarOuterEdge.addBox(0F, 0F, 0F, 1, 3, 1);
-		leftEarOuterEdge.setRotationPoint(5F, -11F, 1F);
+		leftEarOuterEdge.setPos(5F, -11F, 1F);
 		leftEarOuterEdge.mirror = true;
 
 		rightEarOuterEdge = new ModelRenderer(this, 0, 12);
 		rightEarOuterEdge.addBox(0F, 0F, 0F, 1, 3, 1);
-		rightEarOuterEdge.setRotationPoint(-6F, -11F, 1F);
+		rightEarOuterEdge.setPos(-6F, -11F, 1F);
 
 		leftEarBottomEdge = new ModelRenderer(this, 10, 14);
 		leftEarBottomEdge.addBox(0F, 0F, 0F, 2, 1, 1);
-		leftEarBottomEdge.setRotationPoint(3F, -8F, 1F);
+		leftEarBottomEdge.setPos(3F, -8F, 1F);
 		leftEarBottomEdge.mirror = true;
 
 		rightEarBottomEdge = new ModelRenderer(this, 10, 12);
 		rightEarBottomEdge.addBox(0F, 0F, 0F, 2, 1, 1);
-		rightEarBottomEdge.setRotationPoint(-5F, -8F, 1F);
+		rightEarBottomEdge.setPos(-5F, -8F, 1F);
 
 		leftEarBackBig = new ModelRenderer(this, 4, 8);
 		leftEarBackBig.addBox(0F, 0F, 0F, 1, 3, 1);
-		leftEarBackBig.setRotationPoint(4F, -11F, 2F);
+		leftEarBackBig.setPos(4F, -11F, 2F);
 		leftEarBackBig.mirror = true;
 
 		rightEarBackBig = new ModelRenderer(this, 4, 12);
 		rightEarBackBig.addBox(0F, 0F, 0F, 1, 3, 1);
-		rightEarBackBig.setRotationPoint(-5F, -11F, 2F);
+		rightEarBackBig.setPos(-5F, -11F, 2F);
 
 		leftEarBackSmall = new ModelRenderer(this, 8, 0);
 		leftEarBackSmall.addBox(0F, 0F, 0F, 1, 2, 1);
-		leftEarBackSmall.setRotationPoint(3F, -10F, 2F);
+		leftEarBackSmall.setPos(3F, -10F, 2F);
 		leftEarBackSmall.mirror = true;
 
 		lightEarBackSmall = new ModelRenderer(this, 8, 3);
 		lightEarBackSmall.addBox(0F, 0F, 0F, 1, 2, 1);
-		lightEarBackSmall.setRotationPoint(-4F, -10F, 2F);
+		lightEarBackSmall.setPos(-4F, -10F, 2F);
 	}
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		matrixStackIn.push();
+		matrixStackIn.pushPose();
 
 		if (subtype == 1) {
 			matrixStackIn.translate(0f, 0f, -0.0625f);
@@ -162,6 +162,6 @@ public class FoxEarsModel extends PartModel {
 			matrixStackIn.translate(0f, 0f, 0.0625f);
 		}
 
-		matrixStackIn.pop();
+		matrixStackIn.popPose();
 	}
 }

@@ -31,19 +31,19 @@ public class ClientUtils {
 		final String[] lines = string.split("\n");
 		for (int i = 0; i < lines.length; i++) {
 			final String line = lines[i];
-			fontRenderer.drawString(matrixStack, line, x, y + fontRenderer.FONT_HEIGHT * i, color);
+			fontRenderer.draw(matrixStack, line, x, y + fontRenderer.lineHeight * i, color);
 		}
 	}
 
 	public static void drawCenteredString(MatrixStack matrixStack, FontRenderer fontRenderer, String string, int x, int y, int color) {
-		final int width = fontRenderer.getStringWidth(string);
-		fontRenderer.drawString(matrixStack, string, x - width / 2, y, color);
+		final int width = fontRenderer.width(string);
+		fontRenderer.draw(matrixStack, string, x - width / 2, y, color);
 	}
 
 	public static UUID getPlayerUUID() {
 		final Minecraft mc = Minecraft.getInstance();
 		/*if (mc.player != null && mc.player.getUniqueID() != null)
 			return mc.player.getUniqueID();*/
-		return PlayerEntity.getUUID(mc.getSession().getProfile());
+		return PlayerEntity.createPlayerUUID(mc.getUser().getGameProfile());
 	}
 }

@@ -78,15 +78,15 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			if (CommonProxy.sync != null)
 				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
 
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new TranslationTextComponent("tails.gui.saved").mergeStyle(TextFormatting.GREEN));
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new TranslationTextComponent("tails.gui.saved").withStyle(TextFormatting.GREEN));
 
-			minecraft.displayGuiScreen(null);
+			minecraft.setScreen(null);
 		}));
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		matrixStack.push();
+		matrixStack.pushPose();
 
 		matrixStack.translate(0, 0, -400);
 
@@ -94,6 +94,6 @@ public class ControlsPanel extends Panel<EditorScreen> {
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 }

@@ -29,7 +29,7 @@ public class RenderingHandler {
 		final UUID uuid = e.getPlayer().getGameProfile().getId();
 		if (Tails.PROXY.hasPartsData(uuid) && !e.getPlayer().isInvisible()) {
 			currentPartsData = Tails.PROXY.getPartsData(uuid);
-			currentPlayerTexture = ((AbstractClientPlayerEntity) e.getPlayer()).getLocationSkin();
+			currentPlayerTexture = ((AbstractClientPlayerEntity) e.getPlayer()).getSkinTextureLocation();
 			currentEvent = e;
 		}
 	}

@@ -37,7 +37,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		doRender = Minecraft.getInstance().gameSettings.getPointOfView() == PointOfView.FIRST_PERSON;
+		doRender = Minecraft.getInstance().options.getCameraType() == PointOfView.FIRST_PERSON;
 		if (!doRender)
 			return;
 		// Reset Camera
@@ -61,8 +61,8 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		setBlitOffset(0);
 
 		// Player
-		drawEntity(left + width / 2, top + height / 2 + Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
-				Minecraft.getInstance().getMainWindow().getScaledHeight() / 4,
+		drawEntity(left + width / 2, top + height / 2 + Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
+				Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
 				yaw, pitch, partialTicks, Minecraft.getInstance().player);
 
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -109,41 +109,41 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180f);
 		final Quaternion quaternion1 = Vector3f.XP.rotationDegrees(pitch * 20F);
 
-		quaternion.multiply(quaternion1);
-		matrixStack.rotate(quaternion);
-		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-		matrixStack.rotate(Vector3f.YP.rotationDegrees(yaw));
+		quaternion.mul(quaternion1);
+		matrixStack.mulPose(quaternion);
+		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+		matrixStack.mulPose(Vector3f.YP.rotationDegrees(yaw));
 
-		final float oldRotationYawHead = entity.rotationYawHead;
-		final float oldRotationYaw = entity.rotationYaw;
-		final float oldRotationPitch = entity.rotationPitch;
+		final float oldRotationYawHead = entity.yHeadRot;
+		final float oldRotationYaw = entity.yRot;
+		final float oldRotationPitch = entity.xRot;
 
-		entity.rotationYawHead = 0F;
-		entity.rotationYaw = 0F;
-		entity.rotationPitch = 0F;
-		entity.renderYawOffset = 0F;
-		entity.setSneaking(false);
+		entity.yHeadRot = 0F;
+		entity.yRot = 0F;
+		entity.xRot = 0F;
+		entity.yBodyRot = 0F;
+		entity.setShiftKeyDown(false);
 
-		final EntityRendererManager rendererManager = Minecraft.getInstance().getRenderManager();
+		final EntityRendererManager rendererManager = Minecraft.getInstance().getEntityRenderDispatcher();
 
-		quaternion1.conjugate();
+		quaternion1.conj();
 
-		rendererManager.setCameraOrientation(quaternion1);
+		rendererManager.overrideCameraOrientation(quaternion1);
 		rendererManager.setRenderShadow(false);
 
-		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		RenderSystem.runAsFancy(() -> {
-			rendererManager.renderEntityStatic(entity, 0, 0, 0, 0f, 1F, matrixStack, impl, 15728880);
+			rendererManager.render(entity, 0, 0, 0, 0f, 1F, matrixStack, impl, 15728880);
 		});
 
-		impl.finish();
+		impl.endBatch();
 
 		rendererManager.setRenderShadow(true);
 
-		entity.rotationYawHead = oldRotationYawHead;
-		entity.rotationYaw = oldRotationYaw;
-		entity.rotationPitch = oldRotationPitch;
+		entity.yHeadRot = oldRotationYawHead;
+		entity.yRot = oldRotationYaw;
+		entity.xRot = oldRotationPitch;
 
 		RenderSystem.popMatrix();
 	}

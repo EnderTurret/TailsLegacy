@@ -35,50 +35,50 @@ public class SharkTailModel extends PartModel {
 	private final ModelRenderer fubBot3;
 
 	public SharkTailModel() {
-		textureWidth = 64;
-		textureHeight = 32;
+		texWidth = 64;
+		texHeight = 32;
 		finBot1 = new ModelRenderer(this, 26, 27);
-		finBot1.setRotationPoint(-0.5F, -0.4F, -4.0F);
+		finBot1.setPos(-0.5F, -0.4F, -4.0F);
 		finBot1.addBox(0.0F, 0.0F, -2.0F, 1, 3, 2, 0.0F);
 		setRotateAngle(finBot1, 0.091106186954104F, 0.0F, 0.0F);
 		tail1 = new ModelRenderer(this, 0, 16);
-		tail1.setRotationPoint(0.0F, 0.0F, 3.5F);
+		tail1.setPos(0.0F, 0.0F, 3.5F);
 		tail1.addBox(-1.5F, -1.5F, 0.0F, 3, 3, 5, 0.0F);
 		setRotateAngle(tail1, 0.0013962634015954637F, 0.0F, 0.0F);
 		tailBase = new ModelRenderer(this, 0, 24);
-		tailBase.setRotationPoint(0.0F, 0.5F, -0.6F);
+		tailBase.setPos(0.0F, 0.5F, -0.6F);
 		tailBase.addBox(-2.0F, -2.0F, 0.0F, 4, 4, 4, 0.0F);
 		setRotateAngle(tailBase, -0.6522295414702809F, 0.02949606435870417F, 0.0F);
 		tail2 = new ModelRenderer(this, 0, 9);
-		tail2.setRotationPoint(0.0F, 0.0F, 4.5F);
+		tail2.setPos(0.0F, 0.0F, 4.5F);
 		tail2.addBox(-1.0F, -1.0F, -0.2F, 2, 2, 5, 0.0F);
 		setRotateAngle(tail2, 0.278554548618295F, 0.0F, 0.0F);
 		finTop1 = new ModelRenderer(this, 16, 10);
-		finTop1.setRotationPoint(0.0F, 6.5F, -0.1F);
+		finTop1.setPos(0.0F, 6.5F, -0.1F);
 		finTop1.addBox(-0.5F, 0.0F, -2.9F, 1, 2, 3, 0.0F);
 		setRotateAngle(finTop1, -0.091106186954104F, 0.0F, 0.0F);
 		finTop3 = new ModelRenderer(this, 16, 1);
-		finTop3.setRotationPoint(0.0F, 4.0F, 0.0F);
+		finTop3.setPos(0.0F, 4.0F, 0.0F);
 		finTop3.addBox(0.0F, 0.0F, -1.0F, 1, 2, 1, 0.0F);
 		setRotateAngle(finTop3, -0.136659280431156F, 0.0F, 0.0F);
 		finBase = new ModelRenderer(this, 16, 21);
-		finBase.setRotationPoint(0.0F, 0.0F, 3.0F);
+		finBase.setPos(0.0F, 0.0F, 3.0F);
 		finBase.addBox(-0.5F, -0.4F, -4.0F, 1, 7, 4, 0.0F);
 		setRotateAngle(finBase, 2.5953045977155678F, -0.0F, 0.0F);
 		finBot2 = new ModelRenderer(this, 26, 21);
-		finBot2.setRotationPoint(0.0F, 0.0F, -2.0F);
+		finBot2.setPos(0.0F, 0.0F, -2.0F);
 		finBot2.addBox(0.0F, 0.0F, -3.0F, 1, 3, 3, 0.0F);
 		setRotateAngle(finBot2, 0.136659280431156F, -0.0F, 0.0F);
 		tail3 = new ModelRenderer(this, 0, 3);
-		tail3.setRotationPoint(0.0F, 0.0F, 4.4F);
+		tail3.setPos(0.0F, 0.0F, 4.4F);
 		tail3.addBox(-1.0F, -1.0F, 0.0F, 2, 2, 4, 0.0F);
 		setRotateAngle(tail3, 0.22759093446006054F, 0.0F, 0.0F);
 		finTop2 = new ModelRenderer(this, 16, 4);
-		finTop2.setRotationPoint(-0.5F, 2.0F, 0.1F);
+		finTop2.setPos(-0.5F, 2.0F, 0.1F);
 		finTop2.addBox(0.0F, 0.0F, -2.0F, 1, 4, 2, 0.0F);
 		setRotateAngle(finTop2, -0.136659280431156F, 0.0F, 0.0F);
 		fubBot3 = new ModelRenderer(this, 26, 17);
-		fubBot3.setRotationPoint(0.0F, 0.0F, -3.0F);
+		fubBot3.setPos(0.0F, 0.0F, -3.0F);
 		fubBot3.addBox(0.0F, 0.0F, -2.0F, 1, 2, 2, 0.0F);
 		setRotateAngle(fubBot3, 0.1980948701013564F, -0.0F, 0.0F);
 		finBase.addChild(finBot1);
@@ -101,16 +101,16 @@ public class SharkTailModel extends PartModel {
 	 * @param z The z rotation angle.
 	 */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		modelRenderer.xRot = x;
+		modelRenderer.yRot = y;
+		modelRenderer.zRot = z;
 	}
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
-		if (entity.getRidingEntity() == null) {
+		if (entity.getVehicle() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 

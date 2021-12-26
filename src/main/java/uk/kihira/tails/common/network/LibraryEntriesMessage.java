@@ -32,7 +32,7 @@ public class LibraryEntriesMessage {
 	}
 
 	public static LibraryEntriesMessage decode(PacketBuffer buf) {
-		final String dataJson = buf.readString(Short.MAX_VALUE);
+		final String dataJson = buf.readUtf(Short.MAX_VALUE);
 		final LibraryEntriesMessage msg = new LibraryEntriesMessage();
 
 		try {
@@ -47,7 +47,7 @@ public class LibraryEntriesMessage {
 	}
 
 	public static void encode(LibraryEntriesMessage msg, PacketBuffer buf) {
-		buf.writeString(Tails.GSON.toJson(msg.entries, new TypeToken<List<LibraryEntryData>>() {}.getType()), Short.MAX_VALUE);
+		buf.writeUtf(Tails.GSON.toJson(msg.entries, new TypeToken<List<LibraryEntryData>>() {}.getType()), Short.MAX_VALUE);
 		buf.writeBoolean(msg.delete);
 	}
 

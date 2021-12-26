@@ -35,9 +35,9 @@ public class PlayerDataMessage {
 	public static PlayerDataMessage decode(PacketBuffer buf) {
 		final PlayerDataMessage msg = new PlayerDataMessage();
 
-		msg.uuid = buf.readUniqueId();
+		msg.uuid = buf.readUUID();
 
-		final String tailInfoJson = buf.readString(Short.MAX_VALUE);
+		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
 		if (!Strings.isNullOrEmpty(tailInfoJson))
 			try {
@@ -51,9 +51,9 @@ public class PlayerDataMessage {
 	}
 
 	public static void encode(PlayerDataMessage msg, PacketBuffer buf) {
-		buf.writeUniqueId(msg.uuid);
+		buf.writeUUID(msg.uuid);
 		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.GSON.toJson(msg.partsData);
-		buf.writeString(tailInfoJson, Short.MAX_VALUE);
+		buf.writeUtf(tailInfoJson, Short.MAX_VALUE);
 	}
 
 	public static void handle(PlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {

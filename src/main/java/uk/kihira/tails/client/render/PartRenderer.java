@@ -48,7 +48,7 @@ public class PartRenderer {
 
 	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
 		if (!info.isEmpty() && (info.needsTextureCompile || info.getTexture() == null)) {
-			info.setTexture(TextureHelper.generateTexture(entity.getUniqueID(), info));
+			info.setTexture(TextureHelper.generateTexture(entity.getUUID(), info));
 			info.needsTextureCompile = false;
 		}
 	}
@@ -58,7 +58,7 @@ public class PartRenderer {
 	 * @param matrixStack The {@link MatrixStack} to use for transformations.
 	 * @param entity The entity that is about to be used for rendering.
 	 * @param info The {@link PartInfo} about to be rendered.
-	 * @param bufferIn The render type buffers. Usually obtained from {@link Minecraft#getRenderTypeBuffers()}.
+	 * @param bufferIn The render type buffers. Usually obtained from {@link Minecraft#renderBuffers()}.
 	 * @param builderIn The vertex builder for rendering, in case an {@link IRenderHelper} wants to do some rendering.
 	 * @param x The x location.
 	 * @param y The y location.
@@ -75,8 +75,8 @@ public class PartRenderer {
 		compileTextureIfNeeded(entity, info);
 
 		if (modelPart != null) {
-			modelPart.setRotationAngles(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks, info.getSubType(), entity.rotationPitch);
-			modelPart.setLivingAnimations(entity, entity.limbSwing, entity.limbSwingAmount, partialTicks);
+			modelPart.setupAnim(entity, entity.animationPosition, entity.animationSpeed, partialTicks, info.getSubType(), entity.xRot);
+			modelPart.prepareMobModel(entity, entity.animationPosition, entity.animationSpeed, partialTicks);
 		}
 
 		// Support for Galacticraft as it adds its own EntityPlayer.
@@ -108,8 +108,8 @@ public class PartRenderer {
 			compileTextureIfNeeded(entity, info);
 
 			final boolean visible = !entity.isInvisible();
-			final boolean visibleToPlayer = !visible && !entity.isInvisibleToPlayer(Minecraft.getInstance().player);
-			final boolean glowing = Minecraft.getInstance().isEntityGlowing(entity);
+			final boolean visibleToPlayer = !visible && !entity.isInvisibleTo(Minecraft.getInstance().player);
+			final boolean glowing = Minecraft.getInstance().shouldEntityAppearGlowing(entity);
 
 			final RenderType type = getRenderType(entity, info.getTexture(), visible, visibleToPlayer, glowing);
 
@@ -142,24 +142,24 @@ public class PartRenderer {
 	 */
 	public void render(MatrixStack matrixStack, LivingEntity entity, PartInfo info, IRenderTypeBuffer bufferIn, IVertexBuilder builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
-			matrixStack.push();
+			matrixStack.pushPose();
 
 			preRender(matrixStack, entity, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			doRender(matrixStack, entity, info, builderIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
 	}
 
 	@Nullable
 	protected RenderType getRenderType(LivingEntity entity, ResourceLocation tex, boolean visible, boolean visibleToPlayer, boolean glowing) {
 		if (visibleToPlayer)
-			return RenderType.getItemEntityTranslucentCull(tex);
+			return RenderType.itemEntityTranslucentCull(tex);
 		else if (visible)
-			return RenderType.getEntityCutoutNoCull(tex);
+			return RenderType.entityCutoutNoCull(tex);
 		else
-			return glowing ? RenderType.getOutline(tex) : null;
+			return glowing ? RenderType.outline(tex) : null;
 	}
 
 	/**

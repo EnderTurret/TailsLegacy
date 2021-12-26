@@ -48,7 +48,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		super(parent, left, top, right, bottom);
 		alwaysReceiveMouse = true;
 
-		fakeEntity = new FakeEntity(Minecraft.getInstance().world);
+		fakeEntity = new FakeEntity(Minecraft.getInstance().level);
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 
 		setBlitOffset(0);
 		RenderSystem.color4f(1, 1, 1, 1);
-		drawCenteredString(matrixStack, font, I18n.format("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
+		drawCenteredString(matrixStack, font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 		// Tails list
 		partList.render(matrixStack, mouseX, mouseY, partialTicks);
 
@@ -83,9 +83,9 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	}
 
 	@Override
-	public void onClose() {
+	public void removed() {
 		// Delete textures on close.
-		for (PartEntry entry : partList.getEventListeners())
+		for (PartEntry entry : partList.children())
 			entry.partInfo.setTexture(null);
 	}
 
@@ -122,18 +122,18 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 
 		children.remove(this.partList);
 		this.partList = new ListWidget<>(this, 108, bottom - top - listTop, listTop, bottom - top, 55, partList);
-		addListener(this.partList);
+		addWidget(this.partList);
 		selectDefaultListEntry();
 	}
 
 	void selectDefaultListEntry() {
 		// Default selection.
 		final PartInfo partInfo = parent.getEditingPartInfo();
-		for (PartEntry entry : partList.getEventListeners())
+		for (PartEntry entry : partList.children())
 			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
 					&& entry.partInfo.getPart() == partInfo.getPart()) {
 				partList.setSelected(entry);
-				onEntrySelected(partList, partList.getEventListeners().indexOf(entry), entry);
+				onEntrySelected(partList, partList.children().indexOf(entry), entry);
 				break;
 			}
 	}
@@ -144,16 +144,16 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 
 		if (partInfo.getTexture() == null) return;
 
-		matrixStack.push();
+		matrixStack.pushPose();
 		matrixStack.translate(x, y, z);
 		matrixStack.scale(-scale, scale, 1F);
 
-		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().renderBuffers().bufferSource();
 		renderer
 		.render(matrixStack, fakeEntity, partInfo, impl, impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture())), 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
-		impl.finish();
+		impl.endBatch();
 
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 	class PartEntry extends ExtendedList.AbstractListEntry<PartEntry> {
@@ -173,32 +173,32 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(matrixStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTicks);
-				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.format(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
+				ClientUtils.drawStringMultiLine(matrixStack, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {
 					final Part renderPart = partInfo.getPart();
 					final String author = renderPart.getAuthor(parent.getEditingPartInfo().getSubType(), parent.getTextureId());
 					if (author != null) {
 						// Yeah its not nice but eh, works.
-						matrixStack.push();
+						matrixStack.pushPose();
 						matrixStack.translate(5, x + 27, 0);
 						matrixStack.scale(0.6F, 0.6F, 1F);
 						setBlitOffset(100);
-						font.drawString(matrixStack, I18n.format("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
+						font.draw(matrixStack, I18n.get("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
 						matrixStack.translate(0, 10, 0);
-						font.drawString(matrixStack, TextFormatting.AQUA + author, 0, 0, 0xFFFFFF);
-						matrixStack.pop();
+						font.draw(matrixStack, TextFormatting.AQUA + author, 0, 0, 0xFFFFFF);
+						matrixStack.popPose();
 						setBlitOffset(0);
 					}
 				}
 			} else
-				font.drawString(matrixStack, I18n.format("tails.gui.part.none"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				font.draw(matrixStack, I18n.get("tails.gui.part.none"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
 		}
 
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int button) {
 			partList.setSelected(this);
-			onEntrySelected(partList, partList.getEventListeners().indexOf(this), this);
+			onEntrySelected(partList, partList.children().indexOf(this), this);
 			return true;
 		}
 	}

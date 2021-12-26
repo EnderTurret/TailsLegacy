@@ -54,16 +54,16 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 
 	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, ITextComponent... tooltips) {
 		this(id, xPos, yPos, width, height, callback, type);
-		this.tooltips = Arrays.stream(tooltips).map(ITextComponent::func_241878_f).collect(Collectors.toList());
+		this.tooltips = Arrays.stream(tooltips).map(ITextComponent::getVisualOrderText).collect(Collectors.toList());
 	}
 
 	@Override
-	public void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partial) {
+	public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partial) {
 		if (visible) {
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
 			GuiUtils.drawContinuousTexturedBox(matrixStack, WIDGETS_LOCATION, x, y, 0, 46, width, height, 200, 20, 2, 3, 2, 2, getBlitOffset());
-			Minecraft.getInstance().getTextureManager().bindTexture(SLIDER_TEXTURE);
+			Minecraft.getInstance().getTextureManager().bind(SLIDER_TEXTURE);
 
 			if (type == HSBSliderType.SATURATION) {
 				final Color hueColour = Color.getHSBColor(hueValue, 1F, 1F);
@@ -95,9 +95,9 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 			}
 
 			RenderSystem.color4f(1F, 1F, 1F, 1F);
-			Minecraft.getInstance().getTextureManager().bindTexture(SLIDER_TEXTURE);
-			blit(matrixStack, x + (int)(sliderValue * (width - 3) - 2), y, 0, 0, 7, 4);
-			blit(matrixStack, x + (int)(sliderValue * (width - 3) - 2), y + height - 4, 7, 0, 7, 4);
+			Minecraft.getInstance().getTextureManager().bind(SLIDER_TEXTURE);
+			blit(matrixStack, x + (int)(value * (width - 3) - 2), y, 0, 0, 7, 4);
+			blit(matrixStack, x + (int)(value * (width - 3) - 2), y + height - 4, 7, 0, 7, 4);
 		}
 	}
 
@@ -106,7 +106,7 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 	}
 
 	public double getValue() {
-		return sliderValue;
+		return value;
 	}
 
 	/**
@@ -114,10 +114,10 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 	 * @param value New value
 	 */
 	public void setValue(double value) { // Copied from setSliderValue (private)
-		final double oldValue = sliderValue;
-		sliderValue = MathHelper.clamp(value, 0.0D, 1.0D);
+		final double oldValue = value;
+		value = MathHelper.clamp(value, 0.0D, 1.0D);
 
-		func_230979_b_();
+		updateMessage();
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 	 */
 	public void setValueWithCallback(double value) {
 		setValue(value);
-		func_230972_a_();
+		applyValue();
 	}
 
 	/**
@@ -148,15 +148,15 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 	void drawTexturedModalRectScaled(MatrixStack matrixStack, int x, int y, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
 		final float f = 0.00390625F;
 		final float f1 = 0.00390625F;
-		final MatrixStack.Entry e = matrixStack.getLast();
-		final BufferBuilder renderer = Tessellator.getInstance().getBuffer();
+		final MatrixStack.Entry e = matrixStack.last();
+		final BufferBuilder renderer = Tessellator.getInstance().getBuilder();
 		renderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-		renderer.pos(e.getMatrix(), x + 0,			y + tarHeight,	getBlitOffset()).tex((u + 0) * f, (v + srcHeight) * f1).endVertex();
-		renderer.pos(e.getMatrix(), x + tarWidth,	y + tarHeight,	getBlitOffset()).tex((u + srcWidth) * f, (v + srcHeight) * f1).endVertex();
-		renderer.pos(e.getMatrix(), x + tarWidth,	y + 0,			getBlitOffset()).tex((u + srcWidth) * f, (v + 0) * f1).endVertex();
-		renderer.pos(e.getMatrix(), x + 0,			y + 0,			getBlitOffset()).tex((u + 0) * f, (v + 0) * f1).endVertex();
-		renderer.finishDrawing();
-		WorldVertexBufferUploader.draw(renderer);
+		renderer.vertex(e.pose(), x + 0,			y + tarHeight,	getBlitOffset()).uv((u + 0) * f, (v + srcHeight) * f1).endVertex();
+		renderer.vertex(e.pose(), x + tarWidth,	y + tarHeight,	getBlitOffset()).uv((u + srcWidth) * f, (v + srcHeight) * f1).endVertex();
+		renderer.vertex(e.pose(), x + tarWidth,	y + 0,			getBlitOffset()).uv((u + srcWidth) * f, (v + 0) * f1).endVertex();
+		renderer.vertex(e.pose(), x + 0,			y + 0,			getBlitOffset()).uv((u + 0) * f, (v + 0) * f1).endVertex();
+		renderer.end();
+		WorldVertexBufferUploader.end(renderer);
 	}
 
 	@Override
@@ -165,12 +165,12 @@ public class HSBSlider extends AbstractSlider implements ITooltip {
 	}
 
 	@Override
-	protected void func_230972_a_() { // save
-		if (callback != null) callback.onValueChangeHSBSlider(this, sliderValue);
+	protected void applyValue() { // save
+		if (callback != null) callback.onValueChangeHSBSlider(this, value);
 	}
 
 	@Override
-	protected void func_230979_b_() { // updateMessage
+	protected void updateMessage() { // updateMessage
 
 	}
 

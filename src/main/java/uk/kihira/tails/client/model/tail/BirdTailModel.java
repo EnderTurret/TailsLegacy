@@ -33,45 +33,45 @@ public class BirdTailModel extends PartModel {
 	public BirdTailModel() {
 		center = new ModelRenderer(this, 0, 0);
 		center.addBox(-1.5F, -.5F, -0.5F, 3, 9, 1);
-		center.setRotationPoint(0F, 0F, 1F);
-		center.setTextureSize(64, 32);
+		center.setPos(0F, 0F, 1F);
+		center.setTexSize(64, 32);
 		setRotationDegrees(center, 55F, 0F, 0F);
 
 		left0 = new ModelRenderer(this, 0, 10);
 		left0.addBox(-1F, 0F, -0.5F, 2, 8, 1);
-		left0.setRotationPoint(-1F, .5F, 0F);
-		left0.setTextureSize(64, 32);
+		left0.setPos(-1F, .5F, 0F);
+		left0.setTexSize(64, 32);
 		setRotationDegrees(left0, -2, -8, 11);
 
 		left1 = new ModelRenderer(this, 0, 19);
 		left1.addBox(-1F, 0F, -0.5F, 2, 7, 1);
-		left1.setRotationPoint(-1.5F, 0F, 0F);
-		left1.setTextureSize(64, 32);
+		left1.setPos(-1.5F, 0F, 0F);
+		left1.setTexSize(64, 32);
 		setRotationDegrees(left1, 0, -6, 0);
 
 		left2 = new ModelRenderer(this, 6, 19);
 		left2.addBox(-0.5F, 0F, -0.5F, 1, 6, 1);
-		left2.setRotationPoint(-.5F, 0F, 0F);
-		left2.setTextureSize(64, 32);
+		left2.setPos(-.5F, 0F, 0F);
+		left2.setTexSize(64, 32);
 		setRotationDegrees(left2, 0, -6, 15);
 
 		right0 = new ModelRenderer(this, 0, 10);
 		right0.mirror = true;
 		right0.addBox(-1F, 0F, -0.5F, 2, 8, 1);
-		right0.setRotationPoint(1F, .5F, 0F);
-		right0.setTextureSize(64, 32);
+		right0.setPos(1F, .5F, 0F);
+		right0.setTexSize(64, 32);
 		setRotationDegrees(right0, -2, 8, -11);
 
 		right1 = new ModelRenderer(this, 0, 19);
 		right1.addBox(-1F, 0F, -0.5F, 2, 7, 1);
-		right1.setRotationPoint(1.5F, 0F, 0F);
-		right1.setTextureSize(64, 32);
+		right1.setPos(1.5F, 0F, 0F);
+		right1.setTexSize(64, 32);
 		setRotationDegrees(right1, 0, 6, 0);
 
 		right2 = new ModelRenderer(this, 6, 19);
 		right2.addBox(-0.5F, 0F, -0.5F, 1, 6, 1);
-		right2.setRotationPoint(.5F, 0, 0F);
-		right2.setTextureSize(64, 32);
+		right2.setPos(.5F, 0, 0F);
+		right2.setTexSize(64, 32);
 		setRotationDegrees(right2, 0, 6, -15);
 
 		right1.addChild(right2);
@@ -83,12 +83,12 @@ public class BirdTailModel extends PartModel {
 	}
 
 	@Override
-	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
 		final float timestep = getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double zAngleOffset = 0;
 
-		if (entity.getRidingEntity() == null) {
+		if (entity.getVehicle() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 				xAngleOffset = angles[0];

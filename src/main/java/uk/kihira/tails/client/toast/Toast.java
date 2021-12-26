@@ -37,19 +37,19 @@ public class Toast {
 		this.width = width;
 		this.time = time;
 		this.message = Arrays.asList(message);
-		height = this.message.size() * Minecraft.getInstance().fontRenderer.FONT_HEIGHT + 7;
+		height = this.message.size() * Minecraft.getInstance().font.lineHeight + 7;
 	}
 
 	public void drawToast(MatrixStack matrixStack, int mouseX, int mouseY) {
 		if (time > 0) {
-			final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+			final FontRenderer fontRenderer = Minecraft.getInstance().font;
 			mouseOver = mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height;
 			int opacity = mouseOver ? 255 : (int) (time * 256F / 10F);
 			if (opacity > 255) opacity = 255;
 			if (mouseOver) time = 20;
 
 			if (opacity > 0) {
-				matrixStack.push();
+				matrixStack.pushPose();
 				RenderSystem.enableBlend();
 				RenderSystem.disableLighting();
 				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
@@ -57,11 +57,11 @@ public class Toast {
 				final int colour = 0xFFFFFF | opacity << 24;
 				for (int i = 0; i < message.size(); i++) {
 					final IReorderingProcessor s = message.get(i);
-					fontRenderer.drawTextWithShadow(matrixStack, s, xPos + width / 2 - fontRenderer.func_243245_a(s) / 2, yPos + 4 + fontRenderer.FONT_HEIGHT * i, colour);
+					fontRenderer.drawShadow(matrixStack, s, xPos + width / 2 - fontRenderer.width(s) / 2, yPos + 4 + fontRenderer.lineHeight * i, colour);
 				}
 				RenderSystem.disableBlend();
 				RenderSystem.color4f(0F, 0F, 0F, 1F);
-				matrixStack.pop();
+				matrixStack.popPose();
 			}
 		}
 	}

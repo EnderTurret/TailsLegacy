@@ -41,7 +41,7 @@ public class TextureHelper {
 				part.getId().getNamespace() + "_" + uuid + "_" + part.getId().getPath()
 				+ "_" + subid + "_" + textureID + "_" + tints[0] + "_" + tints[1] + "_" + tints[2]);
 
-		Minecraft.getInstance().getTextureManager().loadTexture(tailTexture, new TripleTintTexture(part.getId().getNamespace(), texturePath, tints[0], tints[1], tints[2]));
+		Minecraft.getInstance().getTextureManager().register(tailTexture, new TripleTintTexture(part.getId().getNamespace(), texturePath, tints[0], tints[1], tints[2]));
 
 		return tailTexture;
 	}

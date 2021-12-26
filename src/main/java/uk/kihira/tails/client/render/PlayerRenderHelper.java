@@ -34,12 +34,12 @@ public class PlayerRenderHelper implements IRenderHelper<PlayerEntity> {
 		//if (mpmCompat && entity.isSneaking())
 		//matrixStack.translate(0f, -0.1f, 0.4f);
 		if (tail.modelPart instanceof DragonTailModel) {
-			if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
+			if (entity.isShiftKeyDown()) matrixStack.translate(0f, 0.82f, 0f);
 			else matrixStack.translate(0F, 0.68F, 0.1F);
 			matrixStack.scale(0.8F, 0.8F, 0.8F);
 		}
 		else if (tail.modelPart instanceof CatTailModel || tail.modelPart instanceof DevilTailModel) {
-			if (entity.isSneaking()) matrixStack.translate(0f, 0.82f, 0f);
+			if (entity.isShiftKeyDown()) matrixStack.translate(0f, 0.82f, 0f);
 			else matrixStack.translate(0F, 0.65F, 0.1F);
 			matrixStack.scale(0.9F, 0.9F, 0.9F);
 		}

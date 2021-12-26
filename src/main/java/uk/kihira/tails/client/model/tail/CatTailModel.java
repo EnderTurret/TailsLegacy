@@ -31,37 +31,37 @@ public class CatTailModel extends PartModel {
 	private final ModelRenderer tail5;
 
 	public CatTailModel() {
-		textureWidth = 64;
-		textureHeight = 32;
+		texWidth = 64;
+		texHeight = 32;
 
 		tailBase = new ModelRenderer(this, 0, 0);
 		tailBase.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tailBase.setRotationPoint(0F, 0F, 0F);
+		tailBase.setPos(0F, 0F, 0F);
 		setRotationDegrees(tailBase, 0F, 0F, 0F);
 
 		tail1 = new ModelRenderer(this, 0, 3);
 		tail1.addBox(-0.5F, -0.5F, 0F, 1, 1, 3);
-		tail1.setRotationPoint(0F, 0F, 1.75F);
+		tail1.setPos(0F, 0F, 1.75F);
 		setRotationDegrees(tail1, 0F, 0F, 0F);
 
 		tail2 = new ModelRenderer(this, 0, 7);
 		tail2.addBox(-0.5F, -0.5F, 0F, 1, 1, 6);
-		tail2.setRotationPoint(0F, 0F, 2.75F);
+		tail2.setPos(0F, 0F, 2.75F);
 		setRotationDegrees(tail2, 0F, 0F, 0F);
 
 		tail3 = new ModelRenderer(this, 0, 14);
 		tail3.addBox(-0.5F, -0.5F, 0F, 1, 1, 3);
-		tail3.setRotationPoint(0F, 0F, 5.75F);
+		tail3.setPos(0F, 0F, 5.75F);
 		setRotationDegrees(tail3, 0F, 0F, 0F);
 
 		tail4 = new ModelRenderer(this, 0, 18);
 		tail4.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tail4.setRotationPoint(0F, 0F, 2.75F);
+		tail4.setPos(0F, 0F, 2.75F);
 		setRotationDegrees(tail4, 0F, 0F, 0F);
 
 		tail5 = new ModelRenderer(this, 0, 21);
 		tail5.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tail5.setRotationPoint(0F, 0F, 1.75F);
+		tail5.setPos(0F, 0F, 1.75F);
 		setRotationDegrees(tail5, 0F, 0F, 0F);
 
 		tail4.addChild(tail5);
@@ -72,12 +72,12 @@ public class CatTailModel extends PartModel {
 	}
 
 	@Override
-	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
 		final float seed = getAnimationTime(6000, entity);
 		final float xseed = getAnimationTime(12000, entity);
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
-		if (entity.getRidingEntity() == null) {
+		if (entity.getVehicle() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 

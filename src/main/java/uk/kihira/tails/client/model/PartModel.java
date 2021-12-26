@@ -25,7 +25,7 @@ import net.minecraft.util.math.MathHelper;
 public abstract class PartModel extends EntityModel<LivingEntity> {
 
 	public PartModel() {
-		super(RenderType::getEntityCutoutNoCull);
+		super(RenderType::entityCutoutNoCull);
 	}
 
 	public static final float SCALE = 0.0625F;
@@ -48,10 +48,10 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 	@Override
 	@Deprecated
-	public final void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {}
+	public final void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {}
 
 	@Override
-	public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {}
+	public void setupAnim(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {}
 
 	/**
 	 * Sets the rotation on a model where the provided params are in radians
@@ -61,9 +61,9 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param z The z angle
 	 */
 	protected void setRotationRadians(ModelRenderer model, double x, double y, double z) {
-		model.rotateAngleX = (float) x;
-		model.rotateAngleY = (float) y;
-		model.rotateAngleZ = (float) z;
+		model.xRot = (float) x;
+		model.yRot = (float) y;
+		model.zRot = (float) z;
 	}
 
 	/**
@@ -83,10 +83,10 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	}
 
 	protected double[] getMotionAngles(PlayerEntity player, double partialTicks) {
-		final double xMotion = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * partialTicks - (player.prevPosX + (player.getPosX() - player.prevPosX) * partialTicks);
-		final double yMotion = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * partialTicks - (player.prevPosY + (player.getPosY() - player.prevPosY) * partialTicks); // Positive when falling, negative when climbing
-		final double zMotion = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * partialTicks - (player.prevPosZ + (player.getPosZ() - player.prevPosZ) * partialTicks);
-		final float bodyYaw = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * (float) partialTicks;
+		final double xMotion = player.xCloakO + (player.xCloak - player.xCloakO) * partialTicks - (player.xo + (player.getX() - player.xo) * partialTicks);
+		final double yMotion = player.yCloakO + (player.yCloak - player.yCloakO) * partialTicks - (player.yo + (player.getY() - player.yo) * partialTicks); // Positive when falling, negative when climbing
+		final double zMotion = player.zCloakO + (player.zCloak - player.zCloakO) * partialTicks - (player.zo + (player.getZ() - player.zo) * partialTicks);
+		final float bodyYaw = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO) * (float) partialTicks;
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
 		final double bodyYawSin = MathHelper.sin(bodyYaw * (float) Math.PI / 180F);
@@ -101,7 +101,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	}
 
 	protected float getTailBob(PlayerEntity player, float partialTicks) {
-		final float cameraYaw = player.prevCameraYaw + (player.cameraYaw - player.prevCameraYaw) * partialTicks;
-		return MathHelper.sin((player.prevDistanceWalkedModified + (player.distanceWalkedModified - player.prevDistanceWalkedModified) * partialTicks) * 6F) * 12F * cameraYaw;
+		final float cameraYaw = player.oBob + (player.bob - player.oBob) * partialTicks;
+		return MathHelper.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTicks) * 6F) * 12F * cameraYaw;
 	}
 }

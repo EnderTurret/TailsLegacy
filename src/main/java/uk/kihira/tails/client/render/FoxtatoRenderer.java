@@ -38,25 +38,25 @@ public class FoxtatoRenderer {
 	@SubscribeEvent
 	public void onPotatoRender(TinyPotatoRenderEvent e) {
 		if (e.name.getString().equalsIgnoreCase("foxtato")) {
-			if (fakeEntity == null) fakeEntity = new FoxtatoFakeEntity(Minecraft.getInstance().world);
+			if (fakeEntity == null) fakeEntity = new FoxtatoFakeEntity(Minecraft.getInstance().level);
 
 			final PartRenderer foxTailRenderer = PartRenderRegistry.getRenderer(PartRegistry.FLUFFY_TAIL);
 			final PartRenderer foxEarRenderer = PartRenderRegistry.getRenderer(PartRegistry.FOX_EARS);
 
-			e.ms.push();
+			e.ms.pushPose();
 
 			e.ms.scale(0.5F, 0.5F, 0.5F);
 
 			e.ms.translate(0, 2F, 0.2F);
 
-			foxTailRenderer.render(e.ms, fakeEntity, tailPartInfo, e.buffers, e.tile.getPos().getX(), e.tile.getPos().getY(), e.tile.getPos().getZ(), e.partTicks, e.light, e.overlay, 1F, 1F, 1F, 1F);
+			foxTailRenderer.render(e.ms, fakeEntity, tailPartInfo, e.buffers, e.tile.getBlockPos().getX(), e.tile.getBlockPos().getY(), e.tile.getBlockPos().getZ(), e.partTicks, e.light, e.overlay, 1F, 1F, 1F, 1F);
 
 			e.ms.translate(0, -0.7, -0.3F);
-			e.ms.rotate(Vector3f.YP.rotationDegrees(180));
+			e.ms.mulPose(Vector3f.YP.rotationDegrees(180));
 
-			foxEarRenderer.render(e.ms, fakeEntity, earPartInfo, e.buffers, e.tile.getPos().getX(), e.tile.getPos().getY(), e.tile.getPos().getZ(), e.partTicks, e.light, e.overlay, 1F, 1F, 1F, 1F);
+			foxEarRenderer.render(e.ms, fakeEntity, earPartInfo, e.buffers, e.tile.getBlockPos().getX(), e.tile.getBlockPos().getY(), e.tile.getBlockPos().getZ(), e.partTicks, e.light, e.overlay, 1F, 1F, 1F, 1F);
 
-			e.ms.pop();
+			e.ms.popPose();
 
 			RenderSystem.color4f(1F, 0F, 1F, 1F);
 		}

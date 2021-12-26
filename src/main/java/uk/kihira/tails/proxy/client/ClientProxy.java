@@ -96,29 +96,29 @@ public class ClientProxy extends CommonProxy {
 			legacyRenderer = true;
 		}
 
-		final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
+		final Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
 
 		if (legacyRenderer) {
 			MinecraftForge.EVENT_BUS.register(new RenderingHandler());
 
 			for (PlayerRenderer renderer : skinMap.values()) {
-				final PlayerModel<AbstractClientPlayerEntity> model = renderer.getEntityModel();
-				model.bipedBody.addChild(new ModelRendererWrapper(model, PartType.TAIL));
-				model.bipedBody.addChild(new ModelRendererWrapper(model, PartType.WINGS));
-				model.bipedHead.addChild(new ModelRendererWrapper(model, PartType.EARS));
-				model.bipedHead.addChild(new ModelRendererWrapper(model, PartType.MUZZLE));
+				final PlayerModel<AbstractClientPlayerEntity> model = renderer.getModel();
+				model.body.addChild(new ModelRendererWrapper(model, PartType.TAIL));
+				model.body.addChild(new ModelRendererWrapper(model, PartType.WINGS));
+				model.head.addChild(new ModelRendererWrapper(model, PartType.EARS));
+				model.head.addChild(new ModelRendererWrapper(model, PartType.MUZZLE));
 			}
 		} else
 			for (PlayerRenderer renderer : skinMap.values()) {
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartType.TAIL));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartType.WINGS));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.EARS));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.MUZZLE));
+				renderer.addLayer(new PartLayer(renderer, renderer.getModel().body, PartType.TAIL));
+				renderer.addLayer(new PartLayer(renderer, renderer.getModel().body, PartType.WINGS));
+				renderer.addLayer(new PartLayer(renderer, renderer.getModel().head, PartType.EARS));
+				renderer.addLayer(new PartLayer(renderer, renderer.getModel().head, PartType.MUZZLE));
 			}
 	}
 
 	@Override
 	public void deleteTexture(ResourceLocation tex) {
-		Minecraft.getInstance().getTextureManager().deleteTexture(tex);
+		Minecraft.getInstance().getTextureManager().release(tex);
 	}
 }

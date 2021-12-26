@@ -107,9 +107,9 @@ public class EditorScreen extends LayeredScreen {
 	}
 
 	@Override
-	public void onClose() {
+	public void removed() {
 		Tails.PROXY.addPartsData(playerUUID, Tails.localPartsData);
-		super.onClose();
+		super.removed();
 	}
 
 	public void refreshTintPane() {
@@ -164,8 +164,8 @@ public class EditorScreen extends LayeredScreen {
 	}
 
 	private void setScale(int scale) {
-		Minecraft.getInstance().gameSettings.guiScale = scale;
-		resize(Minecraft.getInstance(), Minecraft.getInstance().getMainWindow().getScaledWidth(), Minecraft.getInstance().getMainWindow().getScaledHeight());
+		Minecraft.getInstance().options.guiScale = scale;
+		resize(Minecraft.getInstance(), Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 	}
 
 	public PartInfo getOriginalPartInfo() {

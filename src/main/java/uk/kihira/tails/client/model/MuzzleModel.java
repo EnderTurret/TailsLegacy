@@ -25,7 +25,7 @@ public class MuzzleModel extends PartModel {
 	private final ModelRenderer muzzle;
 
 	public MuzzleModel(float xOffset, float yOffset, float zOffset, int xSize, int ySize, int zSize, int xTex, int yTex) {
-		textureWidth = textureHeight = 32;
+		texWidth = texHeight = 32;
 
 		muzzle = new ModelRenderer(this, xTex, yTex);
 		muzzle.addBox(xOffset, yOffset, zOffset, xSize, ySize, zSize);
@@ -43,7 +43,7 @@ public class MuzzleModel extends PartModel {
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		matrixStackIn.push();
+		matrixStackIn.pushPose();
 		matrixStackIn.translate(0, -0.001F, 0);
 		switch (subtype) {
 		case 0: // Very Short
@@ -66,6 +66,6 @@ public class MuzzleModel extends PartModel {
 			muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			break;
 		}
-		matrixStackIn.pop();
+		matrixStackIn.popPose();
 	}
 }

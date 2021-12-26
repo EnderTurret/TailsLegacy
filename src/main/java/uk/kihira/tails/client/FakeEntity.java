@@ -28,26 +28,26 @@ public class FakeEntity extends LivingEntity {
 	}
 
 	@Override
-	public void writeAdditional(CompoundNBT tagCompound) {}
+	public void addAdditionalSaveData(CompoundNBT tagCompound) {}
 
 	@Override
-	public void readAdditional(CompoundNBT tagCompound) {}
+	public void readAdditionalSaveData(CompoundNBT tagCompound) {}
 
 	@Override
-	public Iterable<ItemStack> getArmorInventoryList() {
+	public Iterable<ItemStack> getArmorSlots() {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public ItemStack getItemStackFromSlot(EquipmentSlotType slotIn) {
+	public ItemStack getItemBySlot(EquipmentSlotType slotIn) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setItemStackToSlot(EquipmentSlotType slotIn, ItemStack stack) {}
+	public void setItemSlot(EquipmentSlotType slotIn, ItemStack stack) {}
 
 	@Override
-	public HandSide getPrimaryHand() {
+	public HandSide getMainArm() {
 		return HandSide.RIGHT;
 	}
 }

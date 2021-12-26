@@ -46,31 +46,31 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, AbstractClientPlayerEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		final UUID uuid = PlayerEntity.getUUID(entity.getGameProfile());
+		final UUID uuid = PlayerEntity.createPlayerUUID(entity.getGameProfile());
 		if (Tails.PROXY.hasPartsData(uuid)) {
 			final PartsData partsData = Tails.PROXY.getPartsData(uuid);
 			if (partsData.hasPartInfo(partType)) {
 				final PartInfo tailInfo = partsData.getPartInfo(partType);
 
-				matrixStackIn.push();
+				matrixStackIn.pushPose();
 
 				if (partType == PartType.EARS || partType == PartType.MUZZLE)
-					getEntityModel().bipedHead.translateRotate(matrixStackIn);
+					getParentModel().head.translateAndRotate(matrixStackIn);
 
 				else if (partType == PartType.TAIL)
-					getEntityModel().bipedBody.translateRotate(matrixStackIn);
+					getParentModel().body.translateAndRotate(matrixStackIn);
 
 				try {
 					final Part part = tailInfo.getPart();
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
 					if (renderer != null)
-						renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingRenderer.getPackedOverlay(entity, 0F), 1F, 1F, 1F, 1F);
+						renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
 					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", tailInfo);
 				} catch (Exception e) {
 					Tails.LOGGER.error("Exception rendering part {}: ", tailInfo, e);
 				}
 
-				matrixStackIn.pop();
+				matrixStackIn.popPose();
 			}
 		}
 	}

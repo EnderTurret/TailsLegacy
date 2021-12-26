@@ -24,19 +24,19 @@ public class PandaEarsModel extends PartModel {
 	private final ModelRenderer rightEar;
 
 	public PandaEarsModel() {
-		textureWidth = 32;
-		textureHeight = 32;
+		texWidth = 32;
+		texHeight = 32;
 
 		leftEar = new ModelRenderer(this, 0, 0);
 		leftEar.addBox(-2F, -2F, 0F, 3, 3, 1);
-		leftEar.setRotationPoint(-4F, -8F, 0F);
-		leftEar.setTextureSize(32, 32);
+		leftEar.setPos(-4F, -8F, 0F);
+		leftEar.setTexSize(32, 32);
 		leftEar.mirror = true;
 
 		rightEar = new ModelRenderer(this, 0, 4);
 		rightEar.addBox(-1F, -2F, 0F, 3, 3, 1);
-		rightEar.setRotationPoint(4F, -8F, 0F);
-		rightEar.setTextureSize(32, 32);
+		rightEar.setPos(4F, -8F, 0F);
+		rightEar.setTexSize(32, 32);
 		rightEar.mirror = true;
 	}
 

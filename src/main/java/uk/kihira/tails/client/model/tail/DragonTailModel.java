@@ -39,17 +39,17 @@ public class DragonTailModel extends PartModel {
 
 		tail1 = new ModelRenderer(this, 0, 0);
 		tail1.addBox(-2F, -2F, 0F, 4, 4, 7);
-		tail1.setRotationPoint(0F, 0.3F, 5F);
+		tail1.setPos(0F, 0.3F, 5F);
 		setRotationDegrees(tail1, -8F, 0F, 0F);
 
 		tail2 = new ModelRenderer(this, 0, 11);
 		tail2.addBox(-1.5F, -1.5F, 0F, 3, 3, 8);
-		tail2.setRotationPoint(0F, 0.2F, 5.5F);
+		tail2.setPos(0F, 0.2F, 5.5F);
 		setRotationDegrees(tail2, 10F, 0F, 0F);
 
 		tail3 = new ModelRenderer(this, 0, 22);
 		tail3.addBox(-1F, -1F, 0F, 2, 2, 7);
-		tail3.setRotationPoint(0F, 0.4F, 7.5F);
+		tail3.setPos(0F, 0.4F, 7.5F);
 		setRotationDegrees(tail3, 20F, 0F, 0F);
 
 		tail2.addChild(tail3);
@@ -62,17 +62,17 @@ public class DragonTailModel extends PartModel {
 
 		tailSub1 = new ModelRenderer(this, 22, 11);
 		tailSub1.addBox(0F, -6.75F, 1F, 0, 5, 7);
-		tailSub1.setRotationPoint(0F, 0.3F, 5F);
+		tailSub1.setPos(0F, 0.3F, 5F);
 		setRotationDegrees(tailSub1, -8F, 0F, 0F);
 
 		tailSub2 = new ModelRenderer(this, 22, 15);
 		tailSub2.addBox(0F, -6.25F, 1F, 0, 5, 8);
-		tailSub2.setRotationPoint(0F, 0.2F, 5.5F);
+		tailSub2.setPos(0F, 0.2F, 5.5F);
 		setRotationDegrees(tailSub2, 10F, 0F, 0F);
 
 		tailSub3 = new ModelRenderer(this, 29, 6);
 		tailSub3.addBox(0F, -5.75F, 1F, 0, 5, 7);
-		tailSub3.setRotationPoint(0F, 0.4F, 7.5F);
+		tailSub3.setPos(0F, 0.4F, 7.5F);
 		setRotationDegrees(tailSub3, 20F, 0F, 0F);
 
 		tailSub2.addChild(tailSub3);
@@ -81,10 +81,10 @@ public class DragonTailModel extends PartModel {
 	}
 
 	@Override
-	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
-		if (entity.getRidingEntity() == null) {
+		if (entity.getVehicle() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 

@@ -34,43 +34,43 @@ public class SmallCatEarsModel extends PartModel {
 	private final ModelRenderer rightEarLayer3;
 
 	public SmallCatEarsModel() {
-		textureWidth = 64;
-		textureHeight = 32;
+		texWidth = 64;
+		texHeight = 32;
 		rightEarRearLayer1 = new ModelRenderer(this, 13, 14);
-		rightEarRearLayer1.setRotationPoint(-3.0F, -8.0F, 0.0F);
+		rightEarRearLayer1.setPos(-3.0F, -8.0F, 0.0F);
 		rightEarRearLayer1.addBox(-1.0F, -2.0F, 1.0F, 1, 1, 1, 0.0F);
 		leftEarRearLayer1 = new ModelRenderer(this, 0, 14);
-		leftEarRearLayer1.setRotationPoint(4.0F, -8.0F, 0.0F);
+		leftEarRearLayer1.setPos(4.0F, -8.0F, 0.0F);
 		leftEarRearLayer1.addBox(-1.0F, -2.0F, 1.0F, 1, 1, 1, 0.0F);
 		rightEarRearBottom = new ModelRenderer(this, 13, 12);
-		rightEarRearBottom.setRotationPoint(-3.0F, -8.0F, 0.0F);
+		rightEarRearBottom.setPos(-3.0F, -8.0F, 0.0F);
 		rightEarRearBottom.addBox(-1.0F, -1.0F, 1.0F, 2, 1, 1, 0.0F);
 		leftEarLayer1 = new ModelRenderer(this, 0, 2);
-		leftEarLayer1.setRotationPoint(4.0F, -8.0F, 0.0F);
+		leftEarLayer1.setPos(4.0F, -8.0F, 0.0F);
 		leftEarLayer1.addBox(-3.0F, -1.0F, 0.0F, 4, 1, 1, 0.0F);
 		leftEarLayer2 = new ModelRenderer(this, 0, 4);
-		leftEarLayer2.setRotationPoint(4.0F, -8.0F, 0.0F);
+		leftEarLayer2.setPos(4.0F, -8.0F, 0.0F);
 		leftEarLayer2.addBox(-2.0F, -2.0F, 0.0F, 3, 1, 1, 0.0F);
 		rightEarLayer1 = new ModelRenderer(this, 13, 2);
-		rightEarLayer1.setRotationPoint(-3.0F, -8.0F, 0.0F);
+		rightEarLayer1.setPos(-3.0F, -8.0F, 0.0F);
 		rightEarLayer1.addBox(-2.0F, -1.0F, 0.0F, 4, 1, 1, 0.0F);
 		rightEarBottom = new ModelRenderer(this, 13, 0);
-		rightEarBottom.setRotationPoint(-4.0F, -8.0F, 0.0F);
+		rightEarBottom.setPos(-4.0F, -8.0F, 0.0F);
 		rightEarBottom.addBox(-1.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
 		leftEarRearBottom = new ModelRenderer(this, 0, 12);
-		leftEarRearBottom.setRotationPoint(4.0F, -8.0F, 0.0F);
+		leftEarRearBottom.setPos(4.0F, -8.0F, 0.0F);
 		leftEarRearBottom.addBox(-2.0F, -1.0F, 1.0F, 2, 1, 1, 0.0F);
 		rightEarLayer3 = new ModelRenderer(this, 13, 6);
-		rightEarLayer3.setRotationPoint(-2.0F, -8.0F, 0.0F);
+		rightEarLayer3.setPos(-2.0F, -8.0F, 0.0F);
 		rightEarLayer3.addBox(-2.0F, -3.0F, 0.0F, 1, 1, 1, 0.0F);
 		leftEarBottom = new ModelRenderer(this, 0, 0);
-		leftEarBottom.setRotationPoint(4.0F, -8.0F, 0.0F);
+		leftEarBottom.setPos(4.0F, -8.0F, 0.0F);
 		leftEarBottom.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
 		rightEarLayer2 = new ModelRenderer(this, 13, 4);
-		rightEarLayer2.setRotationPoint(-3.0F, -8.0F, 0.0F);
+		rightEarLayer2.setPos(-3.0F, -8.0F, 0.0F);
 		rightEarLayer2.addBox(-2.0F, -2.0F, 0.0F, 3, 1, 1, 0.0F);
 		leftEarLayer3 = new ModelRenderer(this, 0, 6);
-		leftEarLayer3.setRotationPoint(4.0F, -8.0F, 0.0F);
+		leftEarLayer3.setPos(4.0F, -8.0F, 0.0F);
 		leftEarLayer3.addBox(-1.0F, -3.0F, 0.0F, 1, 1, 1, 0.0F);
 	}
 

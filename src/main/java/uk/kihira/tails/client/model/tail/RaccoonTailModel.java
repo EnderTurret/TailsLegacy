@@ -29,21 +29,21 @@ public class RaccoonTailModel extends PartModel {
 	public RaccoonTailModel() {
 		tailBase = new ModelRenderer(this, 12, 16);
 		tailBase.addBox(-1F, -1F, 0F, 2, 2, 2);
-		tailBase.setRotationPoint(0F, 0F, 0F);
+		tailBase.setPos(0F, 0F, 0F);
 
 		tail1 = new ModelRenderer(this, 0, 16);
 		tail1.addBox(-1.5F, -1.5F, 0F, 3, 3, 3);
-		tail1.setRotationPoint(0F, 0F, 1F);
+		tail1.setPos(0F, 0F, 1F);
 		setRotationDegrees(tail1, -40F, 0F, 0F);
 
 		tail2 = new ModelRenderer(this, 0, 0);
 		tail2.addBox(-2F, -2F, 0F, 4, 4, 12);
-		tail2.setRotationPoint(0F, 0F, 2F);
+		tail2.setPos(0F, 0F, 2F);
 		setRotationDegrees(tail2, -30F, 0F, 0F);
 
 		final ModelRenderer tailTip = new ModelRenderer(this, 0, 22);
 		tailTip.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
-		tailTip.setRotationPoint(0F, 0F, 12F);
+		tailTip.setPos(0F, 0F, 12F);
 
 		tail2.addChild(tailTip);
 		tail1.addChild(tail2);
@@ -51,14 +51,14 @@ public class RaccoonTailModel extends PartModel {
 	}
 
 	@Override
-	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
 		final float timestep = getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 
-		if (entity.getRidingEntity() == null) {
+		if (entity.getVehicle() == null) {
 			if (entity instanceof PlayerEntity) {
 				final double[] angles = getMotionAngles((PlayerEntity) entity, partialTicks);
 

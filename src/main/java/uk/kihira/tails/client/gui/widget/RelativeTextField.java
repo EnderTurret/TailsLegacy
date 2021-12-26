@@ -33,15 +33,15 @@ public class RelativeTextField extends TextFieldWidget {
 	}
 
 	@Override
-	public void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.matrixStack = matrixStack;
-		super.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+		super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
 		this.matrixStack = null;
 	}
 
 	// Fixes TextFieldWidget#drawSelectionBox not taking into account MatrixStack transformations.
 	@Override
-	public void drawSelectionBox(int startX, int startY, int endX, int endY) {
+	public void renderHighlight(int startX, int startY, int endX, int endY) {
 		if (startX < endX) {
 			int i = startX;
 			startX = endX;
@@ -61,17 +61,17 @@ public class RelativeTextField extends TextFieldWidget {
 			startX = x + width;
 
 		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferbuilder = tessellator.getBuffer();
+		BufferBuilder bufferbuilder = tessellator.getBuilder();
 		RenderSystem.color4f(0.0F, 0.0F, 255.0F, 255.0F);
 		RenderSystem.disableTexture();
 		RenderSystem.enableColorLogicOp();
 		RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
-		bufferbuilder.pos(matrixStack.getLast().getMatrix(), startX, endY, 0F).endVertex();
-		bufferbuilder.pos(matrixStack.getLast().getMatrix(), endX, endY, 0F).endVertex();
-		bufferbuilder.pos(matrixStack.getLast().getMatrix(), endX, startY, 0F).endVertex();
-		bufferbuilder.pos(matrixStack.getLast().getMatrix(), startX, startY, 0F).endVertex();
-		tessellator.draw();
+		bufferbuilder.vertex(matrixStack.last().pose(), startX, endY, 0F).endVertex();
+		bufferbuilder.vertex(matrixStack.last().pose(), endX, endY, 0F).endVertex();
+		bufferbuilder.vertex(matrixStack.last().pose(), endX, startY, 0F).endVertex();
+		bufferbuilder.vertex(matrixStack.last().pose(), startX, startY, 0F).endVertex();
+		tessellator.end();
 		RenderSystem.disableColorLogicOp();
 		RenderSystem.enableTexture();
 	}

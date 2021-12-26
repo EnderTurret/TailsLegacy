@@ -39,23 +39,23 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 	@Override
 	public void render(MatrixStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
 		if (data.remoteEntry) {
-			Minecraft.getInstance().getTextureManager().bindTexture(IconButton.iconsTextures);
+			Minecraft.getInstance().getTextureManager().bind(IconButton.iconsTextures);
 			final IconButton.Icons icon = IconButton.Icons.SERVER;
-			matrixStack.push();
+			matrixStack.pushPose();
 			matrixStack.translate(rowLeft + listWidth - 16, rowTop + slotHeight - 12, 0F);
 			matrixStack.scale(0.8F, 0.8F, 1F);
 			GuiUtils.drawTexturedModalRect(matrixStack, 0, 0, icon.u, icon.v, 16, 16, 10);
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
 
-		final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-		fontRenderer.drawString(matrixStack, (data.partsData.equals(Tails.localPartsData) ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName,
+		final FontRenderer fontRenderer = Minecraft.getInstance().font;
+		fontRenderer.draw(matrixStack, (data.partsData.equals(Tails.localPartsData) ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
 		for (PartType type : PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
 				final PartInfo partInfo = data.partsData.getPartInfo(type);
-				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.format(partInfo.getPart().getTranslationKey()),
+				ClientUtils.drawStringMultiLine(matrixStack, fontRenderer, I18n.get(partInfo.getPart().getTranslationKey()),
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
 					AbstractGui.fill(matrixStack,
@@ -65,13 +65,13 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 			}
 
 		if (data.favourite) {
-			Minecraft.getInstance().getTextureManager().bindTexture(IconButton.iconsTextures);
+			Minecraft.getInstance().getTextureManager().bind(IconButton.iconsTextures);
 			final IconButton.Icons icon = IconButton.Icons.STAR;
-			matrixStack.push();
+			matrixStack.pushPose();
 			matrixStack.translate(rowLeft + listWidth - 16, rowTop, 0F);
 			matrixStack.scale(0.8F, 0.8F, 1F);
 			GuiUtils.drawTexturedModalRect(matrixStack, 0, 0, icon.u, icon.v + 32, 16, 16, 10);
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
 	}
 
@@ -91,14 +91,14 @@ public class LibraryListEntry extends ExtendedList.AbstractListEntry<LibraryList
 
 		@Override
 		public void render(MatrixStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-			Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format("tails.gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
+			Minecraft.getInstance().font.draw(matrixStack, I18n.get("tails.gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
 		}
 
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
-			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.format("tails.gui.library.entry.default"), Tails.localPartsData);
+			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.get("tails.gui.library.entry.default"), Tails.localPartsData);
 			Tails.PROXY.getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
 			return true;

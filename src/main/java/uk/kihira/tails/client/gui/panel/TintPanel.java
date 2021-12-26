@@ -55,9 +55,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 		// Tint edit pane
 		hexText = new RelativeTextField(font, 30, editPaneTop + 20, 73, 10, null);
-		hexText.setMaxStringLength(6);
-		hexText.setText(Integer.toHexString(currentTint));
-		addListener(hexText);
+		hexText.setMaxLength(6);
+		hexText.setValue(Integer.toHexString(currentTint));
+		addWidget(hexText);
 
 		// RGB sliders
 		rgbSliders = new HSBSlider[3];
@@ -85,7 +85,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		// Reset/Save
 		addButton(tintReset = new IconButton(right - left - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
 			currentTint = parent.getOriginalPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
-			hexText.setText(Integer.toHexString(currentTint));
+			hexText.setValue(Integer.toHexString(currentTint));
 			refreshTintPane();
 			tintReset.active = false;
 		}, new TranslationTextComponent("tails.gui.button.reset")));
@@ -111,16 +111,16 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		for (int tint = 1; tint <= 3; tint++) {
 			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
 			fillGradient(matrixStack, 5, topOffset + 10, 25, topOffset + 30, colour, colour);
-			font.drawString(matrixStack, I18n.format("tails.gui.tint", tint), 5, topOffset, 0xFFFFFF);
+			font.draw(matrixStack, I18n.get("tails.gui.tint", tint), 5, topOffset, 0xFFFFFF);
 			topOffset += 35;
 		}
 
 		// Editing tint pane
 		if (editingTint > 0) {
 			hLine(matrixStack, 0, width, editPaneTop, 0xFF000000);
-			font.drawString(matrixStack, I18n.format("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
+			font.draw(matrixStack, I18n.get("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
 
-			font.drawString(matrixStack, I18n.format("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
+			font.draw(matrixStack, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
 
 			hexText.render(matrixStack, mouseX, mouseY, partialTicks);
 		}
@@ -131,7 +131,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	protected void handleTintButton(int id) {
 		editingTint = id - 1;
 		currentTint = parent.getEditingPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
-		hexText.setText(Integer.toHexString(currentTint));
+		hexText.setValue(Integer.toHexString(currentTint));
 		refreshTintPane();
 		tintReset.active = false;
 		//colourPicker.active = true;
@@ -141,8 +141,8 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (hexText.keyPressed(keyCode, scanCode, modifiers)) {
 			try {
-				if (!Strings.isNullOrEmpty(hexText.getText()))
-					currentTint = Integer.parseInt(hexText.getText(), 16);
+				if (!Strings.isNullOrEmpty(hexText.getValue()))
+					currentTint = Integer.parseInt(hexText.getValue(), 16);
 			} catch (NumberFormatException ignored) {}
 
 			refreshTintPane();
@@ -162,8 +162,8 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	public boolean charTyped(char codePoint, int modifiers) {
 		if (hexText.charTyped(codePoint, modifiers)) {
 			try {
-				if (!Strings.isNullOrEmpty(hexText.getText()))
-					currentTint = Integer.parseInt(hexText.getText(), 16);
+				if (!Strings.isNullOrEmpty(hexText.getValue()))
+					currentTint = Integer.parseInt(hexText.getValue(), 16);
 			} catch (NumberFormatException ignored) {}
 
 			refreshTintPane();
@@ -198,7 +198,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;
 			currentTint = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
 		}
-		hexText.setText(Integer.toHexString(currentTint));
+		hexText.setValue(Integer.toHexString(currentTint));
 		refreshTintPane();
 	}
 

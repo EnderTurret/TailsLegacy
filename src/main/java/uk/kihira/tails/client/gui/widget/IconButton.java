@@ -24,6 +24,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
+import net.minecraft.client.gui.widget.button.Button.IPressable;
+
 /**
  * A button with an icon and a tooltip.
  */
@@ -37,13 +39,13 @@ public class IconButton extends Button implements ITooltip {
 	public IconButton(int x, int y, Icons icon, IPressable onPress, ITextComponent... tooltips) {
 		super(x, y, 16 ,16, new StringTextComponent(""), onPress);
 		this.icon = icon;
-		tooltip = Arrays.stream(tooltips).map(ITextComponent::func_241878_f).collect(Collectors.toList());
+		tooltip = Arrays.stream(tooltips).map(ITextComponent::getVisualOrderText).collect(Collectors.toList());
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		if (visible) {
-			Minecraft.getInstance().getTextureManager().bindTexture(iconsTextures);
+			Minecraft.getInstance().getTextureManager().bind(iconsTextures);
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderSystem.enableBlend();
 			RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
@@ -86,9 +88,9 @@ public class IconButton extends Button implements ITooltip {
 		}
 
 		@Override
-		public void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 			if (visible && toggled) {
-				Minecraft.getInstance().getTextureManager().bindTexture(iconsTextures);
+				Minecraft.getInstance().getTextureManager().bind(iconsTextures);
 				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				RenderSystem.enableBlend();
 				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
@@ -96,7 +98,7 @@ public class IconButton extends Button implements ITooltip {
 				isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 				blit(matrixStack, x, y, icon.u, icon.v + 32, 16, 16);
 			} else
-				super.renderWidget(matrixStack, mouseX, mouseY, partialTicks);
+				super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
 		}
 	}
 

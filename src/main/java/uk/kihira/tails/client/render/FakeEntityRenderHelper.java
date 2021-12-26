@@ -36,12 +36,12 @@ public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 		// TODO fake head using players skin?
 		case MUZZLE:
 			matrixStack.translate(0.2F, 1.25F, 0F);
-			matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
-			matrixStack.rotate(Vector3f.YP.rotationDegrees(-45F));
-			matrixStack.rotate(Vector3f.XP.rotationDegrees(25F));
+			matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
+			matrixStack.mulPose(Vector3f.YP.rotationDegrees(-45F));
+			matrixStack.mulPose(Vector3f.XP.rotationDegrees(25F));
 			break;
 		case EARS: {
-			matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
+			matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
 			matrixStack.translate(0F, 1.4F, 0F);
 			break;
 		}

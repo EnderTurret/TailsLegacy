@@ -29,7 +29,7 @@ public class ColorUtil {
 	 * @return The packed value.
 	 */
 	public static int combined(int alpha, int red, int green, int blue) {
-		return NativeImage.getCombined(alpha, blue, green, red);
+		return NativeImage.combine(alpha, blue, green, red);
 	}
 
 	/**
@@ -69,10 +69,10 @@ public class ColorUtil {
 	 * @return The converted color.
 	 */
 	public static int toJavaColor(int combined) {
-		return (NativeImage.getAlpha(combined) & 0xFF) << 24 |
-				(NativeImage.getRed(combined) & 0xFF) << 16 |
-				(NativeImage.getGreen(combined) & 0xFF) << 8  |
-				(NativeImage.getBlue(combined) & 0xFF) << 0;
+		return (NativeImage.getA(combined) & 0xFF) << 24 |
+				(NativeImage.getR(combined) & 0xFF) << 16 |
+				(NativeImage.getG(combined) & 0xFF) << 8  |
+				(NativeImage.getB(combined) & 0xFF) << 0;
 	}
 
 	/**

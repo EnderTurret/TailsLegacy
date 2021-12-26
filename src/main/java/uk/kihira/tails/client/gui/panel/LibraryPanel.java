@@ -67,9 +67,9 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 
 		setBlitOffset(30);
 
-		Minecraft.getInstance().getTextureManager().bindTexture(IconButton.iconsTextures);
+		Minecraft.getInstance().getTextureManager().bind(IconButton.iconsTextures);
 
-		matrixStack.push();
+		matrixStack.pushPose();
 
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		matrixStack.translate(right - left - 16, bottom - top - 32, 0);
@@ -77,7 +77,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 
 		blit(matrixStack, 0, 0, 160, 0, 16, 16);
 
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 	@Override
@@ -85,10 +85,10 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 		final boolean value = super.keyPressed(keyCode, scanCode, modifiers);
 
 		if (value) {
-			final List<LibraryListEntry> newEntries = filterListEntries(searchField.getText().toLowerCase(Locale.ROOT));
+			final List<LibraryListEntry> newEntries = filterListEntries(searchField.getValue().toLowerCase(Locale.ROOT));
 			newEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
-			list.getEventListeners().clear();
-			list.getEventListeners().addAll(newEntries);
+			list.children().clear();
+			list.children().addAll(newEntries);
 		}
 
 		return value;
@@ -114,11 +114,11 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 		libraryEntries.sort(SORTER);
 
 		children.remove(list);
-		addListener(list = new ListWidget<>(this, right - left, bottom - top - 34, 0, bottom - top - 34, 50, libraryEntries));
+		addWidget(list = new ListWidget<>(this, right - left, bottom - top - 34, 0, bottom - top - 34, 50, libraryEntries));
 	}
 
 	public void addSelectedEntry(LibraryListEntry entry) {
-		list.getEventListeners().add(entry);
+		list.children().add(entry);
 		list.setSelected(entry);
 		parent.getLibraryInfoPanel().setEntry(entry);
 		libraryChanged = true;
@@ -126,7 +126,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 
 	public void removeEntry(LibraryListEntry entry) {
 		Tails.PROXY.getLibraryManager().removeEntry(entry.data);
-		list.getEventListeners().remove(entry);
+		list.children().remove(entry);
 		libraryChanged = true;
 	}
 
@@ -144,11 +144,11 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 	}
 
 	@Override
-	public void onClose() {
+	public void removed() {
 		Tails.PROXY.getLibraryManager().removeRemoteEntries();
 		if (libraryChanged)
 			Tails.PROXY.getLibraryManager().saveLibrary();
-		super.onClose();
+		super.removed();
 	}
 
 	private static class LibrarySorter implements Comparator<LibraryListEntry> {

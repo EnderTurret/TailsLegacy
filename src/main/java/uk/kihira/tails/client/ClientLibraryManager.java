@@ -25,7 +25,7 @@ public class ClientLibraryManager extends LibraryManager {
 	public void addEntries(List<? extends LibraryEntryData> entries) {
 		super.addEntries(entries);
 
-		final Screen screen = Minecraft.getInstance().currentScreen;
+		final Screen screen = Minecraft.getInstance().screen;
 
 		if (screen instanceof EditorScreen) {
 			final EditorScreen editor = (EditorScreen) screen;

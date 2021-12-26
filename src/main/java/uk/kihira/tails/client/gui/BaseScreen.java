@@ -23,6 +23,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.widget.ITooltip;
 
+import net.minecraft.client.gui.widget.button.Button.IPressable;
+
 public abstract class BaseScreen extends Screen {
 
 	private int prevMouseX;
@@ -74,7 +76,7 @@ public abstract class BaseScreen extends Screen {
 
 			if (tooltips != null && tooltips.length > 0)
 				for (ITextComponent s : tooltips)
-					tooltip.addAll(font.trimStringToWidth(s, this.maxTextWidth));
+					tooltip.addAll(font.split(s, this.maxTextWidth));
 		}
 
 		@Override
@@ -102,9 +104,9 @@ public abstract class BaseScreen extends Screen {
 		}
 
 		@Override
-		public void renderWidget(MatrixStack matrixStack, int x, int y, float partialTicks) {
+		public void renderButton(MatrixStack matrixStack, int x, int y, float partialTicks) {
 			final List<IReorderingProcessor> list = new ArrayList<>(tooltip);
-			list.add(!active ? new StringTextComponent("Enabled").mergeStyle(TextFormatting.GREEN, TextFormatting.ITALIC).func_241878_f() : new StringTextComponent("Disabled").mergeStyle(TextFormatting.RED, TextFormatting.ITALIC).func_241878_f());
+			list.add(!active ? new StringTextComponent("Enabled").withStyle(TextFormatting.GREEN, TextFormatting.ITALIC).getVisualOrderText() : new StringTextComponent("Disabled").withStyle(TextFormatting.RED, TextFormatting.ITALIC).getVisualOrderText());
 			BaseScreen.this.renderToolTip(matrixStack, list, x, y, font);
 		}
 	}

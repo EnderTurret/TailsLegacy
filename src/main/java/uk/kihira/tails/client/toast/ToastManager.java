@@ -33,20 +33,20 @@ public class ToastManager {
 	}
 
 	public void createToast(int x, int y, ITextComponent text) {
-		final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-		final IReorderingProcessor processor = text.func_241878_f();
-		final int stringWidth = fontRenderer.func_243245_a(processor);
+		final FontRenderer fontRenderer = Minecraft.getInstance().font;
+		final IReorderingProcessor processor = text.getVisualOrderText();
+		final int stringWidth = fontRenderer.width(processor);
 		toasts.add(new Toast(x, y, stringWidth + 10,  stringWidth * 3, processor));
 	}
 
 	public void createCenteredToast(int x, int y, int maxWidth, ITextComponent text) {
-		final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-		final int stringWidth = fontRenderer.getStringPropertyWidth(text);
+		final FontRenderer fontRenderer = Minecraft.getInstance().font;
+		final int stringWidth = fontRenderer.width(text);
 		if (stringWidth > maxWidth) {
-			final List<IReorderingProcessor> strings = fontRenderer.trimStringToWidth(text, maxWidth);
+			final List<IReorderingProcessor> strings = fontRenderer.split(text, maxWidth);
 			toasts.add(new Toast(x - maxWidth / 2 - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new IReorderingProcessor[strings.size()])));
 		} else
-			toasts.add(new Toast(x - stringWidth / 2 - 5, y, stringWidth + 10, text.getString().length() * 3, text.func_241878_f()));
+			toasts.add(new Toast(x - stringWidth / 2 - 5, y, stringWidth + 10, text.getString().length() * 3, text.getVisualOrderText()));
 	}
 
 	@SubscribeEvent
@@ -64,9 +64,9 @@ public class ToastManager {
 	@SubscribeEvent
 	public void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
 		final IProfiler profiler = Minecraft.getInstance().getProfiler();
-		profiler.startSection("toastNotification");
+		profiler.push("toastNotification");
 		for (Toast toast : toasts)
 			toast.drawToast(event.getMatrixStack(), event.getMouseX(), event.getMouseY());
-		profiler.endSection();
+		profiler.pop();
 	}
 }

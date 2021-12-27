@@ -74,11 +74,6 @@ public class CommonProxy {
 	}
 
 	/**
-	 * A generic renderer registration method.
-	 */
-	public void registerRenderers() {}
-
-	/**
 	 * Adds the given part data for the given {@link UUID}.
 	 * @param uuid The {@link UUID} that the part data is for.
 	 * @param partsData The part data.

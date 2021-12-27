@@ -81,17 +81,12 @@ public class Tails {
 
 		final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modBus.addListener(this::setup);
-		modBus.addListener(this::loadComplete);
 		modBus.addListener(this::onConfigChange);
 	}
 
 	private void setup(FMLCommonSetupEvent e) {
 		PROXY.init();
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> loadConfig(null));
-	}
-
-	private void loadComplete(FMLLoadCompleteEvent e) {
-		PROXY.registerRenderers();
 	}
 
 	private void onConfigChange(ModConfigEvent event) {

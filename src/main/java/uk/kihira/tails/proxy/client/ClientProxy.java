@@ -22,8 +22,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import uk.kihira.tails.client.ClientEventHandler;
 import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.FakeEntity;
@@ -47,6 +50,7 @@ import uk.kihira.tails.proxy.CommonProxy;
  * please dispose of the class loader immediately and get one that is not a professional client proxy hunter.
  */
 @OnlyIn(Dist.CLIENT)
+@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
 
 	@Override
@@ -88,16 +92,8 @@ public class ClientProxy extends CommonProxy {
 		super.clearAllPartsData();
 	}
 
-	@Override
-	public void registerRenderers() {
-		boolean legacyRenderer = TailsConfig.CLIENT_INSTANCE.forceLegacyRendering.get();
-
-		if (legacyRenderer) Tails.LOGGER.info("Legacy Renderer has been forced enabled.");
-		else if (ModList.get().isLoaded("SmartMoving")) {
-			Tails.LOGGER.info("Legacy Renderer enabled automatically for mod compatibility.");
-			legacyRenderer = true;
-		}
-
+	@SubscribeEvent
+	public static void addLayers(EntityRenderersEvent.AddLayers e) {
 		final Map<String, EntityRenderer<? extends Player>> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
 
 		for (EntityRenderer<? extends Player> renderer : skinMap.values()) {

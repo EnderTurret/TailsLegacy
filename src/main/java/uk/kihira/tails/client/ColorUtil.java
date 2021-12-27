@@ -81,9 +81,15 @@ public class ColorUtil {
 	 * @param ignoreAlpha Whether to ignore the alpha bits in the value.
 	 * @return The hex string.
 	 */
-	public static String hex(int combined, boolean ignoreAlpha) {
-		final String hex = Integer.toHexString(toJavaColor(combined));
-		return ignoreAlpha ? hex.substring(2) : hex;
+	public static String hex(int combined, boolean ignoreAlpha, boolean java) {
+		if (!java)
+			return (ignoreAlpha ? "" : Integer.toHexString(NativeImage.getA(combined)))
+					+ String.format("%02x%02x%02x", NativeImage.getR(combined), NativeImage.getG(combined), NativeImage.getB(combined));
+
+		final Color c = new Color(combined);
+
+		return (ignoreAlpha ? "" : Integer.toHexString(c.getAlpha()))
+				+ String.format("%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
 	}
 
 	/**

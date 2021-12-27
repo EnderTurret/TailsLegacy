@@ -20,6 +20,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.util.Mth;
 import net.minecraft.network.chat.TranslatableComponent;
+import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.HSBSlider;
 import uk.kihira.tails.client.gui.widget.IconButton;
@@ -56,7 +57,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		// Tint edit pane
 		hexText = new RelativeTextField(font, 30, editPaneTop + 20, 73, 10, null);
 		hexText.setMaxLength(6);
-		hexText.setValue(Integer.toHexString(currentTint));
+		hexText.setValue(ColorUtil.hex(currentTint, true, true));
 		addWidget(hexText);
 
 		// RGB sliders
@@ -85,7 +86,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		// Reset/Save
 		addRenderableWidget(tintReset = new IconButton(right - left - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
 			currentTint = parent.getOriginalPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
-			hexText.setValue(Integer.toHexString(currentTint));
+			hexText.setValue(ColorUtil.hex(currentTint, true, true));
 			refreshTintPane();
 			tintReset.active = false;
 		}, new TranslatableComponent("tails.gui.button.reset")));
@@ -131,7 +132,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	protected void handleTintButton(int id) {
 		editingTint = id - 1;
 		currentTint = parent.getEditingPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
-		hexText.setValue(Integer.toHexString(currentTint));
+		hexText.setValue(ColorUtil.hex(currentTint, true, true));
 		refreshTintPane();
 		tintReset.active = false;
 		//colourPicker.active = true;
@@ -198,7 +199,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;
 			currentTint = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
 		}
-		hexText.setValue(Integer.toHexString(currentTint));
+		hexText.setValue(ColorUtil.hex(currentTint, true, true));
 		refreshTintPane();
 	}
 

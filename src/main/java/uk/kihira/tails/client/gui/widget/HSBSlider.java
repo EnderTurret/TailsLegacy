@@ -116,7 +116,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	 */
 	public void setValue(double value) { // Copied from setSliderValue (private)
 		final double oldValue = value;
-		value = Mth.clamp(value, 0.0D, 1.0D);
+		this.value = Mth.clamp(value, 0.0D, 1.0D);
 
 		updateMessage();
 	}

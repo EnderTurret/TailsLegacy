@@ -38,29 +38,21 @@ public class FluffyTailModel extends PartModel {
 	private final ModelPart tail5;
 
 	public FluffyTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot()
-				.addOrReplaceChild("tailBase", CubeListBuilder.create()
-						.texOffs(0, 0).addBox(-1, -1, 0, 2, 2, 3), PartPose.rotation(rad(-15), 0, 0));
+		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition tailBaseDef = rootDef.getChild("tailBase")
-				.addOrReplaceChild("tail1", CubeListBuilder.create()
-				.texOffs(10, 0).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.5F, rad(-15), 0, 0));
-
-		final PartDefinition tail1Def = tailBaseDef.getChild("tail1")
-				.addOrReplaceChild("tail2", CubeListBuilder.create()
-				.texOffs(0, 5).addBox(-2, -2, 0, 4, 4, 4), PartPose.offsetAndRotation(0, 0, 1.5F, rad(-15), 0, 0));
-
-		final PartDefinition tail2Def = tail1Def.getChild("tail2")
-				.addOrReplaceChild("tail3", CubeListBuilder.create()
-				.texOffs(0, 13).addBox(-2.5F, -2.5F, 0, 5, 5, 8), PartPose.offsetAndRotation(0, 0, 3F, rad(-25), 0, 0));
-
-		final PartDefinition tail3Def = tail2Def.getChild("tail3")
-				.addOrReplaceChild("tail4", CubeListBuilder.create()
-				.texOffs(0, 26).addBox(-2, -2, 0, 4, 4, 2), PartPose.offsetAndRotation(0, 0, 7.4F, rad(15), 0, 0));
-
-		final PartDefinition tail4Def = tail3Def.getChild("tail4")
-				.addOrReplaceChild("tail5", CubeListBuilder.create()
-				.texOffs(12, 26).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.4F, rad(15), 0, 0));
+		rootDef
+			.addOrReplaceChild("tailBase", CubeListBuilder.create()
+					.texOffs(0, 0).addBox(-1, -1, 0, 2, 2, 3), PartPose.rotation(rad(-15), 0, 0))
+			.addOrReplaceChild("tail1", CubeListBuilder.create()
+					.texOffs(10, 0).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.5F, rad(-15), 0, 0))
+			.addOrReplaceChild("tail2", CubeListBuilder.create()
+					.texOffs(0, 5).addBox(-2, -2, 0, 4, 4, 4), PartPose.offsetAndRotation(0, 0, 1.5F, rad(-15), 0, 0))
+			.addOrReplaceChild("tail3", CubeListBuilder.create()
+					.texOffs(0, 13).addBox(-2.5F, -2.5F, 0, 5, 5, 8), PartPose.offsetAndRotation(0, 0, 3F, rad(-25), 0, 0))
+			.addOrReplaceChild("tail4", CubeListBuilder.create()
+					.texOffs(0, 26).addBox(-2, -2, 0, 4, 4, 2), PartPose.offsetAndRotation(0, 0, 7.4F, rad(15), 0, 0))
+			.addOrReplaceChild("tail5", CubeListBuilder.create()
+					.texOffs(12, 26).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.4F, rad(15), 0, 0));
 
 		root = rootDef.bake(64, 32);
 		tailBase = root.getChild("tailBase");

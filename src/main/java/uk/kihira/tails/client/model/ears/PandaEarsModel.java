@@ -15,6 +15,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
@@ -28,14 +29,14 @@ public class PandaEarsModel extends PartModel {
 	private final ModelPart rightEar;
 
 	public PandaEarsModel() {
-		root = new MeshDefinition().getRoot()
-				.addOrReplaceChild("leftEar", CubeListBuilder.create()
-						.mirror().texOffs(0, 0)
-						.addBox(-2, -2, 0, 3, 3, 1), PartPose.offset(-4, -8, 0))
-				.addOrReplaceChild("rightEar", CubeListBuilder.create()
-						.mirror().texOffs(0, 4)
-						.addBox(-1, -2, 0, 3, 3, 1), PartPose.offset(4, -8, 0))
-				.bake(32, 32);
+		final PartDefinition rootDef = new MeshDefinition().getRoot();
+		rootDef.addOrReplaceChild("leftEar", CubeListBuilder.create()
+				.mirror().texOffs(0, 0)
+				.addBox(-2, -2, 0, 3, 3, 1), PartPose.offset(-4, -8, 0));
+		rootDef.addOrReplaceChild("rightEar", CubeListBuilder.create()
+				.mirror().texOffs(0, 4)
+				.addBox(-1, -2, 0, 3, 3, 1), PartPose.offset(4, -8, 0));
+		root = rootDef.bake(32, 32);
 
 		leftEar = root.getChild("leftEar");
 		rightEar = root.getChild("rightEar");

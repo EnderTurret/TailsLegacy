@@ -39,35 +39,27 @@ public class DragonTailModel extends PartModel {
 	private final ModelPart tailSub3;
 
 	public DragonTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot()
-				.addOrReplaceChild("tailBase", CubeListBuilder.create()
-						.texOffs(22, 0).addBox(-2.5F, -2.5F, -2, 5, 5, 8), PartPose.rotation(rad(-40), 0, 0))
-				.addOrReplaceChild("tailSubBase", CubeListBuilder.create()
-						.texOffs(22, 5).addBox(0, -7.25F, -2, 0, 5, 8), PartPose.rotation(rad(-40), 0, 0));
+		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition tailBaseDef = rootDef.getChild("tailBase")
-				.addOrReplaceChild("tail1", CubeListBuilder.create()
-						.texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 7), PartPose.offsetAndRotation(0, 0.3F, 5, rad(-8), 0, 0));
+		rootDef
+			.addOrReplaceChild("tailBase", CubeListBuilder.create()
+					.texOffs(22, 0).addBox(-2.5F, -2.5F, -2, 5, 5, 8), PartPose.rotation(rad(-40), 0, 0))
+			.addOrReplaceChild("tail1", CubeListBuilder.create()
+					.texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 7), PartPose.offsetAndRotation(0, 0.3F, 5, rad(-8), 0, 0))
+			.addOrReplaceChild("tail2", CubeListBuilder.create()
+					.texOffs(0, 11).addBox(-1.5F, -1.5F, 0, 3, 3, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, rad(10), 0, 0))
+			.addOrReplaceChild("tail3", CubeListBuilder.create()
+					.texOffs(0, 22).addBox(-1, -1, 0, 2, 2, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, rad(20), 0, 0));
 
-		final PartDefinition tail1Def = tailBaseDef.getChild("tail1")
-				.addOrReplaceChild("tail2", CubeListBuilder.create()
-						.texOffs(0, 11).addBox(-1.5F, -1.5F, 0, 3, 3, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, rad(10), 0, 0));
-
-		final PartDefinition tail2Def = tail1Def.getChild("tail2")
-				.addOrReplaceChild("tail3", CubeListBuilder.create()
-						.texOffs(0, 22).addBox(-1, -1, 0, 2, 2, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, rad(20), 0, 0));
-
-		final PartDefinition tailSubBaseDef = rootDef.getChild("tailSubBase")
-				.addOrReplaceChild("tailSub1", CubeListBuilder.create()
-						.texOffs(22, 11).addBox(0, -6.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.3F, 5, rad(-8), 0, 0));
-
-		final PartDefinition tailSub1Def = tailSubBaseDef.getChild("tailSub1")
-				.addOrReplaceChild("tailSub2", CubeListBuilder.create()
-						.texOffs(22, 15).addBox(0, -6.25F, 1, 0, 5, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, rad(10), 0, 0));
-
-		final PartDefinition tailSub2Def = tailSub1Def.getChild("tailSub2")
-				.addOrReplaceChild("tailSub3", CubeListBuilder.create()
-						.texOffs(29, 6).addBox(0, -5.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, rad(20), 0, 0));
+		rootDef
+			.addOrReplaceChild("tailSubBase", CubeListBuilder.create()
+					.texOffs(22, 5).addBox(0, -7.25F, -2, 0, 5, 8), PartPose.rotation(rad(-40), 0, 0))
+			.addOrReplaceChild("tailSub1", CubeListBuilder.create()
+					.texOffs(22, 11).addBox(0, -6.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.3F, 5, rad(-8), 0, 0))
+			.addOrReplaceChild("tailSub2", CubeListBuilder.create()
+					.texOffs(22, 15).addBox(0, -6.25F, 1, 0, 5, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, rad(10), 0, 0))
+			.addOrReplaceChild("tailSub3", CubeListBuilder.create()
+					.texOffs(29, 6).addBox(0, -5.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, rad(20), 0, 0));
 
 		root = rootDef.bake(64, 32);
 		tailBase = root.getChild("tailBase");

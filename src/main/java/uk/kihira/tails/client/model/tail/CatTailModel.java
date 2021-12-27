@@ -36,29 +36,21 @@ public class CatTailModel extends PartModel {
 	private final ModelPart tail5;
 
 	public CatTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot()
-				.addOrReplaceChild("tailBase", CubeListBuilder.create()
-						.texOffs(0, 0).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.ZERO);
+		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition tailBaseDef = rootDef.getChild("tailBase")
-				.addOrReplaceChild("tail1", CubeListBuilder.create()
-						.texOffs(0, 3).addBox(-0.5F, -0.5F, 0, 1, 1, 3), PartPose.offset(0, 0, 1.75F));
-
-		final PartDefinition tail1Def = tailBaseDef.getChild("tail1")
-				.addOrReplaceChild("tail2", CubeListBuilder.create()
-						.texOffs(0, 7).addBox(-0.5F, -0.5F, 0, 1, 1, 6), PartPose.offset(0, 0, 2.75F));
-
-		final PartDefinition tail2Def = tail1Def.getChild("tail2")
-				.addOrReplaceChild("tail3", CubeListBuilder.create()
-						.texOffs(0, 14).addBox(-0.5F, -0.5F, 0, 1, 1, 3), PartPose.offset(0, 0, 5.75F));
-
-		final PartDefinition tail3Def = tail2Def.getChild("tail3")
-				.addOrReplaceChild("tail4", CubeListBuilder.create()
-						.texOffs(0, 18).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offset(0, 0, 2.75F));
-
-		final PartDefinition tail4Def = tail3Def.getChild("tail4")
-				.addOrReplaceChild("tail5", CubeListBuilder.create()
-						.texOffs(0, 21).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offset(0, 0, 1.75F));
+		rootDef
+			.addOrReplaceChild("tailBase", CubeListBuilder.create()
+					.texOffs(0, 0).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.ZERO)
+			.addOrReplaceChild("tail1", CubeListBuilder.create()
+					.texOffs(0, 3).addBox(-0.5F, -0.5F, 0, 1, 1, 3), PartPose.offset(0, 0, 1.75F))
+			.addOrReplaceChild("tail2", CubeListBuilder.create()
+					.texOffs(0, 7).addBox(-0.5F, -0.5F, 0, 1, 1, 6), PartPose.offset(0, 0, 2.75F))
+			.addOrReplaceChild("tail3", CubeListBuilder.create()
+					.texOffs(0, 14).addBox(-0.5F, -0.5F, 0, 1, 1, 3), PartPose.offset(0, 0, 5.75F))
+			.addOrReplaceChild("tail4", CubeListBuilder.create()
+					.texOffs(0, 18).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offset(0, 0, 2.75F))
+			.addOrReplaceChild("tail5", CubeListBuilder.create()
+					.texOffs(0, 21).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offset(0, 0, 1.75F));
 
 		root = rootDef.bake(64, 32);
 		tailBase = root.getChild("tailBase");

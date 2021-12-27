@@ -15,6 +15,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.resources.ResourceLocation;
 import uk.kihira.tails.client.model.PartModel;
@@ -46,12 +47,12 @@ public class SeaPickleRenderer extends PartRenderer {
 		private final ModelPart pickle;
 
 		public Model() {
-			root = new MeshDefinition().getRoot()
-					.addOrReplaceChild("pickle", CubeListBuilder.create()
-							.texOffs(0, 1).addBox(-2F, -0.2875F, -2F, 4F, 6F, 4F, false)
-							.texOffs(0, 11).addBox(-2F, -0.2375F, -2F, 4F, 0F, 4F, false)
-							, PartPose.offset(0, 18.2875F, 0))
-					.bake(32, 32);
+			final PartDefinition rootDef = new MeshDefinition().getRoot();
+			rootDef.addOrReplaceChild("pickle", CubeListBuilder.create()
+					.texOffs(0, 1).addBox(-2, -0.2875F, -2, 4, 6, 4)
+					.texOffs(0, 11).addBox(-2, -0.2375F, -2, 4, 0, 4)
+					, PartPose.offset(0, 18.2875F, 0));
+			root = rootDef.bake(32, 32);
 
 			pickle = root.getChild("pickle");
 

@@ -15,6 +15,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -29,10 +30,10 @@ public class MuzzleModel extends PartModel {
 	private final ModelPart muzzle;
 
 	public MuzzleModel(float xOffset, float yOffset, float zOffset, int xSize, int ySize, int zSize, int xTex, int yTex) {
-		root = new MeshDefinition().getRoot()
-				.addOrReplaceChild("muzzle", CubeListBuilder.create()
-						.texOffs(xTex, yTex).addBox(xOffset, yOffset, zOffset, xSize, ySize, zSize), PartPose.ZERO)
-				.bake(32, 32);
+		final PartDefinition rootDef = new MeshDefinition().getRoot();
+		rootDef.addOrReplaceChild("muzzle", CubeListBuilder.create()
+						.texOffs(xTex, yTex).addBox(xOffset, yOffset, zOffset, xSize, ySize, zSize), PartPose.ZERO);
+		root = rootDef.bake(32, 32);
 
 		muzzle = root.getChild("muzzle");
 

@@ -15,6 +15,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
@@ -28,10 +29,10 @@ public class BunnyTailModel extends PartModel {
 	private final ModelPart tail;
 
 	public BunnyTailModel() {
-		root = new MeshDefinition().getRoot()
-				.addOrReplaceChild("tail", CubeListBuilder.create()
-						.addBox(0, 0, 0, 4, 3, 3), PartPose.offset(-2, -1.5F, 0))
-				.bake(64, 32);
+		final PartDefinition rootDef = new MeshDefinition().getRoot();
+		rootDef.addOrReplaceChild("tail", CubeListBuilder.create()
+				.addBox(0, 0, 0, 4, 3, 3), PartPose.offset(-2, -1.5F, 0));
+		root = rootDef.bake(64, 32);
 		tail = root.getChild("tail");
 	}
 

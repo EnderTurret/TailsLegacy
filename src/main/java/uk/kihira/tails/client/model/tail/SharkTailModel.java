@@ -40,47 +40,35 @@ public class SharkTailModel extends PartModel {
 	private final ModelPart finBot3;
 
 	public SharkTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot()
-				.addOrReplaceChild("tailBase", CubeListBuilder.create()
-						.texOffs(0, 24).addBox(-2, -2, 0, 4, 4, 4), PartPose.offsetAndRotation(0, 0.5F, -0.6F, -0.6522295414702809F, 0.02949606435870417F, 0));
+		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition tailBaseDef = rootDef.getChild("tailBase")
-				.addOrReplaceChild("tail1", CubeListBuilder.create()
-						.texOffs(0, 16).addBox(-1.5F, -1.5F, 0, 3, 3, 5), PartPose.offsetAndRotation(0, 0, 3.5F, 0.0013962634015954637F, 0, 0));
+		final PartDefinition finBaseDef = rootDef
+			.addOrReplaceChild("tailBase", CubeListBuilder.create()
+					.texOffs(0, 24).addBox(-2, -2, 0, 4, 4, 4), PartPose.offsetAndRotation(0, 0.5F, -0.6F, -0.6522295414702809F, 0.02949606435870417F, 0))
+			.addOrReplaceChild("tail1", CubeListBuilder.create()
+					.texOffs(0, 16).addBox(-1.5F, -1.5F, 0, 3, 3, 5), PartPose.offsetAndRotation(0, 0, 3.5F, 0.0013962634015954637F, 0, 0))
+			.addOrReplaceChild("tail2", CubeListBuilder.create()
+					.texOffs(0, 9).addBox(-1, -1, -0.2F, 2, 2, 5), PartPose.offsetAndRotation(0, 0, 4.5F, 0.278554548618295F, 0, 0))
+			.addOrReplaceChild("tail3", CubeListBuilder.create()
+					.texOffs(0, 3).addBox(-1, -1, 0, 2, 2, 4), PartPose.offsetAndRotation(0, 0, 4.4F, 0.22759093446006054F, 0, 0))
+			.addOrReplaceChild("finBase", CubeListBuilder.create()
+					.texOffs(16, 21).addBox(-0.5F, -0.4F, -4, 1, 7, 4), PartPose.offsetAndRotation(0, 0, 3, 2.5953045977155678F, 0, 0));
 
-		final PartDefinition tail1Def = tailBaseDef.getChild("tail1")
-				.addOrReplaceChild("tail2", CubeListBuilder.create()
-						.texOffs(0, 9).addBox(-1, -1, -0.2F, 2, 2, 5), PartPose.offsetAndRotation(0, 0, 4.5F, 0.278554548618295F, 0, 0));
+		finBaseDef
+			.addOrReplaceChild("finTop1", CubeListBuilder.create()
+					.texOffs(16, 10).addBox(-0.5F, 0, -2.9F, 1, 2, 3), PartPose.offsetAndRotation(0, 6.5F, -0.1F, -0.091106186954104F, 0, 0))
+			.addOrReplaceChild("finTop2", CubeListBuilder.create()
+					.texOffs(16, 4).addBox(0, 0, -2, 1, 4, 2), PartPose.offsetAndRotation(-0.5F, 2, 0.1F, -0.136659280431156F, 0, 0))
+			.addOrReplaceChild("finTop3", CubeListBuilder.create()
+					.texOffs(16, 1).addBox(0, 0, -1, 1, 2, 1), PartPose.offsetAndRotation(0, 4, 0, -0.136659280431156F, 0, 0));
 
-		final PartDefinition tail2Def = tail1Def.getChild("tail2")
-				.addOrReplaceChild("tail3", CubeListBuilder.create()
-						.texOffs(0, 3).addBox(-1, -1, 0, 2, 2, 4), PartPose.offsetAndRotation(0, 0, 4.4F, 0.22759093446006054F, 0, 0));
-
-		final PartDefinition tail3Def = tail2Def.getChild("tail3")
-				.addOrReplaceChild("finBase", CubeListBuilder.create()
-						.texOffs(16, 21).addBox(-0.5F, -0.4F, -4, 1, 7, 4), PartPose.offsetAndRotation(0, 0, 3, 2.5953045977155678F, 0, 0));
-
-		final PartDefinition finBaseDef = rootDef.getChild("finBase")
-				.addOrReplaceChild("finTop1", CubeListBuilder.create()
-						.texOffs(16, 10).addBox(-0.5F, 0, -2.9F, 1, 2, 3), PartPose.offsetAndRotation(0, 6.5F, -0.1F, -0.091106186954104F, 0, 0))
-				.addOrReplaceChild("finBot1", CubeListBuilder.create()
-						.texOffs(26, 27).addBox(0, 0, -2, 1, 3, 2), PartPose.offsetAndRotation(-0.5F, -0.4F, -4, 0.091106186954104F, 0, 0));
-
-		final PartDefinition finTop1Def = rootDef.getChild("finTop1")
-				.addOrReplaceChild("finTop2", CubeListBuilder.create()
-						.texOffs(16, 4).addBox(0, 0, -2, 1, 4, 2), PartPose.offsetAndRotation(-0.5F, 2, 0.1F, -0.136659280431156F, 0, 0));
-
-		final PartDefinition finTop2Def = rootDef.getChild("finTop2")
-				.addOrReplaceChild("finTop3", CubeListBuilder.create()
-						.texOffs(16, 1).addBox(0, 0, -1, 1, 2, 1), PartPose.offsetAndRotation(0, 4, 0, -0.136659280431156F, 0, 0));
-
-		final PartDefinition finBot1Def = rootDef.getChild("finBot1")
-				.addOrReplaceChild("finBot2", CubeListBuilder.create()
-						.texOffs(26, 21).addBox(0, 0, -3, 1, 3, 3), PartPose.offsetAndRotation(0, 0, -2, 0.136659280431156F, 0, 0));
-
-		final PartDefinition finBot2Def = rootDef.getChild("finBot2")
-				.addOrReplaceChild("finBot3", CubeListBuilder.create()
-						.texOffs(26, 17).addBox(0, 0, -2, 1, 2, 2), PartPose.offsetAndRotation(0, 0, -3, 0.1980948701013564F, 0, 0));
+		finBaseDef
+			.addOrReplaceChild("finBot1", CubeListBuilder.create()
+					.texOffs(26, 27).addBox(0, 0, -2, 1, 3, 2), PartPose.offsetAndRotation(-0.5F, -0.4F, -4, 0.091106186954104F, 0, 0))
+			.addOrReplaceChild("finBot2", CubeListBuilder.create()
+					.texOffs(26, 21).addBox(0, 0, -3, 1, 3, 3), PartPose.offsetAndRotation(0, 0, -2, 0.136659280431156F, 0, 0))
+			.addOrReplaceChild("finBot3", CubeListBuilder.create()
+					.texOffs(26, 17).addBox(0, 0, -2, 1, 2, 2), PartPose.offsetAndRotation(0, 0, -3, 0.1980948701013564F, 0, 0));
 
 		root = rootDef.bake(64, 32);
 		tailBase = root.getChild("tailBase");

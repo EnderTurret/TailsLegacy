@@ -36,31 +36,26 @@ public class BirdTailModel extends PartModel {
 	private final ModelPart right1;
 
 	public BirdTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot()
-				.addOrReplaceChild("center", CubeListBuilder.create()
-						.texOffs(0, 0).addBox(-1.5F, -0.5F, -0.5F, 3, 9, 1), PartPose.offsetAndRotation(0, 0, 1, rad(55), 0, 0));
+		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition centerDef = rootDef.getChild("center")
-				.addOrReplaceChild("left0", CubeListBuilder.create()
-						.texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(-1, 0.5F, 0, rad(-2), rad(-8), rad(11)))
-				.addOrReplaceChild("right0", CubeListBuilder.create()
-						.mirror().texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(1, 0.5F, 0, rad(-2), rad(8), rad(-11)));
+		final PartDefinition centerDef = rootDef.addOrReplaceChild("center", CubeListBuilder.create()
+				.texOffs(0, 0).addBox(-1.5F, -0.5F, -0.5F, 3, 9, 1), PartPose.offsetAndRotation(0, 0, 1, rad(55), 0, 0));
 
-		final PartDefinition left0Def = centerDef.getChild("left0")
-				.addOrReplaceChild("left1", CubeListBuilder.create()
-						.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(-1.5F, 0, 0, 0, rad(-6), 0));
+		centerDef
+			.addOrReplaceChild("left0", CubeListBuilder.create()
+					.texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(-1, 0.5F, 0, rad(-2), rad(-8), rad(11)))
+			.addOrReplaceChild("left1", CubeListBuilder.create()
+					.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(-1.5F, 0, 0, 0, rad(-6), 0))
+			.addOrReplaceChild("left2", CubeListBuilder.create()
+					.texOffs(6, 19).addBox(-0.5F, 0F, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(-0.5F, 0, 0, 0, rad(-6), rad(15)));
 
-		final PartDefinition left1Def = left0Def.getChild("left1")
-				.addOrReplaceChild("left2", CubeListBuilder.create()
-						.texOffs(6, 19).addBox(-0.5F, 0F, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(-0.5F, 0, 0, 0, rad(-6), rad(15)));
-
-		final PartDefinition right0Def = centerDef.getChild("right0")
-				.addOrReplaceChild("right1", CubeListBuilder.create()
-						.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(1.5F, 0, 0, 0, rad(6), 0));
-
-		final PartDefinition right1Def = right0Def.getChild("right1")
-				.addOrReplaceChild("right2", CubeListBuilder.create()
-						.texOffs(6, 19).addBox(-0.5F, 0, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(0.5F, 0, 0, 0, rad(6), rad(-15)));
+		centerDef
+			.addOrReplaceChild("right0", CubeListBuilder.create()
+					.mirror().texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(1, 0.5F, 0, rad(-2), rad(8), rad(-11)))
+			.addOrReplaceChild("right1", CubeListBuilder.create()
+					.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(1.5F, 0, 0, 0, rad(6), 0))
+			.addOrReplaceChild("right2", CubeListBuilder.create()
+					.texOffs(6, 19).addBox(-0.5F, 0, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(0.5F, 0, 0, 0, rad(6), rad(-15)));
 
 		root = rootDef.bake(64, 32);
 		center = root.getChild("center");
@@ -68,8 +63,8 @@ public class BirdTailModel extends PartModel {
 		left1 = left0.getChild("left1");
 		left2 = left1.getChild("left2");
 		right0 = center.getChild("right0");
-		right1 = center.getChild("right1");
-		right2 = center.getChild("right2");
+		right1 = right0.getChild("right1");
+		right2 = right1.getChild("right2");
 	}
 
 	@Override

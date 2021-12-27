@@ -61,8 +61,9 @@ public class FoxEarsModel extends PartModel {
 	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		matrixStackIn.pushPose();
 
+		matrixStackIn.translate(0f, 0f, -0.0625f);
+
 		if (subtype == 1) {
-			matrixStackIn.translate(0f, 0f, -0.0625f);
 			matrixStackIn.translate(-0.4375f, 0f, 0f);
 		}
 

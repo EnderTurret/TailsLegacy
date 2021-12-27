@@ -54,7 +54,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		if (!doRender)
 			return;
-		setBlitOffset(-1000);
+		setBlitOffset(-900);
 		// Background
 		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
 
@@ -116,8 +116,8 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		quaternion.mul(quaternion1);
 
 		pose2.mulPose(quaternion);
-		//matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-		//matrixStack.mulPose(Vector3f.YP.rotationDegrees(yaw));
+		pose2.mulPose(Vector3f.ZP.rotationDegrees(180));
+		pose2.mulPose(Vector3f.YP.rotationDegrees(yaw));
 
 		final float oldYBodyRot = entity.yBodyRot;
 		final float oldYRot = entity.getYRot();
@@ -125,11 +125,11 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		final float oldYHeadRot = entity.yHeadRot;
 		final float oldYHeadRotO = entity.yHeadRotO;
 
-		entity.yBodyRot = 180 + pitch * 20;
-		entity.setYRot(180 + pitch * 40);
-		entity.setXRot(-yaw * 20);
-		entity.yHeadRot = entity.getYRot();
-		entity.yHeadRotO = entity.getYRot();
+		entity.yBodyRot = 0;
+		entity.setYRot(0);
+		entity.setXRot(0);
+		entity.yHeadRot = 0;
+		entity.yHeadRotO = 0;
 		entity.setShiftKeyDown(false);
 
 		Lighting.setupForEntityInInventory();
@@ -144,7 +144,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		RenderSystem.runAsFancy(() -> {
-			rendererManager.render(entity, 0, 0, 0, 0F, 1F, matrixStack, impl, 15728880);
+			rendererManager.render(entity, 0, 0, 0, 0F, 1F, pose2, impl, 15728880);
 		});
 
 		impl.endBatch();

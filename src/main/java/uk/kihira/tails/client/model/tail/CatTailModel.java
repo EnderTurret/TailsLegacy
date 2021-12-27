@@ -12,6 +12,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.Mth;
@@ -23,6 +27,7 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class CatTailModel extends PartModel {
 
+	private final ModelPart root;
 	private final ModelPart tailBase;
 	private final ModelPart tail1;
 	private final ModelPart tail2;
@@ -31,44 +36,37 @@ public class CatTailModel extends PartModel {
 	private final ModelPart tail5;
 
 	public CatTailModel() {
-		texWidth = 64;
-		texHeight = 32;
+		final PartDefinition rootDef = new MeshDefinition().getRoot()
+				.addOrReplaceChild("tailBase", CubeListBuilder.create()
+						.texOffs(0, 0).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.ZERO);
 
-		tailBase = new ModelPart(this, 0, 0);
-		tailBase.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tailBase.setPos(0F, 0F, 0F);
-		setRotationDegrees(tailBase, 0F, 0F, 0F);
+		final PartDefinition tailBaseDef = rootDef.getChild("tailBase")
+				.addOrReplaceChild("tail1", CubeListBuilder.create()
+						.texOffs(0, 3).addBox(-0.5F, -0.5F, 0, 1, 1, 3), PartPose.offset(0, 0, 1.75F));
 
-		tail1 = new ModelPart(this, 0, 3);
-		tail1.addBox(-0.5F, -0.5F, 0F, 1, 1, 3);
-		tail1.setPos(0F, 0F, 1.75F);
-		setRotationDegrees(tail1, 0F, 0F, 0F);
+		final PartDefinition tail1Def = tailBaseDef.getChild("tail1")
+				.addOrReplaceChild("tail2", CubeListBuilder.create()
+						.texOffs(0, 7).addBox(-0.5F, -0.5F, 0, 1, 1, 6), PartPose.offset(0, 0, 2.75F));
 
-		tail2 = new ModelPart(this, 0, 7);
-		tail2.addBox(-0.5F, -0.5F, 0F, 1, 1, 6);
-		tail2.setPos(0F, 0F, 2.75F);
-		setRotationDegrees(tail2, 0F, 0F, 0F);
+		final PartDefinition tail2Def = tail1Def.getChild("tail2")
+				.addOrReplaceChild("tail3", CubeListBuilder.create()
+						.texOffs(0, 14).addBox(-0.5F, -0.5F, 0, 1, 1, 3), PartPose.offset(0, 0, 5.75F));
 
-		tail3 = new ModelPart(this, 0, 14);
-		tail3.addBox(-0.5F, -0.5F, 0F, 1, 1, 3);
-		tail3.setPos(0F, 0F, 5.75F);
-		setRotationDegrees(tail3, 0F, 0F, 0F);
+		final PartDefinition tail3Def = tail2Def.getChild("tail3")
+				.addOrReplaceChild("tail4", CubeListBuilder.create()
+						.texOffs(0, 18).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offset(0, 0, 2.75F));
 
-		tail4 = new ModelPart(this, 0, 18);
-		tail4.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tail4.setPos(0F, 0F, 2.75F);
-		setRotationDegrees(tail4, 0F, 0F, 0F);
+		final PartDefinition tail4Def = tail3Def.getChild("tail4")
+				.addOrReplaceChild("tail5", CubeListBuilder.create()
+						.texOffs(0, 21).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offset(0, 0, 1.75F));
 
-		tail5 = new ModelPart(this, 0, 21);
-		tail5.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tail5.setPos(0F, 0F, 1.75F);
-		setRotationDegrees(tail5, 0F, 0F, 0F);
-
-		tail4.addChild(tail5);
-		tail3.addChild(tail4);
-		tail2.addChild(tail3);
-		tail1.addChild(tail2);
-		tailBase.addChild(tail1);
+		root = rootDef.bake(64, 32);
+		tailBase = root.getChild("tailBase");
+		tail1 = tailBase.getChild("tail1");
+		tail2 = tail1.getChild("tail2");
+		tail3 = tail2.getChild("tail3");
+		tail4 = tail3.getChild("tail4");
+		tail5 = tail4.getChild("tail5");
 	}
 
 	@Override

@@ -122,7 +122,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			partList.add(new PartEntry(partInfo));
 		}
 
-		children.remove(this.partList);
+		this.removeWidget(this.partList);
 		this.partList = new ListWidget<>(this, 108, bottom - top - listTop, listTop, bottom - top, 55, partList);
 		addWidget(this.partList);
 		selectDefaultListEntry();

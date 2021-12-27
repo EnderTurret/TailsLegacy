@@ -12,6 +12,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.Mth;
@@ -21,6 +25,8 @@ import uk.kihira.tails.client.model.PartModel;
  * The model for dragon tails.
  */
 public class DragonTailModel extends PartModel {
+
+	private final ModelPart root;
 
 	private final ModelPart tailBase;
 	private final ModelPart tail1;
@@ -33,51 +39,45 @@ public class DragonTailModel extends PartModel {
 	private final ModelPart tailSub3;
 
 	public DragonTailModel() {
-		tailBase = new ModelPart(this, 22, 0);
-		tailBase.addBox(-2.5F, -2.5F, -2F, 5, 5, 8);
-		setRotationDegrees(tailBase, -40F, 0F, 0F);
+		final PartDefinition rootDef = new MeshDefinition().getRoot()
+				.addOrReplaceChild("tailBase", CubeListBuilder.create()
+						.texOffs(22, 0).addBox(-2.5F, -2.5F, -2, 5, 5, 8), PartPose.rotation(rad(-40), 0, 0))
+				.addOrReplaceChild("tailSubBase", CubeListBuilder.create()
+						.texOffs(22, 5).addBox(0, -7.25F, -2, 0, 5, 8), PartPose.rotation(rad(-40), 0, 0));
 
-		tail1 = new ModelPart(this, 0, 0);
-		tail1.addBox(-2F, -2F, 0F, 4, 4, 7);
-		tail1.setPos(0F, 0.3F, 5F);
-		setRotationDegrees(tail1, -8F, 0F, 0F);
+		final PartDefinition tailBaseDef = rootDef.getChild("tailBase")
+				.addOrReplaceChild("tail1", CubeListBuilder.create()
+						.texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 7), PartPose.offsetAndRotation(0, 0.3F, 5, rad(-8), 0, 0));
 
-		tail2 = new ModelPart(this, 0, 11);
-		tail2.addBox(-1.5F, -1.5F, 0F, 3, 3, 8);
-		tail2.setPos(0F, 0.2F, 5.5F);
-		setRotationDegrees(tail2, 10F, 0F, 0F);
+		final PartDefinition tail1Def = tailBaseDef.getChild("tail1")
+				.addOrReplaceChild("tail2", CubeListBuilder.create()
+						.texOffs(0, 11).addBox(-1.5F, -1.5F, 0, 3, 3, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, rad(10), 0, 0));
 
-		tail3 = new ModelPart(this, 0, 22);
-		tail3.addBox(-1F, -1F, 0F, 2, 2, 7);
-		tail3.setPos(0F, 0.4F, 7.5F);
-		setRotationDegrees(tail3, 20F, 0F, 0F);
+		final PartDefinition tail2Def = tail1Def.getChild("tail2")
+				.addOrReplaceChild("tail3", CubeListBuilder.create()
+						.texOffs(0, 22).addBox(-1, -1, 0, 2, 2, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, rad(20), 0, 0));
 
-		tail2.addChild(tail3);
-		tail1.addChild(tail2);
-		tailBase.addChild(tail1);
+		final PartDefinition tailSubBaseDef = rootDef.getChild("tailSubBase")
+				.addOrReplaceChild("tailSub1", CubeListBuilder.create()
+						.texOffs(22, 11).addBox(0, -6.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.3F, 5, rad(-8), 0, 0));
 
-		tailSubBase = new ModelPart(this, 22, 5);
-		tailSubBase.addBox(0F, -7.25F, -2F, 0, 5, 8);
-		setRotationDegrees(tailSubBase, -40F, 0F, 0F);
+		final PartDefinition tailSub1Def = tailSubBaseDef.getChild("tailSub1")
+				.addOrReplaceChild("tailSub2", CubeListBuilder.create()
+						.texOffs(22, 15).addBox(0, -6.25F, 1, 0, 5, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, rad(10), 0, 0));
 
-		tailSub1 = new ModelPart(this, 22, 11);
-		tailSub1.addBox(0F, -6.75F, 1F, 0, 5, 7);
-		tailSub1.setPos(0F, 0.3F, 5F);
-		setRotationDegrees(tailSub1, -8F, 0F, 0F);
+		final PartDefinition tailSub2Def = tailSub1Def.getChild("tailSub2")
+				.addOrReplaceChild("tailSub3", CubeListBuilder.create()
+						.texOffs(29, 6).addBox(0, -5.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, rad(20), 0, 0));
 
-		tailSub2 = new ModelPart(this, 22, 15);
-		tailSub2.addBox(0F, -6.25F, 1F, 0, 5, 8);
-		tailSub2.setPos(0F, 0.2F, 5.5F);
-		setRotationDegrees(tailSub2, 10F, 0F, 0F);
-
-		tailSub3 = new ModelPart(this, 29, 6);
-		tailSub3.addBox(0F, -5.75F, 1F, 0, 5, 7);
-		tailSub3.setPos(0F, 0.4F, 7.5F);
-		setRotationDegrees(tailSub3, 20F, 0F, 0F);
-
-		tailSub2.addChild(tailSub3);
-		tailSub1.addChild(tailSub2);
-		tailSubBase.addChild(tailSub1);
+		root = rootDef.bake(64, 32);
+		tailBase = root.getChild("tailBase");
+		tail1 = tailBase.getChild("tail1");
+		tail2 = tail1.getChild("tail2");
+		tail3 = tail2.getChild("tail3");
+		tailSubBase = root.getChild("tailSubBase");
+		tailSub1 = tailSubBase.getChild("tailSub1");
+		tailSub2 = tailSub1.getChild("tailSub2");
+		tailSub3 = tailSub2.getChild("tailSub3");
 	}
 
 	@Override

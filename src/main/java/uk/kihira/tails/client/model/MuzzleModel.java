@@ -12,6 +12,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -19,22 +22,25 @@ import net.minecraft.world.entity.LivingEntity;
  */
 public class MuzzleModel extends PartModel {
 
-	private final ModelPart stubMuzzle;
-	private final ModelPart tinyMuzzle;
+	//private final ModelPart stubMuzzle;
+	//private final ModelPart tinyMuzzle;
 
+	private final ModelPart root;
 	private final ModelPart muzzle;
 
 	public MuzzleModel(float xOffset, float yOffset, float zOffset, int xSize, int ySize, int zSize, int xTex, int yTex) {
-		texWidth = texHeight = 32;
+		root = new MeshDefinition().getRoot()
+				.addOrReplaceChild("muzzle", CubeListBuilder.create()
+						.texOffs(xTex, yTex).addBox(xOffset, yOffset, zOffset, xSize, ySize, zSize), PartPose.ZERO)
+				.bake(32, 32);
 
-		muzzle = new ModelPart(this, xTex, yTex);
-		muzzle.addBox(xOffset, yOffset, zOffset, xSize, ySize, zSize);
+		muzzle = root.getChild("muzzle");
 
-		stubMuzzle = new ModelPart(this);
+		/*stubMuzzle = new ModelPart(this);
 		stubMuzzle.addBox(-2f, -4f, -7f, 4, 4, 3);
 
 		tinyMuzzle = new ModelPart(this);
-		tinyMuzzle.addBox(-2f, -2f, -5f, 4, 2, 1);
+		tinyMuzzle.addBox(-2f, -2f, -5f, 4, 2, 1);*/
 	}
 
 	public MuzzleModel(float xOffset, float yOffset, float zOffset, int xSize, int ySize, int zSize) {

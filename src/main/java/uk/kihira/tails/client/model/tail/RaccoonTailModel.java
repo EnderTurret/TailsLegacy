@@ -12,6 +12,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.Mth;
@@ -22,32 +26,29 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class RaccoonTailModel extends PartModel {
 
+	private final ModelPart root;
 	private final ModelPart tailBase;
 	private final ModelPart tail1;
 	private final ModelPart tail2;
 
 	public RaccoonTailModel() {
-		tailBase = new ModelPart(this, 12, 16);
-		tailBase.addBox(-1F, -1F, 0F, 2, 2, 2);
-		tailBase.setPos(0F, 0F, 0F);
+		final PartDefinition root = new MeshDefinition().getRoot()
+				.addOrReplaceChild("tailBase", CubeListBuilder.create().texOffs(12, 16).addBox(-1, -1, 0, 2, 2, 2), PartPose.ZERO);
 
-		tail1 = new ModelPart(this, 0, 16);
-		tail1.addBox(-1.5F, -1.5F, 0F, 3, 3, 3);
-		tail1.setPos(0F, 0F, 1F);
-		setRotationDegrees(tail1, -40F, 0F, 0F);
+		final PartDefinition tailBaseDef = root.getChild("tailBase");
+		tailBaseDef.addOrReplaceChild("tail1", CubeListBuilder.create().texOffs(0, 16).addBox(-1.5F, -1.5F, 0, 3, 3, 3), PartPose.offsetAndRotation(0, 0, 1, rad(-40), 0, 0));
 
-		tail2 = new ModelPart(this, 0, 0);
-		tail2.addBox(-2F, -2F, 0F, 4, 4, 12);
-		tail2.setPos(0F, 0F, 2F);
-		setRotationDegrees(tail2, -30F, 0F, 0F);
+		final PartDefinition tail1Def = tailBaseDef.getChild("tail1");
+		tail1Def.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 12), PartPose.offsetAndRotation(0, 0, 2, rad(-30), 0, 0));
 
-		final ModelPart tailTip = new ModelPart(this, 0, 22);
-		tailTip.addBox(-1.5F, -1.5F, 0F, 3, 3, 1);
-		tailTip.setPos(0F, 0F, 12F);
+		final PartDefinition tail2Def = tailBaseDef.getChild("tail2");
+		tail2Def.addOrReplaceChild("tailTip", CubeListBuilder.create().texOffs(0, 22).addBox(-1.5F, -1.5F, 0, 3, 3, 1), PartPose.offset(0, 0, 12));
 
-		tail2.addChild(tailTip);
-		tail1.addChild(tail2);
-		tailBase.addChild(tail1);
+		this.root = root.bake(64, 32);
+
+		tailBase = this.root.getChild("tailBase");
+		tail1 = tailBase.getChild("tail1");
+		tail2 = tail1.getChild("tail2");
 	}
 
 	@Override

@@ -9,6 +9,7 @@
 package uk.kihira.tails.client.gui.panel;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -97,32 +98,41 @@ public class PreviewPanel extends Panel<EditorScreen> {
 
 	@SuppressWarnings("deprecation")
 	private static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTicks, LivingEntity entity) {
-		RenderSystem.pushMatrix();
-		RenderSystem.translatef(x, y, 100F);
-		RenderSystem.scalef(1F, 1F, -1F);
+		final PoseStack matrixStack = RenderSystem.getModelViewStack();
 
-		final PoseStack matrixStack = new PoseStack();
+		matrixStack.pushPose();
 
-		matrixStack.translate(0, 0, 1000);
-		matrixStack.scale(scale, scale, scale);
+		matrixStack.translate(x, y, 1050);
+		matrixStack.scale(1, 1, -1);
+
+		RenderSystem.applyModelViewMatrix();
+
+		final PoseStack pose2 = new PoseStack();
+		pose2.translate(0, 0, 1000);
+		pose2.scale(scale, scale, scale);
 
 		final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180f);
 		final Quaternion quaternion1 = Vector3f.XP.rotationDegrees(pitch * 20F);
-
 		quaternion.mul(quaternion1);
-		matrixStack.mulPose(quaternion);
-		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
-		matrixStack.mulPose(Vector3f.YP.rotationDegrees(yaw));
 
-		final float oldRotationYawHead = entity.yHeadRot;
-		final float oldRotationYaw = entity.getYRot();
-		final float oldRotationPitch = entity.getXRot();
+		pose2.mulPose(quaternion);
+		//matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+		//matrixStack.mulPose(Vector3f.YP.rotationDegrees(yaw));
 
-		entity.yHeadRot = 0F;
-		entity.setYRot(0);
-		entity.setXRot(0);
-		entity.yBodyRot = 0F;
+		final float oldYBodyRot = entity.yBodyRot;
+		final float oldYRot = entity.getYRot();
+		final float oldXRot = entity.getXRot();
+		final float oldYHeadRot = entity.yHeadRot;
+		final float oldYHeadRotO = entity.yHeadRotO;
+
+		entity.yBodyRot = 180 + pitch * 20;
+		entity.setYRot(180 + pitch * 40);
+		entity.setXRot(-yaw * 20);
+		entity.yHeadRot = entity.getYRot();
+		entity.yHeadRotO = entity.getYRot();
 		entity.setShiftKeyDown(false);
+
+		Lighting.setupForEntityInInventory();
 
 		final EntityRenderDispatcher rendererManager = Minecraft.getInstance().getEntityRenderDispatcher();
 
@@ -134,17 +144,21 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		RenderSystem.runAsFancy(() -> {
-			rendererManager.render(entity, 0, 0, 0, 0f, 1F, matrixStack, impl, 15728880);
+			rendererManager.render(entity, 0, 0, 0, 0F, 1F, matrixStack, impl, 15728880);
 		});
 
 		impl.endBatch();
 
 		rendererManager.setRenderShadow(true);
 
-		entity.yHeadRot = oldRotationYawHead;
-		entity.setYRot(oldRotationYaw);
-		entity.setXRot(oldRotationPitch);
+		entity.yBodyRot = oldYBodyRot;
+		entity.setYRot(oldYRot);
+		entity.setXRot(oldXRot);
+		entity.yHeadRot = oldYHeadRot;
+		entity.yHeadRotO = oldYHeadRotO;
 
-		RenderSystem.popMatrix();
+		matrixStack.popPose();
+		RenderSystem.applyModelViewMatrix();
+		Lighting.setupFor3DItems();
 	}
 }

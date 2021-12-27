@@ -67,7 +67,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 
 		setBlitOffset(30);
 
-		Minecraft.getInstance().getTextureManager().bind(IconButton.iconsTextures);
+		RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
 
 		matrixStack.pushPose();
 
@@ -113,7 +113,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 
 		libraryEntries.sort(SORTER);
 
-		children.remove(list);
+		removeWidget(list);
 		addWidget(list = new ListWidget<>(this, right - left, bottom - top - 34, 0, bottom - top - 34, 50, libraryEntries));
 	}
 

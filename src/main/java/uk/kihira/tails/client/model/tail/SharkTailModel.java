@@ -12,6 +12,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.Mth;
@@ -22,75 +26,74 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class SharkTailModel extends PartModel {
 
+	private final ModelPart root;
 	private final ModelPart tailBase;
 	private final ModelPart tail1;
 	private final ModelPart tail2;
 	private final ModelPart tail3;
 	private final ModelPart finBase;
 	private final ModelPart finTop1;
-	private final ModelPart finBot1;
 	private final ModelPart finTop2;
 	private final ModelPart finTop3;
+	private final ModelPart finBot1;
 	private final ModelPart finBot2;
-	private final ModelPart fubBot3;
+	private final ModelPart finBot3;
 
 	public SharkTailModel() {
-		texWidth = 64;
-		texHeight = 32;
-		finBot1 = new ModelPart(this, 26, 27);
-		finBot1.setPos(-0.5F, -0.4F, -4.0F);
-		finBot1.addBox(0.0F, 0.0F, -2.0F, 1, 3, 2, 0.0F);
-		setRotateAngle(finBot1, 0.091106186954104F, 0.0F, 0.0F);
-		tail1 = new ModelPart(this, 0, 16);
-		tail1.setPos(0.0F, 0.0F, 3.5F);
-		tail1.addBox(-1.5F, -1.5F, 0.0F, 3, 3, 5, 0.0F);
-		setRotateAngle(tail1, 0.0013962634015954637F, 0.0F, 0.0F);
-		tailBase = new ModelPart(this, 0, 24);
-		tailBase.setPos(0.0F, 0.5F, -0.6F);
-		tailBase.addBox(-2.0F, -2.0F, 0.0F, 4, 4, 4, 0.0F);
-		setRotateAngle(tailBase, -0.6522295414702809F, 0.02949606435870417F, 0.0F);
-		tail2 = new ModelPart(this, 0, 9);
-		tail2.setPos(0.0F, 0.0F, 4.5F);
-		tail2.addBox(-1.0F, -1.0F, -0.2F, 2, 2, 5, 0.0F);
-		setRotateAngle(tail2, 0.278554548618295F, 0.0F, 0.0F);
-		finTop1 = new ModelPart(this, 16, 10);
-		finTop1.setPos(0.0F, 6.5F, -0.1F);
-		finTop1.addBox(-0.5F, 0.0F, -2.9F, 1, 2, 3, 0.0F);
-		setRotateAngle(finTop1, -0.091106186954104F, 0.0F, 0.0F);
-		finTop3 = new ModelPart(this, 16, 1);
-		finTop3.setPos(0.0F, 4.0F, 0.0F);
-		finTop3.addBox(0.0F, 0.0F, -1.0F, 1, 2, 1, 0.0F);
-		setRotateAngle(finTop3, -0.136659280431156F, 0.0F, 0.0F);
-		finBase = new ModelPart(this, 16, 21);
-		finBase.setPos(0.0F, 0.0F, 3.0F);
-		finBase.addBox(-0.5F, -0.4F, -4.0F, 1, 7, 4, 0.0F);
-		setRotateAngle(finBase, 2.5953045977155678F, -0.0F, 0.0F);
-		finBot2 = new ModelPart(this, 26, 21);
-		finBot2.setPos(0.0F, 0.0F, -2.0F);
-		finBot2.addBox(0.0F, 0.0F, -3.0F, 1, 3, 3, 0.0F);
-		setRotateAngle(finBot2, 0.136659280431156F, -0.0F, 0.0F);
-		tail3 = new ModelPart(this, 0, 3);
-		tail3.setPos(0.0F, 0.0F, 4.4F);
-		tail3.addBox(-1.0F, -1.0F, 0.0F, 2, 2, 4, 0.0F);
-		setRotateAngle(tail3, 0.22759093446006054F, 0.0F, 0.0F);
-		finTop2 = new ModelPart(this, 16, 4);
-		finTop2.setPos(-0.5F, 2.0F, 0.1F);
-		finTop2.addBox(0.0F, 0.0F, -2.0F, 1, 4, 2, 0.0F);
-		setRotateAngle(finTop2, -0.136659280431156F, 0.0F, 0.0F);
-		fubBot3 = new ModelPart(this, 26, 17);
-		fubBot3.setPos(0.0F, 0.0F, -3.0F);
-		fubBot3.addBox(0.0F, 0.0F, -2.0F, 1, 2, 2, 0.0F);
-		setRotateAngle(fubBot3, 0.1980948701013564F, -0.0F, 0.0F);
-		finBase.addChild(finBot1);
-		tailBase.addChild(tail1);
-		tail1.addChild(tail2);
-		finBase.addChild(finTop1);
-		finTop2.addChild(finTop3);
-		tail3.addChild(finBase);
-		finBot1.addChild(finBot2);
-		tail2.addChild(tail3);
-		finTop1.addChild(finTop2);
-		finBot2.addChild(fubBot3);
+		final PartDefinition rootDef = new MeshDefinition().getRoot()
+				.addOrReplaceChild("tailBase", CubeListBuilder.create()
+						.texOffs(0, 24).addBox(-2, -2, 0, 4, 4, 4), PartPose.offsetAndRotation(0, 0.5F, -0.6F, -0.6522295414702809F, 0.02949606435870417F, 0));
+
+		final PartDefinition tailBaseDef = rootDef.getChild("tailBase")
+				.addOrReplaceChild("tail1", CubeListBuilder.create()
+						.texOffs(0, 16).addBox(-1.5F, -1.5F, 0, 3, 3, 5), PartPose.offsetAndRotation(0, 0, 3.5F, 0.0013962634015954637F, 0, 0));
+
+		final PartDefinition tail1Def = tailBaseDef.getChild("tail1")
+				.addOrReplaceChild("tail2", CubeListBuilder.create()
+						.texOffs(0, 9).addBox(-1, -1, -0.2F, 2, 2, 5), PartPose.offsetAndRotation(0, 0, 4.5F, 0.278554548618295F, 0, 0));
+
+		final PartDefinition tail2Def = tail1Def.getChild("tail2")
+				.addOrReplaceChild("tail3", CubeListBuilder.create()
+						.texOffs(0, 3).addBox(-1, -1, 0, 2, 2, 4), PartPose.offsetAndRotation(0, 0, 4.4F, 0.22759093446006054F, 0, 0));
+
+		final PartDefinition tail3Def = tail2Def.getChild("tail3")
+				.addOrReplaceChild("finBase", CubeListBuilder.create()
+						.texOffs(16, 21).addBox(-0.5F, -0.4F, -4, 1, 7, 4), PartPose.offsetAndRotation(0, 0, 3, 2.5953045977155678F, 0, 0));
+
+		final PartDefinition finBaseDef = rootDef.getChild("finBase")
+				.addOrReplaceChild("finTop1", CubeListBuilder.create()
+						.texOffs(16, 10).addBox(-0.5F, 0, -2.9F, 1, 2, 3), PartPose.offsetAndRotation(0, 6.5F, -0.1F, -0.091106186954104F, 0, 0))
+				.addOrReplaceChild("finBot1", CubeListBuilder.create()
+						.texOffs(26, 27).addBox(0, 0, -2, 1, 3, 2), PartPose.offsetAndRotation(-0.5F, -0.4F, -4, 0.091106186954104F, 0, 0));
+
+		final PartDefinition finTop1Def = rootDef.getChild("finTop1")
+				.addOrReplaceChild("finTop2", CubeListBuilder.create()
+						.texOffs(16, 4).addBox(0, 0, -2, 1, 4, 2), PartPose.offsetAndRotation(-0.5F, 2, 0.1F, -0.136659280431156F, 0, 0));
+
+		final PartDefinition finTop2Def = rootDef.getChild("finTop2")
+				.addOrReplaceChild("finTop3", CubeListBuilder.create()
+						.texOffs(16, 1).addBox(0, 0, -1, 1, 2, 1), PartPose.offsetAndRotation(0, 4, 0, -0.136659280431156F, 0, 0));
+
+		final PartDefinition finBot1Def = rootDef.getChild("finBot1")
+				.addOrReplaceChild("finBot2", CubeListBuilder.create()
+						.texOffs(26, 21).addBox(0, 0, -3, 1, 3, 3), PartPose.offsetAndRotation(0, 0, -2, 0.136659280431156F, 0, 0));
+
+		final PartDefinition finBot2Def = rootDef.getChild("finBot2")
+				.addOrReplaceChild("finBot3", CubeListBuilder.create()
+						.texOffs(26, 17).addBox(0, 0, -2, 1, 2, 2), PartPose.offsetAndRotation(0, 0, -3, 0.1980948701013564F, 0, 0));
+
+		root = rootDef.bake(64, 32);
+		tailBase = root.getChild("tailBase");
+		tail1 = tailBase.getChild("tail1");
+		tail2 = tail1.getChild("tail2");
+		tail3 = tail2.getChild("tail3");
+		finBase = tail3.getChild("finBase");
+		finTop1 = finBase.getChild("finTop1");
+		finTop2 = finTop1.getChild("finTop2");
+		finTop3 = finTop2.getChild("finTop3");
+		finBot1 = finBase.getChild("finBot1");
+		finBot2 = finBot1.getChild("finBot2");
+		finBot3 = finBot2.getChild("finBot3");
 	}
 
 	/**

@@ -12,6 +12,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.Mth;
@@ -22,6 +26,7 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class BirdTailModel extends PartModel {
 
+	private final ModelPart root;
 	private final ModelPart center;
 	private final ModelPart left0;
 	private final ModelPart left1;
@@ -31,55 +36,40 @@ public class BirdTailModel extends PartModel {
 	private final ModelPart right1;
 
 	public BirdTailModel() {
-		center = new ModelPart(this, 0, 0);
-		center.addBox(-1.5F, -.5F, -0.5F, 3, 9, 1);
-		center.setPos(0F, 0F, 1F);
-		center.setTexSize(64, 32);
-		setRotationDegrees(center, 55F, 0F, 0F);
+		final PartDefinition rootDef = new MeshDefinition().getRoot()
+				.addOrReplaceChild("center", CubeListBuilder.create()
+						.texOffs(0, 0).addBox(-1.5F, -0.5F, -0.5F, 3, 9, 1), PartPose.offsetAndRotation(0, 0, 1, rad(55), 0, 0));
 
-		left0 = new ModelPart(this, 0, 10);
-		left0.addBox(-1F, 0F, -0.5F, 2, 8, 1);
-		left0.setPos(-1F, .5F, 0F);
-		left0.setTexSize(64, 32);
-		setRotationDegrees(left0, -2, -8, 11);
+		final PartDefinition centerDef = rootDef.getChild("center")
+				.addOrReplaceChild("left0", CubeListBuilder.create()
+						.texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(-1, 0.5F, 0, rad(-2), rad(-8), rad(11)))
+				.addOrReplaceChild("right0", CubeListBuilder.create()
+						.mirror().texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(1, 0.5F, 0, rad(-2), rad(8), rad(-11)));
 
-		left1 = new ModelPart(this, 0, 19);
-		left1.addBox(-1F, 0F, -0.5F, 2, 7, 1);
-		left1.setPos(-1.5F, 0F, 0F);
-		left1.setTexSize(64, 32);
-		setRotationDegrees(left1, 0, -6, 0);
+		final PartDefinition left0Def = centerDef.getChild("left0")
+				.addOrReplaceChild("left1", CubeListBuilder.create()
+						.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(-1.5F, 0, 0, 0, rad(-6), 0));
 
-		left2 = new ModelPart(this, 6, 19);
-		left2.addBox(-0.5F, 0F, -0.5F, 1, 6, 1);
-		left2.setPos(-.5F, 0F, 0F);
-		left2.setTexSize(64, 32);
-		setRotationDegrees(left2, 0, -6, 15);
+		final PartDefinition left1Def = left0Def.getChild("left1")
+				.addOrReplaceChild("left2", CubeListBuilder.create()
+						.texOffs(6, 19).addBox(-0.5F, 0F, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(-0.5F, 0, 0, 0, rad(-6), rad(15)));
 
-		right0 = new ModelPart(this, 0, 10);
-		right0.mirror = true;
-		right0.addBox(-1F, 0F, -0.5F, 2, 8, 1);
-		right0.setPos(1F, .5F, 0F);
-		right0.setTexSize(64, 32);
-		setRotationDegrees(right0, -2, 8, -11);
+		final PartDefinition right0Def = centerDef.getChild("right0")
+				.addOrReplaceChild("right1", CubeListBuilder.create()
+						.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(1.5F, 0, 0, 0, rad(6), 0));
 
-		right1 = new ModelPart(this, 0, 19);
-		right1.addBox(-1F, 0F, -0.5F, 2, 7, 1);
-		right1.setPos(1.5F, 0F, 0F);
-		right1.setTexSize(64, 32);
-		setRotationDegrees(right1, 0, 6, 0);
+		final PartDefinition right1Def = right0Def.getChild("right1")
+				.addOrReplaceChild("right2", CubeListBuilder.create()
+						.texOffs(6, 19).addBox(-0.5F, 0, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(0.5F, 0, 0, 0, rad(6), rad(-15)));
 
-		right2 = new ModelPart(this, 6, 19);
-		right2.addBox(-0.5F, 0F, -0.5F, 1, 6, 1);
-		right2.setPos(.5F, 0, 0F);
-		right2.setTexSize(64, 32);
-		setRotationDegrees(right2, 0, 6, -15);
-
-		right1.addChild(right2);
-		right0.addChild(right1);
-		left1.addChild(left2);
-		left0.addChild(left1);
-		center.addChild(left0);
-		center.addChild(right0);
+		root = rootDef.bake(64, 32);
+		center = root.getChild("center");
+		left0 = center.getChild("left0");
+		left1 = left0.getChild("left1");
+		left2 = left1.getChild("left2");
+		right0 = center.getChild("right0");
+		right1 = center.getChild("right1");
+		right2 = center.getChild("right2");
 	}
 
 	@Override

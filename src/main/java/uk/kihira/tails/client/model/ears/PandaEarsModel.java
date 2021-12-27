@@ -12,6 +12,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import uk.kihira.tails.client.model.PartModel;
 
@@ -20,24 +23,22 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class PandaEarsModel extends PartModel {
 
+	private final ModelPart root;
 	private final ModelPart leftEar;
 	private final ModelPart rightEar;
 
 	public PandaEarsModel() {
-		texWidth = 32;
-		texHeight = 32;
+		root = new MeshDefinition().getRoot()
+				.addOrReplaceChild("leftEar", CubeListBuilder.create()
+						.mirror().texOffs(0, 0)
+						.addBox(-2, -2, 0, 3, 3, 1), PartPose.offset(-4, -8, 0))
+				.addOrReplaceChild("rightEar", CubeListBuilder.create()
+						.mirror().texOffs(0, 4)
+						.addBox(-1, -2, 0, 3, 3, 1), PartPose.offset(4, -8, 0))
+				.bake(32, 32);
 
-		leftEar = new ModelPart(this, 0, 0);
-		leftEar.addBox(-2F, -2F, 0F, 3, 3, 1);
-		leftEar.setPos(-4F, -8F, 0F);
-		leftEar.setTexSize(32, 32);
-		leftEar.mirror = true;
-
-		rightEar = new ModelPart(this, 0, 4);
-		rightEar.addBox(-1F, -2F, 0F, 3, 3, 1);
-		rightEar.setPos(4F, -8F, 0F);
-		rightEar.setTexSize(32, 32);
-		rightEar.mirror = true;
+		leftEar = root.getChild("leftEar");
+		rightEar = root.getChild("rightEar");
 	}
 
 	@Override

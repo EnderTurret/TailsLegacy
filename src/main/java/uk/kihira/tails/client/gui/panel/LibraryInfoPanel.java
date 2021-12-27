@@ -19,6 +19,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -142,25 +143,27 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		this.entry = entry;
 		if (entry == null) {
 			textField.setVisible(false);
-			for (AbstractWidget button : buttons)
-				button.visible = false;
+			for (Widget button : renderables)
+				if (button instanceof AbstractWidget)
+					((AbstractWidget) button).visible = false;
 		}
 		else {
 			favButton.toggled = entry.data.favourite;
 			textField.setVisible(true);
 			textField.setValue(entry.data.entryName);
-			for (AbstractWidget button : buttons) {
-				button.visible = true;
+			for (Widget button : renderables)
+				if (button instanceof AbstractWidget) {
+					((AbstractWidget) button).visible = true;
 
-				if (button == deleteButton && entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))
-					button.visible = false;
-				// Download
-				else if (button == downloadButton && !entry.data.remoteEntry)
-					button.visible = false;
-				// Upload
-				else if (button == uploadButton && (entry.data.remoteEntry || minecraft.hasSingleplayerServer() || !Tails.hasRemote))
-					button.visible = false;
-			}
+					if (button == deleteButton && entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))
+						deleteButton.visible = false;
+					// Download
+					else if (button == downloadButton && !entry.data.remoteEntry)
+						downloadButton.visible = false;
+					// Upload
+					else if (button == uploadButton && (entry.data.remoteEntry || minecraft.hasSingleplayerServer() || !Tails.hasRemote))
+						uploadButton.visible = false;
+				}
 		}
 	}
 

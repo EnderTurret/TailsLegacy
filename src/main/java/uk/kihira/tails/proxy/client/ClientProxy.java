@@ -28,7 +28,6 @@ import uk.kihira.tails.client.ClientEventHandler;
 import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
-import uk.kihira.tails.client.model.ModelRendererWrapper;
 import uk.kihira.tails.client.render.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.PartLayer;

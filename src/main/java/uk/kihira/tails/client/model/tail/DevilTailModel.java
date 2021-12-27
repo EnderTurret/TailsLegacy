@@ -12,6 +12,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.Mth;
@@ -22,6 +26,7 @@ import uk.kihira.tails.client.model.PartModel;
  */
 public class DevilTailModel extends PartModel {
 
+	private final ModelPart root;
 	private final ModelPart tailBase;
 	private final ModelPart tail1;
 	private final ModelPart tail2;
@@ -31,47 +36,42 @@ public class DevilTailModel extends PartModel {
 	private final ModelPart tailTip;
 
 	public DevilTailModel() {
-		tailBase = new ModelPart(this, 0, 0);
-		tailBase.addBox(-1F, -1F, 0F, 2, 2, 2);
-		tailBase.setPos(0F, 0F, 0F);
-		setRotationDegrees(tailBase, -30F, 0F, 0F);
+		final PartDefinition rootDef = new MeshDefinition().getRoot()
+				.addOrReplaceChild("tailBase", CubeListBuilder.create()
+						.texOffs(0, 0).addBox(-1, -1, 0, 2, 2, 2), PartPose.rotation(rad(-30), 0, 0));
 
-		tail1 = new ModelPart(this, 0, 4);
-		tail1.addBox(-0.5F, -0.5F, 0F, 1, 1, 4);
-		tail1.setPos(0F, 0F, 1.8F);
-		setRotationDegrees(tail1, -30F, 0F, 0F);
+		final PartDefinition tailBaseDef = rootDef.getChild("tailBase")
+				.addOrReplaceChild("tail1", CubeListBuilder.create()
+						.texOffs(0, 4).addBox(-0.5F, -0.5F, 0, 1, 1, 4), PartPose.offsetAndRotation(0, 0, 1.8F, rad(-30), 0, 0));
 
-		tail2 = new ModelPart(this, 0, 9);
-		tail2.addBox(-0.5F, -0.5F, 0F, 1, 1, 5);
-		tail2.setPos(0F, 0F, 3.8F);
-		setRotationDegrees(tail2, -30F, 0F, 0F);
+		final PartDefinition tail1Def = tailBaseDef.getChild("tail1")
+				.addOrReplaceChild("tail2", CubeListBuilder.create()
+						.texOffs(0, 9).addBox(-0.5F, -0.5F, 0, 1, 1, 5), PartPose.offsetAndRotation(0, 0, 3.8F, rad(-30), 0, 0));
 
-		tail3 = new ModelPart(this, 0, 15);
-		tail3.addBox(-0.5F, -0.5F, 0F, 1, 1, 3);
-		tail3.setPos(0F, 0F, 4.8F);
-		setRotationDegrees(tail3, 20F, 0F, 0F);
+		final PartDefinition tail2Def = tail1Def.getChild("tail2")
+				.addOrReplaceChild("tail3", CubeListBuilder.create()
+						.texOffs(0, 15).addBox(-0.5F, -0.5F, 0, 1, 1, 3), PartPose.offsetAndRotation(0, 0, 4.8F, rad(20), 0, 0));
 
-		tail4 = new ModelPart(this, 0, 19);
-		tail4.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tail4.setPos(0F, 0F, 2.6F);
-		setRotationDegrees(tail4, 50F, 0F, 0F);
+		final PartDefinition tail3Def = tail2Def.getChild("tail3")
+				.addOrReplaceChild("tail4", CubeListBuilder.create()
+						.texOffs(0, 19).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offsetAndRotation(0, 0, 2.6F, rad(50), 0, 0));
 
-		tail5 = new ModelPart(this, 0, 22);
-		tail5.addBox(-0.5F, -0.5F, 0F, 1, 1, 2);
-		tail5.setPos(0F, 0F, 1.7F);
-		setRotationDegrees(tail5, 50F, 0F, 0F);
+		final PartDefinition tail4Def = tail3Def.getChild("tail4")
+				.addOrReplaceChild("tail5", CubeListBuilder.create()
+						.texOffs(0, 22).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offsetAndRotation(0, 0, 1.7F, rad(50), 0, 0));
 
-		tailTip = new ModelPart(this, 12, 0);
-		tailTip.addBox(-2.5F, 0F, 0F, 5, 5, 0);
-		tailTip.setPos(0F, 0F, 1.8F);
-		setRotationDegrees(tailTip, 120F, 0F, 0F);
+		final PartDefinition tail5Def = tail4Def.getChild("tail5")
+				.addOrReplaceChild("tailTip", CubeListBuilder.create()
+						.texOffs(12, 0).addBox(-2.5F, 0, 0, 5, 5, 0), PartPose.offsetAndRotation(0, 0, 1.8F, rad(120), 0, 0));
 
-		tail5.addChild(tailTip);
-		tail4.addChild(tail5);
-		tail3.addChild(tail4);
-		tail2.addChild(tail3);
-		tail1.addChild(tail2);
-		tailBase.addChild(tail1);
+		root = rootDef.bake(64, 32);
+		tailBase = root.getChild("tailBase");
+		tail1 = tailBase.getChild("tail1");
+		tail2 = tail1.getChild("tail2");
+		tail3 = tail2.getChild("tail3");
+		tail4 = tail3.getChild("tail4");
+		tail5 = tail4.getChild("tail5");
+		tailTip = tail5.getChild("tailTip");
 	}
 
 	@Override

@@ -11,16 +11,18 @@ package uk.kihira.tails.client.gui.panel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -150,9 +152,12 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		matrixStack.translate(x, y, z);
 		matrixStack.scale(-scale, scale, 1F);
 
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
-		renderer
-		.render(matrixStack, fakeEntity, partInfo, impl, impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture())), 0, 0, 0, partialTicks, 15728880, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
+		final VertexConsumer consumer = impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture()));
+
+		renderer.render(matrixStack, fakeEntity, partInfo, impl, consumer, 0, 0, 0, partialTicks, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 		impl.endBatch();
 
 		matrixStack.popPose();

@@ -7,6 +7,7 @@
   "tails.part.ears":"Ears",
   "tails.part.wings":"Wings",
   "tails.part.muzzle":"Muzzle",
+  "tails.part.head_accessory":"Head Accessory",
 
   "tails.part.dragon_tail":"Lizard Tail",
   "tails.part.fluffy_tail":"Fluffy Tail",
@@ -45,20 +46,17 @@
   "tails.part.cat_ears":"Cat Ears",
   "tails.part.small_cat_ears":"Small Cat Ears",
   "tails.part.panda_ears":"Panda Ears",
-  "tails.part.sea_pickle":"Sea Pickle",
 
   "tails.part.fox_ears.variant.0":"Outward",
   "tails.part.fox_ears.variant.1":"Inward",
   "tails.part.cat_ears.variant.0":"Standard",
   "tails.part.small_cat_ears.variant.0":"Standard",
   "tails.part.panda_ears.variant.0":"Standard",
-  "tails.part.sea_pickle.variant.0":"Standard",
 
   "tails.part.texture.fox_ears":"Fox",
   "tails.part.texture.cat_ears":"Cat",
   "tails.part.texture.small_cat_ears":"Cat",
   "tails.part.texture.panda_ears":"Panda",
-  "tails.part.texture.sea_pickle":"Sea Pickle",
 
   "tails.part.big_wings":"Large Wings",
   "tails.part.big_wings.variant.0":"Large",
@@ -94,6 +92,12 @@
   "tails.part.texture.slim_muzzle":"Standard",
   "tails.part.texture.thin_muzzle":"Standard",
   "tails.part.texture.alt_muzzle":"Alt",
+
+  "tails.part.sea_pickle":"Sea Pickle",
+
+  "tails.part.texture.sea_pickle":"Sea Pickle",
+
+  "tails.part.sea_pickle.variant.0":"Standard",
 
   "tails.gui.button.editor":"Tails Editor",
   "tails.gui.button.reset":"Reset",

@@ -109,12 +109,9 @@ public class ClientProxy extends CommonProxy {
 				model.bipedHead.addChild(new ModelRendererWrapper(model, PartType.MUZZLE));
 			}
 		} else
-			for (PlayerRenderer renderer : skinMap.values()) {
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartType.TAIL));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedBody, PartType.WINGS));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.EARS));
-				renderer.addLayer(new PartLayer(renderer, renderer.getEntityModel().bipedHead, PartType.MUZZLE));
-			}
+			for (PlayerRenderer renderer : skinMap.values())
+				for (PartType type : PartType.values())
+					renderer.addLayer(new PartLayer(renderer, type));
 	}
 
 	@Override

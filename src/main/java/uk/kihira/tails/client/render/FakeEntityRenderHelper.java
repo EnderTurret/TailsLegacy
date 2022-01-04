@@ -40,16 +40,20 @@ public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(-45F));
 			matrixStack.rotate(Vector3f.XP.rotationDegrees(25F));
 			break;
-		case EARS: {
+		case EARS:
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
 			matrixStack.translate(0F, 1.4F, 0F);
 			break;
-		}
-		case WINGS: {
+		case WINGS:
 			matrixStack.translate(0F, 0.9F, 0F);
 			matrixStack.scale(0.6F, 0.6F, 0.6F);
 			break;
-		}
+		case HEAD_ACCESSORY:
+			if (part == PartRegistry.SEA_PICKLE)
+				matrixStack.translate(0, 1.8F, 0);
+			break;
+		default:
+			break;
 		}
 	}
 }

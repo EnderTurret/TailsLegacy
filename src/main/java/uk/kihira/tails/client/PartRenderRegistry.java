@@ -49,13 +49,14 @@ public class PartRenderRegistry {
 		register(CAT_EARS, new PartRenderer(new CatEarsModel()));
 		register(PANDA_EARS, new PartRenderer(new PandaEarsModel()));
 		register(SMALL_CAT_EARS, new PartRenderer(new SmallCatEarsModel()));
-		register(SEA_PICKLE, new SeaPickleRenderer());
 
 		register(BIG_WINGS, new WingRenderer());
 
 		register(STANDARD_MUZZLE, new PartRenderer(new MuzzleModel(-2f, -3f, -9f, 4, 3, 5)));
 		register(SLIM_MUZZLE, new PartRenderer(new MuzzleModel(-2f, -2f, -9f, 4, 2, 5)));
 		register(THIN_MUZZLE, new PartRenderer(new MuzzleModel(-1.5f, -2f, -9f, 3, 2, 5, 0, 9)));
+
+		register(SEA_PICKLE, new SeaPickleRenderer());
 	}
 
 	/**

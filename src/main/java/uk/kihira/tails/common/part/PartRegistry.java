@@ -12,6 +12,7 @@ import static uk.kihira.tails.common.part.Part.Builder.ears;
 import static uk.kihira.tails.common.part.Part.Builder.muzzle;
 import static uk.kihira.tails.common.part.Part.Builder.tail;
 import static uk.kihira.tails.common.part.Part.Builder.wings;
+import static uk.kihira.tails.common.part.Part.Builder.head;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,13 +40,14 @@ public class PartRegistry {
 	public static final Part CAT_EARS;
 	public static final Part PANDA_EARS;
 	public static final Part SMALL_CAT_EARS;
-	public static final Part SEA_PICKLE;
 
 	public static final Part BIG_WINGS;
 
 	public static final Part STANDARD_MUZZLE;
 	public static final Part SLIM_MUZZLE;
 	public static final Part THIN_MUZZLE;
+
+	public static final Part SEA_PICKLE;
 
 	static {
 		// Tails
@@ -64,7 +66,6 @@ public class PartRegistry {
 		CAT_EARS = ears("cat_ears").register();
 		PANDA_EARS = ears("panda_ears").register();
 		SMALL_CAT_EARS = ears("small_cat_ears").register();
-		SEA_PICKLE = ears("sea_pickle").register(SeaPicklePart::new);
 
 		// Wings
 		BIG_WINGS = wings("big_wings").subType().texture("metal_wings", "dragon_wings", "dragon_boneless_wings")
@@ -78,6 +79,8 @@ public class PartRegistry {
 		STANDARD_MUZZLE = muzzle("standard_muzzle").subType().subType().subType().subType().texture("alt_muzzle").register();
 		SLIM_MUZZLE = muzzle("slim_muzzle").subType().subType().subType().subType().texture("alt_muzzle").register();
 		THIN_MUZZLE = muzzle("thin_muzzle").subType().subType().subType().subType().texture("alt_muzzle").register();
+
+		SEA_PICKLE = head("sea_pickle").register(SeaPicklePart::new);
 	}
 
 	/**

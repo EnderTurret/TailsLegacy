@@ -33,15 +33,11 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 
 	private final LivingRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer;
 	private final PartType partType;
-	//private final ModelRenderer modelRenderer;
-	//private final boolean mpmCompat;
 
-	public PartLayer(LivingRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, ModelRenderer modelRenderer, PartType partType) {
+	public PartLayer(LivingRenderer<AbstractClientPlayerEntity,PlayerModel<AbstractClientPlayerEntity>> renderer, PartType partType) {
 		super(renderer);
 		this.renderer = renderer;
 		this.partType = partType;
-		//this.modelRenderer = modelRenderer;
-		//mpmCompat = ModList.get().isLoaded("moreplayermodels");
 	}
 
 	@Override
@@ -54,7 +50,7 @@ public class PartLayer extends LayerRenderer<AbstractClientPlayerEntity,PlayerMo
 
 				matrixStackIn.push();
 
-				if (partType == PartType.EARS || partType == PartType.MUZZLE)
+				if (partType == PartType.EARS || partType == PartType.MUZZLE || partType == PartType.HEAD_ACCESSORY)
 					getEntityModel().bipedHead.translateRotate(matrixStackIn);
 
 				else if (partType == PartType.TAIL)

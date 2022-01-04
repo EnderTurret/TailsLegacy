@@ -34,7 +34,7 @@ public class SeaPickleRenderer extends PartRenderer {
 
 	@Override
 	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
-		info.setTexture(new ResourceLocation("tails", "texture/ears/sea_pickle.png"));
+		info.setTexture(new ResourceLocation("tails", "texture/head_accessory/sea_pickle.png"));
 	}
 
 	public static class Model extends PartModel {

@@ -117,6 +117,10 @@ public class Part {
 			return builder(PartType.MUZZLE, new ResourceLocation(Tails.MOD_ID, id));
 		}
 
+		static Builder head(String id) {
+			return builder(PartType.HEAD_ACCESSORY, new ResourceLocation(Tails.MOD_ID, id));
+		}
+
 		public Builder subType() {
 			maxSubType++;
 

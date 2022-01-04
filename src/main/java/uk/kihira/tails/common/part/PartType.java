@@ -11,14 +11,14 @@ package uk.kihira.tails.common.part;
 import javax.annotation.Nullable;
 
 /**
- * Different types of parts.<br><br>
+ * Different types of parts.
  */
-// NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons.
 public enum PartType {
 	TAIL("tail"),
 	EARS("ears"),
 	WINGS("wings"),
-	MUZZLE("muzzle");
+	MUZZLE("muzzle"),
+	HEAD_ACCESSORY("head_accessory");
 
 	private final String id;
 

@@ -164,7 +164,10 @@ public class PartsData {
 
 				for (Map.Entry<String,JsonElement> entry : partInfoMap.entrySet()) {
 					final PartType type = PartType.forId(version == 0 ? entry.getKey().toLowerCase(Locale.ROOT) : entry.getKey());
-					ret.setPartInfo(type, context.deserialize(entry.getValue().getAsJsonObject(), PartInfo.class));
+					final PartInfo info = context.deserialize(entry.getValue().getAsJsonObject(), PartInfo.class);
+					if (info.getPart() == PartRegistry.SEA_PICKLE && type == PartType.EARS)
+						ret.setPartInfo(PartType.HEAD_ACCESSORY, info);
+					else ret.setPartInfo(type, info);
 				}
 			} else if (obj.has("partInfos"))
 				for (JsonElement elem : obj.get("partInfos").getAsJsonArray()) {

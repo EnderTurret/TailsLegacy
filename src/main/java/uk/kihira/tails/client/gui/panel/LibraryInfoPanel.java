@@ -11,6 +11,7 @@ package uk.kihira.tails.client.gui.panel;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -65,7 +66,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			setEntry(null);
 		}, new TranslatableComponent("tails.gui.library.button.delete")));
 		addRenderableWidget(uploadButton = new IconButton(36, bottom - top - 20, IconButton.Icons.UPLOAD, b -> {
-			Tails.CHANNEL.sendToServer(new LibraryEntriesMessage(new ArrayList<LibraryEntryData>() {{ add(entry.data); }}, false));
+			Tails.CHANNEL.sendToServer(new LibraryEntriesMessage(List.of(entry.data), false));
 			b.active = false;
 		}, new TranslatableComponent("tails.gui.library.button.upload")));
 		addRenderableWidget(downloadButton = new IconButton(53, bottom - top - 20, IconButton.Icons.DOWNLOAD, b -> {

@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -20,6 +21,9 @@ import net.minecraft.resources.ResourceLocation;
  * @author EnderTurret
  */
 public class RenderStates extends RenderStateShard {
+
+	public static final Vector3f PART_PREVIEW_DIFFUSE_LIGHTING_0 = new Vector3f(0, 0, 0);
+	public static final Vector3f PART_PREVIEW_DIFFUSE_LIGHTING_1 = new Vector3f(0, 0, 1);
 
 	private RenderStates() {
 		super(null, null, null);

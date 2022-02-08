@@ -11,9 +11,11 @@ package uk.kihira.tails.client.gui.panel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -153,12 +155,15 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		matrixStack.scale(-scale, scale, 1F);
 
 		RenderSystem.setShaderColor(1, 1, 1, 1);
+		RenderSystem.setShaderLights(RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_0, RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_1);
 
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 		final VertexConsumer consumer = impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture()));
 
 		renderer.render(matrixStack, fakeEntity, partInfo, impl, consumer, 0, 0, 0, partialTicks, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 		impl.endBatch();
+
+		Lighting.setupFor3DItems();
 
 		matrixStack.popPose();
 	}

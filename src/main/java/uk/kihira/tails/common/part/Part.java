@@ -87,7 +87,7 @@ public class Part {
 
 		private final PartType type;
 		private final ResourceLocation id;
-		private List<String> textureNames = new ArrayList<>(1);
+		private final List<String> textureNames = new ArrayList<>(1);
 		private int maxSubType;
 		private String[][] authors = new String[1][0];
 

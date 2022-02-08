@@ -14,8 +14,8 @@ import com.google.common.base.Strings;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;

@@ -13,10 +13,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.gui.widget.ExtendedButton;

@@ -15,7 +15,6 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -171,7 +170,6 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 	class PartEntry extends ObjectSelectionList.Entry<PartEntry> {
 
 		final PartInfo partInfo;
-		private final int clickTime = 0;
 
 		PartEntry(PartInfo partInfo) {
 			this.partInfo = partInfo;

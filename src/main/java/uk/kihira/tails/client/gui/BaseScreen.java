@@ -13,19 +13,16 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.util.FormattedCharSequence;
-import net.minecraftforge.client.gui.widget.ExtendedButton;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.ChatFormatting;
-import uk.kihira.tails.client.gui.widget.ITooltip;
-
-import net.minecraft.client.gui.components.Button.OnPress;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
+import uk.kihira.tails.client.gui.widget.ITooltip;
 
 public abstract class BaseScreen extends Screen {
 

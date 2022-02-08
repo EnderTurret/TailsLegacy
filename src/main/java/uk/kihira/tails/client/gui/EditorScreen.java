@@ -10,7 +10,6 @@ package uk.kihira.tails.client.gui;
 
 import java.util.UUID;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.TextComponent;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.ControlsPanel;
@@ -38,8 +37,6 @@ public class EditorScreen extends LayeredScreen {
 	private PartInfo editingPartInfo;
 	private PartInfo originalPartInfo;
 	private final UUID playerUUID;
-
-	private int guiScale;
 
 	protected TintPanel tintPanel;
 	protected PartsPanel partsPanel;
@@ -161,11 +158,6 @@ public class EditorScreen extends LayeredScreen {
 
 	public PartType getPartType() {
 		return partType;
-	}
-
-	private void setScale(int scale) {
-		Minecraft.getInstance().options.guiScale = scale;
-		resize(Minecraft.getInstance(), Minecraft.getInstance().getWindow().getGuiScaledWidth(), Minecraft.getInstance().getWindow().getGuiScaledHeight());
 	}
 
 	public PartInfo getOriginalPartInfo() {

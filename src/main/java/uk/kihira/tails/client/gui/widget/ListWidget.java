@@ -24,12 +24,9 @@ import uk.kihira.tails.client.RenderHelper;
  */
 public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSelectionList<T> {
 
-	private final IListCallback<T> parent;
-	private int currentIndex;
-
+	// TODO: IListCallback isn't actually used for some reason. Nothing seems to be broken, and it looks like selection callbacks occur in the list elements, so consider removing?
 	public ListWidget(IListCallback<T> parent, int width, int height, int top, int bottom, int slotHeight, List<T> entries) {
 		super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
-		this.parent = parent;
 		replaceEntries(entries);
 	}
 

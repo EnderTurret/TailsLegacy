@@ -20,10 +20,11 @@ import org.apache.logging.log4j.LogManager;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.NativeImage.Format;
-import net.minecraft.client.renderer.texture.AbstractTexture;
 import com.mojang.blaze3d.platform.TextureUtil;
-import net.minecraft.server.packs.resources.ResourceManager;
+
+import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import uk.kihira.tails.client.ColorUtil;
 
 /**

@@ -10,8 +10,8 @@ package uk.kihira.tails.client.gui.panel;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.TranslatableComponent;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.EditorScreen;

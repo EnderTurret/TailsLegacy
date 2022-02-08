@@ -13,22 +13,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.AbstractSliderButton;
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraftforge.client.gui.GuiUtils;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+
+import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.util.Mth;
+import net.minecraftforge.client.gui.GuiUtils;
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -115,7 +114,6 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	 * @param value New value
 	 */
 	public void setValue(double value) { // Copied from setSliderValue (private)
-		final double oldValue = value;
 		this.value = Mth.clamp(value, 0.0D, 1.0D);
 
 		updateMessage();

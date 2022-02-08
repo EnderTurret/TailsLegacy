@@ -12,15 +12,15 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.client.gui.GuiUtils;
-import net.minecraft.ChatFormatting;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;

@@ -63,9 +63,8 @@ public class FoxEarsModel extends PartModel {
 
 		matrixStackIn.translate(0f, 0f, -0.0625f);
 
-		if (subtype == 1) {
+		if (subtype == 1)
 			matrixStackIn.translate(-0.4375f, 0f, 0f);
-		}
 
 		leftEar.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 

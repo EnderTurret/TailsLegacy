@@ -15,11 +15,11 @@ import org.lwjgl.glfw.GLFW;
 import com.google.common.base.Strings;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.util.Mth;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
 import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.HSBSlider;

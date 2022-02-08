@@ -2,8 +2,6 @@ package uk.kihira.tails.api;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import uk.kihira.tails.common.part.PartsData;
 
 /**

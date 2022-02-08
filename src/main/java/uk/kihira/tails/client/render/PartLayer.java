@@ -12,12 +12,12 @@ import java.util.UUID;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,12 +31,10 @@ import uk.kihira.tails.common.part.PartsData;
 @OnlyIn(Dist.CLIENT)
 public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
 
-	private final LivingEntityRenderer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> renderer;
 	private final PartType partType;
 
 	public PartLayer(LivingEntityRenderer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> renderer, ModelPart modelRenderer, PartType partType) {
 		super(renderer);
-		this.renderer = renderer;
 		this.partType = partType;
 	}
 

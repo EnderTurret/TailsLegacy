@@ -10,9 +10,9 @@
 
 package uk.kihira.tails.client;
 
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 
 public class RenderHelper {

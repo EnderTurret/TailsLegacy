@@ -51,9 +51,13 @@ public class PartsData {
 	 */
 	private final int version = 1;
 
-	public PartsData() {}
+	public PartsData() {
+		for (PartType type : PartType.values())
+			partInfoMap.put(type, PartInfo.none());
+	}
 
 	public PartsData(Map<PartType,PartInfo> partData) {
+		this();
 		partInfoMap.putAll(partData);
 	}
 

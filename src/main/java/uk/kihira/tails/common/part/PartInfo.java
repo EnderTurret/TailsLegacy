@@ -239,6 +239,8 @@ public class PartInfo implements Cloneable {
 				final String id = obj.get("id").getAsString();
 				if ("tails:empty".equals(id)) return none();
 				part = PartRegistry.get(new ResourceLocation(id));
+				if (part == null)
+					throw new JsonParseException("Unknown part id: \"" + id + "\"");
 			}
 
 			final JsonArray tints = obj.get("tints").getAsJsonArray();

@@ -139,9 +139,7 @@ public class PartInfo implements Cloneable {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || !(o instanceof PartInfo)) return false;
-
-		final PartInfo partInfo = (PartInfo) o;
+		if (!(o instanceof PartInfo partInfo)) return false;
 
 		return getPartId().equals(partInfo.getPartId()) && getSubType() == partInfo.getSubType() && Arrays.equals(getTints(), partInfo.getTints())
 				&& getTextureId() == partInfo.getTextureId();

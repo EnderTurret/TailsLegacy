@@ -27,9 +27,7 @@ public class ClientLibraryManager extends LibraryManager {
 
 		final Screen screen = Minecraft.getInstance().screen;
 
-		if (screen instanceof EditorScreen) {
-			final EditorScreen editor = (EditorScreen) screen;
-
+		if (screen instanceof EditorScreen editor) {
 			if (editor.getLibraryPanel() != null && editor.getLibraryInfoPanel() != null)
 				editor.getLibraryPanel().initList();
 

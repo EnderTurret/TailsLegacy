@@ -46,25 +46,17 @@ public class LibraryEntryData {
 		this.creatorName = creatorName;
 	}
 
-	@SuppressWarnings("RedundantIfStatement")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!(o instanceof LibraryEntryData data)) return false;
 
-		final LibraryEntryData data = (LibraryEntryData) o;
-
-		if (creationDate != data.creationDate) return false;
-		if (favourite != data.favourite) return false;
-		if (!creatorUUID.equals(data.creatorUUID)) return false;
-		if (entryName != null ? !entryName.equals(data.entryName) : data.entryName != null) return false;
-		if (partsData != null ? !partsData.equals(data.partsData) : data.partsData != null) return false;
-
-		return true;
+		return creationDate == data.creationDate && favourite == data.favourite && creatorUUID.equals(data.creatorUUID)
+				&& Objects.equals(entryName, data.entryName) && Objects.equals(partsData, data.partsData);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(partsData == null ? 0 : partsData.hashCode(), "", creatorUUID, favourite, creationDate);
+		return Objects.hash(creationDate, favourite, creatorUUID, entryName, partsData);
 	}
 }

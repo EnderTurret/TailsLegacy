@@ -112,9 +112,7 @@ public class PartsData {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || !(o instanceof PartsData)) return false;
-
-		final PartsData partsData = (PartsData) o;
+		if (!(o instanceof PartsData partsData)) return false;
 
 		return partInfoMap.equals(partsData.partInfoMap);
 	}

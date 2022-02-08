@@ -14,7 +14,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.PacketDistributor;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
-import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
 
 /**
  * A server event handler, for handling events on the server.
@@ -26,7 +25,6 @@ public class ServerEventHandler {
 		final ServerPlayer player = (ServerPlayer) event.getPlayer();
 		// Send current known tails to uk.kihira.tails.client
 		Tails.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.PROXY.getPartsData()));
-		Tails.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new ServerCapabilitiesMessage(Tails.libraryEnabled));
 	}
 
 	@SubscribeEvent

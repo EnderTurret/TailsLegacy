@@ -65,8 +65,6 @@ public class Tails {
 			.registerTypeAdapter(PartInfo.class, new PartInfo.Serializer())
 			.create();
 
-	public static boolean libraryEnabled;
-	public static boolean hasRemote;
 	public static PartsData localPartsData;
 
 	// I know this looks bad, but it's the only way to prevent class loading ClientProxy.
@@ -106,16 +104,12 @@ public class Tails {
 					localPartsData.setPartInfo(partType, PartInfo.none());
 
 				setLocalPartsData(localPartsData, instance);
-
-				//Tails.LOGGER.debug("Created new parts data.");
 			} else
 				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (JsonSyntaxException e) {
 			TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set("");
 			Tails.LOGGER.error("Failed to load local player data: Invalid JSON syntax! Invalid data has been removed.", e);
 		}
-
-		libraryEnabled = TailsConfig.CLIENT_INSTANCE.enableLibrary.get();
 
 		if (instance == null)
 			instance = TailsConfig.getConfig(ModConfig.Type.CLIENT);

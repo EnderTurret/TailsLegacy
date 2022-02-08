@@ -32,6 +32,7 @@ import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.PartLayer;
 import uk.kihira.tails.client.render.PlayerRenderHelper;
 import uk.kihira.tails.client.render.RenderHelperManager;
+import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
@@ -46,6 +47,8 @@ import uk.kihira.tails.proxy.CommonProxy;
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
+
+	private LibraryManager libraryManager;
 
 	@Override
 	public void init() {
@@ -102,5 +105,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void deleteTexture(ResourceLocation tex) {
 		Minecraft.getInstance().getTextureManager().release(tex);
+	}
+
+	@Override
+	public LibraryManager getLibraryManager() {
+		return libraryManager;
 	}
 }

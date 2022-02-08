@@ -31,8 +31,6 @@ import uk.kihira.tails.client.gui.widget.RelativeTextField;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.LibraryEntriesMessage;
-import uk.kihira.tails.common.network.LibraryRequestMessage;
 
 public class LibraryInfoPanel extends Panel<EditorScreen> {
 
@@ -41,8 +39,6 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 	private EditBox textField;
 	private IconButton.Toggle favButton;
 	private IconButton deleteButton;
-	private IconButton downloadButton;
-	private IconButton uploadButton;
 
 	public LibraryInfoPanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
@@ -58,21 +54,10 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
 		}, new TranslatableComponent("tails.gui.library.button.favorite")));
 		addRenderableWidget(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
-			// Only allow removing if player owns the entry.
-			if (entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))
-				return;
 			((IconButton) b).setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
 		}, new TranslatableComponent("tails.gui.library.button.delete")));
-		addRenderableWidget(uploadButton = new IconButton(36, bottom - top - 20, IconButton.Icons.UPLOAD, b -> {
-			Tails.CHANNEL.sendToServer(new LibraryEntriesMessage(List.of(entry.data), false));
-			b.active = false;
-		}, new TranslatableComponent("tails.gui.library.button.upload")));
-		addRenderableWidget(downloadButton = new IconButton(53, bottom - top - 20, IconButton.Icons.DOWNLOAD, b -> {
-			entry.data.remoteEntry = false;
-			b.active = false;
-		}, new TranslatableComponent("tails.gui.library.button.savelocal")));
 		addRenderableWidget(new IconButton(68, bottom - top - 20, IconButton.Icons.EXPORT, b -> {
 			final StringBuilder sb = new StringBuilder();
 			final LibraryEntryData libData = getEntry().data;
@@ -85,10 +70,6 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		}, new TranslatableComponent("tails.gui.library.button.share")));
 
 		super.init();
-
-		// Only request library if on remote server.
-		if (!Minecraft.getInstance().isLocalServer())
-			Tails.CHANNEL.sendToServer(new LibraryRequestMessage());
 
 		setEntry(null);
 	}
@@ -153,18 +134,8 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			textField.setVisible(true);
 			textField.setValue(entry.data.entryName);
 			for (Widget button : renderables)
-				if (button instanceof AbstractWidget) {
+				if (button instanceof AbstractWidget)
 					((AbstractWidget) button).visible = true;
-
-					if (button == deleteButton && entry.data.remoteEntry && !entry.data.creatorUUID.equals(minecraft.player.getUUID()))
-						deleteButton.visible = false;
-					// Download
-					else if (button == downloadButton && !entry.data.remoteEntry)
-						downloadButton.visible = false;
-					// Upload
-					else if (button == uploadButton && (entry.data.remoteEntry || minecraft.hasSingleplayerServer() || !Tails.hasRemote))
-						uploadButton.visible = false;
-				}
 		}
 	}
 

@@ -11,6 +11,7 @@ package uk.kihira.tails.common;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,10 +20,9 @@ import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
-import uk.kihira.tails.common.network.LibraryEntriesMessage;
-
 public class LibraryManager {
 
+	private static final Type ENTRY_DATA_LIST = new TypeToken<List<LibraryEntryData>>() {}.getType();
 	private static final Path LIBRARY_PATH = Paths.get("tailslibrary.json");
 
 	public final List<LibraryEntryData> libraryEntries;
@@ -48,13 +48,6 @@ public class LibraryManager {
 	}
 
 	/**
-	 * Removes remote entries from the list
-	 */
-	public void removeRemoteEntries() {
-		libraryEntries.removeIf(entry -> entry.remoteEntry);
-	}
-
-	/**
 	 * Loads the library data from the file from {@link #createLibraryFile()}.
 	 * @return A list of loaded library data.
 	 */
@@ -63,7 +56,7 @@ public class LibraryManager {
 
 		if (Files.exists(LIBRARY_PATH))
 			try (BufferedReader br = Files.newBufferedReader(createLibraryFile())) {
-				final List<LibraryEntryData> loadedEntries = Tails.GSON.fromJson(br, LibraryEntriesMessage.ENTRY_DATA_LIST);
+				final List<LibraryEntryData> loadedEntries = Tails.GSON.fromJson(br, ENTRY_DATA_LIST);
 				if (loadedEntries != null && !loadedEntries.isEmpty())
 					for (LibraryEntryData libEntry : loadedEntries)
 						if (libEntry.partsData != null)
@@ -80,15 +73,8 @@ public class LibraryManager {
 	 * Remote entries are not written to the file.
 	 */
 	public void saveLibrary() {
-		final List<LibraryEntryData> entries = new ArrayList<>();
-
-		// Remove remote entries before saving.
-		for (LibraryEntryData libraryListEntry : libraryEntries)
-			if (!libraryListEntry.remoteEntry)
-				entries.add(libraryListEntry);
-
 		try (BufferedWriter bw = Files.newBufferedWriter(createLibraryFile())) {
-			Tails.GSON.toJson(entries, bw);
+			Tails.GSON.toJson(libraryEntries, bw);
 		} catch (IOException e) {
 			Tails.LOGGER.error("Exception writing library:", e);
 		}

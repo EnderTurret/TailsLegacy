@@ -52,7 +52,6 @@ public class ClientEventHandler {
 
 	@SubscribeEvent
 	public void onDisconnect(PlayerEvent.PlayerLoggedOutEvent e) {
-		Tails.hasRemote = false;
 		sentPartInfoToServer = false;
 		clearAllPartInfo = true;
 

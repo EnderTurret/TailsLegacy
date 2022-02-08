@@ -36,7 +36,6 @@ public class LibraryEntryData {
 	 */
 	@Expose
 	public String creatorName;
-	public boolean remoteEntry = false;
 
 	public LibraryEntryData(UUID creatorUUID, String creatorName, String name, PartsData partsData) {
 		entryName = name;

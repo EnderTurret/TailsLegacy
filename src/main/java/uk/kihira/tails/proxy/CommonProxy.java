@@ -20,11 +20,8 @@ import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.ServerEventHandler;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.LibraryEntriesMessage;
-import uk.kihira.tails.common.network.LibraryRequestMessage;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.PlayerDataMessage;
-import uk.kihira.tails.common.network.ServerCapabilitiesMessage;
 import uk.kihira.tails.common.part.PartsData;
 
 /**
@@ -36,7 +33,6 @@ public class CommonProxy {
 	public static ITailsSyncService sync;
 
 	protected final Map<UUID, PartsData> partsData = new HashMap<>();
-	protected LibraryManager libraryManager;
 
 	/**
 	 * Uses the power of <em>quiet class references</em> <sup>(reflection)</sup> to create and return a ClientProxy.<br>
@@ -45,7 +41,7 @@ public class CommonProxy {
 	 */
 	public static CommonProxy makeClientProxy() {
 		try {
-			return (CommonProxy) Class.forName("uk.kihira.tails.proxy.client.ClientProxy").newInstance();
+			return (CommonProxy) Class.forName("uk.kihira.tails.proxy.client.ClientProxy").getDeclaredConstructor().newInstance();
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}
@@ -57,7 +53,6 @@ public class CommonProxy {
 	public void init() {
 		registerMessages();
 		MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
-		libraryManager = new LibraryManager();
 	}
 
 	/**
@@ -66,9 +61,6 @@ public class CommonProxy {
 	protected void registerMessages() {
 		Tails.CHANNEL.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::encode, PlayerDataMessage::decode, PlayerDataMessage::handle);
 		Tails.CHANNEL.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle);
-		Tails.CHANNEL.registerMessage(2, LibraryEntriesMessage.class, LibraryEntriesMessage::encode, LibraryEntriesMessage::decode, LibraryEntriesMessage::handle);
-		Tails.CHANNEL.registerMessage(3, LibraryRequestMessage.class, LibraryRequestMessage::encode, LibraryRequestMessage::decode, LibraryRequestMessage::handle);
-		Tails.CHANNEL.registerMessage(4, ServerCapabilitiesMessage.class, ServerCapabilitiesMessage::encode, ServerCapabilitiesMessage::decode, ServerCapabilitiesMessage::handle);
 	}
 
 	/**
@@ -132,7 +124,7 @@ public class CommonProxy {
 	 * @return The library manager.
 	 */
 	public LibraryManager getLibraryManager() {
-		return libraryManager;
+		throw new UnsupportedOperationException("No tails library available on server");
 	}
 
 	public void deleteTexture(ResourceLocation tex) {}

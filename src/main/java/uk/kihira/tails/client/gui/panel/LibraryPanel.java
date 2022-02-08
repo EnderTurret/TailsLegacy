@@ -144,7 +144,6 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 
 	@Override
 	public void removed() {
-		Tails.PROXY.getLibraryManager().removeRemoteEntries();
 		if (libraryChanged)
 			Tails.PROXY.getLibraryManager().saveLibrary();
 		super.removed();

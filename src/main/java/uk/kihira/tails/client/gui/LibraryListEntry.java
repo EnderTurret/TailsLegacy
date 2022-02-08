@@ -41,16 +41,6 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 
 	@Override
 	public void render(PoseStack matrixStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-		if (data.remoteEntry) {
-			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
-			final IconButton.Icons icon = IconButton.Icons.SERVER;
-			matrixStack.pushPose();
-			matrixStack.translate(rowLeft + listWidth - 16, rowTop + slotHeight - 12, 0F);
-			matrixStack.scale(0.8F, 0.8F, 1F);
-			GuiUtils.drawTexturedModalRect(matrixStack, 0, 0, icon.u, icon.v, 16, 16, 10);
-			matrixStack.popPose();
-		}
-
 		final Font fontRenderer = Minecraft.getInstance().font;
 		fontRenderer.draw(matrixStack, (data.partsData.equals(Tails.localPartsData) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);

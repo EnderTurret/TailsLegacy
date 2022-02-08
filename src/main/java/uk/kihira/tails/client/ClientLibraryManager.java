@@ -17,7 +17,6 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.LibraryEntriesMessage;
 
 public class ClientLibraryManager extends LibraryManager {
 
@@ -33,13 +32,5 @@ public class ClientLibraryManager extends LibraryManager {
 
 			editor.getLibraryInfoPanel().setEntry(null);
 		}
-	}
-
-	@Override
-	public void removeEntry(final LibraryEntryData data) {
-		if (data.remoteEntry)
-			Tails.CHANNEL.sendToServer(new LibraryEntriesMessage(Collections.singletonList(data), true));
-		else
-			super.removeEntry(data);
 	}
 }

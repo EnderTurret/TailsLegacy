@@ -19,6 +19,8 @@ import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
+import uk.kihira.tails.common.network.LibraryEntriesMessage;
+
 public class LibraryManager {
 
 	private static final Path LIBRARY_PATH = Paths.get("tailslibrary.json");
@@ -61,7 +63,7 @@ public class LibraryManager {
 
 		if (Files.exists(LIBRARY_PATH))
 			try (BufferedReader br = Files.newBufferedReader(createLibraryFile())) {
-				final List<LibraryEntryData> loadedEntries = Tails.GSON.fromJson(br, new TypeToken<List<LibraryEntryData>>() {}.getType());
+				final List<LibraryEntryData> loadedEntries = Tails.GSON.fromJson(br, LibraryEntriesMessage.ENTRY_DATA_LIST);
 				if (loadedEntries != null && !loadedEntries.isEmpty())
 					for (LibraryEntryData libEntry : loadedEntries)
 						if (libEntry.partsData != null)

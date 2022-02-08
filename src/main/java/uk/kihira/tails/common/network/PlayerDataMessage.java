@@ -21,33 +21,23 @@ import net.minecraftforge.network.PacketDistributor;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
-public class PlayerDataMessage {
-
-	private UUID uuid;
-	private PartsData partsData;
-
-	public PlayerDataMessage() {}
-	public PlayerDataMessage(UUID uuid, PartsData partsData) {
-		this.uuid = uuid;
-		this.partsData = partsData;
-	}
+public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 
 	public static PlayerDataMessage decode(FriendlyByteBuf buf) {
-		final PlayerDataMessage msg = new PlayerDataMessage();
-
-		msg.uuid = buf.readUUID();
+		final UUID uuid = buf.readUUID();
 
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
+		PartsData partsData = PartsData.EMPTY;
+
 		if (!Strings.isNullOrEmpty(tailInfoJson))
 			try {
-				msg.partsData = Tails.GSON.fromJson(tailInfoJson, PartsData.class);
+				partsData = Tails.GSON.fromJson(tailInfoJson, PartsData.class);
 			} catch (JsonSyntaxException e) {
 				Tails.LOGGER.catching(e);
 			}
-		else msg.partsData = PartsData.EMPTY;
 
-		return msg;
+		return new PlayerDataMessage(uuid, partsData);
 	}
 
 	public static void encode(PlayerDataMessage msg, FriendlyByteBuf buf) {

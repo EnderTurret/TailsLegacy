@@ -15,7 +15,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 import uk.kihira.tails.common.Tails;
 
-public class LibraryRequestMessage {
+public record LibraryRequestMessage() {
 
 	public static LibraryRequestMessage decode(FriendlyByteBuf buf) {
 		return new LibraryRequestMessage();

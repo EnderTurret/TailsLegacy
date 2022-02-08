@@ -14,13 +14,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import uk.kihira.tails.common.Tails;
 
-public class ServerCapabilitiesMessage {
-
-	private final boolean library;
-
-	public ServerCapabilitiesMessage(boolean library) {
-		this.library = library;
-	}
+public record ServerCapabilitiesMessage(boolean library) {
 
 	public static ServerCapabilitiesMessage decode(FriendlyByteBuf buf) {
 		return new ServerCapabilitiesMessage(buf.readBoolean());

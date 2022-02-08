@@ -9,6 +9,7 @@
 package uk.kihira.tails.common.network;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -21,28 +22,22 @@ import net.minecraftforge.network.NetworkEvent;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
-public class PlayerDataMapMessage {
+public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 
 	private static final Type PART_DATA_MAP_TYPE = new TypeToken<Map<UUID,PartsData>>() {}.getType();
 
-	private Map<UUID,PartsData> partsDataMap;
-
-	public PlayerDataMapMessage() {}
-	public PlayerDataMapMessage(Map<UUID,PartsData> partsDataMap) {
-		this.partsDataMap = partsDataMap;
-	}
-
 	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
-		final PlayerDataMapMessage msg = new PlayerDataMapMessage();
+
+		Map<UUID, PartsData> partsDataMap = Collections.emptyMap();
 
 		try {
-			msg.partsDataMap = Tails.GSON.fromJson(tailInfoJson, PART_DATA_MAP_TYPE);
+			partsDataMap = Tails.GSON.fromJson(tailInfoJson, PART_DATA_MAP_TYPE);
 		} catch (JsonSyntaxException e) {
 			Tails.LOGGER.catching(e);
 		}
 
-		return msg;
+		return new PlayerDataMapMessage(partsDataMap);
 	}
 
 	public static void encode(PlayerDataMapMessage msg, FriendlyByteBuf buf) {

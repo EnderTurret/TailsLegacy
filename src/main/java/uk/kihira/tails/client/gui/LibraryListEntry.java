@@ -20,7 +20,6 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.client.gui.GuiUtils;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
@@ -59,11 +58,16 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 
 		if (data.favourite) {
 			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
+
 			final IconButton.Icons icon = IconButton.Icons.STAR;
+
 			matrixStack.pushPose();
+
 			matrixStack.translate(rowLeft + listWidth - 16, rowTop, 0F);
 			matrixStack.scale(0.8F, 0.8F, 1F);
-			GuiUtils.drawTexturedModalRect(matrixStack, 0, 0, icon.u, icon.v + 32, 16, 16, 10);
+
+			GuiComponent.blit(matrixStack, 0, 0, 10, icon.u, icon.v + 32, 16, 16, 256, 256);
+
 			matrixStack.popPose();
 		}
 	}

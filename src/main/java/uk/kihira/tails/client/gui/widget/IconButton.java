@@ -43,7 +43,7 @@ public class IconButton extends Button implements ITooltip {
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		if (visible) {
 			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 			RenderSystem.enableBlend();
 			RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 

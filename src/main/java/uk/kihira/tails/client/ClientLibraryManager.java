@@ -8,7 +8,6 @@
 
 package uk.kihira.tails.client;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -16,7 +15,6 @@ import net.minecraft.client.gui.screens.Screen;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.LibraryManager;
-import uk.kihira.tails.common.Tails;
 
 public class ClientLibraryManager extends LibraryManager {
 

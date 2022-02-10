@@ -26,7 +26,7 @@ repositories {
 
 group = 'uk.kihira'
 archivesBaseName = 'Tails'
-version = '1.18.1-1.0.0'
+version = '1.18.1-1.0.1'
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.1-39.0.66'

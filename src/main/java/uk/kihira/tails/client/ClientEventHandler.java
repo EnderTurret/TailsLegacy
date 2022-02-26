@@ -14,9 +14,9 @@ import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.common.Tails;
@@ -44,14 +44,15 @@ public class ClientEventHandler {
 	 * Tails Syncing
 	 */
 	@SubscribeEvent
-	public void onConnectToServer(PlayerEvent.PlayerLoggedInEvent event) {
+	public void onConnectToServer(ClientPlayerNetworkEvent.LoggedInEvent event) {
 		// Add local player texture to map.
 		if (Tails.localPartsData != null)
 			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), Tails.localPartsData);
 	}
 
 	@SubscribeEvent
-	public void onDisconnect(PlayerEvent.PlayerLoggedOutEvent e) {
+	public void onDisconnect(ClientPlayerNetworkEvent.LoggedOutEvent e) {
+		// TODO: Do we need to defer these?
 		sentPartInfoToServer = false;
 		clearAllPartInfo = true;
 

@@ -53,14 +53,12 @@ public class TailsConfig {
 	}
 
 	public final ConfigValue<String> localPlayerOutfit;
-	public final BooleanValue enableLibrary;
 	public final BooleanValue forceLegacyRendering;
 
 	private TailsConfig(ForgeConfigSpec.Builder builder) {
 		builder.push("client");
 
 		localPlayerOutfit = builder.comment("Local Players outfit. Delete to remove all customisation data. Do not try to edit manually.").define("localPlayerOutfit", "");
-		enableLibrary = builder.comment("Whether to enable the library system for sharing tails. This mostly matters on servers.").define("enableLibrary", true);
 		forceLegacyRendering = builder.comment("Forces the legacy renderer which may have better compatibility with other mods.").define("forceLegacyRendering", false);
 	}
 

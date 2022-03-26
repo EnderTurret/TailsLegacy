@@ -56,7 +56,7 @@ public class ClientEventHandler {
 		sentPartInfoToServer = false;
 		clearAllPartInfo = true;
 
-		Tails.loadConfig(null);
+		Tails.reloadConfig(null);
 	}
 
 	@SubscribeEvent

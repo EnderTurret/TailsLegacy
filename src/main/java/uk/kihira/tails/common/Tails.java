@@ -82,15 +82,18 @@ public class Tails {
 
 	private void setup(FMLCommonSetupEvent e) {
 		PROXY.init();
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> loadConfig(null));
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> reloadConfig(null));
 	}
 
 	private void onConfigChange(ModConfigEvent event) {
 		if (event.getConfig().getSpec() == TailsConfig.CLIENT_SPEC)
-			loadConfig(event.getConfig());
+			reloadConfig(event.getConfig());
 	}
 
-	public static void loadConfig(@Nullable ModConfig instance) {
+	public static void reloadConfig(@Nullable ModConfig instance) {
+		if (instance == null)
+			instance = TailsConfig.getConfig(ModConfig.Type.CLIENT);
+
 		// Load local player info.
 		try {
 			// Load player data.
@@ -109,13 +112,9 @@ public class Tails {
 		} catch (JsonSyntaxException e) {
 			TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set("");
 			Tails.LOGGER.error("Failed to load local player data: Invalid JSON syntax! Invalid data has been removed.", e);
+			if (instance != null)
+				instance.save();
 		}
-
-		if (instance == null)
-			instance = TailsConfig.getConfig(ModConfig.Type.CLIENT);
-
-		if (instance != null)
-			instance.save();
 	}
 
 	public static void setLocalPartsData(PartsData partsData, @Nullable ModConfig instance) {

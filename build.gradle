@@ -29,7 +29,7 @@ archivesBaseName = 'Tails'
 version = '1.18.2-1.0.0'
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.19'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.0.32'
 
     //compileOnly fg.deobf('vazkii.botania:Botania:1.16.5-419:api')
     //runtimeOnly fg.deobf('vazkii.botania:Botania:1.16.5-419')

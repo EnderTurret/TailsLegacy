@@ -19,7 +19,7 @@ import uk.kihira.tails.common.part.PartsData;
 /**
  * Represents a single library entry.
  */
-public class LibraryEntryData {
+public final class LibraryEntryData {
 
 	@Expose
 	public final PartsData partsData;

@@ -8,6 +8,9 @@
 
 package uk.kihira.tails.client.model.tail;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -19,7 +22,9 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.common.part.PartInfo;
 
 /**
  * The model for devil tails.
@@ -34,6 +39,8 @@ public class DevilTailModel extends PartModel {
 	private final ModelPart tail4;
 	private final ModelPart tail5;
 	private final ModelPart tailTip;
+
+	private final PartConfiguration config0;
 
 	public DevilTailModel() {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
@@ -62,6 +69,9 @@ public class DevilTailModel extends PartModel {
 		tail4 = tail3.getChild("tail4");
 		tail5 = tail4.getChild("tail5");
 		tailTip = tail5.getChild("tailTip");
+
+		config = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, tail4, tail5, tailTip));
+		config0 = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, tail4, tail5));
 	}
 
 	@Override
@@ -95,10 +105,20 @@ public class DevilTailModel extends PartModel {
 
 	@Override
 	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		if (subtype == 1)
-			tailTip.visible = false;
+		tailTip.visible = subtype != 1;
 
 		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+
 		tailTip.visible = true;
+	}
+
+	@Override
+	public List<PartConfiguration> getParts(PartInfo info) {
+		final int subtype = info.getSubType();
+
+		if (subtype != 0)
+			return List.of(config0);
+
+		return super.getParts(info);
 	}
 }

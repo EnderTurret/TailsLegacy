@@ -8,6 +8,9 @@
 
 package uk.kihira.tails.client.model.tail;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
@@ -21,7 +24,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.common.part.PartInfo;
 
 /**
  * The model for the floofy tail everyone loves.
@@ -60,6 +65,41 @@ public class FluffyTailModel extends PartModel {
 		tail3 = tail2.getChild("tail3");
 		tail4 = tail3.getChild("tail4");
 		tail5 = tail4.getChild("tail5");
+
+		final List<ModelPart> parts = List.of(tailBase, tail1, tail2, tail3, tail4, tail5);
+
+		single = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			setRotationAngles(0, getAnimationTime(4000F, entity), 1F, 1F, 0, 0, partialTicks, entity);
+			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
+		}));
+
+		twin = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			setRotationAngles(1, getAnimationTime(4000F, entity), 1F, 1F, 0F, (float) Math.toRadians(40F), partialTicks, entity);
+			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
+			setRotationAngles(1, getAnimationTime(4000F, entity), 1.4F, 0F, 0F, (float) Math.toRadians(-40F), partialTicks, entity);
+		}));
+
+		nine = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.5F, 2.5F, 0, 0, partialTicks, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.3F, 1.6F, 0, (float) Math.toRadians(30F), partialTicks, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 0.7F, 0, (float) Math.toRadians(-30F), partialTicks, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.2F, 2.6F, (float) Math.toRadians(20F), (float) Math.toRadians(-15F), partialTicks, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> { // 4
+			setRotationAngles(2, getAnimationTime(6500F, entity), -0.9F, 1.1F, (float) Math.toRadians(20F), (float) Math.toRadians(15F), partialTicks, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> { // 5
+			setRotationAngles(2, getAnimationTime(6500F, entity), -0.8F, 2F, (float) Math.toRadians(20F), (float) Math.toRadians(45F), partialTicks, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.25F, 0.6F, (float) Math.toRadians(20F), (float) Math.toRadians(-45F), partialTicks, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> { // 7
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.4F, 0.9F, (float) Math.toRadians(45F), (float) Math.toRadians(15F), partialTicks, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 1.6F, (float) Math.toRadians(45F), (float) Math.toRadians(-15F), partialTicks, entity);
+		}));
 	}
 
 	public void setRotationAngles(int subtype, float timestep, float yOffset, float xOffset, float xAngle, float yAngle, float partialTicks, Entity entity) {
@@ -171,5 +211,25 @@ public class FluffyTailModel extends PartModel {
 			setRotationAngles(2, timestep, -1.1F, 1.6F, (float) Math.toRadians(45F), (float) Math.toRadians(-15F), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		}
+	}
+
+	private final List<PartConfiguration> single;
+
+	private final List<PartConfiguration> twin;
+
+	private final List<PartConfiguration> nine;
+
+	@Override
+	public List<PartConfiguration> getParts(PartInfo info) {
+		final int subtype = info.getSubType();
+
+		if (subtype == 0)
+			return single;
+		else if (subtype == 1)
+			return twin;
+		else if (subtype == 2)
+			return nine;
+
+		return List.of();
 	}
 }

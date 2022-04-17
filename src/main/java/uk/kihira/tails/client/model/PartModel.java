@@ -8,6 +8,10 @@
 
 package uk.kihira.tails.client.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -18,11 +22,14 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import uk.kihira.tails.common.part.PartInfo;
 
 /**
  * A base class that all parts extend.
  */
 public abstract class PartModel extends EntityModel<LivingEntity> {
+
+	protected PartConfiguration config;
 
 	public PartModel() {
 		super(RenderType::entityCutoutNoCull);
@@ -45,6 +52,10 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param partialTicks The partial ticks.
 	 */
 	public abstract void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks);
+
+	public List<PartConfiguration> getParts(PartInfo info) {
+		return config == null ? List.of() : List.of(config);
+	}
 
 	@Override
 	@Deprecated

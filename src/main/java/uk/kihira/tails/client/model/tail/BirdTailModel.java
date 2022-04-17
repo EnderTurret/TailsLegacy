@@ -8,6 +8,9 @@
 
 package uk.kihira.tails.client.model.tail;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -19,6 +22,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 
 /**
@@ -65,6 +69,14 @@ public class BirdTailModel extends PartModel {
 		right0 = center.getChild("right0");
 		right1 = right0.getChild("right1");
 		right2 = right1.getChild("right2");
+
+		config = new PartConfiguration(center, List.of(center, left0, left1, left2, right0, right1, right2))
+				.setParents(left0, center)
+				.setParents(left1, center, left0)
+				.setParents(left2, center, left0, left1)
+				.setParents(right0, center)
+				.setParents(right1, center, right0)
+				.setParents(right2, center, right0, right1);
 	}
 
 	@Override

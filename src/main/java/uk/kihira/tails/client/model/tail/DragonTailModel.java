@@ -8,6 +8,9 @@
 
 package uk.kihira.tails.client.model.tail;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -19,7 +22,9 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.common.part.PartInfo;
 
 /**
  * The model for dragon tails.
@@ -37,6 +42,8 @@ public class DragonTailModel extends PartModel {
 	private final ModelPart tailSub1;
 	private final ModelPart tailSub2;
 	private final ModelPart tailSub3;
+
+	private final PartConfiguration config0;
 
 	public DragonTailModel() {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
@@ -70,6 +77,9 @@ public class DragonTailModel extends PartModel {
 		tailSub1 = tailSubBase.getChild("tailSub1");
 		tailSub2 = tailSub1.getChild("tailSub2");
 		tailSub3 = tailSub2.getChild("tailSub3");
+
+		config = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, tailSubBase, tailSub1, tailSub2, tailSub3));
+		config0 = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3));
 	}
 
 	@Override
@@ -110,5 +120,15 @@ public class DragonTailModel extends PartModel {
 
 		if (subtype == 1)
 			tailSubBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+	}
+
+	@Override
+	public List<PartConfiguration> getParts(PartInfo info) {
+		final int subtype = info.getSubType();
+
+		if (subtype != 1)
+			return List.of(config0);
+
+		return super.getParts(info);
 	}
 }

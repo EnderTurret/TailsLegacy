@@ -8,6 +8,9 @@
 
 package uk.kihira.tails.client.model.tail;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -19,6 +22,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 
 /**
@@ -82,6 +86,11 @@ public class SharkTailModel extends PartModel {
 		finBot1 = finBase.getChild("finBot1");
 		finBot2 = finBot1.getChild("finBot2");
 		finBot3 = finBot2.getChild("finBot3");
+
+		config = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, finBase, finTop1, finTop2, finTop3, finBot1, finBot2, finBot3))
+				.setParents(finBot1, tailBase, tail1, tail2, tail3, finBase)
+				.setParents(finBot2, tailBase, tail1, tail2, tail3, finBase, finBot1)
+				.setParents(finBot3, tailBase, tail1, tail2, tail3, finBase, finBot1, finBot2);
 	}
 
 	/**
@@ -98,12 +107,12 @@ public class SharkTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void setupAnim(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
-		if (entity.getVehicle() == null) {
-			if (entity instanceof Player) {
-				final double[] angles = getMotionAngles((Player) entity, partialTicks);
+		if (entityIn.getVehicle() == null) {
+			if (entityIn instanceof Player) {
+				final double[] angles = getMotionAngles((Player) entityIn, partialTicks);
 
 				xAngleOffset = Mth.clamp(angles[0] / 5F, -1D, 0.45D);
 				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
@@ -115,13 +124,16 @@ public class SharkTailModel extends PartModel {
 			yAngleMultiplier = 0.25F;
 		}
 
-		final float timestep = getAnimationTime(3000D, entity);
+		final float timestep = getAnimationTime(3000D, entityIn);
 		setRotationRadians(tailBase, -0.6522295414702809F + xAngleOffset * 4F, Mth.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
 		setRotationRadians(tail1, 0.0013962634015954637F + xAngleOffset * 1F, Mth.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
 		setRotationRadians(tail2, 0.278554548618295F - xAngleOffset * 2F, Mth.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
 		setRotationRadians(tail3, 0.22759093446006054F - xAngleOffset, Mth.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
 		setRotationRadians(finBase, 2.5953045977155678F, Mth.cos(timestep - 10) / 5F * yAngleMultiplier, 0F);
+	}
 
+	@Override
+	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 }

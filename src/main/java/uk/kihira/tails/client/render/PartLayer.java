@@ -28,6 +28,7 @@ import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
+// TODO: Move to layer/
 @OnlyIn(Dist.CLIENT)
 public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
 
@@ -44,7 +45,7 @@ public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<Abst
 		if (Tails.PROXY.hasPartsData(uuid)) {
 			final PartsData partsData = Tails.PROXY.getPartsData(uuid);
 			if (partsData.hasPartInfo(partType)) {
-				final PartInfo tailInfo = partsData.getPartInfo(partType);
+				final PartInfo partInfo = partsData.getPartInfo(partType);
 
 				matrixStackIn.pushPose();
 
@@ -55,13 +56,13 @@ public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<Abst
 					getParentModel().body.translateAndRotate(matrixStackIn);
 
 				try {
-					final Part part = tailInfo.getPart();
+					final Part part = partInfo.getPart();
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
 					if (renderer != null)
-						renderer.render(matrixStackIn, entity, tailInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
-					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", tailInfo);
+						renderer.render(matrixStackIn, entity, partInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
+					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
 				} catch (Exception e) {
-					Tails.LOGGER.error("Exception rendering part {}: ", tailInfo, e);
+					Tails.LOGGER.error("Exception rendering part {}: ", partInfo, e);
 				}
 
 				matrixStackIn.popPose();

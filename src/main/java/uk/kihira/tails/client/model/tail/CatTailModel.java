@@ -8,7 +8,6 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;

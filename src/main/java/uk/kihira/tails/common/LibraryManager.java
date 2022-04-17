@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,17 @@ public class LibraryManager {
 		libraryEntries.remove(data);
 	}
 
+	public void reload() {
+		final List<LibraryEntryData> entries = loadLibrary();
+
+		// Create a backup of the old data, in case you did something questionable.
+		if (!entries.equals(libraryEntries))
+			saveLibrary(LIBRARY_PATH.resolveSibling("tailslibrary.json.bak"));
+
+		libraryEntries.clear();
+		libraryEntries.addAll(entries);
+	}
+
 	/**
 	 * Loads the library data from the file from {@link #createLibraryFile()}.
 	 * @return A list of loaded library data.
@@ -73,7 +85,11 @@ public class LibraryManager {
 	 * Remote entries are not written to the file.
 	 */
 	public void saveLibrary() {
-		try (BufferedWriter bw = Files.newBufferedWriter(createLibraryFile())) {
+		saveLibrary(createLibraryFile());
+	}
+
+	protected void saveLibrary(Path to) {
+		try (BufferedWriter bw = Files.newBufferedWriter(to, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
 			Tails.GSON.toJson(libraryEntries, bw);
 		} catch (IOException e) {
 			Tails.LOGGER.error("Exception writing library:", e);
@@ -86,13 +102,17 @@ public class LibraryManager {
 	 * @return The library file.
 	 */
 	protected Path createLibraryFile() {
-		if (!Files.exists(LIBRARY_PATH))
+		return createFile(LIBRARY_PATH);
+	}
+
+	protected static Path createFile(Path file) {
+		if (!Files.exists(file))
 			try {
-				Files.createFile(LIBRARY_PATH);
+				Files.createFile(file);
 			} catch (IOException e) {
 				Tails.LOGGER.error("Failed to create library file!", e);
 			}
 
-		return LIBRARY_PATH;
+		return file;
 	}
 }

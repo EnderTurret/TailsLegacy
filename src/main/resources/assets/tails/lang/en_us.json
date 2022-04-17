@@ -111,7 +111,7 @@
   "tails.gui.library.button.share":"Export to clipboard. Send the exported code to your friends to share!",
   "tails.gui.button.mode.library":"Library",
   "tails.gui.button.mode.editor":"Editor",
-  "tails.gui.button.all":"All",
+  "tails.gui.button.reload_library":"Reload Library",
 
   "tails.gui.slider.red.tooltip":"Red",
   "tails.gui.slider.green.tooltip":"Green",

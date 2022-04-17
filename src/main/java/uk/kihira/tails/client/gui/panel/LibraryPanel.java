@@ -47,7 +47,10 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 	public void init() {
 		initList();
 
-		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, new TranslatableComponent("tails.gui.button.all"), b -> {}));
+		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, new TranslatableComponent("tails.gui.button.reload_library"), b -> {
+			Tails.PROXY.getLibraryManager().reload();
+			initList();
+		}));
 		addRenderableWidget(searchField = new RelativeTextField(font, 5, bottom - top - 31, right - left - 10, 10, null));
 
 		super.init();

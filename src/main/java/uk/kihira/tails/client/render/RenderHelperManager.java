@@ -14,8 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import uk.kihira.tails.api.IRenderHelper;
+import uk.kihira.tails.common.part.PartInfo;
 
 /**
  * The {@link IRenderHelper} manager.<br>
@@ -57,5 +63,13 @@ public class RenderHelperManager {
 		} while (parent != LivingEntity.class);
 
 		return helpers;
+	}
+
+	public static <T extends LivingEntity> void applyRenderHelpers(PoseStack poseStack, T entity, PartRenderer renderer, PartInfo info, MultiBufferSource bufferIn, VertexConsumer consumer, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		// TODO: Should we be doing this?
+		final List<IRenderHelper<?>> helpers = entity instanceof Player ? getRenderHelpers(Player.class) : getRenderHelpers(entity.getClass());
+
+		for (IRenderHelper helper : helpers)
+			helper.onPreRenderTail(poseStack, entity, renderer, info, bufferIn, consumer, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 }

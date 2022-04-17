@@ -118,7 +118,11 @@ public class Part {
 		}
 
 		public Builder subType() {
-			maxSubType++;
+			return subTypes(1);
+		}
+
+		public Builder subTypes(int count) {
+			maxSubType += count;
 
 			authors = new String[maxSubType + 1][textureNames.size()];
 

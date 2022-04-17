@@ -49,7 +49,7 @@ public class PartRegistry {
 
 	static {
 		// Tails
-		FLUFFY_TAIL = tail("fluffy_tail").subType().subType().register();
+		FLUFFY_TAIL = tail("fluffy_tail").subTypes(2).register();
 		DRAGON_TAIL = tail("dragon_tail").subType().texture("dragon_tail_striped")
 				.author("@TTFTCUTS", 0).author("@TTFTCUTS", 1).register();
 		RACCOON_TAIL = tail("raccoon_tail").register();
@@ -75,9 +75,9 @@ public class PartRegistry {
 				.author("Dracyoshi", 1, 3).register();
 
 		// Muzzle
-		STANDARD_MUZZLE = muzzle("standard_muzzle").subType().subType().subType().subType().texture("alt_muzzle").register();
-		SLIM_MUZZLE = muzzle("slim_muzzle").subType().subType().subType().subType().texture("alt_muzzle").register();
-		THIN_MUZZLE = muzzle("thin_muzzle").subType().subType().subType().subType().texture("alt_muzzle").register();
+		STANDARD_MUZZLE = muzzle("standard_muzzle").subTypes(4).texture("alt_muzzle").register();
+		SLIM_MUZZLE = muzzle("slim_muzzle").subTypes(4).texture("alt_muzzle").register();
+		THIN_MUZZLE = muzzle("thin_muzzle").subTypes(4).texture("alt_muzzle").register();
 	}
 
 	/**

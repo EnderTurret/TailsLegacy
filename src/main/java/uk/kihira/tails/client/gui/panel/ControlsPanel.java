@@ -33,7 +33,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		// Mode Switch
-		addRenderableWidget(new Button(3 + 10, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.mode.library"), b -> {
+		addRenderableWidget(new Button(3, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.mode.library"), b -> {
 			libraryMode = !libraryMode;
 			parent.getPartPanel().enabled = !libraryMode;
 			parent.getTexturePanel().enabled = !libraryMode;

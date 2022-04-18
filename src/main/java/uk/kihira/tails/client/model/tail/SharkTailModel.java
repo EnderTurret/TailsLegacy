@@ -113,22 +113,22 @@ public class SharkTailModel extends PartModel {
 			if (entityIn instanceof Player) {
 				final double[] angles = getMotionAngles((Player) entityIn, partialTicks);
 
-				xAngleOffset = Mth.clamp(angles[0] / 5F, -1D, 0.45D);
-				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
+				xAngleOffset = Mth.clamp(angles[0] / 5, -1, 0.45);
+				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 			}
 		}
 		// Mounted
 		else {
-			xAngleOffset = Math.toRadians(12F);
-			yAngleMultiplier = 0.25F;
+			xAngleOffset = rad(12);
+			yAngleMultiplier = 0.25;
 		}
 
 		final float timestep = getAnimationTime(3000D, entityIn);
-		setRotationRadians(tailBase, -0.6522295414702809F + xAngleOffset * 4F, Mth.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, 0.0013962634015954637F + xAngleOffset * 1F, Mth.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, 0.278554548618295F - xAngleOffset * 2F, Mth.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail3, 0.22759093446006054F - xAngleOffset, Mth.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(finBase, 2.5953045977155678F, Mth.cos(timestep - 10) / 5F * yAngleMultiplier, 0F);
+		setRotationRadians(tailBase, -rad(37.37) + xAngleOffset * 4, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail1, rad(0.08) + xAngleOffset * 1, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail2, rad(15.96) - xAngleOffset * 2, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail3, rad(13.04) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(finBase, rad(148.7), Mth.cos(timestep - 10) / 5 * yAngleMultiplier, 0);
 	}
 
 	@Override

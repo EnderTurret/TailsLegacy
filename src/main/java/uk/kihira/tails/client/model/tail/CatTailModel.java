@@ -76,21 +76,21 @@ public class CatTailModel extends PartModel {
 			if (entity instanceof Player) {
 				final double[] angles = getMotionAngles((Player) entity, partialTicks);
 
-				xAngleOffset = Mth.clamp(angles[0] / 3.5F, -1F, 0.33D);
-				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
+				xAngleOffset = Mth.clamp(angles[0] / 3.5, -1F, 0.33);
+				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 			}
 		}
 		else {
-			xAngleOffset = Math.toRadians(13F);
-			yAngleMultiplier = 0.25F;
+			xAngleOffset = rad(13);
+			yAngleMultiplier = 0.25;
 		}
 
-		setRotationRadians(tailBase, Math.toRadians(-30F) + xAngleOffset * 2F, Mth.cos(seed - 1) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, Math.toRadians(-30F) + xAngleOffset * 2F, Mth.cos(seed - 2) / 8F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset * 2F, Mth.cos(seed - 3) / 8F * yAngleMultiplier, Mth.cos(xseed - 3) / 16F);
-		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset * 2F + Mth.cos(xseed - 4) / 8F, Mth.cos(seed - 4) / 8F * yAngleMultiplier, Mth.cos(xseed - 4) / 8F);
-		setRotationRadians(tail4, Math.toRadians(50F) - xAngleOffset * 2.5F + Mth.cos(xseed - 5) / 10F, Mth.cos(seed - 5) / 8F * yAngleMultiplier, Mth.cos(xseed - 5) / 8F);
-		setRotationRadians(tail5, Math.toRadians(50F) - xAngleOffset * 3F + Mth.cos(xseed - 6) / 10F, Mth.cos(seed - 6) / 8F * yAngleMultiplier, Mth.cos(xseed - 6) / 8F);
+		setRotationRadians(tailBase, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 1) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail1, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 2) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail2, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 3) / 8 * yAngleMultiplier, Mth.cos(xseed - 3) / 16);
+		setRotationRadians(tail3, rad(20) - xAngleOffset * 2 + Mth.cos(xseed - 4) / 8, Mth.cos(seed - 4) / 8 * yAngleMultiplier, Mth.cos(xseed - 4) / 8);
+		setRotationRadians(tail4, rad(50) - xAngleOffset * 2.5 + Mth.cos(xseed - 5) / 10, Mth.cos(seed - 5) / 8 * yAngleMultiplier, Mth.cos(xseed - 5) / 8);
+		setRotationRadians(tail5, rad(50) - xAngleOffset * 3 + Mth.cos(xseed - 6) / 10, Mth.cos(seed - 6) / 8 * yAngleMultiplier, Mth.cos(xseed - 6) / 8);
 	}
 
 	@Override

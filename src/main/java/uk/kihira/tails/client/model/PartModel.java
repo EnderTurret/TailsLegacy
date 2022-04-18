@@ -83,38 +83,53 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param z The z angle
 	 */
 	protected void setRotationDegrees(ModelPart model, float x, float y, float z) {
-		setRotationRadians(model, (float) Math.toRadians(x), (float) Math.toRadians(y), (float) Math.toRadians(z));
+		setRotationRadians(model, rad(x), rad(y), rad(z));
 	}
 
-	protected float rad(int degrees) {
+	protected double rad(double degrees) {
+		return Math.toRadians(degrees);
+	}
+
+	protected float radf(double degrees) {
 		return (float) Math.toRadians(degrees);
 	}
 
 	public static float getAnimationTime(double cycleTime, Entity entity) {
 		// Returns between 0-360 in radians depending on far in the "cycle" we are.
-		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2F * Math.PI);
+		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2 * Math.PI);
 	}
 
-	protected double[] getMotionAngles(Player player, double partialTicks) {
+	protected double[] getMotionAngles(Player player, float partialTicks) {
+		// TODO: When falling a large distance, tails tend move wildly up and down.
+		// This seems to be a problem with yo and yCloakO. Test with capes?
+		final double yCloakO = player.yCloakO;
+		final double yCloak = player.yCloak;
+		final double yo = player.yo;
+		final double y = player.getY();
+
 		final double xMotion = player.xCloakO + (player.xCloak - player.xCloakO) * partialTicks - (player.xo + (player.getX() - player.xo) * partialTicks);
-		final double yMotion = player.yCloakO + (player.yCloak - player.yCloakO) * partialTicks - (player.yo + (player.getY() - player.yo) * partialTicks); // Positive when falling, negative when climbing
+		final double yMotion = yCloakO + (yCloak - yCloakO) * partialTicks
+				- (yo + (y - yo) * partialTicks); // Positive when falling, negative when climbing
 		final double zMotion = player.zCloakO + (player.zCloak - player.zCloakO) * partialTicks - (player.zo + (player.getZ() - player.zo) * partialTicks);
-		final float bodyYaw = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO) * (float) partialTicks;
+
+		final float bodyYaw = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO) * partialTicks;
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
-		final double bodyYawSin = Mth.sin(bodyYaw * (float) Math.PI / 180F);
-		final double bodyYawCos = -Mth.cos(bodyYaw * (float) Math.PI / 180F);
+		final float bodyYawRads = radf(bodyYaw);
+		final double bodyYawSin = Mth.sin(bodyYawRads);
+		final double bodyYawCos = -Mth.cos(bodyYawRads);
+
 		final float xOffset = Mth.clamp((float) yMotion * 10F, -6F, 32F);
 		float f1 = (float)(xMotion * bodyYawSin + zMotion * bodyYawCos) * 100F;
 		final float f2 = (float)(xMotion * bodyYawCos - zMotion * bodyYawSin) * 100F;
 
 		if (f1 < 0F) f1 = 0F;
 
-		return new double[] {Math.toRadians(f1 / 2.5F + (xOffset + getTailBob(player, (float) partialTicks))), Math.toRadians(-f2 / 20F), Math.toRadians(f2 / 2F)};
+		return new double[] {rad(f1 / 2.5 + (xOffset + getTailBob(player, partialTicks))), rad(-f2 / 20), rad(f2 / 2)};
 	}
 
 	protected float getTailBob(Player player, float partialTicks) {
 		final float cameraYaw = player.oBob + (player.bob - player.oBob) * partialTicks;
-		return Mth.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTicks) * 6F) * 12F * cameraYaw;
+		return Mth.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTicks) * 6) * 12 * cameraYaw;
 	}
 }

@@ -42,23 +42,23 @@ public class BirdTailModel extends PartModel {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
 		final PartDefinition centerDef = rootDef.addOrReplaceChild("center", CubeListBuilder.create()
-				.texOffs(0, 0).addBox(-1.5F, -0.5F, -0.5F, 3, 9, 1), PartPose.offsetAndRotation(0, 0, 1, rad(55), 0, 0));
+				.texOffs(0, 0).addBox(-1.5F, -0.5F, -0.5F, 3, 9, 1), PartPose.offsetAndRotation(0, 0, 1, radf(55), 0, 0));
 
 		centerDef
 			.addOrReplaceChild("left0", CubeListBuilder.create()
-					.texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(-1, 0.5F, 0, rad(-2), rad(-8), rad(11)))
+					.texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(-1, 0.5F, 0, radf(-2), radf(-8), radf(11)))
 			.addOrReplaceChild("left1", CubeListBuilder.create()
-					.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(-1.5F, 0, 0, 0, rad(-6), 0))
+					.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(-1.5F, 0, 0, 0, radf(-6), 0))
 			.addOrReplaceChild("left2", CubeListBuilder.create()
-					.texOffs(6, 19).addBox(-0.5F, 0F, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(-0.5F, 0, 0, 0, rad(-6), rad(15)));
+					.texOffs(6, 19).addBox(-0.5F, 0F, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(-0.5F, 0, 0, 0, radf(-6), radf(15)));
 
 		centerDef
 			.addOrReplaceChild("right0", CubeListBuilder.create()
-					.mirror().texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(1, 0.5F, 0, rad(-2), rad(8), rad(-11)))
+					.mirror().texOffs(0, 10).addBox(-1, 0, -0.5F, 2, 8, 1), PartPose.offsetAndRotation(1, 0.5F, 0, radf(-2), radf(8), radf(-11)))
 			.addOrReplaceChild("right1", CubeListBuilder.create()
-					.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(1.5F, 0, 0, 0, rad(6), 0))
+					.texOffs(0, 19).addBox(-1, 0, -0.5F, 2, 7, 1), PartPose.offsetAndRotation(1.5F, 0, 0, 0, radf(6), 0))
 			.addOrReplaceChild("right2", CubeListBuilder.create()
-					.texOffs(6, 19).addBox(-0.5F, 0, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(0.5F, 0, 0, 0, rad(6), rad(-15)));
+					.texOffs(6, 19).addBox(-0.5F, 0, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(0.5F, 0, 0, 0, radf(6), radf(-15)));
 
 		root = rootDef.bake(64, 32);
 		center = root.getChild("center");
@@ -98,15 +98,15 @@ public class BirdTailModel extends PartModel {
 		}
 		// Mounted
 		else
-			xAngleOffset = Math.toRadians(60F);
+			xAngleOffset = rad(60);
 
-		setRotationRadians(center, Math.toRadians(50) + xAngleOffset, -zAngleOffset, 0);
-		setRotationRadians(left0, Math.toRadians(-2F), Math.toRadians(-5), Math.toRadians(11) + xAngleOffset / 10F);
-		setRotationRadians(left1, Math.toRadians(-2F), Math.toRadians(-7), xAngleOffset / 10F);
-		setRotationRadians(left2, Math.toRadians(-2F), Math.toRadians(-10), Math.toRadians(10) + xAngleOffset / 10F);
-		setRotationRadians(right0, Math.toRadians(-2F), Math.toRadians(5), Math.toRadians(-11) - xAngleOffset / 10F);
-		setRotationRadians(right1, Math.toRadians(-2F), Math.toRadians(7), -xAngleOffset / 10F);
-		setRotationRadians(right2, Math.toRadians(-2F), Math.toRadians(10), Math.toRadians(-10) - xAngleOffset / 10F);
+		setRotationRadians(center, rad(50) + xAngleOffset, -zAngleOffset, 0);
+		setRotationRadians(left0, rad(-2), rad(-5), rad(11) + xAngleOffset / 10);
+		setRotationRadians(left1, rad(-2), rad(-7), xAngleOffset / 10);
+		setRotationRadians(left2, rad(-2), rad(-10), rad(10) + xAngleOffset / 10);
+		setRotationRadians(right0, rad(-2), rad(5), rad(-11) - xAngleOffset / 10);
+		setRotationRadians(right1, rad(-2), rad(7), -xAngleOffset / 10);
+		setRotationRadians(right2, rad(-2), rad(10), rad(-10) - xAngleOffset / 10);
 	}
 
 	@Override

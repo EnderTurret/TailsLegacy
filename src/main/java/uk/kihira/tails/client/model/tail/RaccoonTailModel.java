@@ -38,8 +38,8 @@ public class RaccoonTailModel extends PartModel {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
 		rootDef.addOrReplaceChild("tailBase", CubeListBuilder.create().texOffs(12, 16).addBox(-1, -1, 0, 2, 2, 2), PartPose.ZERO)
-			.addOrReplaceChild("tail1", CubeListBuilder.create().texOffs(0, 16).addBox(-1.5F, -1.5F, 0, 3, 3, 3), PartPose.offsetAndRotation(0, 0, 1, rad(-40), 0, 0))
-			.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 12), PartPose.offsetAndRotation(0, 0, 2, rad(-30), 0, 0))
+			.addOrReplaceChild("tail1", CubeListBuilder.create().texOffs(0, 16).addBox(-1.5F, -1.5F, 0, 3, 3, 3), PartPose.offsetAndRotation(0, 0, 1, radf(-40), 0, 0))
+			.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 12), PartPose.offsetAndRotation(0, 0, 2, radf(-30), 0, 0))
 			.addOrReplaceChild("tailTip", CubeListBuilder.create().texOffs(0, 22).addBox(-1.5F, -1.5F, 0, 3, 3, 1), PartPose.offset(0, 0, 12));
 
 		root = rootDef.bake(64, 32);
@@ -66,21 +66,21 @@ public class RaccoonTailModel extends PartModel {
 				xAngleOffset = angles[0];
 				yAngleOffset = angles[1];
 				zAngleOffset = angles[2];
-				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
+				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 
-				xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
-				zAngleOffset = Mth.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
+				xAngleOffset = Mth.clamp(xAngleOffset * 0.6, -1, 0.45);
+				zAngleOffset = Mth.clamp(zAngleOffset * 0.5, -0.5, 0.5);
 			}
 		}
 		// Mounted
 		else {
-			xAngleOffset = Math.toRadians(20F);
+			xAngleOffset = rad(20);
 			yAngleMultiplier = 0.2F;
 		}
 
-		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
-		setRotationRadians(tail1, Math.toRadians(-40F) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
-		setRotationRadians(tail2, Math.toRadians(-30F) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15F + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4F);
+		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
+		setRotationRadians(tail1, rad(-40) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
+		setRotationRadians(tail2, rad(-30) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
 	}
 
 	@Override

@@ -49,23 +49,23 @@ public class DragonTailModel extends PartModel {
 
 		rootDef
 			.addOrReplaceChild("tailBase", CubeListBuilder.create()
-					.texOffs(22, 0).addBox(-2.5F, -2.5F, -2, 5, 5, 8), PartPose.rotation(rad(-40), 0, 0))
+					.texOffs(22, 0).addBox(-2.5F, -2.5F, -2, 5, 5, 8), PartPose.rotation(radf(-40), 0, 0))
 			.addOrReplaceChild("tail1", CubeListBuilder.create()
-					.texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 7), PartPose.offsetAndRotation(0, 0.3F, 5, rad(-8), 0, 0))
+					.texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 7), PartPose.offsetAndRotation(0, 0.3F, 5, radf(-8), 0, 0))
 			.addOrReplaceChild("tail2", CubeListBuilder.create()
-					.texOffs(0, 11).addBox(-1.5F, -1.5F, 0, 3, 3, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, rad(10), 0, 0))
+					.texOffs(0, 11).addBox(-1.5F, -1.5F, 0, 3, 3, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, radf(10), 0, 0))
 			.addOrReplaceChild("tail3", CubeListBuilder.create()
-					.texOffs(0, 22).addBox(-1, -1, 0, 2, 2, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, rad(20), 0, 0));
+					.texOffs(0, 22).addBox(-1, -1, 0, 2, 2, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, radf(20), 0, 0));
 
 		rootDef
 			.addOrReplaceChild("tailSubBase", CubeListBuilder.create()
-					.texOffs(22, 5).addBox(0, -7.25F, -2, 0, 5, 8), PartPose.rotation(rad(-40), 0, 0))
+					.texOffs(22, 5).addBox(0, -7.25F, -2, 0, 5, 8), PartPose.rotation(radf(-40), 0, 0))
 			.addOrReplaceChild("tailSub1", CubeListBuilder.create()
-					.texOffs(22, 11).addBox(0, -6.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.3F, 5, rad(-8), 0, 0))
+					.texOffs(22, 11).addBox(0, -6.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.3F, 5, radf(-8), 0, 0))
 			.addOrReplaceChild("tailSub2", CubeListBuilder.create()
-					.texOffs(22, 15).addBox(0, -6.25F, 1, 0, 5, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, rad(10), 0, 0))
+					.texOffs(22, 15).addBox(0, -6.25F, 1, 0, 5, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, radf(10), 0, 0))
 			.addOrReplaceChild("tailSub3", CubeListBuilder.create()
-					.texOffs(29, 6).addBox(0, -5.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, rad(20), 0, 0));
+					.texOffs(29, 6).addBox(0, -5.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, radf(20), 0, 0));
 
 		root = rootDef.bake(64, 32);
 		tailBase = root.getChild("tailBase");
@@ -89,27 +89,27 @@ public class DragonTailModel extends PartModel {
 			if (entity instanceof Player) {
 				final double[] angles = getMotionAngles((Player) entity, partialTicks);
 
-				xAngleOffset = Mth.clamp(angles[0] / 5F, -1D, 0.45D);
-				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running.
+				xAngleOffset = Mth.clamp(angles[0] / 5, -1, 0.45);
+				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 			}
 		}
 		// Mounted
 		else {
-			xAngleOffset = Math.toRadians(12F);
-			yAngleMultiplier = 0.25F;
+			xAngleOffset = rad(12);
+			yAngleMultiplier = 0.25;
 		}
 
-		final float timestep = getAnimationTime(4000D, entity);
-		setRotationRadians(tailBase, Math.toRadians(-40F) + xAngleOffset * 2F, Mth.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail1, Math.toRadians(-8F) + xAngleOffset * 2F, Mth.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail2, Math.toRadians(10F) - xAngleOffset / 4F, Mth.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
-		setRotationRadians(tail3, Math.toRadians(20F) - xAngleOffset, Mth.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
+		final float timestep = getAnimationTime(4000, entity);
+		setRotationRadians(tailBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 
 		if (subtype == 1) {
-			setRotationRadians(tailSubBase, Math.toRadians(-40F) + xAngleOffset * 2F, Mth.cos(timestep - 1) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub1, Math.toRadians(-8F) + xAngleOffset * 2F, Mth.cos(timestep - 2) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub2, Math.toRadians(10F) - xAngleOffset / 4F, Mth.cos(timestep - 3) / 5F * yAngleMultiplier, 0F);
-			setRotationRadians(tailSub3, Math.toRadians(20F) - xAngleOffset, Mth.cos(timestep - 4) / 5F * yAngleMultiplier, 0F);
+			setRotationRadians(tailSubBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
+			setRotationRadians(tailSub1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
+			setRotationRadians(tailSub2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
+			setRotationRadians(tailSub3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 		}
 	}
 

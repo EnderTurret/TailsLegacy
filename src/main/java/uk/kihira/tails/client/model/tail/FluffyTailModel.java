@@ -45,17 +45,17 @@ public class FluffyTailModel extends PartModel {
 
 		rootDef
 			.addOrReplaceChild("tailBase", CubeListBuilder.create()
-					.texOffs(0, 0).addBox(-1, -1, 0, 2, 2, 3), PartPose.rotation(rad(-15), 0, 0))
+					.texOffs(0, 0).addBox(-1, -1, 0, 2, 2, 3), PartPose.rotation(radf(-15), 0, 0))
 			.addOrReplaceChild("tail1", CubeListBuilder.create()
-					.texOffs(10, 0).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.5F, rad(-15), 0, 0))
+					.texOffs(10, 0).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.5F, radf(-15), 0, 0))
 			.addOrReplaceChild("tail2", CubeListBuilder.create()
-					.texOffs(0, 5).addBox(-2, -2, 0, 4, 4, 4), PartPose.offsetAndRotation(0, 0, 1.5F, rad(-15), 0, 0))
+					.texOffs(0, 5).addBox(-2, -2, 0, 4, 4, 4), PartPose.offsetAndRotation(0, 0, 1.5F, radf(-15), 0, 0))
 			.addOrReplaceChild("tail3", CubeListBuilder.create()
-					.texOffs(0, 13).addBox(-2.5F, -2.5F, 0, 5, 5, 8), PartPose.offsetAndRotation(0, 0, 3F, rad(-25), 0, 0))
+					.texOffs(0, 13).addBox(-2.5F, -2.5F, 0, 5, 5, 8), PartPose.offsetAndRotation(0, 0, 3F, radf(-25), 0, 0))
 			.addOrReplaceChild("tail4", CubeListBuilder.create()
-					.texOffs(0, 26).addBox(-2, -2, 0, 4, 4, 2), PartPose.offsetAndRotation(0, 0, 7.4F, rad(15), 0, 0))
+					.texOffs(0, 26).addBox(-2, -2, 0, 4, 4, 2), PartPose.offsetAndRotation(0, 0, 7.4F, radf(15), 0, 0))
 			.addOrReplaceChild("tail5", CubeListBuilder.create()
-					.texOffs(12, 26).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.4F, rad(15), 0, 0));
+					.texOffs(12, 26).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.4F, radf(15), 0, 0));
 
 		root = rootDef.bake(64, 32);
 		tailBase = root.getChild("tailBase");
@@ -73,35 +73,35 @@ public class FluffyTailModel extends PartModel {
 		}));
 
 		twin = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
-			setRotationAngles(1, getAnimationTime(4000F, entity), 1F, 1F, 0F, (float) Math.toRadians(40F), partialTicks, entity);
+			setRotationAngles(1, getAnimationTime(4000F, entity), 1F, 1F, 0F, rad(40), partialTicks, entity);
 			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
 			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
-			setRotationAngles(1, getAnimationTime(4000F, entity), 1.4F, 0F, 0F, (float) Math.toRadians(-40F), partialTicks, entity);
+			setRotationAngles(1, getAnimationTime(4000F, entity), 1.4F, 0F, 0F, rad(-40), partialTicks, entity);
 		}));
 
 		nine = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.5F, 2.5F, 0, 0, partialTicks, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
-			setRotationAngles(2, getAnimationTime(6500F, entity), -1.3F, 1.6F, 0, (float) Math.toRadians(30F), partialTicks, entity);
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.3F, 1.6F, 0, rad(30), partialTicks, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
-			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 0.7F, 0, (float) Math.toRadians(-30F), partialTicks, entity);
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 0.7F, 0, rad(-30), partialTicks, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
-			setRotationAngles(2, getAnimationTime(6500F, entity), -1.2F, 2.6F, (float) Math.toRadians(20F), (float) Math.toRadians(-15F), partialTicks, entity);
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.2F, 2.6F, rad(20), rad(-15), partialTicks, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> { // 4
-			setRotationAngles(2, getAnimationTime(6500F, entity), -0.9F, 1.1F, (float) Math.toRadians(20F), (float) Math.toRadians(15F), partialTicks, entity);
+			setRotationAngles(2, getAnimationTime(6500F, entity), -0.9F, 1.1F, rad(20), rad(15), partialTicks, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> { // 5
-			setRotationAngles(2, getAnimationTime(6500F, entity), -0.8F, 2F, (float) Math.toRadians(20F), (float) Math.toRadians(45F), partialTicks, entity);
+			setRotationAngles(2, getAnimationTime(6500F, entity), -0.8F, 2F, rad(20), rad(45), partialTicks, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
-			setRotationAngles(2, getAnimationTime(6500F, entity), -1.25F, 0.6F, (float) Math.toRadians(20F), (float) Math.toRadians(-45F), partialTicks, entity);
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.25F, 0.6F, rad(20), rad(-45), partialTicks, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> { // 7
-			setRotationAngles(2, getAnimationTime(6500F, entity), -1.4F, 0.9F, (float) Math.toRadians(45F), (float) Math.toRadians(15F), partialTicks, entity);
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.4F, 0.9F, rad(45), rad(15), partialTicks, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTicks, entity) -> {
-			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 1.6F, (float) Math.toRadians(45F), (float) Math.toRadians(-15F), partialTicks, entity);
+			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 1.6F, rad(45), rad(-15), partialTicks, entity);
 		}));
 	}
 
-	public void setRotationAngles(int subtype, float timestep, float yOffset, float xOffset, float xAngle, float yAngle, float partialTicks, Entity entity) {
+	public void setRotationAngles(int subtype, float timestep, float yOffset, float xOffset, double xAngle, double yAngle, float partialTicks, Entity entity) {
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
@@ -138,15 +138,15 @@ public class FluffyTailModel extends PartModel {
 		else
 			switch (subtype) {
 			case 0: // Fox Tail
-				xAngleOffset = Math.toRadians(22F);
+				xAngleOffset = rad(22);
 				yAngleMultiplier = 0.5F;
 				break;
 			case 1: // Twin Tails
-				xAngleOffset = Math.toRadians(20F);
+				xAngleOffset = rad(20);
 				yAngleMultiplier = 0.5F;
 				break;
 			case 2: // Nine Tails
-				xAngleOffset = Math.toRadians(15F);
+				xAngleOffset = rad(15);
 				yAngleMultiplier = 0.75F;
 				break;
 			}
@@ -171,12 +171,12 @@ public class FluffyTailModel extends PartModel {
 			matrixStackIn.popPose();
 		}
 		else if (subtype == 1) {
-			setRotationAngles(1, timestep, 1F, 1F, 0F, (float) Math.toRadians(40F), partialTicks, entity);
+			setRotationAngles(1, timestep, 1F, 1F, 0F, rad(40), partialTicks, entity);
 			matrixStackIn.pushPose();
 			matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-20F));
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(1, timestep, 1.4F, 0F, 0F, (float) Math.toRadians(-40F), partialTicks, entity);
+			setRotationAngles(1, timestep, 1.4F, 0F, 0F, rad(-40), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			matrixStackIn.popPose();
 		}
@@ -186,28 +186,28 @@ public class FluffyTailModel extends PartModel {
 			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(2, timestep, -1.3F, 1.6F, 0, (float) Math.toRadians(30F), partialTicks, entity);
+			setRotationAngles(2, timestep, -1.3F, 1.6F, 0, rad(30), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(2, timestep, -1.1F, 0.7F, 0, (float) Math.toRadians(-30F), partialTicks, entity);
+			setRotationAngles(2, timestep, -1.1F, 0.7F, 0, rad(-30), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(2, timestep, -1.2F, 2.6F, (float) Math.toRadians(20F), (float) Math.toRadians(-15F), partialTicks, entity);
+			setRotationAngles(2, timestep, -1.2F, 2.6F, rad(20), rad(-15), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(2, timestep, -0.9F, 1.1F, (float) Math.toRadians(20F), (float) Math.toRadians(15F), partialTicks, entity);
+			setRotationAngles(2, timestep, -0.9F, 1.1F, rad(20), rad(15), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(2, timestep, -0.8F, 2F, (float) Math.toRadians(20F), (float) Math.toRadians(45F), partialTicks, entity);
+			setRotationAngles(2, timestep, -0.8F, 2F, rad(20), rad(45), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(2, timestep, -1.25F, 0.6F, (float) Math.toRadians(20F), (float) Math.toRadians(-45F), partialTicks, entity);
+			setRotationAngles(2, timestep, -1.25F, 0.6F, rad(20), rad(-45), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(2, timestep, -1.4F, 0.9F, (float) Math.toRadians(45F), (float) Math.toRadians(15F), partialTicks, entity);
+			setRotationAngles(2, timestep, -1.4F, 0.9F, rad(45), rad(15), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			setRotationAngles(2, timestep, -1.1F, 1.6F, (float) Math.toRadians(45F), (float) Math.toRadians(-15F), partialTicks, entity);
+			setRotationAngles(2, timestep, -1.1F, 1.6F, rad(45), rad(-15), partialTicks, entity);
 			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		}
 	}

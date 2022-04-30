@@ -57,6 +57,11 @@ public class Tails {
 	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "channel"), () -> "™", v -> true, v -> true);
 
 	/**
+	 * Whether to enable network debugging features, such as printing received packet data to the log.
+	 */
+	public static final boolean DEBUG_NETWORK = Boolean.getBoolean("tails.debugNetwork");
+
+	/**
 	 * A nice {@link Gson} instance for deserializing {@link PartsData}, among other things.
 	 */
 	public static final Gson GSON = new GsonBuilder()

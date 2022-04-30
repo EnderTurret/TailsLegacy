@@ -29,6 +29,9 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
+		if (Tails.DEBUG_NETWORK)
+			Tails.LOGGER.info("[PlayerDataMapMessage] Received {}", tailInfoJson);
+
 		Map<UUID, PartsData> partsDataMap = Collections.emptyMap();
 
 		try {

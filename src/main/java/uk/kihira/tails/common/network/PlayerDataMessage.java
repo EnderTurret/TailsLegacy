@@ -28,6 +28,9 @@ public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
+		if (Tails.DEBUG_NETWORK)
+			Tails.LOGGER.info("[PlayerDataMessage] Received {} = {}", uuid, tailInfoJson);
+
 		PartsData partsData = PartsData.EMPTY;
 
 		if (!Strings.isNullOrEmpty(tailInfoJson))

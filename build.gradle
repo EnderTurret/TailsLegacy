@@ -31,10 +31,10 @@ version = '1.18.2-1.0.2'
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.1.0'
 
-    //compileOnly fg.deobf('vazkii.botania:Botania:1.18.2-431:api')
-    //runtimeOnly fg.deobf('vazkii.botania:Botania:1.18.2-431')
-    //runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.18.2-67')
-    //runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.18.2-5.0.7.0')
+    compileOnly fg.deobf('vazkii.botania:Botania:1.18.2-431:api')
+    runtimeOnly fg.deobf('vazkii.botania:Botania:1.18.2-431')
+    runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.18.2-67')
+    runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.18.2-5.0.7.0')
 }
 
 minecraft {

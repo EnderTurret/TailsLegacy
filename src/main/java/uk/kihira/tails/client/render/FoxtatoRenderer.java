@@ -8,9 +8,25 @@
 
 package uk.kihira.tails.client.render;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Vector3f;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import uk.kihira.tails.client.FakeEntity;
+import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.PartRegistry;
+import vazkii.botania.api.item.TinyPotatoRenderEvent;
+
 public class FoxtatoRenderer {
 
-	/*private FoxtatoFakeEntity fakeEntity;
+	private FoxtatoFakeEntity fakeEntity;
 	private final PartInfo tailPartInfo = new PartInfo(PartRegistry.FLUFFY_TAIL.getId(), 0, 0, new int[]{-5480951, -6594259, -5197647}, null);
 	private final PartInfo earPartInfo = new PartInfo(PartRegistry.FOX_EARS.getId(), 0, 0, new int[]{-5480951, 0xFF000000, -5197647}, null);
 
@@ -53,5 +69,5 @@ public class FoxtatoRenderer {
 		public FoxtatoFakeEntity(Level world) {
 			super(world);
 		}
-	}*/
+	}
 }

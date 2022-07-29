@@ -8,8 +8,8 @@
 
 package uk.kihira.tails.client.gui.panel;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -29,7 +29,6 @@ import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
-// TODO: Why java.sql.Date?
 public class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	private LibraryListEntry entry;

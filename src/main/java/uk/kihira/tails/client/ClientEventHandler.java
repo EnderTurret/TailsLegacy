@@ -11,7 +11,7 @@ package uk.kihira.tails.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
@@ -35,7 +35,7 @@ public class ClientEventHandler {
 	@SubscribeEvent
 	public void onScreenInitPost(ScreenEvent.Init.Post event) {
 		if (event.getScreen() instanceof PauseScreen)
-			event.addListener(new Button(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, new TranslatableComponent("tails.gui.button.editor"), b -> {
+			event.addListener(new Button(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, Component.translatable("tails.gui.button.editor"), b -> {
 				Minecraft.getInstance().setScreen(new EditorScreen());
 			}));
 	}

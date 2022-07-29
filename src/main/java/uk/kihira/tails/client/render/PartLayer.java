@@ -18,6 +18,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -41,7 +42,7 @@ public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<Abst
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		final UUID uuid = Player.createPlayerUUID(entity.getGameProfile());
+		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(entity.getGameProfile());
 		if (Tails.PROXY.hasPartsData(uuid)) {
 			final PartsData partsData = Tails.PROXY.getPartsData(uuid);
 			if (partsData.hasPartInfo(partType)) {

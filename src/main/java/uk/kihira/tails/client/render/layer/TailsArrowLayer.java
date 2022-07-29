@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -43,7 +44,7 @@ public class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> e
 	protected PartsData getPartData(LivingEntity entity) {
 		if (!(entity instanceof Player player)) return null;
 
-		final UUID uuid = Player.createPlayerUUID(player.getGameProfile());
+		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(player.getGameProfile());
 
 		return Tails.PROXY.hasPartsData(uuid) ? Tails.PROXY.getPartsData(uuid) : null;
 	}

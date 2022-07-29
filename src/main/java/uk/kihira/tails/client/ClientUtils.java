@@ -14,6 +14,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.world.entity.player.Player;
 
 public class ClientUtils {
@@ -44,6 +45,6 @@ public class ClientUtils {
 		final Minecraft mc = Minecraft.getInstance();
 		/*if (mc.player != null && mc.player.getUniqueID() != null)
 			return mc.player.getUniqueID();*/
-		return Player.createPlayerUUID(mc.getUser().getGameProfile());
+		return UUIDUtil.getOrCreatePlayerUUID(mc.getUser().getGameProfile());
 	}
 }

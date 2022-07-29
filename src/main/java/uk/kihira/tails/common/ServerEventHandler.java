@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.common;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -30,6 +31,6 @@ public class ServerEventHandler {
 	@SubscribeEvent
 	void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
 		// Server doesn't save tails so we discard.
-		Tails.PROXY.removePartsData(Player.createPlayerUUID(event.getEntity().getGameProfile()));
+		Tails.PROXY.removePartsData(UUIDUtil.getOrCreatePlayerUUID(event.getEntity().getGameProfile()));
 	}
 }

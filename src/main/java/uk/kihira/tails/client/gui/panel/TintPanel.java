@@ -18,7 +18,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.gui.EditorScreen;
@@ -50,7 +50,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		int topOffset = 20;
 		for (int id = 2; id <= 4; id++) {
 			final int finalId = id;
-			addRenderableWidget(new Button(30, topOffset, 40, 20, new TranslatableComponent("tails.gui.button.edit"), b -> handleTintButton(finalId)));
+			addRenderableWidget(new Button(30, topOffset, 40, 20, Component.translatable("tails.gui.button.edit"), b -> handleTintButton(finalId)));
 			topOffset += 35;
 		}
 
@@ -62,9 +62,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 		// RGB sliders
 		rgbSliders = new HSBSlider[3];
-		rgbSliders[0] = new HSBSlider(5, 5, editPaneTop + 70, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.red.tooltip"));
-		rgbSliders[1] = new HSBSlider(6, 5, editPaneTop + 80, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.green.tooltip"));
-		rgbSliders[2] = new HSBSlider(7, 5, editPaneTop + 90, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.blue.tooltip"));
+		rgbSliders[0] = new HSBSlider(5, 5, editPaneTop + 70, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, Component.translatable("tails.gui.slider.red.tooltip"));
+		rgbSliders[1] = new HSBSlider(6, 5, editPaneTop + 80, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, Component.translatable("tails.gui.slider.green.tooltip"));
+		rgbSliders[2] = new HSBSlider(7, 5, editPaneTop + 90, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, Component.translatable("tails.gui.slider.blue.tooltip"));
 		rgbSliders[0].setHue(0);
 		rgbSliders[1].setHue(1F / 3F);
 		rgbSliders[2].setHue(2F / 3F);
@@ -75,9 +75,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 		// HSB sliders
 		hsbSliders = new HSBSlider[3];
-		hsbSliders[0] = new HSBSlider(15, 5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, new TranslatableComponent("tails.gui.slider.hue.tooltip"));
-		hsbSliders[1] = new HSBSlider(16, 5, editPaneTop + 45, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, new TranslatableComponent("tails.gui.slider.saturation.tooltip"));
-		hsbSliders[2] = new HSBSlider(17, 5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, new TranslatableComponent("tails.gui.slider.brightness.tooltip"));
+		hsbSliders[0] = new HSBSlider(15, 5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, Component.translatable("tails.gui.slider.hue.tooltip"));
+		hsbSliders[1] = new HSBSlider(16, 5, editPaneTop + 45, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, Component.translatable("tails.gui.slider.saturation.tooltip"));
+		hsbSliders[2] = new HSBSlider(17, 5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, Component.translatable("tails.gui.slider.brightness.tooltip"));
 
 		addRenderableWidget(hsbSliders[0]);
 		addRenderableWidget(hsbSliders[1]);
@@ -89,11 +89,11 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 			hexText.setValue(ColorUtil.hex(currentTint, true, true));
 			refreshTintPane();
 			tintReset.active = false;
-		}, new TranslatableComponent("tails.gui.button.reset")));
+		}, Component.translatable("tails.gui.button.reset")));
 		tintReset.active = false;
 
 		// Color Picker
-		addRenderableWidget(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), new TranslatableComponent("tails.gui.button.picker.0"), new TranslatableComponent("tails.gui.button.picker.1")));
+		addRenderableWidget(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), Component.translatable("tails.gui.button.picker.0"), Component.translatable("tails.gui.button.picker.1")));
 		colourPicker.visible = false;
 		colourPicker.active = false;
 

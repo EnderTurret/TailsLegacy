@@ -19,7 +19,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
@@ -34,7 +33,7 @@ public class IconButton extends Button implements ITooltip {
 	private final List<FormattedCharSequence> tooltip;
 
 	public IconButton(int x, int y, Icons icon, OnPress onPress, Component... tooltips) {
-		super(x, y, 16 ,16, new TextComponent(""), onPress);
+		super(x, y, 16 ,16, Component.empty(), onPress);
 		this.icon = icon;
 		tooltip = Arrays.stream(tooltips).map(Component::getVisualOrderText).collect(Collectors.toList());
 	}

@@ -18,7 +18,7 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import uk.kihira.tails.client.gui.EditorScreen;
@@ -45,9 +45,9 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		addRenderableWidget(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {
 			yaw = 0;
 			pitch = 10F;
-		}, new TranslatableComponent("tails.gui.button.reset.camera")));
+		}, Component.translatable("tails.gui.button.reset.camera")));
 		// Help
-		addRenderableWidget(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, new TranslatableComponent("tails.gui.button.help.camera.0"), new TranslatableComponent("tails.gui.button.help.camera.1")));
+		addRenderableWidget(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")));
 	}
 
 	@Override

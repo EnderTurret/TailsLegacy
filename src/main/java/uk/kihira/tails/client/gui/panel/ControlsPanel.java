@@ -12,7 +12,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.toast.ToastManager;
@@ -33,7 +33,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		// Mode Switch
-		addRenderableWidget(new Button(3, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.mode.library"), b -> {
+		addRenderableWidget(new Button(3, bottom - top - 25, 46, 20, Component.translatable("tails.gui.button.mode.library"), b -> {
 			libraryMode = !libraryMode;
 			parent.getPartPanel().enabled = !libraryMode;
 			parent.getTexturePanel().enabled = !libraryMode;
@@ -54,10 +54,10 @@ public class ControlsPanel extends Panel<EditorScreen> {
 
 			parent.setPartsData(Tails.localPartsData);
 
-			b.setMessage(libraryMode ? new TranslatableComponent("tails.gui.button.mode.editor") : new TranslatableComponent("tails.gui.button.mode.library"));
+			b.setMessage(libraryMode ? Component.translatable("tails.gui.button.mode.editor") : Component.translatable("tails.gui.button.mode.library"));
 		}));
 		// Reset/Save
-		addRenderableWidget(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.button.reset"), b -> {
+		addRenderableWidget(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, Component.translatable("tails.gui.button.reset"), b -> {
 			final PartInfo partInfo = parent.getOriginalPartInfo().deepCopy();
 			parent.getPartPanel().selectDefaultListEntry();
 			parent.getLibraryPanel().initList();
@@ -66,7 +66,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			parent.refreshTintPane();
 			parent.setPartsInfo(partInfo);
 		}));
-		addRenderableWidget(new Button(right - left - 49, bottom - top - 25, 46, 20, new TranslatableComponent("tails.gui.done"), b -> {
+		addRenderableWidget(new Button(right - left - 49, bottom - top - 25, 46, 20, Component.translatable("tails.gui.done"), b -> {
 			// Update part info, set local and send it to the server.
 			final PartsData partsData = parent.getPartsData();
 
@@ -78,7 +78,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			if (CommonProxy.sync != null)
 				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
 
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, new TranslatableComponent("tails.gui.saved").withStyle(ChatFormatting.GREEN));
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, Component.translatable("tails.gui.saved").withStyle(ChatFormatting.GREEN));
 
 			minecraft.setScreen(null);
 		}));

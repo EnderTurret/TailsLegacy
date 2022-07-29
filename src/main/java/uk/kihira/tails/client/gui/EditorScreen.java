@@ -10,7 +10,7 @@ package uk.kihira.tails.client.gui;
 
 import java.util.UUID;
 
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.ControlsPanel;
 import uk.kihira.tails.client.gui.panel.LibraryImportPanel;
@@ -48,7 +48,7 @@ public class EditorScreen extends LayeredScreen {
 	protected LibraryImportPanel libraryImportPanel;
 
 	public EditorScreen() {
-		super(4, new TextComponent(""));
+		super(4, Component.empty());
 		// Backup original PartInfo or create default one.
 		if (Tails.localPartsData == null)
 			Tails.setLocalPartsData(new PartsData(), null);

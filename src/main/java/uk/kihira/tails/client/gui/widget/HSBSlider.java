@@ -23,7 +23,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
@@ -45,7 +44,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	private List<FormattedCharSequence> tooltips;
 
 	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
-		super(xPos, yPos, width, height, new TextComponent(""), 0);
+		super(xPos, yPos, width, height, Component.empty(), 0);
 		this.type = type;
 		hueValue = 0;
 		briValue = 0;

@@ -16,7 +16,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextField;
@@ -36,10 +36,10 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void init() {
-		addRenderableWidget(new ExtendedButton(3, 21, right - left - 6, 18, new TranslatableComponent("tails.gui.library.import.string"), b -> {
+		addRenderableWidget(new ExtendedButton(3, 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), b -> {
 			if (Strings.isNullOrEmpty(inputField.getValue()) || inputField.getValue().split(":", 3).length != 3)
 				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-						new TranslatableComponent("tails.gui.library.import.toast.invalid").withStyle(ChatFormatting.RED));
+						Component.translatable("tails.gui.library.import.toast.invalid").withStyle(ChatFormatting.RED));
 			else {
 				final String[] strings = inputField.getValue().split(":", 4);
 				try {
@@ -48,13 +48,13 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 					parent.getLibraryPanel().initList();
 
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslatableComponent("tails.gui.library.import.toast.success", strings[0]).withStyle(ChatFormatting.GREEN));
+							Component.translatable("tails.gui.library.import.toast.success", strings[0]).withStyle(ChatFormatting.GREEN));
 				} catch (IllegalArgumentException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslatableComponent("tails.gui.library.import.toast.invalid.uuid").withStyle(ChatFormatting.RED));
+							Component.translatable("tails.gui.library.import.toast.invalid.uuid").withStyle(ChatFormatting.RED));
 				} catch (JsonSyntaxException e) {
 					ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2,
-							new TranslatableComponent("tails.gui.library.import.toast.invalid.parts").withStyle(ChatFormatting.RED));
+							Component.translatable("tails.gui.library.import.toast.invalid.parts").withStyle(ChatFormatting.RED));
 				}
 			}
 		}));

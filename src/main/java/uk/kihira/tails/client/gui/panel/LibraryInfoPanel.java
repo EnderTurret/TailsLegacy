@@ -20,7 +20,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
@@ -29,6 +29,7 @@ import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
+// TODO: Why java.sql.Date?
 public class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	private LibraryListEntry entry;
@@ -49,12 +50,12 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 
 		addRenderableWidget(favButton = new IconButton.Toggle(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
-		}, new TranslatableComponent("tails.gui.library.button.favorite")));
+		}, Component.translatable("tails.gui.library.button.favorite")));
 		addRenderableWidget(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
 			((IconButton) b).setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
-		}, new TranslatableComponent("tails.gui.library.button.delete")));
+		}, Component.translatable("tails.gui.library.button.delete")));
 		addRenderableWidget(new IconButton(68, bottom - top - 20, IconButton.Icons.EXPORT, b -> {
 			final StringBuilder sb = new StringBuilder();
 			final LibraryEntryData libData = getEntry().data;
@@ -62,9 +63,9 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			sb.append(libData.creatorUUID).append(":");
 			sb.append(Tails.GSON.toJson(libData.partsData));
 
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, new TranslatableComponent("tails.gui.library.info.toast.export"));
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, Component.translatable("tails.gui.library.info.toast.export"));
 			GLFW.glfwSetClipboardString(minecraft.getWindow().getWindow(), sb.toString());
-		}, new TranslatableComponent("tails.gui.library.button.share")));
+		}, Component.translatable("tails.gui.library.button.share")));
 
 		super.init();
 

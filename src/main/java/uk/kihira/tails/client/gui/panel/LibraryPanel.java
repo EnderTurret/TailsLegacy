@@ -17,7 +17,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
@@ -47,7 +47,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 	public void init() {
 		initList();
 
-		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, new TranslatableComponent("tails.gui.button.reload_library"), b -> {
+		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
 			Tails.PROXY.getLibraryManager().reload();
 			initList();
 		}));

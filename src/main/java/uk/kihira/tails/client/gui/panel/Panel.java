@@ -10,7 +10,7 @@ package uk.kihira.tails.client.gui.panel;
 
 import org.apache.commons.lang3.Validate;
 
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.gui.BaseScreen;
 import uk.kihira.tails.client.gui.LayeredScreen;
 
@@ -30,7 +30,7 @@ public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
 	public boolean enabled = true;
 
 	public Panel(T parent, int x, int y, int width, int height) {
-		super(new TextComponent(""));
+		super(Component.empty());
 		Validate.isInstanceOf(LayeredScreen.class, parent);
 
 		this.parent = parent;

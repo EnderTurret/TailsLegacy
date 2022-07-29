@@ -19,7 +19,6 @@ import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.widget.ITooltip;
@@ -105,7 +104,7 @@ public abstract class BaseScreen extends Screen {
 		@Override
 		public void renderButton(PoseStack matrixStack, int x, int y, float partialTicks) {
 			final List<FormattedCharSequence> list = new ArrayList<>(tooltip);
-			list.add(!active ? new TextComponent("Enabled").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC).getVisualOrderText() : new TextComponent("Disabled").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC).getVisualOrderText());
+			list.add(!active ? Component.literal("Enabled").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC).getVisualOrderText() : Component.literal("Disabled").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC).getVisualOrderText());
 			BaseScreen.this.renderTooltip(matrixStack, list, x, y, font);
 		}
 	}

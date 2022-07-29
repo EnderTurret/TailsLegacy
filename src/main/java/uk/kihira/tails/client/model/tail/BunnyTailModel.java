@@ -42,7 +42,7 @@ public class BunnyTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		tail.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+		tail.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

@@ -30,7 +30,7 @@ public class PlayerRenderHelper implements IRenderHelper<Player> {
 	}
 
 	@Override
-	public void onPreRenderTail(PoseStack poseStack, Player entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void onPreRenderTail(PoseStack poseStack, Player entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		if (info.getPart().getType() != PartType.TAIL) return;
 		//if (mpmCompat && entity.isSneaking())
 		//poseStack.translate(0f, -0.1f, 0.4f);

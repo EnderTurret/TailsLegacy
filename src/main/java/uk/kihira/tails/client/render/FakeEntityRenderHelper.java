@@ -23,7 +23,7 @@ import uk.kihira.tails.common.part.PartRegistry;
 public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 
 	@Override
-	public void onPreRenderTail(PoseStack poseStack, FakeEntity entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void onPreRenderTail(PoseStack poseStack, FakeEntity entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		final Part part = info.getPart();
 		switch (part.getType()) {
 		case TAIL: {

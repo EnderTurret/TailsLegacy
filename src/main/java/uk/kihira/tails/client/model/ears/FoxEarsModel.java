@@ -59,7 +59,7 @@ public class FoxEarsModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
 		poseStack.pushPose();
 
 		poseStack.translate(0f, 0f, -0.0625f);
@@ -67,12 +67,12 @@ public class FoxEarsModel extends PartModel {
 		if (subtype == 1)
 			poseStack.translate(-0.4375f, 0f, 0f);
 
-		leftEar.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		leftEar.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
 		if (subtype == 1)
 			poseStack.translate(0.875f, 0f, 0f);
 
-		rightEar.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		rightEar.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
 		poseStack.popPose();
 	}

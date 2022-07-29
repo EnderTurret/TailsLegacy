@@ -66,11 +66,11 @@ public class RenderHelperManager {
 		return helpers;
 	}
 
-	public static <T extends LivingEntity> void applyRenderHelpers(PoseStack poseStack, T entity, PartRenderer renderer, PartInfo info, MultiBufferSource bufferIn, VertexConsumer consumer, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public static <T extends LivingEntity> void applyRenderHelpers(PoseStack poseStack, T entity, PartRenderer renderer, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTicks, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		// TODO: Should we be doing this?
 		final List<IRenderHelper<?>> helpers = entity instanceof Player ? getRenderHelpers(Player.class) : getRenderHelpers(entity.getClass());
 
 		for (IRenderHelper helper : helpers)
-			helper.onPreRenderTail(poseStack, entity, renderer, info, bufferIn, consumer, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			helper.onPreRenderTail(poseStack, entity, renderer, info, bufferSource, buffer, x, y, z, partialTicks, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

@@ -29,12 +29,12 @@ public class SeaPickleRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		final int tint = info.getTints()[0];
 		final float r = (tint >> 16 & 255) / 255F;
 		final float g = (tint >> 8 & 255) / 255F;
 		final float b = (tint & 255) / 255F;
-		super.doRender(poseStack, entity, info, bufferIn, partialTicks, packedLightIn, packedOverlayIn, r, g, b, alpha);
+		super.doRender(poseStack, entity, info, buffer, partialTick, packedLight, packedOverlay, r, g, b, alpha);
 	}
 
 	@Override
@@ -59,12 +59,12 @@ public class SeaPickleRenderer extends PartRenderer {
 		}
 
 		@Override
-		public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+		public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
 			poseStack.pushPose();
 
 			poseStack.translate(0, -2, 0);
 
-			pickle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			pickle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
 			poseStack.popPose();
 		}

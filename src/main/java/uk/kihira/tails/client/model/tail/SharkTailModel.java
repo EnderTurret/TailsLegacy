@@ -107,12 +107,12 @@ public class SharkTailModel extends PartModel {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
-		if (entityIn.getVehicle() == null) {
-			if (entityIn instanceof Player) {
-				final double[] angles = getMotionAngles((Player) entityIn, partialTicks);
+		if (entity.getVehicle() == null) {
+			if (entity instanceof Player) {
+				final double[] angles = getMotionAngles((Player) entity, partialTicks);
 
 				xAngleOffset = Mth.clamp(angles[0] / 5, -1, 0.45);
 				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
@@ -124,7 +124,7 @@ public class SharkTailModel extends PartModel {
 			yAngleMultiplier = 0.25;
 		}
 
-		final float timestep = getAnimationTime(3000D, entityIn);
+		final float timestep = getAnimationTime(3000D, entity);
 		setRotationRadians(tailBase, -rad(37.37) + xAngleOffset * 4, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
 		setRotationRadians(tail1, rad(0.08) + xAngleOffset * 1, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
 		setRotationRadians(tail2, rad(15.96) - xAngleOffset * 2, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
@@ -133,7 +133,7 @@ public class SharkTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+		tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

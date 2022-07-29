@@ -33,18 +33,18 @@ public interface IRenderHelper<T extends LivingEntity> {
 	 * @param entity The entity the parts are being rendered on.
 	 * @param tail The part renderer.
 	 * @param info The part being rendered.
-	 * @param bufferIn The buffers to use for getting new buffers.
-	 * @param builderIn The builder for rendering to.
+	 * @param bufferSource The buffer source to use for getting new buffers.
+	 * @param buffer The buffer for rendering to.
 	 * @param x The x position.
 	 * @param y The y position.
 	 * @param z The z position.
 	 * @param partialTicks The partial ticks.
-	 * @param packedLightIn The packed light value.
-	 * @param packedOverlayIn The packed overlay value.
+	 * @param packedLight The packed light value.
+	 * @param packedOverlay The packed overlay value.
 	 * @param red The red color value.
 	 * @param green The green color value.
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void onPreRenderTail(PoseStack poseStack, T entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha);
+	public void onPreRenderTail(PoseStack poseStack, T entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTicks, int packedLight, int packedOverlay, float red, float green, float blue, float alpha);
 }

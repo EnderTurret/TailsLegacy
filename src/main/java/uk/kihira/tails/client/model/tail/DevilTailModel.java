@@ -104,10 +104,10 @@ public class DevilTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
 		tailTip.visible = subtype != 1;
 
-		tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
 		tailTip.visible = true;
 	}

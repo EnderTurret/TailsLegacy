@@ -31,8 +31,8 @@ public abstract class BaseScreen extends Screen {
 	private int prevMouseY;
 	private float mouseIdleTicks;
 
-	protected BaseScreen(Component titleIn) {
-		super(titleIn);
+	protected BaseScreen(Component title) {
+		super(title);
 	}
 
 	public void renderTooltips(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {

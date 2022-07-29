@@ -40,28 +40,28 @@ public class MuzzleModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
 		poseStack.pushPose();
 		poseStack.translate(0, -0.001F, 0);
 		switch (subtype) {
 		case 0: // Very Short
 			poseStack.translate(0f, 0f, 4f / 16f);
-			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			break;
 		case 1: // Short
 			poseStack.translate(0f, 0f, 3f / 16f);
-			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			break;
 		case 2: // Standard
 			poseStack.translate(0f, 0f, 2f / 16f);
-			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			break;
 		case 3: // Long
 			poseStack.translate(0f, 0f, 1f / 16f);
-			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			break;
 		case 4: // Very Long
-			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			break;
 		}
 		poseStack.popPose();

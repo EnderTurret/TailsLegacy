@@ -32,12 +32,12 @@ public class RenderStates extends RenderStateShard {
 
 	/**
 	 * Returns a {@link RenderType} much like {@link RenderType#entityCutoutNoCull(ResourceLocation)}, but with diffuse lighting disabled.
-	 * @param locationIn The texture location.
+	 * @param location The texture location.
 	 * @return The newly created {@link RenderType}.
 	 */
-	public static RenderType getPartPreview(ResourceLocation locationIn) {
+	public static RenderType getPartPreview(ResourceLocation location) {
 		final RenderType.CompositeState state = RenderType.CompositeState.builder()
-				.setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+				.setTextureState(new RenderStateShard.TextureStateShard(location, false, false))
 				.setShaderState(RENDERTYPE_ENTITY_CUTOUT_NO_CULL_SHADER)
 				.setTransparencyState(NO_TRANSPARENCY)
 				.setCullState(NO_CULL)

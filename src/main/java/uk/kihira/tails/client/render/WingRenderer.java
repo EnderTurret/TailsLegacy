@@ -31,7 +31,7 @@ public class WingRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer renderer, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		final boolean isFlying = entity instanceof Player && ((Player) entity).getAbilities().flying && entity.hasImpulse || entity.fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
 		final float angle = Mth.sin(timestep) * (isFlying ? 24F : 4F);
@@ -52,10 +52,10 @@ public class WingRenderer extends PartRenderer {
 		Matrix4f m = poseStack.last().pose();
 		Matrix3f n = poseStack.last().normal();
 
-		renderer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.vertex(m, 0, 0, 0).color(red, green, blue, alpha).uv(0, 1).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		buffer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
+		buffer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
+		buffer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
+		buffer.vertex(m, 0, 0, 0).color(red, green, blue, alpha).uv(0, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
 
 		poseStack.popPose();
 
@@ -65,10 +65,10 @@ public class WingRenderer extends PartRenderer {
 		poseStack.mulPose(Vector3f.XP.rotationDegrees(-30F + angle));
 		m = poseStack.last().pose();
 		n = poseStack.last().normal();
-		renderer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
-		renderer.vertex(m, 0, 0, 0).color(red, green, blue, alpha).uv(0, 1).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
+		buffer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
+		buffer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
+		buffer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
+		buffer.vertex(m, 0, 0, 0).color(red, green, blue, alpha).uv(0, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
 
 		poseStack.popPose();
 

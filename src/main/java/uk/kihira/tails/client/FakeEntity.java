@@ -29,10 +29,10 @@ public class FakeEntity extends LivingEntity {
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag tagCompound) {}
+	public void addAdditionalSaveData(CompoundTag tag) {}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tagCompound) {}
+	public void readAdditionalSaveData(CompoundTag tag) {}
 
 	@Override
 	public Iterable<ItemStack> getArmorSlots() {
@@ -40,12 +40,12 @@ public class FakeEntity extends LivingEntity {
 	}
 
 	@Override
-	public ItemStack getItemBySlot(EquipmentSlot slotIn) {
+	public ItemStack getItemBySlot(EquipmentSlot slot) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setItemSlot(EquipmentSlot slotIn, ItemStack stack) {}
+	public void setItemSlot(EquipmentSlot slot, ItemStack stack) {}
 
 	@Override
 	public HumanoidArm getMainArm() {

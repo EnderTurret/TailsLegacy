@@ -57,28 +57,28 @@ public class PartRenderer {
 	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity that is about to be used for rendering.
 	 * @param info The {@link PartInfo} about to be rendered.
-	 * @param bufferIn The render type buffers. Usually obtained from {@link Minecraft#renderBuffers()}.
-	 * @param builderIn The vertex builder for rendering, in case an {@link IRenderHelper} wants to do some rendering.
+	 * @param bufferSource The render type buffers. Usually obtained from {@link Minecraft#renderBuffers()}.
+	 * @param buffer The vertex builder for rendering, in case an {@link IRenderHelper} wants to do some rendering.
 	 * @param x The x location.
 	 * @param y The y location.
 	 * @param z The z location.
-	 * @param partialTicks The current partial tick value.
-	 * @param packedLightIn The packed light.
-	 * @param packedOverlayIn The packed overlay.
+	 * @param partialTick The current partial tick value.
+	 * @param packedLight The packed light.
+	 * @param packedOverlay The packed overlay.
 	 * @param red The red color value.
 	 * @param green The green color value.
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void preRender(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void preRender(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		compileTextureIfNeeded(entity, info);
 
 		if (modelPart != null) {
-			modelPart.setupAnim(entity, entity.animationPosition, entity.animationSpeed, partialTicks, info.getSubType(), entity.getXRot());
-			modelPart.prepareMobModel(entity, entity.animationPosition, entity.animationSpeed, partialTicks);
+			modelPart.setupAnim(entity, entity.animationPosition, entity.animationSpeed, partialTick, info.getSubType(), entity.getXRot());
+			modelPart.prepareMobModel(entity, entity.animationPosition, entity.animationSpeed, partialTick);
 		}
 
-		RenderHelperManager.applyRenderHelpers(poseStack, entity, this, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		RenderHelperManager.applyRenderHelpers(poseStack, entity, this, info, bufferSource, buffer, x, y, z, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	/**
@@ -86,19 +86,19 @@ public class PartRenderer {
 	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
-	 * @param bufferIn The {@link MultiBufferSource} to retrieve an {@link VertexConsumer} from.
+	 * @param bufferSource The {@link MultiBufferSource} to retrieve an {@link VertexConsumer} from.
 	 * @param x The x location.
 	 * @param y The y location.
 	 * @param z The z location.
-	 * @param partialTicks The current partial ticks.
-	 * @param packedLightIn The packed light.
-	 * @param packedOverlayIn The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
+	 * @param partialTick The current partial ticks.
+	 * @param packedLight The packed light.
+	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param red The red color value.
 	 * @param green The green color value.
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
 			compileTextureIfNeeded(entity, info);
 
@@ -111,9 +111,9 @@ public class PartRenderer {
 			if (type == null) return;
 
 			alpha = visibleToPlayer && alpha == 1F ? 0.15F : alpha;
-			final VertexConsumer buf = bufferIn.getBuffer(type);
+			final VertexConsumer buf = bufferSource.getBuffer(type);
 
-			render(poseStack, entity, info, bufferIn, buf, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			render(poseStack, entity, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
 		}
 	}
 
@@ -122,26 +122,26 @@ public class PartRenderer {
 	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
-	 * @param bufferIn The buffer to retrieve buffers from.
-	 * @param builderIn The builder to draw to.
+	 * @param bufferSource The buffer to retrieve buffers from.
+	 * @param buffer The builder to draw to.
 	 * @param x The x location.
 	 * @param y The y location.
 	 * @param z The z location.
-	 * @param partialTicks The current partial ticks.
-	 * @param packedLightIn The packed light.
-	 * @param packedOverlayIn The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
+	 * @param partialTick The current partial ticks.
+	 * @param packedLight The packed light.
+	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param red The red color value.
 	 * @param green The green color value.
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
 			poseStack.pushPose();
 
-			preRender(poseStack, entity, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			preRender(poseStack, entity, info, bufferSource, buffer, x, y, z, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
 
-			doRender(poseStack, entity, info, builderIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			doRender(poseStack, entity, info, buffer, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
 
 			poseStack.popPose();
 		}
@@ -162,17 +162,17 @@ public class PartRenderer {
 	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
-	 * @param bufferIn The buffer to draw to.
+	 * @param buffer The buffer to draw to.
 	 * @param partialTicks The current partial ticks.
-	 * @param packedLightIn The packed light.
-	 * @param packedOverlayIn The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
+	 * @param packedLight The packed light.
+	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param red The red color value.
 	 * @param green The green color value.
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer buffer, float partialTicks, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		if (modelPart != null)
-			modelPart.render(poseStack, bufferIn, entity, packedLightIn, packedOverlayIn, red, green, blue, alpha, info.getSubType(), partialTicks);
+			modelPart.render(poseStack, buffer, entity, packedLight, packedOverlay, red, green, blue, alpha, info.getSubType(), partialTicks);
 	}
 }

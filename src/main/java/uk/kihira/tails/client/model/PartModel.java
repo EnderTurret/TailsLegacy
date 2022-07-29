@@ -39,18 +39,18 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	/**
 	 * Renders the tail with the optional parts list provided
 	 * @param poseStack The {@link PoseStack} to use for transformations.
-	 * @param bufferIn The buffer to draw to.
+	 * @param buffer The buffer to draw to.
 	 * @param entity The entity the part is attached to.
-	 * @param packedLightIn The packed light.
-	 * @param packedOverlayIn The packed overlay.
+	 * @param packedLight The packed light.
+	 * @param packedOverlay The packed overlay.
 	 * @param red The red color value.
 	 * @param green The green color value.
 	 * @param blue The blue color value.
 	 * @param alpha The alpha color value.
 	 * @param subtype The subtype.
-	 * @param partialTicks The partial ticks.
+	 * @param partialTick The partial tick.
 	 */
-	public abstract void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks);
+	public abstract void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick);
 
 	public List<PartConfiguration> getParts(PartInfo info) {
 		return config == null ? List.of() : List.of(config);
@@ -58,10 +58,10 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 	@Override
 	@Deprecated
-	public final void renderToBuffer(PoseStack poseStack, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {}
+	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {}
 
 	@Override
-	public void setupAnim(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {}
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {}
 
 	/**
 	 * Sets the rotation on a model where the provided params are in radians

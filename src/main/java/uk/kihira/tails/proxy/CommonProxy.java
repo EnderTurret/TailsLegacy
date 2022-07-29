@@ -52,7 +52,6 @@ public class CommonProxy {
 	 */
 	public void init() {
 		registerMessages();
-		MinecraftForge.EVENT_BUS.register(new ServerEventHandler());
 	}
 
 	/**

@@ -18,20 +18,23 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.profiling.ProfilerFiller;
 
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
+import uk.kihira.tails.common.Tails;
+
+@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ToastManager {
 
 	public static final ToastManager INSTANCE = new ToastManager();
 
 	private final ArrayList<Toast> toasts = new ArrayList<>();
 
-	private ToastManager() {
-		MinecraftForge.EVENT_BUS.register(this);
-	}
+	private ToastManager() {}
 
 	public void createToast(int x, int y, Component text) {
 		final Font fontRenderer = Minecraft.getInstance().font;
@@ -51,9 +54,9 @@ public class ToastManager {
 	}
 
 	@SubscribeEvent
-	public void onClientTickPost(TickEvent.ClientTickEvent event) {
+	static void onClientTickPost(TickEvent.ClientTickEvent event) {
 		if (event.phase == TickEvent.Phase.END) {
-			final Iterator<Toast> toasts = this.toasts.iterator();
+			final Iterator<Toast> toasts = INSTANCE.toasts.iterator();
 			while (toasts.hasNext()) {
 				final Toast toast = toasts.next();
 				toast.time--;
@@ -63,10 +66,10 @@ public class ToastManager {
 	}
 
 	@SubscribeEvent
-	public void onDrawScreenPost(ScreenEvent.Render.Post event) {
+	static void onDrawScreenPost(ScreenEvent.Render.Post event) {
 		final ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
 		profiler.push("toastNotification");
-		for (Toast toast : toasts)
+		for (Toast toast : INSTANCE.toasts)
 			toast.drawToast(event.getPoseStack(), event.getMouseX(), event.getMouseY());
 		profiler.pop();
 	}

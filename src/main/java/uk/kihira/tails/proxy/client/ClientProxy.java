@@ -58,7 +58,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init() {
 		registerMessages();
-		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		libraryManager = new ClientLibraryManager();
 
 		RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper());

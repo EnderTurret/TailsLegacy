@@ -19,6 +19,7 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.common.Tails;
@@ -26,16 +27,17 @@ import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.proxy.CommonProxy;
 
 @OnlyIn(Dist.CLIENT)
+@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientEventHandler {
 
-	private boolean sentPartInfoToServer = false;
-	private boolean clearAllPartInfo = false;
+	private static boolean sentPartInfoToServer = false;
+	private static boolean clearAllPartInfo = false;
 
 	/*
 	 * Tails Editor Button
 	 */
 	@SubscribeEvent
-	public void onScreenInitPost(ScreenEvent.Init.Post event) {
+	static void onScreenInitPost(ScreenEvent.Init.Post event) {
 		if (event.getScreen() instanceof PauseScreen)
 			event.addListener(new Button(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, Component.translatable("tails.gui.button.editor"), b -> {
 				Minecraft.getInstance().setScreen(new EditorScreen());
@@ -46,14 +48,14 @@ public class ClientEventHandler {
 	 * Tails Syncing
 	 */
 	@SubscribeEvent
-	public void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
+	static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
 		// Add local player texture to map.
 		if (Tails.localPartsData != null)
 			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), Tails.localPartsData);
 	}
 
 	@SubscribeEvent
-	public void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
+	static void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
 		// TODO: Do we need to defer these?
 		sentPartInfoToServer = false;
 		clearAllPartInfo = true;
@@ -62,7 +64,7 @@ public class ClientEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent e) {
+	static void onClientTick(TickEvent.ClientTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			if (clearAllPartInfo) {
 				Tails.PROXY.clearAllPartsData();
@@ -80,7 +82,7 @@ public class ClientEventHandler {
 	}
 
 	/*@SubscribeEvent
-	public void onRenderWorldLast(RenderLevelStageEvent e) {
+	static void onRenderWorldLast(RenderLevelStageEvent e) {
 		if (e.getStage() != RenderLevelStageEvent.Stage.AFTER_SOLID_BLOCKS)
 			return;
 

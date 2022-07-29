@@ -56,23 +56,24 @@ public class TripleTintTexture extends AbstractTexture {
 		{
 			if (texturename != null)
 			{
-				final InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).getInputStream();
-				final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
+				try (InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).get().open()) {
+					final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
 
-				for (int x = 0; x < texture.getWidth(); x++)
-					for (int y = 0; y < texture.getHeight(); y++) {
-						final int rgb = texture.getPixelRGBA(x, y);
-						final int a = getA(rgb);
-						if (a == 0) continue;
-						final int r = getR(rgb);
-						final int g = getG(rgb);
-						final int b = getB(rgb);
+					for (int x = 0; x < texture.getWidth(); x++)
+						for (int y = 0; y < texture.getHeight(); y++) {
+							final int rgb = texture.getPixelRGBA(x, y);
+							final int a = getA(rgb);
+							if (a == 0) continue;
+							final int r = getR(rgb);
+							final int g = getG(rgb);
+							final int b = getB(rgb);
 
-						texture.setPixelRGBA(x, y, colorise(r, tint1, g, tint2, b, tint3, a));
-					}
+							texture.setPixelRGBA(x, y, colorise(r, tint1, g, tint2, b, tint3, a));
+						}
 
-				TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
-				texture.upload(0, 0, 0, true);
+					TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
+					texture.upload(0, 0, 0, true);
+				}
 			}
 		}
 		catch (IOException ioexception)

@@ -26,7 +26,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
-import net.minecraftforge.client.gui.GuiUtils;
+import net.minecraftforge.client.gui.ScreenUtils;
+
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -61,7 +62,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 		if (visible) {
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
-			GuiUtils.drawContinuousTexturedBox(matrixStack, WIDGETS_LOCATION, x, y, 0, 46, width, height, 200, 20, 2, 3, 2, 2, getBlitOffset());
+			ScreenUtils.blitWithBorder(matrixStack, WIDGETS_LOCATION, x, y, 0, 46, width, height, 200, 20, 2, 3, 2, 2, getBlitOffset());
 			RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 
 			if (type == HSBSliderType.SATURATION) {

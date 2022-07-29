@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import uk.kihira.tails.common.part.PartInfo;
 
@@ -48,7 +49,7 @@ public class PartConfiguration {
 		return visible;
 	}
 
-	public ModelPart randomPart(Random rand) {
+	public ModelPart randomPart(RandomSource rand) {
 		return visible[rand.nextInt(visible.length)];
 	}
 
@@ -73,7 +74,7 @@ public class PartConfiguration {
 		}
 
 		@Override
-		public ModelPart randomPart(Random rand) {
+		public ModelPart randomPart(RandomSource rand) {
 			return model.getRandomModelPart(rand);
 		}
 	}

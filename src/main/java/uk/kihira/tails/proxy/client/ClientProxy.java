@@ -99,7 +99,8 @@ public class ClientProxy extends CommonProxy {
 
 		// Make a context here because the event doesn't have one even though it's literally three lines away.
 		final EntityRendererProvider.Context ctx = new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),
-				mc.getItemRenderer(), mc.getResourceManager(), mc.getEntityModels(), mc.font);
+				mc.getItemRenderer(), mc.getBlockRenderer(), mc.getEntityRenderDispatcher().getItemInHandRenderer(),
+				mc.getResourceManager(), mc.getEntityModels(), mc.font);
 
 		for (EntityRenderer<? extends Player> renderer : skinMap.values()) {
 			final PlayerRenderer renderer2 = (PlayerRenderer) renderer;

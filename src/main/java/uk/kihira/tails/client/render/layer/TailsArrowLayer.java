@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import uk.kihira.tails.client.PartRenderRegistry;
@@ -74,7 +75,7 @@ public class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> e
 		final int stuck = numStuck(entity);
 
 		if (stuck > 0) {
-			final Random rand = new Random(entity.getId());
+			final RandomSource rand = RandomSource.create(entity.getId());
 			final PartsData data = getPartData(entity);
 			final List<PartConfig> configurations = getConfigurations(data, entity);
 

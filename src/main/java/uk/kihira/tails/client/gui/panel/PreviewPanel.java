@@ -74,18 +74,16 @@ public class PreviewPanel extends Panel<EditorScreen> {
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 		if (button == 0) {
 			// Yaw
-			if (prevMouseX == -1) prevMouseX = mouseX;
-			else {
+			if (prevMouseX != -1)
 				yaw += (mouseX - prevMouseX) * 1.5F;
-				prevMouseX = mouseX;
-			}
 			// Pitch
-			if (prevMouseY == -1) prevMouseY = mouseY;
-			else {
+			if (prevMouseY != -1) {
 				pitch += (mouseY - prevMouseY) * 0.1F;
 				pitch = Mth.clamp(pitch, 6, 10);
-				prevMouseY = mouseY;
 			}
+
+			prevMouseX = mouseX;
+			prevMouseY = mouseY;
 		}
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}

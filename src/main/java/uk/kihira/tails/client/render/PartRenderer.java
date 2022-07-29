@@ -151,10 +151,9 @@ public class PartRenderer {
 	protected RenderType getRenderType(LivingEntity entity, ResourceLocation tex, boolean visible, boolean visibleToPlayer, boolean glowing) {
 		if (visibleToPlayer)
 			return RenderType.itemEntityTranslucentCull(tex);
-		else if (visible)
+		if (visible)
 			return RenderType.entityCutoutNoCull(tex);
-		else
-			return glowing ? RenderType.outline(tex) : null;
+		return glowing ? RenderType.outline(tex) : null;
 	}
 
 	/**

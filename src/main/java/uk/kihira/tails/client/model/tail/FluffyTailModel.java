@@ -225,9 +225,9 @@ public class FluffyTailModel extends PartModel {
 
 		if (subtype == 0)
 			return single;
-		else if (subtype == 1)
+		if (subtype == 1)
 			return twin;
-		else if (subtype == 2)
+		if (subtype == 2)
 			return nine;
 
 		return List.of();

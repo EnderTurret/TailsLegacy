@@ -153,13 +153,13 @@ public class LibraryPanel extends Panel<EditorScreen> {
 
 			if (entry1 instanceof LibraryListEntry.NewLibraryListEntry)
 				return -1;
-			else if (entry2 instanceof LibraryListEntry.NewLibraryListEntry)
+			if (entry2 instanceof LibraryListEntry.NewLibraryListEntry)
 				return 1;
 
 			// Put favorites at the top.
 			if (entry1.data.favourite && !entry2.data.favourite)
 				return -1;
-			else if (!entry1.data.favourite && entry2.data.favourite)
+			if (!entry1.data.favourite && entry2.data.favourite)
 				return 1;
 
 			return 0;

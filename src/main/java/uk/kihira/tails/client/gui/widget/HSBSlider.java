@@ -148,14 +148,16 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 		final float f = 0.00390625F;
 		final float f1 = 0.00390625F;
 		final PoseStack.Pose e = matrixStack.last();
-		final BufferBuilder renderer = Tesselator.getInstance().getBuilder();
+		final Tesselator tess = Tesselator.getInstance();
+		final BufferBuilder renderer = tess.getBuilder();
 		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 		renderer.vertex(e.pose(), x + 0,			y + tarHeight,	getBlitOffset()).uv((u + 0) * f, (v + srcHeight) * f1).endVertex();
 		renderer.vertex(e.pose(), x + tarWidth,	y + tarHeight,	getBlitOffset()).uv((u + srcWidth) * f, (v + srcHeight) * f1).endVertex();
 		renderer.vertex(e.pose(), x + tarWidth,	y + 0,			getBlitOffset()).uv((u + srcWidth) * f, (v + 0) * f1).endVertex();
 		renderer.vertex(e.pose(), x + 0,			y + 0,			getBlitOffset()).uv((u + 0) * f, (v + 0) * f1).endVertex();
-		renderer.end();
-		BufferUploader.end(renderer);
+		//renderer.end();
+		tess.end();
+		//BufferUploader.end(renderer);
 	}
 
 	@Override

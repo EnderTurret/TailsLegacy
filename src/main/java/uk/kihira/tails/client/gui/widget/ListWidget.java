@@ -24,8 +24,7 @@ import uk.kihira.tails.client.RenderHelper;
  */
 public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSelectionList<T> {
 
-	// TODO: IListCallback isn't actually used for some reason. Nothing seems to be broken, and it looks like selection callbacks occur in the list elements, so consider removing?
-	public ListWidget(IListCallback<T> parent, int width, int height, int top, int bottom, int slotHeight, List<T> entries) {
+	public ListWidget(int width, int height, int top, int bottom, int slotHeight, List<T> entries) {
 		super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
 		replaceEntries(entries);
 	}
@@ -34,11 +33,9 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		RenderHelper.startGlScissor(x0, y0, width + 3, height);
 		try {
-			// TODO: Lists draw the dirt background. How do we want to handle this? Copy the code and draw black instead? Or adopt it in other panels?
-			// Alternatively, we could just ignore it, as it is very subtle.
 			super.render(matrixStack, mouseX, mouseY, partialTicks);
 		} catch (IndexOutOfBoundsException e) {
-			// Thanks mojang.
+			// Thanks Mojang.
 		}
 		RenderHelper.endGlScissor();
 	}

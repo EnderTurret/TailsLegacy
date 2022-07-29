@@ -21,14 +21,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
-import uk.kihira.tails.client.gui.widget.IListCallback;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.RelativeTextField;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
-public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<LibraryListEntry> {
+public class LibraryPanel extends Panel<EditorScreen> {
 
 	private static final LibrarySorter SORTER = new LibrarySorter();
 	private ListWidget<LibraryListEntry> list;
@@ -96,15 +95,6 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 		return value;
 	}
 
-	@Override
-	public boolean onEntrySelected(ListWidget<LibraryListEntry> guiList, int index, LibraryListEntry entry) {
-		if (!(entry instanceof LibraryListEntry.NewLibraryListEntry)) {
-			parent.getLibraryInfoPanel().setEntry(entry);
-			parent.setPartsData(entry.data.partsData.deepCopy());
-		}
-		return true;
-	}
-
 	public void initList() {
 		final List<LibraryListEntry> libraryEntries = new ArrayList<>();
 		for (LibraryEntryData data : Tails.PROXY.getLibraryManager().libraryEntries)
@@ -116,7 +106,7 @@ public class LibraryPanel extends Panel<EditorScreen> implements IListCallback<L
 		libraryEntries.sort(SORTER);
 
 		removeWidget(list);
-		addWidget(list = new ListWidget<>(this, right - left, bottom - top - 34, 0, bottom - top - 34, 50, libraryEntries));
+		addWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, bottom - top - 34, 50, libraryEntries));
 	}
 
 	public void addSelectedEntry(LibraryListEntry entry) {

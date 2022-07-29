@@ -30,7 +30,6 @@ import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.gui.EditorScreen;
-import uk.kihira.tails.client.gui.widget.IListCallback;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderStates;
@@ -39,7 +38,7 @@ import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 
-public class PartsPanel extends Panel<EditorScreen> implements IListCallback<PartsPanel.PartEntry> {
+public class PartsPanel extends Panel<EditorScreen> {
 
 	private ListWidget<PartEntry> partList;
 	private Button partTypeButton;
@@ -92,8 +91,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			entry.partInfo.setTexture(null);
 	}
 
-	@Override
-	public boolean onEntrySelected(ListWidget<PartEntry> guiList, int index, PartEntry entry) {
+	public boolean onEntrySelected(int index, PartEntry entry) {
 		final PartInfo oldInfo = parent.getEditingPartInfo();
 		final int subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : 0;
 		// Reset texture ID.
@@ -124,7 +122,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		}
 
 		this.removeWidget(this.partList);
-		this.partList = new ListWidget<>(this, 108, bottom - top - listTop, listTop, bottom - top, 55, partList);
+		this.partList = new ListWidget<>(108, bottom - top - listTop, listTop, bottom - top, 55, partList);
 		addWidget(this.partList);
 		selectDefaultListEntry();
 	}
@@ -136,7 +134,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
 					&& entry.partInfo.getPart() == partInfo.getPart()) {
 				partList.setSelected(entry);
-				onEntrySelected(partList, partList.children().indexOf(entry), entry);
+				onEntrySelected(partList.children().indexOf(entry), entry);
 				break;
 			}
 	}
@@ -206,7 +204,7 @@ public class PartsPanel extends Panel<EditorScreen> implements IListCallback<Par
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int button) {
 			partList.setSelected(this);
-			onEntrySelected(partList, partList.children().indexOf(this), this);
+			onEntrySelected(partList.children().indexOf(this), this);
 			return true;
 		}
 

@@ -80,45 +80,48 @@ public class ClientEventHandler {
 	}
 
 	/*@SubscribeEvent
-	public void onRenderWorldLast(RenderLevelLastEvent e) {
-		final PlayerEntity player = Minecraft.getInstance().player;
+	public void onRenderWorldLast(RenderLevelStageEvent e) {
+		if (e.getStage() != RenderLevelStageEvent.Stage.AFTER_SOLID_BLOCKS)
+			return;
+
+		final Player player = Minecraft.getInstance().player;
 		if (player == null) return;
 
-		final MatrixStack matrixStack = e.getMatrixStack();
+		final PoseStack poseStack = e.getPoseStack();
 
-		final Vector3d vec = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+		final Vec3 vec = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 
-		matrixStack.push();
-		matrixStack.translate(-vec.x, -vec.y, -vec.z);
+		poseStack.pushPose();
+		poseStack.translate(-vec.x, -vec.y, -vec.z);
 
-		matrixStack.push();
-		matrixStack.translate(1, 0, 1);
+		poseStack.pushPose();
+		poseStack.translate(1, 0, 1);
 
-		renderDebugPlayer(player, matrixStack, e.getPartialTicks());
+		renderDebugPlayer(player, poseStack, e.getPartialTick());
 
-		matrixStack.pop();
+		poseStack.popPose();
 
-		matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
+		poseStack.mulPose(Vector3f.YP.rotationDegrees(180F));
 
-		renderDebugPlayer(player, matrixStack, e.getPartialTicks());
+		renderDebugPlayer(player, poseStack, e.getPartialTick());
 
-		matrixStack.pop();
+		poseStack.popPose();
 	}
 
-	private static void renderDebugPlayer(PlayerEntity player, MatrixStack matrixStack, float partialTicks) {
-		final EntityRendererManager rendererManager = Minecraft.getInstance().getRenderManager();
-		final IRenderTypeBuffer.Impl impl = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+	private static void renderDebugPlayer(Player player, PoseStack poseStack, float partialTick) {
+		final EntityRenderDispatcher renderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+		final MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		try {
-			rendererManager.setRenderShadow(false);
+			renderDispatcher.setRenderShadow(false);
 
 			RenderSystem.runAsFancy(() -> {
-				rendererManager.renderEntityStatic(player, 0.5, 5, -0.5, 0f, partialTicks, matrixStack, impl, 15728880);
+				renderDispatcher.render(player, 0.5, 5, -0.5, 0f, partialTick, poseStack, buffers, 15728880);
 			});
 
-			impl.finish();
+			buffers.endBatch();
 
-			rendererManager.setRenderShadow(true);
+			renderDispatcher.setRenderShadow(true);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

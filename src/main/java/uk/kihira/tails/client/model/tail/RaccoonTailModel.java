@@ -61,8 +61,8 @@ public class RaccoonTailModel extends PartModel {
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 
 		if (entity.getVehicle() == null) {
-			if (entity instanceof Player) {
-				final double[] angles = getMotionAngles((Player) entity, partialTick);
+			if (entity instanceof Player player) {
+				final double[] angles = getMotionAngles(player, partialTick);
 
 				xAngleOffset = angles[0];
 				yAngleOffset = angles[1];

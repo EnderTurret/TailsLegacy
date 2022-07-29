@@ -74,8 +74,8 @@ public class CatTailModel extends PartModel {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getVehicle() == null) {
-			if (entity instanceof Player) {
-				final double[] angles = getMotionAngles((Player) entity, partialTick);
+			if (entity instanceof Player player) {
+				final double[] angles = getMotionAngles(player, partialTick);
 
 				xAngleOffset = Mth.clamp(angles[0] / 3.5, -1F, 0.33);
 				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.

@@ -37,7 +37,7 @@ public abstract class BaseScreen extends Screen {
 
 	public void renderTooltips(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		for (Widget btn : renderables)
-			if (btn instanceof ITooltip && btn instanceof GuiEventListener && ((GuiEventListener) btn).isMouseOver(mouseX, mouseY)) {
+			if (btn instanceof ITooltip && btn instanceof GuiEventListener listener && listener.isMouseOver(mouseX, mouseY)) {
 				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTick;
 				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
 

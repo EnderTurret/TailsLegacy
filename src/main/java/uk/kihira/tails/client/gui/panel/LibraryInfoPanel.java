@@ -123,17 +123,17 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		this.entry = entry;
 		if (entry == null) {
 			textField.setVisible(false);
-			for (Widget button : renderables)
-				if (button instanceof AbstractWidget)
-					((AbstractWidget) button).visible = false;
+			for (Widget renderable : renderables)
+				if (renderable instanceof AbstractWidget widget)
+					widget.visible = false;
 		}
 		else {
 			favButton.toggled = entry.data.favourite;
 			textField.setVisible(true);
 			textField.setValue(entry.data.entryName);
-			for (Widget button : renderables)
-				if (button instanceof AbstractWidget)
-					((AbstractWidget) button).visible = true;
+			for (Widget renderable : renderables)
+				if (renderable instanceof AbstractWidget widget)
+					widget.visible = true;
 		}
 	}
 

@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.render;
+package uk.kihira.tails.client.render.layer;
 
 import java.util.UUID;
 
@@ -23,13 +23,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.Part;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
-// TODO: Move to layer/
 @OnlyIn(Dist.CLIENT)
 public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
 

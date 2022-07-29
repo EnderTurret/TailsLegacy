@@ -115,7 +115,7 @@ public class ClientProxy extends CommonProxy {
 				// If other mods do this exact same thing, let them take precedence.
 				// If it's just an ArrowLayer mixin, then sucks for them.
 				if (renderer2.layers.get(i).getClass() == ArrowLayer.class) {
-					renderer2.layers.set(i, new TailsArrowLayer(ctx, renderer2));
+					renderer2.layers.set(i, new TailsArrowLayer<>(ctx, renderer2));
 					break;
 				}
 		}

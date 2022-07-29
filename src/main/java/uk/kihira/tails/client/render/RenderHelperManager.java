@@ -66,6 +66,7 @@ public class RenderHelperManager {
 		return helpers;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends LivingEntity> void applyRenderHelpers(PoseStack poseStack, T entity, PartRenderer renderer, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		// TODO: Should we be doing this?
 		final List<IRenderHelper<?>> helpers = entity instanceof Player ? getRenderHelpers(Player.class) : getRenderHelpers(entity.getClass());

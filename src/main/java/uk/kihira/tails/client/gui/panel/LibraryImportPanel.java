@@ -36,7 +36,6 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void init() {
 		addRenderableWidget(new ExtendedButton(3, 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), b -> {
 			if (Strings.isNullOrEmpty(inputField.getValue()) || inputField.getValue().split(":", 3).length != 3)

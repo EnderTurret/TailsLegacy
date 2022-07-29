@@ -204,7 +204,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		refreshTintPane();
 	}
 
-	private int getColourAtPoint(double x, double y) {
+	private static int getColourAtPoint(double x, double y) {
 		// TODO: Fix color picking.
 		return 0xFF0000;
 		/*final ByteBuffer pixelBuffer = BufferUtils.createByteBuffer(3);

@@ -93,19 +93,6 @@ public class SharkTailModel extends PartModel {
 				.setParents(finBot3, tailBase, tail1, tail2, tail3, finBase, finBot1, finBot2);
 	}
 
-	/**
-	 * A helper function from Tabula to set the rotation of model parts.
-	 * @param modelRenderer The {@link ModelPart} to set rotation angles of.
-	 * @param x The x rotation angle.
-	 * @param y The y rotation angle.
-	 * @param z The z rotation angle.
-	 */
-	public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-		modelRenderer.xRot = x;
-		modelRenderer.yRot = y;
-		modelRenderer.zRot = z;
-	}
-
 	@Override
 	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float subtype, float headPitch) {
 		double xAngleOffset = 0;

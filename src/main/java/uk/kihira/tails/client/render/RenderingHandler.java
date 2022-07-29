@@ -20,6 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
+// TODO Remove?
 public class RenderingHandler {
 
 	public static RenderPlayerEvent.Pre currentEvent = null;

@@ -38,7 +38,7 @@ public interface IRenderHelper<T extends LivingEntity> {
 	 * @param x The x position.
 	 * @param y The y position.
 	 * @param z The z position.
-	 * @param partialTicks The partial ticks.
+	 * @param partialTick The partial ticks.
 	 * @param packedLight The packed light value.
 	 * @param packedOverlay The packed overlay value.
 	 * @param red The red color value.
@@ -46,5 +46,5 @@ public interface IRenderHelper<T extends LivingEntity> {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void onPreRenderTail(PoseStack poseStack, T entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTicks, int packedLight, int packedOverlay, float red, float green, float blue, float alpha);
+	public void onPreRenderTail(PoseStack poseStack, T entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha);
 }

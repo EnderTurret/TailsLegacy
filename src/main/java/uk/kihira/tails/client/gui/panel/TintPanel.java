@@ -102,7 +102,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		setBlitOffset(-100);
 		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
@@ -124,10 +124,10 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 
 			font.draw(poseStack, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
 
-			hexText.render(poseStack, mouseX, mouseY, partialTicks);
+			hexText.render(poseStack, mouseX, mouseY, partialTick);
 		}
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 
 	protected void handleTintButton(int id) {

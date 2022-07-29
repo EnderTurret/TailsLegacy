@@ -35,10 +35,10 @@ public abstract class BaseScreen extends Screen {
 		super(title);
 	}
 
-	public void renderTooltips(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderTooltips(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		for (Widget btn : renderables)
 			if (btn instanceof ITooltip && btn instanceof GuiEventListener && ((GuiEventListener) btn).isMouseOver(mouseX, mouseY)) {
-				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTicks;
+				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTick;
 				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
 
 				renderTooltip(poseStack, ((ITooltip) btn).getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY, font);
@@ -104,7 +104,7 @@ public abstract class BaseScreen extends Screen {
 		}
 
 		@Override
-		public void renderButton(PoseStack poseStack, int x, int y, float partialTicks) {
+		public void renderButton(PoseStack poseStack, int x, int y, float partialTick) {
 			final List<FormattedCharSequence> list = new ArrayList<>(tooltip);
 			list.add(!active ? Component.literal("Enabled").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC).getVisualOrderText() : Component.literal("Disabled").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC).getVisualOrderText());
 			BaseScreen.this.renderTooltip(poseStack, list, x, y, font);

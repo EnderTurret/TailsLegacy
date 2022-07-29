@@ -163,7 +163,7 @@ public class PartRenderer {
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
 	 * @param buffer The buffer to draw to.
-	 * @param partialTicks The current partial ticks.
+	 * @param partialTick The current partial tick.
 	 * @param packedLight The packed light.
 	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param red The red color value.
@@ -171,8 +171,8 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer buffer, float partialTicks, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		if (modelPart != null)
-			modelPart.render(poseStack, buffer, entity, packedLight, packedOverlay, red, green, blue, alpha, info.getSubType(), partialTicks);
+			modelPart.render(poseStack, buffer, entity, packedLight, packedOverlay, red, green, blue, alpha, info.getSubType(), partialTick);
 	}
 }

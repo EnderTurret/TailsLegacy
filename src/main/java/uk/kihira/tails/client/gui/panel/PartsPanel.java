@@ -71,7 +71,7 @@ public class PartsPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		setBlitOffset(-100);
 		fillGradient(poseStack, 0, 0, right - left, listTop, 0xEA000000, 0xEA000000);
 
@@ -81,9 +81,9 @@ public class PartsPanel extends Panel<EditorScreen> {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		drawCenteredString(poseStack, font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 		// Tails list
-		partList.render(poseStack, mouseX, mouseY, partialTicks);
+		partList.render(poseStack, mouseX, mouseY, partialTick);
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public class PartsPanel extends Panel<EditorScreen> {
 			}
 	}
 
-	private void renderPart(PoseStack poseStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTicks) {
+	private void renderPart(PoseStack poseStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTick) {
 		final PartRenderer renderer = PartRenderRegistry.getRenderer(partInfo.getPart());
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 
@@ -157,7 +157,7 @@ public class PartsPanel extends Panel<EditorScreen> {
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 		final VertexConsumer consumer = impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture()));
 
-		renderer.render(poseStack, fakeEntity, partInfo, impl, consumer, 0, 0, 0, partialTicks, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
+		renderer.render(poseStack, fakeEntity, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 		impl.endBatch();
 
 		Lighting.setupFor3DItems();
@@ -174,13 +174,13 @@ public class PartsPanel extends Panel<EditorScreen> {
 		}
 
 		@Override
-		public void render(PoseStack poseStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+		public void render(PoseStack poseStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			setBlitOffset(0);
 
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
-				renderPart(poseStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTicks);
+				renderPart(poseStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
 				ClientUtils.drawStringMultiLine(poseStack, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {

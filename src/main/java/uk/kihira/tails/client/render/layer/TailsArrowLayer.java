@@ -71,7 +71,7 @@ public class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> e
 	}
 
 	@Override
-	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 		final int stuck = numStuck(entity);
 
 		if (stuck > 0) {
@@ -89,13 +89,13 @@ public class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> e
 				poseStack.pushPose();
 
 				if (config.renderer != null) {
-					RenderHelperManager.applyRenderHelpers(poseStack, entity, config.renderer, config.info, buffer, null, 0, 0, 0, partialTicks, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+					RenderHelperManager.applyRenderHelpers(poseStack, entity, config.renderer, config.info, buffer, null, 0, 0, 0, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
 
-					config.renderer.modelPart.setupAnim(entity, limbSwing, limbSwingAmount, partialTicks, config.info.getSubType(), headPitch);
-					config.renderer.modelPart.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
+					config.renderer.modelPart.setupAnim(entity, limbSwing, limbSwingAmount, partialTick, config.info.getSubType(), headPitch);
+					config.renderer.modelPart.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
 				}
 
-				config.config.translate(config.info, poseStack, partialTicks, entity, part);
+				config.config.translate(config.info, poseStack, partialTick, entity, part);
 
 				float xOffset = rand.nextFloat();
 				float yOffset = rand.nextFloat();
@@ -110,7 +110,7 @@ public class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> e
 				yOffset = -(yOffset * 2F - 1F);
 				zOffset = -(zOffset * 2F - 1F);
 
-				renderStuckItem(poseStack, buffer, packedLight, entity, xOffset, yOffset, zOffset, partialTicks);
+				renderStuckItem(poseStack, buffer, packedLight, entity, xOffset, yOffset, zOffset, partialTick);
 
 				poseStack.popPose();
 			}

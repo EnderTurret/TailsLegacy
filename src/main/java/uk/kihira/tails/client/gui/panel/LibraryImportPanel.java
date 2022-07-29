@@ -67,9 +67,9 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xDE000000, 0xDE000000);
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 }

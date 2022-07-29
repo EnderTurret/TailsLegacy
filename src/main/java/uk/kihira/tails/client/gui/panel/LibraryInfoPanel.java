@@ -73,7 +73,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		setBlitOffset(0);
 		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
@@ -83,7 +83,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 		fillGradient(poseStack, 3, 3, right - left - 3, bottom - top - 3, 0xFF000000, 0xFF000000);
 
 		if (entry != null) {
-			textField.render(poseStack, mouseX, mouseY, partialTicks);
+			textField.render(poseStack, mouseX, mouseY, partialTick);
 
 			font.draw(poseStack, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
 			font.draw(poseStack, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
@@ -92,7 +92,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			font.draw(poseStack, date, right - left - 5 - font.width(date), bottom - top - 32, 0xAAAAAA);
 		}
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 
 	@Override

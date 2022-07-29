@@ -58,15 +58,15 @@ public class LibraryPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		setBlitOffset(-100);
 		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
-		list.render(poseStack, mouseX, mouseY, partialTicks);
+		list.render(poseStack, mouseX, mouseY, partialTick);
 
 		setBlitOffset(0);
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
 		setBlitOffset(30);
 

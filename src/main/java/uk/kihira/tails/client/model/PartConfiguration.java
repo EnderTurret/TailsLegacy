@@ -53,8 +53,8 @@ public class PartConfiguration {
 		return visible[rand.nextInt(visible.length)];
 	}
 
-	public void translate(PartInfo info, PoseStack poseStack, float partialTicks, LivingEntity entity, ModelPart part) {
-		translator.translate(info, poseStack, partialTicks, entity);
+	public void translate(PartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity, ModelPart part) {
+		translator.translate(info, poseStack, partialTick, entity);
 
 		for (ModelPart part2 : parents.getOrDefault(part, visible())) {
 			if (part2 == part) break;
@@ -81,8 +81,8 @@ public class PartConfiguration {
 
 	public static interface Translator {
 
-		public static final Translator EMPTY = (info, poseStack, partialTicks, entity) -> {};
+		public static final Translator EMPTY = (info, poseStack, partialTick, entity) -> {};
 
-		public void translate(PartInfo info, PoseStack poseStack, float partialTicks, LivingEntity entity);
+		public void translate(PartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity);
 	}
 }

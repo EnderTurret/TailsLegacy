@@ -39,7 +39,7 @@ public class IconButton extends Button implements ITooltip {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		if (visible) {
 			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
@@ -84,7 +84,7 @@ public class IconButton extends Button implements ITooltip {
 		}
 
 		@Override
-		public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+		public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 			if (visible && toggled) {
 				RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -94,7 +94,7 @@ public class IconButton extends Button implements ITooltip {
 				isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 				blit(poseStack, x, y, icon.u, icon.v + 32, 16, 16);
 			} else
-				super.renderButton(poseStack, mouseX, mouseY, partialTicks);
+				super.renderButton(poseStack, mouseX, mouseY, partialTick);
 		}
 	}
 

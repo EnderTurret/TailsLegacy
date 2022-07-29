@@ -46,7 +46,7 @@ public class TexturePanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		final PartInfo partInfo = parent.getEditingPartInfo();
 
 		setBlitOffset(-10);
@@ -64,7 +64,7 @@ public class TexturePanel extends Panel<EditorScreen> {
 		final String variantLangKey = partInfo.isEmpty() ? "tails.variant.none" : part.getTranslationKey() + ".variant." + partInfo.getSubType();
 		final String variantFormatted = I18n.get(variantLangKey);
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
 		if (texFormatted.equals(texLangKey)) {
 			fill(poseStack, 25, texSelectY + 4, 25 + font.width(texFormatted), texSelectY + 4 + font.lineHeight, 0xFFFFFFFF);

@@ -61,7 +61,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {}
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float subtype, float headPitch) {}
 
 	/**
 	 * Sets the rotation on a model where the provided params are in radians
@@ -100,7 +100,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2 * Math.PI);
 	}
 
-	protected double[] getMotionAngles(Player player, float partialTicks) {
+	protected double[] getMotionAngles(Player player, float partialTick) {
 		// TODO: When falling a large distance, tails tend move wildly up and down.
 		// This seems to be a problem with yo and yCloakO. Test with capes?
 		final double yCloakO = player.yCloakO;
@@ -108,12 +108,12 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		final double yo = player.yo;
 		final double y = player.getY();
 
-		final double xMotion = player.xCloakO + (player.xCloak - player.xCloakO) * partialTicks - (player.xo + (player.getX() - player.xo) * partialTicks);
-		final double yMotion = yCloakO + (yCloak - yCloakO) * partialTicks
-				- (yo + (y - yo) * partialTicks); // Positive when falling, negative when climbing
-		final double zMotion = player.zCloakO + (player.zCloak - player.zCloakO) * partialTicks - (player.zo + (player.getZ() - player.zo) * partialTicks);
+		final double xMotion = player.xCloakO + (player.xCloak - player.xCloakO) * partialTick - (player.xo + (player.getX() - player.xo) * partialTick);
+		final double yMotion = yCloakO + (yCloak - yCloakO) * partialTick
+				- (yo + (y - yo) * partialTick); // Positive when falling, negative when climbing
+		final double zMotion = player.zCloakO + (player.zCloak - player.zCloakO) * partialTick - (player.zo + (player.getZ() - player.zo) * partialTick);
 
-		final float bodyYaw = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO) * partialTicks;
+		final float bodyYaw = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO) * partialTick;
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
 		final float bodyYawRads = radf(bodyYaw);
@@ -126,11 +126,11 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 		if (f1 < 0F) f1 = 0F;
 
-		return new double[] {rad(f1 / 2.5 + (xOffset + getTailBob(player, partialTicks))), rad(-f2 / 20), rad(f2 / 2)};
+		return new double[] {rad(f1 / 2.5 + (xOffset + getTailBob(player, partialTick))), rad(-f2 / 20), rad(f2 / 2)};
 	}
 
-	protected float getTailBob(Player player, float partialTicks) {
-		final float cameraYaw = player.oBob + (player.bob - player.oBob) * partialTicks;
-		return Mth.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTicks) * 6) * 12 * cameraYaw;
+	protected float getTailBob(Player player, float partialTick) {
+		final float cameraYaw = player.oBob + (player.bob - player.oBob) * partialTick;
+		return Mth.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTick) * 6) * 12 * cameraYaw;
 	}
 }

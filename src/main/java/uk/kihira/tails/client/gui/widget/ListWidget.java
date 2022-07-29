@@ -31,10 +31,10 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		RenderHelper.startGlScissor(x0, y0, width + 3, height);
 		try {
-			super.render(poseStack, mouseX, mouseY, partialTicks);
+			super.render(poseStack, mouseX, mouseY, partialTick);
 		} catch (IndexOutOfBoundsException e) {
 			// Thanks Mojang.
 		}

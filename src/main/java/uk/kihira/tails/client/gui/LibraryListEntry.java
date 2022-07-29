@@ -39,7 +39,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		final Font fontRenderer = Minecraft.getInstance().font;
 		fontRenderer.draw(poseStack, (data.partsData.equals(Tails.localPartsData) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
@@ -87,7 +87,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		}
 
 		@Override
-		public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+		public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 			Minecraft.getInstance().font.draw(poseStack, I18n.get("tails.gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
 		}
 

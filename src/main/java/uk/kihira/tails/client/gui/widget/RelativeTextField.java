@@ -35,9 +35,9 @@ public class RelativeTextField extends EditBox {
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		this.poseStack = poseStack;
-		super.renderButton(poseStack, mouseX, mouseY, partialTicks);
+		super.renderButton(poseStack, mouseX, mouseY, partialTick);
 		this.poseStack = null;
 	}
 

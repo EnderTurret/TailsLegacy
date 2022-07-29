@@ -86,14 +86,14 @@ public class ControlsPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		poseStack.pushPose();
 
 		poseStack.translate(0, 0, -400);
 
 		fill(poseStack, 0, 0, right - left, bottom - top, 0xDD000000);
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
 		poseStack.popPose();
 	}

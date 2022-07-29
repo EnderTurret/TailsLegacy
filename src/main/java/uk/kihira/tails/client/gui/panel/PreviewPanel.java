@@ -52,7 +52,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		if (!doRender)
 			return;
 		setBlitOffset(-900);
@@ -65,9 +65,9 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		// Player
 		drawEntity(left + width / 2, top + height / 2 + Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
 				Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
-				yaw, pitch, partialTicks, Minecraft.getInstance().player);
+				yaw, pitch, partialTick, Minecraft.getInstance().player);
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTicks, LivingEntity entity) {
+	private static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
 		final PoseStack poseStack = RenderSystem.getModelViewStack();
 
 		poseStack.pushPose();

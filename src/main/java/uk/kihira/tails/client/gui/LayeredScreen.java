@@ -55,7 +55,7 @@ public abstract class LayeredScreen extends BaseScreen {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		//int color = 0;
 
 		for (List<Panel<?>> layer : layers)
@@ -65,7 +65,7 @@ public abstract class LayeredScreen extends BaseScreen {
 					poseStack.translate(panel.left, panel.top, 0);
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-					panel.render(poseStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
+					panel.render(poseStack, mouseX - panel.left, mouseY - panel.top, partialTick);
 
 					/*if (color == -1) {
 						poseStack.translate(0, 0, 100);
@@ -88,7 +88,7 @@ public abstract class LayeredScreen extends BaseScreen {
 
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
@@ -97,7 +97,7 @@ public abstract class LayeredScreen extends BaseScreen {
 					poseStack.translate(panel.left, panel.top, 0);
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-					panel.renderTooltips(poseStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
+					panel.renderTooltips(poseStack, mouseX - panel.left, mouseY - panel.top, partialTick);
 
 					//RenderSystem.disableLighting();
 					poseStack.popPose();

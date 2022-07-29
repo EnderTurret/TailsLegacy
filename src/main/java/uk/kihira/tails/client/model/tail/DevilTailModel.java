@@ -75,14 +75,14 @@ public class DevilTailModel extends PartModel {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float subtype, float headPitch) {
 		final float seed = getAnimationTime(6000, entity);
 		final float xseed = getAnimationTime(12000, entity);
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getVehicle() == null) {
 			if (entity instanceof Player) {
-				final double[] angles = getMotionAngles((Player) entity, partialTicks);
+				final double[] angles = getMotionAngles((Player) entity, partialTick);
 
 				xAngleOffset = Mth.clamp(angles[0] / 3.5, -1, 0.275);
 				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.

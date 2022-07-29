@@ -53,7 +53,7 @@ public class RaccoonTailModel extends PartModel {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float subtype, float headPitch) {
 		final float timestep = getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
@@ -62,7 +62,7 @@ public class RaccoonTailModel extends PartModel {
 
 		if (entity.getVehicle() == null) {
 			if (entity instanceof Player) {
-				final double[] angles = getMotionAngles((Player) entity, partialTicks);
+				final double[] angles = getMotionAngles((Player) entity, partialTick);
 
 				xAngleOffset = angles[0];
 				yAngleOffset = angles[1];

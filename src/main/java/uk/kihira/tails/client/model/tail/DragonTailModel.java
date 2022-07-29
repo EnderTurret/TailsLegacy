@@ -83,12 +83,12 @@ public class DragonTailModel extends PartModel {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float subtype, float headPitch) {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getVehicle() == null) {
 			if (entity instanceof Player) {
-				final double[] angles = getMotionAngles((Player) entity, partialTicks);
+				final double[] angles = getMotionAngles((Player) entity, partialTick);
 
 				xAngleOffset = Mth.clamp(angles[0] / 5, -1, 0.45);
 				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.

@@ -31,47 +31,47 @@ public class WingRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(PoseStack matrixStack, LivingEntity entity, PartInfo info, VertexConsumer renderer, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer renderer, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		final boolean isFlying = entity instanceof Player && ((Player) entity).getAbilities().flying && entity.hasImpulse || entity.fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
 		final float angle = Mth.sin(timestep) * (isFlying ? 24F : 4F);
 		final float scale = info.getSubType() == 1 ? 1F : 2F;
 
-		matrixStack.pushPose();
+		poseStack.pushPose();
 
-		matrixStack.translate(0, -(scale * 8F) * PartModel.SCALE + (info.getSubType() == 1 ? 0.1F : 0), 0.1F);
-		matrixStack.mulPose(Vector3f.YP.rotationDegrees(90));
-		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(90));
-		matrixStack.scale(scale, scale, scale);
-		matrixStack.translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
+		poseStack.translate(0, -(scale * 8F) * PartModel.SCALE + (info.getSubType() == 1 ? 0.1F : 0), 0.1F);
+		poseStack.mulPose(Vector3f.YP.rotationDegrees(90));
+		poseStack.mulPose(Vector3f.ZP.rotationDegrees(90));
+		poseStack.scale(scale, scale, scale);
+		poseStack.translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
 
-		matrixStack.pushPose();
+		poseStack.pushPose();
 
-		matrixStack.translate(0F, 0F, 1F * PartModel.SCALE);
-		matrixStack.mulPose(Vector3f.XP.rotationDegrees(30F - angle));
-		Matrix4f m = matrixStack.last().pose();
-		Matrix3f n = matrixStack.last().normal();
+		poseStack.translate(0F, 0F, 1F * PartModel.SCALE);
+		poseStack.mulPose(Vector3f.XP.rotationDegrees(30F - angle));
+		Matrix4f m = poseStack.last().pose();
+		Matrix3f n = poseStack.last().normal();
 
 		renderer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
 		renderer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
 		renderer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
 		renderer.vertex(m, 0, 0, 0).color(red, green, blue, alpha).uv(0, 1).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
 
-		matrixStack.popPose();
+		poseStack.popPose();
 
-		matrixStack.pushPose();
+		poseStack.pushPose();
 
-		matrixStack.translate(0F, 0.3F * PartModel.SCALE, 0F);
-		matrixStack.mulPose(Vector3f.XP.rotationDegrees(-30F + angle));
-		m = matrixStack.last().pose();
-		n = matrixStack.last().normal();
+		poseStack.translate(0F, 0.3F * PartModel.SCALE, 0F);
+		poseStack.mulPose(Vector3f.XP.rotationDegrees(-30F + angle));
+		m = poseStack.last().pose();
+		n = poseStack.last().normal();
 		renderer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
 		renderer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
 		renderer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
 		renderer.vertex(m, 0, 0, 0).color(red, green, blue, alpha).uv(0, 1).overlayCoords(packedOverlayIn).uv2(packedLightIn).normal(n, 0, 0, 0).endVertex();
 
-		matrixStack.popPose();
+		poseStack.popPose();
 
-		matrixStack.popPose();
+		poseStack.popPose();
 	}
 }

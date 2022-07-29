@@ -85,7 +85,7 @@ public class RaccoonTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+		tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 }

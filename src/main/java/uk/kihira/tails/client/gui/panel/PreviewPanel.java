@@ -52,12 +52,12 @@ public class PreviewPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
 		if (!doRender)
 			return;
 		setBlitOffset(-900);
 		// Background
-		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
+		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		setBlitOffset(0);
@@ -67,7 +67,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 				Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
 				yaw, pitch, partialTicks, Minecraft.getInstance().player);
 
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTicks);
 	}
 
 	@Override
@@ -99,12 +99,12 @@ public class PreviewPanel extends Panel<EditorScreen> {
 
 	@SuppressWarnings("deprecation")
 	private static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTicks, LivingEntity entity) {
-		final PoseStack matrixStack = RenderSystem.getModelViewStack();
+		final PoseStack poseStack = RenderSystem.getModelViewStack();
 
-		matrixStack.pushPose();
+		poseStack.pushPose();
 
-		matrixStack.translate(x, y, 1050);
-		matrixStack.scale(1, 1, -1);
+		poseStack.translate(x, y, 1050);
+		poseStack.scale(1, 1, -1);
 
 		RenderSystem.applyModelViewMatrix();
 
@@ -158,7 +158,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		entity.yHeadRot = oldYHeadRot;
 		entity.yHeadRotO = oldYHeadRotO;
 
-		matrixStack.popPose();
+		poseStack.popPose();
 		RenderSystem.applyModelViewMatrix();
 		Lighting.setupFor3DItems();
 	}

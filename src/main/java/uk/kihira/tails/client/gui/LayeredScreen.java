@@ -55,52 +55,52 @@ public abstract class LayeredScreen extends BaseScreen {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
 		//int color = 0;
 
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
-					matrixStack.pushPose();
-					matrixStack.translate(panel.left, panel.top, 0);
+					poseStack.pushPose();
+					poseStack.translate(panel.left, panel.top, 0);
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-					panel.render(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
+					panel.render(poseStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
 
 					/*if (color == -1) {
-						matrixStack.translate(0, 0, 100);
+						poseStack.translate(0, 0, 100);
 
 						final int c = COLORS[color >= COLORS.length ? COLORS.length - 1 : color];
 
 						final int right = panel.right - panel.left;
 						final int bottom = panel.bottom - panel.top;
 
-						rect(matrixStack, 0, 0, right, bottom, c);
+						rect(poseStack, 0, 0, right, bottom, c);
 
-						font.drawStringWithShadow(matrixStack, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c);
+						font.drawStringWithShadow(poseStack, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c);
 					}
 
 					color++;*/
 
 					//RenderSystem.disableLighting();
-					matrixStack.popPose();
+					poseStack.popPose();
 				}
 
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTicks);
 
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
-					matrixStack.pushPose();
-					matrixStack.translate(panel.left, panel.top, 0);
+					poseStack.pushPose();
+					poseStack.translate(panel.left, panel.top, 0);
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-					panel.renderTooltips(matrixStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
+					panel.renderTooltips(poseStack, mouseX - panel.left, mouseY - panel.top, partialTicks);
 
 					//RenderSystem.disableLighting();
-					matrixStack.popPose();
+					poseStack.popPose();
 				}
 	}
 

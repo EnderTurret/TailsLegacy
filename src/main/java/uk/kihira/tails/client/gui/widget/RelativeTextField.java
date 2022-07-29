@@ -25,19 +25,20 @@ import net.minecraft.network.chat.Component;
  * Without this, the selection overlay will attempt to yeet itself as far off-screen as possible.
  * @author EnderTurret
  */
+// TODO Rename to RelativeEditBox
 public class RelativeTextField extends EditBox {
 
-	private PoseStack matrixStack;
+	private PoseStack poseStack;
 
 	public RelativeTextField(Font font, int x, int y, int width, int height, Component title) {
 		super(font, x, y, width, height, title);
 	}
 
 	@Override
-	public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		this.matrixStack = matrixStack;
-		super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
-		this.matrixStack = null;
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+		this.poseStack = poseStack;
+		super.renderButton(poseStack, mouseX, mouseY, partialTicks);
+		this.poseStack = null;
 	}
 
 	// Fixes TextFieldWidget#drawSelectionBox not taking into account MatrixStack transformations.
@@ -68,10 +69,10 @@ public class RelativeTextField extends EditBox {
 		RenderSystem.enableColorLogicOp();
 		RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
 		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
-		bufferbuilder.vertex(matrixStack.last().pose(), startX, endY, 0F).endVertex();
-		bufferbuilder.vertex(matrixStack.last().pose(), endX, endY, 0F).endVertex();
-		bufferbuilder.vertex(matrixStack.last().pose(), endX, startY, 0F).endVertex();
-		bufferbuilder.vertex(matrixStack.last().pose(), startX, startY, 0F).endVertex();
+		bufferbuilder.vertex(poseStack.last().pose(), startX, endY, 0F).endVertex();
+		bufferbuilder.vertex(poseStack.last().pose(), endX, endY, 0F).endVertex();
+		bufferbuilder.vertex(poseStack.last().pose(), endX, startY, 0F).endVertex();
+		bufferbuilder.vertex(poseStack.last().pose(), startX, startY, 0F).endVertex();
 		tessellator.end();
 		RenderSystem.disableColorLogicOp();
 		RenderSystem.enableTexture();

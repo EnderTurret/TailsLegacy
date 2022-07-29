@@ -54,7 +54,7 @@ public class PartRenderer {
 
 	/**
 	 * A pre-render callback for translation, rotation, and making sure the texture exists.
-	 * @param matrixStack The {@link PoseStack} to use for transformations.
+	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity that is about to be used for rendering.
 	 * @param info The {@link PartInfo} about to be rendered.
 	 * @param bufferIn The render type buffers. Usually obtained from {@link Minecraft#renderBuffers()}.
@@ -70,7 +70,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void preRender(PoseStack matrixStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void preRender(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		compileTextureIfNeeded(entity, info);
 
 		if (modelPart != null) {
@@ -78,12 +78,12 @@ public class PartRenderer {
 			modelPart.prepareMobModel(entity, entity.animationPosition, entity.animationSpeed, partialTicks);
 		}
 
-		RenderHelperManager.applyRenderHelpers(matrixStack, entity, this, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		RenderHelperManager.applyRenderHelpers(poseStack, entity, this, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	/**
 	 * Renders the given part on the given entity.
-	 * @param matrixStack The {@link PoseStack} to use for transformations.
+	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
 	 * @param bufferIn The {@link MultiBufferSource} to retrieve an {@link VertexConsumer} from.
@@ -98,7 +98,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack matrixStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
 			compileTextureIfNeeded(entity, info);
 
@@ -113,13 +113,13 @@ public class PartRenderer {
 			alpha = visibleToPlayer && alpha == 1F ? 0.15F : alpha;
 			final VertexConsumer buf = bufferIn.getBuffer(type);
 
-			render(matrixStack, entity, info, bufferIn, buf, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			render(poseStack, entity, info, bufferIn, buf, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		}
 	}
 
 	/**
 	 * Renders the given part on the given entity.
-	 * @param matrixStack The {@link PoseStack} to use for transformations.
+	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
 	 * @param bufferIn The buffer to retrieve buffers from.
@@ -135,15 +135,15 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack matrixStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
-			matrixStack.pushPose();
+			poseStack.pushPose();
 
-			preRender(matrixStack, entity, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			preRender(poseStack, entity, info, bufferIn, builderIn, x, y, z, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			doRender(matrixStack, entity, info, builderIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			doRender(poseStack, entity, info, builderIn, partialTicks, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-			matrixStack.popPose();
+			poseStack.popPose();
 		}
 	}
 
@@ -159,7 +159,7 @@ public class PartRenderer {
 
 	/**
 	 * Renders the given part on the given entity.
-	 * @param matrixStack The {@link PoseStack} to use for transformations.
+	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
 	 * @param info The {@link PartInfo}.
 	 * @param bufferIn The buffer to draw to.
@@ -171,8 +171,8 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	protected void doRender(PoseStack matrixStack, LivingEntity entity, PartInfo info, VertexConsumer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer bufferIn, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (modelPart != null)
-			modelPart.render(matrixStack, bufferIn, entity, packedLightIn, packedOverlayIn, red, green, blue, alpha, info.getSubType(), partialTicks);
+			modelPart.render(poseStack, bufferIn, entity, packedLightIn, packedOverlayIn, red, green, blue, alpha, info.getSubType(), partialTicks);
 	}
 }

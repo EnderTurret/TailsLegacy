@@ -59,21 +59,21 @@ public class FoxEarsModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		matrixStackIn.pushPose();
+	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+		poseStack.pushPose();
 
-		matrixStackIn.translate(0f, 0f, -0.0625f);
-
-		if (subtype == 1)
-			matrixStackIn.translate(-0.4375f, 0f, 0f);
-
-		leftEar.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		poseStack.translate(0f, 0f, -0.0625f);
 
 		if (subtype == 1)
-			matrixStackIn.translate(0.875f, 0f, 0f);
+			poseStack.translate(-0.4375f, 0f, 0f);
 
-		rightEar.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		leftEar.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-		matrixStackIn.popPose();
+		if (subtype == 1)
+			poseStack.translate(0.875f, 0f, 0f);
+
+		rightEar.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+
+		poseStack.popPose();
 	}
 }

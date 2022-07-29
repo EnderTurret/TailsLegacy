@@ -38,7 +38,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 	/**
 	 * Renders the tail with the optional parts list provided
-	 * @param matrixStackIn The {@link PoseStack} to use for transformations.
+	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param bufferIn The buffer to draw to.
 	 * @param entity The entity the part is attached to.
 	 * @param packedLightIn The packed light.
@@ -50,7 +50,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param subtype The subtype.
 	 * @param partialTicks The partial ticks.
 	 */
-	public abstract void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks);
+	public abstract void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks);
 
 	public List<PartConfiguration> getParts(PartInfo info) {
 		return config == null ? List.of() : List.of(config);
@@ -58,7 +58,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 	@Override
 	@Deprecated
-	public final void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {}
+	public final void renderToBuffer(PoseStack poseStack, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {}
 
 	@Override
 	public void setupAnim(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float partialTicks, float subtype, float headPitch) {}

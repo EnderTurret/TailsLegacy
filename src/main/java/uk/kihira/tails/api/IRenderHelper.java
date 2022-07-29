@@ -29,7 +29,7 @@ public interface IRenderHelper<T extends LivingEntity> {
 	/**
 	 * Handles pre-render transformations and other fun stuff.<br><br>
 	 * You could render a sea pickle above the player's head here, if you wanted to.
-	 * @param matrixStack The {@link PoseStack} to use for transformations.
+	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the parts are being rendered on.
 	 * @param tail The part renderer.
 	 * @param info The part being rendered.
@@ -46,5 +46,5 @@ public interface IRenderHelper<T extends LivingEntity> {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void onPreRenderTail(PoseStack matrixStack, T entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha);
+	public void onPreRenderTail(PoseStack poseStack, T entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferIn, VertexConsumer builderIn, double x, double y, double z, float partialTicks, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha);
 }

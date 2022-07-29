@@ -73,26 +73,26 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
 		setBlitOffset(0);
-		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
+		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
 		RenderSystem.setShaderColor(0F, 0F, 0F, 0F);
 
 		setBlitOffset(10);
-		fillGradient(matrixStack, 3, 3, right - left - 3, bottom - top - 3, 0xFF000000, 0xFF000000);
+		fillGradient(poseStack, 3, 3, right - left - 3, bottom - top - 3, 0xFF000000, 0xFF000000);
 
 		if (entry != null) {
-			textField.render(matrixStack, mouseX, mouseY, partialTicks);
+			textField.render(poseStack, mouseX, mouseY, partialTicks);
 
-			font.draw(matrixStack, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
-			font.draw(matrixStack, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
-			font.draw(matrixStack, I18n.get("tails.gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
+			font.draw(poseStack, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
+			font.draw(poseStack, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
+			font.draw(poseStack, I18n.get("tails.gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
 			final String date = new SimpleDateFormat("dd/MM/YY").format(new Date(entry.data.creationDate));
-			font.draw(matrixStack, date, right - left - 5 - font.width(date), bottom - top - 32, 0xAAAAAA);
+			font.draw(poseStack, date, right - left - 5 - font.width(date), bottom - top - 32, 0xAAAAAA);
 		}
 
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTicks);
 	}
 
 	@Override

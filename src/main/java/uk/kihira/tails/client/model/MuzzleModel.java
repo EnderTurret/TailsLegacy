@@ -40,30 +40,30 @@ public class MuzzleModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
-		matrixStackIn.pushPose();
-		matrixStackIn.translate(0, -0.001F, 0);
+	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+		poseStack.pushPose();
+		poseStack.translate(0, -0.001F, 0);
 		switch (subtype) {
 		case 0: // Very Short
-			matrixStackIn.translate(0f, 0f, 4f / 16f);
-			muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			poseStack.translate(0f, 0f, 4f / 16f);
+			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			break;
 		case 1: // Short
-			matrixStackIn.translate(0f, 0f, 3f / 16f);
-			muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			poseStack.translate(0f, 0f, 3f / 16f);
+			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			break;
 		case 2: // Standard
-			matrixStackIn.translate(0f, 0f, 2f / 16f);
-			muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			poseStack.translate(0f, 0f, 2f / 16f);
+			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			break;
 		case 3: // Long
-			matrixStackIn.translate(0f, 0f, 1f / 16f);
-			muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			poseStack.translate(0f, 0f, 1f / 16f);
+			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			break;
 		case 4: // Very Long
-			muzzle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			muzzle.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 			break;
 		}
-		matrixStackIn.popPose();
+		poseStack.popPose();
 	}
 }

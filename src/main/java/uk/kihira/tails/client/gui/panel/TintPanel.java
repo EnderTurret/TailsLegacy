@@ -102,9 +102,9 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
 		setBlitOffset(-100);
-		fillGradient(matrixStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
+		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
 		setBlitOffset(0);
 
@@ -112,22 +112,22 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		int topOffset = 10;
 		for (int tint = 1; tint <= 3; tint++) {
 			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
-			fillGradient(matrixStack, 5, topOffset + 10, 25, topOffset + 30, colour, colour);
-			font.draw(matrixStack, I18n.get("tails.gui.tint", tint), 5, topOffset, 0xFFFFFF);
+			fillGradient(poseStack, 5, topOffset + 10, 25, topOffset + 30, colour, colour);
+			font.draw(poseStack, I18n.get("tails.gui.tint", tint), 5, topOffset, 0xFFFFFF);
 			topOffset += 35;
 		}
 
 		// Editing tint pane
 		if (editingTint > 0) {
-			hLine(matrixStack, 0, width, editPaneTop, 0xFF000000);
-			font.draw(matrixStack, I18n.get("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
+			hLine(poseStack, 0, width, editPaneTop, 0xFF000000);
+			font.draw(poseStack, I18n.get("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
 
-			font.draw(matrixStack, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
+			font.draw(poseStack, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
 
-			hexText.render(matrixStack, mouseX, mouseY, partialTicks);
+			hexText.render(poseStack, mouseX, mouseY, partialTicks);
 		}
 
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTicks);
 	}
 
 	protected void handleTintButton(int id) {

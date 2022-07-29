@@ -42,32 +42,32 @@ public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<Abst
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void render(PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(entity.getGameProfile());
 		if (Tails.PROXY.hasPartsData(uuid)) {
 			final PartsData partsData = Tails.PROXY.getPartsData(uuid);
 			if (partsData.hasPartInfo(partType)) {
 				final PartInfo partInfo = partsData.getPartInfo(partType);
 
-				matrixStackIn.pushPose();
+				poseStack.pushPose();
 
 				if (partType == PartType.EARS || partType == PartType.MUZZLE)
-					getParentModel().head.translateAndRotate(matrixStackIn);
+					getParentModel().head.translateAndRotate(poseStack);
 
 				else if (partType == PartType.TAIL)
-					getParentModel().body.translateAndRotate(matrixStackIn);
+					getParentModel().body.translateAndRotate(poseStack);
 
 				try {
 					final Part part = partInfo.getPart();
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
 					if (renderer != null)
-						renderer.render(matrixStackIn, entity, partInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
+						renderer.render(poseStack, entity, partInfo, bufferIn, 0, 0, 0, partialTicks, packedLightIn, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
 					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
 				} catch (Exception e) {
 					Tails.LOGGER.error("Exception rendering part {}: ", partInfo, e);
 				}
 
-				matrixStackIn.popPose();
+				poseStack.popPose();
 			}
 		}
 	}

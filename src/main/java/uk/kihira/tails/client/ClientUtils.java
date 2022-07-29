@@ -20,24 +20,24 @@ public class ClientUtils {
 
 	/**
 	 * Draws a string that respects new lines.
-	 * @param matrixStack The {@link PoseStack} to use for transformation information.
+	 * @param poseStack The {@link PoseStack} to use for transformation information.
 	 * @param fontRenderer The {@link Font} to use for drawing the text.
 	 * @param string The text to draw.
 	 * @param x The x position of the text.
 	 * @param y The y position of the text.
 	 * @param color The color of the text.
 	 */
-	public static void drawStringMultiLine(PoseStack matrixStack, Font fontRenderer, String string, int x, int y, int color) {
+	public static void drawStringMultiLine(PoseStack poseStack, Font fontRenderer, String string, int x, int y, int color) {
 		final String[] lines = string.split("\n");
 		for (int i = 0; i < lines.length; i++) {
 			final String line = lines[i];
-			fontRenderer.draw(matrixStack, line, x, y + fontRenderer.lineHeight * i, color);
+			fontRenderer.draw(poseStack, line, x, y + fontRenderer.lineHeight * i, color);
 		}
 	}
 
-	public static void drawCenteredString(PoseStack matrixStack, Font fontRenderer, String string, int x, int y, int color) {
+	public static void drawCenteredString(PoseStack poseStack, Font fontRenderer, String string, int x, int y, int color) {
 		final int width = fontRenderer.width(string);
-		fontRenderer.draw(matrixStack, string, x - width / 2, y, color);
+		fontRenderer.draw(poseStack, string, x - width / 2, y, color);
 	}
 
 	public static UUID getPlayerUUID() {

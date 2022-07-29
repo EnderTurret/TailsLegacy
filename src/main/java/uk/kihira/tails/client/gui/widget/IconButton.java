@@ -39,7 +39,7 @@ public class IconButton extends Button implements ITooltip {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
 		if (visible) {
 			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
@@ -49,7 +49,7 @@ public class IconButton extends Button implements ITooltip {
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			final int textureOffset = getYImage(isHovered);
 
-			blit(matrixStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
+			blit(poseStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
 		}
 	}
 
@@ -84,7 +84,7 @@ public class IconButton extends Button implements ITooltip {
 		}
 
 		@Override
-		public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
 			if (visible && toggled) {
 				RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -92,9 +92,9 @@ public class IconButton extends Button implements ITooltip {
 				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
 				isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-				blit(matrixStack, x, y, icon.u, icon.v + 32, 16, 16);
+				blit(poseStack, x, y, icon.u, icon.v + 32, 16, 16);
 			} else
-				super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
+				super.renderButton(poseStack, mouseX, mouseY, partialTicks);
 		}
 	}
 

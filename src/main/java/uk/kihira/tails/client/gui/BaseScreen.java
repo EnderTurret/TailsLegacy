@@ -35,13 +35,13 @@ public abstract class BaseScreen extends Screen {
 		super(titleIn);
 	}
 
-	public void renderTooltips(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+	public void renderTooltips(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
 		for (Widget btn : renderables)
 			if (btn instanceof ITooltip && btn instanceof GuiEventListener && ((GuiEventListener) btn).isMouseOver(mouseX, mouseY)) {
 				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTicks;
 				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
 
-				renderTooltip(matrixStack, ((ITooltip) btn).getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY, font);
+				renderTooltip(poseStack, ((ITooltip) btn).getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY, font);
 
 				prevMouseX = mouseX;
 				prevMouseY = mouseY;
@@ -49,11 +49,11 @@ public abstract class BaseScreen extends Screen {
 			}
 	}
 
-	public void rect(PoseStack matrixStack, int x1, int y1, int x2, int y2, int color) {
-		hLine(matrixStack, x1, x2, y1, color);
-		hLine(matrixStack, x1, x2, y2, color);
-		vLine(matrixStack, x1, y1, y2, color);
-		vLine(matrixStack, x2, y1, y2, color);
+	public void rect(PoseStack poseStack, int x1, int y1, int x2, int y2, int color) {
+		hLine(poseStack, x1, x2, y1, color);
+		hLine(poseStack, x1, x2, y2, color);
+		vLine(poseStack, x1, y1, y2, color);
+		vLine(poseStack, x2, y1, y2, color);
 	}
 
 	public static boolean isMouseOver(double mouseX, double mouseY, int x, int y, int width, int height) {
@@ -104,10 +104,10 @@ public abstract class BaseScreen extends Screen {
 		}
 
 		@Override
-		public void renderButton(PoseStack matrixStack, int x, int y, float partialTicks) {
+		public void renderButton(PoseStack poseStack, int x, int y, float partialTicks) {
 			final List<FormattedCharSequence> list = new ArrayList<>(tooltip);
 			list.add(!active ? Component.literal("Enabled").withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC).getVisualOrderText() : Component.literal("Disabled").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC).getVisualOrderText());
-			BaseScreen.this.renderTooltip(matrixStack, list, x, y, font);
+			BaseScreen.this.renderTooltip(poseStack, list, x, y, font);
 		}
 	}
 }

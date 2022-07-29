@@ -40,7 +40,7 @@ public class Toast {
 		height = this.message.size() * Minecraft.getInstance().font.lineHeight + 7;
 	}
 
-	public void drawToast(PoseStack matrixStack, int mouseX, int mouseY) {
+	public void drawToast(PoseStack poseStack, int mouseX, int mouseY) {
 		if (time > 0) {
 			final Font fontRenderer = Minecraft.getInstance().font;
 			mouseOver = mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height;
@@ -49,38 +49,38 @@ public class Toast {
 			if (mouseOver) time = 20;
 
 			if (opacity > 0) {
-				matrixStack.pushPose();
+				poseStack.pushPose();
 				RenderSystem.enableBlend();
 				//RenderSystem.disableLighting();
 				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-				drawBackdrop(matrixStack, xPos, yPos, width, height);
+				drawBackdrop(poseStack, xPos, yPos, width, height);
 				final int colour = 0xFFFFFF | opacity << 24;
 				for (int i = 0; i < message.size(); i++) {
 					final FormattedCharSequence s = message.get(i);
-					fontRenderer.drawShadow(matrixStack, s, xPos + width / 2 - fontRenderer.width(s) / 2, yPos + 4 + fontRenderer.lineHeight * i, colour);
+					fontRenderer.drawShadow(poseStack, s, xPos + width / 2 - fontRenderer.width(s) / 2, yPos + 4 + fontRenderer.lineHeight * i, colour);
 				}
 				RenderSystem.disableBlend();
 				RenderSystem.setShaderColor(0F, 0F, 0F, 1F);
-				matrixStack.popPose();
+				poseStack.popPose();
 			}
 		}
 	}
 
-	private void drawBackdrop(PoseStack matrixStack, int x, int y, int width, int height) {
+	private void drawBackdrop(PoseStack poseStack, int x, int y, int width, int height) {
 		int opacity = mouseOver ? 255 : (int) (time * 256F / 25F);
 		if (opacity > 255) opacity = 255;
 
 		// Black back
 		int colour = opacity << 24;
-		GuiComponent.fill(matrixStack, x + 1, y, x + width - 1, y + height, colour);
-		GuiComponent.fill(matrixStack, x, y + 1, x + 1, y + height - 1, colour);
-		GuiComponent.fill(matrixStack, x + width - 1, y + 1, x + width, y + height - 1, colour);
+		GuiComponent.fill(poseStack, x + 1, y, x + width - 1, y + height, colour);
+		GuiComponent.fill(poseStack, x, y + 1, x + 1, y + height - 1, colour);
+		GuiComponent.fill(poseStack, x + width - 1, y + 1, x + width, y + height - 1, colour);
 
 		// Border
 		colour = 0x28025c | opacity << 24;
-		GuiComponent.fill(matrixStack, x + 1, y + 1, x + width - 1, y + 2, colour);
-		GuiComponent.fill(matrixStack, x + 1, y + height - 1, x + width - 1, y + height - 2, colour);
-		GuiComponent.fill(matrixStack, x + 1, y + 1, x + 2, y + height - 1, colour);
-		GuiComponent.fill(matrixStack, x + width - 1, y + 1, x + width - 2, y + height - 1, colour);
+		GuiComponent.fill(poseStack, x + 1, y + 1, x + width - 1, y + 2, colour);
+		GuiComponent.fill(poseStack, x + 1, y + height - 1, x + width - 1, y + height - 2, colour);
+		GuiComponent.fill(poseStack, x + 1, y + 1, x + 2, y + height - 1, colour);
+		GuiComponent.fill(poseStack, x + width - 1, y + 1, x + width - 2, y + height - 1, colour);
 	}
 }

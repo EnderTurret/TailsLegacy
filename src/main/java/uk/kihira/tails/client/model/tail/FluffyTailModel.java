@@ -161,55 +161,55 @@ public class FluffyTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
+	public void render(PoseStack poseStack, VertexConsumer bufferIn, LivingEntity entity, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha, int subtype, float partialTicks) {
 		float timestep = getAnimationTime(4000F, entity);
 
 		if (subtype == 0) {
 			setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTicks, entity);
-			matrixStackIn.pushPose();
-			matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-20F));
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-			matrixStackIn.popPose();
+			poseStack.pushPose();
+			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			poseStack.popPose();
 		}
 		else if (subtype == 1) {
 			setRotationAngles(1, timestep, 1F, 1F, 0F, rad(40), partialTicks, entity);
-			matrixStackIn.pushPose();
-			matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-20F));
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			poseStack.pushPose();
+			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(1, timestep, 1.4F, 0F, 0F, rad(-40), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-			matrixStackIn.popPose();
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			poseStack.popPose();
 		}
 		else if (subtype == 2) {
 			timestep = getAnimationTime(6500F, entity);
 
 			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(2, timestep, -1.3F, 1.6F, 0, rad(30), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(2, timestep, -1.1F, 0.7F, 0, rad(-30), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(2, timestep, -1.2F, 2.6F, rad(20), rad(-15), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(2, timestep, -0.9F, 1.1F, rad(20), rad(15), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(2, timestep, -0.8F, 2F, rad(20), rad(45), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(2, timestep, -1.25F, 0.6F, rad(20), rad(-45), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(2, timestep, -1.4F, 0.9F, rad(45), rad(15), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
 			setRotationAngles(2, timestep, -1.1F, 1.6F, rad(45), rad(-15), partialTicks, entity);
-			tailBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			tailBase.render(poseStack, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		}
 	}
 

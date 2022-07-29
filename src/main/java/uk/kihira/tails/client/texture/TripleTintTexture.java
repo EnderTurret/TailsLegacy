@@ -25,6 +25,7 @@ import com.mojang.blaze3d.platform.TextureUtil;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+
 import uk.kihira.tails.client.ColorUtil;
 
 /**

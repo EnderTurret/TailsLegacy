@@ -12,9 +12,11 @@ import java.util.UUID;
 
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
+
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 

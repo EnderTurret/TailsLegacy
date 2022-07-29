@@ -17,7 +17,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
+
 import net.minecraftforge.client.gui.widget.ExtendedButton;
+
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextField;
 import uk.kihira.tails.client.toast.ToastManager;

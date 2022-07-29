@@ -19,8 +19,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartModel;

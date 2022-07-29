@@ -18,7 +18,9 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.network.FriendlyByteBuf;
+
 import net.minecraftforge.network.NetworkEvent;
+
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 

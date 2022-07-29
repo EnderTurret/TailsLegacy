@@ -14,6 +14,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ObjectSelectionList;
+
 import uk.kihira.tails.client.RenderHelper;
 
 /**

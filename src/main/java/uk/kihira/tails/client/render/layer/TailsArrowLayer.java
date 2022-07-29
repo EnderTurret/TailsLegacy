@@ -2,7 +2,6 @@ package uk.kihira.tails.client.render.layer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.render.PartRenderer;

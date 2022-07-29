@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
+
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.part.PartInfo;
 

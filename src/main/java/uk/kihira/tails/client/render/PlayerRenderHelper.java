@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.player.Player;
+
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.model.tail.CatTailModel;
 import uk.kihira.tails.client.model.tail.DevilTailModel;

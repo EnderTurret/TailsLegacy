@@ -3,7 +3,6 @@ package uk.kihira.tails.client.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -11,6 +10,7 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+
 import uk.kihira.tails.common.part.PartInfo;
 
 public class PartConfiguration {

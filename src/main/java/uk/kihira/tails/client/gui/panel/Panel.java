@@ -11,6 +11,7 @@ package uk.kihira.tails.client.gui.panel;
 import org.apache.commons.lang3.Validate;
 
 import net.minecraft.network.chat.Component;
+
 import uk.kihira.tails.client.gui.BaseScreen;
 import uk.kihira.tails.client.gui.LayeredScreen;
 

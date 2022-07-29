@@ -19,9 +19,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.world.entity.player.Player;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.Tails;

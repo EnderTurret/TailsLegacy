@@ -15,9 +15,11 @@ import com.google.common.base.Strings;
 import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.network.FriendlyByteBuf;
+
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
+
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 

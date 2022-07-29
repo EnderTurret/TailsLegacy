@@ -27,6 +27,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import net.minecraft.resources.ResourceLocation;
+
 import uk.kihira.tails.common.Tails;
 
 /**

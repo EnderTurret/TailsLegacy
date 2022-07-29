@@ -16,6 +16,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+
 import uk.kihira.tails.client.gui.panel.Panel;
 
 /**

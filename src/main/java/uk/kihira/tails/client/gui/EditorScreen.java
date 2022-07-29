@@ -11,6 +11,7 @@ package uk.kihira.tails.client.gui;
 import java.util.UUID;
 
 import net.minecraft.network.chat.Component;
+
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.ControlsPanel;
 import uk.kihira.tails.client.gui.panel.LibraryImportPanel;

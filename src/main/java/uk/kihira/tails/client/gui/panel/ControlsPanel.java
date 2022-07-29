@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
+
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.toast.ToastManager;

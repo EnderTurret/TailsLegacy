@@ -20,7 +20,9 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
+
 import net.minecraftforge.client.gui.widget.ExtendedButton;
+
 import uk.kihira.tails.client.gui.widget.ITooltip;
 
 public abstract class BaseScreen extends Screen {

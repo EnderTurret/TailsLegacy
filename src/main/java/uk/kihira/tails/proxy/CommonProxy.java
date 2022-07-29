@@ -13,9 +13,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.resources.ResourceLocation;
+
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
+
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.ServerEventHandler;

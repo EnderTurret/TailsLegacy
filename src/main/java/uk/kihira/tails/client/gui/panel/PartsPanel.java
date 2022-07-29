@@ -25,7 +25,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+
 import net.minecraftforge.client.gui.widget.ExtendedButton;
+
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;

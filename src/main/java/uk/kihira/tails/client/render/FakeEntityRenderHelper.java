@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.renderer.MultiBufferSource;
+
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.common.part.Part;

@@ -21,6 +21,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;

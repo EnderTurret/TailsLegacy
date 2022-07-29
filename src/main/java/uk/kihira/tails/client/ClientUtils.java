@@ -10,7 +10,11 @@ package uk.kihira.tails.client;
 
 import java.util.UUID;
 
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -38,6 +42,20 @@ public class ClientUtils {
 	public static void drawCenteredString(PoseStack poseStack, Font fontRenderer, String string, int x, int y, int color) {
 		final int width = fontRenderer.width(string);
 		fontRenderer.draw(poseStack, string, x - width / 2, y, color);
+	}
+
+	public static void blitScaled(PoseStack poseStack, int x, int y, int blitOffset, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
+		final float f = 0.00390625F;
+		final float f1 = 0.00390625F;
+		final PoseStack.Pose e = poseStack.last();
+		final Tesselator tess = Tesselator.getInstance();
+		final BufferBuilder renderer = tess.getBuilder();
+		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		renderer.vertex(e.pose(), x + 0,		y + tarHeight,	blitOffset).uv((u + 0) * f,			(v + srcHeight) * f1).endVertex();
+		renderer.vertex(e.pose(), x + tarWidth,	y + tarHeight,	blitOffset).uv((u + srcWidth) * f,	(v + srcHeight) * f1).endVertex();
+		renderer.vertex(e.pose(), x + tarWidth,	y + 0,			blitOffset).uv((u + srcWidth) * f,	(v + 0) * f1).endVertex();
+		renderer.vertex(e.pose(), x + 0,		y + 0,			blitOffset).uv((u + 0) * f,			(v + 0) * f1).endVertex();
+		tess.end();
 	}
 
 	public static UUID getPlayerUUID() {

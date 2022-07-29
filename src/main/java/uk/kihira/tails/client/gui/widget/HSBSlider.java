@@ -28,6 +28,7 @@ import net.minecraft.util.Mth;
 
 import net.minecraftforge.client.gui.ScreenUtils;
 
+import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -71,7 +72,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 				final float green = (float) hueColour.getGreen() / 255;
 				final float blue = (float) hueColour.getBlue() / 255;
 				RenderSystem.setShaderColor(red, green, blue, 1.0F);
-				drawTexturedModalRectScaled(poseStack, x + 1, y + 1, 0, 176, 256, 20, width - 2, height - 2);
+				ClientUtils.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, 176, 256, 20, width - 2, height - 2);
 			}
 
 			int srcY = 236;
@@ -87,11 +88,11 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 				final float green = (float) hueColour.getGreen() / 255;
 				final float blue = (float) hueColour.getBlue() / 255;
 				RenderSystem.setShaderColor(red, green, blue, 1F);
-				drawTexturedModalRectScaled(poseStack, x + 1, y + 1, 0, srcY, 231, 20, width - 2, height - 2);
+				ClientUtils.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, srcY, 231, 20, width - 2, height - 2);
 				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 			} else {
 				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-				drawTexturedModalRectScaled(poseStack, x + 1, y + 1, 0, srcY, 256, 20, width - 2, height - 2);
+				ClientUtils.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, srcY, 256, 20, width - 2, height - 2);
 			}
 
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
@@ -142,22 +143,6 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	 */
 	public void setBrightness(float value) {
 		briValue = value;
-	}
-
-	void drawTexturedModalRectScaled(PoseStack poseStack, int x, int y, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
-		final float f = 0.00390625F;
-		final float f1 = 0.00390625F;
-		final PoseStack.Pose e = poseStack.last();
-		final Tesselator tess = Tesselator.getInstance();
-		final BufferBuilder renderer = tess.getBuilder();
-		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		renderer.vertex(e.pose(), x + 0,			y + tarHeight,	getBlitOffset()).uv((u + 0) * f, (v + srcHeight) * f1).endVertex();
-		renderer.vertex(e.pose(), x + tarWidth,	y + tarHeight,	getBlitOffset()).uv((u + srcWidth) * f, (v + srcHeight) * f1).endVertex();
-		renderer.vertex(e.pose(), x + tarWidth,	y + 0,			getBlitOffset()).uv((u + srcWidth) * f, (v + 0) * f1).endVertex();
-		renderer.vertex(e.pose(), x + 0,			y + 0,			getBlitOffset()).uv((u + 0) * f, (v + 0) * f1).endVertex();
-		//renderer.end();
-		tess.end();
-		//BufferUploader.end(renderer);
 	}
 
 	@Override

@@ -14,11 +14,8 @@ import java.util.UUID;
 
 import net.minecraft.resources.ResourceLocation;
 
-import net.minecraftforge.common.MinecraftForge;
-
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
-import uk.kihira.tails.common.ServerEventHandler;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.PlayerDataMessage;

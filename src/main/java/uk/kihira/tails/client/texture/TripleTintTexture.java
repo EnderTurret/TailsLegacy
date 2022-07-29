@@ -56,7 +56,6 @@ public class TripleTintTexture extends AbstractTexture {
 		try
 		{
 			if (texturename != null)
-			{
 				try (InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).get().open()) {
 					final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
 
@@ -75,7 +74,6 @@ public class TripleTintTexture extends AbstractTexture {
 					TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
 					texture.upload(0, 0, 0, true);
 				}
-			}
 		}
 		catch (IOException ioexception)
 		{

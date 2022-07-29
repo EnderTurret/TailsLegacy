@@ -33,7 +33,7 @@ public class ClientEventHandler {
 	 * Tails Editor Button
 	 */
 	@SubscribeEvent
-	public void onScreenInitPost(ScreenEvent.InitScreenEvent.Post event) {
+	public void onScreenInitPost(ScreenEvent.Init.Post event) {
 		if (event.getScreen() instanceof PauseScreen)
 			event.addListener(new Button(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, new TranslatableComponent("tails.gui.button.editor"), b -> {
 				Minecraft.getInstance().setScreen(new EditorScreen());
@@ -44,14 +44,14 @@ public class ClientEventHandler {
 	 * Tails Syncing
 	 */
 	@SubscribeEvent
-	public void onConnectToServer(ClientPlayerNetworkEvent.LoggedInEvent event) {
+	public void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
 		// Add local player texture to map.
 		if (Tails.localPartsData != null)
 			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), Tails.localPartsData);
 	}
 
 	@SubscribeEvent
-	public void onDisconnect(ClientPlayerNetworkEvent.LoggedOutEvent e) {
+	public void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
 		// TODO: Do we need to defer these?
 		sentPartInfoToServer = false;
 		clearAllPartInfo = true;
@@ -78,7 +78,7 @@ public class ClientEventHandler {
 	}
 
 	/*@SubscribeEvent
-	public void onRenderWorldLast(RenderWorldLastEvent e) {
+	public void onRenderWorldLast(RenderLevelLastEvent e) {
 		final PlayerEntity player = Minecraft.getInstance().player;
 		if (player == null) return;
 

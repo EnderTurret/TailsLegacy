@@ -33,7 +33,6 @@ public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 			matrixStack.scale(0.9F, 0.9F, 0.9F);
 			break;
 		}
-		// TODO fake head using players skin?
 		case MUZZLE:
 			matrixStack.translate(0.2F, 1.25F, 0F);
 			matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));

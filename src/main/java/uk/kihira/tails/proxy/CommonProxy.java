@@ -78,13 +78,8 @@ public class CommonProxy {
 	 * @param uuid The {@link UUID} to remove all part data for.
 	 */
 	public void removePartsData(UUID uuid) {
-		if (hasPartsData(uuid)) {
-			if (EffectiveSide.get() == LogicalSide.SERVER) {
-				// TODO Tell uk.kihira.tails.client to remove textures.
-				//Tails.networkWrapper.sendToAll(new PlayerDataMessage(uuid, this.partsData.get(uuid), true));
-			}
+		if (hasPartsData(uuid))
 			partsData.remove(uuid);
-		}
 	}
 
 	/**

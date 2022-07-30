@@ -18,6 +18,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 
 /**
@@ -63,7 +64,8 @@ public class RelativeTextBox extends EditBox {
 
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuilder();
-		RenderSystem.setShaderColor(0.0F, 0.0F, 255.0F, 255.0F);
+		RenderSystem.setShader(GameRenderer::getPositionShader);
+		RenderSystem.setShaderColor(0.0F, 0.0F, 1.0F, 1.0F);
 		RenderSystem.disableTexture();
 		RenderSystem.enableColorLogicOp();
 		RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
@@ -73,6 +75,7 @@ public class RelativeTextBox extends EditBox {
 		bufferbuilder.vertex(poseStack.last().pose(), endX, startY, 0F).endVertex();
 		bufferbuilder.vertex(poseStack.last().pose(), startX, startY, 0F).endVertex();
 		tessellator.end();
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.disableColorLogicOp();
 		RenderSystem.enableTexture();
 	}

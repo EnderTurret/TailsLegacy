@@ -25,12 +25,11 @@ import net.minecraft.network.chat.Component;
  * Without this, the selection overlay will attempt to yeet itself as far off-screen as possible.
  * @author EnderTurret
  */
-// TODO Rename to RelativeEditBox
-public class RelativeTextField extends EditBox {
+public class RelativeTextBox extends EditBox {
 
 	private PoseStack poseStack;
 
-	public RelativeTextField(Font font, int x, int y, int width, int height, Component title) {
+	public RelativeTextBox(Font font, int x, int y, int width, int height, Component title) {
 		super(font, x, y, width, height, title);
 	}
 
@@ -41,7 +40,7 @@ public class RelativeTextField extends EditBox {
 		this.poseStack = null;
 	}
 
-	// Fixes TextFieldWidget#drawSelectionBox not taking into account MatrixStack transformations.
+	// Fixes TextBox#renderHighlight not taking into account PoseStack transformations.
 	@Override
 	public void renderHighlight(int startX, int startY, int endX, int endY) {
 		if (startX < endX) {

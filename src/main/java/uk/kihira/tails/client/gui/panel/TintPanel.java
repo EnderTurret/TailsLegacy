@@ -25,7 +25,7 @@ import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.HSBSlider;
 import uk.kihira.tails.client.gui.widget.IconButton;
-import uk.kihira.tails.client.gui.widget.RelativeTextField;
+import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 
 public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSliderCallback {
 
@@ -56,7 +56,7 @@ public class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSlid
 		}
 
 		// Tint edit pane
-		hexText = new RelativeTextField(font, 30, editPaneTop + 20, 73, 10, null);
+		hexText = new RelativeTextBox(font, 30, editPaneTop + 20, 73, 10, null);
 		hexText.setMaxLength(6);
 		hexText.setValue(ColorUtil.hex(currentTint, true, true));
 		addWidget(hexText);

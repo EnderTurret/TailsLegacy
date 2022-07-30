@@ -25,7 +25,7 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
-import uk.kihira.tails.client.gui.widget.RelativeTextField;
+import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
@@ -52,7 +52,7 @@ public class LibraryPanel extends Panel<EditorScreen> {
 			Tails.PROXY.getLibraryManager().reload();
 			initList();
 		}));
-		addRenderableWidget(searchField = new RelativeTextField(font, 5, bottom - top - 31, right - left - 10, 10, null));
+		addRenderableWidget(searchField = new RelativeTextBox(font, 5, bottom - top - 31, right - left - 10, 10, null));
 
 		super.init();
 	}

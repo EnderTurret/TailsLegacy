@@ -21,7 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.client.gui.EditorScreen;
-import uk.kihira.tails.client.gui.widget.RelativeTextField;
+import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
@@ -60,7 +60,7 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 			}
 		}));
 
-		inputField = new RelativeTextField(font, 3, 41, right - left - 6, 15, null);
+		inputField = new RelativeTextBox(font, 3, 41, right - left - 6, 15, null);
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}

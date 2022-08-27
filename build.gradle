@@ -10,7 +10,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 repositories {
     mavenCentral()
     maven { url 'https://maven.blamejared.com' }
-    maven { url 'https://maven.theillusivec4.top/' }
+    maven { url 'https://maven.theillusivec4.top' }
 }
 
 group = 'uk.kihira'
@@ -18,16 +18,16 @@ archivesBaseName = 'Tails'
 version = '1.19.1-1.0.0'
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.1-42.0.1'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.1.3'
 
     //compileOnly fg.deobf('vazkii.botania:Botania:1.18.2-434:api')
     //runtimeOnly fg.deobf('vazkii.botania:Botania:1.18.2-434')
-    runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.19-75')
-    runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.19.1-5.1.0.5')
+    runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.19.2-76')
+    runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.19.2-5.1.1.0')
 }
 
 minecraft {
-    mappings channel: 'parchment', version: '1.18.2-2022.07.17-1.19.1'
+    mappings channel: 'parchment', version: '2022.08.21-1.19.2'
 	accessTransformer = file("$rootDir/src/main/resources/META-INF/accesstransformer.cfg")
 
     runs {

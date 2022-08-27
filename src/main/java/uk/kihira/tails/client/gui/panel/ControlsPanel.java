@@ -68,20 +68,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			parent.setPartsInfo(partInfo);
 		}));
 		addRenderableWidget(new Button(right - left - 49, bottom - top - 25, 46, 20, Component.translatable("tails.gui.done"), b -> {
-			// Update part info, set local and send it to the server.
-			final PartsData partsData = parent.getPartsData();
-
-			Tails.setLocalPartsData(partsData, null);
-			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), partsData);
-
-			Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), partsData));
-
-			if (CommonProxy.sync != null)
-				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
-
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 40, 100, Component.translatable("tails.gui.saved").withStyle(ChatFormatting.GREEN));
-
-			minecraft.setScreen(null);
+			parent.close();
 		}));
 	}
 

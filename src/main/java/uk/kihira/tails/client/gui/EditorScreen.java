@@ -9,7 +9,10 @@
 package uk.kihira.tails.client.gui;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.client.ClientUtils;
@@ -22,10 +25,13 @@ import uk.kihira.tails.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.texture.TextureHelper;
+import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.proxy.CommonProxy;
 
 /**
  * The editor screen.
@@ -39,6 +45,8 @@ public class EditorScreen extends LayeredScreen {
 	private PartInfo originalPartInfo;
 	private final UUID playerUUID;
 
+	private final Consumer<EditorScreen> onSave;
+
 	protected TintPanel tintPanel;
 	protected PartsPanel partsPanel;
 	protected PreviewPanel previewPanel;
@@ -48,24 +56,51 @@ public class EditorScreen extends LayeredScreen {
 	protected LibraryInfoPanel libraryInfoPanel;
 	protected LibraryImportPanel libraryImportPanel;
 
-	public EditorScreen() {
+	public EditorScreen(PartsData original, Consumer<EditorScreen> onSave) {
 		super(4, Component.empty());
-		// Backup original PartInfo or create default one.
-		if (Tails.localPartsData == null)
-			Tails.setLocalPartsData(new PartsData(), null);
+		this.onSave = onSave;
 
 		// Default to Tail.
 		partType = PartType.TAIL;
-		for (PartType partType : PartType.values())
-			if (!Tails.localPartsData.hasPartInfo(partType))
-				Tails.localPartsData.setPartInfo(partType, PartInfo.none());
-
-		final PartInfo partInfo = Tails.localPartsData.getPartInfo(partType);
 		playerUUID = ClientUtils.getPlayerUUID();
 
+		// Backup original PartInfo or create default one.
+		if (original == null)
+			original = new PartsData();
+
+		for (PartType partType : PartType.values())
+			if (!original.hasPartInfo(partType))
+				original.setPartInfo(partType, PartInfo.none());
+
+		final PartInfo partInfo = original.getPartInfo(partType);
+
 		originalPartInfo = partInfo.deepCopy();
-		setPartsData(Tails.localPartsData.deepCopy());
 		editingPartInfo = originalPartInfo.deepCopy();
+		setPartsData(original.deepCopy());
+	}
+
+	public static EditorScreen openDefault() {
+		PartsData data = Tails.localPartsData;
+
+		if (data == null)
+			Tails.setLocalPartsData(data = new PartsData(), null);
+
+		return new EditorScreen(data, screen -> {
+			// Update part info, set local and send it to the server.
+			final PartsData partsData = screen.getPartsData();
+
+			Tails.setLocalPartsData(partsData, null);
+			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), partsData);
+
+			Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), partsData));
+
+			if (CommonProxy.sync != null)
+				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
+
+			ToastManager.INSTANCE.createCenteredToast(screen.width / 2, screen.height - 40, 100, Component.translatable("tails.gui.saved").withStyle(ChatFormatting.GREEN));
+
+			screen.minecraft.popGuiLayer();
+		});
 	}
 
 	@Override
@@ -108,6 +143,10 @@ public class EditorScreen extends LayeredScreen {
 	public void removed() {
 		Tails.PROXY.addPartsData(playerUUID, Tails.localPartsData);
 		super.removed();
+	}
+
+	public void close() {
+		onSave.accept(this);
 	}
 
 	public void refreshTintPane() {

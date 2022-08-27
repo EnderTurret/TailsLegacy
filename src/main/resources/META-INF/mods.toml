@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[42,)"
+loaderVersion="[40,)"
 license="MIT"
 issueTrackerURL="https://github.com/kihira/Tails/issues"
 [[mods]]
@@ -15,7 +15,7 @@ issueTrackerURL="https://github.com/kihira/Tails/issues"
 [[dependencies.tails]]
     modId="forge"
     mandatory=true
-    versionRange="[42,)"
+    versionRange="[43,)"
     ordering="NONE"
     side="BOTH"
 

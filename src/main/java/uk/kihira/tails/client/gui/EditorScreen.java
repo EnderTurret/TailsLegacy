@@ -12,7 +12,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.client.ClientUtils;

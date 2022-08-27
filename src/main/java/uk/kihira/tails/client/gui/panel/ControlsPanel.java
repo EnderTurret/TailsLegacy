@@ -10,18 +10,12 @@ package uk.kihira.tails.client.gui.panel;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
-import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.EditorScreen;
-import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.proxy.CommonProxy;
 
 public class ControlsPanel extends Panel<EditorScreen> {
 

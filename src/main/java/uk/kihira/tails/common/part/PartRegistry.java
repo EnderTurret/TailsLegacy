@@ -110,38 +110,40 @@ public class PartRegistry {
 	 * @return The part renderer.
 	 */
 	public static Part byNumericId(PartType partType, int index) {
-		switch (partType) {
-		case TAIL:
-			switch (index) {
-			case 0: return FLUFFY_TAIL;
-			case 1: return DRAGON_TAIL;
-			case 2: return RACCOON_TAIL;
-			case 3: return DEVIL_TAIL;
-			case 4: return CAT_TAIL;
-			case 5: return BIRD_TAIL;
-			case 6: return SHARK_TAIL;
-			case 7: return BUNNY_TAIL;
-			default: return FLUFFY_TAIL;
-			}
-		case EARS:
-			switch (index) {
-			case 0: return FOX_EARS;
-			case 1: return CAT_EARS;
-			case 2: return PANDA_EARS;
-			case 3: return SMALL_CAT_EARS;
-			case 4: return SEA_PICKLE;
-			default: return FOX_EARS;
-			}
-		case MUZZLE:
-			switch (index) {
-			case 0: return STANDARD_MUZZLE;
-			case 1: return SLIM_MUZZLE;
-			case 2: return THIN_MUZZLE;
-			default: return STANDARD_MUZZLE;
-			}
-		case WINGS: return BIG_WINGS;
-		default:
-			throw new IllegalArgumentException("Unhandled part type: " + partType);
+		return switch (partType) {
+		case TAIL -> {
+			yield switch (index) {
+			case 0 -> FLUFFY_TAIL;
+			case 1 -> DRAGON_TAIL;
+			case 2 -> RACCOON_TAIL;
+			case 3 -> DEVIL_TAIL;
+			case 4 -> CAT_TAIL;
+			case 5 -> BIRD_TAIL;
+			case 6 -> SHARK_TAIL;
+			case 7 -> BUNNY_TAIL;
+			default -> FLUFFY_TAIL;
+			};
 		}
+		case EARS -> {
+			yield switch (index) {
+			case 0 -> FOX_EARS;
+			case 1 -> CAT_EARS;
+			case 2 -> PANDA_EARS;
+			case 3 -> SMALL_CAT_EARS;
+			case 4 -> SEA_PICKLE;
+			default -> FOX_EARS;
+			};
+		}
+		case MUZZLE -> {
+			yield switch (index) {
+			case 0 -> STANDARD_MUZZLE;
+			case 1 -> SLIM_MUZZLE;
+			case 2 -> THIN_MUZZLE;
+			default -> STANDARD_MUZZLE;
+			};
+		}
+		case WINGS -> BIG_WINGS;
+		default -> throw new IllegalArgumentException("Unhandled part type: " + partType);
+		};
 	}
 }

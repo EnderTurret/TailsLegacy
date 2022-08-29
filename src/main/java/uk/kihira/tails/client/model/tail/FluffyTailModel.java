@@ -116,21 +116,21 @@ public class FluffyTailModel extends PartModel {
 
 				switch (subtype) {
 				// Fox Tail
-				case 0:
+				case 0 -> {
 					xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 					zAngleOffset = Mth.clamp(zAngleOffset, -0.5D, 0.5D);
-					break;
-					// Twin Tails
-				case 1:
+				}
+				// Twin Tails
+				case 1 -> {
 					xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 					zAngleOffset = Mth.clamp(zAngleOffset, -0.5D, 0.5D);
-					break;
-					// Nine tails
-				case 2:
+				}
+				// Nine tails
+				case 2 -> {
 					zAngleOffset = Mth.clamp(zAngleOffset * 0.5D, -1D, 0.5D);
 					xAngleOffset = Mth.clamp(xAngleOffset * 0.25D, -1D, 0.2D);
 					xAngleOffset += Mth.cos(timestep + xOffset) / 30F;
-					break;
+				}
 				}
 				yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running
 			}
@@ -138,18 +138,21 @@ public class FluffyTailModel extends PartModel {
 		// Mounted
 		else
 			switch (subtype) {
-			case 0: // Fox Tail
+			// Fox Tail
+			case 0 -> {
 				xAngleOffset = rad(22);
 				yAngleMultiplier = 0.5F;
-				break;
-			case 1: // Twin Tails
+			}
+			// Twin Tails
+			case 1 -> {
 				xAngleOffset = rad(20);
 				yAngleMultiplier = 0.5F;
-				break;
-			case 2: // Nine Tails
+			}
+			// Nine Tails
+			case 2 -> {
 				xAngleOffset = rad(15);
 				yAngleMultiplier = 0.75F;
-				break;
+			}
 			}
 
 		setRotationRadians(tailBase, xAngle + xAngleOffset, (-zAngleOffset / 2F + yAngle + Mth.cos(timestep + yOffset) / 8F) * yAngleMultiplier + yAngleOffset, -zAngleOffset / 8F);

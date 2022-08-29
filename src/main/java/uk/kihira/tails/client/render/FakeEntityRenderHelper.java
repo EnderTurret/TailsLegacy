@@ -26,29 +26,26 @@ public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 	public void onPreRenderTail(PoseStack poseStack, FakeEntity entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		final Part part = info.getPart();
 		switch (part.getType()) {
-		case TAIL: {
+		case TAIL -> {
 			// Nine tails
 			if (part == PartRegistry.FLUFFY_TAIL && info.getSubType() == 2)
-				poseStack.translate(0F, 0.85F, 0F);
-			else poseStack.translate(0F, 0.65F, 0F);
+				poseStack.translate(0, 0.85, 0);
+			else poseStack.translate(0, 0.65, 0);
 			poseStack.scale(0.9F, 0.9F, 0.9F);
-			break;
 		}
-		case MUZZLE:
-			poseStack.translate(0.2F, 1.25F, 0F);
+		case MUZZLE -> {
+			poseStack.translate(0.2, 1.25, 0);
 			poseStack.mulPose(Vector3f.YP.rotationDegrees(180F));
 			poseStack.mulPose(Vector3f.YP.rotationDegrees(-45F));
 			poseStack.mulPose(Vector3f.XP.rotationDegrees(25F));
-			break;
-		case EARS: {
-			poseStack.mulPose(Vector3f.YP.rotationDegrees(180F));
-			poseStack.translate(0F, 1.4F, 0F);
-			break;
 		}
-		case WINGS: {
-			poseStack.translate(0F, 0.9F, 0F);
+		case EARS -> {
+			poseStack.mulPose(Vector3f.YP.rotationDegrees(180F));
+			poseStack.translate(0, 1.4, 0);
+		}
+		case WINGS -> {
+			poseStack.translate(0, 0.9, 0);
 			poseStack.scale(0.6F, 0.6F, 0.6F);
-			break;
 		}
 		}
 	}

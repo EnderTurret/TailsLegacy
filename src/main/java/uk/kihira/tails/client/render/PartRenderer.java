@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.render;
 
+import java.util.UUID;
+
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -46,8 +48,12 @@ public class PartRenderer {
 	}
 
 	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
+		compileTextureIfNeeded(entity.getUUID(), info);
+	}
+
+	public void compileTextureIfNeeded(UUID uuid, PartInfo info) {
 		if (!info.isEmpty() && (info.needsTextureCompile || info.getTexture() == null)) {
-			info.setTexture(TextureHelper.generateTexture(entity.getUUID(), info));
+			info.setTexture(TextureHelper.generateTexture(uuid, info));
 			info.needsTextureCompile = false;
 		}
 	}

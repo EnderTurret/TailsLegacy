@@ -83,22 +83,22 @@ public class TripleTintTexture extends AbstractTexture {
 
 	/**
 	 * Colorises a pixel.
-	 * @param red The red color value.
+	 * @param tone The red color value.
 	 * @param tint1 The first tint.
-	 * @param green The green color value.
+	 * @param weight1 The green color value.
 	 * @param tint2 The second tint.
-	 * @param blue The blue color value.
+	 * @param weight3 The blue color value.
 	 * @param tint3 The third tint.
 	 * @param alpha The alpha value.
 	 * @return The colorised pixel, packed using {@link NativeImage#combine(int, int, int, int)}.
 	 */
-	private static int colorise(int red, int tint1, int green, int tint2, int blue, int tint3, int alpha) {
-		double g = green / 255D;
-		final double b = blue / 255D;
+	private static int colorise(int tone, int tint1, int weight1, int tint2, int weight3, int tint3, int alpha) {
+		double w2 = weight1 / 255D;
+		final double w3 = weight3 / 255D;
 
-		g *= 1 - b;
+		w2 *= 1 - w3;
 
-		final double r = 1 - (g + b);
+		final double w1 = 1 - (w2 + w3);
 
 		final double r1 = scale(getR(tint1), MINBRIGHTNESS) / 255;
 		final double g1 = scale(getG(tint1), MINBRIGHTNESS) / 255;
@@ -112,9 +112,9 @@ public class TripleTintTexture extends AbstractTexture {
 		final double g3 = scale(getG(tint3), MINBRIGHTNESS) / 255;
 		final double b3 = scale(getB(tint3), MINBRIGHTNESS) / 255;
 
-		final int rfinal = (int) Math.floor(red * (r1 * r + r2 * g + r3 * b));
-		final int gfinal = (int) Math.floor(red * (g1 * r + g2 * g + g3 * b));
-		final int bfinal = (int) Math.floor(red * (b1 * r + b2 * g + b3 * b));
+		final int rfinal = (int) Math.floor(tone * (r1 * w1 + r2 * w2 + r3 * w3));
+		final int gfinal = (int) Math.floor(tone * (g1 * w1 + g2 * w2 + g3 * w3));
+		final int bfinal = (int) Math.floor(tone * (b1 * w1 + b2 * w2 + b3 * w3));
 
 		return NativeImage.combine(alpha, bfinal, gfinal, rfinal);
 	}

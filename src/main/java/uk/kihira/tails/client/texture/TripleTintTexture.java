@@ -100,17 +100,17 @@ public class TripleTintTexture extends AbstractTexture {
 
 		final double w1 = 1 - (w2 + w3);
 
-		final double r1 = scale(getR(tint1), MINBRIGHTNESS) / 255;
-		final double g1 = scale(getG(tint1), MINBRIGHTNESS) / 255;
-		final double b1 = scale(getB(tint1), MINBRIGHTNESS) / 255;
+		final double r1 = scale(getR(tint1)) / 255;
+		final double g1 = scale(getG(tint1)) / 255;
+		final double b1 = scale(getB(tint1)) / 255;
 
-		final double r2 = scale(getR(tint2), MINBRIGHTNESS) / 255;
-		final double g2 = scale(getG(tint2), MINBRIGHTNESS) / 255;
-		final double b2 = scale(getB(tint2), MINBRIGHTNESS) / 255;
+		final double r2 = scale(getR(tint2)) / 255;
+		final double g2 = scale(getG(tint2)) / 255;
+		final double b2 = scale(getB(tint2)) / 255;
 
-		final double r3 = scale(getR(tint3), MINBRIGHTNESS) / 255;
-		final double g3 = scale(getG(tint3), MINBRIGHTNESS) / 255;
-		final double b3 = scale(getB(tint3), MINBRIGHTNESS) / 255;
+		final double r3 = scale(getR(tint3)) / 255;
+		final double g3 = scale(getG(tint3)) / 255;
+		final double b3 = scale(getB(tint3)) / 255;
 
 		final int rfinal = (int) Math.floor(tone * (r1 * w1 + r2 * w2 + r3 * w3));
 		final int gfinal = (int) Math.floor(tone * (g1 * w1 + g2 * w2 + g3 * w3));
@@ -119,7 +119,7 @@ public class TripleTintTexture extends AbstractTexture {
 		return NativeImage.combine(alpha, bfinal, gfinal, rfinal);
 	}
 
-	private static double scale(int color, int min) {
-		return min + (int) Math.floor(color * ((255 - min) / 255.0));
+	private static double scale(int color) {
+		return MINBRIGHTNESS + (int) Math.floor(color * ((255 - MINBRIGHTNESS) / 255.0));
 	}
 }

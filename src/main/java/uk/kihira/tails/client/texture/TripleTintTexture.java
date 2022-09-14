@@ -53,15 +53,13 @@ public class TripleTintTexture extends AbstractTexture {
 	public void load(ResourceManager manager) throws IOException {
 		releaseId();
 
-		try {
-			try (InputStream is = manager.getResource(textureLocation).get().open()) {
-				final NativeImage texture = NativeImage.read(Format.RGBA, is);
+		try (InputStream is = manager.getResource(textureLocation).get().open()) {
+			final NativeImage texture = NativeImage.read(Format.RGBA, is);
 
-				colorise(texture, tint1, tint2, tint3);
+			colorise(texture, tint1, tint2, tint3);
 
-				TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
-				texture.upload(0, 0, 0, true);
-			}
+			TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
+			texture.upload(0, 0, 0, true);
 		} catch (IOException e) {
 			Tails.LOGGER.error("Couldn't load triple tint texture image", e);
 		}

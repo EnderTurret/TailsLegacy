@@ -33,8 +33,7 @@ import uk.kihira.tails.common.Tails;
  */
 public class TripleTintTexture extends AbstractTexture {
 
-	private final String namespace;
-	private final String texturename;
+	private final ResourceLocation textureLocation;
 	private final int tint1;
 	private final int tint2;
 	private final int tint3;
@@ -42,8 +41,9 @@ public class TripleTintTexture extends AbstractTexture {
 	private static final int MINBRIGHTNESS = 22;
 
 	public TripleTintTexture(String namespace, String texturename, int tint1, int tint2, int tint3) {
-		this.namespace = Objects.requireNonNull(namespace);
-		this.texturename = Objects.requireNonNull(texturename);
+		Objects.requireNonNull(namespace);
+		Objects.requireNonNull(texturename);
+		textureLocation = new ResourceLocation(namespace, texturename);
 		this.tint1 = ColorUtil.fromJavaColor(tint1, true);
 		this.tint2 = ColorUtil.fromJavaColor(tint2, true);
 		this.tint3 = ColorUtil.fromJavaColor(tint3, true);
@@ -54,8 +54,8 @@ public class TripleTintTexture extends AbstractTexture {
 		releaseId();
 
 		try {
-			try (InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).get().open()) {
-				final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
+			try (InputStream is = manager.getResource(textureLocation).get().open()) {
+				final NativeImage texture = NativeImage.read(Format.RGBA, is);
 
 				colorise(texture, tint1, tint2, tint3);
 

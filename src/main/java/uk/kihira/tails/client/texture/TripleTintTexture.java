@@ -15,6 +15,7 @@ import static com.mojang.blaze3d.platform.NativeImage.getR;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.NativeImage.Format;
@@ -41,8 +42,8 @@ public class TripleTintTexture extends AbstractTexture {
 	private static final int MINBRIGHTNESS = 22;
 
 	public TripleTintTexture(String namespace, String texturename, int tint1, int tint2, int tint3) {
-		this.namespace = namespace;
-		this.texturename = texturename;
+		this.namespace = Objects.requireNonNull(namespace);
+		this.texturename = Objects.requireNonNull(texturename);
 		this.tint1 = ColorUtil.fromJavaColor(tint1, true);
 		this.tint2 = ColorUtil.fromJavaColor(tint2, true);
 		this.tint3 = ColorUtil.fromJavaColor(tint3, true);
@@ -53,15 +54,14 @@ public class TripleTintTexture extends AbstractTexture {
 		releaseId();
 
 		try {
-			if (texturename != null)
-				try (InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).get().open()) {
-					final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
+			try (InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).get().open()) {
+				final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
 
-					colorise(texture, tint1, tint2, tint3);
+				colorise(texture, tint1, tint2, tint3);
 
-					TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
-					texture.upload(0, 0, 0, true);
-				}
+				TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
+				texture.upload(0, 0, 0, true);
+			}
 		} catch (IOException e) {
 			Tails.LOGGER.error("Couldn't load triple tint texture image", e);
 		}

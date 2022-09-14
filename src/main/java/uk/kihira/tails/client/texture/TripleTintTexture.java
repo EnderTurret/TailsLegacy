@@ -16,8 +16,6 @@ import static com.mojang.blaze3d.platform.NativeImage.getR;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.logging.log4j.LogManager;
-
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.NativeImage.Format;
 import com.mojang.blaze3d.platform.TextureUtil;
@@ -27,6 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 import uk.kihira.tails.client.ColorUtil;
+import uk.kihira.tails.common.Tails;
 
 /**
  * A texture that tints another texture based on three tint values.
@@ -53,8 +52,7 @@ public class TripleTintTexture extends AbstractTexture {
 	public void load(ResourceManager manager) throws IOException {
 		releaseId();
 
-		try
-		{
+		try {
 			if (texturename != null)
 				try (InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).get().open()) {
 					final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
@@ -62,35 +60,60 @@ public class TripleTintTexture extends AbstractTexture {
 					for (int x = 0; x < texture.getWidth(); x++)
 						for (int y = 0; y < texture.getHeight(); y++) {
 							final int rgb = texture.getPixelRGBA(x, y);
-							final int a = getA(rgb);
-							if (a == 0) continue;
-							final int r = getR(rgb);
-							final int g = getG(rgb);
-							final int b = getB(rgb);
+							final int newRgb = colorise(rgb, tint1, tint2, tint3);
 
-							texture.setPixelRGBA(x, y, colorise(r, tint1, g, tint2, b, tint3, a));
+							if (rgb == newRgb) continue;
+
+							texture.setPixelRGBA(x, y, newRgb);
 						}
 
 					TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
 					texture.upload(0, 0, 0, true);
 				}
-		}
-		catch (IOException ioexception)
-		{
-			LogManager.getLogger().error("Couldn't load triple tint texture image", ioexception);
+		} catch (IOException e) {
+			Tails.LOGGER.error("Couldn't load triple tint texture image", e);
 		}
 	}
 
 	/**
-	 * Colorises a pixel.
-	 * @param saturation The red color value.
+	 * Recolors the given input color according to the three given tints.
+	 * See {@link #colorise(int, int, int, int, int, int, int)} for more information.
+	 * @param input The input color in {@linkplain NativeImage#combine(int, int, int, int) ABGR form}.
+	 * @param tint1 The first tint in ABGR form.
+	 * @param tint2 The second tint in ABGR form.
+	 * @param tint3 The third tint in ABGR form.
+	 * @return The resultant color in ABGR form.
+	 */
+	private static int colorise(int input, int tint1, int tint2, int tint3) {
+		final int a = getA(input);
+		if (a == 0) return input;
+		final int r = getR(input);
+		final int g = getG(input);
+		final int b = getB(input);
+
+		return colorise(r, tint1, g, tint2, b, tint3, a);
+	}
+
+	/**
+	 * <p>
+	 * Transforms a color using three tints.
+	 * The weight values determine how much of each tint the resulting color uses.
+	 * </p>
+	 * <p>
+	 * As a better explanation, imagine a grid of color where the x axis is {@code weight2} and the y axis is {@code weight3}.
+	 * Now, imagine a second grid where the first tint is most localized in the top-left corner,
+	 * the second tint is most localized in the top-right corner, and the third tint is localized along the bottom.
+	 * This together makes up a triple gradient-esque square where each tint is represented and forms smooth transitions between each other.
+	 * This method maps the location given by the weight values to the corresponding location on the second grid and returns the color there.
+	 * </p>
+	 * @param saturation The saturation of the resulting color.
 	 * @param tint1 The first tint.
-	 * @param weight2 The green color value.
+	 * @param weight2 The second weight value. This determines the x coordinate on the grid mentioned in the documentation here.
 	 * @param tint2 The second tint.
-	 * @param weight3 The blue color value.
+	 * @param weight3 The third weight value. This determines the y coordinate on the grid mentioned in the documentation here.
 	 * @param tint3 The third tint.
-	 * @param alpha The alpha value.
-	 * @return The colorised pixel, packed using {@link NativeImage#combine(int, int, int, int)}.
+	 * @param alpha The transparency of the resulting color.
+	 * @return The new color, packed using {@link NativeImage#combine(int, int, int, int)}.
 	 */
 	private static int colorise(int saturation, int tint1, int weight2, int tint2, int weight3, int tint3, int alpha) {
 		double w2 = weight2 / 255D;

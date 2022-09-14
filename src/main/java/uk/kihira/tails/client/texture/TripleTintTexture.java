@@ -57,15 +57,7 @@ public class TripleTintTexture extends AbstractTexture {
 				try (InputStream inputstream = manager.getResource(new ResourceLocation(namespace, texturename)).get().open()) {
 					final NativeImage texture = NativeImage.read(Format.RGBA, inputstream);
 
-					for (int x = 0; x < texture.getWidth(); x++)
-						for (int y = 0; y < texture.getHeight(); y++) {
-							final int rgb = texture.getPixelRGBA(x, y);
-							final int newRgb = colorise(rgb, tint1, tint2, tint3);
-
-							if (rgb == newRgb) continue;
-
-							texture.setPixelRGBA(x, y, newRgb);
-						}
+					colorise(texture, tint1, tint2, tint3);
 
 					TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
 					texture.upload(0, 0, 0, true);
@@ -73,6 +65,26 @@ public class TripleTintTexture extends AbstractTexture {
 		} catch (IOException e) {
 			Tails.LOGGER.error("Couldn't load triple tint texture image", e);
 		}
+	}
+
+	/**
+	 * Colorises the given image.
+	 * @param texture The input texture.
+	 * @param tint1 The first tint.
+	 * @param tint2 The second tint.
+	 * @param tint3 The third tint.
+	 * @see #colorise(int, int, int, int, int, int, int)
+	 */
+	private static void colorise(NativeImage texture, int tint1, int tint2, int tint3) {
+		for (int x = 0; x < texture.getWidth(); x++)
+			for (int y = 0; y < texture.getHeight(); y++) {
+				final int rgb = texture.getPixelRGBA(x, y);
+				final int newRgb = colorise(rgb, tint1, tint2, tint3);
+
+				if (rgb == newRgb) continue;
+
+				texture.setPixelRGBA(x, y, newRgb);
+			}
 	}
 
 	/**

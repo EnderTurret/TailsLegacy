@@ -91,7 +91,7 @@ public class TripleTintTexture extends AbstractTexture {
 		final int g = getG(input);
 		final int b = getB(input);
 
-		return colorise(r, tint1, g, tint2, b, tint3, a);
+		return colorise(r, g, b, a, tint1, tint2, tint3);
 	}
 
 	/**
@@ -107,15 +107,15 @@ public class TripleTintTexture extends AbstractTexture {
 	 * This method maps the location given by the weight values to the corresponding location on the second grid and returns the color there.
 	 * </p>
 	 * @param saturation The saturation of the resulting color.
-	 * @param tint1 The first tint.
 	 * @param weight2 The second weight value. This determines the x coordinate on the grid mentioned in the documentation here.
-	 * @param tint2 The second tint.
 	 * @param weight3 The third weight value. This determines the y coordinate on the grid mentioned in the documentation here.
-	 * @param tint3 The third tint.
 	 * @param alpha The transparency of the resulting color.
+	 * @param tint1 The first tint.
+	 * @param tint2 The second tint.
+	 * @param tint3 The third tint.
 	 * @return The new color, packed using {@link NativeImage#combine(int, int, int, int)}.
 	 */
-	private static int colorise(int saturation, int tint1, int weight2, int tint2, int weight3, int tint3, int alpha) {
+	private static int colorise(int saturation, int weight2, int weight3, int alpha, int tint1, int tint2, int tint3) {
 		double w2 = weight2 / 255D;
 		final double w3 = weight3 / 255D;
 

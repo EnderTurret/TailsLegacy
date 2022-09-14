@@ -16,13 +16,16 @@ import static com.mojang.blaze3d.platform.NativeImage.getR;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.Optional;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.NativeImage.Format;
 import com.mojang.blaze3d.platform.TextureUtil;
 
 import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 import uk.kihira.tails.client.ColorUtil;
@@ -53,16 +56,27 @@ public class TripleTintTexture extends AbstractTexture {
 	public void load(ResourceManager manager) throws IOException {
 		releaseId();
 
-		try (InputStream is = manager.getResource(textureLocation).get().open()) {
-			final NativeImage texture = NativeImage.read(Format.RGBA, is);
+		NativeImage texture = null;
 
-			colorise(texture, tint1, tint2, tint3);
+		final Optional<Resource> optional = manager.getResource(textureLocation);
 
-			TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
-			texture.upload(0, 0, 0, true);
-		} catch (IOException e) {
-			Tails.LOGGER.error("Couldn't load triple tint texture image", e);
+		if (!optional.isPresent()) {
+			Tails.LOGGER.error("Using missing texture: unable to find {}.", textureLocation);
+			texture = MissingTextureAtlasSprite.getTexture().getPixels();
 		}
+
+		else
+			try (InputStream is = optional.get().open()) {
+				texture = NativeImage.read(Format.RGBA, is);
+
+				colorise(texture, tint1, tint2, tint3);
+			} catch (IOException e) {
+				Tails.LOGGER.error("Using missing texture: failed to load {}.", textureLocation, e);
+				texture = MissingTextureAtlasSprite.getTexture().getPixels();
+			}
+
+		TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
+		texture.upload(0, 0, 0, true);
 	}
 
 	/**

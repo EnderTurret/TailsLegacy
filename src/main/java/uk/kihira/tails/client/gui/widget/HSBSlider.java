@@ -25,6 +25,7 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.client.gui.ScreenUtils;
 
 import uk.kihira.tails.client.ClientUtils;
+import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -68,7 +69,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 				final float green = (float) hueColour.getGreen() / 255;
 				final float blue = (float) hueColour.getBlue() / 255;
 				RenderSystem.setShaderColor(red, green, blue, 1.0F);
-				ClientUtils.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, 176, 256, 20, width - 2, height - 2);
+				RenderHelper.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, 176, 256, 20, width - 2, height - 2);
 			}
 
 			int srcY = 236;
@@ -84,11 +85,11 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 				final float green = (float) hueColour.getGreen() / 255;
 				final float blue = (float) hueColour.getBlue() / 255;
 				RenderSystem.setShaderColor(red, green, blue, 1F);
-				ClientUtils.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, srcY, 231, 20, width - 2, height - 2);
+				RenderHelper.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, srcY, 231, 20, width - 2, height - 2);
 				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 			} else {
 				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-				ClientUtils.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, srcY, 256, 20, width - 2, height - 2);
+				RenderHelper.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, srcY, 256, 20, width - 2, height - 2);
 			}
 
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);

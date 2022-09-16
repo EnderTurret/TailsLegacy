@@ -31,6 +31,7 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.render.PartRenderer;
@@ -181,7 +182,7 @@ public class PartsPanel extends Panel<EditorScreen> {
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(poseStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				ClientUtils.drawStringMultiLine(poseStack, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
+				RenderHelper.drawStringMultiLine(poseStack, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {
 					final Part renderPart = partInfo.getPart();

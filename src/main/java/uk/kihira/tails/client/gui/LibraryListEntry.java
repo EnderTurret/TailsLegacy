@@ -21,6 +21,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.client.ClientUtils;
+import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.common.LibraryEntryData;
@@ -47,7 +48,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		for (PartType type : PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
 				final PartInfo partInfo = data.partsData.getPartInfo(type);
-				ClientUtils.drawStringMultiLine(poseStack, fontRenderer, I18n.get(partInfo.getPart().getTranslationKey()),
+				RenderHelper.drawStringMultiLine(poseStack, fontRenderer, I18n.get(partInfo.getPart().getTranslationKey()),
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
 					GuiComponent.fill(poseStack,

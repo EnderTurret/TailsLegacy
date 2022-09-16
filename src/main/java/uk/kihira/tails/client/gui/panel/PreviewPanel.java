@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import uk.kihira.tails.client.ClientUtils;
+import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IconButton;
 
@@ -58,7 +59,7 @@ public class PreviewPanel extends Panel<EditorScreen> {
 		setBlitOffset(0);
 
 		// Player
-		ClientUtils.drawEntity(left + width / 2, top + height / 2 + Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
+		RenderHelper.drawEntity(left + width / 2, top + height / 2 + Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
 				Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
 				yaw, pitch, partialTick, Minecraft.getInstance().player);
 

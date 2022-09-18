@@ -34,12 +34,12 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 		if (Tails.DEBUG_NETWORK)
 			Tails.LOGGER.info("[PlayerDataMapMessage] Received {}", tailInfoJson);
 
-		Map<UUID, PartsData> partsDataMap = Collections.emptyMap();
+		Map<UUID, PartsData> partsDataMap = Map.of();
 
 		try {
 			partsDataMap = Tails.GSON.fromJson(tailInfoJson, PART_DATA_MAP_TYPE);
-		} catch (JsonSyntaxException e) {
-			Tails.LOGGER.catching(e);
+		} catch (Exception e) {
+			Tails.LOGGER.error("Exception decoding player part data:\n{}", tailInfoJson, e);
 		}
 
 		return new PlayerDataMapMessage(partsDataMap);
@@ -51,7 +51,7 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 
 	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
 		if (message.partsDataMap != null)
-			for (Map.Entry<UUID,PartsData> entry : message.partsDataMap.entrySet())
+			for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet())
 				Tails.PROXY.addPartsData(entry.getKey(), entry.getValue());
 
 		ctx.get().setPacketHandled(true);

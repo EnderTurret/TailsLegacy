@@ -38,8 +38,8 @@ public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 		if (!Strings.isNullOrEmpty(tailInfoJson))
 			try {
 				partsData = Tails.GSON.fromJson(tailInfoJson, PartsData.class);
-			} catch (JsonSyntaxException e) {
-				Tails.LOGGER.catching(e);
+			} catch (Exception e) {
+				Tails.LOGGER.error("Exception decoding player part data:\n{}", tailInfoJson, e);
 			}
 
 		return new PlayerDataMessage(uuid, partsData);

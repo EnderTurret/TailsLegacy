@@ -22,6 +22,7 @@ import net.minecraftforge.network.NetworkDirection;
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
@@ -60,8 +61,8 @@ public class CommonProxy {
 	 * A generic message registration method.
 	 */
 	protected void registerMessages() {
-		Tails.CHANNEL.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::encode, PlayerDataMessage::decode, PlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
-		Tails.CHANNEL.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		TailsNetworkManager.CHANNEL.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::encode, PlayerDataMessage::decode, PlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+		TailsNetworkManager.CHANNEL.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 	}
 
 	/**

@@ -48,16 +48,6 @@ public final class Tails {
 	 */
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-	/**
-	 * <strike>Surprisingly, it's a snow poff.</strike> The channel used for Tails networking.
-	 */
-	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "channel"), () -> "™", v -> true, v -> true);
-
-	/**
-	 * Whether to enable network debugging features, such as printing received packet data to the log.
-	 */
-	public static final boolean DEBUG_NETWORK = Boolean.getBoolean("tails.debugNetwork");
-
 	// I know this looks bad, but it's the only way to prevent class loading ClientProxy.
 	// Placing ClientProxy::new in here class loads it anyway.
 	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> CommonProxy::makeClientProxy, () -> CommonProxy::new);

@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
+import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
@@ -57,7 +58,7 @@ public final class LocalPartManager {
 
 	public static void syncToServer() {
 		if (Minecraft.getInstance().level != null)
-			Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), localPartsData));
+			TailsNetworkManager.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), localPartsData));
 
 		if (CommonProxy.sync != null)
 			CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), localPartsData);

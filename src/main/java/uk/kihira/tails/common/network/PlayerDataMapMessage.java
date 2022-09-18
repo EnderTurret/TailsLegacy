@@ -20,6 +20,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.part.PartsData;
 
 // S → C
@@ -30,7 +31,7 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
-		if (Tails.DEBUG_NETWORK)
+		if (TailsNetworkManager.DEBUG_NETWORK)
 			Tails.LOGGER.info("[PlayerDataMapMessage] Received {}", tailInfoJson);
 
 		Map<UUID, PartsData> partsDataMap = Map.of();

@@ -19,6 +19,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.part.PartsData;
 
 // C → S
@@ -29,7 +30,7 @@ public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
-		if (Tails.DEBUG_NETWORK)
+		if (TailsNetworkManager.DEBUG_NETWORK)
 			Tails.LOGGER.info("[PlayerDataMessage] Received {} = {}", uuid, tailInfoJson);
 
 		PartsData partsData = PartsData.EMPTY;
@@ -54,7 +55,7 @@ public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 		if (message.partsData != null) {
 			Tails.PROXY.addPartsData(message.uuid, message.partsData);
 			// Tell other clients about the change.
-			Tails.CHANNEL.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData));
+			TailsNetworkManager.CHANNEL.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData));
 		}
 
 		ctx.get().setPacketHandled(true);

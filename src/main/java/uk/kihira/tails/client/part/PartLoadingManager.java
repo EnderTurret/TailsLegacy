@@ -40,6 +40,8 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	private final Runnable clear;
 	private final BiConsumer<List<Part>, Map<PartType, List<ResourceLocation>>> onComplete;
 
+	private static final boolean DEBUG_REGISTRIES = Boolean.getBoolean("tails.debugRegistries");
+
 	PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<PartType, List<ResourceLocation>>> onComplete) {
 		this.clear = clear;
 		this.onComplete = onComplete;
@@ -132,12 +134,6 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 				parts.add(pair);
 		}
 
-		Tails.LOGGER.info("Parts: {}", parts);
-		Tails.LOGGER.info("Sub types: {}", subTypes);
-		Tails.LOGGER.info("Textures: {}", textures);
-		Tails.LOGGER.info("Orderings: {}", orderings);
-		Tails.LOGGER.info("--------------------------------------------");
-
 		final Map<ResourceLocation, List<String>> realOrderings = new HashMap<>();
 
 		for (ResourcePair pair : orderings) {
@@ -159,7 +155,8 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 			realOrderings.put(new ResourceLocation(pair.location().getNamespace(), id), values);
 		}
 
-		Tails.LOGGER.info("Orderings: {}", realOrderings);
+		if (DEBUG_REGISTRIES)
+			Tails.LOGGER.info("Orderings: {}", realOrderings);
 
 		final List<NamedTexture> realTextures = new ArrayList<>(textures.size());
 
@@ -178,7 +175,8 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 				Tails.LOGGER.warn("Texture {} does not apply to any sub types!", pair.location());
 		}
 
-		Tails.LOGGER.info("Textures: {}", realTextures);
+		if (DEBUG_REGISTRIES)
+			Tails.LOGGER.info("Textures: {}", realTextures);
 
 		final List<NamedSubType> realSubTypes = new ArrayList<>(subTypes.size());
 
@@ -198,7 +196,8 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 				realSubTypes.add(subType);
 		}
 
-		Tails.LOGGER.info("Sub types: {}", realSubTypes);
+		if (DEBUG_REGISTRIES)
+			Tails.LOGGER.info("Sub types: {}", realSubTypes);
 
 		final List<Part> realParts = new ArrayList<>();
 
@@ -218,7 +217,8 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 				realParts.add(part);
 		}
 
-		Tails.LOGGER.info("Parts: {}", realParts);
+		if (DEBUG_REGISTRIES)
+			Tails.LOGGER.info("Parts: {}", realParts);
 
 		return realParts;
 	}

@@ -27,7 +27,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
+import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common.part.ServerPartInfo;
 import uk.kihira.tails.proxy.CommonProxy;
 
 /**
@@ -63,9 +65,11 @@ public class Tails {
 	/**
 	 * A nice {@link Gson} instance for deserializing {@link PartsData}, among other things.
 	 */
-	public static final Gson GSON = PROXY.configureGson(new GsonBuilder()
+	public static final Gson SERVER_GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
-			.registerTypeAdapter(PartsData.class, new PartsData.Serializer()));
+			.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
+			.registerTypeHierarchyAdapter(IPartInfo.class, new ServerPartInfo.Serializer())
+			.create();
 
 	public Tails() {
 		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> "I am in fact a client-side mod.", (version,remote) -> remote));

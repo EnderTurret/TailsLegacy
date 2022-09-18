@@ -23,6 +23,7 @@ import net.minecraftforge.network.PacketDistributor;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
+// C → S & S → C
 public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 
 	public static PlayerDataMessage decode(FriendlyByteBuf buf) {
@@ -37,7 +38,7 @@ public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 
 		if (!Strings.isNullOrEmpty(tailInfoJson))
 			try {
-				partsData = Tails.GSON.fromJson(tailInfoJson, PartsData.class);
+				partsData = Tails.SERVER_GSON.fromJson(tailInfoJson, PartsData.class);
 			} catch (Exception e) {
 				Tails.LOGGER.error("Exception decoding player part data:\n{}", tailInfoJson, e);
 			}
@@ -47,7 +48,7 @@ public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 
 	public static void encode(PlayerDataMessage msg, FriendlyByteBuf buf) {
 		buf.writeUUID(msg.uuid);
-		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.GSON.toJson(msg.partsData);
+		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.SERVER_GSON.toJson(msg.partsData);
 		buf.writeUtf(tailInfoJson, Short.MAX_VALUE);
 	}
 

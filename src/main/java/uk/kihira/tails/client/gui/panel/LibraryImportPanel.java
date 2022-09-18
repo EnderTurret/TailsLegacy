@@ -22,6 +22,7 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
+import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
@@ -44,7 +45,7 @@ public class LibraryImportPanel extends Panel<EditorScreen> {
 			else {
 				final String[] strings = inputField.getValue().split(":", 4);
 				try {
-					final LibraryEntryData entryData = new LibraryEntryData(UUID.fromString(strings[1]), strings[2], strings[0], Tails.GSON.fromJson(strings[3], PartsData.class));
+					final LibraryEntryData entryData = new LibraryEntryData(UUID.fromString(strings[1]), strings[2], strings[0], LocalPartManager.GSON.fromJson(strings[3], PartsData.class));
 					Tails.PROXY.getLibraryManager().addEntry(entryData);
 					parent.getLibraryPanel().initList();
 

@@ -125,8 +125,7 @@ public class CommonProxy {
 
 	public void deleteTexture(ResourceLocation tex) {}
 
-	public Gson configureGson(GsonBuilder builder) {
-		builder.registerTypeHierarchyAdapter(IPartInfo.class, new ServerPartInfo.Serializer());
-		return builder.create();
+	public Gson getSidedGson() {
+		return Tails.SERVER_GSON;
 	}
 }

@@ -2,6 +2,9 @@ package uk.kihira.tails.client.part;
 
 import javax.annotation.Nullable;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import net.minecraftforge.fml.config.ModConfig;
 
 import uk.kihira.tails.common.Tails;
@@ -11,6 +14,12 @@ import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
 public class LocalPartManager {
+
+	public static final Gson GSON = new GsonBuilder()
+			.excludeFieldsWithoutExposeAnnotation()
+			.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
+			.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer())
+			.create();
 
 	public static PartsData localPartsData;
 
@@ -29,7 +38,7 @@ public class LocalPartManager {
 
 				setLocalPartsData(localPartsData, TailsConfig.getConfig());
 			} else
-				localPartsData = Tails.GSON.fromJson(localPlayerOutfit, PartsData.class);
+				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (Exception e) {
 			TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set("");
 			Tails.LOGGER.error("Failed to load local player data! Invalid data has been removed.", e);
@@ -40,7 +49,7 @@ public class LocalPartManager {
 	public static void setLocalPartsData(PartsData partsData, @Nullable ModConfig instance) {
 		localPartsData = partsData;
 
-		TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set(Tails.GSON.toJson(localPartsData));
+		TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set(GSON.toJson(localPartsData));
 
 		TailsConfig.getConfig().save();
 	}

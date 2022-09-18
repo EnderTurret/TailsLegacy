@@ -33,6 +33,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.render.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.PlayerRenderHelper;
@@ -129,8 +130,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public Gson configureGson(GsonBuilder builder) {
-		builder.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer());
-		return builder.create();
+	public Gson getSidedGson() {
+		return LocalPartManager.GSON;
 	}
 }

@@ -26,6 +26,7 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
+import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
@@ -61,7 +62,7 @@ public class LibraryInfoPanel extends Panel<EditorScreen> {
 			final LibraryEntryData libData = getEntry().data;
 			sb.append(libData.entryName).append(":");
 			sb.append(libData.creatorUUID).append(":");
-			sb.append(Tails.GSON.toJson(libData.partsData));
+			sb.append(LocalPartManager.GSON.toJson(libData.partsData));
 
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, Component.translatable("tails.gui.library.info.toast.export"));
 			GLFW.glfwSetClipboardString(minecraft.getWindow().getWindow(), sb.toString());

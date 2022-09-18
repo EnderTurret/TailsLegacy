@@ -19,6 +19,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class LibraryManager {
@@ -29,6 +30,10 @@ public class LibraryManager {
 	public final List<LibraryEntryData> libraryEntries = new ArrayList<>();
 
 	public LibraryManager() {}
+
+	protected Gson getGson() {
+		return Tails.SERVER_GSON;
+	}
 
 	/**
 	 * Adds the entries and saves
@@ -68,7 +73,7 @@ public class LibraryManager {
 
 		if (Files.exists(LIBRARY_PATH))
 			try (BufferedReader br = Files.newBufferedReader(createLibraryFile())) {
-				final List<LibraryEntryData> loadedEntries = Tails.GSON.fromJson(br, ENTRY_DATA_LIST);
+				final List<LibraryEntryData> loadedEntries = getGson().fromJson(br, ENTRY_DATA_LIST);
 				if (loadedEntries != null && !loadedEntries.isEmpty())
 					for (LibraryEntryData libEntry : loadedEntries)
 						if (libEntry.partsData != null)
@@ -90,7 +95,7 @@ public class LibraryManager {
 
 	protected void saveLibrary(Path to) {
 		try (BufferedWriter bw = Files.newBufferedWriter(to, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-			Tails.GSON.toJson(libraryEntries, bw);
+			getGson().toJson(libraryEntries, bw);
 		} catch (IOException e) {
 			Tails.LOGGER.error("Exception writing library:", e);
 		}

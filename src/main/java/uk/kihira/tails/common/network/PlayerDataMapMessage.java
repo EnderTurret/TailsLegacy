@@ -24,9 +24,10 @@ import net.minecraftforge.network.NetworkEvent;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
+// S → C
 public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 
-	private static final Type PART_DATA_MAP_TYPE = new TypeToken<Map<UUID,PartsData>>() {}.getType();
+	private static final Type PART_DATA_MAP_TYPE = new TypeToken<Map<UUID, PartsData>>() {}.getType();
 
 	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
@@ -37,7 +38,7 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 		Map<UUID, PartsData> partsDataMap = Map.of();
 
 		try {
-			partsDataMap = Tails.GSON.fromJson(tailInfoJson, PART_DATA_MAP_TYPE);
+			partsDataMap = Tails.PROXY.getSidedGson().fromJson(tailInfoJson, PART_DATA_MAP_TYPE);
 		} catch (Exception e) {
 			Tails.LOGGER.error("Exception decoding player part data:\n{}", tailInfoJson, e);
 		}
@@ -46,7 +47,7 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 	}
 
 	public static void encode(PlayerDataMapMessage msg, FriendlyByteBuf buf) {
-		buf.writeUtf(Tails.GSON.toJson(msg.partsDataMap), Short.MAX_VALUE);
+		buf.writeUtf(Tails.SERVER_GSON.toJson(msg.partsDataMap), Short.MAX_VALUE);
 	}
 
 	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {

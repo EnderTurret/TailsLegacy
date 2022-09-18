@@ -83,7 +83,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final JsonElement json = readJson(loc, res);
 		if (json == null) return Map.of();
 
-		final Map<String, List<String>> rawOrdering = Tails.GSON.fromJson(json, ORDERING_TYPE);
+		final Map<String, List<String>> rawOrdering = LocalPartManager.GSON.fromJson(json, ORDERING_TYPE);
 
 		for (Map.Entry<String, List<String>> entry : rawOrdering.entrySet()) {
 			final PartType type = PartType.forId(entry.getKey());

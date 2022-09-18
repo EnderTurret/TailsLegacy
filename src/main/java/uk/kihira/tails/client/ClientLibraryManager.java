@@ -10,14 +10,22 @@ package uk.kihira.tails.client;
 
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 
 import uk.kihira.tails.client.gui.EditorScreen;
+import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.LibraryManager;
 
 public class ClientLibraryManager extends LibraryManager {
+
+	@Override
+	protected Gson getGson() {
+		return LocalPartManager.GSON;
+	}
 
 	@Override
 	public void addEntries(List<? extends LibraryEntryData> entries) {

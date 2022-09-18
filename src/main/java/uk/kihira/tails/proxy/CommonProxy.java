@@ -10,6 +10,7 @@ package uk.kihira.tails.proxy;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -17,11 +18,13 @@ import com.google.gson.GsonBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 
+import net.minecraftforge.network.NetworkDirection;
+
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.PlayerDataMessage;
+import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.ServerPartInfo;
@@ -60,8 +63,8 @@ public class CommonProxy {
 	 * A generic message registration method.
 	 */
 	protected void registerMessages() {
-		Tails.CHANNEL.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::encode, PlayerDataMessage::decode, PlayerDataMessage::handle);
-		Tails.CHANNEL.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle);
+		Tails.CHANNEL.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::encode, PlayerDataMessage::decode, PlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+		Tails.CHANNEL.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 	}
 
 	/**

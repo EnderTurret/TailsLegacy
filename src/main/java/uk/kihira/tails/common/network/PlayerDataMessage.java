@@ -23,7 +23,7 @@ import net.minecraftforge.network.PacketDistributor;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
-// C → S & S → C
+// C → S
 public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 
 	public static PlayerDataMessage decode(FriendlyByteBuf buf) {
@@ -48,7 +48,7 @@ public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 
 	public static void encode(PlayerDataMessage msg, FriendlyByteBuf buf) {
 		buf.writeUUID(msg.uuid);
-		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.SERVER_GSON.toJson(msg.partsData);
+		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.PROXY.getSidedGson().toJson(msg.partsData);
 		buf.writeUtf(tailInfoJson, Short.MAX_VALUE);
 	}
 
@@ -56,8 +56,7 @@ public record PlayerDataMessage(UUID uuid, PartsData partsData) {
 		if (message.partsData != null) {
 			Tails.PROXY.addPartsData(message.uuid, message.partsData);
 			// Tell other clients about the change.
-			if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER)
-				Tails.CHANNEL.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData));
+			Tails.CHANNEL.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData));
 		}
 
 		ctx.get().setPacketHandled(true);

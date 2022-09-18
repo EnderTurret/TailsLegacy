@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -32,7 +31,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.render.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
@@ -42,7 +40,6 @@ import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;

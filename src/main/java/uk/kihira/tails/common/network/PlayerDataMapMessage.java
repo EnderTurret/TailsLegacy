@@ -9,13 +9,11 @@
 package uk.kihira.tails.common.network;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
 import com.google.common.reflect.TypeToken;
-import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.network.FriendlyByteBuf;
 

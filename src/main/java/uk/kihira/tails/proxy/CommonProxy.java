@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -23,11 +22,9 @@ import net.minecraftforge.network.NetworkDirection;
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
-import uk.kihira.tails.common.part.IPartInfo;
+import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.common.part.ServerPartInfo;
 
 /**
  * A common proxy for common things.<br>

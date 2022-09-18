@@ -12,11 +12,9 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 import com.google.common.base.Strings;
-import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.network.FriendlyByteBuf;
 
-import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 

@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.render;
+package uk.kihira.tails.client.render.part;
 
 import java.util.UUID;
 
@@ -29,6 +29,7 @@ import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.texture.TextureHelper;
 
 /**

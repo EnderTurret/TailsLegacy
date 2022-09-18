@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.render;
+package uk.kihira.tails.client.render.helper;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -19,6 +19,7 @@ import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 

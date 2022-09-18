@@ -36,8 +36,8 @@ import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
-import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderStates;
+import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.PartType;
 
 public final class PartsPanel extends Panel<EditorScreen> {

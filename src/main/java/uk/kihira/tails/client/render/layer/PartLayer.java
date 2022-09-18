@@ -26,7 +26,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
-import uk.kihira.tails.client.render.PartRenderer;
+import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;

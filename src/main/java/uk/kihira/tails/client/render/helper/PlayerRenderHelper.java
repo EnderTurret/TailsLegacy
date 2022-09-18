@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.render;
+package uk.kihira.tails.client.render.helper;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -19,6 +19,7 @@ import uk.kihira.tails.client.model.tail.CatTailModel;
 import uk.kihira.tails.client.model.tail.DevilTailModel;
 import uk.kihira.tails.client.model.tail.DragonTailModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.PartType;
 
 public final class PlayerRenderHelper implements IRenderHelper<Player> {

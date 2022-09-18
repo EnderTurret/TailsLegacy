@@ -30,9 +30,9 @@ import uk.kihira.tails.client.model.tail.RaccoonTailModel;
 import uk.kihira.tails.client.model.tail.SharkTailModel;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
-import uk.kihira.tails.client.render.PartRenderer;
-import uk.kihira.tails.client.render.SeaPickleRenderer;
-import uk.kihira.tails.client.render.WingRenderer;
+import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.client.render.part.SeaPickleRenderer;
+import uk.kihira.tails.client.render.part.WingRenderer;
 
 public final class PartRenderRegistry {
 

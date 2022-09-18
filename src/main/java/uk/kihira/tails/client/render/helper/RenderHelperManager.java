@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.render;
+package uk.kihira.tails.client.render.helper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * The {@link IRenderHelper} manager.<br>

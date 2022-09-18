@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.render.PartRenderer;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * A pre-render callback for part rendering.<br>

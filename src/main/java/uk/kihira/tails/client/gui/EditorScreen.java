@@ -29,11 +29,9 @@ import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.proxy.CommonProxy;
 
 /**
  * The editor screen.
@@ -85,19 +83,16 @@ public class EditorScreen extends LayeredScreen {
 		PartsData data = LocalPartManager.localPartsData;
 
 		if (data == null)
-			LocalPartManager.setLocalPartsData(data = new PartsData(), null);
+			LocalPartManager.setLocalPartsData(data = new PartsData());
 
 		return new EditorScreen(data, screen -> {
 			// Update part info, set local and send it to the server.
 			final PartsData partsData = screen.getPartsData();
 
-			LocalPartManager.setLocalPartsData(partsData, null);
+			LocalPartManager.setLocalPartsData(partsData);
 			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), partsData);
 
-			Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), partsData));
-
-			if (CommonProxy.sync != null)
-				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), LocalPartManager.localPartsData);
+			LocalPartManager.syncToServer();
 
 			ToastManager.INSTANCE.createCenteredToast(screen.width / 2, screen.height - 40, 100, Component.translatable("tails.gui.saved").withStyle(ChatFormatting.GREEN));
 

@@ -45,7 +45,7 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			parent.refreshTintPane();
 
 			if (!libraryMode)
-				LocalPartManager.setLocalPartsData(parent.getPartsData(), null);
+				LocalPartManager.setLocalPartsData(parent.getPartsData());
 
 			parent.setPartsData(LocalPartManager.localPartsData);
 

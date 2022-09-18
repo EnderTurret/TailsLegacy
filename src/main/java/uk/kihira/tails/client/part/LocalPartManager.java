@@ -1,17 +1,18 @@
 package uk.kihira.tails.client.part;
 
-import javax.annotation.Nullable;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraft.client.Minecraft;
 
+import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
+import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.proxy.CommonProxy;
 
 public class LocalPartManager {
 
@@ -36,7 +37,7 @@ public class LocalPartManager {
 				for (PartType partType : PartType.values())
 					localPartsData.setPartInfo(partType, IPartInfo.empty());
 
-				setLocalPartsData(localPartsData, TailsConfig.getConfig());
+				setLocalPartsData(localPartsData);
 			} else
 				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (Exception e) {
@@ -46,11 +47,19 @@ public class LocalPartManager {
 		}
 	}
 
-	public static void setLocalPartsData(PartsData partsData, @Nullable ModConfig instance) {
+	public static void setLocalPartsData(PartsData partsData) {
 		localPartsData = partsData;
 
 		TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set(GSON.toJson(localPartsData));
 
 		TailsConfig.getConfig().save();
+	}
+
+	public static void syncToServer() {
+		if (Minecraft.getInstance().level != null)
+			Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), localPartsData));
+
+		if (CommonProxy.sync != null)
+			CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), localPartsData);
 	}
 }

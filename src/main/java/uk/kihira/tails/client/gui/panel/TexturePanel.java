@@ -19,7 +19,7 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 
-public class TexturePanel extends Panel<EditorScreen> {
+public final class TexturePanel extends Panel<EditorScreen> {
 
 	private final int variantSelectY = 17;
 	private final int texSelectY = variantSelectY + 15;

@@ -20,7 +20,7 @@ import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.LibraryManager;
 
-public class ClientLibraryManager extends LibraryManager {
+public final class ClientLibraryManager extends LibraryManager {
 
 	@Override
 	protected Gson getGson() {

@@ -24,7 +24,7 @@ import uk.kihira.tails.client.part.ClientPartInfo;
 /**
  * A specialized {@link PartRenderer} for wings.
  */
-public class WingRenderer extends PartRenderer {
+public final class WingRenderer extends PartRenderer {
 
 	public WingRenderer() {
 		super(null);

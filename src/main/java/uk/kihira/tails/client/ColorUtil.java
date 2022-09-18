@@ -18,7 +18,7 @@ import com.mojang.blaze3d.platform.NativeImage;
  * {@link NativeImage} packs it in the format {@code ABGR} whereas {@link Color} packs it in the format {@code ARGB}.
  * @author EnderTurret
  */
-public class ColorUtil {
+public final class ColorUtil {
 
 	/**
 	 * Packs the given color values into the format used in {@link NativeImage}.

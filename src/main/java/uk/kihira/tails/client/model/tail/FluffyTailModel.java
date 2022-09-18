@@ -32,7 +32,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model for the floofy tail everyone loves.
  */
-public class FluffyTailModel extends PartModel {
+public final class FluffyTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tailBase;

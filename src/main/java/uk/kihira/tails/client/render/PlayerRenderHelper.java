@@ -21,7 +21,7 @@ import uk.kihira.tails.client.model.tail.DragonTailModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.common.part.PartType;
 
-public class PlayerRenderHelper implements IRenderHelper<Player> {
+public final class PlayerRenderHelper implements IRenderHelper<Player> {
 
 	//private final boolean mpmCompat;
 

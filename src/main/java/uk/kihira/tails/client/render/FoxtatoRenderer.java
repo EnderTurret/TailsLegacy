@@ -23,7 +23,7 @@ import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.PartRegistry;
 
-public class FoxtatoRenderer {
+public final class FoxtatoRenderer {
 
 	/*private FoxtatoFakeEntity fakeEntity;
 	private final PartInfo tailPartInfo = new PartInfo(PartRegistry.FLUFFY_TAIL.getId(), 0, 0, new int[]{-5480951, -6594259, -5197647}, null);

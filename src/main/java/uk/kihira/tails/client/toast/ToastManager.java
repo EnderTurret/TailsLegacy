@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import uk.kihira.tails.common.Tails;
 
 @EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class ToastManager {
+public final class ToastManager {
 
 	public static final ToastManager INSTANCE = new ToastManager();
 

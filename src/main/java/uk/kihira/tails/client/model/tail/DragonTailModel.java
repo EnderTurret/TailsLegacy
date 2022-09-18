@@ -30,7 +30,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model for dragon tails.
  */
-public class DragonTailModel extends PartModel {
+public final class DragonTailModel extends PartModel {
 
 	private final ModelPart root;
 

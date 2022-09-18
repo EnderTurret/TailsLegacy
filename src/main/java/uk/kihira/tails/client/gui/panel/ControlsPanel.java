@@ -17,7 +17,7 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.LocalPartManager;
 
-public class ControlsPanel extends Panel<EditorScreen> {
+public final class ControlsPanel extends Panel<EditorScreen> {
 
 	private boolean libraryMode = false;
 

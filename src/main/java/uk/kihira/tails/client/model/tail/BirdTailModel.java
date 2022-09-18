@@ -29,7 +29,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model for bird tails.
  */
-public class BirdTailModel extends PartModel {
+public final class BirdTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart center;

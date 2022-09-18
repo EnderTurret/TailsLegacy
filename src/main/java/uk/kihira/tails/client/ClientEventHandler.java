@@ -27,7 +27,7 @@ import uk.kihira.tails.common.Tails;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class ClientEventHandler {
+public final class ClientEventHandler {
 
 	private static boolean sentPartInfoToServer = false;
 	private static boolean clearAllPartInfo = false;

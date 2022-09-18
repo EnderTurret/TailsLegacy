@@ -29,7 +29,7 @@ import uk.kihira.tails.client.part.ClientPartInfo;
  * Manages and caches {@link IRenderHelper IRenderHelpers} for various entity classes.
  * @author EnderTurret
  */
-public class RenderHelperManager {
+public final class RenderHelperManager {
 
 	private static final Map<Class<? extends LivingEntity>, List<IRenderHelper<?>>> RENDER_HELPERS = new HashMap<>();
 

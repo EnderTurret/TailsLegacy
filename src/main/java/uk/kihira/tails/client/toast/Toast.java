@@ -21,7 +21,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.util.FormattedCharSequence;
 
-public class Toast {
+public final class Toast {
 
 	private final int xPos;
 	private final int yPos;

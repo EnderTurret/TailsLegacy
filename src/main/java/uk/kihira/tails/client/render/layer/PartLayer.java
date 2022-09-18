@@ -32,7 +32,7 @@ import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
 @OnlyIn(Dist.CLIENT)
-public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
+public final class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<AbstractClientPlayer>> {
 
 	private final PartType partType;
 

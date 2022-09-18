@@ -20,7 +20,7 @@ import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IconButton;
 
-public class PreviewPanel extends Panel<EditorScreen> {
+public final class PreviewPanel extends Panel<EditorScreen> {
 
 	private float yaw = 0F;
 	private float pitch = 10F;

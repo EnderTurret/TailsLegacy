@@ -40,7 +40,7 @@ import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.common.part.PartType;
 
-public class PartsPanel extends Panel<EditorScreen> {
+public final class PartsPanel extends Panel<EditorScreen> {
 
 	private ListWidget<PartEntry> partList;
 	private Button partTypeButton;

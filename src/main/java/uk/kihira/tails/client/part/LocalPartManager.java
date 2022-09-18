@@ -14,7 +14,7 @@ import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
 
-public class LocalPartManager {
+public final class LocalPartManager {
 
 	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()

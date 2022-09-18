@@ -27,7 +27,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.LivingEntity;
 
-public class RenderHelper {
+public final class RenderHelper {
 
 	public static void startGlScissor(int x, int y, int width, int height) {
 		final Window mc = Minecraft.getInstance().getWindow();

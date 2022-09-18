@@ -34,7 +34,7 @@ import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.SeaPickleRenderer;
 import uk.kihira.tails.client.render.WingRenderer;
 
-public class PartRenderRegistry {
+public final class PartRenderRegistry {
 
 	private static final Map<ResourceLocation, PartRenderer> PART_RENDERER_REGISTRY = new HashMap<>();
 

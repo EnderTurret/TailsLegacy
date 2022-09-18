@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.common.part.PartType;
 
-public class Part {
+public final class Part {
 
 	private static final int[] DEFAULT_TINTS = { 0xFF0000, 0x00FF00, 0x0000FF };
 

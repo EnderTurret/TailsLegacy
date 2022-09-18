@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation;
  * Provides an additional {@link RenderType} or two.
  * @author EnderTurret
  */
-public class RenderStates extends RenderStateShard {
+public final class RenderStates extends RenderStateShard {
 
 	public static final Vector3f PART_PREVIEW_DIFFUSE_LIGHTING_0 = new Vector3f(0, 0, 0);
 	public static final Vector3f PART_PREVIEW_DIFFUSE_LIGHTING_1 = new Vector3f(0, 0, 1);

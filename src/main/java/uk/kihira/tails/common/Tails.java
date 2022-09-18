@@ -36,7 +36,7 @@ import uk.kihira.tails.proxy.CommonProxy;
  * Look! It's the main mod file!
  */
 @Mod(Tails.MOD_ID)
-public class Tails {
+public final class Tails {
 
 	/**
 	 * It's <strike>a snow poff</strike> the mod id.

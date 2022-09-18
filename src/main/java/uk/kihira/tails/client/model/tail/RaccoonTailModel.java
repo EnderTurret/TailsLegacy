@@ -29,7 +29,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model for raccoon tails.
  */
-public class RaccoonTailModel extends PartModel {
+public final class RaccoonTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tailBase;

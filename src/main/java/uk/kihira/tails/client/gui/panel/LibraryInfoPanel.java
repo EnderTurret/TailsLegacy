@@ -31,7 +31,7 @@ import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
-public class LibraryInfoPanel extends Panel<EditorScreen> {
+public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	private LibraryListEntry entry;
 

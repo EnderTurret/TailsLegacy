@@ -51,7 +51,7 @@ import uk.kihira.tails.proxy.CommonProxy;
  */
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
-public class ClientProxy extends CommonProxy {
+public final class ClientProxy extends CommonProxy {
 
 	private LibraryManager libraryManager;
 

@@ -34,7 +34,7 @@ import uk.kihira.tails.common.Tails;
 /**
  * A texture that tints another texture based on three tint values.
  */
-public class TripleTintTexture extends AbstractTexture {
+public final class TripleTintTexture extends AbstractTexture {
 
 	private final ResourceLocation textureLocation;
 	private final int tint1;

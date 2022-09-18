@@ -30,7 +30,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model for devil tails.
  */
-public class DevilTailModel extends PartModel {
+public final class DevilTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tailBase;

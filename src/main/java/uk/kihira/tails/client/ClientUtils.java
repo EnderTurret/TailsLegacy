@@ -13,7 +13,7 @@ import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 
-public class ClientUtils {
+public final class ClientUtils {
 
 	public static UUID getPlayerUUID() {
 		final Minecraft mc = Minecraft.getInstance();

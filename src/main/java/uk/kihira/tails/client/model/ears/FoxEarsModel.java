@@ -24,7 +24,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model for fox ears.
  */
-public class FoxEarsModel extends PartModel {
+public final class FoxEarsModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart leftEar;

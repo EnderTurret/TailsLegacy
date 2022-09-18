@@ -31,7 +31,7 @@ import uk.kihira.tails.common.Tails;
  * A specialized version of the {@link AbstractSliderButton} for {@code HSB} and {@code RGB} values.<br>
  * Also has tooltip support, as if it couldn't get any better.
  */
-public class HSBSlider extends AbstractSliderButton implements ITooltip {
+public final class HSBSlider extends AbstractSliderButton implements ITooltip {
 
 	private static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(Tails.MOD_ID, "texture/gui/controls/slider_hue.png");
 

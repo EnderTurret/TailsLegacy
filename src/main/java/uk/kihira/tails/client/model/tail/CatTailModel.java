@@ -30,7 +30,7 @@ import uk.kihira.tails.client.part.Part;
  * The model for cat tails.<br>
  * (Not to be confused with cattails.)
  */
-public class CatTailModel extends PartModel {
+public final class CatTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tailBase;

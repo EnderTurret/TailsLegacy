@@ -23,7 +23,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model used for muzzles.
  */
-public class MuzzleModel extends PartModel {
+public final class MuzzleModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart muzzle;

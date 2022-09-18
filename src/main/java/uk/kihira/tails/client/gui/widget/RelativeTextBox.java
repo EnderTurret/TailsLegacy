@@ -26,7 +26,7 @@ import net.minecraft.network.chat.Component;
  * Without this, the selection overlay will attempt to yeet itself as far off-screen as possible.
  * @author EnderTurret
  */
-public class RelativeTextBox extends EditBox {
+public final class RelativeTextBox extends EditBox {
 
 	private PoseStack poseStack;
 

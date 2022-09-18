@@ -29,7 +29,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model for shark tails.
  */
-public class SharkTailModel extends PartModel {
+public final class SharkTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tailBase;

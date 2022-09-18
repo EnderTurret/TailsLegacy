@@ -23,7 +23,7 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 
-public class SeaPickleRenderer extends PartRenderer {
+public final class SeaPickleRenderer extends PartRenderer {
 
 	public SeaPickleRenderer() {
 		super(new Model());

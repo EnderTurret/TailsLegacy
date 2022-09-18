@@ -29,7 +29,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
  * The Tails config, for all your configuration needs.
  * @author EnderTurret
  */
-public class TailsConfig {
+public final class TailsConfig {
 
 	/**
 	 * Now with more spicy reflection.

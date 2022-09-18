@@ -22,7 +22,7 @@ import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 
 @OnlyIn(Dist.CLIENT)
-public class TextureHelper {
+public final class TextureHelper {
 
 	/**
 	 * Generates a texture for the given part using the given tints.

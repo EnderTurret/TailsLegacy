@@ -24,7 +24,7 @@ import uk.kihira.tails.client.part.Part;
 /**
  * The model for panda ears.
  */
-public class PandaEarsModel extends PartModel {
+public final class PandaEarsModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart leftEar;

@@ -22,7 +22,7 @@ import uk.kihira.tails.common.network.PlayerDataMapMessage;
  * A server event handler, for handling events on the server.
  */
 @EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE)
-public class ServerEventHandler {
+public final class ServerEventHandler {
 
 	@SubscribeEvent
 	static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {

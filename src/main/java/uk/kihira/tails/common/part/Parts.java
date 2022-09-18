@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.common.Tails;
 
-public class Parts {
+public final class Parts {
 
 	/**
 	 * Returns the named id of the part at the given index for the given type.<br>

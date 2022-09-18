@@ -28,7 +28,7 @@ import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
-public class LibraryImportPanel extends Panel<EditorScreen> {
+public final class LibraryImportPanel extends Panel<EditorScreen> {
 
 	private EditBox inputField;
 

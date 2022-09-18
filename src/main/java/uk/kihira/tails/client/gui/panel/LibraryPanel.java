@@ -29,7 +29,7 @@ import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
-public class LibraryPanel extends Panel<EditorScreen> {
+public final class LibraryPanel extends Panel<EditorScreen> {
 
 	private static final LibrarySorter SORTER = new LibrarySorter();
 	private ListWidget<LibraryListEntry> list;

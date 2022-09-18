@@ -36,7 +36,7 @@ import uk.kihira.tails.common.part.PartsData;
 /**
  * The editor screen.
  */
-public class EditorScreen extends LayeredScreen {
+public final class EditorScreen extends LayeredScreen {
 
 	private Part.PartTexture textureId;
 	private PartType partType;

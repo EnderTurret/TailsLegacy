@@ -22,7 +22,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class FakeEntity extends LivingEntity {
+public final class FakeEntity extends LivingEntity {
 
 	public FakeEntity(Level world) {
 		super(EntityType.BAT, world);

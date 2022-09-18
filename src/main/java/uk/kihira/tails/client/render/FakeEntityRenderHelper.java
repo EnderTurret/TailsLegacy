@@ -20,7 +20,7 @@ import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
 
-public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
+public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 
 	@Override
 	public void onPreRenderTail(PoseStack poseStack, FakeEntity entity, PartRenderer tail, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {

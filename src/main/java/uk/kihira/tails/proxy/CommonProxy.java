@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.api.ITailsSyncService;
@@ -19,7 +22,9 @@ import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.PlayerDataMessage;
+import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common.part.ServerPartInfo;
 
 /**
  * A common proxy for common things.<br>
@@ -119,4 +124,9 @@ public class CommonProxy {
 	}
 
 	public void deleteTexture(ResourceLocation tex) {}
+
+	public Gson configureGson(GsonBuilder builder) {
+		builder.registerTypeHierarchyAdapter(IPartInfo.class, new ServerPartInfo.Serializer());
+		return builder.create();
+	}
 }

@@ -23,11 +23,14 @@ import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.LocalPartManager;
+import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMessage;
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
@@ -37,11 +40,11 @@ import uk.kihira.tails.proxy.CommonProxy;
  */
 public class EditorScreen extends LayeredScreen {
 
-	private int textureId;
+	private Part.PartTexture textureId;
 	private PartType partType;
 	private PartsData partsData;
-	private PartInfo editingPartInfo;
-	private PartInfo originalPartInfo;
+	private ClientPartInfo editingPartInfo;
+	private ClientPartInfo originalPartInfo;
 	private final UUID playerUUID;
 
 	private final Consumer<EditorScreen> onSave;
@@ -69,9 +72,9 @@ public class EditorScreen extends LayeredScreen {
 
 		for (PartType partType : PartType.values())
 			if (!original.hasPartInfo(partType))
-				original.setPartInfo(partType, PartInfo.none());
+				original.setPartInfo(partType, IPartInfo.empty());
 
-		final PartInfo partInfo = original.getPartInfo(partType);
+		final ClientPartInfo partInfo = (ClientPartInfo) original.getPartInfo(partType);
 
 		originalPartInfo = partInfo.deepCopy();
 		editingPartInfo = originalPartInfo.deepCopy();
@@ -79,22 +82,22 @@ public class EditorScreen extends LayeredScreen {
 	}
 
 	public static EditorScreen openDefault() {
-		PartsData data = Tails.localPartsData;
+		PartsData data = LocalPartManager.localPartsData;
 
 		if (data == null)
-			Tails.setLocalPartsData(data = new PartsData(), null);
+			LocalPartManager.setLocalPartsData(data = new PartsData(), null);
 
 		return new EditorScreen(data, screen -> {
 			// Update part info, set local and send it to the server.
 			final PartsData partsData = screen.getPartsData();
 
-			Tails.setLocalPartsData(partsData, null);
+			LocalPartManager.setLocalPartsData(partsData, null);
 			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), partsData);
 
 			Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), partsData));
 
 			if (CommonProxy.sync != null)
-				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
+				CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), LocalPartManager.localPartsData);
 
 			ToastManager.INSTANCE.createCenteredToast(screen.width / 2, screen.height - 40, 100, Component.translatable("tails.gui.saved").withStyle(ChatFormatting.GREEN));
 
@@ -140,7 +143,7 @@ public class EditorScreen extends LayeredScreen {
 
 	@Override
 	public void removed() {
-		Tails.PROXY.addPartsData(playerUUID, Tails.localPartsData);
+		Tails.PROXY.addPartsData(playerUUID, LocalPartManager.localPartsData);
 		super.removed();
 	}
 
@@ -152,7 +155,7 @@ public class EditorScreen extends LayeredScreen {
 		tintPanel.refreshTintPane();
 	}
 
-	public void setPartsInfo(PartInfo newPartInfo) {
+	public void setPartsInfo(ClientPartInfo newPartInfo) {
 		//editingPartInfo.setTexture(null); // Clear texture data as we will no longer need it.
 		editingPartInfo = newPartInfo;
 
@@ -165,7 +168,7 @@ public class EditorScreen extends LayeredScreen {
 		texturePanel.updateButtons();
 	}
 
-	public PartInfo getEditingPartInfo() {
+	public ClientPartInfo getEditingPartInfo() {
 		return editingPartInfo;
 	}
 
@@ -181,17 +184,15 @@ public class EditorScreen extends LayeredScreen {
 	public void setPartType(PartType partType) {
 		this.partType = partType;
 
-		PartInfo newPartInfo = getPartsData().getPartInfo(partType);
-		if (newPartInfo == null)
-			newPartInfo = PartInfo.none();
-		originalPartInfo = newPartInfo.deepCopy();
-		final PartInfo partInfo = originalPartInfo.deepCopy();
+		ClientPartInfo newPartInfo = ClientPartInfo.coerce(getPartsData().getPartInfo(partType));
+		originalPartInfo = newPartInfo.clone();
+		final ClientPartInfo partInfo = originalPartInfo.clone();
 
 		tintPanel.setEditingTint(0);
 		setPartsInfo(partInfo);
 		partsPanel.initPartList();
 		refreshTintPane();
-		textureId = partInfo.getTextureId();
+		textureId = originalPartInfo.getPartTexture();
 		texturePanel.updateButtons();
 	}
 
@@ -199,15 +200,15 @@ public class EditorScreen extends LayeredScreen {
 		return partType;
 	}
 
-	public PartInfo getOriginalPartInfo() {
+	public ClientPartInfo getOriginalPartInfo() {
 		return originalPartInfo;
 	}
 
-	public int getTextureId() {
+	public Part.PartTexture getTextureId() {
 		return textureId;
 	}
 
-	public void setTextureId(int value) {
+	public void setTextureId(Part.PartTexture value) {
 		textureId = value;
 	}
 

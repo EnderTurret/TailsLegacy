@@ -22,6 +22,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.client.part.Part;
 
 /**
  * The model for bunny tails.
@@ -42,7 +43,7 @@ public class BunnyTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
 		tail.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

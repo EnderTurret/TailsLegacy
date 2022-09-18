@@ -62,7 +62,7 @@ public class TripleTintTexture extends AbstractTexture {
 
 		if (!optional.isPresent()) {
 			Tails.LOGGER.error("Using missing texture: unable to find {}.", textureLocation);
-			texture = MissingTextureAtlasSprite.getTexture().getPixels();
+			texture = clone(MissingTextureAtlasSprite.getTexture().getPixels());
 		}
 
 		else
@@ -72,11 +72,17 @@ public class TripleTintTexture extends AbstractTexture {
 				colorise(texture, tint1, tint2, tint3);
 			} catch (IOException e) {
 				Tails.LOGGER.error("Using missing texture: failed to load {}.", textureLocation, e);
-				texture = MissingTextureAtlasSprite.getTexture().getPixels();
+				texture = clone(MissingTextureAtlasSprite.getTexture().getPixels());
 			}
 
 		TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
 		texture.upload(0, 0, 0, true);
+	}
+
+	private static NativeImage clone(NativeImage src) {
+		final NativeImage ret = new NativeImage(src.format(), src.getWidth(), src.getHeight(), false);
+		ret.copyFrom(src);
+		return ret;
 	}
 
 	/**

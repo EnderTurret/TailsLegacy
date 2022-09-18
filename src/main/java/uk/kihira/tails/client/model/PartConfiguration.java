@@ -11,7 +11,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.client.part.ClientPartInfo;
 
 public class PartConfiguration {
 
@@ -53,7 +53,7 @@ public class PartConfiguration {
 		return visible[rand.nextInt(visible.length)];
 	}
 
-	public void translate(PartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity, ModelPart part) {
+	public void translate(ClientPartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity, ModelPart part) {
 		translator.translate(info, poseStack, partialTick, entity);
 
 		for (ModelPart part2 : parents.getOrDefault(part, visible())) {
@@ -83,6 +83,6 @@ public class PartConfiguration {
 
 		public static final Translator EMPTY = (info, poseStack, partialTick, entity) -> {};
 
-		public void translate(PartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity);
+		public void translate(ClientPartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity);
 	}
 }

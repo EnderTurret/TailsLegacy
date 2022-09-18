@@ -28,17 +28,16 @@ import net.minecraft.network.chat.Component;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
-import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.ListWidget;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderStates;
-import uk.kihira.tails.common.part.Part;
-import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartRegistry;
 import uk.kihira.tails.common.part.PartType;
 
 public class PartsPanel extends Panel<EditorScreen> {
@@ -95,13 +94,16 @@ public class PartsPanel extends Panel<EditorScreen> {
 	}
 
 	public boolean onEntrySelected(int index, PartEntry entry) {
-		final PartInfo oldInfo = parent.getEditingPartInfo();
-		final int subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : 0;
-		// Reset texture ID.
-		parent.setTextureId(0);
+		final ClientPartInfo oldInfo = parent.getEditingPartInfo();
+		final Part.SubType subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : entry.partInfo.getSubType();
+		if (subType != null) {
+			// Reset texture ID.
+			parent.setTextureId(subType.textures().get(0));
+		}
+
 		// Need to keep tints from original part.
-		final PartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.deepCopy() : new PartInfo(entry.partInfo.getPartId(), subType, entry.partInfo.getTextureId(),
-				oldInfo.getTints().clone(), null);
+		final ClientPartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.clone() : new ClientPartInfo(entry.partInfo.getPart(), subType,
+				entry.partInfo.getPartTexture(), oldInfo.getTints().clone(), null);
 
 		// Breaks immutability, but it's probably fine, right?
 		if (entry.partInfo.isEmpty())
@@ -109,6 +111,7 @@ public class PartsPanel extends Panel<EditorScreen> {
 				partInfo.getTints()[i] = oldInfo.getTints()[i];
 
 		parent.setPartsInfo(partInfo);
+
 		return true;
 	}
 
@@ -116,11 +119,12 @@ public class PartsPanel extends Panel<EditorScreen> {
 		// Part List
 		final List<PartEntry> partList = new ArrayList<>();
 		final PartType partType = parent.getPartType();
-		partList.add(new PartEntry(PartInfo.none())); // No tail
+		partList.add(new PartEntry(ClientPartInfo.empty())); // No tail
 		// Generate tail preview textures and add to list.
 		final List<Part> parts = PartRegistry.getParts(partType);
 		for (int type = 0; type < parts.size(); type++) {
-			final PartInfo partInfo = parts.get(type).makeDefaultPartInfo(0);
+			final Part part = parts.get(type);
+			final ClientPartInfo partInfo = part.makeDefaultPartInfo(part.getSubTypes().get(0));
 			partList.add(new PartEntry(partInfo));
 		}
 
@@ -132,7 +136,7 @@ public class PartsPanel extends Panel<EditorScreen> {
 
 	void selectDefaultListEntry() {
 		// Default selection.
-		final PartInfo partInfo = parent.getEditingPartInfo();
+		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		for (PartEntry entry : partList.children())
 			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
 					&& entry.partInfo.getPart() == partInfo.getPart()) {
@@ -142,7 +146,7 @@ public class PartsPanel extends Panel<EditorScreen> {
 			}
 	}
 
-	private void renderPart(PoseStack poseStack, int x, int y, int z, int scale, PartInfo partInfo, float partialTick) {
+	private void renderPart(PoseStack poseStack, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
 		final PartRenderer renderer = PartRenderRegistry.getRenderer(partInfo.getPart());
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 
@@ -168,9 +172,9 @@ public class PartsPanel extends Panel<EditorScreen> {
 
 	class PartEntry extends ObjectSelectionList.Entry<PartEntry> {
 
-		final PartInfo partInfo;
+		private final ClientPartInfo partInfo;
 
-		PartEntry(PartInfo partInfo) {
+		PartEntry(ClientPartInfo partInfo) {
 			this.partInfo = partInfo;
 		}
 
@@ -186,7 +190,14 @@ public class PartsPanel extends Panel<EditorScreen> {
 
 				if (currentPart) {
 					final Part renderPart = partInfo.getPart();
-					final String author = renderPart.getAuthor(parent.getEditingPartInfo().getSubType(), parent.getTextureId());
+					final String author;
+
+					if (parent.getTextureId().author() != null)
+						author = parent.getTextureId().author();
+					else if (parent.getEditingPartInfo().getSubType().author() != null)
+						author = parent.getEditingPartInfo().getSubType().author();
+					else author = null;
+
 					if (author != null) {
 						// Yeah its not nice but eh, works.
 						poseStack.pushPose();

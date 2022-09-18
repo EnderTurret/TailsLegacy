@@ -14,8 +14,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.client.gui.EditorScreen;
-import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.LocalPartManager;
 
 public class ControlsPanel extends Panel<EditorScreen> {
 
@@ -45,15 +45,15 @@ public class ControlsPanel extends Panel<EditorScreen> {
 			parent.refreshTintPane();
 
 			if (!libraryMode)
-				Tails.setLocalPartsData(parent.getPartsData(), null);
+				LocalPartManager.setLocalPartsData(parent.getPartsData(), null);
 
-			parent.setPartsData(Tails.localPartsData);
+			parent.setPartsData(LocalPartManager.localPartsData);
 
 			b.setMessage(libraryMode ? Component.translatable("tails.gui.button.mode.editor") : Component.translatable("tails.gui.button.mode.library"));
 		}));
 		// Reset/Save
 		addRenderableWidget(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, Component.translatable("tails.gui.button.reset"), b -> {
-			final PartInfo partInfo = parent.getOriginalPartInfo().deepCopy();
+			final ClientPartInfo partInfo = parent.getOriginalPartInfo().deepCopy();
 			parent.getPartPanel().selectDefaultListEntry();
 			parent.getLibraryPanel().initList();
 			parent.getLibraryInfoPanel().setEntry(null);

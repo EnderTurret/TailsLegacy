@@ -24,7 +24,8 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
 
 /**
  * The model for dragon tails.
@@ -83,7 +84,7 @@ public class DragonTailModel extends PartModel {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, Part.SubType subType, float headPitch) {
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getVehicle() == null) {
@@ -106,7 +107,7 @@ public class DragonTailModel extends PartModel {
 		setRotationRadians(tail2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
 		setRotationRadians(tail3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 
-		if (subtype == 1) {
+		if (subType.id().equals("dragon_tail")) {
 			setRotationRadians(tailSubBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
 			setRotationRadians(tailSub1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
 			setRotationRadians(tailSub2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
@@ -115,18 +116,16 @@ public class DragonTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
 		tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
-		if (subtype == 1)
+		if (subType.id().equals("dragon_tail"))
 			tailSubBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	@Override
-	public List<PartConfiguration> getParts(PartInfo info) {
-		final int subtype = info.getSubType();
-
-		if (subtype != 1)
+	public List<PartConfiguration> getParts(ClientPartInfo info) {
+		if (!info.getSubType().id().equals("dragon_tail"))
 			return List.of(config0);
 
 		return super.getParts(info);

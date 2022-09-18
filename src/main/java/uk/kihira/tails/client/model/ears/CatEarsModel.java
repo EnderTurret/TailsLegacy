@@ -19,6 +19,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.client.part.Part;
 
 /**
  * The model for cat ears.
@@ -59,7 +60,7 @@ public class CatEarsModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
 		leftEar.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		rightEar.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}

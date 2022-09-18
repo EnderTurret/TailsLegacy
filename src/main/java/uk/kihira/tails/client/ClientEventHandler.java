@@ -22,6 +22,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import uk.kihira.tails.client.gui.EditorScreen;
+import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.network.PlayerDataMessage;
 import uk.kihira.tails.proxy.CommonProxy;
@@ -50,8 +51,8 @@ public class ClientEventHandler {
 	@SubscribeEvent
 	static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
 		// Add local player texture to map.
-		if (Tails.localPartsData != null)
-			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), Tails.localPartsData);
+		if (LocalPartManager.localPartsData != null)
+			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), LocalPartManager.localPartsData);
 	}
 
 	@SubscribeEvent
@@ -59,8 +60,6 @@ public class ClientEventHandler {
 		// TODO: Do we need to defer these?
 		sentPartInfoToServer = false;
 		clearAllPartInfo = true;
-
-		Tails.reloadConfig(null);
 	}
 
 	@SubscribeEvent
@@ -72,10 +71,10 @@ public class ClientEventHandler {
 			}
 			// World can't be null if we want to send a packet it seems.
 			else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
-				Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), Tails.localPartsData));
+				Tails.CHANNEL.sendToServer(new PlayerDataMessage(ClientUtils.getPlayerUUID(), LocalPartManager.localPartsData));
 
 				if (CommonProxy.sync != null)
-					CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), Tails.localPartsData);
+					CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), LocalPartManager.localPartsData);
 
 				sentPartInfoToServer = true;
 			}

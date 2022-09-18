@@ -1,0 +1,27 @@
+{
+  "tail": [
+    "tails:tail/fluffy_tail",
+    "tails:tail/dragon_tail",
+    "tails:tail/raccoon_tail",
+    "tails:tail/devil_tail",
+    "tails:tail/cat_tail",
+    "tails:tail/bird_tail",
+    "tails:tail/shark_tail",
+    "tails:tail/bunny_tail"
+  ],
+  "ears": [
+    "tails:ears/fox_ears",
+    "tails:ears/cat_ears",
+    "tails:ears/panda_ears",
+    "tails:ears/small_cat_ears",
+    "tails:ears/sea_pickle"
+  ],
+  "muzzle": [
+    "tails:muzzle/standard_muzzle",
+    "tails:muzzle/slim_muzzle",
+    "tails:muzzle/thin_muzzle"
+  ],
+  "wings": [
+    "tails:wings/big_wings"
+  ]
+}

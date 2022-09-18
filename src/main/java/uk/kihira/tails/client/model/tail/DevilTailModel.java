@@ -24,7 +24,8 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
 
 /**
  * The model for devil tails.
@@ -75,7 +76,7 @@ public class DevilTailModel extends PartModel {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float subtype, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, Part.SubType subType, float headPitch) {
 		final float seed = getAnimationTime(6000, entity);
 		final float xseed = getAnimationTime(12000, entity);
 		double xAngleOffset = 0;
@@ -104,8 +105,8 @@ public class DevilTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
-		tailTip.visible = subtype != 1;
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
+		tailTip.visible = !subType.id().equals("no_tip");
 
 		tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
@@ -113,10 +114,8 @@ public class DevilTailModel extends PartModel {
 	}
 
 	@Override
-	public List<PartConfiguration> getParts(PartInfo info) {
-		final int subtype = info.getSubType();
-
-		if (subtype != 0)
+	public List<PartConfiguration> getParts(ClientPartInfo info) {
+		if (info.getSubType().id().equals("no_tip"))
 			return List.of(config0);
 
 		return super.getParts(info);

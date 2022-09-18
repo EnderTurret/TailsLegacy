@@ -1,0 +1,7 @@
+{
+  "category": "tail",
+  "ordering": [
+    "with_tip",
+    "no_tip"
+  ]
+}

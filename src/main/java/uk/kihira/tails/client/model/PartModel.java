@@ -21,7 +21,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
 
 /**
  * A base class that all parts extend.
@@ -47,12 +48,12 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param green The green color value.
 	 * @param blue The blue color value.
 	 * @param alpha The alpha color value.
-	 * @param subtype The subtype.
+	 * @param subType The sub type.
 	 * @param partialTick The partial tick.
 	 */
-	public abstract void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick);
+	public abstract void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick);
 
-	public List<PartConfiguration> getParts(PartInfo info) {
+	public List<PartConfiguration> getParts(ClientPartInfo info) {
 		return config == null ? List.of() : List.of(config);
 	}
 
@@ -61,7 +62,10 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float subtype, float headPitch) {}
+	@Deprecated
+	public final void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float netHeadYaw, float headPitch) {}
+
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, Part.SubType subType, float headPitch) {}
 
 	/**
 	 * Sets the rotation on a model where the provided params are in radians

@@ -26,7 +26,8 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
 
 /**
  * The model for the floofy tail everyone loves.
@@ -164,17 +165,17 @@ public class FluffyTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
 		float timestep = getAnimationTime(4000F, entity);
 
-		if (subtype == 0) {
+		if (subType.id().equals("one_tail")) {
 			setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTick, entity);
 			poseStack.pushPose();
 			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
 			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			poseStack.popPose();
 		}
-		else if (subtype == 1) {
+		else if (subType.id().equals("two_tails")) {
 			setRotationAngles(1, timestep, 1F, 1F, 0F, rad(40), partialTick, entity);
 			poseStack.pushPose();
 			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
@@ -184,7 +185,7 @@ public class FluffyTailModel extends PartModel {
 			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			poseStack.popPose();
 		}
-		else if (subtype == 2) {
+		else if (subType.id().equals("nine_tails")) {
 			timestep = getAnimationTime(6500F, entity);
 
 			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, partialTick, entity);
@@ -223,14 +224,12 @@ public class FluffyTailModel extends PartModel {
 	private final List<PartConfiguration> nine;
 
 	@Override
-	public List<PartConfiguration> getParts(PartInfo info) {
-		final int subtype = info.getSubType();
-
-		if (subtype == 0)
+	public List<PartConfiguration> getParts(ClientPartInfo info) {
+		if (info.getSubType().id().equals("one_tail"))
 			return single;
-		if (subtype == 1)
+		if (info.getSubType().id().equals("two_tail"))
 			return twin;
-		if (subtype == 2)
+		if (info.getSubType().id().equals("nine_tail"))
 			return nine;
 
 		return List.of();

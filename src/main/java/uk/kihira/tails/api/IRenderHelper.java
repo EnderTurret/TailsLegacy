@@ -14,12 +14,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 
+import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.render.PartRenderer;
-import uk.kihira.tails.common.part.PartInfo;
 
 /**
  * A pre-render callback for part rendering.<br>
- * Called just before rendering in {@link PartRenderer#preRender(PoseStack, LivingEntity, PartInfo, MultiBufferSource, VertexConsumer, double, double, double, float, int, int, float, float, float, float)}.
+ * Called just before rendering in {@link PartRenderer#preRender(PoseStack, LivingEntity, ClientPartInfo, MultiBufferSource, VertexConsumer, double, double, double, float, int, int, float, float, float, float)}.
  *
  * @param <T> The type of entity this helper is for.
  */
@@ -46,5 +46,5 @@ public interface IRenderHelper<T extends LivingEntity> {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void onPreRenderTail(PoseStack poseStack, T entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha);
+	public void onPreRenderTail(PoseStack poseStack, T entity, PartRenderer tail, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha);
 }

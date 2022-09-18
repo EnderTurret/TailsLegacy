@@ -8,10 +8,12 @@
 
 package uk.kihira.tails.client;
 
-import static uk.kihira.tails.common.part.PartRegistry.*;
+import static uk.kihira.tails.client.part.PartRegistry.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.model.MuzzleModel;
 import uk.kihira.tails.client.model.ears.CatEarsModel;
@@ -26,14 +28,15 @@ import uk.kihira.tails.client.model.tail.DragonTailModel;
 import uk.kihira.tails.client.model.tail.FluffyTailModel;
 import uk.kihira.tails.client.model.tail.RaccoonTailModel;
 import uk.kihira.tails.client.model.tail.SharkTailModel;
+import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.SeaPickleRenderer;
 import uk.kihira.tails.client.render.WingRenderer;
-import uk.kihira.tails.common.part.Part;
 
 public class PartRenderRegistry {
 
-	private static final Map<Part,PartRenderer> PART_RENDERER_REGISTRY = new HashMap<>();
+	private static final Map<ResourceLocation, PartRenderer> PART_RENDERER_REGISTRY = new HashMap<>();
 
 	static {
 		register(FLUFFY_TAIL, new PartRenderer(new FluffyTailModel()));
@@ -63,13 +66,17 @@ public class PartRenderRegistry {
 	 * @param part The part to register the renderer for.
 	 * @param renderer The part renderer to register.
 	 */
-	public static void register(Part part, PartRenderer renderer) {
+	public static void register(ResourceLocation part, PartRenderer renderer) {
 		if (part == null || renderer == null) throw new NullPointerException();
 		PART_RENDERER_REGISTRY.put(part, renderer);
 	}
 
+	public static void register(PartRegistry.PartReference reference, PartRenderer renderer) {
+		register(reference.id(), renderer);
+	}
+
 	public static PartRenderer getRenderer(Part part) {
 		if (part == null) throw new NullPointerException();
-		return PART_RENDERER_REGISTRY.get(part);
+		return PART_RENDERER_REGISTRY.get(part.getId());
 	}
 }

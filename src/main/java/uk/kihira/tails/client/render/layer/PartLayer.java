@@ -24,10 +24,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.Part;
-import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
@@ -47,7 +47,7 @@ public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<Abst
 		if (Tails.PROXY.hasPartsData(uuid)) {
 			final PartsData partsData = Tails.PROXY.getPartsData(uuid);
 			if (partsData.hasPartInfo(partType)) {
-				final PartInfo partInfo = partsData.getPartInfo(partType);
+				final ClientPartInfo partInfo = (ClientPartInfo) partsData.getPartInfo(partType);
 
 				poseStack.pushPose();
 
@@ -62,6 +62,7 @@ public class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerModel<Abst
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
 					if (renderer != null)
 						renderer.render(poseStack, entity, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
+					// TODO: Make this less spammy.
 					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
 				} catch (Exception e) {
 					Tails.LOGGER.error("Exception rendering part {}: ", partInfo, e);

@@ -26,11 +26,9 @@ public class LibraryManager {
 	private static final Type ENTRY_DATA_LIST = new TypeToken<List<LibraryEntryData>>() {}.getType();
 	private static final Path LIBRARY_PATH = Paths.get("tailslibrary.json");
 
-	public final List<LibraryEntryData> libraryEntries;
+	public final List<LibraryEntryData> libraryEntries = new ArrayList<>();
 
-	public LibraryManager() {
-		libraryEntries = loadLibrary();
-	}
+	public LibraryManager() {}
 
 	/**
 	 * Adds the entries and saves
@@ -48,12 +46,14 @@ public class LibraryManager {
 		libraryEntries.remove(data);
 	}
 
-	public void reload() {
+	public void reload(boolean maybeBackup) {
 		final List<LibraryEntryData> entries = loadLibrary();
 
-		// Create a backup of the old data, in case you did something questionable.
-		if (!entries.equals(libraryEntries))
-			saveLibrary(LIBRARY_PATH.resolveSibling("tailslibrary.json.bak"));
+		if (maybeBackup) {
+			// Create a backup of the old data, in case you did something questionable.
+			if (!entries.equals(libraryEntries))
+				saveLibrary(LIBRARY_PATH.resolveSibling("tailslibrary.json.bak"));
+		}
 
 		libraryEntries.clear();
 		libraryEntries.addAll(entries);
@@ -73,8 +73,8 @@ public class LibraryManager {
 					for (LibraryEntryData libEntry : loadedEntries)
 						if (libEntry.partsData != null)
 							libraryEntries.add(libEntry);
-			} catch (IOException e) {
-				Tails.LOGGER.catching(e);
+			} catch (Exception e) {
+				Tails.LOGGER.error("Failed to load library entries!", e);
 			}
 
 		return libraryEntries;

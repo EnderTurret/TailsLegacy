@@ -28,14 +28,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.common.part.Part;
-import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartRegistry;
 
 /**
- * A renderer for a part. It also keeps track of some metadata.<br>
- * You can register one in {@link PartRegistry#register(Part)} and {@link PartRenderRegistry#register(Part, PartRenderer)}.
+ * A renderer for a part.<br>
+ * You can register one in {@link PartRenderRegistry#register(ResourceLocation, PartRenderer)}.
  */
 @OnlyIn(Dist.CLIENT)
 public class PartRenderer {
@@ -47,11 +45,11 @@ public class PartRenderer {
 		this.modelPart = modelPart;
 	}
 
-	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
+	public void compileTextureIfNeeded(LivingEntity entity, ClientPartInfo info) {
 		compileTextureIfNeeded(entity.getUUID(), info);
 	}
 
-	public void compileTextureIfNeeded(UUID uuid, PartInfo info) {
+	public void compileTextureIfNeeded(UUID uuid, ClientPartInfo info) {
 		if (!info.isEmpty() && (info.needsTextureCompile || info.getTexture() == null)) {
 			info.setTexture(TextureHelper.generateTexture(uuid, info));
 			info.needsTextureCompile = false;
@@ -62,7 +60,7 @@ public class PartRenderer {
 	 * A pre-render callback for translation, rotation, and making sure the texture exists.
 	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity that is about to be used for rendering.
-	 * @param info The {@link PartInfo} about to be rendered.
+	 * @param info The {@link ClientPartInfo} about to be rendered.
 	 * @param bufferSource The render type buffers. Usually obtained from {@link Minecraft#renderBuffers()}.
 	 * @param buffer The vertex builder for rendering, in case an {@link IRenderHelper} wants to do some rendering.
 	 * @param x The x location.
@@ -76,7 +74,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void preRender(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void preRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		compileTextureIfNeeded(entity, info);
 
 		if (modelPart != null) {
@@ -91,7 +89,7 @@ public class PartRenderer {
 	 * Renders the given part on the given entity.
 	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
-	 * @param info The {@link PartInfo}.
+	 * @param info The {@link ClientPartInfo}.
 	 * @param bufferSource The {@link MultiBufferSource} to retrieve an {@link VertexConsumer} from.
 	 * @param x The x location.
 	 * @param y The y location.
@@ -104,7 +102,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
 			compileTextureIfNeeded(entity, info);
 
@@ -127,7 +125,7 @@ public class PartRenderer {
 	 * Renders the given part on the given entity.
 	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
-	 * @param info The {@link PartInfo}.
+	 * @param info The {@link ClientPartInfo}.
 	 * @param bufferSource The buffer to retrieve buffers from.
 	 * @param buffer The builder to draw to.
 	 * @param x The x location.
@@ -141,7 +139,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		if (!info.isEmpty()) {
 			poseStack.pushPose();
 
@@ -166,7 +164,7 @@ public class PartRenderer {
 	 * Renders the given part on the given entity.
 	 * @param poseStack The {@link PoseStack} to use for transformations.
 	 * @param entity The entity the part is being rendered on.
-	 * @param info The {@link PartInfo}.
+	 * @param info The {@link ClientPartInfo}.
 	 * @param buffer The buffer to draw to.
 	 * @param partialTick The current partial tick.
 	 * @param packedLight The packed light.
@@ -176,7 +174,7 @@ public class PartRenderer {
 	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		if (modelPart != null)
 			modelPart.render(poseStack, buffer, entity, packedLight, packedOverlay, red, green, blue, alpha, info.getSubType(), partialTick);
 	}

@@ -16,19 +16,19 @@ import net.minecraft.client.renderer.MultiBufferSource;
 
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.common.part.Part;
-import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartRegistry;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.part.PartRegistry;
 
 public class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 
 	@Override
-	public void onPreRenderTail(PoseStack poseStack, FakeEntity entity, PartRenderer tail, PartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void onPreRenderTail(PoseStack poseStack, FakeEntity entity, PartRenderer tail, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		final Part part = info.getPart();
 		switch (part.getType()) {
 		case TAIL -> {
 			// Nine tails
-			if (part == PartRegistry.FLUFFY_TAIL && info.getSubType() == 2)
+			if (part == PartRegistry.FLUFFY_TAIL.get() && info.getSubType().id().equals("nine_tails"))
 				poseStack.translate(0, 0.85, 0);
 			else poseStack.translate(0, 0.65, 0);
 			poseStack.scale(0.9F, 0.9F, 0.9F);

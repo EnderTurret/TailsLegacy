@@ -1,0 +1,7 @@
+{
+  "category": "ears",
+  "ordering": [
+    "standard"
+  ],
+  "defaultTints": [ "0xffffff", "0xffffff", "0xffffff" ]
+}

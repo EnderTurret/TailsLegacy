@@ -24,15 +24,15 @@ import com.google.gson.JsonSerializer;
 
 /**
  * The part data class.<br>
- * Holds {@link PartInfo} for every {@link PartType}.
+ * Holds {@link IPartInfo} for every {@link PartType}.
  */
 public class PartsData {
 
 	public static final PartsData EMPTY = new PartsData() {
 		@Override
-		public PartInfo getPartInfo(PartType partType) { return PartInfo.none(); }
+		public IPartInfo getPartInfo(PartType partType) { return IPartInfo.empty(); }
 		@Override
-		public void setPartInfo(PartType partType, PartInfo partInfo) {}
+		public void setPartInfo(PartType partType, IPartInfo partInfo) {}
 		@Override
 		public void clearTextures() {}
 		@Override
@@ -43,7 +43,7 @@ public class PartsData {
 		public boolean isEmpty() { return true; }
 	};
 
-	private final Map<PartType, PartInfo> partInfoMap = new EnumMap<>(PartType.class);
+	private final Map<PartType, IPartInfo> partInfoMap = new EnumMap<>(PartType.class);
 
 	/**
 	 * The version.<br>
@@ -53,10 +53,10 @@ public class PartsData {
 
 	public PartsData() {
 		for (PartType type : PartType.values())
-			partInfoMap.put(type, PartInfo.none());
+			partInfoMap.put(type, IPartInfo.empty());
 	}
 
-	public PartsData(Map<PartType,PartInfo> partData) {
+	public PartsData(Map<PartType, IPartInfo> partData) {
 		this();
 		partInfoMap.putAll(partData);
 	}
@@ -66,39 +66,39 @@ public class PartsData {
 	}
 
 	/**
-	 * Sets the {@link PartInfo} for the given type as the given part info.
+	 * Sets the {@link IPartInfo} for the given type as the given part info.
 	 * @param partType The part type to set the part info as.
 	 * @param partInfo The part info.
 	 */
-	public void setPartInfo(PartType partType, PartInfo partInfo) {
+	public void setPartInfo(PartType partType, IPartInfo partInfo) {
 		partInfoMap.put(partType, partInfo);
 	}
 
 	/**
 	 * Returns the part info for the given type.<br>
-	 * If one is not present, returns {@link PartInfo#none()}.
+	 * If one is not present, returns {@link IPartInfo#empty()}.
 	 * @param partType The part type.
 	 * @return The part info.
 	 */
-	public PartInfo getPartInfo(PartType partType) {
-		return partInfoMap.getOrDefault(partType, PartInfo.none());
+	public IPartInfo getPartInfo(PartType partType) {
+		return partInfoMap.getOrDefault(partType, IPartInfo.empty());
 	}
 
 	/**
-	 * Whether this {@link PartsData} contains a {@link PartInfo} for the given type.
+	 * Whether this {@link PartsData} contains a {@link IPartInfo} for the given type.
 	 * @param partType The part type.
-	 * @return True if this contains a {@link PartInfo} for the given type.
+	 * @return True if this contains a {@link IPartInfo} for the given type.
 	 */
 	public boolean hasPartInfo(PartType partType) {
 		return partInfoMap.containsKey(partType) && !partInfoMap.get(partType).isEmpty();
 	}
 
 	/**
-	 * Clears all textures from each {@link PartInfo}.
+	 * Clears all textures from each {@link IPartInfo}.
 	 */
 	public void clearTextures() {
-		for (PartInfo partInfo : partInfoMap.values())
-			if (partInfo != null) partInfo.setTexture(null);
+		for (IPartInfo partInfo : partInfoMap.values())
+			if (partInfo != null) partInfo.clearGlTexture();
 	}
 
 	/**
@@ -106,9 +106,9 @@ public class PartsData {
 	 * @return The copy.
 	 */
 	public PartsData deepCopy() {
-		final Map<PartType,PartInfo> data = new EnumMap<>(PartType.class);
-		for (Map.Entry<PartType,PartInfo> e : partInfoMap.entrySet())
-			data.put(e.getKey(), e.getValue().deepCopy());
+		final Map<PartType, IPartInfo> data = new EnumMap<>(PartType.class);
+		for (Map.Entry<PartType, IPartInfo> e : partInfoMap.entrySet())
+			data.put(e.getKey(), e.getValue().clone());
 
 		return new PartsData(data);
 	}
@@ -145,7 +145,7 @@ public class PartsData {
 			final JsonObject ret = new JsonObject();
 			final JsonObject partInfoMap = new JsonObject();
 
-			for (Map.Entry<PartType,PartInfo> entry : src.partInfoMap.entrySet())
+			for (Map.Entry<PartType, IPartInfo> entry : src.partInfoMap.entrySet())
 				if (!entry.getValue().isEmpty())
 					partInfoMap.add(entry.getKey().getId(), context.serialize(entry.getValue()));
 
@@ -164,15 +164,15 @@ public class PartsData {
 			if (obj.has("partInfoMap")) {
 				final JsonObject partInfoMap = obj.get("partInfoMap").getAsJsonObject();
 
-				for (Map.Entry<String,JsonElement> entry : partInfoMap.entrySet()) {
+				for (Map.Entry<String, JsonElement> entry : partInfoMap.entrySet()) {
 					final PartType type = PartType.forId(version == 0 ? entry.getKey().toLowerCase(Locale.ROOT) : entry.getKey());
-					ret.setPartInfo(type, context.deserialize(entry.getValue().getAsJsonObject(), PartInfo.class));
+					ret.setPartInfo(type, context.deserialize(entry.getValue().getAsJsonObject(), IPartInfo.class));
 				}
 			} else if (obj.has("partInfos"))
 				for (JsonElement elem : obj.get("partInfos").getAsJsonArray()) {
-					final PartInfo info = context.deserialize(elem.getAsJsonObject(), PartInfo.class);
+					final IPartInfo info = context.deserialize(elem.getAsJsonObject(), IPartInfo.class);
 					if (!info.isEmpty())
-						ret.setPartInfo(info.getPart().getType(), info);
+						ret.setPartInfo(info.getType(), info);
 				}
 
 			return ret;

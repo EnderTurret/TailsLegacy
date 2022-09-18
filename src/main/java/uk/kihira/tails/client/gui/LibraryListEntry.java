@@ -20,13 +20,13 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
-import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 
 public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry> {
@@ -42,12 +42,12 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 	@Override
 	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		final Font fontRenderer = Minecraft.getInstance().font;
-		fontRenderer.draw(poseStack, (data.partsData.equals(Tails.localPartsData) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
+		fontRenderer.draw(poseStack, (data.partsData.equals(LocalPartManager.localPartsData) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
 		for (PartType type : PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
-				final PartInfo partInfo = data.partsData.getPartInfo(type);
+				final ClientPartInfo partInfo = (ClientPartInfo) data.partsData.getPartInfo(type);
 				RenderHelper.drawStringMultiLine(poseStack, fontRenderer, I18n.get(partInfo.getPart().getTranslationKey()),
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
@@ -96,7 +96,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
-			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.get("tails.gui.library.entry.default"), Tails.localPartsData);
+			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.get("tails.gui.library.entry.default"), LocalPartManager.localPartsData);
 			Tails.PROXY.getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
 			return true;

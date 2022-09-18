@@ -19,7 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.client.part.ClientPartInfo;
 
 /**
  * A specialized {@link PartRenderer} for wings.
@@ -31,15 +31,16 @@ public class WingRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		final boolean isFlying = entity instanceof Player player && player.getAbilities().flying && entity.hasImpulse || entity.fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
 		final float angle = Mth.sin(timestep) * (isFlying ? 24F : 4F);
-		final float scale = info.getSubType() == 1 ? 1F : 2F;
+		final boolean small = info.getSubType().id().equals("small");
+		final float scale = small ? 1F : 2F;
 
 		poseStack.pushPose();
 
-		poseStack.translate(0, -(scale * 8F) * PartModel.SCALE + (info.getSubType() == 1 ? 0.1F : 0), 0.1F);
+		poseStack.translate(0, -(scale * 8F) * PartModel.SCALE + (small ? 0.1F : 0), 0.1F);
 		poseStack.mulPose(Vector3f.YP.rotationDegrees(90));
 		poseStack.mulPose(Vector3f.ZP.rotationDegrees(90));
 		poseStack.scale(scale, scale, scale);

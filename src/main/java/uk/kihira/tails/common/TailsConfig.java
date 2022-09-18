@@ -39,6 +39,8 @@ public class TailsConfig {
 	static final ForgeConfigSpec CLIENT_SPEC;
 	public static final TailsConfig CLIENT_INSTANCE;
 
+	private static ModConfig instance;
+
 	static {
 		final Pair<TailsConfig,ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(TailsConfig::new);
 		CLIENT_SPEC = pair.getRight();
@@ -63,20 +65,21 @@ public class TailsConfig {
 	}
 
 	/**
-	 * Returns a TailsConfig registered for the given type.<br>
-	 * Currently, there's only a config for {@link net.minecraftforge.fml.config.ModConfig.Type#CLIENT Type.CLIENT}.
-	 * @param type The type.
+	 * Returns the internal {@link ModConfig}.
 	 * @return The config.
 	 */
 	@Nullable
-	public static ModConfig getConfig(ModConfig.Type type) {
-		try {
-			final Map<String, Map<ModConfig.Type, ModConfig>> configsByMod = (Map<String, Map<Type, ModConfig>>) CONFIGTRACKER_CONFIGSBYMOD.invoke(ConfigTracker.INSTANCE);
-			final Map<ModConfig.Type,ModConfig> modConfigs = configsByMod.get(Tails.MOD_ID);
-			if (modConfigs == null) return null;
-			return modConfigs.get(type);
-		} catch (Throwable e) {
-			return null;
-		}
+	public static ModConfig getConfig() {
+		if (instance == null)
+			try {
+				final Map<String, Map<ModConfig.Type, ModConfig>> configsByMod = (Map<String, Map<Type, ModConfig>>) CONFIGTRACKER_CONFIGSBYMOD.invoke(ConfigTracker.INSTANCE);
+				final Map<ModConfig.Type, ModConfig> modConfigs = configsByMod.get(Tails.MOD_ID);
+				if (modConfigs == null) return null;
+				instance = modConfigs.get(ModConfig.Type.CLIENT);
+			} catch (Throwable e) {
+				return null;
+			}
+
+		return instance;
 	}
 }

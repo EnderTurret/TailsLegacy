@@ -1,0 +1,9 @@
+{
+  "applyTo": [
+    "very_short",
+    "short",
+    "standard",
+    "long",
+    "very_long"
+  ]
+}

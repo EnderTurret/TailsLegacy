@@ -18,6 +18,8 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 
+import uk.kihira.tails.client.part.Part;
+
 /**
  * The model used for muzzles.
  */
@@ -40,33 +42,21 @@ public class MuzzleModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
 		poseStack.pushPose();
+
 		poseStack.translate(0, -0.001D, 0);
-		switch (subtype) {
-		// Very Short
-		case 0 -> {
-			poseStack.translate(0, 0, 4 / 16D);
-			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+
+		switch (subType.id()) {
+		case "very_short" -> poseStack.translate(0, 0, 4 / 16D);
+		case "short" -> poseStack.translate(0, 0, 3 / 16D);
+		case "standard" -> poseStack.translate(0, 0, 2 / 16D);
+		case "long" -> poseStack.translate(0, 0, 1 / 16D);
+		case "very_long" -> {}
 		}
-		// Short
-		case 1 -> {
-			poseStack.translate(0, 0, 3 / 16D);
-			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		}
-		// Standard
-		case 2 -> {
-			poseStack.translate(0, 0, 2 / 16D);
-			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		}
-		// Long
-		case 3 -> {
-			poseStack.translate(0, 0, 1 / 16D);
-			muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		}
-		// Very Long
-		case 4 -> muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		}
+
+		muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+
 		poseStack.popPose();
 	}
 }

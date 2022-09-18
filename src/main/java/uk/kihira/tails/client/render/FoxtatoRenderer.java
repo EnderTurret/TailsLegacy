@@ -20,8 +20,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
-import uk.kihira.tails.common.part.PartInfo;
-import uk.kihira.tails.common.part.PartRegistry;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.PartRegistry;
 
 public class FoxtatoRenderer {
 

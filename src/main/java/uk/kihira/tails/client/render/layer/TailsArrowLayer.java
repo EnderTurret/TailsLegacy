@@ -23,10 +23,10 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartConfiguration;
+import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.render.PartRenderer;
 import uk.kihira.tails.client.render.RenderHelperManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
@@ -57,7 +57,7 @@ public class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> e
 		if (data != null)
 			for (PartType type : PartType.values())
 				if (data.hasPartInfo(type)) {
-					final PartInfo info = data.getPartInfo(type);
+					final ClientPartInfo info = (ClientPartInfo) data.getPartInfo(type);
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(info.getPart());
 
 					if (renderer != null && renderer.modelPart != null)
@@ -117,7 +117,7 @@ public class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> e
 		}
 	}
 
-	private static record PartConfig(PartConfiguration config, PartInfo info, PartRenderer renderer) {
+	private static record PartConfig(PartConfiguration config, ClientPartInfo info, PartRenderer renderer) {
 		public PartConfig {
 			config.prime();
 		}

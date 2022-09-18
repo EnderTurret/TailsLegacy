@@ -19,6 +19,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.client.part.Part;
 
 /**
  * The model for fox ears.
@@ -59,17 +60,17 @@ public class FoxEarsModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
 		poseStack.pushPose();
 
 		poseStack.translate(0f, 0f, -0.0625f);
 
-		if (subtype == 1)
+		if (subType.id().equals("inward"))
 			poseStack.translate(-0.4375f, 0f, 0f);
 
 		leftEar.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
-		if (subtype == 1)
+		if (subType.id().equals("inward"))
 			poseStack.translate(0.875f, 0f, 0f);
 
 		rightEar.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);

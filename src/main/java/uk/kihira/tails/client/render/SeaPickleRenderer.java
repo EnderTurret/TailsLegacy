@@ -20,7 +20,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.common.part.PartInfo;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
 
 public class SeaPickleRenderer extends PartRenderer {
 
@@ -29,7 +30,7 @@ public class SeaPickleRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(PoseStack poseStack, LivingEntity entity, PartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	protected void doRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		final int tint = info.getTints()[0];
 		final float r = (tint >> 16 & 255) / 255F;
 		final float g = (tint >> 8 & 255) / 255F;
@@ -38,8 +39,8 @@ public class SeaPickleRenderer extends PartRenderer {
 	}
 
 	@Override
-	public void compileTextureIfNeeded(LivingEntity entity, PartInfo info) {
-		info.setTexture(new ResourceLocation("tails", "texture/ears/sea_pickle.png"));
+	public void compileTextureIfNeeded(LivingEntity entity, ClientPartInfo info) {
+		info.setTexture(new ResourceLocation("tails", "textures/part/ears/sea_pickle/standard.png"));
 	}
 
 	public static class Model extends PartModel {
@@ -59,7 +60,7 @@ public class SeaPickleRenderer extends PartRenderer {
 		}
 
 		@Override
-		public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, int subtype, float partialTick) {
+		public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
 			poseStack.pushPose();
 
 			poseStack.translate(0, -2, 0);

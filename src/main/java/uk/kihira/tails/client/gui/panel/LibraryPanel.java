@@ -49,7 +49,7 @@ public class LibraryPanel extends Panel<EditorScreen> {
 		initList();
 
 		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
-			Tails.PROXY.getLibraryManager().reload();
+			Tails.PROXY.getLibraryManager().reload(true);
 			initList();
 		}));
 		addRenderableWidget(searchField = new RelativeTextBox(font, 5, bottom - top - 31, right - left - 10, 10, null));

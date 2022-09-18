@@ -11,6 +11,9 @@ package uk.kihira.tails.proxy.client;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -29,7 +32,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.render.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.PlayerRenderHelper;
@@ -38,7 +41,7 @@ import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartRegistry;
+import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
@@ -64,10 +67,6 @@ public class ClientProxy extends CommonProxy {
 
 		if (ModList.get().isLoaded("botania"))
 			MinecraftForge.EVENT_BUS.register(new FoxtatoRenderer());
-
-		// Class-load PartRegistry and PartRenderRegistry.
-		PartRegistry.FLUFFY_TAIL.getId();
-		PartRenderRegistry.getRenderer(PartRegistry.FLUFFY_TAIL);
 	}
 
 	@Override
@@ -127,5 +126,11 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public LibraryManager getLibraryManager() {
 		return libraryManager;
+	}
+
+	@Override
+	public Gson configureGson(GsonBuilder builder) {
+		builder.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer());
+		return builder.create();
 	}
 }

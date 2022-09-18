@@ -24,7 +24,6 @@ import net.minecraft.util.Mth;
 
 import net.minecraftforge.client.gui.ScreenUtils;
 
-import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.common.Tails;
 

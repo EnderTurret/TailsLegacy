@@ -1,61 +1,61 @@
 {
-  "tails.gui.part.none":"无",
+  "tails.gui.part.none": "无",
 
 
-  "tails.part.dragon_tail":"蜥蜴尾巴",
-  "tails.part.fluffy_tail":"狐狸尾巴",
-  "tails.part.raccoon_tail":"浣熊尾巴",
-  "tails.part.devil_tail":"恶魔尾巴",
-  "tails.part.cat_tail":"猫尾巴",
-  "tails.part.bird_tail":"鸟尾巴",
+  "tails.part.tail/dragon_tail": "蜥蜴尾巴",
+  "tails.part.tail/fluffy_tail": "狐狸尾巴",
+  "tails.part.tail/raccoon_tail": "浣熊尾巴",
+  "tails.part.tail/devil_tail": "恶魔尾巴",
+  "tails.part.tail/cat_tail": "猫尾巴",
+  "tails.part.tail/bird_tail": "鸟尾巴",
 
 
-  "tails.part.texture.fluffy_tail":"狐狸",
-  "tails.part.texture.devil_tail":"恶魔",
-  "tails.part.texture.raccoon_tail":"浣熊",
-  "tails.part.texture.dragon_tail":"猫咪",
-  "tails.part.texture.dragon_tail_striped":"条纹龙尾",
-  "tails.part.texture.tiger_tail":"老虎",
-  "tails.part.texture.bird_tail":"小鸟",
+  "tails.part.tail/fluffy_tail.texture.standard": "狐狸",
+  "tails.part.tail/devil_tail.texture.standard": "恶魔",
+  "tails.part.tail/raccoon_tail.texture.standard": "浣熊",
+  "tails.part.tail/dragon_tail.texture.standard": "猫咪",
+  "tails.part.tail/dragon_tail.texture.striped": "条纹龙尾",
+  "tails.part.tail/cat_tail.texture.tiger": "老虎",
+  "tails.part.tail/bird_tail.texture.standard": "小鸟",
 
-  "tails.part.fox_ears":"狐狸耳朵",
-  "tails.part.cat_ears":"猫耳朵",
-  "tails.part.panda_ears":"熊猫耳朵",
-
-
-  "tails.part.texture.fox_ears":"狐狸",
-  "tails.part.texture.cat_ears":"猫咪",
-  "tails.part.texture.panda_ears":"熊猫",
-
-  "tails.part.big_wings":"大型翅膀",
-
-  "tails.part.texture.metal_wings":"金属翅膀",
-  "tails.part.texture.big_wings":"天使翅膀",
+  "tails.part.ears/fox_ears": "狐狸耳朵",
+  "tails.part.ears/cat_ears": "猫耳朵",
+  "tails.part.ears/panda_ears": "熊猫耳朵",
 
 
+  "tails.part.ears/fox_ears.texture.standard": "狐狸",
+  "tails.part.ears/cat_ears.texture.standard": "猫咪",
+  "tails.part.ears/panda_ears.texture.standard": "熊猫",
+
+  "tails.part.wings/big_wings": "大型翅膀",
+
+  "tails.part.wings/big_wings.texture.angel": "天使翅膀",
+  "tails.part.wings/big_wings.texture.metal": "金属翅膀",
 
 
 
-  "tails.gui.button.editor":"尾巴编辑器",
-  "tails.gui.button.reset":"还原",
-  "tails.gui.button.save":"保存",
-  "tails.gui.button.edit":"编辑",
-  "tails.gui.button.help.camera.0":"点击预览窗口并拖动",
-  "tails.gui.button.help.camera.1":"来旋转你的形象",
-  "tails.gui.button.reset.camera":"重置镜头",
-  "tails.gui.button.picker.0":"取色器",
-  "tails.gui.button.picker.1":"选择并使用一种屏幕上显示的颜色",
-
-  "tails.gui.slider.red.tooltip":"红色",
-  "tails.gui.slider.green.tooltip":"绿色",
-  "tails.gui.slider.blue.tooltip":"蓝色",
-  "tails.gui.slider.hue.tooltip":"色调",
-  "tails.gui.slider.saturation.tooltip":"饱和度",
-  "tails.gui.slider.brightness.tooltip":"亮度",
 
 
-  "tails.gui.tint":"尾巴颜色 %s",
-  "tails.gui.tint.edit":"编辑尾巴颜色 %s",
-  "tails.gui.hex":"施法",
-  "tails.gui.texture":"材质"
+  "tails.gui.button.editor": "尾巴编辑器",
+  "tails.gui.button.reset": "还原",
+  "tails.gui.button.save": "保存",
+  "tails.gui.button.edit": "编辑",
+  "tails.gui.button.help.camera.0": "点击预览窗口并拖动",
+  "tails.gui.button.help.camera.1": "来旋转你的形象",
+  "tails.gui.button.reset.camera": "重置镜头",
+  "tails.gui.button.picker.0": "取色器",
+  "tails.gui.button.picker.1": "选择并使用一种屏幕上显示的颜色",
+
+  "tails.gui.slider.red.tooltip": "红色",
+  "tails.gui.slider.green.tooltip": "绿色",
+  "tails.gui.slider.blue.tooltip": "蓝色",
+  "tails.gui.slider.hue.tooltip": "色调",
+  "tails.gui.slider.saturation.tooltip": "饱和度",
+  "tails.gui.slider.brightness.tooltip": "亮度",
+
+
+  "tails.gui.tint": "尾巴颜色 %s",
+  "tails.gui.tint.edit": "编辑尾巴颜色 %s",
+  "tails.gui.hex": "施法",
+  "tails.gui.texture": "材质"
 }

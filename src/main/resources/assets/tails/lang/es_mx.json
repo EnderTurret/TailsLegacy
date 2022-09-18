@@ -1,61 +1,61 @@
 {
-  "tails.gui.part.none":"Ninguna",
+  "tails.gui.part.none": "Ninguna",
 
 
-  "tails.part.dragon_tail":"Cola de Lagarto",
-  "tails.part.fluffy_tail":"Cola Esponjosa",
-  "tails.part.raccoon_tail":"Cola de Mapache",
-  "tails.part.devil_tail":"Cola de Demonio",
-  "tails.part.cat_tail":"Cola de Gato",
-  "tails.part.bird_tail":"Cola de Ave",
+  "tails.part.tail/dragon_tail": "Cola de Lagarto",
+  "tails.part.tail/fluffy_tail": "Cola Esponjosa",
+  "tails.part.tail/raccoon_tail": "Cola de Mapache",
+  "tails.part.tail/devil_tail": "Cola de Demonio",
+  "tails.part.tail/cat_tail": "Cola de Gato",
+  "tails.part.tail/bird_tail": "Cola de Ave",
 
 
-  "tails.part.texture.fluffy_tail":"Zorro",
-  "tails.part.texture.devil_tail":"Demonio",
-  "tails.part.texture.raccoon_tail":"Mapache",
-  "tails.part.texture.dragon_tail":"Gato",
-  "tails.part.texture.dragon_tail_striped":"Con Rayas",
-  "tails.part.texture.tiger_tail":"Tigre",
-  "tails.part.texture.bird_tail":"Ave",
+  "tails.part.tail/fluffy_tail.texture.standard": "Zorro",
+  "tails.part.tail/devil_tail.texture.standard": "Demonio",
+  "tails.part.tail/raccoon_tail.texture.standard": "Mapache",
+  "tails.part.tail/dragon_tail.texture.standard": "Gato",
+  "tails.part.tail/dragon_tail.texture.striped": "Con Rayas",
+  "tails.part.tail/cat_tail.texture.tiger": "Tigre",
+  "tails.part.tail/bird_tail.texture.standard": "Ave",
 
-  "tails.part.fox_ears":"Orejas de Zorro",
-  "tails.part.cat_ears":"Orejas de Gato",
-  "tails.part.panda_ears":"Orejas de Panda",
-
-
-  "tails.part.texture.fox_ears":"Zorro",
-  "tails.part.texture.cat_ears":"Gato",
-  "tails.part.texture.panda_ears":"Panda",
-
-  "tails.part.big_wings":"Alas Grandes",
-
-  "tails.part.texture.metal_wings.name":"Alas de Metal",
-  "tails.part.texture.big_wings.name":"Alas de Angel",
+  "tails.part.ears/fox_ears": "Orejas de Zorro",
+  "tails.part.ears/cat_ears": "Orejas de Gato",
+  "tails.part.ears/panda_ears": "Orejas de Panda",
 
 
+  "tails.part.ears/fox_ears.texture.standard": "Zorro",
+  "tails.part.ears/cat_ears.texture.standard": "Gato",
+  "tails.part.ears/panda_ears.texture.standard": "Panda",
+
+  "tails.part.wings/big_wings": "Alas Grandes",
+
+  "tails.part.wings/big_wings.texture.angel": "Alas de Angel",
+  "tails.part.wings/big_wings.texture.metal": "Alas de Metal",
 
 
 
-  "tails.gui.button.editor":"Editor de colas",
-  "tails.gui.button.reset":"Reiniciar",
-  "tails.gui.button.save":"Guardar",
-  "tails.gui.button.edit":"Editar",
-  "tails.gui.button.help.camera.0":"Has clic y arrastra en la ventana de vista previa",
-  "tails.gui.button.help.camera.1":"para rotar tu personaje",
-  "tails.gui.button.reset.camera":"Reiniciar cámara",
-  "tails.gui.button.picker.0":"Selector de Color",
-  "tails.gui.button.picker.1":"Selecciona un punto en la pantalla para usar ese color",
-
-  "tails.gui.slider.red.tooltip":"Rojo",
-  "tails.gui.slider.green.tooltip":"Verde",
-  "tails.gui.slider.blue.tooltip":"Azul",
-  "tails.gui.slider.hue.tooltip":"Matiz",
-  "tails.gui.slider.saturation.tooltip":"Saturación",
-  "tails.gui.slider.brightness.tooltip":"Brillo",
 
 
-  "tails.gui.tint":"Tinte %s",
-  "tails.gui.tint.edit":"Editando Tinte %s",
-  "tails.gui.hex":"Hex",
-  "tails.gui.texture":"Textura"
+  "tails.gui.button.editor": "Editor de colas",
+  "tails.gui.button.reset": "Reiniciar",
+  "tails.gui.button.save": "Guardar",
+  "tails.gui.button.edit": "Editar",
+  "tails.gui.button.help.camera.0": "Has clic y arrastra en la ventana de vista previa",
+  "tails.gui.button.help.camera.1": "para rotar tu personaje",
+  "tails.gui.button.reset.camera": "Reiniciar cámara",
+  "tails.gui.button.picker.0": "Selector de Color",
+  "tails.gui.button.picker.1": "Selecciona un punto en la pantalla para usar ese color",
+
+  "tails.gui.slider.red.tooltip": "Rojo",
+  "tails.gui.slider.green.tooltip": "Verde",
+  "tails.gui.slider.blue.tooltip": "Azul",
+  "tails.gui.slider.hue.tooltip": "Matiz",
+  "tails.gui.slider.saturation.tooltip": "Saturación",
+  "tails.gui.slider.brightness.tooltip": "Brillo",
+
+
+  "tails.gui.tint": "Tinte %s",
+  "tails.gui.tint.edit": "Editando Tinte %s",
+  "tails.gui.hex": "Hex",
+  "tails.gui.texture": "Textura"
 }

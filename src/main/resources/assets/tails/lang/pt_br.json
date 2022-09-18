@@ -1,11 +1,11 @@
 {
-  "tails.gui.part.none":"Nenhuma Cauda",
+  "tails.gui.part.none": "Nenhuma Cauda",
 
 
-  "tails.part.dragon_tail":"Cauda de Lagarto",
-  "tails.part.fluffy_tail":"Cauda de Raposa",
-  "tails.part.raccoon_tail":"Cauda de guaxinim",
-  "tails.part.devil_tail":"Cauda de Demônio"
+  "tails.part.tail/dragon_tail": "Cauda de Lagarto",
+  "tails.part.tail/fluffy_tail": "Cauda de Raposa",
+  "tails.part.tail/raccoon_tail": "Cauda de guaxinim",
+  "tails.part.tail/devil_tail": "Cauda de Demônio"
 
 
 

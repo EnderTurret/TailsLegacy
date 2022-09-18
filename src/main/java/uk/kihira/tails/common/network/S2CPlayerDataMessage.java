@@ -16,47 +16,42 @@ import com.google.common.base.Strings;
 import net.minecraft.network.FriendlyByteBuf;
 
 import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.PacketDistributor;
 
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.part.PartsData;
 
-// C → S
-public record PlayerDataMessage(UUID uuid, PartsData partsData) {
+public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) {
 
-	public static PlayerDataMessage decode(FriendlyByteBuf buf) {
+	public static S2CPlayerDataMessage decode(FriendlyByteBuf buf) {
 		final UUID uuid = buf.readUUID();
 
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
 		if (TailsNetworkManager.DEBUG_NETWORK)
-			Tails.LOGGER.info("[PlayerDataMessage] Received {} = {}", uuid, tailInfoJson);
+			Tails.LOGGER.info("[S2CPlayerDataMessage] Received {} = {}", uuid, tailInfoJson);
 
 		PartsData partsData = PartsData.EMPTY;
 
 		if (!Strings.isNullOrEmpty(tailInfoJson))
 			try {
-				partsData = Tails.SERVER_GSON.fromJson(tailInfoJson, PartsData.class);
+				partsData = Tails.PROXY.getSidedGson().fromJson(tailInfoJson, PartsData.class);
 			} catch (Exception e) {
 				Tails.LOGGER.error("Exception decoding player part data:\n{}", tailInfoJson, e);
 			}
 
-		return new PlayerDataMessage(uuid, partsData);
+		return new S2CPlayerDataMessage(uuid, partsData);
 	}
 
-	public static void encode(PlayerDataMessage msg, FriendlyByteBuf buf) {
+	public static void encode(S2CPlayerDataMessage msg, FriendlyByteBuf buf) {
 		buf.writeUUID(msg.uuid);
-		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.PROXY.getSidedGson().toJson(msg.partsData);
+		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.SERVER_GSON.toJson(msg.partsData);
 		buf.writeUtf(tailInfoJson, Short.MAX_VALUE);
 	}
 
-	public static void handle(PlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
-		if (message.partsData != null) {
+	public static void handle(S2CPlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
+		if (message.partsData != null)
 			Tails.PROXY.addPartsData(message.uuid, message.partsData);
-			// Tell other clients about the change.
-			TailsNetworkManager.CHANNEL.send(PacketDistributor.ALL.noArg(), new PlayerDataMessage(message.uuid, message.partsData));
-		}
 
 		ctx.get().setPacketHandled(true);
 	}

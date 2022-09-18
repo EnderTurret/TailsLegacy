@@ -23,8 +23,9 @@ import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsNetworkManager;
+import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
-import uk.kihira.tails.common.network.PlayerDataMessage;
+import uk.kihira.tails.common.network.S2CPlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
 
 /**
@@ -61,8 +62,9 @@ public class CommonProxy {
 	 * A generic message registration method.
 	 */
 	protected void registerMessages() {
-		TailsNetworkManager.CHANNEL.registerMessage(0, PlayerDataMessage.class, PlayerDataMessage::encode, PlayerDataMessage::decode, PlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
-		TailsNetworkManager.CHANNEL.registerMessage(1, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		TailsNetworkManager.CHANNEL.registerMessage(0, C2SPlayerDataMessage.class, C2SPlayerDataMessage::encode, C2SPlayerDataMessage::decode, C2SPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+		TailsNetworkManager.CHANNEL.registerMessage(1, S2CPlayerDataMessage.class, S2CPlayerDataMessage::encode, S2CPlayerDataMessage::decode, S2CPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		TailsNetworkManager.CHANNEL.registerMessage(2, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 	}
 
 	/**

@@ -262,25 +262,18 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 			if (part.getSubTypes().isEmpty())
 				throw new IllegalStateException("Part is missing sub types!");
 
-			final Part.SubType subType;
-			final Part.PartTexture texture;
-
-			final String sId = info.getSubTypeId();
-			subType = part.getSubTypes().stream()
-					.filter(st -> st.id().equals(sId))
+			final Part.SubType subType = part.getSubTypes().stream()
+					.filter(st -> st.id().equals(info.getSubTypeId()))
 					.findFirst().orElseThrow();
 
 			if (subType.textures().isEmpty())
 				throw new IllegalStateException("Sub type is missing textures!");
 
-			final String tId = info.getTextureId();
-			texture = subType.textures().stream()
-					.filter(st -> st.id().equals(tId))
+			final Part.PartTexture texture = subType.textures().stream()
+					.filter(st -> st.id().equals(info.getTextureId()))
 					.findFirst().orElseThrow();
 
-			return new ClientPartInfo(part, subType, texture,
-					info.getTints(),
-					null);
+			return new ClientPartInfo(part, subType, texture, info.getTints(), null);
 		}
 
 		@Override

@@ -59,20 +59,34 @@ public final class TexturePanel extends Panel<EditorScreen> {
 
 		final Part part = partInfo.getPart();
 
-		final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part." + part.getId().getPath() + ".texture." + parent.getTextureId().id();
-		final String texFormatted = I18n.get(texLangKey);
-		final String variantLangKey = partInfo.isEmpty() ? "tails.subtype.none" : part.getTranslationKey() + ".subtype." + partInfo.getSubType().id();
-		final String variantFormatted = I18n.get(variantLangKey);
+		final String texFormatted;
+		boolean texTranslated = true;
+
+		if (partInfo.isEmpty() || !partInfo.isInvalid()) {
+			final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part." + part.getId().getPath() + ".texture." + parent.getTextureId().id();
+			texFormatted = I18n.get(texLangKey);
+			texTranslated = texLangKey.equals(texFormatted);
+		} else texFormatted = partInfo.getTextureId();
+
+		final String variantFormatted;
+		boolean variantTranslated = true;
+
+		if (partInfo.isEmpty() || !partInfo.isInvalid()) {
+			final String variantLangKey = partInfo.isEmpty() ? "tails.subtype.none" : part.getTranslationKey() + ".subtype." + partInfo.getSubType().id();
+			variantFormatted = I18n.get(variantLangKey);
+			variantTranslated = variantLangKey.equals(variantFormatted);
+		} else
+			variantFormatted = partInfo.getSubTypeId();
 
 		super.render(poseStack, mouseX, mouseY, partialTick);
 
-		if (texFormatted.equals(texLangKey)) {
+		if (texTranslated) {
 			fill(poseStack, 25, texSelectY + 4, 25 + font.width(texFormatted), texSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
 			font.draw(poseStack, texFormatted, 25, texSelectY + 4, 0xFF0000);
 		} else
 			font.draw(poseStack, texFormatted, 25, texSelectY + 4, 0xFFFFFF);
 
-		if (variantFormatted.equals(variantLangKey)) {
+		if (variantTranslated) {
 			fill(poseStack, 25, variantSelectY + 4, 25 + font.width(variantFormatted), variantSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
 			font.draw(poseStack, variantFormatted, 25, variantSelectY + 4, 0xFF0000);
 		} else

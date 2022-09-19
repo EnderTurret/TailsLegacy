@@ -29,6 +29,7 @@ import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.texture.TextureHelper;
 
@@ -98,12 +99,9 @@ public class PartRenderer {
 	 * @param partialTick The current partial ticks.
 	 * @param packedLight The packed light.
 	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
-	 * @param red The red color value.
-	 * @param green The green color value.
-	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float alpha) {
 		if (!info.isEmpty()) {
 			compileTextureIfNeeded(entity, info);
 
@@ -118,7 +116,7 @@ public class PartRenderer {
 			alpha = visibleToPlayer && alpha == 1F ? 0.15F : alpha;
 			final VertexConsumer buf = bufferSource.getBuffer(type);
 
-			render(poseStack, entity, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+			render(poseStack, entity, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
 		}
 	}
 
@@ -135,13 +133,20 @@ public class PartRenderer {
 	 * @param partialTick The current partial ticks.
 	 * @param packedLight The packed light.
 	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
-	 * @param red The red color value.
-	 * @param green The green color value.
-	 * @param blue The blue color value.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float alpha) {
 		if (!info.isEmpty()) {
+			final float red, green, blue;
+
+			if (info.getPartTexture().tintingStrategy() == Part.TintingStrategy.SINGLE_TINT) {
+				final int tint = info.getTints()[0];
+				red = (tint >> 16 & 255) / 255F;
+				green = (tint >> 8 & 255) / 255F;
+				blue = (tint & 255) / 255F;
+			} else
+				red = green = blue = 1F;
+
 			poseStack.pushPose();
 
 			preRender(poseStack, entity, info, bufferSource, buffer, x, y, z, partialTick, packedLight, packedOverlay, red, green, blue, alpha);

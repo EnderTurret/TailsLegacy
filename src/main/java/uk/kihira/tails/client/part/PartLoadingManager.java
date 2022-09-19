@@ -301,7 +301,18 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		if (json.has("applyTo"))
 			applyTo.addAll(readStringArray(json.get("applyTo")));
 
-		return new NamedTexture(partId, List.copyOf(applyTo), new Part.PartTexture(texId, path, author));
+		Part.TintingStrategy tintingStrategy = Part.TintingStrategy.TRIPLE_TINT;
+
+		if (json.has("tintingStrategy")) {
+			final String strat = json.get("tintingStrategy").getAsString();
+			tintingStrategy = Part.TintingStrategy.of(strat);
+			if (tintingStrategy == null) {
+				tintingStrategy = Part.TintingStrategy.TRIPLE_TINT;
+				Tails.LOGGER.warn("{}: Invalid tinting strategy: {}!", location, strat);
+			}
+		}
+
+		return new NamedTexture(partId, List.copyOf(applyTo), new Part.PartTexture(texId, path, author, tintingStrategy));
 	}
 
 	private static List<String> readStringArray(JsonElement elem) {

@@ -29,6 +29,7 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 import uk.kihira.tails.client.ColorUtil;
+import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -40,16 +41,18 @@ public final class TripleTintTexture extends AbstractTexture {
 	private final int tint1;
 	private final int tint2;
 	private final int tint3;
+	private final Part.TintingStrategy strategy;
 
 	private static final int MINBRIGHTNESS = 22;
 
-	public TripleTintTexture(String namespace, String texturename, int tint1, int tint2, int tint3) {
+	public TripleTintTexture(String namespace, String texturename, int tint1, int tint2, int tint3, Part.TintingStrategy strategy) {
 		Objects.requireNonNull(namespace);
 		Objects.requireNonNull(texturename);
 		textureLocation = new ResourceLocation(namespace, texturename);
 		this.tint1 = ColorUtil.fromJavaColor(tint1, true);
 		this.tint2 = ColorUtil.fromJavaColor(tint2, true);
 		this.tint3 = ColorUtil.fromJavaColor(tint3, true);
+		this.strategy = strategy;
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public final class TripleTintTexture extends AbstractTexture {
 			try (InputStream is = optional.get().open()) {
 				texture = NativeImage.read(Format.RGBA, is);
 
-				colorise(texture, tint1, tint2, tint3);
+				colorise(texture);
 			} catch (IOException e) {
 				Tails.LOGGER.error("Using missing texture: failed to load {}.", textureLocation, e);
 				texture = clone(MissingTextureAtlasSprite.getTexture().getPixels());
@@ -77,6 +80,11 @@ public final class TripleTintTexture extends AbstractTexture {
 
 		TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
 		texture.upload(0, 0, 0, true);
+	}
+
+	private void colorise(NativeImage texture) {
+		if (strategy == Part.TintingStrategy.TRIPLE_TINT)
+			colorise(texture, tint1, tint2, tint3);
 	}
 
 	private static NativeImage clone(NativeImage src) {

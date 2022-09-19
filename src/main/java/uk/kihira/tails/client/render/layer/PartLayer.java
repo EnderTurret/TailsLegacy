@@ -62,7 +62,7 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerMode
 					final Part part = partInfo.getPart();
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
 					if (renderer != null)
-						renderer.render(poseStack, entity, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F, 1F, 1F, 1F);
+						renderer.render(poseStack, entity, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F);
 					// TODO: Make this less spammy.
 					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
 				} catch (Exception e) {

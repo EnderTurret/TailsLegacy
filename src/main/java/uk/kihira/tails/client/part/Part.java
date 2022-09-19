@@ -9,6 +9,7 @@
 package uk.kihira.tails.client.part;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -71,5 +72,22 @@ public final class Part {
 
 	public static record SubType(String id, @Nullable String author, List<PartTexture> textures) {}
 
-	public static record PartTexture(String id, String path, @Nullable String author) {}
+	public static record PartTexture(String id, String path, @Nullable String author, TintingStrategy tintingStrategy) {}
+
+	public static enum TintingStrategy {
+
+		TRIPLE_TINT,
+		SINGLE_TINT,
+		NO_TINT;
+
+		public final String id = name().toLowerCase(Locale.ENGLISH);
+
+		public static TintingStrategy of(String id) {
+			for (TintingStrategy strat : values())
+				if (strat.id.equals(id))
+					return strat;
+
+			return null;
+		}
+	}
 }

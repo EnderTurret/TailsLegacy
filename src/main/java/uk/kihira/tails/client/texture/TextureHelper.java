@@ -40,7 +40,7 @@ public final class TextureHelper {
 						subType.id(), texture.id(), tints[0], tints[1], tints[2]));
 
 		Minecraft.getInstance().getTextureManager().register(textureId,
-				new TripleTintTexture(part.getId().getNamespace(), texture.path(), tints[0], tints[1], tints[2]));
+				new TripleTintTexture(part.getId().getNamespace(), texture.path(), tints[0], tints[1], tints[2], texture.tintingStrategy()));
 
 		return textureId;
 	}

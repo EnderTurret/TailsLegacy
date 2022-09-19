@@ -50,6 +50,10 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 
 	public static class Serializer implements JsonSerializer<IPartInfo>, JsonDeserializer<IPartInfo> {
 
+		public static final Serializer INSTANCE = new Serializer();
+
+		private Serializer() {}
+
 		@Override
 		public IPartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			Parts.update(json);

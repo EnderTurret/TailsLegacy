@@ -54,7 +54,7 @@ public final class Tails {
 	public static final Gson SERVER_GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
 			.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
-			.registerTypeHierarchyAdapter(IPartInfo.class, new ServerPartInfo.Serializer())
+			.registerTypeHierarchyAdapter(IPartInfo.class, ServerPartInfo.Serializer.INSTANCE)
 			.create();
 
 	public Tails() {

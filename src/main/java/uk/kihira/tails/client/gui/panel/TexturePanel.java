@@ -62,7 +62,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		final String texFormatted;
 		boolean texTranslated = true;
 
-		if (partInfo.isEmpty() || !partInfo.isInvalid()) {
+		if (partInfo.isEmpty() || partInfo.getPartTexture() != null) {
 			final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part." + part.getId().getPath() + ".texture." + parent.getTextureId().id();
 			texFormatted = I18n.get(texLangKey);
 			texTranslated = texLangKey.equals(texFormatted);
@@ -71,7 +71,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		final String variantFormatted;
 		boolean variantTranslated = true;
 
-		if (partInfo.isEmpty() || !partInfo.isInvalid()) {
+		if (partInfo.isEmpty() || partInfo.getSubType() != null) {
 			final String variantLangKey = partInfo.isEmpty() ? "tails.subtype.none" : part.getTranslationKey() + ".subtype." + partInfo.getSubType().id();
 			variantFormatted = I18n.get(variantLangKey);
 			variantTranslated = variantLangKey.equals(variantFormatted);

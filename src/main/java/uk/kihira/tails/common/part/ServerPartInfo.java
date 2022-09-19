@@ -14,7 +14,9 @@ import com.google.gson.JsonSerializer;
 
 import net.minecraft.resources.ResourceLocation;
 
-public record ServerPartInfo(PartType type, ResourceLocation partId, String subTypeId, String textureId, int[] tints) implements IPartInfo {
+import uk.kihira.tails.common.Tails;
+
+public record ServerPartInfo(ResourceLocation partId, String subTypeId, String textureId, int[] tints) implements IPartInfo {
 
 	@Override
 	public IPartInfo clone() {
@@ -23,7 +25,7 @@ public record ServerPartInfo(PartType type, ResourceLocation partId, String subT
 
 	@Override
 	public PartType getType() {
-		return type;
+		return null;
 	}
 
 	@Override
@@ -56,7 +58,12 @@ public record ServerPartInfo(PartType type, ResourceLocation partId, String subT
 
 			final String pId = obj.get("id").getAsString();
 			if ("tails:empty".equals(pId)) return IPartInfo.empty();
+
 			final ResourceLocation partId = new ResourceLocation(pId);
+			final ResourceLocation newPartId = Parts.remapId(partId);
+
+			if (partId != newPartId)
+				Tails.LOGGER.info("Remapped part id: {} → {}.", partId, newPartId);
 
 			final String subType = obj.get("subType").getAsString();
 			final String texture = obj.get("textureId").getAsString();
@@ -64,7 +71,7 @@ public record ServerPartInfo(PartType type, ResourceLocation partId, String subT
 			final JsonArray tints = obj.get("tints").getAsJsonArray();
 			final int[] tintsArr = new int[] {tints.get(0).getAsInt(), tints.get(1).getAsInt(), tints.get(2).getAsInt()};
 
-			return new ServerPartInfo(null, partId, subType, texture, tintsArr);
+			return new ServerPartInfo(newPartId, subType, texture, tintsArr);
 		}
 
 		@Override

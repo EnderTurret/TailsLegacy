@@ -19,6 +19,7 @@ import uk.kihira.tails.client.model.MuzzleModel;
 import uk.kihira.tails.client.model.ears.CatEarsModel;
 import uk.kihira.tails.client.model.ears.FoxEarsModel;
 import uk.kihira.tails.client.model.ears.PandaEarsModel;
+import uk.kihira.tails.client.model.ears.SeaPickleModel;
 import uk.kihira.tails.client.model.ears.SmallCatEarsModel;
 import uk.kihira.tails.client.model.tail.BirdTailModel;
 import uk.kihira.tails.client.model.tail.BunnyTailModel;
@@ -31,7 +32,6 @@ import uk.kihira.tails.client.model.tail.SharkTailModel;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.part.PartRenderer;
-import uk.kihira.tails.client.render.part.SeaPickleModel;
 import uk.kihira.tails.client.render.part.WingRenderer;
 
 public final class PartRenderRegistry {

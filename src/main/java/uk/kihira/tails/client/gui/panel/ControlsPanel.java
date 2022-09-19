@@ -53,7 +53,7 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 		}));
 		// Reset/Save
 		addRenderableWidget(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, Component.translatable("tails.gui.button.reset"), b -> {
-			final ClientPartInfo partInfo = parent.getOriginalPartInfo().deepCopy();
+			final ClientPartInfo partInfo = parent.getOriginalPartInfo().clone();
 			parent.getPartPanel().selectDefaultListEntry();
 			parent.getLibraryPanel().initList();
 			parent.getLibraryInfoPanel().setEntry(null);

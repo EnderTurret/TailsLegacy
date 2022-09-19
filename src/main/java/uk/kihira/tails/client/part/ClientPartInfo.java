@@ -39,24 +39,21 @@ import uk.kihira.tails.common.part.ServerPartInfo;
  */
 public class ClientPartInfo implements Cloneable, IPartInfo {
 
+	private final IPartInfo delegate;
+
 	private final Part part;
 	private final Part.SubType subType;
-	private final int[] tints;
 	private final Part.PartTexture textureId;
 
 	private transient ResourceLocation texture;
 	public transient boolean needsTextureCompile = true;
 
-	public ClientPartInfo(Part part, Part.SubType subType, Part.PartTexture textureId, int[] tints, @Nullable ResourceLocation texture) {
+	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
+		this.delegate = delegate;
 		this.part = part;
 		this.subType = subType;
 		this.textureId = textureId;
-		this.tints = tints;
 		this.texture = texture;
-	}
-
-	public ClientPartInfo(Part part, Part.SubType subType, Part.PartTexture textureId, int tint1, int tint2, int tint3, @Nullable ResourceLocation texture) {
-		this(part, subType, textureId, new int[] {tint1, tint2, tint3}, texture);
 	}
 
 	public static ClientPartInfo coerce(IPartInfo info) {
@@ -71,11 +68,15 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 				.filter(st -> st.id().equals(info.getTextureId()))
 				.findFirst().orElse(subType.textures().get(0));
 
-		return new ClientPartInfo(part, subType, tex, info.getTints().clone(), null);
+		return new ClientPartInfo(info, part, subType, tex, null);
 	}
 
 	public static ClientPartInfo empty() {
 		return Empty.INSTANCE;
+	}
+
+	public IPartInfo unwrap() {
+		return delegate;
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 */
 	@Override
 	public ResourceLocation getPartId() {
-		return part.getId();
+		return delegate.getPartId();
 	}
 
 	/**
@@ -108,7 +109,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 
 	@Override
 	public String getSubTypeId() {
-		return subType.id();
+		return delegate.getSubTypeId();
 	}
 
 	/**
@@ -118,7 +119,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 */
 	@Override
 	public int[] getTints() {
-		return tints;
+		return delegate.getTints();
 	}
 
 	/**
@@ -129,7 +130,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 */
 	@Override
 	public String getTextureId() {
-		return textureId.id();
+		return delegate.getTextureId();
 	}
 
 	public Part.PartTexture getPartTexture() {
@@ -194,21 +195,9 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return sb.toString();
 	}
 
-	/**
-	 * Returns a copy of this {@link ClientPartInfo}.
-	 * @return The copy.
-	 */
-	public ClientPartInfo deepCopy() {
-		final int[] tints = new int[getTints().length];
-		for (int i = 0; i < tints.length; i++)
-			tints[i] = getTints()[i];
-
-		return new ClientPartInfo(getPart(), getSubType(), getPartTexture(), tints, getTexture());
-	}
-
 	@Override
 	public ClientPartInfo clone() {
-		return deepCopy();
+		return new ClientPartInfo(delegate.clone(), getPart(), getSubType(), getPartTexture(), getTexture());
 	}
 
 	private static final class Empty extends ClientPartInfo {
@@ -273,7 +262,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 					.filter(st -> st.id().equals(info.getTextureId()))
 					.findFirst().orElseThrow();
 
-			return new ClientPartInfo(part, subType, texture, info.getTints(), null);
+			return new ClientPartInfo(info, part, subType, texture, null);
 		}
 
 		@Override

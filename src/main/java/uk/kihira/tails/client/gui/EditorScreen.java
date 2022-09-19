@@ -74,8 +74,8 @@ public final class EditorScreen extends LayeredScreen {
 
 		final ClientPartInfo partInfo = (ClientPartInfo) original.getPartInfo(partType);
 
-		originalPartInfo = partInfo.deepCopy();
-		editingPartInfo = originalPartInfo.deepCopy();
+		originalPartInfo = partInfo.clone();
+		editingPartInfo = originalPartInfo.clone();
 		setPartsData(original.deepCopy());
 	}
 

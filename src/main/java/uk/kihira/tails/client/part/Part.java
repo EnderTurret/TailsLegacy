@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.ServerPartInfo;
 
 public final class Part {
 
@@ -55,10 +56,11 @@ public final class Part {
 	 * @return The default {@link ClientPartInfo}.
 	 */
 	public ClientPartInfo makeDefaultPartInfo(SubType subType) {
-		return new ClientPartInfo(this, subType,
-				subType.textures().get(0),
-				0xFF000000 | defaultTints[0], 0xFF000000 | defaultTints[1], 0xFF000000 | defaultTints[2],
-				null);
+		final int[] tints = { 0xFF000000 | defaultTints[0], 0xFF000000 | defaultTints[1], 0xFF000000 | defaultTints[2] };
+		final PartTexture texture = subType.textures().get(0);
+
+		return new ClientPartInfo(new ServerPartInfo(getId(), subType.id(), texture.id(), tints),
+				this, subType, texture, null);
 	}
 
 	@Override

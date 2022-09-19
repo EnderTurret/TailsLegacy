@@ -22,8 +22,8 @@ dependencies {
 
     //compileOnly fg.deobf('vazkii.botania:Botania:1.18.2-434:api')
     //runtimeOnly fg.deobf('vazkii.botania:Botania:1.18.2-434')
-    runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.19.2-76')
-    runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.19.2-5.1.1.0')
+    //runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.19.2-76')
+    //runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.19.2-5.1.1.0')
 }
 
 minecraft {

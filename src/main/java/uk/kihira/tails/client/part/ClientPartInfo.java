@@ -65,12 +65,14 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		if (info.isEmpty()) return empty();
 
 		final Part part = PartRegistry.get(info.getPartId());
-		final Part.SubType subType = part.getSubTypes().stream()
+
+		final Part.SubType subType = part == null ? null : part.getSubTypes().stream()
 				.filter(st -> st.id().equals(info.getSubTypeId()))
-				.findFirst().orElse(part.getSubTypes().get(0));
-		final Part.PartTexture tex = subType.textures().stream()
+				.findFirst().orElse(null);
+
+		final Part.PartTexture tex = part == null || subType == null ? null : subType.textures().stream()
 				.filter(st -> st.id().equals(info.getTextureId()))
-				.findFirst().orElse(subType.textures().get(0));
+				.findFirst().orElse(null);
 
 		return new ClientPartInfo(info, part, subType, tex);
 	}

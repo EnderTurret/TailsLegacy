@@ -147,7 +147,8 @@ public final class Parts {
 				Tails.LOGGER.info("Remapped part ({}, {}) → {}", type.getId(), id, partId);
 			}
 
-			final ResourceLocation partId = ResourceLocation.tryParse(obj.get("id").getAsString());
+			ResourceLocation partId = ResourceLocation.tryParse(obj.get("id").getAsString());
+			partId = remapId(partId);
 
 			// Convert old style sub types to new ones.
 			if (obj.has("subid")) {

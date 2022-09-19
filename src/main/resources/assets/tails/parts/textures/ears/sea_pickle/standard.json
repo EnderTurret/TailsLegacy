@@ -2,5 +2,5 @@
   "applyTo": [
     "standard"
   ],
-  "tintMode": "single"
+  "tintingStrategy": "single_tint"
 }

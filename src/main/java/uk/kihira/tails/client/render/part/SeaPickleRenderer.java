@@ -16,31 +16,15 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 
 public final class SeaPickleRenderer extends PartRenderer {
 
 	public SeaPickleRenderer() {
 		super(new Model());
-	}
-
-	@Override
-	protected void doRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		final int tint = info.getTints()[0];
-		final float r = (tint >> 16 & 255) / 255F;
-		final float g = (tint >> 8 & 255) / 255F;
-		final float b = (tint & 255) / 255F;
-		super.doRender(poseStack, entity, info, buffer, partialTick, packedLight, packedOverlay, r, g, b, alpha);
-	}
-
-	@Override
-	public void compileTextureIfNeeded(LivingEntity entity, ClientPartInfo info) {
-		info.setTexture(new ResourceLocation("tails", "textures/part/ears/sea_pickle/standard.png"));
 	}
 
 	public static class Model extends PartModel {

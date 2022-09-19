@@ -247,22 +247,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		@Override
 		public IPartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			final IPartInfo info = ServerPartInfo.Serializer.INSTANCE.deserialize(json, typeOfT, context);
-			if (info.isEmpty()) return empty();
-
-			final Part part = PartRegistry.get(info.getPartId());
-
-			if (part == null)
-				throw new JsonParseException("Unknown part id: \"" + info.getPartId() + "\"");
-
-			final Part.SubType subType = part.getSubTypes().stream()
-					.filter(st -> st.id().equals(info.getSubTypeId()))
-					.findFirst().orElseThrow();
-
-			final Part.PartTexture texture = subType.textures().stream()
-					.filter(st -> st.id().equals(info.getTextureId()))
-					.findFirst().orElseThrow();
-
-			return new ClientPartInfo(info, part, subType, texture);
+			return coerce(info);
 		}
 
 		@Override

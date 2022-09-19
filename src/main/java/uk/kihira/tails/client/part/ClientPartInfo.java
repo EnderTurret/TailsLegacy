@@ -32,6 +32,7 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.Parts;
+import uk.kihira.tails.common.part.ServerPartInfo;
 
 /**
  * Stores a bunch of customization data for parts.
@@ -250,29 +251,13 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 
 		@Override
 		public IPartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-			Parts.update(json);
+			final IPartInfo info = ServerPartInfo.Serializer.INSTANCE.deserialize(json, typeOfT, context);
+			if (info.isEmpty()) return empty();
 
-			final JsonObject obj = json.getAsJsonObject();
+			final Part part = PartRegistry.get(info.getPartId());
 
-			final Part part;
-
-			if (!obj.has("id"))
-				throw new JsonParseException("Missing part id!");
-			else {
-				final String id = obj.get("id").getAsString();
-				if ("tails:empty".equals(id)) return empty();
-
-				final ResourceLocation realId = new ResourceLocation(id);
-				final ResourceLocation newId = Parts.remapId(realId);
-
-				if (realId != newId)
-					Tails.LOGGER.info("Remapped part id: {} → {}.", realId, newId);
-
-				part = PartRegistry.get(newId);
-
-				if (part == null)
-					throw new JsonParseException("Unknown part id: \"" + id + "\"");
-			}
+			if (part == null)
+				throw new JsonParseException("Unknown part id: \"" + info.getPartId() + "\"");
 
 			if (part.getSubTypes().isEmpty())
 				throw new IllegalStateException("Part is missing sub types!");
@@ -280,7 +265,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 			final Part.SubType subType;
 			final Part.PartTexture texture;
 
-			final String sId = obj.get("subType").getAsString();
+			final String sId = info.getSubTypeId();
 			subType = part.getSubTypes().stream()
 					.filter(st -> st.id().equals(sId))
 					.findFirst().orElseThrow();
@@ -288,36 +273,19 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 			if (subType.textures().isEmpty())
 				throw new IllegalStateException("Sub type is missing textures!");
 
-			final String tId = obj.get("textureId").getAsString();
+			final String tId = info.getTextureId();
 			texture = subType.textures().stream()
 					.filter(st -> st.id().equals(tId))
 					.findFirst().orElseThrow();
 
-			final JsonArray tints = obj.get("tints").getAsJsonArray();
-
 			return new ClientPartInfo(part, subType, texture,
-					tints.get(0).getAsInt(), tints.get(1).getAsInt(), tints.get(2).getAsInt(),
+					info.getTints(),
 					null);
 		}
 
 		@Override
 		public JsonElement serialize(IPartInfo src, Type typeOfSrc, JsonSerializationContext context) {
-			final JsonObject obj = new JsonObject();
-
-			obj.addProperty("id", src.getPartId().toString());
-
-			if (!src.isEmpty()) {
-				obj.addProperty("subType", src.getSubTypeId());
-				obj.addProperty("textureId", src.getTextureId());
-
-				final JsonArray tints = new JsonArray();
-				tints.add(src.getTints()[0]);
-				tints.add(src.getTints()[1]);
-				tints.add(src.getTints()[2]);
-				obj.add("tints", tints);
-			}
-
-			return obj;
+			return ServerPartInfo.Serializer.INSTANCE.serialize(src, typeOfSrc, context);
 		}
 	}
 }

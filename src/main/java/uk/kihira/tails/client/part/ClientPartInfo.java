@@ -250,18 +250,13 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 
 		@Override
 		public IPartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-			final JsonObject obj = json.getAsJsonObject();
+			Parts.update(json);
 
-			if (obj.has("hasPart") && !obj.get("hasPart").getAsBoolean())
-				return empty();
+			final JsonObject obj = json.getAsJsonObject();
 
 			final Part part;
 
-			if (obj.has("partType")) {
-				final PartType type = PartType.forId(obj.get("partType").getAsString().toLowerCase(Locale.ROOT));
-				final int id = obj.get("typeid").getAsInt();
-				part = PartRegistry.byLegacyId(type, id);
-			} else if (!obj.has("id"))
+			if (!obj.has("id"))
 				throw new JsonParseException("Missing part id!");
 			else {
 				final String id = obj.get("id").getAsString();
@@ -285,32 +280,18 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 			final Part.SubType subType;
 			final Part.PartTexture texture;
 
-			if (obj.has("subid")) {
-				int idx = obj.get("subid").getAsInt();
-				if (idx >= part.getSubTypes().size()) idx = 0;
-				subType = part.getSubTypes().get(idx);
-				Tails.LOGGER.info("Remapped sub type {} → {}", idx, subType.id());
-			} else {
-				final String id = obj.get("subType").getAsString();
-				subType = part.getSubTypes().stream()
-						.filter(st -> st.id().equals(id))
-						.findFirst().orElseThrow();
-			}
+			final String sId = obj.get("subType").getAsString();
+			subType = part.getSubTypes().stream()
+					.filter(st -> st.id().equals(sId))
+					.findFirst().orElseThrow();
 
 			if (subType.textures().isEmpty())
 				throw new IllegalStateException("Sub type is missing textures!");
 
-			if (obj.has("textureID")) {
-				int idx = obj.get("textureID").getAsInt();
-				if (idx >= subType.textures().size()) idx = 0;
-				texture = subType.textures().get(idx);
-				Tails.LOGGER.info("Remapped texture {} → {}", idx, texture.id());
-			} else {
-				final String id = obj.get("textureId").getAsString();
-				texture = subType.textures().stream()
-						.filter(st -> st.id().equals(id))
-						.findFirst().orElseThrow();
-			}
+			final String tId = obj.get("textureId").getAsString();
+			texture = subType.textures().stream()
+					.filter(st -> st.id().equals(tId))
+					.findFirst().orElseThrow();
 
 			final JsonArray tints = obj.get("tints").getAsJsonArray();
 

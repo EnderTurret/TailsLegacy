@@ -1,7 +1,11 @@
 package uk.kihira.tails.common.part;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -119,5 +123,51 @@ public final class Parts {
 
 	private static ResourceLocation id(String path) {
 		return new ResourceLocation(Tails.MOD_ID, path);
+	}
+
+	public static JsonElement update(JsonElement elem) {
+		if (elem instanceof JsonObject obj) {
+			if (obj.has("id") && obj.has("subType") && obj.has("textureId")) return elem;
+
+			// Convert old style empty parts to new style empties.
+			if (obj.has("hasPart") && !obj.get("hasPart").getAsBoolean()) {
+				obj.keySet().clear(); // Removes all mappings from the object.
+				obj.addProperty("id", "tails:empty");
+			}
+
+			// Convert old style parts to new ones.
+			if (obj.has("partType") && obj.has("typeid")) {
+				final PartType type = PartType.forId(obj.get("partType").getAsString().toLowerCase(Locale.ROOT));
+				final int id = obj.get("typeid").getAsInt();
+				final ResourceLocation partId = byLegacyId(type, id);
+
+				obj.remove("partType");
+				obj.remove("typeid");
+				obj.addProperty("id", partId.toString());
+				Tails.LOGGER.info("Remapped part ({}, {}) → {}", type.getId(), id, partId);
+			}
+
+			final ResourceLocation partId = ResourceLocation.tryParse(obj.get("id").getAsString());
+
+			// Convert old style sub types to new ones.
+			if (obj.has("subid")) {
+				final int subId = obj.get("subid").getAsInt();
+				final String subType = legacySubType(partId, subId);
+				obj.remove("subid");
+				obj.addProperty("subType", subType);
+				Tails.LOGGER.info("Remapped sub type {} → {}", subId, subType);
+			}
+
+			// Convert old style textures to new ones.
+			if (obj.has("textureID")) {
+				final int textureId = obj.get("textureID").getAsInt();
+				final String texture = legacyTexture(partId, textureId);
+				obj.remove("textureID");
+				obj.addProperty("textureId", texture);
+				Tails.LOGGER.info("Remapped texture {} → {}", textureId, texture);
+			}
+		}
+
+		return elem;
 	}
 }

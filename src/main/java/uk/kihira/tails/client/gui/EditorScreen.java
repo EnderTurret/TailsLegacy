@@ -29,7 +29,6 @@ import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 

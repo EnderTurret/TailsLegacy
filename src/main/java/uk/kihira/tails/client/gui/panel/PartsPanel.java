@@ -39,7 +39,6 @@ import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.ServerPartInfo;
 
 public final class PartsPanel extends Panel<EditorScreen> {
 

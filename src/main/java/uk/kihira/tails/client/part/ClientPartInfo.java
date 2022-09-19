@@ -11,17 +11,14 @@ package uk.kihira.tails.client.part;
 import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
@@ -31,7 +28,6 @@ import net.minecraft.resources.ResourceLocation;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.Parts;
 import uk.kihira.tails.common.part.ServerPartInfo;
 
 /**

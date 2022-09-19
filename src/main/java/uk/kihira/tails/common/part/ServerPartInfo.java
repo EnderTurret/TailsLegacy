@@ -1,7 +1,6 @@
 package uk.kihira.tails.common.part;
 
 import java.lang.reflect.Type;
-import java.util.Locale;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;

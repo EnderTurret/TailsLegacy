@@ -17,7 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.ServerPartInfo;
 
 public final class Part {
 

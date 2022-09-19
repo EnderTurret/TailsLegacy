@@ -56,6 +56,10 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		this.texture = texture;
 	}
 
+	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId) {
+		this(delegate, part, subType, textureId, null);
+	}
+
 	public static ClientPartInfo coerce(IPartInfo info) {
 		if (info instanceof ClientPartInfo cpi) return cpi;
 		if (info.isEmpty()) return empty();
@@ -68,7 +72,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 				.filter(st -> st.id().equals(info.getTextureId()))
 				.findFirst().orElse(subType.textures().get(0));
 
-		return new ClientPartInfo(info, part, subType, tex, null);
+		return new ClientPartInfo(info, part, subType, tex);
 	}
 
 	public static ClientPartInfo empty() {
@@ -205,7 +209,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		private static final ClientPartInfo INSTANCE = new Empty();
 
 		private Empty() {
-			super(null, null, null, null, null);
+			super(null, null, null, null);
 		}
 
 		@Override
@@ -262,7 +266,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 					.filter(st -> st.id().equals(info.getTextureId()))
 					.findFirst().orElseThrow();
 
-			return new ClientPartInfo(info, part, subType, texture, null);
+			return new ClientPartInfo(info, part, subType, texture);
 		}
 
 		@Override

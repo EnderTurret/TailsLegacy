@@ -103,7 +103,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 		// Need to keep tints from original part.
 		final ClientPartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.clone() : new ClientPartInfo(entry.partInfo.unwrap().clone(), entry.partInfo.getPart(), subType,
-				entry.partInfo.getPartTexture(), null);
+				entry.partInfo.getPartTexture());
 
 		// Breaks immutability, but it's probably fine, right?
 		if (entry.partInfo.isEmpty())

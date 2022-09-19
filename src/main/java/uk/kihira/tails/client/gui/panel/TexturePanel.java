@@ -90,7 +90,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 			index = partInfo.getSubType().textures().size() - 1;
 		parent.setTextureId(partInfo.getSubType().textures().get(index));
 
-		partInfo = new ClientPartInfo(partInfo.unwrap(), part, partInfo.getSubType(), parent.getTextureId(), null);
+		partInfo = new ClientPartInfo(partInfo.unwrap(), part, partInfo.getSubType(), parent.getTextureId());
 		parent.setPartsInfo(partInfo);
 	}
 
@@ -105,7 +105,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 			index = 0;
 		parent.setTextureId(partInfo.getSubType().textures().get(index));
 
-		partInfo = new ClientPartInfo(partInfo.unwrap(), part, partInfo.getSubType(), parent.getTextureId(), null);
+		partInfo = new ClientPartInfo(partInfo.unwrap(), part, partInfo.getSubType(), parent.getTextureId());
 		parent.setPartsInfo(partInfo);
 	}
 
@@ -121,7 +121,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 			index = part.getSubTypes().size() - 1;
 		newType = part.getSubTypes().get(index);
 
-		partInfo = new ClientPartInfo(partInfo.unwrap(), part, newType, partInfo.getPartTexture(), null);
+		partInfo = new ClientPartInfo(partInfo.unwrap(), part, newType, partInfo.getPartTexture());
 		parent.setPartsInfo(partInfo);
 	}
 
@@ -137,7 +137,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 			index = 0;
 		newType = part.getSubTypes().get(index);
 
-		partInfo = new ClientPartInfo(partInfo.unwrap(), part, newType, partInfo.getPartTexture(), null);
+		partInfo = new ClientPartInfo(partInfo.unwrap(), part, newType, partInfo.getPartTexture());
 		parent.setPartsInfo(partInfo);
 	}
 

@@ -60,7 +60,7 @@ public final class Part {
 		final PartTexture texture = subType.textures().get(0);
 
 		return new ClientPartInfo(new ServerPartInfo(getId(), subType.id(), texture.id(), tints),
-				this, subType, texture, null);
+				this, subType, texture);
 	}
 
 	@Override

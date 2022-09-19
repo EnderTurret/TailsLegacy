@@ -137,6 +137,9 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	void selectDefaultListEntry() {
 		// Default selection.
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
+		// Don't try to force a different selection for unknown parts.
+		if (partInfo.isInvalid()) return;
+
 		for (PartEntry entry : partList.children())
 			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
 					&& entry.partInfo.getPart() == partInfo.getPart()) {

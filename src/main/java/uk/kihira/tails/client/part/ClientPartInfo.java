@@ -252,15 +252,9 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 			if (part == null)
 				throw new JsonParseException("Unknown part id: \"" + info.getPartId() + "\"");
 
-			if (part.getSubTypes().isEmpty())
-				throw new IllegalStateException("Part is missing sub types!");
-
 			final Part.SubType subType = part.getSubTypes().stream()
 					.filter(st -> st.id().equals(info.getSubTypeId()))
 					.findFirst().orElseThrow();
-
-			if (subType.textures().isEmpty())
-				throw new IllegalStateException("Sub type is missing textures!");
 
 			final Part.PartTexture texture = subType.textures().stream()
 					.filter(st -> st.id().equals(info.getTextureId()))

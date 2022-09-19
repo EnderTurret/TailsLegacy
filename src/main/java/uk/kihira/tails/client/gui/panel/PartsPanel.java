@@ -39,6 +39,7 @@ import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.ServerPartInfo;
 
 public final class PartsPanel extends Panel<EditorScreen> {
 
@@ -102,8 +103,9 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		}
 
 		// Need to keep tints from original part.
-		final ClientPartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.clone() : new ClientPartInfo(entry.partInfo.unwrap().clone(), entry.partInfo.getPart(), subType,
-				entry.partInfo.getPartTexture());
+		final ClientPartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.clone() : new ClientPartInfo(
+				new ServerPartInfo(entry.partInfo.getPart().getId(), subType.id(), entry.partInfo.getPartTexture().id(), oldInfo.getTints()),
+				entry.partInfo.getPart(), subType, entry.partInfo.getPartTexture());
 
 		// Breaks immutability, but it's probably fine, right?
 		if (entry.partInfo.isEmpty())

@@ -20,7 +20,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 
 	@Override
 	public IPartInfo clone() {
-		return this;
+		return new ServerPartInfo(partId, subTypeId, textureId, tints.clone());
 	}
 
 	@Override

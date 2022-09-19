@@ -70,7 +70,7 @@ public final class EditorScreen extends LayeredScreen {
 
 		for (PartType partType : PartType.values())
 			if (!original.hasPartInfo(partType))
-				original.setPartInfo(partType, IPartInfo.empty());
+				original.setPartInfo(partType, ClientPartInfo.empty());
 
 		final ClientPartInfo partInfo = (ClientPartInfo) original.getPartInfo(partType);
 

@@ -72,7 +72,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 			final String texture = obj.get("textureId").getAsString();
 
 			final JsonArray tints = obj.get("tints").getAsJsonArray();
-			final int[] tintsArr = new int[] {tints.get(0).getAsInt(), tints.get(1).getAsInt(), tints.get(2).getAsInt()};
+			final int[] tintsArr = {tints.get(0).getAsInt(), tints.get(1).getAsInt(), tints.get(2).getAsInt()};
 
 			return new ServerPartInfo(newPartId, subType, texture, tintsArr);
 		}

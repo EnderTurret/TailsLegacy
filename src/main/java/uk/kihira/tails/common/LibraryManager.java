@@ -54,11 +54,10 @@ public class LibraryManager {
 	public void reload(boolean maybeBackup) {
 		final List<LibraryEntryData> entries = loadLibrary();
 
-		if (maybeBackup) {
+		if (maybeBackup)
 			// Create a backup of the old data, in case you did something questionable.
 			if (!entries.equals(libraryEntries))
 				saveLibrary(LIBRARY_PATH.resolveSibling("tailslibrary.json.bak"));
-		}
 
 		libraryEntries.clear();
 		libraryEntries.addAll(entries);

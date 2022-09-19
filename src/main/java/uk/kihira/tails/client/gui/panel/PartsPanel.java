@@ -96,10 +96,9 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	public boolean onEntrySelected(int index, PartEntry entry) {
 		final ClientPartInfo oldInfo = parent.getEditingPartInfo();
 		final Part.SubType subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : entry.partInfo.getSubType();
-		if (subType != null) {
+		if (subType != null)
 			// Reset texture ID.
 			parent.setTextureId(subType.textures().get(0));
-		}
 
 		// Need to keep tints from original part.
 		final ClientPartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.clone() : new ClientPartInfo(
@@ -192,7 +191,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 				RenderHelper.drawStringMultiLine(poseStack, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart) {
-					final Part renderPart = partInfo.getPart();
+					partInfo.getPart();
 					final String author;
 
 					if (parent.getTextureId().author() != null)

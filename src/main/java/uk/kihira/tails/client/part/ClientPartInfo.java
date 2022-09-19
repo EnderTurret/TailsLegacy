@@ -48,7 +48,9 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	private transient ResourceLocation texture;
 	public transient boolean needsTextureCompile = true;
 
-	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
+	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
+		if (delegate == null)
+			delegate = new ServerPartInfo(part.getId(), subType.id(), textureId.id(), tints);
 		this.delegate = delegate;
 		this.part = part;
 		this.subType = subType;
@@ -56,8 +58,20 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		this.texture = texture;
 	}
 
+	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
+		this(delegate, null, part, subType, textureId, texture);
+	}
+
 	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId) {
 		this(delegate, part, subType, textureId, null);
+	}
+
+	public ClientPartInfo(int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
+		this(null, tints, part, subType, textureId, texture);
+	}
+
+	public ClientPartInfo(int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId) {
+		this(tints, part, subType, textureId, null);
 	}
 
 	public static ClientPartInfo coerce(IPartInfo info) {
@@ -215,7 +229,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		private static final ClientPartInfo INSTANCE = new Empty();
 
 		private Empty() {
-			super(null, null, null, null);
+			super((IPartInfo) null, null, null, null);
 		}
 
 		@Override

@@ -60,8 +60,7 @@ public final class Part {
 		final int[] tints = { 0xFF000000 | defaultTints[0], 0xFF000000 | defaultTints[1], 0xFF000000 | defaultTints[2] };
 		final PartTexture texture = subType.textures().get(0);
 
-		return new ClientPartInfo(new ServerPartInfo(getId(), subType.id(), texture.id(), tints),
-				this, subType, texture);
+		return new ClientPartInfo(tints, this, subType, texture);
 	}
 
 	@Override

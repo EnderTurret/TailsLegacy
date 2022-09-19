@@ -153,7 +153,7 @@ public final class EditorScreen extends LayeredScreen {
 		//editingPartInfo.setTexture(null); // Clear texture data as we will no longer need it.
 		editingPartInfo = newPartInfo;
 
-		if (!editingPartInfo.isEmpty())
+		if (!editingPartInfo.isEmpty() && !editingPartInfo.isInvalid())
 			editingPartInfo.setTexture(TextureHelper.generateTexture(playerUUID, editingPartInfo));
 
 		getPartsData().setPartInfo(partType, editingPartInfo);

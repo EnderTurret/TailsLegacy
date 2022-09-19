@@ -53,7 +53,7 @@ public final class TextureHelper {
 	 */
 	@Nullable
 	public static ResourceLocation generateTexture(UUID uuid, ClientPartInfo partInfo) {
-		if (partInfo.isEmpty()) return null;
+		if (partInfo.isEmpty() || partInfo.isInvalid()) return null;
 		return generateTexture(uuid, partInfo.getPart(), partInfo.getSubType(), partInfo.getPartTexture(), partInfo.getTints());
 	}
 }

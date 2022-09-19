@@ -48,8 +48,8 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	private transient ResourceLocation texture;
 	public transient boolean needsTextureCompile = true;
 
-	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
-		if (delegate == null)
+	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture, boolean empty) {
+		if (delegate == null && !empty)
 			delegate = new ServerPartInfo(part.getId(), subType.id(), textureId.id(), tints);
 		this.delegate = delegate;
 		this.part = part;
@@ -59,7 +59,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	}
 
 	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
-		this(delegate, null, part, subType, textureId, texture);
+		this(delegate, null, part, subType, textureId, texture, false);
 	}
 
 	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId) {
@@ -67,7 +67,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	}
 
 	public ClientPartInfo(int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
-		this(null, tints, part, subType, textureId, texture);
+		this(null, tints, part, subType, textureId, texture, false);
 	}
 
 	public ClientPartInfo(int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId) {
@@ -229,7 +229,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		private static final ClientPartInfo INSTANCE = new Empty();
 
 		private Empty() {
-			super((IPartInfo) null, null, null, null);
+			super(null, null, null, null, null, null, true);
 		}
 
 		@Override

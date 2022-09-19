@@ -48,6 +48,7 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerMode
 			final PartsData partsData = Tails.PROXY.getPartsData(uuid);
 			if (partsData.hasPartInfo(partType)) {
 				final ClientPartInfo partInfo = (ClientPartInfo) partsData.getPartInfo(partType);
+				if (partInfo.isInvalid()) return; // Skip unknown parts.
 
 				poseStack.pushPose();
 

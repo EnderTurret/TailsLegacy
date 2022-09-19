@@ -85,6 +85,10 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return delegate;
 	}
 
+	public boolean isInvalid() {
+		return getPart() == null || getSubType() == null || getPartTexture() == null;
+	}
+
 	@Override
 	public PartType getType() {
 		return part.getType();

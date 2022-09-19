@@ -37,7 +37,6 @@ import uk.kihira.tails.common.part.PartsData;
  */
 public final class EditorScreen extends LayeredScreen {
 
-	private Part.PartTexture textureId;
 	private PartType partType;
 	private PartsData partsData;
 	private ClientPartInfo editingPartInfo;
@@ -186,7 +185,6 @@ public final class EditorScreen extends LayeredScreen {
 		setPartsInfo(partInfo);
 		partsPanel.initPartList();
 		refreshTintPane();
-		textureId = originalPartInfo.getPartTexture();
 		texturePanel.updateButtons();
 	}
 
@@ -196,14 +194,6 @@ public final class EditorScreen extends LayeredScreen {
 
 	public ClientPartInfo getOriginalPartInfo() {
 		return originalPartInfo;
-	}
-
-	public Part.PartTexture getTextureId() {
-		return textureId;
-	}
-
-	public void setTextureId(Part.PartTexture value) {
-		textureId = value;
 	}
 
 	public TintPanel getTintPanel() {

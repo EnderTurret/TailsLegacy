@@ -39,6 +39,7 @@ import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.PartType;
+import uk.kihira.tails.common.part.ServerPartInfo;
 
 public final class PartsPanel extends Panel<EditorScreen> {
 
@@ -95,14 +96,19 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 	public boolean onEntrySelected(int index, PartEntry entry) {
 		final ClientPartInfo oldInfo = parent.getEditingPartInfo();
+
 		final Part.SubType subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : entry.partInfo.getSubType();
-		if (subType != null)
-			// Reset texture ID.
-			parent.setTextureId(subType.textures().get(0));
+		final Part.PartTexture texture = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getPartTexture() : subType.textures().get(0);
 
 		// Need to keep tints from original part.
-		final ClientPartInfo partInfo = entry.partInfo.isEmpty() ? entry.partInfo.clone() : new ClientPartInfo(
-				oldInfo.getTints(), entry.partInfo.getPart(), subType, parent.getTextureId());
+		final ClientPartInfo partInfo;
+		if (entry.partInfo.isEmpty()) partInfo = entry.partInfo.clone();
+		else {
+			final String subId = subType != null ? subType.id() : oldInfo.getSubTypeId();
+			final String textureId = texture != null ? texture.id() : oldInfo.getTextureId();
+			final ServerPartInfo spi = new ServerPartInfo(entry.partInfo.getPart().getId(), subId, textureId, oldInfo.getTints().clone());
+			partInfo = new ClientPartInfo(spi, entry.partInfo.getPart(), subType, texture);
+		}
 
 		// Breaks immutability, but it's probably fine, right?
 		if (entry.partInfo.isEmpty())
@@ -137,7 +143,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		// Default selection.
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		// Don't try to force a different selection for unknown parts.
-		if (partInfo.isInvalid()) return;
+		if (partInfo.getPart() == null) return;
 
 		for (PartEntry entry : partList.children())
 			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
@@ -190,12 +196,11 @@ public final class PartsPanel extends Panel<EditorScreen> {
 				renderPart(poseStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
 				RenderHelper.drawStringMultiLine(poseStack, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
-				if (currentPart) {
-					partInfo.getPart();
+				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;
 
-					if (parent.getTextureId().author() != null)
-						author = parent.getTextureId().author();
+					if (parent.getEditingPartInfo().getPartTexture().author() != null)
+						author = parent.getEditingPartInfo().getPartTexture().author();
 					else if (parent.getEditingPartInfo().getSubType().author() != null)
 						author = parent.getEditingPartInfo().getSubType().author();
 					else author = null;

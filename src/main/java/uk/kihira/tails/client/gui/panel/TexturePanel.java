@@ -40,7 +40,6 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		addRenderableWidget(rightBtn = new ExtendedButton(right - left - 20, texSelectY, 15, 15, Component.literal(">"), b -> cycleTexRight()));
 		addRenderableWidget(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, Component.literal("<"), b -> cycleVariantLeft()));
 		addRenderableWidget(variantRightBtn = new ExtendedButton(right - left - 20, variantSelectY, 15, 15, Component.literal(">"), b -> cycleVariantRight()));
-		parent.setTextureId(parent.getEditingPartInfo().getPartTexture());
 
 		updateButtons();
 	}
@@ -63,7 +62,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		boolean texTranslated = true;
 
 		if (partInfo.isEmpty() || partInfo.getPartTexture() != null) {
-			final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part." + part.getId().getPath() + ".texture." + parent.getTextureId().id();
+			final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part." + part.getId().getPath() + ".texture." + partInfo.getPartTexture().id();
 			texFormatted = I18n.get(texLangKey);
 			texTranslated = texLangKey.equals(texFormatted);
 		} else texFormatted = partInfo.getTextureId();
@@ -102,9 +101,9 @@ public final class TexturePanel extends Panel<EditorScreen> {
 			index--;
 		else
 			index = partInfo.getSubType().textures().size() - 1;
-		parent.setTextureId(partInfo.getSubType().textures().get(index));
+		final Part.PartTexture texture = partInfo.getSubType().textures().get(index);
 
-		partInfo = new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), parent.getTextureId());
+		partInfo = new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), texture);
 		parent.setPartsInfo(partInfo);
 	}
 
@@ -117,9 +116,9 @@ public final class TexturePanel extends Panel<EditorScreen> {
 			index++;
 		else
 			index = 0;
-		parent.setTextureId(partInfo.getSubType().textures().get(index));
+		final Part.PartTexture texture = partInfo.getSubType().textures().get(index);
 
-		partInfo = new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), parent.getTextureId());
+		partInfo = new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), texture);
 		parent.setPartsInfo(partInfo);
 	}
 

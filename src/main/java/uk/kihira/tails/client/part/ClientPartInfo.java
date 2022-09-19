@@ -45,8 +45,14 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	public transient boolean needsTextureCompile = true;
 
 	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture, boolean empty) {
-		if (delegate == null && !empty)
+		if (delegate == null && !empty) {
+			if (subType == null)
+				subType = part.getSubTypes().get(0);
+			if (textureId == null)
+				textureId = subType.textures().get(0);
+
 			delegate = new ServerPartInfo(part.getId(), subType.id(), textureId.id(), tints);
+		}
 		this.delegate = delegate;
 		this.part = part;
 		this.subType = subType;

@@ -29,7 +29,7 @@ public final class LocalPartManager {
 			.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer())
 			.create();
 
-	private static PartsData localPartsData;
+	private static PartsData localPartsData = PartsData.EMPTY;
 
 	public static void reload() {
 		// Load local player info.
@@ -50,6 +50,8 @@ public final class LocalPartManager {
 	}
 
 	public static void setLocalPartsData(PartsData partsData) {
+		if (partsData == null) throw new NullPointerException();
+
 		localPartsData = partsData;
 
 		TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set(GSON.toJson(localPartsData));
@@ -57,7 +59,6 @@ public final class LocalPartManager {
 		TailsConfig.getConfig().save();
 	}
 
-	// TODO: Refactor to return PartsData.EMPTY when null.
 	public static PartsData getLocalPartsData() {
 		return localPartsData;
 	}

@@ -43,7 +43,7 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	@Override
 	public boolean has(UUID uuid) {
 		// TODO
-		//if (LocalPartManager.getLocalPartsData() != null)
+		//if (ClientUtils.getPlayerUUID().equals(uuid))
 		//return true;
 
 		final boolean has = super.has(uuid);
@@ -60,7 +60,7 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	@Override
 	public PartsData get(UUID uuid) {
 		// TODO
-		//if (uuid == ClientUtils.getPlayerUUID())
+		//if (ClientUtils.getPlayerUUID().equals(uuid))
 		//return LocalPartManager.getLocalPartsData();
 
 		final PartsData ret = super.get(uuid);

@@ -20,7 +20,7 @@ import uk.kihira.tails.common.part.PlayerPartManager;
  * A common proxy for common things.<br>
  * This definitely doesn't completely defeat the purpose of proxies. I don't know where you got that idea.<sup>/s</sup>
  */
-public class CommonProxy implements IProxy {
+public class ServerProxy implements IProxy {
 
 	public static ITailsSyncService sync;
 

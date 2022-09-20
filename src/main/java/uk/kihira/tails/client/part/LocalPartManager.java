@@ -12,7 +12,7 @@ import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.proxy.CommonProxy;
+import uk.kihira.tails.proxy.ServerProxy;
 
 public final class LocalPartManager {
 
@@ -59,7 +59,7 @@ public final class LocalPartManager {
 		if (Minecraft.getInstance().level != null)
 			TailsNetworkManager.CHANNEL.sendToServer(new C2SPlayerDataMessage(getLocalPartsData()));
 
-		if (CommonProxy.sync != null)
-			CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), getLocalPartsData());
+		if (ServerProxy.sync != null)
+			ServerProxy.sync.upload(ClientUtils.getPlayerUUID(), getLocalPartsData());
 	}
 }

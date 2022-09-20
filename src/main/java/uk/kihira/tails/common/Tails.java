@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.NetworkConstants;
 
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
@@ -59,7 +60,7 @@ public final class Tails {
 			.create();
 
 	public Tails() {
-		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> "I am in fact a client-side mod.", (version, remote) -> remote));
+		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (version, remote) -> true));
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
 
 		final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();

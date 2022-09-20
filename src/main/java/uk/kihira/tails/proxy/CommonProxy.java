@@ -10,8 +10,6 @@ package uk.kihira.tails.proxy;
 
 import com.google.gson.Gson;
 
-import net.minecraft.resources.ResourceLocation;
-
 import uk.kihira.tails.api.IPlayerPartManager;
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;

@@ -42,7 +42,6 @@ import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.proxy.CommonProxy;
 import uk.kihira.tails.proxy.IProxy;
 
 /**

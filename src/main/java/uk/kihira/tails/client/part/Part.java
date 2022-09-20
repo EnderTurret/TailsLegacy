@@ -68,9 +68,22 @@ public final class Part {
 		return "Part[id=" + id + ", type=" + type + tints + ", subTypes=" + subTypes + "]";
 	}
 
-	public static record SubType(String id, @Nullable String author, List<PartTexture> textures) {}
+	public static record SubType(String id, @Nullable String author, List<PartTexture> textures) {
+		@Override
+		public String toString() {
+			final String auth = author != null ? ", author=" + author : "";
+			return "SubType[id=" + id + auth + ", textures=" + textures + "]";
+		}
+	}
 
-	public static record PartTexture(String id, String path, @Nullable String author, TintingStrategy tintingStrategy) {}
+	public static record PartTexture(String id, String path, @Nullable String author, TintingStrategy tintingStrategy) {
+		@Override
+		public String toString() {
+			final String auth = author != null ? ", author=" + author : "";
+			final String strat = tintingStrategy != TintingStrategy.TRIPLE_TINT ? ", tintingStrategy=" + tintingStrategy : "";
+			return "PartTexture[id=" + id + ", path=" + path + auth + strat + "]";
+		}
+	}
 
 	public static enum TintingStrategy {
 

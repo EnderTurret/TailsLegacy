@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
@@ -142,7 +143,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 				parts.add(pair);
 		}
 
-		final Map<ResourceLocation, List<String>> realOrderings = new HashMap<>();
+		final Map<ResourceLocation, List<String>> realOrderings = new TreeMap<>();
 
 		for (ResourcePair pair : orderings) {
 			final JsonElement json = readJson(pair.location(), pair.resource());

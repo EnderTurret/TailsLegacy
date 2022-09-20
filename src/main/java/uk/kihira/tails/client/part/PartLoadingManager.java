@@ -164,7 +164,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		}
 
 		if (DEBUG_REGISTRIES)
-			Tails.LOGGER.info("Orderings: {}", realOrderings);
+			Tails.LOGGER.info("Orderings ({}):\n{}", realOrderings.size(), realOrderings.entrySet().stream()
+					.map(e -> e.getKey() + " = " + e.getValue())
+					.collect(Collectors.joining("\n")));
 
 		final List<NamedTexture> realTextures = new ArrayList<>(textures.size());
 
@@ -184,7 +186,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		}
 
 		if (DEBUG_REGISTRIES)
-			Tails.LOGGER.info("Textures: {}", realTextures);
+			Tails.LOGGER.info("Textures ({}):\n{}", realTextures.size(), realTextures.stream()
+					.map(NamedTexture::toString)
+					.collect(Collectors.joining("\n")));
 
 		final List<NamedSubType> realSubTypes = new ArrayList<>(subTypes.size());
 
@@ -205,7 +209,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		}
 
 		if (DEBUG_REGISTRIES)
-			Tails.LOGGER.info("Sub types: {}", realSubTypes);
+			Tails.LOGGER.info("Sub types ({}):\n{}", realSubTypes.size(), realSubTypes.stream()
+					.map(NamedSubType::toString)
+					.collect(Collectors.joining("\n")));
 
 		final List<Part> realParts = new ArrayList<>();
 
@@ -226,7 +232,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		}
 
 		if (DEBUG_REGISTRIES)
-			Tails.LOGGER.info("Parts: {}", realParts);
+			Tails.LOGGER.info("Parts ({}):\n{}", realParts.size(), realParts.stream()
+					.map(Part::toString)
+					.collect(Collectors.joining("\n")));
 
 		return realParts;
 	}

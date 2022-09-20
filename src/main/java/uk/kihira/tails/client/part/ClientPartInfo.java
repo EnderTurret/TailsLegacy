@@ -23,6 +23,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.common.Tails;
@@ -181,7 +182,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	public void setTexture(@Nullable ResourceLocation texture) {
 		if (texture == null || this.texture != null && !this.texture.equals(texture)) {
 			try {
-				Tails.PROXY.deleteTexture(this.texture);
+				Minecraft.getInstance().getTextureManager().release(this.texture);
 			} catch (Exception ignored) {}
 
 			needsTextureCompile = true;

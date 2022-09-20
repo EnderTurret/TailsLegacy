@@ -10,9 +10,6 @@ package uk.kihira.tails.proxy.client;
 
 import com.google.gson.Gson;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -33,11 +30,6 @@ public final class ClientProxy implements IProxy {
 
 	private LibraryManager libraryManager = new ClientLibraryManager();
 	private final IPlayerPartManager partManager = new ClientPlayerPartManager();
-
-	@Override
-	public void deleteTexture(ResourceLocation tex) {
-		Minecraft.getInstance().getTextureManager().release(tex);
-	}
 
 	@Override
 	public LibraryManager getLibraryManager() {

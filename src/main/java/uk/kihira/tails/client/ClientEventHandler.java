@@ -25,12 +25,19 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.part.LocalPartManager;
+import uk.kihira.tails.client.render.FoxtatoRenderer;
+import uk.kihira.tails.client.render.helper.FakeEntityRenderHelper;
+import uk.kihira.tails.client.render.helper.PlayerRenderHelper;
+import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.Tails;
@@ -91,6 +98,19 @@ public final class ClientEventHandler {
 
 	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 	static class Mod {
+
+		@SubscribeEvent
+		static void clientSetup(FMLClientSetupEvent e) {
+			RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper());
+			RenderHelperManager.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
+
+			if (ModList.get().isLoaded("botania"))
+				registerFoxtato(); // Try to avoid class loading it if Botania isn't present.
+		}
+
+		private static void registerFoxtato() {
+			MinecraftForge.EVENT_BUS.register(new FoxtatoRenderer());
+		}
 
 		@SubscribeEvent
 		static void addLayers(EntityRenderersEvent.AddLayers e) {

@@ -42,7 +42,7 @@ public final class TailsConfig {
 	private static ModConfig instance;
 
 	static {
-		final Pair<TailsConfig,ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(TailsConfig::new);
+		final Pair<TailsConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(TailsConfig::new);
 		CLIENT_SPEC = pair.getRight();
 		CLIENT_INSTANCE = pair.getLeft();
 

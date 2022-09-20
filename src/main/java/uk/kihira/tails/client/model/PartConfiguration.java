@@ -25,7 +25,7 @@ public class PartConfiguration {
 
 	private final ModelPart root;
 	private final List<ModelPart> parts;
-	private final Map<ModelPart,ModelPart[]> parents = new HashMap<>();
+	private final Map<ModelPart, ModelPart[]> parents = new HashMap<>();
 	private final Translator translator;
 
 	public PartConfiguration(ModelPart root, List<ModelPart> parts, Translator translator) {

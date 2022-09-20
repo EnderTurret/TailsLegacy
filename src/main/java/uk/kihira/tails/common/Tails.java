@@ -59,7 +59,7 @@ public final class Tails {
 			.create();
 
 	public Tails() {
-		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> "I am in fact a client-side mod.", (version,remote) -> remote));
+		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> "I am in fact a client-side mod.", (version, remote) -> remote));
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
 
 		final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();

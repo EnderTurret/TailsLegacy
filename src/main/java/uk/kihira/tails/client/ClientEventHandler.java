@@ -26,100 +26,55 @@ import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class ClientEventHandler {
 
-	private static boolean sentPartInfoToServer = false;
-	private static boolean clearAllPartInfo = false;
+	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+	static class Forge {
 
-	/*
-	 * Tails Editor Button
-	 */
-	@SubscribeEvent
-	static void onScreenInitPost(ScreenEvent.Init.Post event) {
-		if (event.getScreen() instanceof PauseScreen)
-			event.addListener(new Button(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, Component.translatable("tails.gui.button.editor"), b -> {
-				Minecraft.getInstance().setScreen(EditorScreen.openDefault());
-			}));
-	}
+		private static boolean sentPartInfoToServer = false;
+		private static boolean clearAllPartInfo = false;
 
-	/*
-	 * Tails Syncing
-	 */
-	@SubscribeEvent
-	static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
-		// Add local player texture to map.
-		if (LocalPartManager.getLocalPartsData() != null)
-			Tails.PROXY.getPartManager().set(ClientUtils.getPlayerUUID(), LocalPartManager.getLocalPartsData());
-	}
-
-	@SubscribeEvent
-	static void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
-		// TODO: Do we need to defer these?
-		sentPartInfoToServer = false;
-		clearAllPartInfo = true;
-	}
-
-	@SubscribeEvent
-	static void onClientTick(TickEvent.ClientTickEvent e) {
-		if (e.phase == TickEvent.Phase.START)
-			if (clearAllPartInfo) {
-				Tails.PROXY.getPartManager().clear();
-				clearAllPartInfo = false;
-			}
-			// World can't be null if we want to send a packet it seems.
-			else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
-				LocalPartManager.syncToServer();
-
-				sentPartInfoToServer = true;
-			}
-	}
-
-	/*@SubscribeEvent
-	static void onRenderWorldLast(RenderLevelStageEvent e) {
-		if (e.getStage() != RenderLevelStageEvent.Stage.AFTER_SOLID_BLOCKS)
-			return;
-
-		final Player player = Minecraft.getInstance().player;
-		if (player == null) return;
-
-		final PoseStack poseStack = e.getPoseStack();
-
-		final Vec3 vec = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-		poseStack.pushPose();
-		poseStack.translate(-vec.x, -vec.y, -vec.z);
-
-		poseStack.pushPose();
-		poseStack.translate(1, 0, 1);
-
-		renderDebugPlayer(player, poseStack, e.getPartialTick());
-
-		poseStack.popPose();
-
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(180F));
-
-		renderDebugPlayer(player, poseStack, e.getPartialTick());
-
-		poseStack.popPose();
-	}
-
-	private static void renderDebugPlayer(Player player, PoseStack poseStack, float partialTick) {
-		final EntityRenderDispatcher renderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-		final MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
-
-		try {
-			renderDispatcher.setRenderShadow(false);
-
-			RenderSystem.runAsFancy(() -> {
-				renderDispatcher.render(player, 0.5, 5, -0.5, 0f, partialTick, poseStack, buffers, 15728880);
-			});
-
-			buffers.endBatch();
-
-			renderDispatcher.setRenderShadow(true);
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		/*
+		 * Tails Editor Button
+		 */
+		@SubscribeEvent
+		static void onScreenInitPost(ScreenEvent.Init.Post event) {
+			if (event.getScreen() instanceof PauseScreen)
+				event.addListener(new Button(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, Component.translatable("tails.gui.button.editor"), b -> {
+					Minecraft.getInstance().setScreen(EditorScreen.openDefault());
+				}));
 		}
-	}*/
+
+		/*
+		 * Tails Syncing
+		 */
+		@SubscribeEvent
+		static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
+			// Add local player texture to map.
+			if (LocalPartManager.getLocalPartsData() != null)
+				Tails.PROXY.getPartManager().set(ClientUtils.getPlayerUUID(), LocalPartManager.getLocalPartsData());
+		}
+
+		@SubscribeEvent
+		static void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
+			// TODO: Do we need to defer these?
+			sentPartInfoToServer = false;
+			clearAllPartInfo = true;
+		}
+
+		@SubscribeEvent
+		static void onClientTick(TickEvent.ClientTickEvent e) {
+			if (e.phase == TickEvent.Phase.START)
+				if (clearAllPartInfo) {
+					Tails.PROXY.getPartManager().clear();
+					clearAllPartInfo = false;
+				}
+				// World can't be null if we want to send a packet it seems.
+				else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
+					LocalPartManager.syncToServer();
+
+					sentPartInfoToServer = true;
+				}
+		}
+	}
 }

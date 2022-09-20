@@ -57,7 +57,6 @@ public final class ClientProxy extends CommonProxy {
 
 	@Override
 	public void init() {
-		registerMessages();
 		libraryManager = new ClientLibraryManager();
 
 		RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper());

@@ -28,6 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
+import uk.kihira.tails.api.IPlayerPartManager;
 import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
@@ -42,21 +43,22 @@ import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.proxy.CommonProxy;
+import uk.kihira.tails.proxy.IProxy;
 
 /**
  * The client proxy, buried deep inside a random package so that the class loader will be unable to discover it.<br><br>
- * If the class loader finds this through something other than {@link CommonProxy#makeClientProxy()},<br>
+ * If the class loader finds this through something other than {@link IProxy#makeClientProxy()},<br>
  * please dispose of the class loader immediately and get one that is not a professional client proxy hunter.
  */
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
-public final class ClientProxy extends CommonProxy {
+public final class ClientProxy implements IProxy {
 
 	private LibraryManager libraryManager;
+	private final IPlayerPartManager partManager = new ClientPlayerPartManager();
 
 	@Override
 	public void init() {
-		partManager = new ClientPlayerPartManager();
 		libraryManager = new ClientLibraryManager();
 
 		RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper());
@@ -101,6 +103,11 @@ public final class ClientProxy extends CommonProxy {
 	@Override
 	public LibraryManager getLibraryManager() {
 		return libraryManager;
+	}
+
+	@Override
+	public IPlayerPartManager getPartManager() {
+		return partManager;
 	}
 
 	@Override

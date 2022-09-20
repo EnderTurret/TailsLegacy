@@ -27,6 +27,7 @@ import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.ServerPartInfo;
 import uk.kihira.tails.proxy.CommonProxy;
+import uk.kihira.tails.proxy.IProxy;
 
 /**
  * Look! It's the main mod file!
@@ -46,7 +47,7 @@ public final class Tails {
 
 	// I know this looks bad, but it's the only way to prevent class loading ClientProxy.
 	// Placing ClientProxy::new in here class loads it anyway.
-	public static final CommonProxy PROXY = DistExecutor.safeRunForDist(() -> CommonProxy::makeClientProxy, () -> CommonProxy::new);
+	public static final IProxy PROXY = DistExecutor.safeRunForDist(() -> IProxy::makeClientProxy, () -> CommonProxy::new);
 
 	/**
 	 * A nice {@link Gson} instance for deserializing {@link PartsData}, among other things.

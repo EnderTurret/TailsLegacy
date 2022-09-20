@@ -52,7 +52,7 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
 		if (message.partsDataMap != null)
 			for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet())
-				Tails.PROXY.addPartsData(entry.getKey(), entry.getValue());
+				Tails.PROXY.getPartManager().set(entry.getKey(), entry.getValue());
 
 		ctx.get().setPacketHandled(true);
 	}

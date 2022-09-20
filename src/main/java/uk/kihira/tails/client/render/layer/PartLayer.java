@@ -44,8 +44,8 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer,PlayerMode
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(entity.getGameProfile());
-		if (Tails.PROXY.hasPartsData(uuid)) {
-			final PartsData partsData = Tails.PROXY.getPartsData(uuid);
+		final PartsData partsData = Tails.PROXY.getPartManager().get(uuid);
+		if (!partsData.isEmpty()) {
 			if (partsData.hasPartInfo(partType)) {
 				final ClientPartInfo partInfo = (ClientPartInfo) partsData.getPartInfo(partType);
 				if (partInfo.isInvalid()) return; // Skip unknown parts.

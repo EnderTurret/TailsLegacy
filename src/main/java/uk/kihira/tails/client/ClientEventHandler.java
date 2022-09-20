@@ -50,7 +50,7 @@ public final class ClientEventHandler {
 	static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
 		// Add local player texture to map.
 		if (LocalPartManager.getLocalPartsData() != null)
-			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), LocalPartManager.getLocalPartsData());
+			Tails.PROXY.getPartManager().set(ClientUtils.getPlayerUUID(), LocalPartManager.getLocalPartsData());
 	}
 
 	@SubscribeEvent
@@ -64,7 +64,7 @@ public final class ClientEventHandler {
 	static void onClientTick(TickEvent.ClientTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			if (clearAllPartInfo) {
-				Tails.PROXY.clearAllPartsData();
+				Tails.PROXY.getPartManager().clear();
 				clearAllPartInfo = false;
 			}
 			// World can't be null if we want to send a packet it seems.

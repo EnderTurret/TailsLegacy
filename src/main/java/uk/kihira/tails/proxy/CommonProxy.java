@@ -16,10 +16,12 @@ import com.google.gson.Gson;
 
 import net.minecraft.resources.ResourceLocation;
 
+import uk.kihira.tails.api.IPlayerPartManager;
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common.part.PlayerPartManager;
 
 /**
  * A common proxy for common things.<br>
@@ -29,7 +31,7 @@ public class CommonProxy {
 
 	public static ITailsSyncService sync;
 
-	protected final Map<UUID, PartsData> partsData = new HashMap<>();
+	protected IPlayerPartManager partManager;
 
 	/**
 	 * Uses the power of <em>quiet class references</em> <sup>(reflection)</sup> to create and return a ClientProxy.<br>
@@ -47,58 +49,8 @@ public class CommonProxy {
 	/**
 	 * A generic initialization method.
 	 */
-	public void init() {}
-
-	/**
-	 * Adds the given part data for the given {@link UUID}.
-	 * @param uuid The {@link UUID} that the part data is for.
-	 * @param partsData The part data.
-	 */
-	public void addPartsData(UUID uuid, PartsData partsData) {
-		if (uuid != null)
-			this.partsData.put(uuid, partsData);
-	}
-
-	/**
-	 * Removes all part data for the given {@link UUID}.
-	 * @param uuid The {@link UUID} to remove all part data for.
-	 */
-	public void removePartsData(UUID uuid) {
-		if (hasPartsData(uuid))
-			partsData.remove(uuid);
-	}
-
-	/**
-	 * Removes all part data.
-	 */
-	public void clearAllPartsData() {
-		partsData.clear();
-	}
-
-	/**
-	 * Whether the given {@link UUID} has any part data.
-	 * @param uuid The {@link UUID} to check for part data for.
-	 * @return True if the given {@link UUID} has any part data.
-	 */
-	public boolean hasPartsData(UUID uuid) {
-		return uuid != null && partsData.containsKey(uuid) && !partsData.get(uuid).isEmpty();
-	}
-
-	/**
-	 * Returns the part data for the given {@link UUID}.<br>
-	 * Returns {@link PartsData#EMPTY} if there is no part data present for it.
-	 * @param uuid The {@link UUID} to retrieve part data for.
-	 * @return The part data.
-	 */
-	public PartsData getPartsData(UUID uuid) {
-		return partsData.computeIfAbsent(uuid, k -> sync != null ? sync.query(k) : PartsData.EMPTY);
-	}
-
-	/**
-	 * @return The part data map.
-	 */
-	public Map<UUID, PartsData> getPartsData() {
-		return partsData;
+	public void init() {
+		partManager = new PlayerPartManager();
 	}
 
 	/**
@@ -106,6 +58,10 @@ public class CommonProxy {
 	 */
 	public LibraryManager getLibraryManager() {
 		throw new UnsupportedOperationException("No tails library available on server");
+	}
+
+	public IPlayerPartManager getPartManager() {
+		return partManager;
 	}
 
 	public void deleteTexture(ResourceLocation tex) {}

@@ -41,20 +41,19 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 		return super.numStuck(entity);
 	}
 
-	@Nullable
 	protected PartsData getPartData(LivingEntity entity) {
 		if (!(entity instanceof Player player)) return null;
 
 		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(player.getGameProfile());
 
-		return Tails.PROXY.hasPartsData(uuid) ? Tails.PROXY.getPartsData(uuid) : null;
+		return Tails.PROXY.getPartManager().get(uuid);
 	}
 
-	protected List<PartConfig> getConfigurations(@Nullable PartsData data, LivingEntity entity) {
+	protected List<PartConfig> getConfigurations(PartsData data, LivingEntity entity) {
 		final List<PartConfig> parts = new ArrayList<>();
 		parts.add(new PartConfig(new PartConfiguration.Player(getParentModel()), null, null));
 
-		if (data != null)
+		if (!data.isEmpty())
 			for (PartType type : PartType.values())
 				if (data.hasPartInfo(type)) {
 					final ClientPartInfo info = (ClientPartInfo) data.getPartInfo(type);

@@ -51,7 +51,7 @@ public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) {
 
 	public static void handle(S2CPlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
 		if (message.partsData != null)
-			Tails.PROXY.addPartsData(message.uuid, message.partsData);
+			Tails.PROXY.getPartManager().set(message.uuid, message.partsData);
 
 		ctx.get().setPacketHandled(true);
 	}

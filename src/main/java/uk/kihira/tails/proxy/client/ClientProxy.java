@@ -31,6 +31,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.FakeEntity;
+import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.helper.FakeEntityRenderHelper;
@@ -57,6 +58,7 @@ public final class ClientProxy extends CommonProxy {
 
 	@Override
 	public void init() {
+		partManager = new ClientPlayerPartManager();
 		libraryManager = new ClientLibraryManager();
 
 		RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper());
@@ -64,28 +66,6 @@ public final class ClientProxy extends CommonProxy {
 
 		if (ModList.get().isLoaded("botania"))
 			MinecraftForge.EVENT_BUS.register(new FoxtatoRenderer());
-	}
-
-	@Override
-	public void addPartsData(UUID uuid, PartsData partsData) {
-		if (hasPartsData(uuid))
-			this.partsData.get(uuid).clearTextures();
-
-		super.addPartsData(uuid, partsData);
-	}
-
-	@Override
-	public void removePartsData(UUID uuid) {
-		if (hasPartsData(uuid))
-			partsData.get(uuid).clearTextures();
-		super.removePartsData(uuid);
-	}
-
-	@Override
-	public void clearAllPartsData() {
-		for (PartsData partInfo : partsData.values())
-			partInfo.clearTextures();
-		super.clearAllPartsData();
 	}
 
 	@SubscribeEvent

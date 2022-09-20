@@ -52,9 +52,10 @@ public record C2SPlayerDataMessage(PartsData partsData) {
 		if (message.partsData != null) {
 			final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(ctx.get().getSender().getGameProfile());
 
-			Tails.PROXY.addPartsData(uuid, message.partsData);
+			Tails.PROXY.getPartManager().set(uuid, message.partsData);
 
 			// Tell other clients about the change.
+			// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
 			TailsNetworkManager.CHANNEL.send(PacketDistributor.ALL.noArg(), new S2CPlayerDataMessage(uuid, message.partsData));
 		}
 

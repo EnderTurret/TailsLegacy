@@ -51,6 +51,7 @@ public final class LocalPartManager {
 		TailsConfig.getConfig().save();
 	}
 
+	// TODO: Refactor to return PartsData.EMPTY when null.
 	public static PartsData getLocalPartsData() {
 		return localPartsData;
 	}

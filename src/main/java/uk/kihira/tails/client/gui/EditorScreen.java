@@ -88,7 +88,7 @@ public final class EditorScreen extends LayeredScreen {
 			final PartsData partsData = screen.getPartsData();
 
 			LocalPartManager.setLocalPartsData(partsData);
-			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), partsData);
+			Tails.PROXY.getPartManager().set(ClientUtils.getPlayerUUID(), partsData);
 
 			LocalPartManager.syncToServer();
 
@@ -136,7 +136,7 @@ public final class EditorScreen extends LayeredScreen {
 
 	@Override
 	public void removed() {
-		Tails.PROXY.addPartsData(playerUUID, LocalPartManager.getLocalPartsData());
+		Tails.PROXY.getPartManager().set(playerUUID, LocalPartManager.getLocalPartsData());
 		super.removed();
 	}
 
@@ -167,7 +167,7 @@ public final class EditorScreen extends LayeredScreen {
 
 	public void setPartsData(PartsData newPartsData) {
 		partsData = newPartsData;
-		Tails.PROXY.addPartsData(playerUUID, partsData);
+		Tails.PROXY.getPartManager().set(playerUUID, partsData);
 	}
 
 	public PartsData getPartsData() {

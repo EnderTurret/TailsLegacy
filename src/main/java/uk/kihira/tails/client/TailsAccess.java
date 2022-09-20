@@ -38,11 +38,11 @@ public final class TailsAccess implements ITailsAccess {
 
 	@Override
 	public PartsData getPartData(UUID uuid) {
-		return Tails.PROXY.getPartsData(uuid);
+		return Tails.PROXY.getPartManager().get(uuid);
 	}
 
 	@Override
 	public void setPartData(PartsData data, UUID uuid) {
-		Tails.PROXY.addPartsData(uuid, data);
+		Tails.PROXY.getPartManager().set(uuid, data);
 	}
 }

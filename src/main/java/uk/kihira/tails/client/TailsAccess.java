@@ -21,7 +21,7 @@ public final class TailsAccess implements ITailsAccess {
 
 	@Override
 	public PartsData getLocalData() {
-		return LocalPartManager.localPartsData;
+		return LocalPartManager.getLocalPartsData();
 	}
 
 	@Override

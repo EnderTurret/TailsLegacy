@@ -49,8 +49,8 @@ public final class ClientEventHandler {
 	@SubscribeEvent
 	static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
 		// Add local player texture to map.
-		if (LocalPartManager.localPartsData != null)
-			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), LocalPartManager.localPartsData);
+		if (LocalPartManager.getLocalPartsData() != null)
+			Tails.PROXY.addPartsData(ClientUtils.getPlayerUUID(), LocalPartManager.getLocalPartsData());
 	}
 
 	@SubscribeEvent

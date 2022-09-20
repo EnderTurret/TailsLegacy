@@ -47,7 +47,7 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 			if (!libraryMode)
 				LocalPartManager.setLocalPartsData(parent.getPartsData());
 
-			parent.setPartsData(LocalPartManager.localPartsData);
+			parent.setPartsData(LocalPartManager.getLocalPartsData());
 
 			b.setMessage(libraryMode ? Component.translatable("tails.gui.button.mode.editor") : Component.translatable("tails.gui.button.mode.library"));
 		}));

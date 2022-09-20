@@ -78,7 +78,7 @@ public final class EditorScreen extends LayeredScreen {
 	}
 
 	public static EditorScreen openDefault() {
-		PartsData data = LocalPartManager.localPartsData;
+		PartsData data = LocalPartManager.getLocalPartsData();
 
 		if (data == null)
 			LocalPartManager.setLocalPartsData(data = new PartsData());
@@ -136,7 +136,7 @@ public final class EditorScreen extends LayeredScreen {
 
 	@Override
 	public void removed() {
-		Tails.PROXY.addPartsData(playerUUID, LocalPartManager.localPartsData);
+		Tails.PROXY.addPartsData(playerUUID, LocalPartManager.getLocalPartsData());
 		super.removed();
 	}
 

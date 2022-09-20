@@ -23,7 +23,7 @@ public final class LocalPartManager {
 			.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer())
 			.create();
 
-	public static PartsData localPartsData;
+	private static PartsData localPartsData;
 
 	public static void reload() {
 		// Load local player info.
@@ -56,11 +56,15 @@ public final class LocalPartManager {
 		TailsConfig.getConfig().save();
 	}
 
+	public static PartsData getLocalPartsData() {
+		return localPartsData;
+	}
+
 	public static void syncToServer() {
 		if (Minecraft.getInstance().level != null)
-			TailsNetworkManager.CHANNEL.sendToServer(new C2SPlayerDataMessage(localPartsData));
+			TailsNetworkManager.CHANNEL.sendToServer(new C2SPlayerDataMessage(getLocalPartsData()));
 
 		if (CommonProxy.sync != null)
-			CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), localPartsData);
+			CommonProxy.sync.upload(ClientUtils.getPlayerUUID(), getLocalPartsData());
 	}
 }

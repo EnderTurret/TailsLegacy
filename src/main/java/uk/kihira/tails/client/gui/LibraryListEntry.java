@@ -42,7 +42,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 	@Override
 	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		final Font fontRenderer = Minecraft.getInstance().font;
-		fontRenderer.draw(poseStack, (data.partsData.equals(LocalPartManager.localPartsData) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
+		fontRenderer.draw(poseStack, (data.partsData.equals(LocalPartManager.getLocalPartsData()) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
 		for (PartType type : PartType.values())
@@ -97,7 +97,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
-			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.get("tails.gui.library.entry.default"), LocalPartManager.localPartsData);
+			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.get("tails.gui.library.entry.default"), LocalPartManager.getLocalPartsData());
 			Tails.PROXY.getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
 			return true;

@@ -28,7 +28,7 @@ import uk.kihira.tails.proxy.IProxy;
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy implements IProxy {
 
-	private LibraryManager libraryManager = new ClientLibraryManager();
+	private final LibraryManager libraryManager = new ClientLibraryManager();
 	private final IPlayerPartManager partManager = new ClientPlayerPartManager();
 
 	@Override

@@ -32,14 +32,9 @@ public final class LocalPartManager {
 			final String localPlayerOutfit = TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.get();
 
 			// Load default if none exists.
-			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty()) {
-				localPartsData = new PartsData();
-
-				for (PartType partType : PartType.values())
-					localPartsData.setPartInfo(partType, IPartInfo.empty());
-
-				setLocalPartsData(localPartsData);
-			} else
+			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty())
+				setLocalPartsData(new PartsData());
+			else
 				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (Exception e) {
 			TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set("");

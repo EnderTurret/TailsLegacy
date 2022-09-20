@@ -3,7 +3,11 @@ package uk.kihira.tails.client;
 import java.util.List;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
+
 import uk.kihira.tails.api.ITailsAccess;
+import uk.kihira.tails.api.ITailsSyncService;
+import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
@@ -44,5 +48,16 @@ public final class TailsAccess implements ITailsAccess {
 	@Override
 	public void setPartData(PartsData data, UUID uuid) {
 		Tails.PROXY.getPartManager().set(uuid, data);
+	}
+
+	@Override
+	public void setSyncService(ITailsSyncService service) {
+		ClientPlayerPartManager.sync = service;
+	}
+
+	@Nullable
+	@Override
+	public ITailsSyncService getSyncService() {
+		return ClientPlayerPartManager.sync;
 	}
 }

@@ -22,8 +22,6 @@ import uk.kihira.tails.common.part.PlayerPartManager;
  */
 public class ServerProxy implements IProxy {
 
-	public static ITailsSyncService sync;
-
 	private final IPlayerPartManager partManager = new PlayerPartManager();
 
 	@Override

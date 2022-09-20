@@ -59,7 +59,7 @@ public final class LocalPartManager {
 		if (Minecraft.getInstance().level != null)
 			TailsNetworkManager.CHANNEL.sendToServer(new C2SPlayerDataMessage(getLocalPartsData()));
 
-		if (ServerProxy.sync != null)
-			ServerProxy.sync.upload(ClientUtils.getPlayerUUID(), getLocalPartsData());
+		if (ClientPlayerPartManager.sync != null)
+			ClientPlayerPartManager.sync.upload(ClientUtils.getPlayerUUID(), getLocalPartsData());
 	}
 }

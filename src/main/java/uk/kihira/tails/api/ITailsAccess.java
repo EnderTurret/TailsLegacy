@@ -3,6 +3,8 @@ package uk.kihira.tails.api;
 import java.util.List;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
+
 import uk.kihira.tails.client.TailsAccess;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.part.PartsData;
@@ -20,4 +22,8 @@ public interface ITailsAccess {
 
 	public PartsData getPartData(UUID uuid);
 	public void setPartData(PartsData data, UUID uuid);
+
+	public void setSyncService(ITailsSyncService service);
+	@Nullable
+	public ITailsSyncService getSyncService();
 }

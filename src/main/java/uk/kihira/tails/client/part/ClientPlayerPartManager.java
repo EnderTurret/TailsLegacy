@@ -5,17 +5,19 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.PlayerPartManager;
-import uk.kihira.tails.proxy.ServerProxy;
 
 public class ClientPlayerPartManager extends PlayerPartManager {
+
+	public static ITailsSyncService sync;
 
 	private final Set<UUID> checked = new HashSet<>(0);
 
 	private PartsData query(UUID uuid) {
-		if (ServerProxy.sync != null && checked.add(uuid)) {
-			final PartsData data = Objects.requireNonNull(ServerProxy.sync.query(uuid), "query() contract violated!");
+		if (sync != null && checked.add(uuid)) {
+			final PartsData data = Objects.requireNonNull(sync.query(uuid), "query() contract violated!");
 			if (!data.isEmpty()) {
 				set(uuid, data);
 				return data;

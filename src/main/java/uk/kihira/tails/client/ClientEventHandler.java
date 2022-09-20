@@ -96,7 +96,7 @@ public final class ClientEventHandler {
 		}
 	}
 
-	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 	static class Mod {
 
 		@SubscribeEvent

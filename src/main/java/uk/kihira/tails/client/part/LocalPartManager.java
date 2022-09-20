@@ -11,7 +11,6 @@ import uk.kihira.tails.common.TailsConfig;
 import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common.part.IPartInfo;
-import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
 

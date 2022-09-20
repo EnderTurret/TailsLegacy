@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.PlayerPartManager;
 import uk.kihira.tails.proxy.CommonProxy;

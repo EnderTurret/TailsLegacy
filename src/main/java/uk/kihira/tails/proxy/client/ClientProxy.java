@@ -9,7 +9,6 @@
 package uk.kihira.tails.proxy.client;
 
 import java.util.Map;
-import java.util.UUID;
 
 import com.google.gson.Gson;
 
@@ -42,7 +41,6 @@ import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.proxy.CommonProxy;
 
 /**

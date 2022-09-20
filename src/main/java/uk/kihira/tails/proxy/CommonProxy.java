@@ -8,10 +8,6 @@
 
 package uk.kihira.tails.proxy;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import com.google.gson.Gson;
 
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +16,6 @@ import uk.kihira.tails.api.IPlayerPartManager;
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.PlayerPartManager;
 
 /**

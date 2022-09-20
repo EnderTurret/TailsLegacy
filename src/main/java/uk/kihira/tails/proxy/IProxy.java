@@ -7,6 +7,11 @@ import net.minecraft.resources.ResourceLocation;
 import uk.kihira.tails.api.IPlayerPartManager;
 import uk.kihira.tails.common.LibraryManager;
 
+/**
+ * A proxy interface.
+ * If your mod doesn't have one, is it really a mod?
+ * @author EnderTurret
+ */
 public interface IProxy {
 
 	/**

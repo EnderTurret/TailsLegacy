@@ -32,9 +32,9 @@ import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.proxy.IProxy;
 
 /**
- * The client proxy, buried deep inside a random package so that the class loader will be unable to discover it.<br><br>
- * If the class loader finds this through something other than {@link IProxy#makeClientProxy()},<br>
- * please dispose of the class loader immediately and get one that is not a professional client proxy hunter.
+ * <p>The client proxy, buried deep inside a random package so that the class loader will be unable to discover it.</p>
+ * <p>If the class loader finds this through something other than {@link IProxy#makeClientProxy()},
+ * please dispose of the class loader immediately and get one that is less cursed.</p>
  */
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy implements IProxy {

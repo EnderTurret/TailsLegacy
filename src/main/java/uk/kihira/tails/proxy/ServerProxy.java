@@ -17,8 +17,7 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PlayerPartManager;
 
 /**
- * A common proxy for common things.<br>
- * This definitely doesn't completely defeat the purpose of proxies. I don't know where you got that idea.<sup>/s</sup>
+ * It's a server proxy alright.
  */
 public class ServerProxy implements IProxy {
 

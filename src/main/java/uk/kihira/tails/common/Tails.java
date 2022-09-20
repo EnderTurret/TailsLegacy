@@ -26,8 +26,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.ServerPartInfo;
-import uk.kihira.tails.proxy.ServerProxy;
 import uk.kihira.tails.proxy.IProxy;
+import uk.kihira.tails.proxy.ServerProxy;
 
 /**
  * Look! It's the main mod file!

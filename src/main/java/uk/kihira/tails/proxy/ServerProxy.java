@@ -11,7 +11,6 @@ package uk.kihira.tails.proxy;
 import com.google.gson.Gson;
 
 import uk.kihira.tails.api.IPlayerPartManager;
-import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PlayerPartManager;

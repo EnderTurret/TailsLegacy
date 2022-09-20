@@ -26,7 +26,6 @@ import com.google.gson.JsonSerializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
-import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.ServerPartInfo;

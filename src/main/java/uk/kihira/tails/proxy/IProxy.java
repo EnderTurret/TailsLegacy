@@ -28,11 +28,6 @@ public interface IProxy {
 	}
 
 	/**
-	 * A generic initialization method.
-	 */
-	public default void init() {}
-
-	/**
 	 * @return The library manager.
 	 */
 	public LibraryManager getLibraryManager();

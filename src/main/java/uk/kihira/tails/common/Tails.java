@@ -68,6 +68,5 @@ public final class Tails {
 
 	private void setup(FMLCommonSetupEvent e) {
 		TailsNetworkManager.registerMessages();
-		PROXY.init();
 	}
 }

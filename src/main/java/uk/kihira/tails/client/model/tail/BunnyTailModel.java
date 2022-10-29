@@ -36,7 +36,9 @@ public final class BunnyTailModel extends PartModel {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 		rootDef.addOrReplaceChild("tail", CubeListBuilder.create()
 				.addBox(0, 0, 0, 4, 3, 3), PartPose.offset(-2, -1.5F, 0));
-		root = rootDef.bake(64, 32);
+
+		root = rootDef.bake(16, 16);
+
 		tail = root.getChild("tail");
 
 		config = new PartConfiguration(tail, List.of(tail));

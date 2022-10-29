@@ -54,7 +54,7 @@ public final class CatEarsModel extends PartModel {
 				.texOffs(13, 6).addBox("leftEarLayer3", -2, -3, 0, 3, 1, 1)
 				.texOffs(13, 4).addBox("leftEarLayer2", -2, -2, 0, 4, 1, 1)
 				, PartPose.offset(-4, -8, 0));
-		root = rootDef.bake(64, 32);
+		root = rootDef.bake(32, 32);
 		leftEar = root.getChild("leftEar");
 		rightEar = root.getChild("rightEar");
 	}

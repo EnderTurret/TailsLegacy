@@ -38,7 +38,7 @@ public final class PandaEarsModel extends PartModel {
 		rootDef.addOrReplaceChild("rightEar", CubeListBuilder.create()
 				.mirror().texOffs(0, 4)
 				.addBox(-1, -2, 0, 3, 3, 1), PartPose.offset(4, -8, 0));
-		root = rootDef.bake(32, 32);
+		root = rootDef.bake(16, 16);
 
 		leftEar = root.getChild("leftEar");
 		rightEar = root.getChild("rightEar");

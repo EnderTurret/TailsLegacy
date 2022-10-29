@@ -62,7 +62,8 @@ public final class BirdTailModel extends PartModel {
 			.addOrReplaceChild("right2", CubeListBuilder.create()
 					.texOffs(6, 19).addBox(-0.5F, 0, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(0.5F, 0, 0, 0, radf(6), radf(-15)));
 
-		root = rootDef.bake(64, 32);
+		root = rootDef.bake(32, 32);
+
 		center = root.getChild("center");
 		left0 = center.getChild("left0");
 		left1 = left0.getChild("left1");

@@ -62,7 +62,8 @@ public final class DevilTailModel extends PartModel {
 			.addOrReplaceChild("tailTip", CubeListBuilder.create()
 					.texOffs(12, 0).addBox(-2.5F, 0, 0, 5, 5, 0), PartPose.offsetAndRotation(0, 0, 1.8F, radf(120), 0, 0));
 
-		root = rootDef.bake(64, 32);
+		root = rootDef.bake(32, 32);
+
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");
 		tail2 = tail1.getChild("tail2");

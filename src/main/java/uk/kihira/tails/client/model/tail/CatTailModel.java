@@ -57,7 +57,8 @@ public final class CatTailModel extends PartModel {
 			.addOrReplaceChild("tail5", CubeListBuilder.create()
 					.texOffs(0, 21).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offset(0, 0, 1.75F));
 
-		root = rootDef.bake(64, 32);
+		root = rootDef.bake(32, 32);
+
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");
 		tail2 = tail1.getChild("tail2");

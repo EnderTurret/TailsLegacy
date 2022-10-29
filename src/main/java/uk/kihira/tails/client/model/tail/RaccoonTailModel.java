@@ -44,7 +44,7 @@ public final class RaccoonTailModel extends PartModel {
 			.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 12), PartPose.offsetAndRotation(0, 0, 2, radf(-30), 0, 0))
 			.addOrReplaceChild("tailTip", CubeListBuilder.create().texOffs(0, 22).addBox(-1.5F, -1.5F, 0, 3, 3, 1), PartPose.offset(0, 0, 12));
 
-		root = rootDef.bake(64, 32);
+		root = rootDef.bake(32, 32);
 
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");

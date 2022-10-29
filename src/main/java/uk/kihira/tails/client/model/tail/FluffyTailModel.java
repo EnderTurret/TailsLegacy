@@ -59,7 +59,8 @@ public final class FluffyTailModel extends PartModel {
 			.addOrReplaceChild("tail5", CubeListBuilder.create()
 					.texOffs(12, 26).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.4F, radf(15), 0, 0));
 
-		root = rootDef.bake(64, 32);
+		root = rootDef.bake(32, 32);
+
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");
 		tail2 = tail1.getChild("tail2");

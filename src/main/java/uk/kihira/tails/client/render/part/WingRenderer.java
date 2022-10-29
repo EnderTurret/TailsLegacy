@@ -45,11 +45,16 @@ public final class WingRenderer extends PartRenderer {
 		poseStack.mulPose(Vector3f.ZP.rotationDegrees(90));
 		poseStack.scale(scale, scale, scale);
 		poseStack.translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
+		if (entity.isCrouching()) {
+			poseStack.mulPose(Vector3f.ZP.rotationDegrees(35));
+			poseStack.translate(0, -0.3, 0);
+		}
 
 		poseStack.pushPose();
 
 		poseStack.translate(0F, 0F, 1F * PartModel.SCALE);
 		poseStack.mulPose(Vector3f.XP.rotationDegrees(30F - angle));
+
 		Matrix4f m = poseStack.last().pose();
 		Matrix3f n = poseStack.last().normal();
 
@@ -62,10 +67,14 @@ public final class WingRenderer extends PartRenderer {
 
 		poseStack.pushPose();
 
-		poseStack.translate(0F, 0.3F * PartModel.SCALE, 0F);
+		// TODO: Why is this here? It causes one of the wings to be off-center.
+		//poseStack.translate(0F, 0.3F * PartModel.SCALE, 0F);
+
 		poseStack.mulPose(Vector3f.XP.rotationDegrees(-30F + angle));
+
 		m = poseStack.last().pose();
 		n = poseStack.last().normal();
+
 		buffer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
 		buffer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
 		buffer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();

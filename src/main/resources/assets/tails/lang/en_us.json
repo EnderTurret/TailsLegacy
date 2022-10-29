@@ -83,6 +83,10 @@
   "tails.part.wings/big_wings.texture.metal": "Metal Wings",
   "tails.part.wings/big_wings.texture.dragon": "Dragon Wings",
   "tails.part.wings/big_wings.texture.dragon_boneless": "Dragon Wings Alt",
+  "tails.part.wings/big_wings.texture.dragonfly": "Dragonfly Wings",
+  "tails.part.wings/big_wings.texture.insect": "Insect Wings",
+  "tails.part.wings/big_wings.texture.butterfly": "Butterfly Wings",
+  "tails.part.wings/big_wings.texture.moth": "Moth Wings",
 
   "tails.part.muzzle/standard_muzzle": "Muzzle",
   "tails.part.muzzle/standard_muzzle.subtype.very_short": "Very Short",

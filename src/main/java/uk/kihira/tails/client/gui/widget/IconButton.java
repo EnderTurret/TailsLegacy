@@ -27,7 +27,7 @@ import net.minecraft.util.FormattedCharSequence;
  */
 public class IconButton extends Button implements ITooltip {
 
-	public static final ResourceLocation iconsTextures = new ResourceLocation("tails", "texture/gui/icons.png");
+	public static final ResourceLocation iconsTextures = new ResourceLocation("tails", "textures/gui/icons.png");
 
 	protected final Icons icon;
 	private final List<FormattedCharSequence> tooltip;

@@ -33,7 +33,7 @@ import uk.kihira.tails.common.Tails;
  */
 public final class HSBSlider extends AbstractSliderButton implements ITooltip {
 
-	private static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(Tails.MOD_ID, "texture/gui/controls/slider_hue.png");
+	private static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(Tails.MOD_ID, "textures/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;

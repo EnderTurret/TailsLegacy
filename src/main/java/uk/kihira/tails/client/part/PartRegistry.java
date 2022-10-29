@@ -68,6 +68,9 @@ public final class PartRegistry {
 	public static final PartReference SEA_PICKLE = reference("ears/sea_pickle");
 	public static final PartReference ANTENNAE = reference("ears/antennae");
 	public static final PartReference DEMON_HORNS = reference("ears/demon_horns");
+	public static final PartReference DEER_ANTLERS = reference("ears/deer_antlers");
+	public static final PartReference AXOLOTL_GILLS = reference("ears/axolotl_gills");
+	public static final PartReference STRIDER_WHISKERS = reference("ears/strider_whiskers");
 
 	public static final PartReference BIG_WINGS = reference("wings/big_wings");
 

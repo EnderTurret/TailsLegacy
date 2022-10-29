@@ -48,6 +48,9 @@
   "tails.part.ears/sea_pickle": "Sea Pickle",
   "tails.part.ears/antennae": "Antennae",
   "tails.part.ears/demon_horns": "Demon Horns",
+  "tails.part.ears/axolotl_gills": "Axolotl Gills",
+  "tails.part.ears/deer_antlers": "Deer Antlers",
+  "tails.part.ears/strider_whiskers": "Strider Whiskers",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -57,6 +60,9 @@
   "tails.part.ears/sea_pickle.subtype.standard": "Standard",
   "tails.part.ears/antennae.subtype.standard": "Standard",
   "tails.part.ears/demon_horns.subtype.standard": "Standard",
+  "tails.part.ears/axolotl_gills.subtype.standard": "Standard",
+  "tails.part.ears/deer_antlers.subtype.standard": "Standard",
+  "tails.part.ears/strider_whiskers.subtype.standard": "Standard",
 
   "tails.part.ears/fox_ears.texture.standard": "Fox",
   "tails.part.ears/cat_ears.texture.standard": "Cat",
@@ -65,6 +71,9 @@
   "tails.part.ears/sea_pickle.texture.standard": "Sea Pickle",
   "tails.part.ears/antennae.texture.standard": "Standard",
   "tails.part.ears/demon_horns.texture.standard": "Standard",
+  "tails.part.ears/axolotl_gills.texture.standard": "Standard",
+  "tails.part.ears/deer_antlers.texture.standard": "Standard",
+  "tails.part.ears/strider_whiskers.texture.standard": "Standard",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

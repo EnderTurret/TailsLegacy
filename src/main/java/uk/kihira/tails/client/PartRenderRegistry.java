@@ -17,12 +17,15 @@ import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.model.MuzzleModel;
 import uk.kihira.tails.client.model.ears.AntennaeModel;
+import uk.kihira.tails.client.model.ears.AxolotlGillsModel;
 import uk.kihira.tails.client.model.ears.CatEarsModel;
+import uk.kihira.tails.client.model.ears.DeerAntlersModel;
 import uk.kihira.tails.client.model.ears.DemonHornsModel;
 import uk.kihira.tails.client.model.ears.FoxEarsModel;
 import uk.kihira.tails.client.model.ears.PandaEarsModel;
 import uk.kihira.tails.client.model.ears.SeaPickleModel;
 import uk.kihira.tails.client.model.ears.SmallCatEarsModel;
+import uk.kihira.tails.client.model.ears.StriderWhiskersModel;
 import uk.kihira.tails.client.model.tail.BirdTailModel;
 import uk.kihira.tails.client.model.tail.BunnyTailModel;
 import uk.kihira.tails.client.model.tail.CatTailModel;
@@ -57,6 +60,9 @@ public final class PartRenderRegistry {
 		register(SEA_PICKLE, new PartRenderer(new SeaPickleModel()));
 		register(ANTENNAE, new PartRenderer(new AntennaeModel()));
 		register(DEMON_HORNS, new PartRenderer(new DemonHornsModel()));
+		register(DEER_ANTLERS, new PartRenderer(new DeerAntlersModel()));
+		register(AXOLOTL_GILLS, new PartRenderer(new AxolotlGillsModel()));
+		register(STRIDER_WHISKERS, new PartRenderer(new StriderWhiskersModel()));
 
 		register(BIG_WINGS, new WingRenderer());
 

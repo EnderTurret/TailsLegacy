@@ -14,7 +14,12 @@
     "tails:ears/cat_ears",
     "tails:ears/panda_ears",
     "tails:ears/small_cat_ears",
-    "tails:ears/sea_pickle"
+    "tails:ears/sea_pickle",
+    "tails:ears/antennae",
+    "tails:ears/demon_horns",
+    "tails:ears/deer_antlers",
+    "tails:ears/axolotl_gills",
+    "tails:ears/strider_whiskers"
   ],
   "muzzle": [
     "tails:muzzle/standard_muzzle",

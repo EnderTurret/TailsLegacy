@@ -16,7 +16,9 @@ import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.model.MuzzleModel;
+import uk.kihira.tails.client.model.ears.AntennaeModel;
 import uk.kihira.tails.client.model.ears.CatEarsModel;
+import uk.kihira.tails.client.model.ears.DemonHornsModel;
 import uk.kihira.tails.client.model.ears.FoxEarsModel;
 import uk.kihira.tails.client.model.ears.PandaEarsModel;
 import uk.kihira.tails.client.model.ears.SeaPickleModel;
@@ -53,6 +55,8 @@ public final class PartRenderRegistry {
 		register(PANDA_EARS, new PartRenderer(new PandaEarsModel()));
 		register(SMALL_CAT_EARS, new PartRenderer(new SmallCatEarsModel()));
 		register(SEA_PICKLE, new PartRenderer(new SeaPickleModel()));
+		register(ANTENNAE, new PartRenderer(new AntennaeModel()));
+		register(DEMON_HORNS, new PartRenderer(new DemonHornsModel()));
 
 		register(BIG_WINGS, new WingRenderer());
 

@@ -46,6 +46,8 @@
   "tails.part.ears/small_cat_ears": "Small Cat Ears",
   "tails.part.ears/panda_ears": "Panda Ears",
   "tails.part.ears/sea_pickle": "Sea Pickle",
+  "tails.part.ears/antennae": "Antennae",
+  "tails.part.ears/demon_horns": "Demon Horns",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -53,12 +55,16 @@
   "tails.part.ears/small_cat_ears.subtype.standard": "Standard",
   "tails.part.ears/panda_ears.subtype.standard": "Standard",
   "tails.part.ears/sea_pickle.subtype.standard": "Standard",
+  "tails.part.ears/antennae.subtype.standard": "Standard",
+  "tails.part.ears/demon_horns.subtype.standard": "Standard",
 
   "tails.part.ears/fox_ears.texture.standard": "Fox",
   "tails.part.ears/cat_ears.texture.standard": "Cat",
   "tails.part.ears/small_cat_ears.texture.standard": "Cat",
   "tails.part.ears/panda_ears.texture.standard": "Panda",
   "tails.part.ears/sea_pickle.texture.standard": "Sea Pickle",
+  "tails.part.ears/antennae.texture.standard": "Standard",
+  "tails.part.ears/demon_horns.texture.standard": "Standard",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

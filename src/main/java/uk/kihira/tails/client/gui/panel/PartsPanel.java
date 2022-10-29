@@ -97,13 +97,13 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	public boolean onEntrySelected(int index, PartEntry entry) {
 		final ClientPartInfo oldInfo = parent.getEditingPartInfo();
 
-		final Part.SubType subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : entry.partInfo.getSubType();
-		final Part.PartTexture texture = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getPartTexture() : subType.textures().get(0);
-
 		// Need to keep tints from original part.
 		final ClientPartInfo partInfo;
 		if (entry.partInfo.isEmpty()) partInfo = entry.partInfo.clone();
 		else {
+			final Part.SubType subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : entry.partInfo.getSubType();
+			final Part.PartTexture texture = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getPartTexture() : subType.textures().get(0);
+
 			final String subId = subType != null ? subType.id() : oldInfo.getSubTypeId();
 			final String textureId = texture != null ? texture.id() : oldInfo.getTextureId();
 			final ServerPartInfo spi = new ServerPartInfo(entry.partInfo.getPart().getId(), subId, textureId, oldInfo.getTints().clone());

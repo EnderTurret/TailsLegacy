@@ -26,6 +26,7 @@ import uk.kihira.tails.client.model.ears.PandaEarsModel;
 import uk.kihira.tails.client.model.ears.SeaPickleModel;
 import uk.kihira.tails.client.model.ears.SmallCatEarsModel;
 import uk.kihira.tails.client.model.ears.StriderWhiskersModel;
+import uk.kihira.tails.client.model.tail.BeeAbdomenModel;
 import uk.kihira.tails.client.model.tail.BirdTailModel;
 import uk.kihira.tails.client.model.tail.BunnyTailModel;
 import uk.kihira.tails.client.model.tail.CatTailModel;
@@ -52,6 +53,7 @@ public final class PartRenderRegistry {
 		register(BIRD_TAIL, new PartRenderer(new BirdTailModel()));
 		register(SHARK_TAIL, new PartRenderer(new SharkTailModel()));
 		register(BUNNY_TAIL, new PartRenderer(new BunnyTailModel()));
+		register(BEE_ABDOMEN, new PartRenderer(new BeeAbdomenModel()));
 
 		register(FOX_EARS, new PartRenderer(new FoxEarsModel()));
 		register(CAT_EARS, new PartRenderer(new CatEarsModel()));

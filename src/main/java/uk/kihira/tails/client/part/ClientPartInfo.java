@@ -253,7 +253,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		public String getTextureId() { return null; }
 
 		@Override
-		public int[] getTints() { return new int[] { 0xFFFFFF, 0xFFFFFF, 0xFFFFFF }; }
+		public int[] getTints() { return Part.DEFAULT_TINTS; }
 
 		@Override
 		public void clearGlTexture() {}

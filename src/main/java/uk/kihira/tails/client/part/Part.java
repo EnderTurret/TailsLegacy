@@ -20,7 +20,7 @@ import uk.kihira.tails.common.part.PartType;
 
 public final class Part {
 
-	private static final int[] DEFAULT_TINTS = { 0xFF0000, 0x00FF00, 0x0000FF };
+	public static final int[] DEFAULT_TINTS = { 0xFF0000, 0x00FF00, 0x0000FF };
 
 	protected final ResourceLocation id;
 	protected final PartType type;

@@ -55,7 +55,7 @@ public interface IPartInfo {
 
 		@Override
 		public int[] getTints() {
-			return new int[] { 0xFFFFFF, 0xFFFFFF, 0xFFFFFF };
+			return new int[] { 0xFF0000, 0x00FF00, 0x0000FF };
 		}
 	}
 }

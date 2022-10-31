@@ -25,7 +25,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
@@ -61,31 +60,17 @@ public class PartRenderer {
 
 	/**
 	 * A pre-render callback for translation, rotation, and making sure the texture exists.
-	 * @param poseStack The {@link PoseStack} to use for transformations.
-	 * @param entity The entity that is about to be used for rendering.
-	 * @param info The {@link ClientPartInfo} about to be rendered.
-	 * @param bufferSource The render type buffers. Usually obtained from {@link Minecraft#renderBuffers()}.
-	 * @param buffer The vertex builder for rendering, in case an {@link IRenderHelper} wants to do some rendering.
-	 * @param x The x location.
-	 * @param y The y location.
-	 * @param z The z location.
-	 * @param partialTick The current partial tick value.
-	 * @param packedLight The packed light.
-	 * @param packedOverlay The packed overlay.
-	 * @param red The red color value.
-	 * @param green The green color value.
-	 * @param blue The blue color value.
-	 * @param alpha The transparency value.
+	 * @param ctx The render context.
 	 */
-	public void preRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		compileTextureIfNeeded(entity, info);
+	public void preRender(RenderContext ctx) {
+		compileTextureIfNeeded(ctx.entity(), ctx.info());
 
 		if (modelPart != null) {
-			modelPart.setupAnim(entity, entity.animationPosition, entity.animationSpeed, partialTick, info.getSubType(), entity.getXRot());
-			modelPart.prepareMobModel(entity, entity.animationPosition, entity.animationSpeed, partialTick);
+			modelPart.setupAnim(ctx.entity(), ctx.entity().animationPosition, ctx.entity().animationSpeed, ctx.partialTick(), ctx.info().getSubType(), ctx.entity().getXRot());
+			modelPart.prepareMobModel(ctx.entity(), ctx.entity().animationPosition, ctx.entity().animationSpeed, ctx.partialTick());
 		}
 
-		RenderHelperManager.applyRenderHelpers(poseStack, entity, this, info, bufferSource, buffer, x, y, z, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+		RenderHelperManager.applyRenderHelpers(ctx, this);
 	}
 
 	/**
@@ -148,11 +133,16 @@ public class PartRenderer {
 			} else
 				red = green = blue = 1F;
 
+			final RenderContext ctx = new RenderContext(
+					poseStack, buffer, packedLight, packedOverlay,
+					red, green, blue, alpha, partialTick,
+					entity, info);
+
 			poseStack.pushPose();
 
-			preRender(poseStack, entity, info, bufferSource, buffer, x, y, z, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+			preRender(ctx);
 
-			doRender(poseStack, entity, info, buffer, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+			doRender(ctx);
 
 			poseStack.popPose();
 		}
@@ -169,24 +159,10 @@ public class PartRenderer {
 
 	/**
 	 * Renders the given part on the given entity.
-	 * @param poseStack The {@link PoseStack} to use for transformations.
-	 * @param entity The entity the part is being rendered on.
-	 * @param info The {@link ClientPartInfo}.
-	 * @param buffer The buffer to draw to.
-	 * @param partialTick The current partial tick.
-	 * @param packedLight The packed light.
-	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
-	 * @param red The red color value.
-	 * @param green The green color value.
-	 * @param blue The blue color value.
-	 * @param alpha The transparency value.
+	 * @param ctx The render context.
 	 */
-	protected void doRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	protected void doRender(RenderContext ctx) {
 		if (modelPart != null) {
-			final RenderContext ctx = new RenderContext(
-					poseStack, buffer, packedLight, packedOverlay,
-					red, green, blue, alpha, partialTick,
-					entity, info);
 
 			modelPart.render(ctx);
 		}

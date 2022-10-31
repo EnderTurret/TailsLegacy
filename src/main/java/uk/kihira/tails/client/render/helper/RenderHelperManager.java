@@ -14,15 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.api.IRenderHelper;
-import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
@@ -67,12 +63,11 @@ public final class RenderHelperManager {
 		return helpers;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T extends LivingEntity> void applyRenderHelpers(PoseStack poseStack, T entity, PartRenderer renderer, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public static <T extends LivingEntity> void applyRenderHelpers(RenderContext ctx, PartRenderer renderer) {
 		// TODO: Should we be doing this?
-		final List<IRenderHelper<?>> helpers = entity instanceof Player ? getRenderHelpers(Player.class) : getRenderHelpers(entity.getClass());
+		final List<IRenderHelper<?>> helpers = ctx.entity() instanceof Player ? getRenderHelpers(Player.class) : getRenderHelpers(ctx.entity().getClass());
 
 		for (IRenderHelper helper : helpers)
-			helper.onPreRenderTail(poseStack, entity, renderer, info, bufferSource, buffer, x, y, z, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+			helper.onPreRenderTail(ctx, renderer);
 	}
 }

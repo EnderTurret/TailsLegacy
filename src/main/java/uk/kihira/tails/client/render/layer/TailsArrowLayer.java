@@ -30,6 +30,7 @@ import net.minecraft.world.entity.player.Player;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
@@ -95,7 +96,9 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 				poseStack.pushPose();
 
 				if (config.renderer != null) {
-					RenderHelperManager.applyRenderHelpers(poseStack, entity, config.renderer, config.info, buffer, null, 0, 0, 0, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+					final RenderContext ctx = new RenderContext(poseStack, null, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F, partialTick, entity, config.info);
+
+					RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
 
 					config.renderer.modelPart.setupAnim(entity, limbSwing, limbSwingAmount, partialTick, config.info.getSubType(), headPitch);
 					config.renderer.modelPart.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);

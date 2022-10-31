@@ -8,18 +8,15 @@
 
 package uk.kihira.tails.client.render.part;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * A specialized {@link PartRenderer} for wings.
@@ -31,57 +28,58 @@ public final class WingRenderer extends PartRenderer {
 	}
 
 	@Override
-	protected void doRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		final boolean isFlying = entity instanceof Player player && player.getAbilities().flying && entity.hasImpulse || entity.fallDistance > 1.5F;
-		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, entity);
+	protected void doRender(RenderContext ctx) {
+		final boolean isFlying = ctx.entity() instanceof Player player && player.getAbilities().flying && ctx.entity().hasImpulse || ctx.entity().fallDistance > 1.5F;
+		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, ctx.entity());
 		final float angle = Mth.sin(timestep) * (isFlying ? 24F : 4F);
-		final boolean small = info.getSubType().id().equals("small");
+		final boolean small = ctx.info().getSubType().id().equals("small");
 		final float scale = small ? 1F : 2F;
 
-		poseStack.pushPose();
+		ctx.poseStack().pushPose();
 
-		poseStack.translate(0, -(scale * 8F) * PartModel.SCALE + (small ? 0.1F : 0), 0.1F);
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(90));
-		poseStack.mulPose(Vector3f.ZP.rotationDegrees(90));
-		poseStack.scale(scale, scale, scale);
-		poseStack.translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
-		if (entity.isCrouching()) {
-			poseStack.mulPose(Vector3f.ZP.rotationDegrees(35));
-			poseStack.translate(0, -0.3, 0);
+		ctx.poseStack().translate(0, -(scale * 8F) * PartModel.SCALE + (small ? 0.1F : 0), 0.1F);
+		ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(90));
+		ctx.poseStack().mulPose(Vector3f.ZP.rotationDegrees(90));
+		ctx.poseStack().scale(scale, scale, scale);
+		ctx.poseStack().translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
+
+		if (ctx.entity().isCrouching()) {
+			ctx.poseStack().mulPose(Vector3f.ZP.rotationDegrees(35));
+			ctx.poseStack().translate(0, -0.3, 0);
 		}
 
-		poseStack.pushPose();
+		ctx.poseStack().pushPose();
 
-		poseStack.translate(0F, 0F, 1F * PartModel.SCALE);
-		poseStack.mulPose(Vector3f.XP.rotationDegrees(30F - angle));
+		ctx.poseStack().translate(0F, 0F, 1F * PartModel.SCALE);
+		ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(30F - angle));
 
-		Matrix4f m = poseStack.last().pose();
-		Matrix3f n = poseStack.last().normal();
+		Matrix4f m = ctx.poseStack().last().pose();
+		Matrix3f n = ctx.poseStack().last().normal();
 
-		buffer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
-		buffer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
-		buffer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
-		buffer.vertex(m, 0, 0, 0).color(red, green, blue, alpha).uv(0, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().vertex(m, 0, 1, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(0, 0).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().vertex(m, 1, 1, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(1, 0).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().vertex(m, 1, 0, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(1, 1).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().vertex(m, 0, 0, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(0, 1).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
 
-		poseStack.popPose();
+		ctx.poseStack().popPose();
 
-		poseStack.pushPose();
+		ctx.poseStack().pushPose();
 
 		// TODO: Why is this here? It causes one of the wings to be off-center.
-		//poseStack.translate(0F, 0.3F * PartModel.SCALE, 0F);
+		//ctx.poseStack().translate(0F, 0.3F * PartModel.SCALE, 0F);
 
-		poseStack.mulPose(Vector3f.XP.rotationDegrees(-30F + angle));
+		ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(-30F + angle));
 
-		m = poseStack.last().pose();
-		n = poseStack.last().normal();
+		m = ctx.poseStack().last().pose();
+		n = ctx.poseStack().last().normal();
 
-		buffer.vertex(m, 0, 1, 0).color(red, green, blue, alpha).uv(0, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
-		buffer.vertex(m, 1, 1, 0).color(red, green, blue, alpha).uv(1, 0).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
-		buffer.vertex(m, 1, 0, 0).color(red, green, blue, alpha).uv(1, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
-		buffer.vertex(m, 0, 0, 0).color(red, green, blue, alpha).uv(0, 1).overlayCoords(packedOverlay).uv2(packedLight).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().vertex(m, 0, 1, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(0, 0).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().vertex(m, 1, 1, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(1, 0).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().vertex(m, 1, 0, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(1, 1).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().vertex(m, 0, 0, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(0, 1).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
 
-		poseStack.popPose();
+		ctx.poseStack().popPose();
 
-		poseStack.popPose();
+		ctx.poseStack().popPose();
 	}
 }

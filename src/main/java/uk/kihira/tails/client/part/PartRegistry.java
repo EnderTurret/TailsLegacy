@@ -61,6 +61,7 @@ public final class PartRegistry {
 	public static final PartReference SHARK_TAIL = reference("tail/shark_tail");
 	public static final PartReference BUNNY_TAIL = reference("tail/bunny_tail");
 	public static final PartReference BEE_ABDOMEN = reference("tail/bee_abdomen");
+	public static final PartReference SCORPION_TAIL = reference("tail/scorpion_tail");
 
 	public static final PartReference FOX_EARS = reference("ears/fox_ears");
 	public static final PartReference CAT_EARS = reference("ears/cat_ears");

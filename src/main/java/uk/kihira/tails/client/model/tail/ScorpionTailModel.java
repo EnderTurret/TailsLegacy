@@ -28,13 +28,12 @@ public class ScorpionTailModel extends PartModel {
 				.texOffs(14, 0).addBox(-2F, -15F, -5F, 4F, 3F, 2F)
 				.texOffs(13, 17).addBox(-1F, -14F, -6F, 2F, 2F, 1F)
 				.texOffs(7, 17).addBox(-1F, -13F, -7F, 2F, 2F, 1F)
-				, PartPose.offset(0F, 24F, 0F));
+				, PartPose.offset(0F, 24F - 21, 0F + 8));
 
 		root = rootDef.bake(32, 32);
 
 		config = new PartConfiguration(root, List.of(root), (info, poseStack, partialTick, entity) -> {
 			poseStack.scale(1.1f, 1.1f, 1.1f);
-			poseStack.translate(0, -1.25, 0.5);
 		});
 	}
 
@@ -43,7 +42,6 @@ public class ScorpionTailModel extends PartModel {
 		ctx.poseStack().pushPose();
 
 		ctx.poseStack().scale(1.1f, 1.1f, 1.1f);
-		ctx.poseStack().translate(0, -1.25, 0.5);
 
 		ctx.render(root);
 

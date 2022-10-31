@@ -30,7 +30,8 @@ public final class DeerAntlersModel extends PartModel {
 				.texOffs(9, 5).addBox(-6F, -4.5F, -4.5F, 1F, 1F, 1F)
 				.texOffs(3, 3).addBox(-4.5F, -5F, -4.5F, 1F, 3F, 1F)
 				.texOffs(6, 6).addBox(-5F, -7F, -4F, 1F, 2F, 1F)
-				, PartPose.offset(1F, 24F, 3F));
+				, PartPose.offset(1F, 24F - 32, 3F));
+
 		rootDef.addOrReplaceChild("lantler", CubeListBuilder.create()
 				.texOffs(0, 6).addBox(-4F, -2F, -5F, 1F, 2F, 1F)
 				.texOffs(0, 9).addBox(-3F, -1.5F, -5F, 1F, 1F, 1F)
@@ -38,16 +39,13 @@ public final class DeerAntlersModel extends PartModel {
 				.texOffs(8, 0).addBox(-6F, -4.5F, -5.5F, 1F, 1F, 1F)
 				.texOffs(0, 0).addBox(-4.5F, -5F, -5.5F, 1F, 3F, 1F)
 				.texOffs(4, 0).addBox(-5F, -7F, -6F, 1F, 2F, 1F)
-				, PartPose.offsetAndRotation(-1F, 24F, -6F, 0F, 3.1416F, 0F));
+				, PartPose.offsetAndRotation(-1F, 24F - 32, -6F, 0F, 3.1416F, 0F));
 
 		root = rootDef.bake(16, 16);
 	}
 
 	@Override
 	public void render(RenderContext ctx) {
-		ctx.poseStack().pushPose();
-		ctx.poseStack().translate(0, -2, 0);
 		ctx.render(root);
-		ctx.poseStack().popPose();
 	}
 }

@@ -26,7 +26,7 @@ public class BeeAbdomenModel extends PartModel {
 				.texOffs(12, 12).addBox(-2F, -7F, -7.5F, 4F, 4F, 2F)
 				.texOffs(0, 12).addBox(-2F, -7F, 0.5F, 4F, 4F, 2F)
 				.texOffs(0, 0).addBox(-3F, -8F, -5.5F, 6F, 6F, 6F)
-				, PartPose.offsetAndRotation(0F, 23F, -5F, -0.8727F, 0F, 0F));
+				, PartPose.offsetAndRotation(0F, 23F - 15, -5F + 7.2F, -0.8727F, 0F, 0F));
 
 		abdomenDef.addOrReplaceChild("stinger", CubeListBuilder.create()
 				.texOffs(0, 0).addBox(0F, -6F, 2.5F, 0F, 2F, 2F), PartPose.ZERO);
@@ -37,7 +37,6 @@ public class BeeAbdomenModel extends PartModel {
 
 		config = new PartConfiguration(abdomen, List.of(abdomen), (info, poseStack, partialTick, entity) -> {
 			poseStack.scale(1.25f, 1.25f, 1.25f);
-			poseStack.translate(0, -1 + 0.0625, 0.45);
 		});
 	}
 
@@ -48,7 +47,6 @@ public class BeeAbdomenModel extends PartModel {
 		ctx.poseStack().pushPose();
 
 		ctx.poseStack().scale(1.25f, 1.25f, 1.25f);
-		ctx.poseStack().translate(0, -1 + 0.0625, 0.45);
 
 		ctx.render(root);
 

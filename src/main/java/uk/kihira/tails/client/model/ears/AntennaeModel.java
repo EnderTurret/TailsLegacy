@@ -28,22 +28,19 @@ public final class AntennaeModel extends PartModel {
 				.texOffs(8, 0).addBox(-5F, -3F, -5.5F, 1F, 1F, 1F)
 				.texOffs(0, 8).addBox(-5F, -4F, -6F, 1F, 1F, 1F)
 				.texOffs(0, 3).addBox(-5F, -4.5F, -8F, 1F, 1F, 2F)
-				, PartPose.offset(2F, 24F, 3F));
+				, PartPose.offset(2F, 24F - 32, 3F));
 		rootDef.addOrReplaceChild("lantennae", CubeListBuilder.create()
 				.texOffs(5, 2).addBox(-5F, -2F, -5F, 1F, 2F, 1F)
 				.texOffs(0, 6).addBox(-5F, -3F, -5.5F, 1F, 1F, 1F)
 				.texOffs(4, 0).addBox(-5F, -4F, -6F, 1F, 1F, 1F)
 				.texOffs(0, 0).addBox(-5F, -4.5F, -8F, 1F, 1F, 2F)
-				, PartPose.offset(7F, 24F, 3F));
+				, PartPose.offset(7F, 24F - 32, 3F));
 
 		root = rootDef.bake(16, 16);
 	}
 
 	@Override
 	public void render(RenderContext ctx) {
-		ctx.poseStack().pushPose();
-		ctx.poseStack().translate(0, -2, 0);
 		ctx.render(root);
-		ctx.poseStack().popPose();
 	}
 }

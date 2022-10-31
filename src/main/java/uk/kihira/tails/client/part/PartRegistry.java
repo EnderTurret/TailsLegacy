@@ -19,6 +19,7 @@ import com.google.common.collect.MultimapBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 
+import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.Parts;
@@ -32,6 +33,8 @@ public final class PartRegistry {
 		PART_REGISTRY.clear();
 		BY_TYPE.clear();
 	}, (parts, ordering) -> {
+		Tails.LOGGER.debug("Registering {} parts.", parts.size());
+
 		for (Part part : parts)
 			PART_REGISTRY.put(part.getId(), part);
 
@@ -47,6 +50,8 @@ public final class PartRegistry {
 
 			BY_TYPE.putAll(entry.getKey(), List.copyOf(list));
 		}
+
+		PartRenderRegistry.reload();
 
 		LocalPartManager.reload();
 		Tails.PROXY.getLibraryManager().reload(false);

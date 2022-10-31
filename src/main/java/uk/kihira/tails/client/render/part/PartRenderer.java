@@ -26,7 +26,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import uk.kihira.tails.api.IRenderHelper;
-import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
@@ -36,7 +36,7 @@ import uk.kihira.tails.client.texture.TextureHelper;
 
 /**
  * A renderer for a part.<br>
- * You can register one in {@link PartRenderRegistry#register(ResourceLocation, PartRenderer)}.
+ * You can register one using {@link RegisterPartRenderersEvent}.
  */
 @OnlyIn(Dist.CLIENT)
 public class PartRenderer {

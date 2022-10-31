@@ -8,18 +8,14 @@
 
 package uk.kihira.tails.client.model.ears;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 
 public final class DeerAntlersModel extends PartModel {
 
@@ -48,10 +44,10 @@ public final class DeerAntlersModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
-		poseStack.pushPose();
-		poseStack.translate(0, -2, 0);
-		root.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		poseStack.popPose();
+	public void render(RenderContext ctx) {
+		ctx.poseStack().pushPose();
+		ctx.poseStack().translate(0, -2, 0);
+		ctx.render(root);
+		ctx.poseStack().popPose();
 	}
 }

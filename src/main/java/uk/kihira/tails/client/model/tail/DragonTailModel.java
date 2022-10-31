@@ -10,9 +10,6 @@ package uk.kihira.tails.client.model.tail;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -26,6 +23,7 @@ import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * The model for dragon tails.
@@ -116,11 +114,11 @@ public final class DragonTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
-		tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void render(RenderContext ctx) {
+		ctx.render(tailBase);
 
-		if (subType.id().equals("dragon_tail"))
-			tailSubBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		if (ctx.info().getSubType().id().equals("dragon_tail"))
+			ctx.render(tailSubBase);
 	}
 
 	@Override

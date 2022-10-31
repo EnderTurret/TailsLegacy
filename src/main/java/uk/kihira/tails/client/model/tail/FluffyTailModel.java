@@ -10,8 +10,6 @@ package uk.kihira.tails.client.model.tail;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.model.geom.ModelPart;
@@ -21,13 +19,12 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * The model for the floofy tail everyone loves.
@@ -166,55 +163,55 @@ public final class FluffyTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
-		float timestep = getAnimationTime(4000F, entity);
+	public void render(RenderContext ctx) {
+		float timestep = getAnimationTime(4000F, ctx.entity());
 
-		if (subType.id().equals("one_tail")) {
-			setRotationAngles(0, timestep, 1F, 1F, 0, 0, partialTick, entity);
-			poseStack.pushPose();
-			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-			poseStack.popPose();
+		if (ctx.info().getSubType().id().equals("one_tail")) {
+			setRotationAngles(0, timestep, 1F, 1F, 0, 0, ctx.partialTick(), ctx.entity());
+			ctx.poseStack().pushPose();
+			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(-20F));
+			ctx.render(tailBase);
+			ctx.poseStack().popPose();
 		}
-		else if (subType.id().equals("two_tails")) {
-			setRotationAngles(1, timestep, 1F, 1F, 0F, rad(40), partialTick, entity);
-			poseStack.pushPose();
-			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		else if (ctx.info().getSubType().id().equals("two_tails")) {
+			setRotationAngles(1, timestep, 1F, 1F, 0F, rad(40), ctx.partialTick(), ctx.entity());
+			ctx.poseStack().pushPose();
+			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(-20F));
+			ctx.render(tailBase);
 
-			setRotationAngles(1, timestep, 1.4F, 0F, 0F, rad(-40), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-			poseStack.popPose();
+			setRotationAngles(1, timestep, 1.4F, 0F, 0F, rad(-40), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
+			ctx.poseStack().popPose();
 		}
-		else if (subType.id().equals("nine_tails")) {
-			timestep = getAnimationTime(6500F, entity);
+		else if (ctx.info().getSubType().id().equals("nine_tails")) {
+			timestep = getAnimationTime(6500F, ctx.entity());
 
-			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 
-			setRotationAngles(2, timestep, -1.3F, 1.6F, 0, rad(30), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -1.3F, 1.6F, 0, rad(30), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 
-			setRotationAngles(2, timestep, -1.1F, 0.7F, 0, rad(-30), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -1.1F, 0.7F, 0, rad(-30), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 
-			setRotationAngles(2, timestep, -1.2F, 2.6F, rad(20), rad(-15), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -1.2F, 2.6F, rad(20), rad(-15), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 
-			setRotationAngles(2, timestep, -0.9F, 1.1F, rad(20), rad(15), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -0.9F, 1.1F, rad(20), rad(15), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 
-			setRotationAngles(2, timestep, -0.8F, 2F, rad(20), rad(45), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -0.8F, 2F, rad(20), rad(45), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 
-			setRotationAngles(2, timestep, -1.25F, 0.6F, rad(20), rad(-45), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -1.25F, 0.6F, rad(20), rad(-45), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 
-			setRotationAngles(2, timestep, -1.4F, 0.9F, rad(45), rad(15), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -1.4F, 0.9F, rad(45), rad(15), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 
-			setRotationAngles(2, timestep, -1.1F, 1.6F, rad(45), rad(-15), partialTick, entity);
-			tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			setRotationAngles(2, timestep, -1.1F, 1.6F, rad(45), rad(-15), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 		}
 	}
 

@@ -10,9 +10,6 @@ package uk.kihira.tails.client.model.tail;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -25,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * The model for raccoon tails.
@@ -86,7 +84,7 @@ public final class RaccoonTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
-		tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void render(RenderContext ctx) {
+		ctx.render(tailBase);
 	}
 }

@@ -8,17 +8,13 @@
 
 package uk.kihira.tails.client.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * The model used for muzzles.
@@ -42,21 +38,21 @@ public final class MuzzleModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
-		poseStack.pushPose();
+	public void render(RenderContext ctx) {
+		ctx.poseStack().pushPose();
 
-		poseStack.translate(0, -0.001D, 0);
+		ctx.poseStack().translate(0, -0.001D, 0);
 
-		switch (subType.id()) {
-		case "very_short" -> poseStack.translate(0, 0, 4 / 16D);
-		case "short" -> poseStack.translate(0, 0, 3 / 16D);
-		case "standard" -> poseStack.translate(0, 0, 2 / 16D);
-		case "long" -> poseStack.translate(0, 0, 1 / 16D);
+		switch (ctx.info().getSubType().id()) {
+		case "very_short" -> ctx.poseStack().translate(0, 0, 4 / 16D);
+		case "short" -> ctx.poseStack().translate(0, 0, 3 / 16D);
+		case "standard" -> ctx.poseStack().translate(0, 0, 2 / 16D);
+		case "long" -> ctx.poseStack().translate(0, 0, 1 / 16D);
 		case "very_long" -> {}
 		}
 
-		muzzle.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		ctx.render(muzzle);
 
-		poseStack.popPose();
+		ctx.poseStack().popPose();
 	}
 }

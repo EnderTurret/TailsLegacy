@@ -2,19 +2,15 @@ package uk.kihira.tails.client.model.tail;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.Part.SubType;
+import uk.kihira.tails.client.render.RenderContext;
 
 public class ScorpionTailModel extends PartModel {
 
@@ -43,14 +39,14 @@ public class ScorpionTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, SubType subType, float partialTick) {
-		poseStack.pushPose();
+	public void render(RenderContext ctx) {
+		ctx.poseStack().pushPose();
 
-		poseStack.scale(1.1f, 1.1f, 1.1f);
-		poseStack.translate(0, -1.25, 0.5);
+		ctx.poseStack().scale(1.1f, 1.1f, 1.1f);
+		ctx.poseStack().translate(0, -1.25, 0.5);
 
-		root.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		ctx.render(root);
 
-		poseStack.popPose();
+		ctx.poseStack().popPose();
 	}
 }

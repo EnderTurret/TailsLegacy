@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * A base class that all parts extend.
@@ -38,20 +39,10 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	public static final float SCALE = 0.0625F;
 
 	/**
-	 * Renders the tail with the optional parts list provided
-	 * @param poseStack The {@link PoseStack} to use for transformations.
-	 * @param buffer The buffer to draw to.
-	 * @param entity The entity the part is attached to.
-	 * @param packedLight The packed light.
-	 * @param packedOverlay The packed overlay.
-	 * @param red The red color value.
-	 * @param green The green color value.
-	 * @param blue The blue color value.
-	 * @param alpha The alpha color value.
-	 * @param subType The sub type.
-	 * @param partialTick The partial tick.
+	 * Renders the part model.
+	 * @param ctx All the fun rendering objects.
 	 */
-	public abstract void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick);
+	public abstract void render(RenderContext ctx);
 
 	public List<PartConfiguration> getParts(ClientPartInfo info) {
 		return config == null ? List.of() : List.of(config);

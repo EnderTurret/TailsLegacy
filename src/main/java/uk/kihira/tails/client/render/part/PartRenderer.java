@@ -30,6 +30,7 @@ import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.texture.TextureHelper;
 
@@ -181,7 +182,13 @@ public class PartRenderer {
 	 * @param alpha The transparency value.
 	 */
 	protected void doRender(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		if (modelPart != null)
-			modelPart.render(poseStack, buffer, entity, packedLight, packedOverlay, red, green, blue, alpha, info.getSubType(), partialTick);
+		if (modelPart != null) {
+			final RenderContext ctx = new RenderContext(
+					poseStack, buffer, packedLight, packedOverlay,
+					red, green, blue, alpha, partialTick,
+					entity, info);
+
+			modelPart.render(ctx);
+		}
 	}
 }

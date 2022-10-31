@@ -8,18 +8,14 @@
 
 package uk.kihira.tails.client.model.ears;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * The model for fox ears.
@@ -60,21 +56,21 @@ public final class FoxEarsModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
-		poseStack.pushPose();
+	public void render(RenderContext ctx) {
+		ctx.poseStack().pushPose();
 
-		poseStack.translate(0f, 0f, -0.0625f);
+		ctx.poseStack().translate(0f, 0f, -0.0625f);
 
-		if (subType.id().equals("inward"))
-			poseStack.translate(-0.4375f, 0f, 0f);
+		if (ctx.info().getSubType().id().equals("inward"))
+			ctx.poseStack().translate(-0.4375f, 0f, 0f);
 
-		leftEar.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		ctx.render(leftEar);
 
-		if (subType.id().equals("inward"))
-			poseStack.translate(0.875f, 0f, 0f);
+		if (ctx.info().getSubType().id().equals("inward"))
+			ctx.poseStack().translate(0.875f, 0f, 0f);
 
-		rightEar.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		ctx.render(rightEar);
 
-		poseStack.popPose();
+		ctx.poseStack().popPose();
 	}
 }

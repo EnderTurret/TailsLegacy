@@ -10,9 +10,6 @@ package uk.kihira.tails.client.model.tail;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -26,6 +23,7 @@ import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * The model for devil tails.
@@ -106,10 +104,10 @@ public final class DevilTailModel extends PartModel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, VertexConsumer buffer, LivingEntity entity, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, Part.SubType subType, float partialTick) {
-		tailTip.visible = !subType.id().equals("no_tip");
+	public void render(RenderContext ctx) {
+		tailTip.visible = !ctx.info().getSubType().id().equals("no_tip");
 
-		tailBase.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		ctx.render(tailBase);
 
 		tailTip.visible = true;
 	}

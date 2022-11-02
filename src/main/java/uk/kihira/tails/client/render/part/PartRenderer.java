@@ -162,9 +162,7 @@ public class PartRenderer {
 	 * @param ctx The render context.
 	 */
 	protected void doRender(RenderContext ctx) {
-		if (modelPart != null) {
-
+		if (modelPart != null)
 			modelPart.render(ctx);
-		}
 	}
 }

@@ -2,6 +2,8 @@ package uk.kihira.tails.client.model.tail;
 
 import java.util.List;
 
+import com.mojang.math.Vector3f;
+
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -11,6 +13,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 public class BeeAbdomenModel extends PartModel {
 
@@ -38,6 +41,12 @@ public class BeeAbdomenModel extends PartModel {
 		config = new PartConfiguration(abdomen, List.of(abdomen), (info, poseStack, partialTick, entity) -> {
 			poseStack.scale(1.25f, 1.25f, 1.25f);
 		});
+	}
+
+	@Override
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().translate(0.15, 0.2, 0);
+		ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(-35));
 	}
 
 	@Override

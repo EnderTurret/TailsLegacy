@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * A base class that all parts extend.
@@ -57,6 +58,8 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	public final void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float netHeadYaw, float headPitch) {}
 
 	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, Part.SubType subType, float headPitch) {}
+
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {}
 
 	/**
 	 * Sets the rotation on a model where the provided params are in radians

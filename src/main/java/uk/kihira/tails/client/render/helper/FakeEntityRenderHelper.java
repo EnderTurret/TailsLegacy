@@ -42,5 +42,8 @@ public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 			ctx.poseStack().scale(0.6F, 0.6F, 0.6F);
 		}
 		}
+
+		if (renderer.modelPart != null)
+			renderer.modelPart.setupPartPreviewAnim(ctx, renderer);
 	}
 }

@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.model.ears;
 
+import com.mojang.math.Vector3f;
+
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -16,6 +18,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 public final class SeaPickleModel extends PartModel {
 
@@ -31,6 +34,11 @@ public final class SeaPickleModel extends PartModel {
 		root = rootDef.bake(32, 32);
 
 		pickle = root.getChild("pickle");
+	}
+
+	@Override
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().translate(0, 0.25, 0);
 	}
 
 	@Override

@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.model.ears;
 
+import com.mojang.math.Vector3f;
+
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -16,6 +18,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 public final class AntennaeModel extends PartModel {
 
@@ -37,6 +40,12 @@ public final class AntennaeModel extends PartModel {
 				, PartPose.offset(7F, 24F - 32, 3F));
 
 		root = rootDef.bake(16, 16);
+	}
+
+	@Override
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().translate(-0.15, 0.25, 0);
+		ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(-45));
 	}
 
 	@Override

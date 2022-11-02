@@ -16,6 +16,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 public final class DeerAntlersModel extends PartModel {
 
@@ -42,6 +43,11 @@ public final class DeerAntlersModel extends PartModel {
 				, PartPose.offsetAndRotation(-1F, 24F - 32, -6F, 0F, 3.1416F, 0F));
 
 		root = rootDef.bake(16, 16);
+	}
+
+	@Override
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().translate(0.05, 0.3, 0);
 	}
 
 	@Override

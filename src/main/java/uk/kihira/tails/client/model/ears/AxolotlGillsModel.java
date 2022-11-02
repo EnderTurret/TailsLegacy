@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.model.ears;
 
+import com.mojang.math.Vector3f;
+
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -16,6 +18,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 public final class AxolotlGillsModel extends PartModel {
 
@@ -46,6 +49,12 @@ public final class AxolotlGillsModel extends PartModel {
 				, PartPose.offset(15F, 24F - 24, 0F));
 
 		root = rootDef.bake(16, 16);
+	}
+
+	@Override
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().scale(0.9f, 0.9f, 0.9f);
+		ctx.poseStack().translate(0, -0.1, 0);
 	}
 
 	@Override

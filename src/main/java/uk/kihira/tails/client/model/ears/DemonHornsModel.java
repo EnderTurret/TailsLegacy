@@ -16,6 +16,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 public final class DemonHornsModel extends PartModel {
 
@@ -44,6 +45,11 @@ public final class DemonHornsModel extends PartModel {
 				, PartPose.offsetAndRotation(-0.99F, 24F - 32, 0F, 0F, -1.5708F, 0F));
 
 		root = rootDef.bake(16, 16);
+	}
+
+	@Override
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().translate(0.05, 0.2, 0);
 	}
 
 	@Override

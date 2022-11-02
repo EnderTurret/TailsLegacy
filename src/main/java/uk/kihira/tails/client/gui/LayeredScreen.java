@@ -11,6 +11,8 @@ package uk.kihira.tails.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -22,6 +24,7 @@ import uk.kihira.tails.client.gui.panel.Panel;
 /**
  * A screen that has multiple layers, each with an arbitrary number of {@link Panel Panels}.
  */
+@Internal
 public abstract class LayeredScreen extends BaseScreen {
 
 	//private static final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
@@ -29,12 +32,14 @@ public abstract class LayeredScreen extends BaseScreen {
 	// 0 is bottom layer.
 	private final List<List<Panel<?>>> layers = new ArrayList<>();
 
+	@Internal
 	public LayeredScreen(int layerCount, Component title) {
 		super(title);
 		for (int i = 0; i < layerCount; i++)
 			layers.add(new ArrayList<>());
 	}
 
+	@Internal
 	public List<Panel<?>> getLayer(int layer) {
 		return layers.get(layer);
 	}

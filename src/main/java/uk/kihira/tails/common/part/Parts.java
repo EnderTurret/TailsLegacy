@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -133,6 +135,7 @@ public final class Parts {
 		return new ResourceLocation(Tails.MOD_ID, path);
 	}
 
+	@Internal
 	public static JsonElement update(JsonElement elem) {
 		if (elem instanceof JsonObject obj) {
 			if (obj.has("id") && obj.has("subType") && obj.has("textureId")) return elem;

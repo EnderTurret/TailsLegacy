@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.common;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -21,6 +23,7 @@ import uk.kihira.tails.common.network.PlayerDataMapMessage;
 /**
  * A server event handler, for handling events on the server.
  */
+@Internal
 @EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE)
 public final class ServerEventHandler {
 

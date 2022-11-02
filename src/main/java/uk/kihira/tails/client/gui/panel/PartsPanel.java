@@ -11,6 +11,8 @@ package uk.kihira.tails.client.gui.panel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -41,6 +43,7 @@ import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.ServerPartInfo;
 
+@Internal
 public final class PartsPanel extends Panel<EditorScreen> {
 
 	private ListWidget<PartEntry> partList;

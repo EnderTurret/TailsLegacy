@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.model;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -19,11 +21,13 @@ import uk.kihira.tails.client.render.RenderContext;
 /**
  * The model used for muzzles.
  */
+@Internal
 public final class MuzzleModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart muzzle;
 
+	@Internal
 	public MuzzleModel(float xOffset, float yOffset, float zOffset, int xSize, int ySize, int zSize, int xTex, int yTex) {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 		rootDef.addOrReplaceChild("muzzle", CubeListBuilder.create()
@@ -33,6 +37,7 @@ public final class MuzzleModel extends PartModel {
 		muzzle = root.getChild("muzzle");
 	}
 
+	@Internal
 	public MuzzleModel(float xOffset, float yOffset, float zOffset, int xSize, int ySize, int zSize) {
 		this(xOffset, yOffset, zOffset, xSize, ySize, zSize, 0, 0);
 	}

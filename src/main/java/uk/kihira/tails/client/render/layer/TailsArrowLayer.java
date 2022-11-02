@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.PlayerModel;
@@ -37,8 +39,10 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
+@Internal
 public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> extends ArrowLayer<T, M> {
 
+	@Internal
 	public TailsArrowLayer(EntityRendererProvider.Context context, LivingEntityRenderer<T, M> renderer) {
 		super(context, renderer);
 	}

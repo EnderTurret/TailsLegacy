@@ -20,6 +20,7 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -42,6 +43,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 
+@Internal
 @EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class PartLoadingManager implements ResourceManagerReloadListener {
 

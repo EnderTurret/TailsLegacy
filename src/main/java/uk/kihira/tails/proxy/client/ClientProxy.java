@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.proxy.client;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.gson.Gson;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,6 +27,7 @@ import uk.kihira.tails.proxy.IProxy;
  * <p>If the class loader finds this through something other than {@link IProxy#makeClientProxy()},
  * please dispose of the class loader immediately and get one that is less cursed.</p>
  */
+@Internal
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy implements IProxy {
 

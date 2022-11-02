@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.gson.annotations.Expose;
 
 import uk.kihira.tails.common.part.PartsData;
@@ -19,6 +21,7 @@ import uk.kihira.tails.common.part.PartsData;
 /**
  * Represents a single library entry.
  */
+@Internal
 public final class LibraryEntryData {
 
 	@Expose

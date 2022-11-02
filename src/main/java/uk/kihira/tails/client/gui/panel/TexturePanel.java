@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.gui.panel;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.resources.language.I18n;
@@ -19,6 +21,7 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 
+@Internal
 public final class TexturePanel extends Panel<EditorScreen> {
 
 	private final int variantSelectY = 17;

@@ -19,9 +19,12 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+@Internal
 public class LibraryManager {
 
 	private static final Type ENTRY_DATA_LIST = new TypeToken<List<LibraryEntryData>>() {}.getType();

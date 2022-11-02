@@ -10,6 +10,8 @@ package uk.kihira.tails.client.gui.panel;
 
 import java.util.UUID;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.common.base.Strings;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -28,6 +30,7 @@ import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
+@Internal
 public final class LibraryImportPanel extends Panel<EditorScreen> {
 
 	private EditBox inputField;

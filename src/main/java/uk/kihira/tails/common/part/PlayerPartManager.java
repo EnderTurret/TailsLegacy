@@ -13,8 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import uk.kihira.tails.api.IPlayerPartManager;
 
+@Internal
 public class PlayerPartManager implements IPlayerPartManager {
 
 	protected final Map<UUID, PartsData> partsData = new HashMap<>();

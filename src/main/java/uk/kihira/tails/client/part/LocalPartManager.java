@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.part;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,6 +23,7 @@ import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
 
+@Internal
 public final class LocalPartManager {
 
 	public static final Gson GSON = new GsonBuilder()
@@ -31,6 +34,7 @@ public final class LocalPartManager {
 
 	private static PartsData localPartsData = PartsData.EMPTY;
 
+	@Internal
 	public static void reload() {
 		// Load local player info.
 		try {
@@ -49,6 +53,7 @@ public final class LocalPartManager {
 		}
 	}
 
+	@Internal
 	public static void setLocalPartsData(PartsData partsData) {
 		if (partsData == null) throw new NullPointerException();
 
@@ -59,10 +64,12 @@ public final class LocalPartManager {
 		TailsConfig.getConfig().save();
 	}
 
+	@Internal
 	public static PartsData getLocalPartsData() {
 		return localPartsData;
 	}
 
+	@Internal
 	public static void syncToServer() {
 		if (Minecraft.getInstance().level != null)
 			TailsNetworkManager.CHANNEL.sendToServer(new C2SPlayerDataMessage(getLocalPartsData()));

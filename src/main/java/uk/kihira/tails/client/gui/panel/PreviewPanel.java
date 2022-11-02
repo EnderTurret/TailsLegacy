@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.gui.panel;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -20,6 +22,7 @@ import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IconButton;
 
+@Internal
 public final class PreviewPanel extends Panel<EditorScreen> {
 
 	private float yaw = 0F;

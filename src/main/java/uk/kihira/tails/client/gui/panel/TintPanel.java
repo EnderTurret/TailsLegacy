@@ -10,6 +10,7 @@ package uk.kihira.tails.client.gui.panel;
 
 import java.awt.Color;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.base.Strings;
@@ -27,6 +28,7 @@ import uk.kihira.tails.client.gui.widget.HSBSlider;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 
+@Internal
 public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSliderCallback {
 
 	private int editingTint = 0;

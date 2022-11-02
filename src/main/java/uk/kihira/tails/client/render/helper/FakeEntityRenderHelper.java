@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.render.helper;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.math.Vector3f;
 
 import uk.kihira.tails.api.IRenderHelper;
@@ -16,6 +18,7 @@ import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
+@Internal
 public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 
 	@Override

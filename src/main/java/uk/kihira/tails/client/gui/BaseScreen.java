@@ -11,6 +11,8 @@ package uk.kihira.tails.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
@@ -25,6 +27,7 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.client.gui.widget.ITooltip;
 
+@Internal
 public abstract class BaseScreen extends Screen {
 
 	private int prevMouseX;

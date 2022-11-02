@@ -2,6 +2,8 @@ package uk.kihira.tails.client.model.tail;
 
 import static uk.kihira.tails.client.part.PartRegistry.*;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -10,6 +12,7 @@ import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
 
+@Internal
 @EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class TailRegistrationHandler {
 

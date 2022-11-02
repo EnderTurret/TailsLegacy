@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.render;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Vector3f;
 
@@ -23,6 +25,7 @@ import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.PartRegistry;
 
+@Internal
 public final class FoxtatoRenderer {
 
 	/*private FoxtatoFakeEntity fakeEntity;

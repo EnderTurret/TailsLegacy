@@ -12,6 +12,8 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
@@ -21,6 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 
+@Internal
 @OnlyIn(Dist.CLIENT)
 public final class TextureHelper {
 
@@ -51,6 +54,7 @@ public final class TextureHelper {
 	 * @param partInfo The part data.
 	 * @return A resource location for the generated texture.
 	 */
+	@Internal
 	@Nullable
 	public static ResourceLocation generateTexture(UUID uuid, ClientPartInfo partInfo) {
 		if (partInfo.isEmpty() || partInfo.isInvalid()) return null;

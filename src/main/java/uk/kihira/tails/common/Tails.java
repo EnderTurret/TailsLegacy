@@ -10,6 +10,7 @@ package uk.kihira.tails.common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,10 +45,12 @@ public final class Tails {
 	/**
 	 * It's <strike>another snow poff</strike> the mod's logger.
 	 */
+	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
 	// I know this looks bad, but it's the only way to prevent class loading ClientProxy.
 	// Placing ClientProxy::new in here class loads it anyway.
+	@Internal
 	public static final IProxy PROXY = DistExecutor.safeRunForDist(() -> IProxy::makeClientProxy, () -> ServerProxy::new);
 
 	/**
@@ -59,6 +62,7 @@ public final class Tails {
 			.registerTypeHierarchyAdapter(IPartInfo.class, ServerPartInfo.Serializer.INSTANCE)
 			.create();
 
+	@Internal
 	public Tails() {
 		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (version, remote) -> true));
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);

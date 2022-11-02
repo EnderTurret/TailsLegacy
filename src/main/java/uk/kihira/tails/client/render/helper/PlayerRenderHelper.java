@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.render.helper;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.api.IRenderHelper;
@@ -16,10 +18,12 @@ import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.PartType;
 
+@Internal
 public final class PlayerRenderHelper implements IRenderHelper<Player> {
 
 	//private final boolean mpmCompat;
 
+	@Internal
 	public PlayerRenderHelper() {
 		//mpmCompat = ModList.get().isLoaded("moreplayermodels");
 	}

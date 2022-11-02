@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
@@ -29,6 +30,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
  * The Tails config, for all your configuration needs.
  * @author EnderTurret
  */
+@Internal
 public final class TailsConfig {
 
 	/**
@@ -37,6 +39,7 @@ public final class TailsConfig {
 	private static final MethodHandle CONFIGTRACKER_CONFIGSBYMOD;
 
 	static final ForgeConfigSpec CLIENT_SPEC;
+	@Internal
 	public static final TailsConfig CLIENT_INSTANCE;
 
 	private static ModConfig instance;
@@ -54,7 +57,9 @@ public final class TailsConfig {
 		}
 	}
 
+	@Internal
 	public final ConfigValue<String> localPlayerOutfit;
+	@Internal
 	public final BooleanValue forceLegacyRendering;
 
 	private TailsConfig(ForgeConfigSpec.Builder builder) {
@@ -68,6 +73,7 @@ public final class TailsConfig {
 	 * Returns the internal {@link ModConfig}.
 	 * @return The config.
 	 */
+	@Internal
 	@Nullable
 	public static ModConfig getConfig() {
 		if (instance == null)

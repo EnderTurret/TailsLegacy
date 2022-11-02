@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.gui;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -29,11 +31,13 @@ import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 
+@Internal
 public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry> {
 
 	protected final LibraryPanel panel;
 	public final LibraryEntryData data;
 
+	@Internal
 	public LibraryListEntry(LibraryPanel panel, LibraryEntryData libraryEntryData) {
 		this.panel = panel;
 		data = libraryEntryData;
@@ -82,8 +86,10 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		return true;
 	}
 
+	@Internal
 	public static class NewLibraryListEntry extends LibraryListEntry {
 
+		@Internal
 		public NewLibraryListEntry(LibraryPanel panel, LibraryEntryData libraryEntryData) {
 			super(panel, libraryEntryData);
 		}

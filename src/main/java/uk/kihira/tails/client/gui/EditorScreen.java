@@ -11,6 +11,8 @@ package uk.kihira.tails.client.gui;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
@@ -34,6 +36,7 @@ import uk.kihira.tails.common.part.PartsData;
 /**
  * The editor screen.
  */
+@Internal
 public final class EditorScreen extends LayeredScreen {
 
 	private PartType partType;

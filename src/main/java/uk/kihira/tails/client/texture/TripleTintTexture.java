@@ -18,6 +18,8 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.NativeImage.Format;
 import com.mojang.blaze3d.platform.TextureUtil;
@@ -35,6 +37,7 @@ import uk.kihira.tails.common.Tails;
 /**
  * A texture that tints another texture based on three tint values.
  */
+@Internal
 public final class TripleTintTexture extends AbstractTexture {
 
 	private final ResourceLocation textureLocation;
@@ -45,6 +48,7 @@ public final class TripleTintTexture extends AbstractTexture {
 
 	private static final int MINBRIGHTNESS = 22;
 
+	@Internal
 	public TripleTintTexture(String namespace, String texturename, int tint1, int tint2, int tint3, Part.TintingStrategy strategy) {
 		Objects.requireNonNull(namespace);
 		Objects.requireNonNull(texturename);

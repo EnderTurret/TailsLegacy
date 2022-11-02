@@ -10,6 +10,8 @@ package uk.kihira.tails.client;
 
 import java.util.Collections;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -21,9 +23,11 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+@Internal
 @OnlyIn(Dist.CLIENT)
 public final class FakeEntity extends LivingEntity {
 
+	@Internal
 	public FakeEntity(Level world) {
 		super(EntityType.BAT, world);
 	}

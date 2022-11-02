@@ -10,6 +10,8 @@ package uk.kihira.tails.client;
 
 import java.util.List;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.gson.Gson;
 
 import net.minecraft.client.Minecraft;
@@ -20,6 +22,7 @@ import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.LibraryManager;
 
+@Internal
 public final class ClientLibraryManager extends LibraryManager {
 
 	@Override

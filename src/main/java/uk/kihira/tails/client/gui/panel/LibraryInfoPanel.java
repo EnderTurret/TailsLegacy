@@ -11,6 +11,7 @@ package uk.kihira.tails.client.gui.panel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -31,6 +32,7 @@ import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
+@Internal
 public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	private LibraryListEntry entry;

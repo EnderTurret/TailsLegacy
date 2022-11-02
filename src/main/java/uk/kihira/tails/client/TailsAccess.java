@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import uk.kihira.tails.api.ITailsAccess;
 import uk.kihira.tails.api.ITailsSyncService;
@@ -21,10 +22,12 @@ import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
+@Internal
 public final class TailsAccess implements ITailsAccess {
 
 	private static TailsAccess instance;
 
+	@Internal
 	public static TailsAccess _get() {
 		if (instance == null)
 			instance = new TailsAccess();

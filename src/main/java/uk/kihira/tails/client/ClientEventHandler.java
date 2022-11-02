@@ -10,6 +10,8 @@ package uk.kihira.tails.client;
 
 import java.util.Map;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -43,6 +45,7 @@ import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 
+@Internal
 @OnlyIn(Dist.CLIENT)
 public final class ClientEventHandler {
 

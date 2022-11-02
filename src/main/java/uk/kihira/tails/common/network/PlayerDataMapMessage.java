@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.common.reflect.TypeToken;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -24,10 +26,12 @@ import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.part.PartsData;
 
 // S → C
+@Internal
 public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 
 	private static final Type PART_DATA_MAP_TYPE = new TypeToken<Map<UUID, PartsData>>() {}.getType();
 
+	@Internal
 	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
@@ -45,10 +49,12 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 		return new PlayerDataMapMessage(partsDataMap);
 	}
 
+	@Internal
 	public static void encode(PlayerDataMapMessage msg, FriendlyByteBuf buf) {
 		buf.writeUtf(Tails.SERVER_GSON.toJson(msg.partsDataMap), Short.MAX_VALUE);
 	}
 
+	@Internal
 	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
 		if (message.partsDataMap != null)
 			for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet())

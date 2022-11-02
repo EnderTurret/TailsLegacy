@@ -11,6 +11,8 @@ package uk.kihira.tails.common.network;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.google.common.base.Strings;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,8 +23,10 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.part.PartsData;
 
+@Internal
 public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) {
 
+	@Internal
 	public static S2CPlayerDataMessage decode(FriendlyByteBuf buf) {
 		final UUID uuid = buf.readUUID();
 
@@ -43,12 +47,14 @@ public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) {
 		return new S2CPlayerDataMessage(uuid, partsData);
 	}
 
+	@Internal
 	public static void encode(S2CPlayerDataMessage msg, FriendlyByteBuf buf) {
 		buf.writeUUID(msg.uuid);
 		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.SERVER_GSON.toJson(msg.partsData);
 		buf.writeUtf(tailInfoJson, Short.MAX_VALUE);
 	}
 
+	@Internal
 	public static void handle(S2CPlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
 		if (message.partsData != null)
 			Tails.PROXY.getPartManager().set(message.uuid, message.partsData);

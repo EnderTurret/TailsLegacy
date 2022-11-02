@@ -13,6 +13,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -29,6 +31,7 @@ import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
+@Internal
 public final class LibraryPanel extends Panel<EditorScreen> {
 
 	private static final LibrarySorter SORTER = new LibrarySorter();

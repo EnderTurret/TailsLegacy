@@ -24,10 +24,7 @@ public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 		final Part part = ctx.info().getPart();
 		switch (part.getType()) {
 		case TAIL -> {
-			// Nine tails
-			if (part == PartRegistry.FLUFFY_TAIL.get() && ctx.info().getSubType().id().equals("nine_tails"))
-				ctx.poseStack().translate(0, 0.85, 0);
-			else ctx.poseStack().translate(0, 0.65, 0);
+			ctx.poseStack().translate(0, 0.65, 0);
 			ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
 		}
 		case MUZZLE -> {

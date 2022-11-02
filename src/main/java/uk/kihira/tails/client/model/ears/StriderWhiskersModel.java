@@ -20,7 +20,7 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
-public final class StriderWhiskersModel extends PartModel {
+final class StriderWhiskersModel extends PartModel {
 
 	private final ModelPart root;
 

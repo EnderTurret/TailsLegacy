@@ -28,7 +28,7 @@ import uk.kihira.tails.client.render.RenderContext;
 /**
  * The model for devil tails.
  */
-public final class DevilTailModel extends PartModel {
+final class DevilTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tailBase;

@@ -15,7 +15,7 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
-public class ScorpionTailModel extends PartModel {
+class ScorpionTailModel extends PartModel {
 
 	private final ModelPart root;
 

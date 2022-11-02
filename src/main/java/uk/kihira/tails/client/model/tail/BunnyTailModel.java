@@ -23,7 +23,7 @@ import uk.kihira.tails.client.render.RenderContext;
 /**
  * The model for bunny tails.
  */
-public final class BunnyTailModel extends PartModel {
+final class BunnyTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tail;

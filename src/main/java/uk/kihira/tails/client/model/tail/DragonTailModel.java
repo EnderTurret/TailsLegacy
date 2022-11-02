@@ -28,7 +28,7 @@ import uk.kihira.tails.client.render.RenderContext;
 /**
  * The model for dragon tails.
  */
-public final class DragonTailModel extends PartModel {
+final class DragonTailModel extends PartModel {
 
 	private final ModelPart root;
 

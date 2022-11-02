@@ -29,7 +29,7 @@ import uk.kihira.tails.client.render.RenderContext;
 /**
  * The model for the floofy tail everyone loves.
  */
-public final class FluffyTailModel extends PartModel {
+final class FluffyTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tailBase;

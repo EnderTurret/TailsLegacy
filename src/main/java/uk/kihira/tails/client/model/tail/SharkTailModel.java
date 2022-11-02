@@ -27,7 +27,7 @@ import uk.kihira.tails.client.render.RenderContext;
 /**
  * The model for shark tails.
  */
-public final class SharkTailModel extends PartModel {
+final class SharkTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart tailBase;

@@ -27,7 +27,7 @@ import uk.kihira.tails.client.render.RenderContext;
 /**
  * The model for bird tails.
  */
-public final class BirdTailModel extends PartModel {
+final class BirdTailModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart center;

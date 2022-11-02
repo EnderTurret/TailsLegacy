@@ -20,7 +20,7 @@ import uk.kihira.tails.client.render.RenderContext;
 /**
  * The model for fox ears.
  */
-public final class FoxEarsModel extends PartModel {
+final class FoxEarsModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart leftEar;

@@ -18,7 +18,7 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
-public final class SeaPickleModel extends PartModel {
+final class SeaPickleModel extends PartModel {
 
 	private final ModelPart root;
 	private final ModelPart pickle;

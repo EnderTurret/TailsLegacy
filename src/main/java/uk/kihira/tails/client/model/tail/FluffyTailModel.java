@@ -80,6 +80,14 @@ public final class FluffyTailModel extends PartModel {
 			setRotationAngles(1, getAnimationTime(4000F, entity), 1.4F, 0F, 0F, rad(-40), partialTick, entity);
 		}));
 
+		three = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+			setRotationAngles(0, getAnimationTime(4000F, entity), -1.5F, 2.5F, 0, 0, partialTick, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+			setRotationAngles(0, getAnimationTime(4000F, entity), -1.3F, 1.6F, 0, rad(45), partialTick, entity);
+		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+			setRotationAngles(0, getAnimationTime(4000F, entity), -1.1F, 0.7F, 0, rad(-45), partialTick, entity);
+		}));
+
 		nine = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.5F, 2.5F, 0, 0, partialTick, entity);
 		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
@@ -114,13 +122,8 @@ public final class FluffyTailModel extends PartModel {
 				zAngleOffset = angles[2];
 
 				switch (subtype) {
-				// Fox Tail
-				case 0 -> {
-					xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
-					zAngleOffset = Mth.clamp(zAngleOffset, -0.5D, 0.5D);
-				}
-				// Twin Tails
-				case 1 -> {
+				// Fox Tail; Twin Tails
+				case 0, 1 -> {
 					xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 					zAngleOffset = Mth.clamp(zAngleOffset, -0.5D, 0.5D);
 				}
@@ -167,21 +170,31 @@ public final class FluffyTailModel extends PartModel {
 		float timestep = getAnimationTime(4000F, ctx.entity());
 
 		if (ctx.info().getSubType().id().equals("one_tail")) {
-			setRotationAngles(0, timestep, 1F, 1F, 0, 0, ctx.partialTick(), ctx.entity());
+			setRotationAngles(0, timestep, 1, 1, 0, 0, ctx.partialTick(), ctx.entity());
 			ctx.poseStack().pushPose();
 			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(-20F));
 			ctx.render(tailBase);
 			ctx.poseStack().popPose();
 		}
 		else if (ctx.info().getSubType().id().equals("two_tails")) {
-			setRotationAngles(1, timestep, 1F, 1F, 0F, rad(40), ctx.partialTick(), ctx.entity());
+			setRotationAngles(1, timestep, 1, 1, 0, rad(40), ctx.partialTick(), ctx.entity());
 			ctx.poseStack().pushPose();
 			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(-20F));
 			ctx.render(tailBase);
 
-			setRotationAngles(1, timestep, 1.4F, 0F, 0F, rad(-40), ctx.partialTick(), ctx.entity());
+			setRotationAngles(1, timestep, 1.4F, 0, 0, rad(-40), ctx.partialTick(), ctx.entity());
 			ctx.render(tailBase);
 			ctx.poseStack().popPose();
+		}
+		else if (ctx.info().getSubType().id().equals("three_tails")) {
+			setRotationAngles(0, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
+
+			setRotationAngles(0, timestep, -1.3F, 1.6F, 0, rad(45), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
+
+			setRotationAngles(0, timestep, -1.1F, 0.7F, 0, rad(-45), ctx.partialTick(), ctx.entity());
+			ctx.render(tailBase);
 		}
 		else if (ctx.info().getSubType().id().equals("nine_tails")) {
 			timestep = getAnimationTime(6500F, ctx.entity());
@@ -216,18 +229,19 @@ public final class FluffyTailModel extends PartModel {
 	}
 
 	private final List<PartConfiguration> single;
-
 	private final List<PartConfiguration> twin;
-
+	private final List<PartConfiguration> three;
 	private final List<PartConfiguration> nine;
 
 	@Override
 	public List<PartConfiguration> getParts(ClientPartInfo info) {
 		if (info.getSubType().id().equals("one_tail"))
 			return single;
-		if (info.getSubType().id().equals("two_tail"))
+		if (info.getSubType().id().equals("two_tails"))
 			return twin;
-		if (info.getSubType().id().equals("nine_tail"))
+		if (info.getSubType().id().equals("three_tails"))
+			return three;
+		if (info.getSubType().id().equals("nine_tails"))
 			return nine;
 
 		return List.of();

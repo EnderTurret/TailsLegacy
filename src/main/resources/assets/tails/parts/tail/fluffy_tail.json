@@ -3,6 +3,7 @@
   "ordering": [
     "one_tail",
     "two_tails",
+    "three_tails",
     "nine_tails"
   ]
 }

@@ -2,12 +2,13 @@ modLoader="javafml"
 loaderVersion="[40,)"
 license="MIT"
 issueTrackerURL="https://github.com/kihira/Tails/issues"
+
 [[mods]]
     modId="tails"
     displayName="Tails"
     displayURL="https://github.com/kihira/Tails"
     description='''
-    For all your taily needs.
+    Adds a variety of accessories that can be colored in many ways.
     '''
     version="${file.jarVersion}"
     authors="Kihira"

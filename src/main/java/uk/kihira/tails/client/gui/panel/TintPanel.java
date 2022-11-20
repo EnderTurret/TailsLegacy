@@ -147,11 +147,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (hexText.keyPressed(keyCode, scanCode, modifiers)) {
-			try {
-				if (!Strings.isNullOrEmpty(hexText.getValue()))
-					refreshTintPane(Integer.parseInt(hexText.getValue(), 16));
-			} catch (NumberFormatException ignored) {}
-
+			parseHex();
 			return true;
 		}
 
@@ -166,15 +162,18 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	@Override
 	public boolean charTyped(char codePoint, int modifiers) {
 		if (hexText.charTyped(codePoint, modifiers)) {
-			try {
-				if (!Strings.isNullOrEmpty(hexText.getValue()))
-					refreshTintPane(Integer.parseInt(hexText.getValue(), 16));
-			} catch (NumberFormatException ignored) {}
-
+			parseHex();
 			return true;
 		}
 
 		return super.charTyped(codePoint, modifiers);
+	}
+
+	private void parseHex() {
+		try {
+			if (!Strings.isNullOrEmpty(hexText.getValue()))
+				refreshTintPane(Integer.parseInt(hexText.getValue(), 16));
+		} catch (NumberFormatException ignored) {}
 	}
 
 	@Override

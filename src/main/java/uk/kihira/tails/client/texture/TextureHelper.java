@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.client.texture;
 
+import java.nio.ByteBuffer;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+
+import com.mojang.blaze3d.platform.NativeImage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
@@ -112,5 +115,16 @@ public final class TextureHelper {
 		Tails.LOGGER.info("Tracked textures:\n\t{}", TRACKED.stream()
 				.map(tex -> tex.toString() + (inUse.contains(tex) ? " (in use)" : " (leak?)"))
 				.collect(Collectors.joining("\n\t")));
+	}
+
+	public static void copyPixels(NativeImage src, ByteBuffer to, int fromX, int fromY, int width, int height) {
+		for (int y = fromY; y < fromY + height; y++)
+			for (int x = fromX; x < fromX + width; x++) {
+				final int pixel = src.getPixelRGBA(x, y);
+				to.put((byte) NativeImage.getR(pixel));
+				to.put((byte) NativeImage.getG(pixel));
+				to.put((byte) NativeImage.getB(pixel));
+				to.put((byte) NativeImage.getA(pixel));
+			}
 	}
 }

@@ -8,9 +8,18 @@
 
 package uk.kihira.tails.client;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.Map;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWImage;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
+
+import com.mojang.blaze3d.platform.NativeImage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -20,12 +29,16 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Player;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -35,6 +48,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import uk.kihira.tails.client.gui.EditorScreen;
+import uk.kihira.tails.client.gui.panel.TintPanel;
+import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.helper.FakeEntityRenderHelper;
@@ -42,6 +57,7 @@ import uk.kihira.tails.client.render.helper.PlayerRenderHelper;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
+import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 
@@ -108,6 +124,51 @@ public final class ClientEventHandler {
 
 			if (ModList.get().isLoaded("botania"))
 				registerFoxtato(); // Try to avoid class loading it if Botania isn't present.
+		}
+
+		@SubscribeEvent
+		static void addClientReloadListeners(RegisterClientReloadListenersEvent e) {
+			e.registerReloadListener((ResourceManagerReloadListener) manager -> {
+				maybeDestroyCursor();
+				registerCursor(manager);
+			});
+		}
+
+		private static void maybeDestroyCursor() {
+			if (TintPanel.pickerCursorHandle != MemoryUtil.NULL)
+				GLFW.glfwDestroyCursor(TintPanel.pickerCursorHandle);
+		}
+
+		private static void registerCursor(ResourceManager manager) {
+			final Resource resource = manager.getResource(IconButton.iconsTextures).orElse(null);
+
+			if (resource == null)
+				throw new IllegalStateException("Could not find icon textures!");
+
+			final NativeImage iconImg;
+
+			try (InputStream is = resource.open()) {
+				iconImg = NativeImage.read(NativeImage.Format.RGBA, is);
+			} catch (IOException e) {
+				throw new IllegalStateException("Failed to read icon texture:", e);
+			}
+
+			try (GLFWImage img = GLFWImage.malloc(); MemoryStack stack = MemoryStack.stackPush()) {
+				final ByteBuffer data = stack.malloc(16 * 16 * 4);
+
+				TextureHelper.copyPixels(iconImg, data, IconButton.Icons.EYEDROPPER.u, IconButton.Icons.EYEDROPPER.v + 16, 16, 16);
+				data.flip();
+				img.set(16, 16, data);
+
+				final long handle = GLFW.glfwCreateCursor(img, 0, 14);
+
+				if (handle == MemoryUtil.NULL)
+					throw new IllegalStateException("Failed to create cursor!");
+
+				TintPanel.pickerCursorHandle = handle;
+			}
+
+			iconImg.close();
 		}
 
 		private static void registerFoxtato() {

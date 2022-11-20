@@ -12,10 +12,12 @@ import java.awt.Color;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.system.MemoryUtil;
 
 import com.google.common.base.Strings;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
@@ -48,6 +50,9 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	private IconButton colourPicker;
 	private boolean selectingColour = false;
 	private int editPaneTop;
+
+	@Internal
+	public static long pickerCursorHandle = MemoryUtil.NULL;
 
 	public TintPanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
@@ -229,26 +234,9 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	private void setSelectingColour(boolean selectingColour) {
 		this.selectingColour = selectingColour;
 
-		/*if (selectingColour) TODO: Change cursor icon.
-			try {
-				final BufferedImage bufferedImage = ImageIO.read(minecraft.getResourceManager().getResource(GuiIconButton.iconsTextures).getInputStream());
-				int[] pixelData;
-				final int pixels = 16 * 16;
-				pixelData = new int[pixels];
-				final IntBuffer buffer = IntBuffer.wrap(bufferedImage.getRGB(GuiIconButton.Icons.EYEDROPPER.u, GuiIconButton.Icons.EYEDROPPER.v + 16, 16, 16, pixelData, 0, 16));
-				Cursor cursor = new Cursor(16, 16, 0, 15, 1, buffer, null);
+		final long cursor = selectingColour ? pickerCursorHandle : MemoryUtil.NULL;
 
-				Mouse.setNativeCursor(cursor);
-			} catch (IOException e) {
-				Tails.LOGGER.error("Exception setting mouse cursor:", e);
-			}
-		else {
-			try {
-                Mouse.setNativeCursor(null);
-            } catch (LWJGLException e) {
-				Tails.LOGGER.error("Exception resetting mouse cursor:", e);
-            }
-		}*/
+		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), cursor);
 	}
 
 	public void refreshTintPane(int newTint) {

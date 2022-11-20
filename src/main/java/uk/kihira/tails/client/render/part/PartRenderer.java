@@ -48,23 +48,14 @@ public class PartRenderer {
 	}
 
 	public void compileTextureIfNeeded(LivingEntity entity, ClientPartInfo info) {
-		compileTextureIfNeeded(entity.getUUID(), info);
-	}
-
-	public void compileTextureIfNeeded(UUID uuid, ClientPartInfo info) {
-		if (!info.isEmpty() && (info.needsTextureCompile || info.getTexture() == null)) {
-			info.setTexture(TextureHelper.generateTexture(uuid, info));
-			info.needsTextureCompile = false;
-		}
+		info.checkTexture(entity.getUUID(), false);
 	}
 
 	/**
-	 * A pre-render callback for translation, rotation, and making sure the texture exists.
+	 * A pre-render callback for translation, rotation, etc.
 	 * @param ctx The render context.
 	 */
 	public void preRender(RenderContext ctx) {
-		compileTextureIfNeeded(ctx.entity(), ctx.info());
-
 		if (modelPart != null) {
 			modelPart.setupAnim(ctx.entity(), ctx.entity().animationPosition, ctx.entity().animationSpeed, ctx.partialTick(), ctx.info().getSubType(), ctx.entity().getXRot());
 			modelPart.prepareMobModel(ctx.entity(), ctx.entity().animationPosition, ctx.entity().animationSpeed, ctx.partialTick());
@@ -89,12 +80,11 @@ public class PartRenderer {
 	 */
 	public void render(PoseStack poseStack, LivingEntity entity, ClientPartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float alpha) {
 		if (!info.isEmpty()) {
-			compileTextureIfNeeded(entity, info);
-
 			final boolean visible = !entity.isInvisible();
 			final boolean visibleToPlayer = !visible && !entity.isInvisibleTo(Minecraft.getInstance().player);
 			final boolean glowing = Minecraft.getInstance().shouldEntityAppearGlowing(entity);
 
+			info.checkTexture(entity.getUUID(), false);
 			final RenderType type = getRenderType(entity, info.getTexture(), visible, visibleToPlayer, glowing);
 
 			if (type == null) return;

@@ -94,7 +94,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	public void removed() {
 		// Delete textures on close.
 		for (PartEntry entry : partList.children())
-			entry.partInfo.setTexture(null);
+			entry.partInfo.clearGlTexture();
 	}
 
 	public boolean onEntrySelected(int index, PartEntry entry) {
@@ -127,17 +127,28 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		// Part List
 		final List<PartEntry> partList = new ArrayList<>();
 		final PartType partType = parent.getPartType();
+
 		partList.add(new PartEntry(ClientPartInfo.empty())); // No tail
+
 		// Generate tail preview textures and add to list.
 		final List<Part> parts = PartRegistry.getParts(partType);
+
 		for (int type = 0; type < parts.size(); type++) {
 			final Part part = parts.get(type);
 			final ClientPartInfo partInfo = part.makeDefaultPartInfo(part.getSubTypes().get(0));
 			partList.add(new PartEntry(partInfo));
 		}
 
-		this.removeWidget(this.partList);
+		if (this.partList != null) {
+			// Dispose of textures in old part list.
+			for (PartEntry entry : this.partList.children())
+				entry.partInfo.clearGlTexture();
+
+			removeWidget(this.partList);
+		}
+
 		this.partList = new ListWidget<>(108, bottom - top - listTop, listTop, bottom - top, 55, partList);
+
 		addWidget(this.partList);
 		selectDefaultListEntry();
 	}
@@ -159,9 +170,8 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 	private void renderPart(PoseStack poseStack, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
 		final PartRenderer renderer = PartRenderRegistry.getRenderer(partInfo.getPart());
-		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 
-		if (partInfo.getTexture() == null) return;
+		if (partInfo.isEmpty() || partInfo.isInvalid()) return;
 
 		poseStack.pushPose();
 		poseStack.translate(x, y, z);
@@ -171,6 +181,8 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		RenderSystem.setShaderLights(RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_0, RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_1);
 
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
+
+		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 		final VertexConsumer consumer = impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture()));
 
 		renderer.render(poseStack, fakeEntity, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F);

@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.google.gson.JsonSerializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
+import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.ServerPartInfo;
@@ -42,7 +44,6 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	private final Part.PartTexture textureId;
 
 	private transient ResourceLocation texture;
-	public transient boolean needsTextureCompile = true;
 
 	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture, boolean empty) {
 		if (delegate == null && !empty) {
@@ -179,15 +180,25 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @param texture The new texture.
 	 */
 	public void setTexture(@Nullable ResourceLocation texture) {
-		if (texture == null || this.texture != null && !this.texture.equals(texture)) {
-			try {
-				Minecraft.getInstance().getTextureManager().release(this.texture);
-			} catch (Exception ignored) {}
+		final ResourceLocation old = this.texture;
 
-			needsTextureCompile = true;
-		} else
-			needsTextureCompile = false;
+		if (old != null && !old.equals(texture))
+			clearGlTexture();
+
 		this.texture = texture;
+	}
+
+	public void checkTexture(UUID uuid, boolean force) {
+		if (!isEmpty() && !isInvalid() && (force || getTexture() == null))
+			setTexture(TextureHelper.generateTexture(uuid, this));
+	}
+
+	@Override
+	public void clearGlTexture() {
+		if (texture != null) {
+			TextureHelper.release(texture);
+			texture = null;
+		}
 	}
 
 	@Override

@@ -140,6 +140,7 @@ public final class EditorScreen extends LayeredScreen {
 	public void removed() {
 		Tails.PROXY.getPartManager().set(playerUUID, LocalPartManager.getLocalPartsData());
 		super.removed();
+		TextureHelper.logLeaks();
 	}
 
 	public void close() {
@@ -151,14 +152,12 @@ public final class EditorScreen extends LayeredScreen {
 	}
 
 	public void setPartsInfo(ClientPartInfo newPartInfo) {
-		//editingPartInfo.setTexture(null); // Clear texture data as we will no longer need it.
+		editingPartInfo.clearGlTexture(); // Clear texture data as we will no longer need it.
 		editingPartInfo = newPartInfo;
 
-		if (!editingPartInfo.isEmpty() && !editingPartInfo.isInvalid())
-			editingPartInfo.setTexture(TextureHelper.generateTexture(playerUUID, editingPartInfo));
+		editingPartInfo.checkTexture(playerUUID, true);
 
 		getPartsData().setPartInfo(partType, editingPartInfo);
-		//setPartsData(getPartsData());
 
 		texturePanel.updateButtons();
 	}

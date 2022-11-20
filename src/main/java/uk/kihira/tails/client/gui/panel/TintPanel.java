@@ -27,6 +27,7 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.HSBSlider;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
+import uk.kihira.tails.client.gui.widget.SaturationSlider;
 
 @Internal
 public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSliderCallback {
@@ -34,8 +35,15 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	private int editingTint = 0;
 	private int currentTint = 0xFFFFFF;
 	private EditBox hexText;
-	private HSBSlider[] hsbSliders;
-	private HSBSlider[] rgbSliders;
+
+	private HSBSlider hue;
+	private SaturationSlider saturation;
+	private HSBSlider brightness;
+
+	private SaturationSlider red;
+	private SaturationSlider green;
+	private SaturationSlider blue;
+
 	private IconButton tintReset;
 	private IconButton colourPicker;
 	private boolean selectingColour = false;
@@ -51,7 +59,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		editPaneTop = height - 107;
 		// Edit tint buttons
 		int topOffset = 20;
-		for (int id = 2; id <= 4; id++) {
+		for (int id = 1; id <= 3; id++) {
 			final int finalId = id;
 			addRenderableWidget(new Button(30, topOffset, 40, 20, Component.translatable("tails.gui.button.edit"), b -> handleTintButton(finalId)));
 			topOffset += 35;
@@ -63,27 +71,25 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		addWidget(hexText);
 
 		// RGB sliders
-		rgbSliders = new HSBSlider[3];
-		rgbSliders[0] = new HSBSlider(5, 5, editPaneTop + 70, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, Component.translatable("tails.gui.slider.red.tooltip"));
-		rgbSliders[1] = new HSBSlider(6, 5, editPaneTop + 80, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, Component.translatable("tails.gui.slider.green.tooltip"));
-		rgbSliders[2] = new HSBSlider(7, 5, editPaneTop + 90, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, Component.translatable("tails.gui.slider.blue.tooltip"));
-		rgbSliders[0].setHue(0);
-		rgbSliders[1].setHue(1F / 3F);
-		rgbSliders[2].setHue(2F / 3F);
+		red = new SaturationSlider(5, editPaneTop + 70, 100, 10, this, Component.translatable("tails.gui.slider.red.tooltip"));
+		green = new SaturationSlider(5, editPaneTop + 80, 100, 10, this, Component.translatable("tails.gui.slider.green.tooltip"));
+		blue = new SaturationSlider(5, editPaneTop + 90, 100, 10, this, Component.translatable("tails.gui.slider.blue.tooltip"));
+		red.setHue(0);
+		green.setHue(1F / 3F);
+		blue.setHue(2F / 3F);
 
-		addRenderableWidget(rgbSliders[0]);
-		addRenderableWidget(rgbSliders[1]);
-		addRenderableWidget(rgbSliders[2]);
+		addRenderableWidget(red);
+		addRenderableWidget(green);
+		addRenderableWidget(blue);
 
 		// HSB sliders
-		hsbSliders = new HSBSlider[3];
-		hsbSliders[0] = new HSBSlider(15, 5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, Component.translatable("tails.gui.slider.hue.tooltip"));
-		hsbSliders[1] = new HSBSlider(16, 5, editPaneTop + 45, 100, 10, this, HSBSlider.HSBSliderType.SATURATION, Component.translatable("tails.gui.slider.saturation.tooltip"));
-		hsbSliders[2] = new HSBSlider(17, 5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, Component.translatable("tails.gui.slider.brightness.tooltip"));
+		hue = new HSBSlider(5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, Component.translatable("tails.gui.slider.hue.tooltip"));
+		saturation = new SaturationSlider(5, editPaneTop + 45, 100, 10, this, Component.translatable("tails.gui.slider.saturation.tooltip"));
+		brightness = new HSBSlider(5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, Component.translatable("tails.gui.slider.brightness.tooltip"));
 
-		addRenderableWidget(hsbSliders[0]);
-		addRenderableWidget(hsbSliders[1]);
-		addRenderableWidget(hsbSliders[2]);
+		addRenderableWidget(hue);
+		addRenderableWidget(saturation);
+		addRenderableWidget(brightness);
 
 		// Reset/Save
 		addRenderableWidget(tintReset = new IconButton(right - left - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
@@ -131,7 +137,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	}
 
 	protected void handleTintButton(int id) {
-		editingTint = id - 1;
+		editingTint = id;
 		final int newTint = parent.getEditingPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
 		refreshTintPane(newTint);
 		tintReset.active = false;
@@ -187,14 +193,14 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	public void onValueChangeHSBSlider(HSBSlider source, double sliderValue) {
 		final int newTint;
 
-		if (source == rgbSliders[0] || source == rgbSliders[1] || source == rgbSliders[2])
+		if (source == red || source == green || source == blue)
 			newTint = new Color(
-					(int) Mth.clamp(rgbSliders[0].getValue() * 255F, 0, 255),
-					(int) Mth.clamp(rgbSliders[1].getValue() * 255F, 0, 255),
-					(int) Mth.clamp(rgbSliders[2].getValue() * 255F, 0, 255)).getRGB();
+					(int) Mth.clamp(red.getValue() * 255F, 0, 255),
+					(int) Mth.clamp(green.getValue() * 255F, 0, 255),
+					(int) Mth.clamp(blue.getValue() * 255F, 0, 255)).getRGB();
 
 		else {
-			final float[] hsbvals = {(float) hsbSliders[0].getValue(), (float) hsbSliders[1].getValue(), (float) hsbSliders[2].getValue()};
+			final float[] hsbvals = {(float) hue.getValue(), (float) saturation.getValue(), (float) brightness.getValue()};
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;
 			newTint = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
 		}
@@ -260,27 +266,27 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 		// RGB Sliders
 		final Color c = new Color(currentTint);
-		rgbSliders[0].setValue(c.getRed() / 255F);
-		rgbSliders[1].setValue(c.getGreen() / 255F);
-		rgbSliders[2].setValue(c.getBlue() / 255F);
+		red.setValue(c.getRed() / 255F);
+		green.setValue(c.getGreen() / 255F);
+		blue.setValue(c.getBlue() / 255F);
 
 		// HSB Sliders
 		final float[] hsbvals = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
-		hsbSliders[0].setValue(hsbvals[0]);
-		hsbSliders[1].setValue(hsbvals[1]);
-		hsbSliders[2].setValue(hsbvals[2]);
+		hue.setValue(hsbvals[0]);
+		saturation.setValue(hsbvals[1]);
+		brightness.setValue(hsbvals[2]);
 		// The saturation slider needs to know the value of the other 2 sliders.
-		hsbSliders[1].setHue((float) hsbSliders[0].getValue());
-		hsbSliders[1].setBrightness((float) hsbSliders[2].getValue());
+		saturation.setHue((float) hue.getValue());
+		saturation.setBrightness((float) brightness.getValue());
 
 		if (editingTint > 0) {
-			rgbSliders[0].visible = rgbSliders[1].visible = rgbSliders[2].visible = true;
-			hsbSliders[0].visible = hsbSliders[1].visible = hsbSliders[2].visible = true;
+			red.visible = green.visible = blue.visible = true;
+			hue.visible = saturation.visible = brightness.visible = true;
 			tintReset.visible = true;
 			colourPicker.visible = true;
 		} else {
-			rgbSliders[0].visible = rgbSliders[1].visible = rgbSliders[2].visible = false;
-			hsbSliders[0].visible = hsbSliders[1].visible = hsbSliders[2].visible = false;
+			red.visible = green.visible = blue.visible = false;
+			hue.visible = saturation.visible = brightness.visible = false;
 			tintReset.visible = false;
 			colourPicker.visible = false;
 		}

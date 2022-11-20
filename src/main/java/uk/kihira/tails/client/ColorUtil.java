@@ -86,10 +86,8 @@ public final class ColorUtil {
 			return (ignoreAlpha ? "" : Integer.toHexString(NativeImage.getA(combined)))
 					+ String.format("%02x%02x%02x", NativeImage.getR(combined), NativeImage.getG(combined), NativeImage.getB(combined));
 
-		final Color c = new Color(combined);
-
-		return (ignoreAlpha ? "" : Integer.toHexString(c.getAlpha()))
-				+ String.format("%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
+		return (ignoreAlpha ? "" : Integer.toHexString((combined >> 24) & 0xFF))
+				+ String.format("%02x%02x%02x", (combined >> 16) & 0xFF, (combined >> 8) & 0xFF, combined & 0xFF);
 	}
 
 	/**

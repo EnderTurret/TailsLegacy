@@ -9,7 +9,9 @@
 package uk.kihira.tails.common.part;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -91,6 +93,16 @@ public class PartsData {
 	 */
 	public boolean hasPartInfo(PartType partType) {
 		return partInfoMap.containsKey(partType) && !partInfoMap.get(partType).isEmpty();
+	}
+
+	public List<IPartInfo> getPartInfos() {
+		final List<IPartInfo> ret = new ArrayList<>();
+
+		for (PartType type : PartType.values())
+			if (partInfoMap.containsKey(type))
+				ret.add(partInfoMap.get(type));
+
+		return ret;
 	}
 
 	/**

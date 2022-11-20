@@ -45,7 +45,6 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 			parent.getLibraryPanel().initList();
 			parent.getLibraryInfoPanel().setEntry(null);
 			parent.getTintPanel().setEditingTint(0);
-			parent.refreshTintPane();
 
 			if (!libraryMode)
 				LocalPartManager.setLocalPartsData(parent.getPartsData());
@@ -61,7 +60,6 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 			parent.getLibraryPanel().initList();
 			parent.getLibraryInfoPanel().setEntry(null);
 			parent.getTintPanel().setEditingTint(0);
-			parent.refreshTintPane();
 			parent.setPartsInfo(partInfo);
 		}));
 		addRenderableWidget(new Button(right - left - 49, bottom - top - 25, 46, 20, Component.translatable("tails.gui.done"), b -> {

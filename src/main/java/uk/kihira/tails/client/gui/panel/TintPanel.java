@@ -60,7 +60,6 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		// Tint edit pane
 		hexText = new RelativeTextBox(font, 30, editPaneTop + 20, 73, 10, null);
 		hexText.setMaxLength(6);
-		hexText.setValue(ColorUtil.hex(currentTint, true, true));
 		addWidget(hexText);
 
 		// RGB sliders
@@ -88,9 +87,8 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 		// Reset/Save
 		addRenderableWidget(tintReset = new IconButton(right - left - 20, editPaneTop + 2, IconButton.Icons.UNDO, b -> {
-			currentTint = parent.getOriginalPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
-			hexText.setValue(ColorUtil.hex(currentTint, true, true));
-			refreshTintPane();
+			final int newTint = parent.getOriginalPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
+			refreshTintPane(newTint);
 			tintReset.active = false;
 		}, Component.translatable("tails.gui.button.reset")));
 		tintReset.active = false;
@@ -100,7 +98,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		colourPicker.visible = false;
 		colourPicker.active = false;
 
-		refreshTintPane();
+		refreshTintPane(currentTint, true);
 	}
 
 	@Override
@@ -134,9 +132,8 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 	protected void handleTintButton(int id) {
 		editingTint = id - 1;
-		currentTint = parent.getEditingPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
-		hexText.setValue(ColorUtil.hex(currentTint, true, true));
-		refreshTintPane();
+		final int newTint = parent.getEditingPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
+		refreshTintPane(newTint);
 		tintReset.active = false;
 		//colourPicker.active = true;
 	}
@@ -146,10 +143,8 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		if (hexText.keyPressed(keyCode, scanCode, modifiers)) {
 			try {
 				if (!Strings.isNullOrEmpty(hexText.getValue()))
-					currentTint = Integer.parseInt(hexText.getValue(), 16);
+					refreshTintPane(Integer.parseInt(hexText.getValue(), 16));
 			} catch (NumberFormatException ignored) {}
-
-			refreshTintPane();
 
 			return true;
 		}
@@ -167,10 +162,8 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		if (hexText.charTyped(codePoint, modifiers)) {
 			try {
 				if (!Strings.isNullOrEmpty(hexText.getValue()))
-					currentTint = Integer.parseInt(hexText.getValue(), 16);
+					refreshTintPane(Integer.parseInt(hexText.getValue(), 16));
 			} catch (NumberFormatException ignored) {}
-
-			refreshTintPane();
 
 			return true;
 		}
@@ -181,9 +174,9 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		if (selectingColour && mouseButton == 0) {
-			currentTint = getColourAtPoint(mouseX, mouseY); // Ignore alpha.
+			final int newTint = getColourAtPoint(mouseX, mouseY); // Ignore alpha.
 			setSelectingColour(false);
-			refreshTintPane();
+			refreshTintPane(newTint);
 			return true;
 		}
 
@@ -192,18 +185,21 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 	@Override
 	public void onValueChangeHSBSlider(HSBSlider source, double sliderValue) {
+		final int newTint;
+
 		if (source == rgbSliders[0] || source == rgbSliders[1] || source == rgbSliders[2])
-			currentTint = new Color(
+			newTint = new Color(
 					(int) Mth.clamp(rgbSliders[0].getValue() * 255F, 0, 255),
 					(int) Mth.clamp(rgbSliders[1].getValue() * 255F, 0, 255),
 					(int) Mth.clamp(rgbSliders[2].getValue() * 255F, 0, 255)).getRGB();
+
 		else {
 			final float[] hsbvals = {(float) hsbSliders[0].getValue(), (float) hsbSliders[1].getValue(), (float) hsbSliders[2].getValue()};
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;
-			currentTint = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
+			newTint = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
 		}
-		hexText.setValue(ColorUtil.hex(currentTint, true, true));
-		refreshTintPane();
+
+		refreshTintPane(newTint);
 	}
 
 	private static int getColourAtPoint(double x, double y) {
@@ -250,8 +246,17 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		}*/
 	}
 
-	public void refreshTintPane() {
+	public void refreshTintPane(int newTint) {
+		refreshTintPane(newTint, false);
+	}
+
+	public void refreshTintPane(int newTint, boolean force) {
+		if (!force && newTint == currentTint) return;
+
+		currentTint = newTint;
+
 		hexText.setTextColor(currentTint);
+		hexText.setValue(ColorUtil.hex(currentTint, true, true));
 
 		// RGB Sliders
 		final Color c = new Color(currentTint);
@@ -290,6 +295,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 	public void setEditingTint(int value) {
 		editingTint = value;
+		refreshTintPane(currentTint, true);
 	}
 
 	public int getEditingTint() {

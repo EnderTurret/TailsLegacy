@@ -147,10 +147,6 @@ public final class EditorScreen extends LayeredScreen {
 		onSave.accept(this);
 	}
 
-	public void refreshTintPane() {
-		tintPanel.refreshTintPane();
-	}
-
 	public void setPartsInfo(ClientPartInfo newPartInfo) {
 		editingPartInfo.clearGlTexture(); // Clear texture data as we will no longer need it.
 		editingPartInfo = newPartInfo;
@@ -185,7 +181,6 @@ public final class EditorScreen extends LayeredScreen {
 		tintPanel.setEditingTint(0);
 		setPartsInfo(partInfo);
 		partsPanel.initPartList();
-		refreshTintPane();
 		texturePanel.updateButtons();
 	}
 

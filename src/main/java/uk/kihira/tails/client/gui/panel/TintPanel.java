@@ -278,17 +278,12 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		saturation.setHue((float) hue.getValue());
 		saturation.setBrightness((float) brightness.getValue());
 
-		if (editingTint > 0) {
-			red.visible = green.visible = blue.visible = true;
-			hue.visible = saturation.visible = brightness.visible = true;
-			tintReset.visible = true;
-			colourPicker.visible = true;
-		} else {
-			red.visible = green.visible = blue.visible = false;
-			hue.visible = saturation.visible = brightness.visible = false;
-			tintReset.visible = false;
-			colourPicker.visible = false;
-		}
+		final boolean visible = editingTint > 0;
+
+		red.visible = green.visible = blue.visible = visible;
+		hue.visible = saturation.visible = brightness.visible = visible;
+		tintReset.visible = visible;
+		colourPicker.visible = visible;
 
 		tintReset.active = true;
 

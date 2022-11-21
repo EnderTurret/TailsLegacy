@@ -30,8 +30,8 @@ public final class RelativeTextBox extends EditBox {
 
 	private PoseStack poseStack;
 
-	public RelativeTextBox(Font font, int x, int y, int width, int height, Component title) {
-		super(font, x, y, width, height, title);
+	public RelativeTextBox(Font font, int x, int y, int width, int height, Component message) {
+		super(font, x, y, width, height, message);
 	}
 
 	@Override

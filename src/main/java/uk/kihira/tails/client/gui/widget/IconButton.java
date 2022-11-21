@@ -39,18 +39,15 @@ public class IconButton extends Button implements ITooltip {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		if (visible) {
-			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
-			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-			RenderSystem.enableBlend();
-			RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		RenderSystem.setShaderTexture(0, iconsTextures);
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
 
-			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			final int textureOffset = getYImage(isHovered);
+		final int textureOffset = getYImage(isHovered);
 
-			blit(poseStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
-		}
+		blit(poseStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
 	}
 
 	public void setHover(boolean hover) {
@@ -74,27 +71,14 @@ public class IconButton extends Button implements ITooltip {
 		}
 
 		@Override
-		public boolean mouseClicked(double mouseX, double mouseY, int button) {
-			if (visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height) {
-				toggled = !toggled;
-				onPress();
-				return true;
-			}
-			return false;
+		protected int getYImage(boolean isHovered) {
+			return toggled ? 2 : super.getYImage(isHovered);
 		}
 
 		@Override
-		public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-			if (visible && toggled) {
-				RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
-				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-				RenderSystem.enableBlend();
-				RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-
-				isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-				blit(poseStack, x, y, icon.u, icon.v + 32, 16, 16);
-			} else
-				super.renderButton(poseStack, mouseX, mouseY, partialTick);
+		public void onPress() {
+			toggled = !toggled;
+			super.onPress();
 		}
 	}
 

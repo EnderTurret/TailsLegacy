@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.gui.panel;
 
+import java.util.List;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -67,7 +69,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		if (partInfo.isEmpty() || partInfo.getPartTexture() != null) {
 			final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part." + part.getId().getPath() + ".texture." + partInfo.getPartTexture().id();
 			texFormatted = I18n.get(texLangKey);
-			texTranslated = texLangKey.equals(texFormatted);
+			texTranslated = !texLangKey.equals(texFormatted);
 		} else texFormatted = partInfo.getTextureId();
 
 		final String variantFormatted;
@@ -76,19 +78,19 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		if (partInfo.isEmpty() || partInfo.getSubType() != null) {
 			final String variantLangKey = partInfo.isEmpty() ? "tails.subtype.none" : part.getTranslationKey() + ".subtype." + partInfo.getSubType().id();
 			variantFormatted = I18n.get(variantLangKey);
-			variantTranslated = variantLangKey.equals(variantFormatted);
+			variantTranslated = !variantLangKey.equals(variantFormatted);
 		} else
 			variantFormatted = partInfo.getSubTypeId();
 
 		super.render(poseStack, mouseX, mouseY, partialTick);
 
-		if (texTranslated) {
+		if (!texTranslated) {
 			fill(poseStack, 25, texSelectY + 4, 25 + font.width(texFormatted), texSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
 			font.draw(poseStack, texFormatted, 25, texSelectY + 4, 0xFF0000);
 		} else
 			font.draw(poseStack, texFormatted, 25, texSelectY + 4, 0xFFFFFF);
 
-		if (variantTranslated) {
+		if (!variantTranslated) {
 			fill(poseStack, 25, variantSelectY + 4, 25 + font.width(variantFormatted), variantSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
 			font.draw(poseStack, variantFormatted, 25, variantSelectY + 4, 0xFF0000);
 		} else
@@ -96,65 +98,42 @@ public final class TexturePanel extends Panel<EditorScreen> {
 	}
 
 	private void cycleTexLeft() {
-		ClientPartInfo partInfo = parent.getEditingPartInfo();
+		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		final Part part = partInfo.getPart();
-
-		int index = partInfo.getSubType().textures().indexOf(partInfo.getPartTexture());
-		if (index > 0)
-			index--;
-		else
-			index = partInfo.getSubType().textures().size() - 1;
-		final Part.PartTexture texture = partInfo.getSubType().textures().get(index);
-
-		partInfo = new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), texture);
-		parent.setPartsInfo(partInfo);
+		final Part.PartTexture texture = cycle(partInfo.getSubType().textures(), partInfo.getPartTexture(), -1);
+		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), texture));
 	}
 
 	private void cycleTexRight() {
-		ClientPartInfo partInfo = parent.getEditingPartInfo();
+		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		final Part part = partInfo.getPart();
-
-		int index = partInfo.getSubType().textures().indexOf(partInfo.getPartTexture());
-		if (index < partInfo.getSubType().textures().size() - 1)
-			index++;
-		else
-			index = 0;
-		final Part.PartTexture texture = partInfo.getSubType().textures().get(index);
-
-		partInfo = new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), texture);
-		parent.setPartsInfo(partInfo);
+		final Part.PartTexture texture = cycle(partInfo.getSubType().textures(), partInfo.getPartTexture(), 1);
+		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), texture));
 	}
 
 	private void cycleVariantLeft() {
-		ClientPartInfo partInfo = parent.getEditingPartInfo();
+		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		final Part part = partInfo.getPart();
-
-		int index = part.getSubTypes().indexOf(partInfo.getSubType());
-		final Part.SubType newType;
-		if (index > 0)
-			index--;
-		else
-			index = part.getSubTypes().size() - 1;
-		newType = part.getSubTypes().get(index);
-
-		partInfo = new ClientPartInfo(partInfo.getTints(), part, newType, partInfo.getPartTexture());
-		parent.setPartsInfo(partInfo);
+		final Part.SubType newType = cycle(part.getSubTypes(), partInfo.getSubType(), -1);
+		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), part, newType, partInfo.getPartTexture()));
 	}
 
 	private void cycleVariantRight() {
-		ClientPartInfo partInfo = parent.getEditingPartInfo();
+		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		final Part part = partInfo.getPart();
+		final Part.SubType newType = cycle(part.getSubTypes(), partInfo.getSubType(), 1);
+		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), part, newType, partInfo.getPartTexture()));
+	}
 
-		int index = part.getSubTypes().indexOf(partInfo.getSubType());
-		final Part.SubType newType;
-		if (index < part.getSubTypes().size() - 1)
-			index++;
-		else
-			index = 0;
-		newType = part.getSubTypes().get(index);
+	private static <T> T cycle(List<T> elements, T current, int direction) {
+		final int index = elements.indexOf(current);
 
-		partInfo = new ClientPartInfo(partInfo.getTints(), part, newType, partInfo.getPartTexture());
-		parent.setPartsInfo(partInfo);
+		int next = index + direction;
+
+		if (next < 0) next = elements.size() - 1;
+		else if (next == elements.size()) next = 0;
+
+		return elements.get(next);
 	}
 
 	public void updateButtons() {

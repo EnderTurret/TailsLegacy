@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -40,6 +41,8 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 	private EditBox textField;
 	private IconButton.Toggle favButton;
 	private IconButton deleteButton;
+
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/YY");
 
 	public LibraryInfoPanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
@@ -70,8 +73,6 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 			GLFW.glfwSetClipboardString(minecraft.getWindow().getWindow(), sb.toString());
 		}, Component.translatable("tails.gui.library.button.share")));
 
-		super.init();
-
 		setEntry(null);
 	}
 
@@ -91,7 +92,7 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 			font.draw(poseStack, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
 			font.draw(poseStack, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
 			font.draw(poseStack, I18n.get("tails.gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
-			final String date = new SimpleDateFormat("dd/MM/YY").format(new Date(entry.data.creationDate));
+			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
 			font.draw(poseStack, date, right - left - 5 - font.width(date), bottom - top - 32, 0xAAAAAA);
 		}
 
@@ -122,24 +123,24 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 		return handled;
 	}
 
-	public void setEntry(LibraryListEntry entry) {
+	public void setEntry(@Nullable LibraryListEntry entry) {
 		this.entry = entry;
-		if (entry == null) {
-			textField.setVisible(false);
-			for (Widget renderable : renderables)
-				if (renderable instanceof AbstractWidget widget)
-					widget.visible = false;
-		}
-		else {
+
+		final boolean visible = entry != null;
+
+		if (visible) {
 			favButton.toggled = entry.data.favourite;
-			textField.setVisible(true);
 			textField.setValue(entry.data.entryName);
-			for (Widget renderable : renderables)
-				if (renderable instanceof AbstractWidget widget)
-					widget.visible = true;
 		}
+
+		textField.setVisible(visible);
+
+		for (Widget renderable : renderables)
+			if (renderable instanceof AbstractWidget widget)
+				widget.visible = visible;
 	}
 
+	@Nullable
 	public LibraryListEntry getEntry() {
 		return entry;
 	}

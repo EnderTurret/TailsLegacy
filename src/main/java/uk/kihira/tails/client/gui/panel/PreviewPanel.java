@@ -38,8 +38,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		doRender = Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
-		if (!doRender)
-			return;
+		if (!doRender) return;
 		// Reset Camera
 		addRenderableWidget(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {
 			yaw = 0;
@@ -51,8 +50,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		if (!doRender)
-			return;
+		if (!doRender) return;
 		setBlitOffset(-900);
 		// Background
 		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);

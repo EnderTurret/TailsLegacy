@@ -63,7 +63,7 @@ public final class TextureHelper {
 
 		if (Minecraft.getInstance().getTextureManager().getTexture(textureId, MissingTextureAtlasSprite.getTexture()) != MissingTextureAtlasSprite.getTexture()) {
 			if (DEBUG_TEXTURE_LEAKS)
-				Tails.LOGGER.info("Skipped   {}.", textureId);
+				Tails.LOGGER.info("* Skipped   {}.", textureId);
 			return textureId;
 		}
 
@@ -72,7 +72,7 @@ public final class TextureHelper {
 						tints[0], tints[1], tints[2], texture.tintingStrategy()));
 
 		if (DEBUG_TEXTURE_LEAKS) {
-			Tails.LOGGER.info("Generated {}.", textureId);
+			Tails.LOGGER.info("+ Generated {}.", textureId);
 			TRACKED.add(textureId);
 		}
 
@@ -96,11 +96,23 @@ public final class TextureHelper {
 	public static void release(ResourceLocation id) {
 		try {
 			if (DEBUG_TEXTURE_LEAKS) {
-				Tails.LOGGER.info("Released  {}.", id);
+				Tails.LOGGER.info("- Released  {}.\n{}", id, walk(1));
 				TRACKED.remove(id);
 			}
 			Minecraft.getInstance().getTextureManager().release(id);
 		} catch (Exception ignored) {}
+	}
+
+	private static String walk(int depth) {
+		final StackWalker sw = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+		return sw.walk(stream -> stream
+				.skip(depth + 1)
+				//.filter(sf -> sf.getClassName().startsWith("uk/kihira/tails"))
+				.limit(6)
+				.map(sf -> "\tat " + sf.getDeclaringClass().getName() + "." + sf.getMethodName() + "("
+						+ (sf.getFileName() == null ? "Unknown Source" : sf.getFileName() + ":" + sf.getLineNumber())
+						+ ")")
+				.collect(Collectors.joining("\n")));
 	}
 
 	public static void logLeaks() {

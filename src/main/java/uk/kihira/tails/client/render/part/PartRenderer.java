@@ -8,8 +8,6 @@
 
 package uk.kihira.tails.client.render.part;
 
-import java.util.UUID;
-
 import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -31,7 +29,6 @@ import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
-import uk.kihira.tails.client.texture.TextureHelper;
 
 /**
  * A renderer for a part.<br>

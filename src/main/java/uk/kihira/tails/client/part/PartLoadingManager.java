@@ -19,8 +19,8 @@ import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

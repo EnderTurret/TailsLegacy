@@ -11,8 +11,8 @@ package uk.kihira.tails.client;
 import java.util.List;
 import java.util.UUID;
 
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.api.ITailsAccess;
 import uk.kihira.tails.api.ITailsSyncService;

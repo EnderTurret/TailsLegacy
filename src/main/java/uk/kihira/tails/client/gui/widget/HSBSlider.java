@@ -8,7 +8,6 @@
 
 package uk.kihira.tails.client.gui.widget;
 
-import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -233,7 +233,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 
 	@Override
 	public ClientPartInfo clone() {
-		return new ClientPartInfo(delegate.clone(), getPart(), getSubType(), getPartTexture(), getTexture());
+		return new ClientPartInfo(delegate.clone(), getPart(), getSubType(), getPartTexture(), null);
 	}
 
 	private static final class Empty extends ClientPartInfo {

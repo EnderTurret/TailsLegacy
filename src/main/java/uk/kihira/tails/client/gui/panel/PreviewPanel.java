@@ -58,10 +58,14 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		setBlitOffset(0);
 
+		RenderHelper.startGlScissor(left, top, width, height);
+
 		// Player
 		RenderHelper.drawEntity(left + width / 2, top + height / 2 + Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
 				Minecraft.getInstance().getWindow().getGuiScaledHeight() / 4,
 				yaw, pitch, partialTick, Minecraft.getInstance().player);
+
+		RenderHelper.endGlScissor();
 
 		super.render(poseStack, mouseX, mouseY, partialTick);
 	}

@@ -215,20 +215,28 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	private static int getColourAtPoint(double x, double y) {
 		// TODO: Fix color picking.
 		return 0xFF0000;
-		/*final ByteBuffer pixelBuffer = BufferUtils.createByteBuffer(3);
+		/*final Minecraft mc = Minecraft.getInstance();
+		final int windowHeight = mc.getWindow().getHeight();
 
-		GL11.glReadBuffer(GL11.GL_FRONT);
+		try (MemoryStack stack = MemoryStack.stackPush()) {
+			final ByteBuffer pixelBuffer = stack.calloc(3);
 
-		GL11.glReadPixels((int) x, height - (int) y, 1, 1,
-				GL11.GL_RGB,
-				GL11.GL_UNSIGNED_BYTE,
-				pixelBuffer);
+			GL11.glReadBuffer(GL11.GL_FRONT);
 
-		final int r = pixelBuffer.get() & 0xFF;
-		final int g = pixelBuffer.get() & 0xFF;
-		final int b = pixelBuffer.get() & 0xFF;
+			RenderSystem.pixelStore(GL11.GL_PACK_ALIGNMENT, 1);
+			RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, 1);
 
-		return (r << 16) | (g << 8) | b;*/
+			RenderSystem.readPixels((int) x, windowHeight - (int) y, 1, 1,
+					GL11.GL_RGB,
+					GL11.GL_UNSIGNED_BYTE,
+					pixelBuffer);
+
+			final int r = pixelBuffer.get(0) & 0xFF;
+			final int g = pixelBuffer.get(1) & 0xFF;
+			final int b = pixelBuffer.get(2) & 0xFF;
+
+			return (r << 16) | (g << 8) | b;
+		}*/
 	}
 
 	private void setSelectingColour(boolean selectingColour) {

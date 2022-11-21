@@ -148,6 +148,7 @@ public final class EditorScreen extends LayeredScreen {
 	}
 
 	public void setPartsInfo(ClientPartInfo newPartInfo) {
+		if (editingPartInfo == newPartInfo) return;
 		editingPartInfo.clearGlTexture(); // Clear texture data as we will no longer need it.
 		editingPartInfo = newPartInfo;
 
@@ -163,6 +164,7 @@ public final class EditorScreen extends LayeredScreen {
 	}
 
 	public void setPartsData(PartsData newPartsData) {
+		if (partsData == newPartsData) return;
 		partsData = newPartsData;
 		Tails.PROXY.getPartManager().set(playerUUID, partsData);
 	}

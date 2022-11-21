@@ -163,7 +163,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 			if (entry.partInfo.isEmpty() && partInfo.isEmpty() || !partInfo.isEmpty() && !entry.partInfo.isEmpty()
 					&& entry.partInfo.getPart() == partInfo.getPart()) {
 				partList.setSelected(entry);
-				onEntrySelected(partList.children().indexOf(entry), entry);
+				//onEntrySelected(partList.children().indexOf(entry), entry);
 				break;
 			}
 	}

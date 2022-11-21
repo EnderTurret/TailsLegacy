@@ -38,6 +38,7 @@ public final class TextureHelper {
 
 	@Internal
 	public static final boolean DEBUG_TEXTURE_LEAKS = Boolean.getBoolean("tails.debugTextureLeaks");
+	private static final boolean DEBUG_TEXTURE_LEAKS_STACKTRACE = Boolean.getBoolean("tails.debugTextureLeaks.stacktrace");
 
 	private static final Set<ResourceLocation> TRACKED;
 
@@ -96,7 +97,7 @@ public final class TextureHelper {
 	public static void release(ResourceLocation id) {
 		try {
 			if (DEBUG_TEXTURE_LEAKS) {
-				Tails.LOGGER.info("- Released  {}.\n{}", id, walk(1));
+				Tails.LOGGER.info("- Released  {}.{}", id, DEBUG_TEXTURE_LEAKS_STACKTRACE ? "\n" + walk(1) : "");
 				TRACKED.remove(id);
 			}
 			Minecraft.getInstance().getTextureManager().release(id);
@@ -107,7 +108,7 @@ public final class TextureHelper {
 		final StackWalker sw = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
 		return sw.walk(stream -> stream
 				.skip(depth + 1)
-				//.filter(sf -> sf.getClassName().startsWith("uk/kihira/tails"))
+				.filter(sf -> sf.getClassName().startsWith("uk.kihira.tails"))
 				.limit(6)
 				.map(sf -> "\tat " + sf.getDeclaringClass().getName() + "." + sf.getMethodName() + "("
 						+ (sf.getFileName() == null ? "Unknown Source" : sf.getFileName() + ":" + sf.getLineNumber())

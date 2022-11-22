@@ -1,0 +1,30 @@
+{
+  "partInfoMap": {
+    "EARS": {
+      "hasPart": false,
+      "partType": "EARS",
+      "scale": 1.0,
+      "subid": 0,
+      "textureID": 0,
+      "tints": [
+        -65536,
+        -16711936,
+        -16776961
+      ],
+      "typeid": 0
+    },
+    "TAIL": {
+      "hasPart": true,
+      "partType": "TAIL",
+      "scale": 1.0,
+      "subid": 2,
+      "textureID": 0,
+      "tints": [
+        -65536,
+        -16711936,
+        -16776961
+      ],
+      "typeid": 0
+    }
+  }
+}

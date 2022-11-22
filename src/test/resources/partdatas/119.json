@@ -1,0 +1,15 @@
+{
+  "partInfoMap": {
+    "tail": {
+      "id": "tails:tail/fluffy_tail",
+      "subType": "nine_tails",
+      "textureId": "standard",
+      "tints": [
+        -65536,
+        -16711936,
+        -16776961
+      ]
+    }
+  },
+  "version": 1
+}

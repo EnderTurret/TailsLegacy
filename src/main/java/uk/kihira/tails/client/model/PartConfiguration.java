@@ -31,7 +31,7 @@ public class PartConfiguration {
 
 	private final ModelPart root;
 	private final List<ModelPart> parts;
-	private final Map<ModelPart, ModelPart[]> parents = new HashMap<>(); // TODO: This could be an empty map until modified in setParents().
+	private Map<ModelPart, ModelPart[]> parents = Map.of();
 	private final Translator translator;
 
 	// TODO: Compute part list based on root part.
@@ -46,7 +46,11 @@ public class PartConfiguration {
 	}
 
 	public PartConfiguration setParents(ModelPart child, ModelPart... hierarchy) {
+		if (parents.isEmpty())
+			parents = new HashMap<>();
+
 		parents.put(child, hierarchy);
+
 		return this;
 	}
 

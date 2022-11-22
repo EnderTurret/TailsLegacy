@@ -14,6 +14,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.google.gson.JsonDeserializationContext;
@@ -75,6 +76,8 @@ public class PartsData {
 	 * @param partInfo The part info.
 	 */
 	public void setPartInfo(PartType partType, IPartInfo partInfo) {
+		Objects.requireNonNull(partType, "partType");
+		Objects.requireNonNull(partInfo, "partInfo");
 		partInfoMap.put(partType, partInfo);
 	}
 
@@ -184,9 +187,13 @@ public class PartsData {
 				}
 			} else if (obj.has("partInfos"))
 				for (JsonElement elem : obj.get("partInfos").getAsJsonArray()) {
-					final IPartInfo info = context.deserialize(elem.getAsJsonObject(), IPartInfo.class);
-					if (!info.isEmpty())
-						ret.setPartInfo(info.getType(), info);
+					final JsonObject o = elem.getAsJsonObject();
+					final IPartInfo info = context.deserialize(o, IPartInfo.class);
+					if (!info.isEmpty()) {
+						// Nasty hack to allow <1.10 data to update.
+						final PartType partType = o.has("partType") ? PartType.forId(o.get("partType").getAsString().toLowerCase(Locale.ENGLISH)) : info.getType();
+						ret.setPartInfo(partType, info);
+					}
 				}
 
 			return ret;

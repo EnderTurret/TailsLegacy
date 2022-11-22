@@ -32,12 +32,22 @@ import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.common.Tails;
 
+/**
+ * Manages generation of {@link TripleTintTexture TripleTintTextures} and also provides some texture-related utilities.
+ */
 @Internal
 @OnlyIn(Dist.CLIENT)
 public final class TextureHelper {
 
+	/**
+	 * Whether texture leak debugging is enabled.
+	 */
 	@Internal
 	public static final boolean DEBUG_TEXTURE_LEAKS = Boolean.getBoolean("tails.debugTextureLeaks");
+
+	/**
+	 * Whether stack traces should be included in texture leak debugging.
+	 */
 	private static final boolean DEBUG_TEXTURE_LEAKS_STACKTRACE = Boolean.getBoolean("tails.debugTextureLeaks.stacktrace");
 
 	private static final Set<ResourceLocation> TRACKED;
@@ -93,6 +103,10 @@ public final class TextureHelper {
 		return generateTexture(uuid, partInfo.getPart(), partInfo.getSubType(), partInfo.getPartTexture(), partInfo.getTints());
 	}
 
+	/**
+	 * Releases the texture specified by the given id.
+	 * @param id The id of the texture to release.
+	 */
 	@Internal
 	public static void release(ResourceLocation id) {
 		try {
@@ -116,6 +130,10 @@ public final class TextureHelper {
 				.collect(Collectors.joining("\n")));
 	}
 
+	/**
+	 * If enabled, logs all of the tracked textures.
+	 */
+	@Internal
 	public static void logLeaks() {
 		if (!DEBUG_TEXTURE_LEAKS) return;
 
@@ -130,14 +148,23 @@ public final class TextureHelper {
 				.collect(Collectors.joining("\n\t")));
 	}
 
-	public static void copyPixels(NativeImage src, ByteBuffer to, int fromX, int fromY, int width, int height) {
+	/**
+	 * Copies a region of pixels from the given {@link NativeImage} into the given buffer.
+	 * @param src The source image.
+	 * @param dest The destination buffer.
+	 * @param fromX The coordinate corresponding to the left side of the region.
+	 * @param fromY The coordinate corresponding to the top side of the region.
+	 * @param width The width of the region.
+	 * @param height The height of the region.
+	 */
+	public static void copyPixels(NativeImage src, ByteBuffer dest, int fromX, int fromY, int width, int height) {
 		for (int y = fromY; y < fromY + height; y++)
 			for (int x = fromX; x < fromX + width; x++) {
 				final int pixel = src.getPixelRGBA(x, y);
-				to.put((byte) NativeImage.getR(pixel));
-				to.put((byte) NativeImage.getG(pixel));
-				to.put((byte) NativeImage.getB(pixel));
-				to.put((byte) NativeImage.getA(pixel));
+				dest.put((byte) NativeImage.getR(pixel));
+				dest.put((byte) NativeImage.getG(pixel));
+				dest.put((byte) NativeImage.getB(pixel));
+				dest.put((byte) NativeImage.getA(pixel));
 			}
 	}
 }

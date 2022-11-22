@@ -39,6 +39,14 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
+/**
+ * A specialized {@link ArrowLayer} for rendering arrows on Tails parts/accessories in addition to normal body parts.
+ *
+ * @author EnderTurret
+ *
+ * @param <T>
+ * @param <M>
+ */
 @Internal
 public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> extends ArrowLayer<T, M> {
 

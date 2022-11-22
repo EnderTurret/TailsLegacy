@@ -37,6 +37,9 @@ import uk.kihira.tails.client.render.helper.RenderHelperManager;
 @OnlyIn(Dist.CLIENT)
 public class PartRenderer {
 
+	/**
+	 * The part model. May be {@code null} if the part renderer has no associated model, such as {@linkplain WingRenderer the wings}.
+	 */
 	@Nullable
 	public final PartModel modelPart;
 
@@ -135,6 +138,15 @@ public class PartRenderer {
 		}
 	}
 
+	/**
+	 * Returns the {@link RenderType} to use for rendering this part.
+	 * @param entity The entity being rendered.
+	 * @param tex The texture of the part being rendered.
+	 * @param visible {@code true} if the entity is visible.
+	 * @param visibleToPlayer {@code true} if the entity is visible to the viewer but not others.
+	 * @param glowing {@code true} if the entity is glowing.
+	 * @return The render type.
+	 */
 	@Nullable
 	protected RenderType getRenderType(LivingEntity entity, ResourceLocation tex, boolean visible, boolean visibleToPlayer, boolean glowing) {
 		if (visibleToPlayer)
@@ -145,7 +157,8 @@ public class PartRenderer {
 	}
 
 	/**
-	 * Renders the given part on the given entity.
+	 * <p>Renders the given part on the given entity.</p>
+	 * <p>Override this method to perform your own rendering!</p>
 	 * @param ctx The render context.
 	 */
 	protected void doRender(RenderContext ctx) {

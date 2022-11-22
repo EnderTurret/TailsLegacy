@@ -25,7 +25,7 @@ import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for raccoon tails.
+ * The raccoon tail part model.
  */
 final class RaccoonTailModel extends PartModel {
 

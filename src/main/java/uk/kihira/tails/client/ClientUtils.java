@@ -13,8 +13,14 @@ import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 
+/**
+ * Various client-side utilities.
+ */
 public final class ClientUtils {
 
+	/**
+	 * @return The {@link UUID} of the local player.
+	 */
 	public static UUID getPlayerUUID() {
 		final Minecraft mc = Minecraft.getInstance();
 		/*if (mc.player != null && mc.player.getUniqueID() != null)

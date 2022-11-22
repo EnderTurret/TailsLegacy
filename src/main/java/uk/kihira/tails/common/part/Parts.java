@@ -21,6 +21,10 @@ import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.common.Tails;
 
+/**
+ * Various utilities for working with parts.
+ * @author EnderTurret
+ */
 public final class Parts {
 
 	/**
@@ -90,6 +94,11 @@ public final class Parts {
 		REMAP.put("big_wings", "wings/big_wings");
 	}
 
+	/**
+	 * Remaps the given part id, if necessary.
+	 * @param id The id to remap.
+	 * @return The remapped id.
+	 */
 	public static ResourceLocation remapId(ResourceLocation id) {
 		if (id.getNamespace().equals("tails")) {
 			final String newPath = REMAP.get(id.getPath());
@@ -100,6 +109,12 @@ public final class Parts {
 		return id;
 	}
 
+	/**
+	 * Maps a "legacy" subtype to the corresponding modern subtype id based on the given part id.
+	 * @param id The part id. Necessary to distinguish between different kinds of subtypes.
+	 * @param subType The legacy numeric subtype id.
+	 * @return The named subtype id.
+	 */
 	public static String legacySubType(ResourceLocation id, int subType) {
 		return switch (id.toString()) {
 		case "tails:tail/fluffy_tail" -> map(subType, "one_tail", "two_tails", "nine_tails");
@@ -114,6 +129,12 @@ public final class Parts {
 		};
 	}
 
+	/**
+	 * Maps a "legacy" texture id to the corresponding modern texture id based on the given part id.
+	 * @param id The part id. Necessary to distinguish between different kinds of textures.
+	 * @param texture The legacy numeric texture id.
+	 * @return The named texture id.
+	 */
 	public static String legacyTexture(ResourceLocation id, int texture) {
 		return switch (id.toString()) {
 		case "tails:tail/dragon_tail" -> map(texture, "standard", "striped");
@@ -126,15 +147,33 @@ public final class Parts {
 		};
 	}
 
+	/**
+	 * Utility method to return the {@code index}th element of a vararg array.
+	 * @param index The index of the element in the array. Normalized to 0 if out of bounds.
+	 * @param values The elements.
+	 * @return The element at {@code index} in {@code values}.
+	 */
 	private static String map(int index, String... values) {
 		if (index < 0 || index > values.length) index = 0;
 		return values[index];
 	}
 
+	/**
+	 * Utility method to build a {@link ResourceLocation} in the Tails namespace.
+	 * @param path The path of the {@link ResourceLocation}.
+	 * @return The new {@link ResourceLocation}.
+	 */
 	private static ResourceLocation id(String path) {
 		return new ResourceLocation(Tails.MOD_ID, path);
 	}
 
+	/**
+	 * Updates the given json data to the newest part format, if necessary.
+	 * @param elem The json data to update.
+	 * @return The updated json data.
+	 */
+	// "We have DFU at home."
+	// DFU at home:
 	@Internal
 	public static JsonElement update(JsonElement elem) {
 		if (elem instanceof JsonObject obj) {

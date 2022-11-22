@@ -14,16 +14,27 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 
+import net.minecraftforge.registries.RegistryObject;
+
 import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.Parts;
 
+/**
+ * Contains all of the parts read from the {@link PartLoadingManager}.
+ * @see RegisterPartRenderersEvent
+ * @see #get(ResourceLocation)
+ * @author EnderTurret
+ */
 public final class PartRegistry {
 
 	private static final Map<ResourceLocation, Part> PART_REGISTRY = new TreeMap<>();
@@ -85,14 +96,30 @@ public final class PartRegistry {
 	public static final PartReference SLIM_MUZZLE = reference("muzzle/slim_muzzle");
 	public static final PartReference THIN_MUZZLE = reference("muzzle/thin_muzzle");
 
+	/**
+	 * Equivalent to {@code new PartReference(id)}.
+	 * @param id The id of the part.
+	 * @return The new reference.
+	 */
 	public static PartReference reference(ResourceLocation id) {
 		return new PartReference(id);
 	}
 
+	/**
+	 * Equivalent to {@link #reference(ResourceLocation)} with "tails" as the namespace.
+	 * @param id The id of the part.
+	 * @return The new reference.
+	 */
 	public static PartReference reference(String id) {
 		return reference(new ResourceLocation(Tails.MOD_ID, id));
 	}
 
+	/**
+	 * Retrieves the part with the given id from the registry.
+	 * @param id The id of the part to retrieve.
+	 * @return The retrieved part, or {@code null} if no such part exists.
+	 */
+	@Nullable
 	public static Part get(ResourceLocation id) {
 		return PART_REGISTRY.get(id);
 	}
@@ -117,6 +144,11 @@ public final class PartRegistry {
 		return get(Parts.byLegacyId(partType, index));
 	}
 
+	/**
+	 * Like a {@link RegistryObject} but for parts.
+	 * @author EnderTurret
+	 * @see PartRegistry#reference(ResourceLocation)
+	 */
 	public static final class PartReference implements Supplier<Part> {
 
 		private final ResourceLocation id;
@@ -125,6 +157,9 @@ public final class PartRegistry {
 			this.id = id;
 		}
 
+		/**
+		 * @return The id of the referenced part.
+		 */
 		public ResourceLocation id() {
 			return id;
 		}

@@ -22,11 +22,19 @@ import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
 
+/**
+ * Implementation of {@link ITailsAccess}.
+ * @author EnderTurret
+ */
 @Internal
 public final class TailsAccess implements ITailsAccess {
 
 	private static TailsAccess instance;
 
+	/**
+	 * Creates (if necessary) the singleton {@link TailsAccess} instance and returns it.
+	 * @return The {@link TailsAccess} instance.
+	 */
 	@Internal
 	public static TailsAccess _get() {
 		if (instance == null)

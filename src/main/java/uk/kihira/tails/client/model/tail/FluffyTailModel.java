@@ -27,7 +27,7 @@ import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for the floofy tail everyone loves.
+ * The fluffy tail part model.
  */
 final class FluffyTailModel extends PartModel {
 

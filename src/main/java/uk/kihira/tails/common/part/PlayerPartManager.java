@@ -17,6 +17,10 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import uk.kihira.tails.api.IPlayerPartManager;
 
+/**
+ * The base implementation of {@link IPlayerPartManager}.
+ * @author EnderTurret
+ */
 @Internal
 public class PlayerPartManager implements IPlayerPartManager {
 

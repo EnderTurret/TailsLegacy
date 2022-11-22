@@ -28,6 +28,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 /**
  * The Tails config, for all your configuration needs.
+ * Configuration sold separately.
  * @author EnderTurret
  */
 @Internal
@@ -66,6 +67,7 @@ public final class TailsConfig {
 		builder.push("client");
 
 		localPlayerOutfit = builder.comment("Local Players outfit. Delete to remove all customisation data. Do not try to edit manually.").define("localPlayerOutfit", "");
+		// TODO: Remove this?
 		forceLegacyRendering = builder.comment("Forces the legacy renderer which may have better compatibility with other mods.").define("forceLegacyRendering", false);
 	}
 

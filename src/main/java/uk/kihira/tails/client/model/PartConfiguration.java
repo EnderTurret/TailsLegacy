@@ -21,13 +21,20 @@ import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.part.ClientPartInfo;
 
+/**
+ * <p>Defines a "unique" configuration of a part.</p>
+ * <p>Each configuration is a separate instance of the part.
+ * For example, the nine tail variant of the fluffy tail has nine configurations -- one for each tail.</p>
+ * @author EnderTurret
+ */
 public class PartConfiguration {
 
 	private final ModelPart root;
 	private final List<ModelPart> parts;
-	private final Map<ModelPart, ModelPart[]> parents = new HashMap<>();
+	private final Map<ModelPart, ModelPart[]> parents = new HashMap<>(); // TODO: This could be an empty map until modified in setParents().
 	private final Translator translator;
 
+	// TODO: Compute part list based on root part.
 	public PartConfiguration(ModelPart root, List<ModelPart> parts, Translator translator) {
 		this.root = root;
 		this.parts = parts;
@@ -45,22 +52,45 @@ public class PartConfiguration {
 
 	private ModelPart[] visible;
 
+	/**
+	 * Recomputes the visibilities of each cube in the configuration.
+	 */
 	public void prime() {
 		visible = parts.stream().filter(p -> p.visible).toArray(ModelPart[]::new);
 	}
 
+	/**
+	 * @return The root part.
+	 */
 	public ModelPart root() {
 		return root;
 	}
 
+	/**
+	 * @return The visible parts.
+	 * @see #prime()
+	 */
 	public ModelPart[] visible() {
 		return visible;
 	}
 
+	/**
+	 * Returns a random visible part from the configuration.
+	 * @param rand The random to use for deciding which part to return.
+	 * @return The part.
+	 */
 	public ModelPart randomPart(RandomSource rand) {
 		return visible[rand.nextInt(visible.length)];
 	}
 
+	/**
+	 * Performs any necessary transformations to match the location of the given part.
+	 * @param info The part info.
+	 * @param poseStack The {@link PoseStack} to use for transformations.
+	 * @param partialTick The partial tick.
+	 * @param entity The entity being rendered.
+	 * @param part The part in question.
+	 */
 	public void translate(ClientPartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity, ModelPart part) {
 		translator.translate(info, poseStack, partialTick, entity);
 
@@ -72,10 +102,17 @@ public class PartConfiguration {
 		part.translateAndRotate(poseStack);
 	}
 
+	/**
+	 * Represents a part configuration for a whole player.
+	 * @author EnderTurret
+	 */
 	public static class Player extends PartConfiguration {
 
 		private final PlayerModel<?> model;
 
+		/**
+		 * @param model The model of the player.
+		 */
 		public Player(PlayerModel<?> model) {
 			super(null, List.of());
 			this.model = model;
@@ -87,10 +124,24 @@ public class PartConfiguration {
 		}
 	}
 
+	/**
+	 * A callback for any extra necessary translation.
+	 * @author EnderTurret
+	 */
 	public static interface Translator {
 
+		/**
+		 * A no-op {@link Translator}.
+		 */
 		public static final Translator EMPTY = (info, poseStack, partialTick, entity) -> {};
 
+		/**
+		 * Performs various transformations using the provided {@link PoseStack}.
+		 * @param info The part info.
+		 * @param poseStack The {@link PoseStack} to use for transformations.
+		 * @param partialTick The partial tick.
+		 * @param entity The entity being rendered.
+		 */
 		public void translate(ClientPartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity);
 	}
 }

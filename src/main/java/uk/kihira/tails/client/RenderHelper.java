@@ -10,6 +10,8 @@
 
 package uk.kihira.tails.client;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,12 +25,24 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.LivingEntity;
 
+/**
+ * Various rendering-related utilities.
+ */
 public final class RenderHelper {
 
+	/**
+	 * Begins a {@linkplain GL11#glScissor(int, int, int, int) gl scissor} using the given <em>GUI</em> coordinates.
+	 * These coordinates are converted automatically to <em>screen</em> coordinates for the scissor.
+	 * @param x The coordinate of the left side of the scissor.
+	 * @param y The coordinate of the top side of the scissor.
+	 * @param width The width of the scissor.
+	 * @param height The height of the scissor.
+	 */
 	public static void startGlScissor(int x, int y, int width, int height) {
 		final Window mc = Minecraft.getInstance().getWindow();
 
@@ -41,6 +55,9 @@ public final class RenderHelper {
 				(int) Math.floor(mc.getScreenHeight() - y * scaleH) - (int) Math.floor(mc.getScreenHeight() - (y + height) * scaleH)); // Starts from lower left corner (minecraft starts from upper left)
 	}
 
+	/**
+	 * Ends a {@linkplain GL11#glScissor(int, int, int, int) gl scissor}.
+	 */
 	public static void endGlScissor() {
 		RenderSystem.disableScissor();
 	}
@@ -48,23 +65,32 @@ public final class RenderHelper {
 	/**
 	 * Draws a string that respects new lines.
 	 * @param poseStack The {@link PoseStack} to use for transformation information.
-	 * @param fontRenderer The {@link Font} to use for drawing the text.
-	 * @param string The text to draw.
+	 * @param font The {@link Font} to use for drawing the text.
+	 * @param text The text to draw.
 	 * @param x The x position of the text.
 	 * @param y The y position of the text.
 	 * @param color The color of the text.
 	 */
-	public static void drawStringMultiLine(PoseStack poseStack, Font fontRenderer, String string, int x, int y, int color) {
-		final String[] lines = string.split("\n");
+	public static void drawStringMultiLine(PoseStack poseStack, Font font, String text, int x, int y, int color) {
+		final String[] lines = text.split("\n");
 		for (int i = 0; i < lines.length; i++) {
 			final String line = lines[i];
-			fontRenderer.draw(poseStack, line, x, y + fontRenderer.lineHeight * i, color);
+			font.draw(poseStack, line, x, y + font.lineHeight * i, color);
 		}
 	}
 
-	public static void drawCenteredString(PoseStack poseStack, Font fontRenderer, String string, int x, int y, int color) {
-		final int width = fontRenderer.width(string);
-		fontRenderer.draw(poseStack, string, x - width / 2, y, color);
+	/**
+	 * Draws a centered string.
+	 * @param poseStack The {@link PoseStack} to use for transformation information.
+	 * @param font The {@link Font} to use for drawing the text.
+	 * @param text The text to draw.
+	 * @param x The x position of the center of the text.
+	 * @param y The y position of the text.
+	 * @param color The color of the text.
+	 */
+	public static void drawCenteredString(PoseStack poseStack, Font font, String text, int x, int y, int color) {
+		final int width = font.width(text);
+		font.draw(poseStack, text, x - width / 2, y, color);
 	}
 
 	public static void blitScaled(PoseStack poseStack, int x, int y, int blitOffset, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
@@ -81,6 +107,16 @@ public final class RenderHelper {
 		tess.end();
 	}
 
+	/**
+	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(int, int, int, float, float, LivingEntity) inventory screen}.
+	 * @param x The x coordinate of the entity.
+	 * @param y The y coordinate of the entity.
+	 * @param scale The scale to render the entity at.
+	 * @param yaw The yaw of the entity.
+	 * @param pitch The pitch of the entity.
+	 * @param partialTick The partial tick.
+	 * @param entity The entity to render.
+	 */
 	@SuppressWarnings("deprecation")
 	public static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
 		final PoseStack poseStack = RenderSystem.getModelViewStack();

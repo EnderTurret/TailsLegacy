@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.render;
 
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Vector3f;
@@ -22,7 +24,17 @@ import net.minecraft.resources.ResourceLocation;
  */
 public final class RenderStates extends RenderStateShard {
 
+	/**
+	 * Defines the first vector of the part preview diffuse lighting.
+	 * @see RenderSystem#setShaderLights(Vector3f, Vector3f)
+	 * @see Lighting
+	 */
 	public static final Vector3f PART_PREVIEW_DIFFUSE_LIGHTING_0 = new Vector3f(0, 0, 0);
+	/**
+	 * Defines the second vector of the part preview diffuse lighting.
+	 * @see RenderSystem#setShaderLights(Vector3f, Vector3f)
+	 * @see Lighting
+	 */
 	public static final Vector3f PART_PREVIEW_DIFFUSE_LIGHTING_1 = new Vector3f(0, 0, 1);
 
 	private RenderStates() {

@@ -15,12 +15,32 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.resources.ResourceLocation;
 
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.Event.HasResult;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.event.IModBusEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
+/**
+ * <p>An event fired when {@linkplain PartRenderer PartRenderers} are being registered.
+ * Use this event to link part renderers to {@linkplain Part Parts}.</p>
+ *
+ * <p>This event is not {@linkplain Cancelable cancellable}, and does not {@linkplain HasResult have a result}.</p>
+ *
+ * <p>This event is fired on the {@linkplain FMLJavaModLoadingContext#getModEventBus() mod-specific event bus},
+ * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+ *
+ * @author EnderTurret
+ * @see PartRenderer
+ * @see PartRegistry
+ * @see PartRenderRegistry
+ */
 public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 
 	private final Map<ResourceLocation, PartRenderer> entries;
@@ -30,12 +50,25 @@ public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 		entries = map;
 	}
 
+	/**
+	 * Registers a {@link PartRenderer} for the part identified by the given id.
+	 * @param part The id of the part to link the renderer to.
+	 * @param renderer The part renderer.
+	 * @see #register(PartRegistry.PartReference, PartRenderer)
+	 */
 	public void register(ResourceLocation part, PartRenderer renderer) {
 		Objects.requireNonNull(part);
 		Objects.requireNonNull(renderer);
 		entries.put(part, renderer);
 	}
 
+	/**
+	 * Registers a {@link PartRenderer} for the part referenced by the given part reference.
+	 * @param reference A reference to the part to link the renderer to.
+	 * @param renderer The part renderer.
+	 * @see #register(ResourceLocation, PartRenderer)
+	 * @see PartRegistry#reference(ResourceLocation)
+	 */
 	public void register(PartRegistry.PartReference reference, PartRenderer renderer) {
 		register(reference.id(), renderer);
 	}

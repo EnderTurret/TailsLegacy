@@ -18,7 +18,7 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for panda ears.
+ * The panda ears part model.
  */
 final class PandaEarsModel extends PartModel {
 

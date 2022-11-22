@@ -13,13 +13,23 @@ import java.util.Locale;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.gui.panel.PartsPanel;
+import uk.kihira.tails.client.texture.TripleTintTexture;
 import uk.kihira.tails.common.part.PartType;
 
+/**
+ * The client-side representation of a part.
+ * @author EnderTurret
+ */
 public final class Part {
 
+	/**
+	 * The default tints. Try not to mess with it.
+	 */
 	public static final int[] DEFAULT_TINTS = { 0xFF0000, 0x00FF00, 0x0000FF };
 
 	protected final ResourceLocation id;
@@ -68,6 +78,13 @@ public final class Part {
 		return "Part[id=" + id + ", type=" + type + tints + ", subTypes=" + subTypes + "]";
 	}
 
+	/**
+	 * Represents a "subtype," which is a variant of a part.
+	 * @param id The id of the subtype.
+	 * @param author The author of the subtype. May be {@code null}.
+	 * @param textures A list of textures that apply to the subtype.
+	 * @author EnderTurret
+	 */
 	public static record SubType(String id, @Nullable String author, List<PartTexture> textures) {
 		@Override
 		public String toString() {
@@ -76,6 +93,14 @@ public final class Part {
 		}
 	}
 
+	/**
+	 * Represents a part texture.
+	 * @param id The id of the texture.
+	 * @param path The path to the texture in a resource pack.
+	 * @param author The author of the texture. May be {@code null}.
+	 * @param tintingStrategy The {@link TintingStrategy} to use for tinting the texture.
+	 * @author EnderTurret
+	 */
 	public static record PartTexture(String id, String path, @Nullable String author, TintingStrategy tintingStrategy) {
 		@Override
 		public String toString() {
@@ -85,14 +110,38 @@ public final class Part {
 		}
 	}
 
+	/**
+	 * Represents different strategies for tinting textures.
+	 * @author EnderTurret
+	 */
 	public static enum TintingStrategy {
 
+		/**
+		 * Apply all three tints to the texture.
+		 * @see TripleTintTexture
+		 */
 		TRIPLE_TINT,
+		/**
+		 * Apply only the first tint to the texture.
+		 * @see RenderSystem#setShaderColor(float, float, float, float)
+		 */
 		SINGLE_TINT,
+		/**
+		 * Perform no tinting; leave the texture unchanged.
+		 */
 		NO_TINT;
 
+		/**
+		 * The id of the tinting strategy.
+		 */
 		public final String id = name().toLowerCase(Locale.ENGLISH);
 
+		/**
+		 * Returns the tinting strategy with the given id, or {@code null} if one doesn't exist.
+		 * @param id The id of the desired tinting strategy.
+		 * @return The tinting strategy.
+		 */
+		@Nullable
 		public static TintingStrategy of(String id) {
 			for (TintingStrategy strat : values())
 				if (strat.id.equals(id))

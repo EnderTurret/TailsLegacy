@@ -14,19 +14,34 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.PlayerPartManager;
 
+/**
+ * The client-side implementation of the {@link PlayerPartManager}.
+ * @author EnderTurret
+ */
 @Internal
 public class ClientPlayerPartManager extends PlayerPartManager {
 
+	/**
+	 * The sync service. Will usually be {@code null}.
+	 */
 	@Internal
+	@Nullable
 	public static ITailsSyncService sync;
 
 	private final Set<UUID> checked = new HashSet<>(0);
 
+	/**
+	 * If a sync service is defined, queries it for data on the given id.
+	 * Otherwise returns {@link PartsData#EMPTY}.
+	 * @param uuid The id to query data for.
+	 * @return The data.
+	 */
 	private PartsData query(UUID uuid) {
 		if (sync != null && checked.add(uuid)) {
 			final PartsData data = Objects.requireNonNull(sync.query(uuid), "query() contract violated!");
@@ -39,6 +54,11 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 		return PartsData.EMPTY;
 	}
 
+	/**
+	 * Performs any necessary cleanup on the given data, such as releasing native resources.
+	 * @param data The data.
+	 * @return The data.
+	 */
 	private PartsData release(PartsData data) {
 		data.clearTextures();
 		return data;

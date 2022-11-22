@@ -79,6 +79,7 @@ public final class ColorUtil {
 	 * Calculates and returns the hexadecimal value for the given {@link NativeImage} color value.
 	 * @param combined The combined color value.
 	 * @param ignoreAlpha Whether to ignore the alpha bits in the value.
+	 * @param java Whether the color is in Java format -- that is, ARGB -- versus the {@link NativeImage} format (BGRA).
 	 * @return The hex string.
 	 */
 	public static String hex(int combined, boolean ignoreAlpha, boolean java) {

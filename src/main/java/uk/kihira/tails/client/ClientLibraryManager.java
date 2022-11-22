@@ -22,6 +22,10 @@ import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.LibraryManager;
 
+/**
+ * The client-side implementation of the {@link LibraryManager}.
+ * @author EnderTurret
+ */
 @Internal
 public final class ClientLibraryManager extends LibraryManager {
 

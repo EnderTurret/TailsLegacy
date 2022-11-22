@@ -26,7 +26,8 @@ import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for dragon tails.
+ * <p>The dragon tail part model.</p>
+ * <p>Model created by TTFTCUTS.</p>
  */
 final class DragonTailModel extends PartModel {
 

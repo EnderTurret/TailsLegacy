@@ -61,10 +61,17 @@ import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 
+/**
+ * Handles a variety of increasingly-exciting events.
+ */
 @Internal
 @OnlyIn(Dist.CLIENT)
 public final class ClientEventHandler {
 
+	/**
+	 * Handles events on the Forge bus.
+	 * @author EnderTurret
+	 */
 	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 	static class Forge {
 
@@ -114,6 +121,10 @@ public final class ClientEventHandler {
 		}
 	}
 
+	/**
+	 * Handles events on the mod bus.
+	 * @author EnderTurret
+	 */
 	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 	static class Mod {
 

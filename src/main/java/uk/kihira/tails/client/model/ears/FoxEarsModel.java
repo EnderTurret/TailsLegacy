@@ -18,7 +18,8 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for fox ears.
+ * <p>The fox ears part model.</p>
+ * <p>Model created by Adeon.</p>
  */
 final class FoxEarsModel extends PartModel {
 

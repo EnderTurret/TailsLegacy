@@ -42,7 +42,13 @@ public interface IProxy {
 	 */
 	public LibraryManager getLibraryManager();
 
+	/**
+	 * @return The part manager.
+	 */
 	public IPlayerPartManager getPartManager();
 
+	/**
+	 * @return The sided {@link Gson} instance.
+	 */
 	public Gson getSidedGson();
 }

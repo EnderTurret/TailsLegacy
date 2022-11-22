@@ -25,7 +25,8 @@ import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for shark tails.
+ * <p>The shark tail part model.</p>
+ * <p>Model created by access_denied.</p>
  */
 final class SharkTailModel extends PartModel {
 

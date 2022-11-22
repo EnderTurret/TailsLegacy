@@ -24,36 +24,58 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * As you may have guessed, this manages the Tails library.
+ * It handles saving/loading the library as well as manipulating its entries.
+ */
 @Internal
 public class LibraryManager {
 
 	private static final Type ENTRY_DATA_LIST = new TypeToken<List<LibraryEntryData>>() {}.getType();
 	private static final Path LIBRARY_PATH = Paths.get("tailslibrary.json");
 
+	/**
+	 * The list of library entries.
+	 */
 	public final List<LibraryEntryData> libraryEntries = new ArrayList<>();
 
 	public LibraryManager() {}
 
+	/**
+	 * @return The {@link Gson} used for deserializing library entries.
+	 */
 	protected Gson getGson() {
 		return Tails.SERVER_GSON;
 	}
 
 	/**
-	 * Adds the entries and saves
-	 * @param entries The entries to add
+	 * Adds the given entries to the library.
+	 * @param entries The entries to add.
 	 */
 	public void addEntries(List<? extends LibraryEntryData> entries) {
 		libraryEntries.addAll(entries);
 	}
 
+	/**
+	 * Adds a single entry to the library.
+	 * @param data The entry to add.
+	 */
 	public void addEntry(LibraryEntryData data) {
 		libraryEntries.add(data);
 	}
 
+	/**
+	 * Removes the given entry from the library.
+	 * @param data The entry to remove.
+	 */
 	public void removeEntry(LibraryEntryData data) {
 		libraryEntries.remove(data);
 	}
 
+	/**
+	 * Reloads the library from disk, possibly performing a backup.
+	 * @param maybeBackup Whether to create a backup if the new library entries differ.
+	 */
 	public void reload(boolean maybeBackup) {
 		final List<LibraryEntryData> entries = loadLibrary();
 
@@ -67,7 +89,7 @@ public class LibraryManager {
 	}
 
 	/**
-	 * Loads the library data from the file from {@link #createLibraryFile()}.
+	 * Loads the library data from the file specified by {@link #createLibraryFile()}.
 	 * @return A list of loaded library data.
 	 */
 	private List<LibraryEntryData> loadLibrary() {
@@ -88,13 +110,16 @@ public class LibraryManager {
 	}
 
 	/**
-	 * Writes the current library data to the file from {@link #createLibraryFile()}.<br>
-	 * Remote entries are not written to the file.
+	 * Writes the current library data to the file specified by {@link #createLibraryFile()}.
 	 */
 	public void saveLibrary() {
 		saveLibrary(createLibraryFile());
 	}
 
+	/**
+	 * Saves the library data to the given file.
+	 * @param to The file to write the data to.
+	 */
 	protected void saveLibrary(Path to) {
 		try (BufferedWriter bw = Files.newBufferedWriter(to, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
 			getGson().toJson(libraryEntries, bw);
@@ -112,6 +137,11 @@ public class LibraryManager {
 		return createFile(LIBRARY_PATH);
 	}
 
+	/**
+	 * Creates a file if it doesn't exist.
+	 * @param file The file to create.
+	 * @return The created file.
+	 */
 	protected static Path createFile(Path file) {
 		if (!Files.exists(file))
 			try {

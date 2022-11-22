@@ -31,12 +31,20 @@ import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
+/**
+ * A {@link RenderLayer} for Tails parts/accessories.
+ */
 @OnlyIn(Dist.CLIENT)
 public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
 	private final PartType partType;
 
-	public PartLayer(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, ModelPart modelRenderer, PartType partType) {
+	/**
+	 * @param renderer The renderer.
+	 * @param modelPart The relevant part model. Currently unused.
+	 * @param partType The part type.
+	 */
+	public PartLayer(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, ModelPart modelPart, PartType partType) {
 		super(renderer);
 		this.partType = partType;
 	}

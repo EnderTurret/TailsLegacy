@@ -18,6 +18,11 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
+/**
+ * <p>The axolotl gills part model.</p>
+ * <p>Model created by Dustskys, with implementation & programming by EnderTurret.</p>
+ * @author EnderTurret
+ */
 final class AxolotlGillsModel extends PartModel {
 
 	private final ModelPart root;

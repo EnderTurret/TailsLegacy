@@ -43,6 +43,11 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
 
+/**
+ * Manages loading all of the parts, subtypes, and part textures.
+ * This is easily one of the most complicated parts of the mod.
+ * @author EnderTurret
+ */
 @Internal
 @EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class PartLoadingManager implements ResourceManagerReloadListener {
@@ -50,8 +55,15 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	private final Runnable clear;
 	private final BiConsumer<List<Part>, Map<PartType, List<ResourceLocation>>> onComplete;
 
+	/**
+	 * Whether to dump registry contents on (re)load.
+	 */
 	private static final boolean DEBUG_REGISTRIES = Boolean.getBoolean("tails.debugRegistries");
 
+	/**
+	 * @param clear A callback to run when the manager is cleared.
+	 * @param onComplete A callback to run when the manager finished loading part data.
+	 */
 	PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<PartType, List<ResourceLocation>>> onComplete) {
 		this.clear = clear;
 		this.onComplete = onComplete;
@@ -87,6 +99,11 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 	private static final Type ORDERING_TYPE = new TypeToken<Map<String, List<String>>>() {}.getType();
 
+	/**
+	 * Reads the root part ordering.
+	 * @param manager The resource manager.
+	 * @return The root part ordering.
+	 */
 	private Map<PartType, List<ResourceLocation>> readOrdering(ResourceManager manager) {
 		final Map<PartType, List<ResourceLocation>> ordering = new EnumMap<>(PartType.class);
 
@@ -122,6 +139,11 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		return ordering;
 	}
 
+	/**
+	 * Performs a reload, using the given resource manager to access resources.
+	 * @param manager The resource manager.
+	 * @return The fully-baked list of parts.
+	 */
 	private List<Part> reload(ResourceManager manager) {
 		final var resources = manager.listResources("parts", rl -> rl.getPath().endsWith(".json"));
 
@@ -241,6 +263,13 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		return realParts;
 	}
 
+	/**
+	 * Parses the part described by the given json.
+	 * @param location The location of the part.
+	 * @param json The json contents of the part.
+	 * @param subTypes The subtypes of the part.
+	 * @return The part.
+	 */
 	private static Part readPart(ResourceLocation location, JsonObject json, List<NamedSubType> subTypes) {
 		final String id = trim(location.getPath(), "parts/");
 		final ResourceLocation realId = new ResourceLocation(location.getNamespace(), id);
@@ -274,6 +303,14 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		return new Part(realId, category, List.copyOf(subs), tints);
 	}
 
+	/**
+	 * Parses the subtype described by the given json.
+	 * @param location The location of the subtype.
+	 * @param json The json contents of the subtype.
+	 * @param textures The textures that apply to the subtype.
+	 * @param textureOrderings The list of texture orderings.
+	 * @return The subtype.
+	 */
 	private static NamedSubType readSubType(ResourceLocation location, JsonObject json, List<NamedTexture> textures, Map<ResourceLocation, List<String>> textureOrderings) {
 		final String id = trim(location.getPath(), "parts/subtypes/");
 
@@ -303,6 +340,12 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		return new NamedSubType(partId, new Part.SubType(typeId, author, newTex));
 	}
 
+	/**
+	 * Parses the texture described by the given json.
+	 * @param location The location of the texture.
+	 * @param json The json contents of the texture.
+	 * @return The texture.
+	 */
 	private static NamedTexture readTexture(ResourceLocation location, JsonObject json) {
 		final String id = trim(location.getPath(), "parts/textures/");
 
@@ -333,6 +376,11 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		return new NamedTexture(partId, List.copyOf(applyTo), new Part.PartTexture(texId, path, author, tintingStrategy));
 	}
 
+	/**
+	 * Attempts to parse the given json as a string array.
+	 * @param elem The element to parse.
+	 * @return The contents of the string array.
+	 */
 	private static List<String> readStringArray(JsonElement elem) {
 		final List<String> ret = new ArrayList<>();
 
@@ -345,6 +393,12 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		return ret;
 	}
 
+	/**
+	 * Parses the given hexadecimal input into the corresponding integer.
+	 * @param input The input to parse.
+	 * @return The integer.
+	 * @throws NumberFormatException
+	 */
 	private static int hex(String input) {
 		input = input.toLowerCase(Locale.ENGLISH);
 		if (input.startsWith("0x"))
@@ -352,11 +406,23 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		return Integer.parseInt(input, 16);
 	}
 
+	/**
+	 * Trims off the given beginning string from the input string and ".json" from the end.
+	 * @param input The input string.
+	 * @param beginning The beginning string.
+	 * @return The trimmed string.
+	 */
 	private static String trim(String input, String beginning) {
 		input = input.substring(beginning.length());
 		return input.substring(0, input.length() - ".json".length());
 	}
 
+	/**
+	 * Reads the given resource as json, catching any errors that may arise from doing so.
+	 * @param location The location of the resource. Used for logging purposes.
+	 * @param resource The resource itself.
+	 * @return The parsed json, or {@code null} if an error occurred.
+	 */
 	@Nullable
 	private static JsonElement readJson(ResourceLocation location, Resource resource) {
 		try (BufferedReader br = resource.openAsReader()) {

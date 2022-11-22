@@ -76,6 +76,11 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		this(tints, part, subType, textureId, null);
 	}
 
+	/**
+	 * Coerces the given {@link IPartInfo} into a {@link ClientPartInfo}.
+	 * @param info The {@link IPartInfo} to coerce.
+	 * @return The coerced {@link ClientPartInfo}.
+	 */
 	public static ClientPartInfo coerce(IPartInfo info) {
 		if (info instanceof ClientPartInfo cpi) return cpi;
 		if (info.isEmpty()) return empty();
@@ -93,14 +98,25 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return new ClientPartInfo(info, part, subType, tex);
 	}
 
+	/**
+	 * @return The empty {@link ClientPartInfo}.
+	 */
 	public static ClientPartInfo empty() {
 		return Empty.INSTANCE;
 	}
 
+	/**
+	 * @return The wrapped {@link IPartInfo}.
+	 */
 	public IPartInfo unwrap() {
 		return delegate;
 	}
 
+	/**
+	 * Determines whether this part is "invalid," meaning that the part, subtype, or texture is {@code null}.
+	 * This can happen if someone is using a custom part that you don't possess.
+	 * @return {@code true} if the part is invalid.
+	 */
 	public boolean isInvalid() {
 		return getPart() == null || getSubType() == null || getPartTexture() == null;
 	}
@@ -110,24 +126,22 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return part.getType();
 	}
 
+	/**
+	 * Resolved version of {@link #getPartId()}.
+	 * @return The resolved part.
+	 */
 	public Part getPart() {
 		return part;
 	}
 
-	/**
-	 * Returns the part id, which is a unique identifier for the part.
-	 * @return The part id.
-	 */
 	@Override
 	public ResourceLocation getPartId() {
 		return delegate.getPartId();
 	}
 
 	/**
-	 * Returns the sub type, which is a unique identifier for the part sub type.<br>
-	 * For example, the fluffy tail variants are sub types of the single fluffy tail.<br>
-	 * Sub types are defined in the {@link PartRegistry}.
-	 * @return The sub type.
+	 * Resolved version of {@link #getSubTypeId()}.
+	 * @return The resolved subtype.
 	 */
 	public Part.SubType getSubType() {
 		return subType;
@@ -139,28 +153,16 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	}
 
 	/**
-	 * Returns the tint array, which is an array containing three {@code ints} each of which are packed {@link Color} RGB values.<br>
-	 * As {@link IPartInfo IPartInfos} are supposed to be immutable, please do not modify the array.
-	 * @return The tints.
+	 * Resolved version of {@link #getPartTexture()}.
+	 * @return The resolved texture.
 	 */
-	@Override
-	public int[] getTints() {
-		return delegate.getTints();
+	public Part.PartTexture getPartTexture() {
+		return textureId;
 	}
 
-	/**
-	 * Returns the texture id, which is a unique identifier for the part texture.<br>
-	 * Texture ids are like subtypes, however instead of having additional entries in the part list, they use the texture panel instead.<br>
-	 * Texture ids are also defined in the {@link PartRegistry}.
-	 * @return The texture ids.
-	 */
 	@Override
 	public String getTextureId() {
 		return delegate.getTextureId();
-	}
-
-	public Part.PartTexture getPartTexture() {
-		return textureId;
 	}
 
 	/**
@@ -174,8 +176,13 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return texture;
 	}
 
+	@Override
+	public int[] getTints() {
+		return delegate.getTints();
+	}
+
 	/**
-	 * Sets the texture location.
+	 * Sets the texture location, possibly releasing the old texture reference.
 	 * @param texture The new texture.
 	 */
 	public void setTexture(@Nullable ResourceLocation texture) {
@@ -187,6 +194,11 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		this.texture = texture;
 	}
 
+	/**
+	 * Checks to make sure a texture is present, generating one if necessary.
+	 * @param uuid The {@link UUID} of the entity being rendered.
+	 * @param force Normally, the texture is only generated if it is missing. If {@code true}, this forces the texture to be regenerated regardless.
+	 */
 	public void checkTexture(UUID uuid, boolean force) {
 		if (!isEmpty() && !isInvalid() && (force || getTexture() == null))
 			setTexture(TextureHelper.generateTexture(uuid, this));
@@ -236,8 +248,17 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return new ClientPartInfo(delegate.clone(), getPart(), getSubType(), getPartTexture(), null);
 	}
 
+	/**
+	 * Represents an "empty" {@link ClientPartInfo}.
+	 * @author EnderTurret
+	 * @see ClientPartInfo#empty()
+	 */
 	private static final class Empty extends ClientPartInfo {
 
+		/**
+		 * The singleton instance.
+		 * @see ClientPartInfo#empty()
+		 */
 		private static final ClientPartInfo INSTANCE = new Empty();
 
 		private Empty() {
@@ -272,6 +293,11 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		public void setTexture(ResourceLocation texture) {}
 	}
 
+	/**
+	 * A serializer for {@link ClientPartInfo}.
+	 * @author EnderTurret
+	 * @see LocalPartManager#GSON
+	 */
 	public static class Serializer implements JsonSerializer<IPartInfo>, JsonDeserializer<IPartInfo> {
 
 		@Override

@@ -15,7 +15,12 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
-class ScorpionTailModel extends PartModel {
+/**
+ * <p>The scorpion tail part model.</p>
+ * <p>Model created by Dustskys, with implementation & programming by EnderTurret.</p>
+ * @author EnderTurret
+ */
+final class ScorpionTailModel extends PartModel {
 
 	private final ModelPart root;
 

@@ -23,9 +23,16 @@ import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
 
+/**
+ * Manages the local part data, among other things.
+ * @author EnderTurret
+ */
 @Internal
 public final class LocalPartManager {
 
+	/**
+	 * The {@link Gson} configured for deserializing client-side part data.
+	 */
 	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
 			.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
@@ -34,6 +41,9 @@ public final class LocalPartManager {
 
 	private static PartsData localPartsData = PartsData.EMPTY;
 
+	/**
+	 * Reloads the local part data from the config.
+	 */
 	@Internal
 	public static void reload() {
 		// Load local player info.
@@ -53,6 +63,10 @@ public final class LocalPartManager {
 		}
 	}
 
+	/**
+	 * Sets the local part data both here and in the config.
+	 * @param partsData The new part data.
+	 */
 	@Internal
 	public static void setLocalPartsData(PartsData partsData) {
 		if (partsData == null) throw new NullPointerException();
@@ -64,11 +78,17 @@ public final class LocalPartManager {
 		TailsConfig.getConfig().save();
 	}
 
+	/**
+	 * @return The local part data.
+	 */
 	@Internal
 	public static PartsData getLocalPartsData() {
 		return localPartsData;
 	}
 
+	/**
+	 * Syncs the local part data to the server and/or the sync service (if defined).
+	 */
 	@Internal
 	public static void syncToServer() {
 		if (Minecraft.getInstance().level != null)

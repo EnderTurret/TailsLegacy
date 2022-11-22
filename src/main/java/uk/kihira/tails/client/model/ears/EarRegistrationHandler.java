@@ -12,6 +12,11 @@ import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
 
+/**
+ * Handles registration of ear {@link PartRenderer PartRenderers}.
+ * @author EnderTurret
+ * @see RegisterPartRenderersEvent
+ */
 @Internal
 @EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class EarRegistrationHandler {

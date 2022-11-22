@@ -23,6 +23,14 @@ import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.common.Tails;
 
+/**
+ * The server-side implementation of {@link IPartInfo}.
+ * @param partId The part id.
+ * @param subTypeId The subtype id.
+ * @param textureId The texture id.
+ * @param tints The tints.
+ * @author EnderTurret
+ */
 public record ServerPartInfo(ResourceLocation partId, String subTypeId, String textureId, int[] tints) implements IPartInfo {
 
 	@Override
@@ -55,8 +63,16 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 		return tints;
 	}
 
+	/**
+	 * The serializer for {@link ServerPartInfo}.
+	 * @author EnderTurret
+	 * @see Tails#SERVER_GSON
+	 */
 	public static class Serializer implements JsonSerializer<IPartInfo>, JsonDeserializer<IPartInfo> {
 
+		/**
+		 * The singleton instance.
+		 */
 		public static final Serializer INSTANCE = new Serializer();
 
 		private Serializer() {}

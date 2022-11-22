@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -30,6 +31,10 @@ import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.client.render.part.WingRenderer;
 import uk.kihira.tails.common.Tails;
 
+/**
+ * Manages the registry of {@link PartRenderer PartRenderers} that correspond to different parts.
+ * @author EnderTurret
+ */
 @EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class PartRenderRegistry {
 
@@ -44,6 +49,10 @@ public final class PartRenderRegistry {
 		e.register(THIN_MUZZLE, new PartRenderer(new MuzzleModel(-1.5f, -2f, -9f, 3, 2, 5, 0, 9)));
 	}
 
+	/**
+	 * Reloads the entire part renderer registry.
+	 * An event will be fired to rebuild the part renderer registry.
+	 */
 	@Internal
 	public static void reload() {
 		PART_RENDERER_REGISTRY.clear();
@@ -54,6 +63,12 @@ public final class PartRenderRegistry {
 		PART_RENDERER_REGISTRY.putAll(map);
 	}
 
+	/**
+	 * Returns the {@link PartRenderer} associated with the given part, or {@code null} if no such renderer exists.
+	 * @param part The {@link Part} to retrieve the {@link PartRenderer} for.
+	 * @return The {@link PartRenderer}.
+	 */
+	@Nullable
 	public static PartRenderer getRenderer(Part part) {
 		if (part == null) throw new NullPointerException();
 		return PART_RENDERER_REGISTRY.get(part.getId());

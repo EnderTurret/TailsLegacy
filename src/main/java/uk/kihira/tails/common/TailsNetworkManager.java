@@ -22,6 +22,10 @@ import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.common.network.S2CPlayerDataMessage;
 
+/**
+ * Manages the Tails network stuff, like the channel and packet registration.
+ * @author EnderTurret
+ */
 @Internal
 public class TailsNetworkManager {
 

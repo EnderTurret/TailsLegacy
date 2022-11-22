@@ -25,6 +25,9 @@ import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.PartRegistry;
 
+/**
+ * Handles rendering Tails accessories on tiny potatoes named "foxtato" (case-insensitive).
+ */
 @Internal
 public final class FoxtatoRenderer {
 

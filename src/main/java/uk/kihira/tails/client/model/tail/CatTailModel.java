@@ -25,8 +25,7 @@ import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for cat tails.<br>
- * (Not to be confused with cattails.)
+ * The cat tail part model. (Not to be confused with cattails.)
  */
 final class CatTailModel extends PartModel {
 

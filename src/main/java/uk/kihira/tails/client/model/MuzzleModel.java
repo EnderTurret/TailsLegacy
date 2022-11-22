@@ -19,7 +19,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model used for muzzles.
+ * The muzzle part model.
  */
 @Internal
 public final class MuzzleModel extends PartModel {

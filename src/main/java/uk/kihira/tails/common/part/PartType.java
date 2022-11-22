@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 /**
  * Different types of parts.
  */
+// TODO: Is this following note still relevant?
 // NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons.
 public enum PartType {
 	TAIL("tail"),

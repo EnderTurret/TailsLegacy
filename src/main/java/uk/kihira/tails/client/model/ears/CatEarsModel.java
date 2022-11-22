@@ -18,7 +18,7 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for cat ears.
+ * The cat ears part model.
  */
 final class CatEarsModel extends PartModel {
 

@@ -21,7 +21,8 @@ import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 
 /**
- * The model for bunny tails.
+ * <p>The bunny tail part model.</p>
+ * <p>Model created by carrotcodes.</p>
  */
 final class BunnyTailModel extends PartModel {
 

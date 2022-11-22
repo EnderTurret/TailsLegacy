@@ -25,11 +25,13 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * The part data class.<br>
- * Holds {@link IPartInfo} for every {@link PartType}.
+ * Holds a {@link IPartInfo} for every {@link PartType}.
  */
 public class PartsData {
 
+	/**
+	 * The singleton empty {@link PartsData}.
+	 */
 	public static final PartsData EMPTY = new PartsData() {
 		@Override
 		public IPartInfo getPartInfo(PartType partType) { return IPartInfo.empty(); }

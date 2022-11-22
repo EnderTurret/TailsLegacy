@@ -23,13 +23,16 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+/**
+ * A sort of "dummy" entity implementation for rendering part previews.
+ */
 @Internal
 @OnlyIn(Dist.CLIENT)
 public final class FakeEntity extends LivingEntity {
 
 	@Internal
-	public FakeEntity(Level world) {
-		super(EntityType.BAT, world);
+	public FakeEntity(Level level) {
+		super(EntityType.BAT, level);
 	}
 
 	@Override

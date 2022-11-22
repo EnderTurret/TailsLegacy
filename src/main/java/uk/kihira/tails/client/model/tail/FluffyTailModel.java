@@ -67,44 +67,44 @@ final class FluffyTailModel extends PartModel {
 
 		final List<ModelPart> parts = List.of(tailBase, tail1, tail2, tail3, tail4, tail5);
 
-		single = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		single = List.of(new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(0, getAnimationTime(4000F, entity), 1F, 1F, 0, 0, partialTick, entity);
 			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
 		}));
 
-		twin = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		twin = List.of(new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(1, getAnimationTime(4000F, entity), 1F, 1F, 0F, rad(40), partialTick, entity);
 			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
 			setRotationAngles(1, getAnimationTime(4000F, entity), 1.4F, 0F, 0F, rad(-40), partialTick, entity);
 		}));
 
-		three = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		three = List.of(new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(0, getAnimationTime(4000F, entity), -1.5F, 2.5F, 0, 0, partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(0, getAnimationTime(4000F, entity), -1.3F, 1.6F, 0, rad(45), partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(0, getAnimationTime(4000F, entity), -1.1F, 0.7F, 0, rad(-45), partialTick, entity);
 		}));
 
-		nine = List.of(new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		nine = List.of(new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.5F, 2.5F, 0, 0, partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.3F, 1.6F, 0, rad(30), partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 0.7F, 0, rad(-30), partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.2F, 2.6F, rad(20), rad(-15), partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> { // 4
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> { // 4
 			setRotationAngles(2, getAnimationTime(6500F, entity), -0.9F, 1.1F, rad(20), rad(15), partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> { // 5
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> { // 5
 			setRotationAngles(2, getAnimationTime(6500F, entity), -0.8F, 2F, rad(20), rad(45), partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.25F, 0.6F, rad(20), rad(-45), partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> { // 7
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> { // 7
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.4F, 0.9F, rad(45), rad(15), partialTick, entity);
-		}), new PartConfiguration(tailBase, parts, (info, poseStack, partialTick, entity) -> {
+		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 1.6F, rad(45), rad(-15), partialTick, entity);
 		}));
 	}

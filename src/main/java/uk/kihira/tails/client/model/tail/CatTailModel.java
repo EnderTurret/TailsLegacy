@@ -63,7 +63,7 @@ final class CatTailModel extends PartModel {
 		tail4 = tail3.getChild("tail4");
 		tail5 = tail4.getChild("tail5");
 
-		config = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, tail4, tail5));
+		config = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, tail4, tail5));
 	}
 
 	@Override

@@ -38,7 +38,7 @@ final class BunnyTailModel extends PartModel {
 
 		tail = root.getChild("tail");
 
-		config = new PartConfiguration(tail, List.of(tail));
+		config = new PartConfiguration(List.of(tail));
 	}
 
 	@Override

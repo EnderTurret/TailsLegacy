@@ -40,7 +40,7 @@ final class ScorpionTailModel extends PartModel {
 
 		root = rootDef.bake(32, 32);
 
-		config = new PartConfiguration(root, List.of(root), (info, poseStack, partialTick, entity) -> {
+		config = new PartConfiguration(List.of(root.getChild("tail")), (info, poseStack, partialTick, entity) -> {
 			poseStack.scale(1.1f, 1.1f, 1.1f);
 		});
 	}

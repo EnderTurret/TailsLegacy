@@ -43,7 +43,7 @@ final class BeeAbdomenModel extends PartModel {
 		abdomen = root.getChild("abdomen");
 		stinger = abdomen.getChild("stinger");
 
-		config = new PartConfiguration(abdomen, List.of(abdomen), (info, poseStack, partialTick, entity) -> {
+		config = new PartConfiguration(List.of(abdomen), (info, poseStack, partialTick, entity) -> {
 			poseStack.scale(1.25f, 1.25f, 1.25f);
 		});
 	}

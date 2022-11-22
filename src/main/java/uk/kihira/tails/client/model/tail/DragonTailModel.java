@@ -78,8 +78,8 @@ final class DragonTailModel extends PartModel {
 		tailSub2 = tailSub1.getChild("tailSub2");
 		tailSub3 = tailSub2.getChild("tailSub3");
 
-		config = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, tailSubBase, tailSub1, tailSub2, tailSub3));
-		config0 = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3));
+		config = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, tailSubBase, tailSub1, tailSub2, tailSub3));
+		config0 = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3));
 	}
 
 	@Override

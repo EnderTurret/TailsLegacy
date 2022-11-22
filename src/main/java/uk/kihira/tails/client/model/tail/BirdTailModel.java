@@ -71,7 +71,7 @@ final class BirdTailModel extends PartModel {
 		right1 = right0.getChild("right1");
 		right2 = right1.getChild("right2");
 
-		config = new PartConfiguration(center, List.of(center, left0, left1, left2, right0, right1, right2))
+		config = new PartConfiguration(List.of(center, left0, left1, left2, right0, right1, right2))
 				.setParents(left0, center)
 				.setParents(left1, center, left0)
 				.setParents(left2, center, left0, left1)

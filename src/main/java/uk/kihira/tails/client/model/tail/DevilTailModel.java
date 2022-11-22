@@ -70,8 +70,8 @@ final class DevilTailModel extends PartModel {
 		tail5 = tail4.getChild("tail5");
 		tailTip = tail5.getChild("tailTip");
 
-		config = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, tail4, tail5, tailTip));
-		config0 = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, tail4, tail5));
+		config = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, tail4, tail5, tailTip));
+		config0 = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, tail4, tail5));
 	}
 
 	@Override

@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.client.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,20 +30,17 @@ import uk.kihira.tails.client.part.ClientPartInfo;
  */
 public class PartConfiguration {
 
-	private final ModelPart root;
 	private final List<ModelPart> parts;
 	private Map<ModelPart, ModelPart[]> parents = Map.of();
 	private final Translator translator;
 
-	// TODO: Compute part list based on root part.
-	public PartConfiguration(ModelPart root, List<ModelPart> parts, Translator translator) {
-		this.root = root;
+	public PartConfiguration(List<ModelPart> parts, Translator translator) {
 		this.parts = parts;
 		this.translator = translator;
 	}
 
-	public PartConfiguration(ModelPart root, List<ModelPart> parts) {
-		this(root, parts, Translator.EMPTY);
+	public PartConfiguration(List<ModelPart> parts) {
+		this(parts, Translator.EMPTY);
 	}
 
 	public PartConfiguration setParents(ModelPart child, ModelPart... hierarchy) {
@@ -61,13 +59,6 @@ public class PartConfiguration {
 	 */
 	public void prime() {
 		visible = parts.stream().filter(p -> p.visible).toArray(ModelPart[]::new);
-	}
-
-	/**
-	 * @return The root part.
-	 */
-	public ModelPart root() {
-		return root;
 	}
 
 	/**
@@ -118,7 +109,7 @@ public class PartConfiguration {
 		 * @param model The model of the player.
 		 */
 		public Player(PlayerModel<?> model) {
-			super(null, List.of());
+			super(List.of());
 			this.model = model;
 		}
 

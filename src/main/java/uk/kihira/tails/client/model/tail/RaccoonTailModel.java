@@ -48,7 +48,7 @@ final class RaccoonTailModel extends PartModel {
 		tail1 = tailBase.getChild("tail1");
 		tail2 = tail1.getChild("tail2");
 
-		config = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2));
+		config = new PartConfiguration(List.of(tailBase, tail1, tail2, tail2.getChild("tailTip")));
 	}
 
 	@Override

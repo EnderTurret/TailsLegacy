@@ -87,7 +87,7 @@ final class SharkTailModel extends PartModel {
 		finBot2 = finBot1.getChild("finBot2");
 		finBot3 = finBot2.getChild("finBot3");
 
-		config = new PartConfiguration(tailBase, List.of(tailBase, tail1, tail2, tail3, finBase, finTop1, finTop2, finTop3, finBot1, finBot2, finBot3))
+		config = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, finBase, finTop1, finTop2, finTop3, finBot1, finBot2, finBot3))
 				.setParents(finBot1, tailBase, tail1, tail2, tail3, finBase)
 				.setParents(finBot2, tailBase, tail1, tail2, tail3, finBase, finBot1)
 				.setParents(finBot3, tailBase, tail1, tail2, tail3, finBase, finBot1, finBot2);

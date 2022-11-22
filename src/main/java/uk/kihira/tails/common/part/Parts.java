@@ -28,6 +28,12 @@ import uk.kihira.tails.common.Tails;
 public final class Parts {
 
 	/**
+	 * Determines whether "testing mode" is enabled.
+	 * This mode disables logging to avoid class loading FML internals, allowing one to test certain parts of Tails without MC running.
+	 */
+	static final boolean TESTING = Boolean.getBoolean("tails.testing");
+
+	/**
 	 * Returns the named id of the part at the given index for the given type.<br>
 	 * If the index is out of bounds, it's normalized to {@code 0}.
 	 * @param partType The part type.
@@ -194,7 +200,8 @@ public final class Parts {
 				obj.remove("partType");
 				obj.remove("typeid");
 				obj.addProperty("id", partId.toString());
-				Tails.LOGGER.info("Remapped part ({}, {}) → {}", type.getId(), id, partId);
+				if (!TESTING)
+					Tails.LOGGER.info("Remapped part ({}, {}) → {}", type.getId(), id, partId);
 			}
 
 			ResourceLocation partId = ResourceLocation.tryParse(obj.get("id").getAsString());
@@ -206,7 +213,8 @@ public final class Parts {
 				final String subType = legacySubType(partId, subId);
 				obj.remove("subid");
 				obj.addProperty("subType", subType);
-				Tails.LOGGER.info("Remapped sub type {} → {}", subId, subType);
+				if (!TESTING)
+					Tails.LOGGER.info("Remapped sub type {} → {}", subId, subType);
 			}
 
 			// Convert old style textures to new ones.
@@ -215,7 +223,8 @@ public final class Parts {
 				final String texture = legacyTexture(partId, textureId);
 				obj.remove("textureID");
 				obj.addProperty("textureId", texture);
-				Tails.LOGGER.info("Remapped texture {} → {}", textureId, texture);
+				if (!TESTING)
+					Tails.LOGGER.info("Remapped texture {} → {}", textureId, texture);
 			}
 		}
 

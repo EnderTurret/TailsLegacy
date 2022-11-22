@@ -9,6 +9,8 @@
 package uk.kihira.tails.common.part;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Objects;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -21,6 +23,7 @@ import com.google.gson.JsonSerializer;
 
 import net.minecraft.resources.ResourceLocation;
 
+import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -63,6 +66,22 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 		return tints;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		return o instanceof ServerPartInfo spi && Objects.equals(partId, spi.partId) && Objects.equals(subTypeId, spi.subTypeId)
+				&& Objects.equals(textureId, spi.textureId) && Arrays.equals(tints, spi.tints);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(partId, subTypeId, textureId, tints);
+	}
+
+	@Override
+	public String toString() {
+		return "ServerPartInfo[partId=" + partId + ", subTypeId=" + subTypeId + ", textureId=" + textureId + ", tints=" + Arrays.stream(tints).mapToObj(t -> "0x" + ColorUtil.hex(t, true, true)).toList() + "]";
+	}
+
 	/**
 	 * The serializer for {@link ServerPartInfo}.
 	 * @author EnderTurret
@@ -79,6 +98,8 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 
 		@Override
 		public IPartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+			json = json.deepCopy();
+
 			Parts.update(json);
 
 			final JsonObject obj = json.getAsJsonObject();
@@ -89,7 +110,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 			final ResourceLocation partId = new ResourceLocation(pId);
 			final ResourceLocation newPartId = Parts.remapId(partId);
 
-			if (partId != newPartId)
+			if (partId != newPartId && !Parts.TESTING)
 				Tails.LOGGER.info("Remapped part id: {} → {}.", partId, newPartId);
 
 			final String subType = obj.get("subType").getAsString();

@@ -9,12 +9,16 @@
 package uk.kihira.tails.client.gui.panel;
 
 import java.awt.Color;
+import java.nio.ByteBuffer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 import com.google.common.base.Strings;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -107,7 +111,6 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		// Color Picker
 		addRenderableWidget(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, IconButton.Icons.EYEDROPPER, b -> setSelectingColour(true), Component.translatable("tails.gui.button.picker.0"), Component.translatable("tails.gui.button.picker.1")));
 		colourPicker.visible = false;
-		colourPicker.active = false;
 
 		refreshTintPane(currentTint, true);
 	}
@@ -184,9 +187,12 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		if (selectingColour && mouseButton == 0) {
-			final int newTint = getColourAtPoint(mouseX, mouseY); // Ignore alpha.
+			// Mouse coordinates are relative to the panel, so we need to resolve them to screen coordinates.
+			final int newTint = getColourAtPoint(mouseX + left, mouseY + top);
+
 			setSelectingColour(false);
 			refreshTintPane(newTint);
+
 			return true;
 		}
 
@@ -213,10 +219,16 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	}
 
 	private static int getColourAtPoint(double x, double y) {
-		// TODO: Fix color picking.
-		return 0xFF0000;
-		/*final Minecraft mc = Minecraft.getInstance();
-		final int windowHeight = mc.getWindow().getHeight();
+		final Minecraft mc = Minecraft.getInstance();
+
+		// We have to resolve these mouse coordinates back to window coordinates.
+		final double scale = mc.getWindow().getGuiScale();
+		x *= scale;
+		y *= scale;
+
+		// We also have to flip the y coordinate because OpenGL's
+		// coordinate system is upside-down compared to ours.
+		y = mc.getWindow().getHeight() - y;
 
 		try (MemoryStack stack = MemoryStack.stackPush()) {
 			final ByteBuffer pixelBuffer = stack.calloc(3);
@@ -226,17 +238,19 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 			RenderSystem.pixelStore(GL11.GL_PACK_ALIGNMENT, 1);
 			RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, 1);
 
-			RenderSystem.readPixels((int) x, windowHeight - (int) y, 1, 1,
+			RenderSystem.readPixels((int) x, (int) y, 1, 1,
 					GL11.GL_RGB,
 					GL11.GL_UNSIGNED_BYTE,
 					pixelBuffer);
 
-			final int r = pixelBuffer.get(0) & 0xFF;
-			final int g = pixelBuffer.get(1) & 0xFF;
-			final int b = pixelBuffer.get(2) & 0xFF;
+			pixelBuffer.rewind();
+
+			final int r = pixelBuffer.get() & 0xFF;
+			final int g = pixelBuffer.get() & 0xFF;
+			final int b = pixelBuffer.get() & 0xFF;
 
 			return (r << 16) | (g << 8) | b;
-		}*/
+		}
 	}
 
 	private void setSelectingColour(boolean selectingColour) {

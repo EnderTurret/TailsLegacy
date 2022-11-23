@@ -52,7 +52,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		for (PartType type : PartType.values())
 			if (data.partsData.hasPartInfo(type)) {
 				final ClientPartInfo partInfo = (ClientPartInfo) data.partsData.getPartInfo(type);
-				final String trans = partInfo.isInvalid() ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
+				final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
 				RenderHelper.drawStringMultiLine(poseStack, fontRenderer, trans,
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
 				for (int i = 1; i < 4; i++)

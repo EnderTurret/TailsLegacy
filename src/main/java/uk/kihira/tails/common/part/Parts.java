@@ -130,7 +130,7 @@ public final class Parts {
 		case "tails:muzzle/slim_muzzle" -> map(subType, "very_short", "short", "standard", "long", "very_long");
 		case "tails:muzzle/standard_muzzle" -> map(subType, "very_short", "short", "standard", "long", "very_long");
 		case "tails:muzzle/thin_muzzle" -> map(subType, "very_short", "short", "standard", "long", "very_long");
-		case "tails:wings/big_wings" -> map(subType, "big_wings", "small_wings");
+		case "tails:wings/big_wings" -> map(subType, "large", "small");
 		default -> "standard";
 		};
 	}

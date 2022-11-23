@@ -8,7 +8,6 @@
 
 package uk.kihira.tails.client.part;
 
-import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;

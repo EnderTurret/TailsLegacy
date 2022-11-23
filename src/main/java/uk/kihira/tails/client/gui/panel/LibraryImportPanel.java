@@ -15,8 +15,6 @@ import java.util.regex.Pattern;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.common.base.Strings;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.HttpMinecraftSessionService;
 import com.mojang.authlib.minecraft.MinecraftSessionService;

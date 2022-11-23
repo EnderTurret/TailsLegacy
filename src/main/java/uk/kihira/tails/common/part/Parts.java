@@ -214,7 +214,7 @@ public final class Parts {
 				obj.remove("subid");
 				obj.addProperty("subType", subType);
 				if (!TESTING)
-					Tails.LOGGER.info("Remapped sub type {} → {}", subId, subType);
+					Tails.LOGGER.info("Remapped subtype {} → {}", subId, subType);
 			}
 
 			// Convert old style textures to new ones.

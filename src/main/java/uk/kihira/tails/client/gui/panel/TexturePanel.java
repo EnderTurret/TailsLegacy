@@ -141,9 +141,9 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		final Part part = partInfo.getPart();
 
 		if (leftBtn != null && rightBtn != null)
-			leftBtn.active = rightBtn.active = !partInfo.isEmpty() && partInfo.getSubType().textures().size() > 1;
+			leftBtn.active = rightBtn.active = !partInfo.isInvalid() && partInfo.getSubType().textures().size() > 1;
 
 		if (variantLeftBtn != null && variantRightBtn != null)
-			variantLeftBtn.active = variantRightBtn.active = !partInfo.isEmpty() && part.getSubTypes().size() > 1;
+			variantLeftBtn.active = variantRightBtn.active = !partInfo.isInvalid() && part.getSubTypes().size() > 1;
 	}
 }

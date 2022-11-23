@@ -1,17 +1,39 @@
 modLoader="javafml"
 loaderVersion="[40,)"
 license="MIT"
-issueTrackerURL="https://github.com/kihira/Tails/issues"
+issueTrackerURL="https://github.com/EnderTurret/Tails/issues"
 
 [[mods]]
     modId="tails"
     displayName="Tails"
-    displayURL="https://github.com/kihira/Tails"
+    displayURL="https://github.com/EnderTurret/Tails"
     description='''
-    Adds a variety of accessories that can be colored in many ways.
-    '''
+Adds a variety of accessories that can be colored in many ways.
+
+=== Credits ===
+
+Includes models and textures by:
+- Adeon
+- BluSunrize
+- Dracyoshi
+- DustSkys
+- TTFTCUTS
+- access_denied
+- carrotcodes
+- littlechippie
+
+Also includes translations by:
+- AegisLesha
+- BluSunrize
+- CallMeFoxie
+- Guro2
+- NekoiNemo
+- Xiretza
+- Zalthrion
+- iLexiconn
+'''
     version="${file.jarVersion}"
-    authors="Kihira"
+    authors="Kihira, EnderTurret"
 
 [[dependencies.tails]]
     modId="forge"

@@ -21,6 +21,7 @@ For user-facing differences (the ones you're most likely to see first):
 	* Example: the nine tails sub type is now under the fluffy tail instead of shown separately
 * Exporting/importing from skin is completely gone
 * Server-side Tails libraries are gone
+* Importing library entries actually works now
 
 ### Data format
 
@@ -72,11 +73,30 @@ Fortunately, you can still use your old customization data by following followin
 
 #### Option 2
 
+1. Run the game with the older version of Tails
+2. Save your "outfit" by adding it to your Tails library
+3. Export the library entry to clipboard and paste it somewhere (like a text file)
+4. Run the game with the newer version of Tails
+5. Import the copied text into the Tails library of the newer version
+6. Your "outfit" is now available as an entry in the Tails library
+
+#### Option 3
+
 1. Open the old config (usually at `tails.cfg`)
 2. Copy the contents of the "Local Player Data" line (after the `=`)
 3. Open the new config (at `tails-client.toml`)
 4. Paste the contents into the `localPlayerOutfit` field (between the quotes)
 5. Lastly, you need to "escape" all of the quotes in the data (turning all of the `"` into `\"`).
 	This can be accomplished manually or by using a search-and-replace tool in a text editor.
+6. Boot up the game and see if this process worked
 
-Tails will handle upgrading this data to the newer format, so you don't need to do any more work than this.
+Regardless of option, Tails will handle upgrading the data to the newer format, so you don't need to do any manual updating.
+
+## Data-driven parts
+
+As mentioned earlier, Tails's part system is now completely data-driven.
+For most people, the only change will be that resource packs can now define their own parts/subtypes/textures.
+Currently, this is limited to only adding new textures, as part models can only be defined in code.
+This is a limitation of Minecraft that is likely to disappear in the next few updates.
+
+There is a guide to creating parts, subtypes, and textures [here](docs/creating_parts.md).

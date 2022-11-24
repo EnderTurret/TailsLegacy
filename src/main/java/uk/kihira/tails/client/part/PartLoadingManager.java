@@ -11,12 +11,14 @@ package uk.kihira.tails.client.part;
 import java.io.BufferedReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -188,7 +190,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		}
 
 		if (DEBUG_REGISTRIES)
-			Tails.LOGGER.info("Orderings ({}):\n{}", realOrderings.size(), realOrderings.entrySet().stream()
+			Tails.LOGGER.info("Texture orderings ({}):\n{}", realOrderings.size(), realOrderings.entrySet().stream()
 					.map(e -> e.getKey() + " = " + e.getValue())
 					.collect(Collectors.joining("\n")));
 
@@ -260,6 +262,17 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 					.map(Part::toString)
 					.collect(Collectors.joining("\n")));
 
+		if (DEBUG_REGISTRIES) {
+			final String out = realParts.stream()
+					.map(part -> part.getId() + "\n  = " + part.getSubTypes().stream()
+							.map(sb -> sb.id() + "\n    - " + sb.textures().stream()
+									.map(tex -> tex.id())
+									.collect(Collectors.joining("\n    - ")))
+							.collect(Collectors.joining("\n  = ")))
+					.collect(Collectors.joining("\n"));
+			Tails.LOGGER.info("Part dependency graph:\n{}", out);
+		}
+
 		return realParts;
 	}
 
@@ -286,21 +299,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final List<String> ordering = json.has("ordering") ? readStringArray(json.get("ordering")) : List.of();
 
-		final List<Part.SubType> applicable = subTypes.stream()
-				.filter(nst -> nst.partId().equals(realId))
-				.map(NamedSubType::subType)
-				.toList();
+		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
-		final List<Part.SubType> subs = ordering.stream()
-				.map(i -> applicable.stream().filter(st -> st.id().equals(i)).findFirst().orElse(null))
-				.filter(st -> st != null)
-				.collect(Collectors.toList());
-
-		for (Part.SubType sub : applicable)
-			if (!subs.contains(sub))
-				subs.add(sub);
-
-		return new Part(realId, category, List.copyOf(subs), tints);
+		return new Part(realId, category, subs, tints);
 	}
 
 	/**
@@ -321,21 +322,13 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final String author = json.has("author") ? json.get("author").getAsString() : null;
 
-		final List<Part.PartTexture> tex = textures.stream()
+		final List<NamedTexture> tex = textures.stream()
 				.filter(tx -> tx.partId().equals(partId) && tx.applyTo().contains(typeId))
-				.map(NamedTexture::texture)
 				.toList();
 
 		final List<String> ordering = textureOrderings.getOrDefault(partId, List.of());
 
-		final List<Part.PartTexture> newTex = ordering.stream()
-				.map(i -> tex.stream().filter(pt -> pt.id().equals(i)).findFirst().orElse(null))
-				.filter(t -> t != null)
-				.collect(Collectors.toList());
-
-		for (Part.PartTexture t : tex)
-			if (!newTex.contains(t))
-				newTex.add(t);
+		final List<Part.PartTexture> newTex = order(partId, ordering, tex, (t, ord) -> t.unwrap().id().equals(ord));
 
 		return new NamedSubType(partId, new Part.SubType(typeId, author, newTex));
 	}
@@ -434,9 +427,47 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		}
 	}
 
-	private static record NamedSubType(ResourceLocation partId, Part.SubType subType) {}
+	private static <V, T extends Named<V>> List<V> order(ResourceLocation id, List<String> ordering, List<T> all, BiPredicate<T, String> orderMatcher) {
+		final List<T> applicable = all.stream()
+				.filter(n -> n.id().equals(id))
+				.sorted(Comparator.comparing(Named::id, ResourceLocation::compareNamespaced))
+				.toList();
 
-	private static record NamedTexture(ResourceLocation partId, List<String> applyTo, Part.PartTexture texture) {}
+		final List<V> resolved = ordering.stream()
+				.map(ord -> applicable.stream()
+						.filter(v -> orderMatcher.test(v, ord))
+						.findFirst()
+						.orElse(null))
+				.filter(t -> t != null)
+				.map(Named::unwrap)
+				.collect(Collectors.toList());
+
+		// Add unordered ones to the end of the list in alphabetical order.
+		for (Named<V> named : applicable)
+			if (!resolved.contains(named.unwrap()))
+				resolved.add(named.unwrap());
+
+		return List.copyOf(resolved);
+	}
+
+	private static interface Named<T> {
+		public ResourceLocation id();
+		public T unwrap();
+	}
+
+	private static record NamedSubType(ResourceLocation partId, Part.SubType subType) implements Named<Part.SubType> {
+		@Override
+		public ResourceLocation id() { return partId; }
+		@Override
+		public Part.SubType unwrap() { return subType; }
+	}
+
+	private static record NamedTexture(ResourceLocation partId, List<String> applyTo, Part.PartTexture texture) implements Named<Part.PartTexture> {
+		@Override
+		public ResourceLocation id() { return partId; }
+		@Override
+		public Part.PartTexture unwrap() { return texture; }
+	}
 
 	private static record ResourcePair(ResourceLocation location, Resource resource) {
 		@Override

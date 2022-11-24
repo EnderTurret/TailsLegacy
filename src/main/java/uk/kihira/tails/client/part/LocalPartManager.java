@@ -49,7 +49,7 @@ public final class LocalPartManager {
 		// Load local player info.
 		try {
 			// Load player data.
-			final String localPlayerOutfit = TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.get();
+			final String localPlayerOutfit = TailsConfig.CLIENT_INSTANCE.localPlayerData.get();
 
 			// Load default if none exists.
 			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty())
@@ -57,7 +57,7 @@ public final class LocalPartManager {
 			else
 				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (Exception e) {
-			TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set("");
+			TailsConfig.CLIENT_INSTANCE.localPlayerData.set("");
 			Tails.LOGGER.error("Failed to load local player data! Invalid data has been removed.", e);
 			//TailsConfig.getConfig().save();
 		}
@@ -73,7 +73,7 @@ public final class LocalPartManager {
 
 		localPartsData = partsData;
 
-		TailsConfig.CLIENT_INSTANCE.localPlayerOutfit.set(GSON.toJson(localPartsData));
+		TailsConfig.CLIENT_INSTANCE.localPlayerData.set(GSON.toJson(localPartsData));
 
 		TailsConfig.getConfig().save();
 	}

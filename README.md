@@ -57,7 +57,7 @@ Forge hasn't supported this esoteric config format since, so this is what the co
 
 ```toml
 [client]
-	localPlayerOutfit = "..."
+	localPlayerData = "..."
 ```
 
 This change means that you won't be able to just drop an old config in the configs folder and expect it to work.
@@ -66,26 +66,26 @@ Fortunately, you can still use your old customization data by following followin
 #### Option 1
 
 1. Run the game with the older version of Tails
-2. Save your "outfit" by adding it to your Tails library
+2. Save your customizations by adding it to your Tails library
 3. Move the Tails library file (`tailslibrary.json`) to wherever the newer version of Tails is installed
 	* This will be inside the same folder that contains the `mods` folder
-4. Your "outfit" will be available in the newer version as an entry in the Tails library
+4. Your customizations will be available in the newer version as an entry in the Tails library
 
 #### Option 2
 
 1. Run the game with the older version of Tails
-2. Save your "outfit" by adding it to your Tails library
+2. Save your customizations by adding it to your Tails library
 3. Export the library entry to clipboard and paste it somewhere (like a text file)
 4. Run the game with the newer version of Tails
 5. Import the copied text into the Tails library of the newer version
-6. Your "outfit" is now available as an entry in the Tails library
+6. Your customizations is now available as an entry in the Tails library
 
 #### Option 3
 
 1. Open the old config (usually at `tails.cfg`)
 2. Copy the contents of the "Local Player Data" line (after the `=`)
 3. Open the new config (at `tails-client.toml`)
-4. Paste the contents into the `localPlayerOutfit` field (between the quotes)
+4. Paste the contents into the `localPlayerData` field (between the quotes)
 5. Lastly, you need to "escape" all of the quotes in the data (turning all of the `"` into `\"`).
 	This can be accomplished manually or by using a search-and-replace tool in a text editor.
 6. Boot up the game and see if this process worked

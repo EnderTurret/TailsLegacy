@@ -102,35 +102,35 @@ public final class EditorScreen extends LayeredScreen {
 
 	@Override
 	public void init() {
-		final int previewWindowEdgeOffset = 110;
-		final int previewWindowRight = width - previewWindowEdgeOffset;
-		final int previewWindowBottom = height - 30;
+		final int previewLeft = 110 + 4;
+		final int previewRight = width - previewLeft;
+		final int previewBottom = height - 30;
 		final int texSelectHeight = 50;
 
 		// Not an ideal solution but keeps everything from resetting on resize.
 		if (tintPanel == null) {
-			getLayer(0).add(previewPanel = new PreviewPanel(this, previewWindowEdgeOffset, 0, previewWindowRight - previewWindowEdgeOffset, previewWindowBottom));
-			getLayer(1).add(partsPanel = new PartsPanel(this, 0, 0, previewWindowEdgeOffset, height - texSelectHeight));
-			getLayer(1).add(libraryPanel = new LibraryPanel(this, 0, 0, previewWindowEdgeOffset, height));
-			getLayer(1).add(tintPanel = new TintPanel(this, previewWindowRight, 0, width - previewWindowRight, height));
-			getLayer(1).add(libraryImportPanel = new LibraryImportPanel(this, previewWindowRight, height - 60, width - previewWindowRight, 60));
-			getLayer(1).add(libraryInfoPanel = new LibraryInfoPanel(this, previewWindowRight, 0, width - previewWindowRight, height - 60));
-			getLayer(1).add(controlsPanel = new ControlsPanel(this, previewWindowEdgeOffset, previewWindowBottom, previewWindowRight - previewWindowEdgeOffset, height - previewWindowBottom));
-			getLayer(1).add(texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewWindowEdgeOffset, 58));
+			getLayer(0).add(previewPanel = new PreviewPanel(this, previewLeft, 0, previewRight - previewLeft, previewBottom));
+			getLayer(1).add(partsPanel = new PartsPanel(this, 0, 0, previewLeft, height - texSelectHeight));
+			getLayer(1).add(libraryPanel = new LibraryPanel(this, 0, 0, previewLeft, height));
+			getLayer(1).add(tintPanel = new TintPanel(this, previewRight, 0, width - previewRight, height));
+			getLayer(1).add(libraryImportPanel = new LibraryImportPanel(this, previewRight, height - 60, width - previewRight, 60));
+			getLayer(1).add(libraryInfoPanel = new LibraryInfoPanel(this, previewRight, 0, width - previewRight, height - 60));
+			getLayer(1).add(controlsPanel = new ControlsPanel(this, previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom));
+			getLayer(1).add(texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewLeft, 58));
 
 			libraryInfoPanel.enabled = false;
 			libraryImportPanel.enabled = false;
 			libraryPanel.enabled = false;
 		}
 		else {
-			previewPanel.resize(previewWindowEdgeOffset, 0, previewWindowRight - previewWindowEdgeOffset, previewWindowBottom);
-			partsPanel.resize(0, 0, previewWindowEdgeOffset, height - texSelectHeight);
-			libraryPanel.resize(0, 0, previewWindowEdgeOffset, height);
-			tintPanel.resize(previewWindowRight, 0, width - previewWindowRight, height);
-			libraryImportPanel.resize(previewWindowRight, height - 60, width - previewWindowRight, 60);
-			libraryInfoPanel.resize(previewWindowRight, 0, width - previewWindowRight, height - 60);
-			controlsPanel.resize(previewWindowEdgeOffset, previewWindowBottom, previewWindowRight - previewWindowEdgeOffset, height - previewWindowBottom);
-			texturePanel.resize(0, height - texSelectHeight, previewWindowEdgeOffset, 58);
+			previewPanel.resize(previewLeft, 0, previewRight - previewLeft, previewBottom);
+			partsPanel.resize(0, 0, previewLeft, height - texSelectHeight);
+			libraryPanel.resize(0, 0, previewLeft, height);
+			tintPanel.resize(previewRight, 0, width - previewRight, height);
+			libraryImportPanel.resize(previewRight, height - 60, width - previewRight, 60);
+			libraryInfoPanel.resize(previewRight, 0, width - previewRight, height - 60);
+			controlsPanel.resize(previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom);
+			texturePanel.resize(0, height - texSelectHeight, previewLeft, 58);
 		}
 
 		super.init();

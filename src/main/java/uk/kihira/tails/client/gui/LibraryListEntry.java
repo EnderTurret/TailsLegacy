@@ -45,6 +45,9 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 
 	@Override
 	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+		if (panel.getList().getMaxScroll() > 0)
+			listWidth -= 6;
+
 		final Font fontRenderer = Minecraft.getInstance().font;
 		fontRenderer.draw(poseStack, (data.partsData.equals(LocalPartManager.getLocalPartsData()) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);

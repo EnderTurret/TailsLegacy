@@ -84,8 +84,6 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		setBlitOffset(0);
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		drawCenteredString(poseStack, font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
-		// Tails list
-		partList.render(poseStack, mouseX, mouseY, partialTick);
 
 		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
@@ -147,9 +145,9 @@ public final class PartsPanel extends Panel<EditorScreen> {
 			removeWidget(this.partList);
 		}
 
-		this.partList = new ListWidget<>(108, bottom - top - listTop, listTop, bottom - top, 55, partList);
+		this.partList = new ListWidget<>(108 + 6, bottom - top - listTop, listTop, bottom - top, 55, partList);
 
-		addWidget(this.partList);
+		addRenderableWidget(this.partList);
 		selectDefaultListEntry();
 	}
 
@@ -208,7 +206,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
-				renderPart(poseStack, right - 25, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+				renderPart(poseStack, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
 				RenderHelper.drawStringMultiLine(poseStack, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {

@@ -300,7 +300,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		if (editingTint > 0)
 			parent.getEditingPartInfo().getTints()[editingTint - 1] = currentTint | 0xFF000000; // Add the alpha manually.
 
-		parent.setPartsInfo(parent.getEditingPartInfo());
+		parent.setPartsInfo(parent.getEditingPartInfo(), true);
 	}
 
 	public void setEditingTint(int value) {

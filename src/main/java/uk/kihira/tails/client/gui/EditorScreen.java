@@ -147,8 +147,9 @@ public final class EditorScreen extends LayeredScreen {
 		onSave.accept(this);
 	}
 
-	public void setPartsInfo(ClientPartInfo newPartInfo) {
-		if (editingPartInfo == newPartInfo) return;
+	public void setPartsInfo(ClientPartInfo newPartInfo, boolean force) {
+		if (!force && editingPartInfo == newPartInfo) return;
+
 		editingPartInfo.clearGlTexture(); // Clear texture data as we will no longer need it.
 		editingPartInfo = newPartInfo;
 
@@ -157,6 +158,10 @@ public final class EditorScreen extends LayeredScreen {
 		getPartsData().setPartInfo(partType, editingPartInfo);
 
 		texturePanel.updateButtons();
+	}
+
+	public void setPartsInfo(ClientPartInfo newPartInfo) {
+		setPartsInfo(newPartInfo, true);
 	}
 
 	public ClientPartInfo getEditingPartInfo() {

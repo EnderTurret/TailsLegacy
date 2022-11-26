@@ -56,8 +56,6 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 			initList();
 		}));
 		addRenderableWidget(searchField = new RelativeTextBox(font, 5, bottom - top - 31, right - left - 10, 10, Component.empty()));
-
-		super.init();
 	}
 
 	@Override

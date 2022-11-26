@@ -78,7 +78,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 				yaw += (mouseX - prevMouseX) * 1.5F;
 			// Pitch
 			if (prevMouseY != -1) {
-				pitch += (mouseY - prevMouseY) * 0.1F;
+				pitch -= (mouseY - prevMouseY) * 0.05F;
 				pitch = Mth.clamp(pitch, 4.8F, 13F);
 			}
 

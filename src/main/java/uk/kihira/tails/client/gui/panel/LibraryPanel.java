@@ -86,16 +86,16 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		final boolean value = super.keyPressed(keyCode, scanCode, modifiers);
+		final boolean handled = super.keyPressed(keyCode, scanCode, modifiers);
 
-		if (value) {
+		if (handled) {
 			final List<LibraryListEntry> newEntries = filterListEntries(searchField.getValue().toLowerCase(Locale.ROOT));
 			newEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
 			list.children().clear();
 			list.children().addAll(newEntries);
 		}
 
-		return value;
+		return handled;
 	}
 
 	public void initList() {

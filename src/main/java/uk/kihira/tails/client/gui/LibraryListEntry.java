@@ -26,6 +26,7 @@ import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
@@ -49,7 +50,8 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 			listWidth -= 6;
 
 		final Font fontRenderer = Minecraft.getInstance().font;
-		fontRenderer.draw(poseStack, (data.partsData.equals(LocalPartManager.getLocalPartsData()) ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
+		final boolean sel = data.partsData.equals(LocalPartManager.getLocalPartsData());
+		fontRenderer.draw(poseStack, (sel ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
 		for (PartType type : PartType.values())
@@ -85,7 +87,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		panel.getList().setSelected(this);
 		panel.getParent().getLibraryInfoPanel().setEntry(this);
-		panel.getParent().setPartsData(data.partsData.deepCopy());
+		panel.getParent().setPartsData(ClientPartsData.clone(data.partsData.deepCopy()));
 		return true;
 	}
 

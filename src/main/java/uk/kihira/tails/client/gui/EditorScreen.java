@@ -26,6 +26,7 @@ import uk.kihira.tails.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.client.toast.ToastManager;
@@ -40,7 +41,7 @@ import uk.kihira.tails.common.part.PartsData;
 public final class EditorScreen extends LayeredScreen {
 
 	private PartType partType;
-	private PartsData partsData;
+	private ClientPartsData partsData;
 	private ClientPartInfo editingPartInfo;
 	private ClientPartInfo originalPartInfo;
 	private final UUID playerUUID;
@@ -56,7 +57,7 @@ public final class EditorScreen extends LayeredScreen {
 	protected LibraryInfoPanel libraryInfoPanel;
 	protected LibraryImportPanel libraryImportPanel;
 
-	public EditorScreen(PartsData original, Consumer<EditorScreen> onSave) {
+	public EditorScreen(ClientPartsData original, Consumer<EditorScreen> onSave) {
 		super(4, Component.empty());
 		this.onSave = onSave;
 
@@ -66,13 +67,13 @@ public final class EditorScreen extends LayeredScreen {
 
 		// Backup original PartInfo or create default one.
 		if (original == null)
-			original = new PartsData();
+			original = new ClientPartsData();
 
 		for (PartType partType : PartType.values())
 			if (!original.hasPartInfo(partType))
 				original.setPartInfo(partType, ClientPartInfo.empty());
 
-		final ClientPartInfo partInfo = (ClientPartInfo) original.getPartInfo(partType);
+		final ClientPartInfo partInfo = original.getPartInfo(partType);
 
 		originalPartInfo = partInfo.clone();
 		editingPartInfo = originalPartInfo.clone();
@@ -80,14 +81,14 @@ public final class EditorScreen extends LayeredScreen {
 	}
 
 	public static EditorScreen openDefault() {
-		PartsData data = LocalPartManager.getLocalPartsData();
+		ClientPartsData data = LocalPartManager.getLocalPartsData();
 
 		if (data == null)
-			LocalPartManager.setLocalPartsData(data = new PartsData());
+			LocalPartManager.setLocalPartsData(data = new ClientPartsData());
 
 		return new EditorScreen(data, screen -> {
 			// Update part info, set local and send it to the server.
-			final PartsData partsData = screen.getPartsData();
+			final ClientPartsData partsData = screen.getPartsData();
 
 			LocalPartManager.setLocalPartsData(partsData);
 			Tails.PROXY.getPartManager().set(ClientUtils.getPlayerUUID(), partsData);
@@ -168,13 +169,13 @@ public final class EditorScreen extends LayeredScreen {
 		return editingPartInfo;
 	}
 
-	public void setPartsData(PartsData newPartsData) {
+	public void setPartsData(ClientPartsData newPartsData) {
 		if (partsData == newPartsData) return;
 		partsData = newPartsData;
 		Tails.PROXY.getPartManager().set(playerUUID, partsData);
 	}
 
-	public PartsData getPartsData() {
+	public ClientPartsData getPartsData() {
 		return partsData;
 	}
 

@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.api.ITailsAccess;
 import uk.kihira.tails.api.ITailsSyncService;
+import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.LibraryEntryData;
@@ -49,7 +50,10 @@ public final class TailsAccess implements ITailsAccess {
 
 	@Override
 	public void setLocalData(PartsData data) {
-		LocalPartManager.setLocalPartsData(data);
+		if (!(data instanceof ClientPartsData))
+			data = ClientPartsData.clone(data);
+
+		LocalPartManager.setLocalPartsData((ClientPartsData) data);
 		setPartData(data, ClientUtils.getPlayerUUID());
 		LocalPartManager.syncToServer();
 	}

@@ -36,22 +36,27 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 
 	private final Set<UUID> checked = new HashSet<>(0);
 
+	@Override
+	protected ClientPartsData empty() {
+		return ClientPartsData.EMPTY;
+	}
+
 	/**
 	 * If a sync service is defined, queries it for data on the given id.
 	 * Otherwise returns {@link PartsData#EMPTY}.
 	 * @param uuid The id to query data for.
 	 * @return The data.
 	 */
-	private PartsData query(UUID uuid) {
+	private ClientPartsData query(UUID uuid) {
 		if (sync != null && checked.add(uuid)) {
-			final PartsData data = Objects.requireNonNull(sync.query(uuid), "query() contract violated!");
+			final ClientPartsData data = ClientPartsData.clone(Objects.requireNonNull(sync.query(uuid), "query() contract violated!"));
 			if (!data.isEmpty()) {
 				set(uuid, data);
 				return data;
 			}
 		}
 
-		return PartsData.EMPTY;
+		return empty();
 	}
 
 	/**
@@ -59,17 +64,13 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	 * @param data The data.
 	 * @return The data.
 	 */
-	private PartsData release(PartsData data) {
+	private ClientPartsData release(PartsData data) {
 		data.clearTextures();
-		return data;
+		return (ClientPartsData) data;
 	}
 
 	@Override
 	public boolean has(UUID uuid) {
-		// TODO
-		//if (ClientUtils.getPlayerUUID().equals(uuid))
-		//return true;
-
 		final boolean has = super.has(uuid);
 
 		// If we don't have data for that id, try querying the sync service for it.
@@ -82,23 +83,23 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	}
 
 	@Override
-	public PartsData get(UUID uuid) {
-		// TODO
-		//if (ClientUtils.getPlayerUUID().equals(uuid))
-		//return LocalPartManager.getLocalPartsData();
-
-		final PartsData ret = super.get(uuid);
+	public ClientPartsData get(UUID uuid) {
+		final ClientPartsData ret = (ClientPartsData) super.get(uuid);
 		return ret.isEmpty() ? query(uuid) : ret;
 	}
 
 	@Override
-	public PartsData remove(UUID uuid) {
+	public ClientPartsData remove(UUID uuid) {
 		checked.remove(uuid);
 		return release(super.remove(uuid));
 	}
 
 	@Override
-	public PartsData set(UUID uuid, PartsData data) {
+	public ClientPartsData set(UUID uuid, PartsData data) {
+		Objects.requireNonNull(data);
+		if (!(data instanceof ClientPartsData))
+			data = ClientPartsData.clone(data);
+
 		return release(super.set(uuid, data));
 	}
 

@@ -35,11 +35,11 @@ public final class LocalPartManager {
 	 */
 	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
-			.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
+			.registerTypeHierarchyAdapter(PartsData.class, new ClientPartsData.Serializer())
 			.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer())
 			.create();
 
-	private static PartsData localPartsData = PartsData.EMPTY;
+	private static ClientPartsData localPartsData = ClientPartsData.EMPTY;
 
 	/**
 	 * Reloads the local part data from the config.
@@ -53,9 +53,9 @@ public final class LocalPartManager {
 
 			// Load default if none exists.
 			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty())
-				setLocalPartsData(new PartsData());
+				setLocalPartsData(new ClientPartsData());
 			else
-				localPartsData = GSON.fromJson(localPlayerOutfit, PartsData.class);
+				localPartsData = (ClientPartsData) GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (Exception e) {
 			TailsConfig.CLIENT_INSTANCE.localPlayerData.set("");
 			Tails.LOGGER.error("Failed to load local player data! Invalid data has been removed.", e);
@@ -68,7 +68,7 @@ public final class LocalPartManager {
 	 * @param partsData The new part data.
 	 */
 	@Internal
-	public static void setLocalPartsData(PartsData partsData) {
+	public static void setLocalPartsData(ClientPartsData partsData) {
 		if (partsData == null) throw new NullPointerException();
 
 		localPartsData = partsData;
@@ -82,7 +82,7 @@ public final class LocalPartManager {
 	 * @return The local part data.
 	 */
 	@Internal
-	public static PartsData getLocalPartsData() {
+	public static ClientPartsData getLocalPartsData() {
 		return localPartsData;
 	}
 

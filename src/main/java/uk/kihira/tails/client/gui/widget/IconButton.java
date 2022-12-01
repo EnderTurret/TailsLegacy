@@ -43,7 +43,7 @@ public class IconButton extends Button implements ITooltip {
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 
-		final int textureOffset = getYImage(isHovered);
+		final int textureOffset = getYImage(isHoveredOrFocused());
 
 		blit(poseStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
 	}

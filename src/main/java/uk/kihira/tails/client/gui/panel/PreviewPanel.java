@@ -41,15 +41,15 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		doRender = minecraft.options.getCameraType() == CameraType.FIRST_PERSON;
 		if (!doRender) return;
 
+		// Help
+		addRenderableWidget(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")));
+
 		// Reset Camera
 		addRenderableWidget(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {
 			yaw = 0;
 			pitch = 8F;
 			zoom = 1F;
 		}, Component.translatable("tails.gui.button.reset.camera")));
-
-		// Help
-		addRenderableWidget(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")));
 	}
 
 	@Override

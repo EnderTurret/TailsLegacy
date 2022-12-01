@@ -26,6 +26,7 @@ import com.google.gson.JsonSerializer;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.texture.TextureHelper;
+import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.ServerPartInfo;
@@ -214,22 +215,22 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	@Override
 	public final boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof ClientPartInfo partInfo)) return false;
+		if (!(o instanceof IPartInfo partInfo)) return false;
 
-		return isEmpty() == partInfo.isEmpty() && getPartId().equals(partInfo.getPartId()) && getSubType() == partInfo.getSubType()
-				&& Arrays.equals(getTints(), partInfo.getTints()) && getTextureId() == partInfo.getTextureId();
+		return isEmpty() == partInfo.isEmpty() && Objects.equals(getPartId(), partInfo.getPartId()) && Objects.equals(getSubTypeId(), partInfo.getSubTypeId())
+				&& Arrays.equals(getTints(), partInfo.getTints()) && Objects.equals(getTextureId(), partInfo.getTextureId());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getPartId(), getSubType(), getTints(), getTextureId());
+		return Objects.hash(getPartId(), getSubTypeId(), getTints(), getTextureId());
 	}
 
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 
-		sb.append("PartInfo{");
+		sb.append("ClientPartInfo{");
 		sb.append("partId=").append(getPartId());
 		sb.append(", subType=").append(getSubType().id());
 		sb.append(", tints=").append(Arrays.stream(getTints()).mapToObj(tint -> "0x" + Integer.toHexString(tint)).collect(Collectors.joining(", ", "[", "]")));
@@ -274,13 +275,13 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		public PartType getType() { return null; }
 
 		@Override
-		public ResourceLocation getPartId() { return null; }
+		public ResourceLocation getPartId() { return new ResourceLocation(Tails.MOD_ID, "empty"); }
 
 		@Override
-		public String getSubTypeId() { return null; }
+		public String getSubTypeId() { return "empty"; }
 
 		@Override
-		public String getTextureId() { return null; }
+		public String getTextureId() { return "empty"; }
 
 		@Override
 		public int[] getTints() { return Part.DEFAULT_TINTS.clone(); }
@@ -290,6 +291,11 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 
 		@Override
 		public void setTexture(ResourceLocation texture) {}
+
+		@Override
+		public String toString() {
+			return "ClientPartInfo.Empty.INSTANCE";
+		}
 	}
 
 	/**

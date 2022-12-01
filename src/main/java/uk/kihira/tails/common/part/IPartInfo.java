@@ -112,5 +112,17 @@ public interface IPartInfo {
 		public int[] getTints() {
 			return new int[] { 0xFF0000, 0x00FF00, 0x0000FF };
 		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == this) return true;
+			if (!(obj instanceof IPartInfo partInfo)) return false;
+			return partInfo.isEmpty();
+		}
+
+		@Override
+		public String toString() {
+			return "IPartInfo.Empty.INSTANCE";
+		}
 	}
 }

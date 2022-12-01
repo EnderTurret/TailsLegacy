@@ -125,12 +125,12 @@ public final class EditorScreen extends LayeredScreen {
 		else {
 			previewPanel.resize(previewLeft, 0, previewRight - previewLeft, previewBottom);
 			partsPanel.resize(0, 0, previewLeft, height - texSelectHeight);
-			libraryPanel.resize(0, 0, previewLeft, height);
+			texturePanel.resize(0, height - texSelectHeight, previewLeft, 58);
 			tintPanel.resize(previewRight, 0, width - previewRight, height);
+			libraryPanel.resize(0, 0, previewLeft, height);
 			libraryImportPanel.resize(previewRight, height - 60, width - previewRight, 60);
 			libraryInfoPanel.resize(previewRight, 0, width - previewRight, height - 60);
 			controlsPanel.resize(previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom);
-			texturePanel.resize(0, height - texSelectHeight, previewLeft, 58);
 		}
 
 		super.init();

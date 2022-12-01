@@ -77,7 +77,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		// Tint edit pane
 		hexText = new RelativeTextBox(font, 30, editPaneTop + 20, 73, 10, null);
 		hexText.setMaxLength(6);
-		addWidget(hexText);
+		addRenderableWidget(hexText);
 
 		// RGB sliders
 		red = new SaturationSlider(5, editPaneTop + 70, 100, 10, this, Component.translatable("tails.gui.slider.red.tooltip"));
@@ -137,8 +137,6 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 			font.draw(poseStack, I18n.get("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
 
 			font.draw(poseStack, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
-
-			hexText.render(poseStack, mouseX, mouseY, partialTick);
 		}
 
 		super.render(poseStack, mouseX, mouseY, partialTick);
@@ -290,10 +288,9 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 		final boolean visible = editingTint > 0;
 
-		red.visible = green.visible = blue.visible = visible;
-		hue.visible = saturation.visible = brightness.visible = visible;
-		tintReset.visible = visible;
-		colourPicker.visible = visible;
+		red.visible = green.visible = blue.visible =
+				hue.visible = saturation.visible = brightness.visible =
+				tintReset.visible = colourPicker.visible = hexText.visible = visible;
 
 		tintReset.active = true;
 

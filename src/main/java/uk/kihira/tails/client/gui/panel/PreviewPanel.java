@@ -42,7 +42,12 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		if (!doRender) return;
 
 		// Help
-		addRenderableWidget(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")));
+		addRenderableWidget(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")) {
+			@Override
+			protected boolean isValidClickButton(int button) {
+				return false;
+			}
+		});
 
 		// Reset Camera
 		addRenderableWidget(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {

@@ -34,6 +34,7 @@ import net.minecraftforge.common.UsernameCache;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
+import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
@@ -85,10 +86,10 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 			return;
 		}
 
-		final PartsData partData;
+		final ClientPartsData partData;
 
 		try {
-			partData = LocalPartManager.GSON.fromJson(json, PartsData.class);
+			partData = (ClientPartsData) LocalPartManager.GSON.fromJson(json, PartsData.class);
 		} catch (Exception e) {
 			toast(Component.translatable("tails.gui.library.import.toast.invalid.parts").withStyle(ChatFormatting.RED));
 			Tails.LOGGER.error("Exception parsing import part data:", e);

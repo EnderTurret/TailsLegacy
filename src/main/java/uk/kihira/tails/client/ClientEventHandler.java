@@ -50,6 +50,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
+import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.helper.FakeEntityRenderHelper;
@@ -95,7 +96,7 @@ public final class ClientEventHandler {
 		@SubscribeEvent
 		static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
 			// Add local player texture to map.
-			Tails.PROXY.getPartManager().set(ClientUtils.getPlayerUUID(), LocalPartManager.getLocalPartsData());
+			ClientPlayerPartManager.get().set(ClientUtils.getPlayerUUID(), LocalPartManager.getLocalPartsData());
 		}
 
 		@SubscribeEvent
@@ -109,7 +110,7 @@ public final class ClientEventHandler {
 		static void onClientTick(TickEvent.ClientTickEvent e) {
 			if (e.phase == TickEvent.Phase.START)
 				if (clearAllPartInfo) {
-					Tails.PROXY.getPartManager().clear();
+					ClientPlayerPartManager.get().clear();
 					clearAllPartInfo = false;
 				}
 				// World can't be null if we want to send a packet it seems.

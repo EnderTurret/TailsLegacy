@@ -25,11 +25,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.ClientPartsData;
+import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 
 /**
  * A {@link RenderLayer} for Tails parts/accessories.
@@ -52,9 +53,9 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(entity.getGameProfile());
-		final PartsData partsData = Tails.PROXY.getPartManager().get(uuid);
+		final ClientPartsData partsData = ClientPlayerPartManager.get().get(uuid);
 		if (!partsData.isEmpty() && partsData.hasPartInfo(partType)) {
-			final ClientPartInfo partInfo = (ClientPartInfo) partsData.getPartInfo(partType);
+			final ClientPartInfo partInfo = partsData.getPartInfo(partType);
 			if (partInfo.isInvalid()) return; // Skip unknown parts.
 
 			poseStack.pushPose();

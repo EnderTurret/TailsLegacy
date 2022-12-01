@@ -27,12 +27,11 @@ import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
+import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.client.toast.ToastManager;
-import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 
 /**
  * The editor screen.
@@ -91,7 +90,7 @@ public final class EditorScreen extends LayeredScreen {
 			final ClientPartsData partsData = screen.getPartsData();
 
 			LocalPartManager.setLocalPartsData(partsData);
-			Tails.PROXY.getPartManager().set(ClientUtils.getPlayerUUID(), partsData);
+			ClientPlayerPartManager.get().set(ClientUtils.getPlayerUUID(), partsData);
 
 			LocalPartManager.syncToServer();
 
@@ -139,7 +138,7 @@ public final class EditorScreen extends LayeredScreen {
 
 	@Override
 	public void removed() {
-		Tails.PROXY.getPartManager().set(playerUUID, LocalPartManager.getLocalPartsData());
+		ClientPlayerPartManager.get().set(playerUUID, LocalPartManager.getLocalPartsData());
 		super.removed();
 		TextureHelper.logLeaks();
 	}
@@ -172,7 +171,7 @@ public final class EditorScreen extends LayeredScreen {
 	public void setPartsData(ClientPartsData newPartsData) {
 		if (partsData == newPartsData) return;
 		partsData = newPartsData;
-		Tails.PROXY.getPartManager().set(playerUUID, partsData);
+		ClientPlayerPartManager.get().set(playerUUID, partsData);
 	}
 
 	public ClientPartsData getPartsData() {

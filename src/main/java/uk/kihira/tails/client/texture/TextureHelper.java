@@ -29,6 +29,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.common.Tails;
 
@@ -137,7 +138,7 @@ public final class TextureHelper {
 	public static void logLeaks() {
 		if (!DEBUG_TEXTURE_LEAKS) return;
 
-		final Set<ResourceLocation> inUse = Tails.PROXY.getPartManager().getData().values().stream()
+		final Set<ResourceLocation> inUse = ClientPlayerPartManager.get().getData().values().stream()
 				.flatMap(pd -> pd.getPartInfos().stream())
 				.filter(pi -> pi instanceof ClientPartInfo)
 				.map(pi -> ((ClientPartInfo) pi).getTexture())

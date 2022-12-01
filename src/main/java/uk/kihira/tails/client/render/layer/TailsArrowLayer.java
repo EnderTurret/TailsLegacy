@@ -32,12 +32,12 @@ import net.minecraft.world.entity.player.Player;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.ClientPartsData;
+import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.part.PartRenderer;
-import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartType;
-import uk.kihira.tails.common.part.PartsData;
 
 /**
  * A specialized {@link ArrowLayer} for rendering arrows on Tails parts/accessories in addition to normal body parts.
@@ -60,22 +60,22 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 		return super.numStuck(entity);
 	}
 
-	protected PartsData getPartData(LivingEntity entity) {
+	protected ClientPartsData getPartData(LivingEntity entity) {
 		if (!(entity instanceof Player player)) return null;
 
 		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(player.getGameProfile());
 
-		return Tails.PROXY.getPartManager().get(uuid);
+		return ClientPlayerPartManager.get().get(uuid);
 	}
 
-	protected List<PartConfig> getConfigurations(PartsData data, LivingEntity entity) {
+	protected List<PartConfig> getConfigurations(ClientPartsData data, LivingEntity entity) {
 		final List<PartConfig> parts = new ArrayList<>();
 		parts.add(new PartConfig(new PartConfiguration.Player(getParentModel()), null, null));
 
 		if (!data.isEmpty())
 			for (PartType type : PartType.values())
 				if (data.hasPartInfo(type)) {
-					final ClientPartInfo info = (ClientPartInfo) data.getPartInfo(type);
+					final ClientPartInfo info = data.getPartInfo(type);
 					if (info.isInvalid()) continue;
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(info.getPart());
 
@@ -95,7 +95,7 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 
 		if (stuck > 0) {
 			final RandomSource rand = RandomSource.create(entity.getId());
-			final PartsData data = getPartData(entity);
+			final ClientPartsData data = getPartData(entity);
 			final List<PartConfig> configurations = getConfigurations(data, entity);
 
 			for (int i = 0; i < stuck; i++) {

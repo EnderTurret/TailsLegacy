@@ -30,6 +30,17 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 		replaceEntries(entries);
 	}
 
+	public void onItemSelected(T item) {}
+
+	@Override
+	public void setSelected(T selected) {
+		final boolean changed = getSelected() != selected;
+
+		super.setSelected(selected);
+
+		if (changed) onItemSelected(selected);
+	}
+
 	@Override
 	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		RenderHelper.startGlScissor(x0, y0, width, height);

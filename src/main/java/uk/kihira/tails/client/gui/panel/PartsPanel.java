@@ -95,7 +95,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 			entry.partInfo.clearGlTexture();
 	}
 
-	public boolean onEntrySelected(int index, PartEntry entry) {
+	public boolean onEntrySelected(PartEntry entry) {
 		final ClientPartInfo oldInfo = parent.getEditingPartInfo();
 
 		// Need to keep tints from original part.
@@ -145,7 +145,12 @@ public final class PartsPanel extends Panel<EditorScreen> {
 			removeWidget(this.partList);
 		}
 
-		this.partList = new ListWidget<>(108 + 6, bottom - top - listTop, listTop, bottom - top, 55, partList);
+		this.partList = new ListWidget<>(108 + 6, bottom - top - listTop, listTop, bottom - top, 55, partList) {
+			@Override
+			public void onItemSelected(PartEntry item) {
+				onEntrySelected(item);
+			}
+		};
 
 		addRenderableWidget(this.partList);
 		selectDefaultListEntry();
@@ -238,7 +243,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int button) {
 			partList.setSelected(this);
-			onEntrySelected(partList.children().indexOf(this), this);
+			//onEntrySelected(partList.children().indexOf(this), this);
 			return true;
 		}
 

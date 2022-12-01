@@ -111,12 +111,12 @@ public final class EditorScreen extends LayeredScreen {
 		if (tintPanel == null) {
 			getLayer(0).add(previewPanel = new PreviewPanel(this, previewLeft, 0, previewRight - previewLeft, previewBottom));
 			getLayer(1).add(partsPanel = new PartsPanel(this, 0, 0, previewLeft, height - texSelectHeight));
-			getLayer(1).add(libraryPanel = new LibraryPanel(this, 0, 0, previewLeft, height));
+			getLayer(1).add(texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewLeft, 58));
 			getLayer(1).add(tintPanel = new TintPanel(this, previewRight, 0, width - previewRight, height));
+			getLayer(1).add(libraryPanel = new LibraryPanel(this, 0, 0, previewLeft, height));
 			getLayer(1).add(libraryImportPanel = new LibraryImportPanel(this, previewRight, height - 60, width - previewRight, 60));
 			getLayer(1).add(libraryInfoPanel = new LibraryInfoPanel(this, previewRight, 0, width - previewRight, height - 60));
 			getLayer(1).add(controlsPanel = new ControlsPanel(this, previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom));
-			getLayer(1).add(texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewLeft, 58));
 
 			libraryInfoPanel.enabled = false;
 			libraryImportPanel.enabled = false;

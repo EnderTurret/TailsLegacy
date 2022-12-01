@@ -27,6 +27,10 @@ public class PlayerPartManager implements IPlayerPartManager {
 	protected final Map<UUID, PartsData> partsData = new HashMap<>();
 	private final Map<UUID, PartsData> view = Collections.unmodifiableMap(partsData);
 
+	protected PartsData empty() {
+		return PartsData.EMPTY;
+	}
+
 	@Override
 	public boolean has(UUID uuid) {
 		if (uuid == null) throw new NullPointerException();
@@ -36,7 +40,7 @@ public class PlayerPartManager implements IPlayerPartManager {
 	@Override
 	public PartsData get(UUID uuid) {
 		if (uuid == null) throw new NullPointerException();
-		return partsData.getOrDefault(uuid, PartsData.EMPTY);
+		return partsData.getOrDefault(uuid, empty());
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class PlayerPartManager implements IPlayerPartManager {
 		if (uuid == null) throw new NullPointerException();
 
 		final PartsData ret = partsData.remove(uuid);
-		return ret != null ? ret : PartsData.EMPTY;
+		return ret != null ? ret : empty();
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class PlayerPartManager implements IPlayerPartManager {
 		if (data == null) throw new NullPointerException();
 
 		final PartsData ret = data.isEmpty() ? partsData.remove(uuid) : partsData.put(uuid, data);
-		return ret != null ? ret : PartsData.EMPTY;
+		return ret != null ? ret : empty();
 	}
 
 	@Override

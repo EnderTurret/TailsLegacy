@@ -10,6 +10,7 @@ package uk.kihira.tails.common.part;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
@@ -35,7 +36,7 @@ public class PartsData {
 	 */
 	public static final PartsData EMPTY = new PartsData() {
 		@Override
-		public IPartInfo getPartInfo(PartType partType) { return IPartInfo.empty(); }
+		public IPartInfo getPartInfo(PartType partType) { return empty(); }
 		@Override
 		public void setPartInfo(PartType partType, IPartInfo partInfo) {}
 		@Override
@@ -58,12 +59,16 @@ public class PartsData {
 
 	public PartsData() {
 		for (PartType type : PartType.values())
-			partInfoMap.put(type, IPartInfo.empty());
+			partInfoMap.put(type, empty());
 	}
 
 	public PartsData(Map<PartType, IPartInfo> partData) {
 		this();
 		partInfoMap.putAll(partData);
+	}
+
+	protected IPartInfo empty() {
+		return IPartInfo.empty();
 	}
 
 	public boolean isEmpty() {
@@ -88,7 +93,7 @@ public class PartsData {
 	 * @return The part info.
 	 */
 	public IPartInfo getPartInfo(PartType partType) {
-		return partInfoMap.getOrDefault(partType, IPartInfo.empty());
+		return partInfoMap.getOrDefault(partType, empty());
 	}
 
 	/**
@@ -108,6 +113,10 @@ public class PartsData {
 				ret.add(partInfoMap.get(type));
 
 		return ret;
+	}
+
+	public Map<PartType, IPartInfo> getPartInfoMap() {
+		return Collections.unmodifiableMap(partInfoMap);
 	}
 
 	/**

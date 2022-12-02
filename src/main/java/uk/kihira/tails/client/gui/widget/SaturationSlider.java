@@ -62,8 +62,11 @@ public class SaturationSlider extends HSBSlider {
 		}
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-		blit(poseStack, x + (int)(value * (width - 3) - 2), y, 0, 0, 7, 4);
-		blit(poseStack, x + (int)(value * (width - 3) - 2), y + height - 4, 7, 0, 7, 4);
+
+		final int offset = isFocused() ? 5 : 0;
+
+		blit(poseStack, x + (int)(value * (width - 3) - 2), y, 0, offset, 7, 4);
+		blit(poseStack, x + (int)(value * (width - 3) - 2), y + height - 4, 7, offset, 7, 4);
 	}
 
 	/**

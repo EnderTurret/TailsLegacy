@@ -20,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.client.gui.EditorScreen;
+import uk.kihira.tails.client.gui.widget.FocusableExtendedButton;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 
@@ -41,10 +42,10 @@ public final class TexturePanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		// Texture select
-		addRenderableWidget(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, Component.literal("<"), b -> cycleTexLeft()));
-		addRenderableWidget(rightBtn = new ExtendedButton(right - left - 20, texSelectY, 15, 15, Component.literal(">"), b -> cycleTexRight()));
-		addRenderableWidget(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, Component.literal("<"), b -> cycleVariantLeft()));
-		addRenderableWidget(variantRightBtn = new ExtendedButton(right - left - 20, variantSelectY, 15, 15, Component.literal(">"), b -> cycleVariantRight()));
+		addRenderableWidget(leftBtn = new FocusableExtendedButton(5, texSelectY, 15, 15, Component.literal("<"), b -> cycleTexLeft()));
+		addRenderableWidget(rightBtn = new FocusableExtendedButton(right - left - 20, texSelectY, 15, 15, Component.literal(">"), b -> cycleTexRight()));
+		addRenderableWidget(variantLeftBtn = new FocusableExtendedButton(5, variantSelectY, 15, 15, Component.literal("<"), b -> cycleVariantLeft()));
+		addRenderableWidget(variantRightBtn = new FocusableExtendedButton(right - left - 20, variantSelectY, 15, 15, Component.literal(">"), b -> cycleVariantRight()));
 
 		updateButtons();
 	}

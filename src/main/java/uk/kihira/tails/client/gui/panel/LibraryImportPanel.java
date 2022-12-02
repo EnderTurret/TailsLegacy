@@ -29,10 +29,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.Services;
 import net.minecraft.server.players.GameProfileCache;
 
-import net.minecraftforge.client.gui.widget.ExtendedButton;
 import net.minecraftforge.common.UsernameCache;
 
 import uk.kihira.tails.client.gui.EditorScreen;
+import uk.kihira.tails.client.gui.widget.FocusableExtendedButton;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.LocalPartManager;
@@ -52,7 +52,7 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		addRenderableWidget(new ExtendedButton(3, 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString));
+		addRenderableWidget(new FocusableExtendedButton(3, 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString));
 
 		inputField = new RelativeTextBox(font, 3, 41, right - left - 6, 15, null);
 		inputField.setMaxLength(5000);

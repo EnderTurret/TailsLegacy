@@ -8,22 +8,14 @@
 
 package uk.kihira.tails.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.FormattedCharSequence;
-
-import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.client.gui.widget.ITooltip;
 

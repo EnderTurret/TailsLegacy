@@ -28,12 +28,11 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
-import net.minecraftforge.client.gui.widget.ExtendedButton;
-
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
+import uk.kihira.tails.client.gui.widget.FocusableExtendedButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
@@ -63,7 +62,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	public void init() {
 		initPartList();
 
-		addRenderableWidget(partTypeButton = new ExtendedButton((right - left) / 2 - 25, 16, 50, 16, Component.translatable("tails.part." + parent.getPartType().getId()), b -> {
+		addRenderableWidget(partTypeButton = new FocusableExtendedButton((right - left) / 2 - 25, 16, 50, 16, Component.translatable("tails.part." + parent.getPartType().getId()), b -> {
 			if (parent.getPartType().ordinal() + 1 >= PartType.values().length)
 				parent.setPartType(PartType.values()[0]);
 			else

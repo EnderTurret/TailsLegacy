@@ -20,6 +20,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 
@@ -46,6 +47,16 @@ public abstract class LayeredScreen extends BaseScreen {
 	@Internal
 	public List<Panel<?>> getLayer(int layer) {
 		return layers.get(layer);
+	}
+
+	public void setFocusedPanel(Panel<?> focus) {
+		final Panel<?> old = (Panel<?>) getFocused();
+
+		for (GuiEventListener listener : old.children())
+			if (listener instanceof AbstractWidget widget && widget.isFocused())
+				widget.changeFocus(true);
+
+		setFocused(focus);
 	}
 
 	@Override
@@ -91,7 +102,6 @@ public abstract class LayeredScreen extends BaseScreen {
 
 					color++;*/
 
-					//RenderSystem.disableLighting();
 					poseStack.popPose();
 				}
 
@@ -108,7 +118,6 @@ public abstract class LayeredScreen extends BaseScreen {
 
 					panel.renderTooltips(poseStack, mouseX - panel.left, mouseY - panel.top, partialTick);
 
-					//RenderSystem.disableLighting();
 					poseStack.popPose();
 				}
 	}

@@ -54,7 +54,7 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 	public void init() {
 		addRenderableWidget(new FocusableExtendedButton(3, 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString));
 
-		inputField = new RelativeTextBox(font, 3, 41, right - left - 6, 15, null);
+		inputField = new RelativeTextBox(this, font, 3, 41, right - left - 6, 15, null);
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}

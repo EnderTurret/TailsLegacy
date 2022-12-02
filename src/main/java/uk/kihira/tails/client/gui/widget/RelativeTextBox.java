@@ -21,6 +21,8 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 
+import uk.kihira.tails.client.gui.panel.Panel;
+
 /**
  * An {@link EditBox} that takes into account the {@link PoseStack} transformations when drawing the selection box.<br>
  * Without this, the selection overlay will attempt to yeet itself as far off-screen as possible.
@@ -28,10 +30,19 @@ import net.minecraft.network.chat.Component;
  */
 public final class RelativeTextBox extends EditBox {
 
+	private final Panel<?> parent;
+
 	private PoseStack poseStack;
 
-	public RelativeTextBox(Font font, int x, int y, int width, int height, Component message) {
+	public RelativeTextBox(Panel<?> parent, Font font, int x, int y, int width, int height, Component message) {
 		super(font, x, y, width, height, message);
+		this.parent = parent;
+	}
+
+	@Override
+	public void setFocus(boolean isFocused) {
+		super.setFocus(isFocused);
+		parent.getParent().setFocusedPanel(parent);
 	}
 
 	@Override

@@ -266,7 +266,6 @@ public abstract class LayeredScreen extends BaseScreen {
 			final Panel<?> listener = next.get();
 			if (listener.changeFocus(forward)) {
 				setFocused(listener);
-				System.out.println("Focused " + listener);
 				return true;
 			}
 		}

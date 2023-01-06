@@ -34,6 +34,7 @@ Also includes translations by:
 '''
     version="${file.jarVersion}"
     authors="Kihira, EnderTurret"
+    displayTest="IGNORE_SERVER_VERSION"
 
 [[dependencies.tails]]
     modId="forge"

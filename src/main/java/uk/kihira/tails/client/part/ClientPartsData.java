@@ -21,8 +21,20 @@ public final class ClientPartsData extends PartsData {
 		super();
 	}
 
-	public ClientPartsData(Map<PartType, IPartInfo> map) {
+	public ClientPartsData(Map<String, IPartInfo> map) {
 		super(map);
+	}
+
+	public ClientPartInfo getPartInfo(PartType partType) {
+		return getPartInfo(partType.getId());
+	}
+
+	public void setPartInfo(PartType partType, IPartInfo partInfo) {
+		setPartInfo(partType.getId(), partInfo);
+	}
+
+	public boolean hasPartInfo(PartType partType) {
+		return hasPartInfo(partType.getId());
 	}
 
 	@Override
@@ -31,7 +43,7 @@ public final class ClientPartsData extends PartsData {
 	}
 
 	@Override
-	public ClientPartInfo getPartInfo(PartType partType) {
+	public ClientPartInfo getPartInfo(String partType) {
 		return ClientPartInfo.coerce(super.getPartInfo(partType));
 	}
 

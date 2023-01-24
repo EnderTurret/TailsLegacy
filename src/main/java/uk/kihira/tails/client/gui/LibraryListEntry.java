@@ -49,14 +49,16 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		if (panel.getList().getMaxScroll() > 0)
 			listWidth -= 6;
 
+		final ClientPartsData partsData = (ClientPartsData) data.partsData;
+
 		final Font fontRenderer = Minecraft.getInstance().font;
-		final boolean sel = data.partsData.equals(LocalPartManager.getLocalPartsData());
+		final boolean sel = partsData.equals(LocalPartManager.getLocalPartsData());
 		fontRenderer.draw(poseStack, (sel ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
 		for (PartType type : PartType.values())
-			if (data.partsData.hasPartInfo(type)) {
-				final ClientPartInfo partInfo = (ClientPartInfo) data.partsData.getPartInfo(type);
+			if (partsData.hasPartInfo(type)) {
+				final ClientPartInfo partInfo = partsData.getPartInfo(type);
 				final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
 				RenderHelper.drawStringMultiLine(poseStack, fontRenderer, trans,
 						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);

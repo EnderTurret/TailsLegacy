@@ -11,7 +11,7 @@ package uk.kihira.tails.common.part;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -36,20 +36,20 @@ public class PartsData {
 	 */
 	public static final PartsData EMPTY = new PartsData() {
 		@Override
-		public IPartInfo getPartInfo(PartType partType) { return empty(); }
+		public IPartInfo getPartInfo(String partType) { return empty(); }
 		@Override
-		public void setPartInfo(PartType partType, IPartInfo partInfo) {}
+		public void setPartInfo(String partType, IPartInfo partInfo) {}
 		@Override
 		public void clearTextures() {}
 		@Override
-		public boolean hasPartInfo(PartType partType) { return false; }
+		public boolean hasPartInfo(String partType) { return false; }
 		@Override
 		public String toString() { return "PartsData#EMPTY"; }
 		@Override
 		public boolean isEmpty() { return true; }
 	};
 
-	private final Map<PartType, IPartInfo> partInfoMap = new EnumMap<>(PartType.class);
+	private final Map<String, IPartInfo> partInfoMap = new HashMap<>();
 
 	/**
 	 * The version.<br>
@@ -57,12 +57,9 @@ public class PartsData {
 	 */
 	private final int version = 1;
 
-	public PartsData() {
-		for (PartType type : PartType.values())
-			partInfoMap.put(type, empty());
-	}
+	public PartsData() {}
 
-	public PartsData(Map<PartType, IPartInfo> partData) {
+	public PartsData(Map<String, IPartInfo> partData) {
 		this();
 		partInfoMap.putAll(partData);
 	}
@@ -80,7 +77,7 @@ public class PartsData {
 	 * @param partType The part type to set the part info as.
 	 * @param partInfo The part info.
 	 */
-	public void setPartInfo(PartType partType, IPartInfo partInfo) {
+	public void setPartInfo(String partType, IPartInfo partInfo) {
 		Objects.requireNonNull(partType, "partType");
 		Objects.requireNonNull(partInfo, "partInfo");
 		partInfoMap.put(partType, partInfo);
@@ -92,7 +89,7 @@ public class PartsData {
 	 * @param partType The part type.
 	 * @return The part info.
 	 */
-	public IPartInfo getPartInfo(PartType partType) {
+	public IPartInfo getPartInfo(String partType) {
 		return partInfoMap.getOrDefault(partType, empty());
 	}
 
@@ -101,7 +98,7 @@ public class PartsData {
 	 * @param partType The part type.
 	 * @return True if this contains a {@link IPartInfo} for the given type.
 	 */
-	public boolean hasPartInfo(PartType partType) {
+	public boolean hasPartInfo(String partType) {
 		return partInfoMap.containsKey(partType) && !partInfoMap.get(partType).isEmpty();
 	}
 
@@ -109,13 +106,13 @@ public class PartsData {
 		final List<IPartInfo> ret = new ArrayList<>();
 
 		for (PartType type : PartType.values())
-			if (partInfoMap.containsKey(type))
-				ret.add(partInfoMap.get(type));
+			if (partInfoMap.containsKey(type.getId()))
+				ret.add(partInfoMap.get(type.getId()));
 
 		return ret;
 	}
 
-	public Map<PartType, IPartInfo> getPartInfoMap() {
+	public Map<String, IPartInfo> getPartInfoMap() {
 		return Collections.unmodifiableMap(partInfoMap);
 	}
 
@@ -132,8 +129,8 @@ public class PartsData {
 	 * @return The copy.
 	 */
 	public PartsData deepCopy() {
-		final Map<PartType, IPartInfo> data = new EnumMap<>(PartType.class);
-		for (Map.Entry<PartType, IPartInfo> e : partInfoMap.entrySet())
+		final Map<String, IPartInfo> data = new HashMap<>();
+		for (Map.Entry<String, IPartInfo> e : partInfoMap.entrySet())
 			data.put(e.getKey(), e.getValue().clone());
 
 		return new PartsData(data);
@@ -156,7 +153,7 @@ public class PartsData {
 	public String toString() {
 		return "PartsData{" + partInfoMap.entrySet().stream()
 				.filter(e -> !e.getValue().isEmpty())
-				.map(e -> e.getKey().getId() + "=" + e.getValue().toString())
+				.map(e -> e.getKey() + "=" + e.getValue().toString())
 				.collect(Collectors.joining(", ")) + '}';
 	}
 
@@ -171,9 +168,9 @@ public class PartsData {
 			final JsonObject ret = new JsonObject();
 			final JsonObject partInfoMap = new JsonObject();
 
-			for (Map.Entry<PartType, IPartInfo> entry : src.partInfoMap.entrySet())
+			for (Map.Entry<String, IPartInfo> entry : src.partInfoMap.entrySet())
 				if (!entry.getValue().isEmpty())
-					partInfoMap.add(entry.getKey().getId(), context.serialize(entry.getValue()));
+					partInfoMap.add(entry.getKey(), context.serialize(entry.getValue()));
 
 			ret.add("partInfoMap", partInfoMap);
 			ret.addProperty("version", src.version);
@@ -192,7 +189,7 @@ public class PartsData {
 
 				for (Map.Entry<String, JsonElement> entry : partInfoMap.entrySet()) {
 					final PartType type = PartType.forId(version == 0 ? entry.getKey().toLowerCase(Locale.ROOT) : entry.getKey());
-					ret.setPartInfo(type, context.deserialize(entry.getValue().getAsJsonObject(), IPartInfo.class));
+					ret.setPartInfo(type.getId(), context.deserialize(entry.getValue().getAsJsonObject(), IPartInfo.class));
 				}
 			} else if (obj.has("partInfos"))
 				for (JsonElement elem : obj.get("partInfos").getAsJsonArray()) {
@@ -201,7 +198,7 @@ public class PartsData {
 					if (!info.isEmpty()) {
 						// Nasty hack to allow <1.10 data to update.
 						final PartType partType = o.has("partType") ? PartType.forId(o.get("partType").getAsString().toLowerCase(Locale.ENGLISH)) : info.getType();
-						ret.setPartInfo(partType, info);
+						ret.setPartInfo(partType.getId(), info);
 					}
 				}
 

@@ -19,7 +19,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.texture.TripleTintTexture;
-import uk.kihira.tails.common.part.PartType;
 
 /**
  * The client-side representation of a part.

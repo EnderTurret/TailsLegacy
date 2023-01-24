@@ -42,7 +42,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 	}
 
 	@Override
-	public PartType getType() {
+	public String getType() {
 		return null;
 	}
 

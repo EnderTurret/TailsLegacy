@@ -28,7 +28,6 @@ import net.minecraft.resources.ResourceLocation;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.IPartInfo;
-import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.ServerPartInfo;
 
 /**
@@ -121,9 +120,13 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return getPart() == null || getSubType() == null || getPartTexture() == null;
 	}
 
-	@Override
-	public PartType getType() {
+	public PartType getPartType() {
 		return part.getType();
+	}
+
+	@Override
+	public String getType() {
+		return getPartType().getId();
 	}
 
 	/**
@@ -272,7 +275,10 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		public boolean isEmpty() { return true; }
 
 		@Override
-		public PartType getType() { return null; }
+		public PartType getPartType() { return null; }
+
+		@Override
+		public String getType() { return null; }
 
 		@Override
 		public ResourceLocation getPartId() { return new ResourceLocation(Tails.MOD_ID, "empty"); }

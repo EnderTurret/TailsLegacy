@@ -28,9 +28,9 @@ import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.LocalPartManager;
+import uk.kihira.tails.client.part.PartType;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartType;
 
 @Internal
 public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry> {

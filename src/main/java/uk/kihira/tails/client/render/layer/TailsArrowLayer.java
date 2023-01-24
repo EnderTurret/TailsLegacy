@@ -34,10 +34,10 @@ import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.client.part.PartType;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.part.PartRenderer;
-import uk.kihira.tails.common.part.PartType;
 
 /**
  * A specialized {@link ArrowLayer} for rendering arrows on Tails parts/accessories in addition to normal body parts.

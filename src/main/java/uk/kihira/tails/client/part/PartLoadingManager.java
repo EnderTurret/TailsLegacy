@@ -43,7 +43,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartType;
 
 /**
  * Manages loading all of the parts, subtypes, and part textures.

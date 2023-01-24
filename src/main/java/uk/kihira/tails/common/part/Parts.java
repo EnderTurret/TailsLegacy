@@ -40,9 +40,9 @@ public final class Parts {
 	 * @param index The type id.
 	 * @return The part renderer.
 	 */
-	public static ResourceLocation byLegacyId(PartType partType, int index) {
+	public static ResourceLocation byLegacyId(String partType, int index) {
 		return switch (partType) {
-		case TAIL -> {
+		case "tail" -> {
 			yield switch (index) {
 			case 0 -> id("tail/fluffy_tail");
 			case 1 -> id("tail/dragon_tail");
@@ -55,7 +55,7 @@ public final class Parts {
 			default -> id("tail/fluffy_tail");
 			};
 		}
-		case EARS -> {
+		case "ears" -> {
 			yield switch (index) {
 			case 0 -> id("ears/fox_ears");
 			case 1 -> id("ears/cat_ears");
@@ -65,7 +65,7 @@ public final class Parts {
 			default -> id("ears/fox_ears");
 			};
 		}
-		case MUZZLE -> {
+		case "muzzle" -> {
 			yield switch (index) {
 			case 0 -> id("muzzle/standard_muzzle");
 			case 1 -> id("muzzle/slim_muzzle");
@@ -73,7 +73,7 @@ public final class Parts {
 			default -> id("muzzle/standard_muzzle");
 			};
 		}
-		case WINGS -> id("wings/big_wings");
+		case "wings" -> id("wings/big_wings");
 		default -> throw new IllegalArgumentException("Unhandled part type: " + partType);
 		};
 	}
@@ -193,7 +193,7 @@ public final class Parts {
 
 			// Convert old style parts to new ones.
 			if (obj.has("partType") && obj.has("typeid")) {
-				final PartType type = PartType.forId(obj.get("partType").getAsString().toLowerCase(Locale.ROOT));
+				final String type = obj.get("partType").getAsString().toLowerCase(Locale.ROOT);
 				final int id = obj.get("typeid").getAsInt();
 				final ResourceLocation partId = byLegacyId(type, id);
 
@@ -201,7 +201,7 @@ public final class Parts {
 				obj.remove("typeid");
 				obj.addProperty("id", partId.toString());
 				if (!TESTING)
-					Tails.LOGGER.info("Remapped part ({}, {}) → {}", type.getId(), id, partId);
+					Tails.LOGGER.info("Remapped part ({}, {}) → {}", type, id, partId);
 			}
 
 			ResourceLocation partId = ResourceLocation.tryParse(obj.get("id").getAsString());

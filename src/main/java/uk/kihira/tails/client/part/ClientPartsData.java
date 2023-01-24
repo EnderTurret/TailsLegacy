@@ -10,7 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 import uk.kihira.tails.common.part.IPartInfo;
-import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.PartsData;
 
 public final class ClientPartsData extends PartsData {

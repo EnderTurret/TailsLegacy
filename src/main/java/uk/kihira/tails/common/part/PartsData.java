@@ -27,7 +27,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * Holds a {@link IPartInfo} for every {@link PartType}.
+ * Holds a {@link IPartInfo} for every part type.
  */
 public class PartsData {
 
@@ -105,9 +105,9 @@ public class PartsData {
 	public List<IPartInfo> getPartInfos() {
 		final List<IPartInfo> ret = new ArrayList<>();
 
-		for (PartType type : PartType.values())
-			if (partInfoMap.containsKey(type.getId()))
-				ret.add(partInfoMap.get(type.getId()));
+		for (Map.Entry<String, IPartInfo> entry : partInfoMap.entrySet())
+			if (!entry.getValue().isEmpty())
+				ret.add(entry.getValue());
 
 		return ret;
 	}
@@ -188,8 +188,8 @@ public class PartsData {
 				final JsonObject partInfoMap = obj.get("partInfoMap").getAsJsonObject();
 
 				for (Map.Entry<String, JsonElement> entry : partInfoMap.entrySet()) {
-					final PartType type = PartType.forId(version == 0 ? entry.getKey().toLowerCase(Locale.ROOT) : entry.getKey());
-					ret.setPartInfo(type.getId(), context.deserialize(entry.getValue().getAsJsonObject(), IPartInfo.class));
+					final String type = version == 0 ? entry.getKey().toLowerCase(Locale.ROOT) : entry.getKey();
+					ret.setPartInfo(type, context.deserialize(entry.getValue().getAsJsonObject(), IPartInfo.class));
 				}
 			} else if (obj.has("partInfos"))
 				for (JsonElement elem : obj.get("partInfos").getAsJsonArray()) {
@@ -197,8 +197,8 @@ public class PartsData {
 					final IPartInfo info = context.deserialize(o, IPartInfo.class);
 					if (!info.isEmpty()) {
 						// Nasty hack to allow <1.10 data to update.
-						final PartType partType = o.has("partType") ? PartType.forId(o.get("partType").getAsString().toLowerCase(Locale.ENGLISH)) : info.getType();
-						ret.setPartInfo(partType.getId(), info);
+						final String partType = o.has("partType") ? o.get("partType").getAsString().toLowerCase(Locale.ENGLISH) : info.getType();
+						ret.setPartInfo(partType, info);
 					}
 				}
 

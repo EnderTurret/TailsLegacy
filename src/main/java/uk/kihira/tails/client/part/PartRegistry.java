@@ -26,7 +26,6 @@ import net.minecraftforge.registries.RegistryObject;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartType;
 import uk.kihira.tails.common.part.Parts;
 
 /**
@@ -141,7 +140,7 @@ public final class PartRegistry {
 	 * @return The part renderer.
 	 */
 	public static Part byLegacyId(PartType partType, int index) {
-		return get(Parts.byLegacyId(partType, index));
+		return get(Parts.byLegacyId(partType.getId(), index));
 	}
 
 	/**

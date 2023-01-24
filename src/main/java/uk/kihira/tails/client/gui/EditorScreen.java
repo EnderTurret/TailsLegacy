@@ -29,9 +29,9 @@ import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
+import uk.kihira.tails.client.part.PartType;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.client.toast.ToastManager;
-import uk.kihira.tails.common.part.PartType;
 
 /**
  * The editor screen.

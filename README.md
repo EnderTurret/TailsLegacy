@@ -9,8 +9,9 @@ This is a fork of [the original project](https://github.com/kihira/Tails) that h
 There are several major differences in this fork (the mod has effectively been rewritten like five times now), but here are some of the main ones:
 
 * Updated for modern versions of Minecraft
+* Part types rewritten into attachment points
 * New tails, "ears," wing textures, etc
-* Data-driven part, "sub type", and texture definitions
+* Data-driven part, "sub type", texture, and attachment point definitions
 * A better API for other mods
 * Numerous code improvements (partially subjective)
 * Better documentation (sometimes)
@@ -19,6 +20,7 @@ For user-facing differences (the ones you're most likely to see first):
 
 * "Sub types" are now another set of buttons instead of selecting them in the part list
 	* Example: the nine tails sub type is now under the fluffy tail instead of shown separately
+* Part type selection is now two "spinners" for selecting attachment point
 * Exporting/importing from skin is completely gone
 * Server-side Tails libraries are gone
 * Importing library entries actually works now

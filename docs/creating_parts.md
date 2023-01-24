@@ -23,7 +23,7 @@ Part definitions have the following format:
 
 ```js
 {
-  "category": "<one of: tail/ears/wings/muzzle>", // Specifies the category of the part, or in other words, which section it goes in inside the part panel; mandatory
+  "attachment": "<one of: body/head>/<location of part on body/head>", // Specifies the attachment point of the part; mandatory
   "defaultTints": ["0xff0000", "0x00ff00", "0x0000ff"], // Specifies the default tints of the part, which is shown in the part preview; optional
   "ordering": [ // Specifies the subtype ordering in the texture/variant panel; optional
     "standard" // Indicates that the subtype "standard" is the first subtype. Subtypes not listed here will be added to the end of the ordering in alphabetical order.
@@ -45,7 +45,7 @@ For example, the fluffy tail file from earlier has the following content:
 }
 ```
 
-Specifying only a category is legal but discouraged:
+Specifying only a category is discouraged:
 
 ```json
 {
@@ -62,22 +62,22 @@ Its format looks like this:
 
 ```json
 {
-  "tail": [
+  "body/tail": [
     "tails:tail/fluffy_tail"
   ],
-  "ears": [
+  "body/back": [
+    "tails:wings/big_wings"
+  ],
+  "head/top_ears": [
     "tails:ears/fox_ears"
   ],
-  "muzzle": [
+  "head/face": [
     "tails:muzzle/standard_muzzle"
-  ],
-  "wings": [
-    "tails:wings/big_wings"
   ]
 }
 ```
 
-Each of these arrays defines the ordering of parts with that specific category.
+Each of these arrays defines the ordering of parts within that specific attachment point.
 Parts that aren't defined in the ordering go at the end of the list, in alphabetical order.
 
 ### Making a part

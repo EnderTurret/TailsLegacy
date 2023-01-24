@@ -99,7 +99,15 @@ public class Spinner<T> extends AbstractWidget {
 
 	@Override
 	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		Minecraft.getInstance().font.draw(poseStack, getMessage(), x + left.getWidth() + 4, y, 0xFF000000);
+		final Font font = Minecraft.getInstance().font;
+		final Component message = getMessage();
+		final int width = font.width(message);
+
+		int left = x;
+		left += getWidth() / 2;
+		left -= width / 2;
+
+		font.draw(poseStack, message, left, y + getHeight() /  2 - font.lineHeight / 2, 0xFFFFFFFF);
 	}
 
 	@Override

@@ -55,7 +55,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	private Button partTypeButton;
 
 	private final FakeEntity fakeEntity;
-	private final int listTop = 35;
+	private final int listTop = 32 + 15;
 
 	public PartsPanel(EditorScreen parent, int left, int top, int right, int bottom) {
 		super(parent, left, top, right, bottom);
@@ -66,16 +66,41 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		initPartList();
+		addRenderableWidget(rootAttachment = new Spinner<>(AttachmentPoints.getRoots(), parent.getAttachmentPoint().root(),
+				(right - left) / 2, 16,
+				RootAttachmentPoint::toComponent, selection -> {
+					parent.setRootAttachmentPoint(selection);
+					initPartList();
+				}));
 
-		addRenderableWidget(rootAttachment = new Spinner<>(AttachmentPoints.getRoots(), parent.getAttachmentPoint().root(), (right - left) / 2 - 25, 16, RootAttachmentPoint::toComponent, selection -> {
-			parent.setRootAttachmentPoint(selection);
-			initPartList();
-		}));
-		addRenderableWidget(attachment = new Spinner<>(rootAttachment.getSelection().children(), parent.getAttachmentPoint(), (right - left) / 2 - 25, 16, AttachmentPoint::toComponent, selection -> {
-			parent.setAttachmentPoint(selection);
-			initPartList();
-		}));
+		addRenderableWidget(attachment = new Spinner<>(rootAttachment.getSelection().children(), parent.getAttachmentPoint(),
+				(right - left) / 2, 32,
+				AttachmentPoint::toComponent, selection -> {
+					parent.setAttachmentPoint(selection);
+					initPartList();
+				}));
+
+		if (attachment.getWidth() > rootAttachment.getWidth()) {
+			rootAttachment.setWidth(attachment.getWidth());
+			rootAttachment.right.x = attachment.right.x;
+		}
+
+		int off = rootAttachment.getWidth() / 2;
+		rootAttachment.x -= off;
+		rootAttachment.left.x -= off;
+		rootAttachment.right.x -= off;
+
+		off = attachment.getWidth() / 2;
+		attachment.x -= off;
+		attachment.left.x -= off;
+		attachment.right.x -= off;
+
+		addRenderableWidget(rootAttachment.left);
+		addRenderableWidget(rootAttachment.right);
+		addRenderableWidget(attachment.left);
+		addRenderableWidget(attachment.right);
+
+		initPartList();
 	}
 
 	@Override

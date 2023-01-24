@@ -17,6 +17,8 @@ public class AttachmentPoints {
 
 	private static final Map<String, RootAttachmentPoint> ROOTS = new TreeMap<>();
 	private static final Map<RootAttachmentPoint, NavigableSet<AttachmentPoint>> ATTACHMENT_POINTS = new TreeMap<>();
+	private static final TreeSet<RootAttachmentPoint> ROOT_ATTACHMENT_POINTS = new TreeSet<>();
+	private static final NavigableSet<RootAttachmentPoint> ROOT_ATTACHMENT_POINTS_VIEW = Collections.unmodifiableNavigableSet(ROOT_ATTACHMENT_POINTS);
 	private static final TreeSet<AttachmentPoint> ALL_ATTACHMENT_POINTS = new TreeSet<>();
 	private static final NavigableSet<AttachmentPoint> ALL_ATTACHMENT_POINTS_VIEW = Collections.unmodifiableNavigableSet(ALL_ATTACHMENT_POINTS);
 
@@ -33,6 +35,10 @@ public class AttachmentPoints {
 	@Nullable
 	public static RootAttachmentPoint getRoot(String id) {
 		return ROOTS.get(id);
+	}
+
+	public static NavigableSet<RootAttachmentPoint> getRoots() {
+		return ROOT_ATTACHMENT_POINTS_VIEW;
 	}
 
 	public static NavigableSet<AttachmentPoint> getAll(RootAttachmentPoint root) {
@@ -67,7 +73,11 @@ public class AttachmentPoints {
 		final String rootId = fullId.substring(0, idx);
 		final String subId = fullId.substring(idx + 1);
 
-		final RootAttachmentPoint root = ROOTS.computeIfAbsent(rootId, RootAttachmentPoint::new);
+		final RootAttachmentPoint root = ROOTS.computeIfAbsent(rootId, k -> {
+			final RootAttachmentPoint ret = new RootAttachmentPoint(k);
+			ROOT_ATTACHMENT_POINTS.add(ret);
+			return ret;
+		});
 
 		final Set<AttachmentPoint> points = ATTACHMENT_POINTS.computeIfAbsent(root, k -> new TreeSet<>());
 

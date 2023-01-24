@@ -34,17 +34,22 @@ import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.FocusableExtendedButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
+import uk.kihira.tails.client.gui.widget.Spinner;
 import uk.kihira.tails.client.part.AttachmentPoint;
+import uk.kihira.tails.client.part.AttachmentPoints;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
-import uk.kihira.tails.client.part.PartType;
+import uk.kihira.tails.client.part.RootAttachmentPoint;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.ServerPartInfo;
 
 @Internal
 public final class PartsPanel extends Panel<EditorScreen> {
+
+	private Spinner<RootAttachmentPoint> rootAttachment;
+	private Spinner<AttachmentPoint> attachment;
 
 	private ListWidget<PartEntry> partList;
 	private Button partTypeButton;
@@ -63,13 +68,12 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	public void init() {
 		initPartList();
 
-		addRenderableWidget(partTypeButton = new FocusableExtendedButton((right - left) / 2 - 25, 16, 50, 16, Component.translatable("tails.part." + parent.getAttachmentPoint().id()), b -> {
-			if (parent.getAttachmentPoint().ordinal() + 1 >= PartType.values().length)
-				parent.setAttachmentPoint(PartType.values()[0]);
-			else
-				parent.setAttachmentPoint(PartType.values()[parent.getAttachmentPoint().ordinal() + 1]);
-
-			partTypeButton.setMessage(Component.translatable("tails.part." + parent.getAttachmentPoint().getId()));
+		addRenderableWidget(rootAttachment = new Spinner<>(AttachmentPoints.getRoots(), parent.getAttachmentPoint().root(), (right - left) / 2 - 25, 16, RootAttachmentPoint::toComponent, selection -> {
+			parent.setRootAttachmentPoint(selection);
+			initPartList();
+		}));
+		addRenderableWidget(attachment = new Spinner<>(rootAttachment.getSelection().children(), parent.getAttachmentPoint(), (right - left) / 2 - 25, 16, AttachmentPoint::toComponent, selection -> {
+			parent.setAttachmentPoint(selection);
 			initPartList();
 		}));
 	}

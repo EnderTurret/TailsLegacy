@@ -43,7 +43,7 @@ public final class ClientPartsData extends PartsData {
 			if (((ClientPartInfo) it.next()).getAttachmentPoint().equals(attachment))
 				it.remove();
 
-		parts.add(info);
+		addPartInfo(info);
 	}
 
 	@Override

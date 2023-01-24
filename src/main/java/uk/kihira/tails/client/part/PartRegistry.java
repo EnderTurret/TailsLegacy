@@ -42,6 +42,7 @@ public final class PartRegistry {
 	static final PartLoadingManager MANAGER = new PartLoadingManager(() -> {
 		PART_REGISTRY.clear();
 		BY_TYPE.clear();
+		AttachmentPoints.clear();
 	}, (parts, ordering) -> {
 		Tails.LOGGER.debug("Registering {} parts.", parts.size());
 

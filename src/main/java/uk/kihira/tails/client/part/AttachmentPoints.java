@@ -50,17 +50,8 @@ public class AttachmentPoints {
 		final int idx = fullId.indexOf('/');
 		if (idx == -1) throw new IllegalArgumentException("Attachment point must have two components: " + fullId);
 
-		final String rootId = fullId.substring(0, idx);
-		final String subId = fullId.substring(idx + 1);
-
-		final RootAttachmentPoint root = ROOTS.get(rootId);
-		if (root == null) return null;
-
-		final Set<AttachmentPoint> points = ATTACHMENT_POINTS.get(root);
-		if (points == null) return null;
-
-		for (AttachmentPoint ap : points)
-			if (ap.id().equals(subId))
+		for (AttachmentPoint ap : getAll())
+			if (ap.id().equals(fullId))
 				return ap;
 
 		return null;
@@ -82,7 +73,7 @@ public class AttachmentPoints {
 		final Set<AttachmentPoint> points = ATTACHMENT_POINTS.computeIfAbsent(root, k -> new TreeSet<>());
 
 		for (AttachmentPoint ap : points)
-			if (ap.id().equals(subId))
+			if (ap.subId().equals(subId))
 				return ap;
 
 		final AttachmentPoint ret = new AttachmentPoint(root, subId, fullId);

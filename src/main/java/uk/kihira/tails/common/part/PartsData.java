@@ -78,7 +78,8 @@ public class PartsData {
 	 * @param partInfo The part info.
 	 */
 	public void addPartInfo(IPartInfo partInfo) {
-		parts.add(Objects.requireNonNull(partInfo, "partInfo"));
+		if (partInfo.isEmpty()) return;
+		parts.add(partInfo);
 	}
 
 	public Set<IPartInfo> getPartInfos() {

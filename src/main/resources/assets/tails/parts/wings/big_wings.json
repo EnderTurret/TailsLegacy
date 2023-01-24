@@ -1,5 +1,5 @@
 {
-  "attachment": ["back/center"],
+  "attachment": ["body/back"],
   "ordering": [
     "large",
     "small"

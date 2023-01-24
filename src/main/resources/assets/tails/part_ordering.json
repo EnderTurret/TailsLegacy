@@ -1,5 +1,5 @@
 {
-  "tail": [
+  "body/tail": [
     "tails:tail/fluffy_tail",
     "tails:tail/dragon_tail",
     "tails:tail/raccoon_tail",
@@ -11,7 +11,10 @@
     "tails:tail/bee_abdomen",
     "tails:tail/scorpion_tail"
   ],
-  "ears": [
+  "body/back": [
+    "tails:wings/big_wings"
+  ],
+  "head/ears": [
     "tails:ears/fox_ears",
     "tails:ears/cat_ears",
     "tails:ears/panda_ears",
@@ -23,12 +26,9 @@
     "tails:ears/axolotl_gills",
     "tails:ears/strider_whiskers"
   ],
-  "muzzle": [
+  "head/face": [
     "tails:muzzle/standard_muzzle",
     "tails:muzzle/slim_muzzle",
     "tails:muzzle/thin_muzzle"
-  ],
-  "wings": [
-    "tails:wings/big_wings"
   ]
 }

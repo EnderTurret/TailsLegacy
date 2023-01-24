@@ -3,9 +3,9 @@
   "tails.texture.none": "None",
   "tails.gui.part.none": "None",
 
-  "tails.attachment.back": "Back",
-  "tails.attachment.back/center": "Center",
-  "tails.attachment.back/tail": "Tail",
+  "tails.attachment.body": "Body",
+  "tails.attachment.body/back": "Back",
+  "tails.attachment.body/tail": "Tail",
 
   "tails.attachment.head": "Head",
   "tails.attachment.head/top_center": "Top Center",

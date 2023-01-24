@@ -1,5 +1,5 @@
 {
-  "attachment": ["back/tail"],
+  "attachment": ["body/tail"],
   "ordering": [
     "one_tail",
     "two_tails",

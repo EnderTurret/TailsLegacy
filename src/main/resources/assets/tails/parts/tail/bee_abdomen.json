@@ -1,5 +1,5 @@
 {
-  "attachment": ["back/tail"],
+  "attachment": ["body/tail"],
   "ordering": [
     "with_stinger",
     "no_stinger"

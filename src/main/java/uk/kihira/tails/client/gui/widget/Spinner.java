@@ -42,6 +42,7 @@ public class Spinner<T> extends AbstractWidget {
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
 
 		setValues(Objects.requireNonNull(values));
+		select(initialSelection, false);
 
 		final int off = getWidth() / 2;
 

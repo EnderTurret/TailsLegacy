@@ -2,7 +2,6 @@ package uk.kihira.tails.client.part;
 
 import java.lang.reflect.Type;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 

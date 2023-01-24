@@ -26,7 +26,6 @@ import net.minecraftforge.registries.RegistryObject;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.Parts;
 
 /**
  * Contains all of the parts read from the {@link PartLoadingManager}.

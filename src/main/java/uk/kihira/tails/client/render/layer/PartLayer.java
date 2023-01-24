@@ -13,7 +13,6 @@ import java.util.UUID;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -24,13 +23,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import uk.kihira.tails.client.PartRenderRegistry;
-import uk.kihira.tails.client.part.AttachmentPoint;
-import uk.kihira.tails.client.part.AttachmentPoints;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.Part;
-import uk.kihira.tails.client.part.RootAttachmentPoint;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
 

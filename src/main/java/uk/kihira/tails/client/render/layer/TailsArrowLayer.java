@@ -31,8 +31,6 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartConfiguration;
-import uk.kihira.tails.client.part.AttachmentPoint;
-import uk.kihira.tails.client.part.AttachmentPoints;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;

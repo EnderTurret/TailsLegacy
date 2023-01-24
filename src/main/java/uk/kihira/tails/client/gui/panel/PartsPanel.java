@@ -32,7 +32,6 @@ import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
-import uk.kihira.tails.client.gui.widget.FocusableExtendedButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.Spinner;
 import uk.kihira.tails.client.part.AttachmentPoint;

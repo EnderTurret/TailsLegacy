@@ -111,6 +111,11 @@ public class Spinner<T> extends AbstractWidget {
 	}
 
 	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		return false;
+	}
+
+	@Override
 	public void updateNarration(NarrationElementOutput narrationElementOutput) {
 		narrationElementOutput.add(NarratedElementType.TITLE, getMessage());
 	}

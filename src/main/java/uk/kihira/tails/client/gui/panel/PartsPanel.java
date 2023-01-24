@@ -70,6 +70,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 				(right - left) / 2, 16,
 				RootAttachmentPoint::toComponent, selection -> {
 					parent.setRootAttachmentPoint(selection);
+					attachment.setValues(selection.children());
 					initPartList();
 				}));
 

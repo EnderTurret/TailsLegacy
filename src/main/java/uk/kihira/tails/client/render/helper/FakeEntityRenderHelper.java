@@ -39,11 +39,11 @@ public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 			ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(-45F));
 			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(25F));
 		}
-		case "head/ears" -> {
+		case "head/top_ears" -> {
 			ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(180F));
 			ctx.poseStack().translate(0, 1.4, 0);
 		}
-		case "body/center" -> {
+		case "body/back" -> {
 			ctx.poseStack().translate(0, 0.9, 0);
 			ctx.poseStack().scale(0.6F, 0.6F, 0.6F);
 		}

@@ -51,6 +51,7 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	public void setFocusedPanel(Panel<?> focus) {
 		final Panel<?> old = (Panel<?>) getFocused();
+		if (old == focus) return;
 
 		if (old != null)
 			for (GuiEventListener listener : old.children())

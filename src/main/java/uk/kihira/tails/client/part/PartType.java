@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
  */
 // TODO: Is this following note still relevant?
 // NOTE: We rely on the order of this, don't re-arrange, only append! Order is for legacy reasons.
+@Deprecated
 public enum PartType {
 	TAIL("tail"),
 	EARS("ears"),

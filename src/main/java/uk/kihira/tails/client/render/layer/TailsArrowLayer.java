@@ -31,10 +31,11 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartConfiguration;
+import uk.kihira.tails.client.part.AttachmentPoint;
+import uk.kihira.tails.client.part.AttachmentPoints;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
-import uk.kihira.tails.client.part.PartType;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.part.PartRenderer;
@@ -73,9 +74,9 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 		parts.add(new PartConfig(new PartConfiguration.Player(getParentModel()), null, null));
 
 		if (!data.isEmpty())
-			for (PartType type : PartType.values())
-				if (data.hasPartInfo(type)) {
-					final ClientPartInfo info = data.getPartInfo(type);
+			for (AttachmentPoint ap : AttachmentPoints.getAll())
+				if (data.hasPartInfo(ap)) {
+					final ClientPartInfo info = data.getPartInfo(ap);
 					if (info.isInvalid()) continue;
 					final PartRenderer renderer = PartRenderRegistry.getRenderer(info.getPart());
 

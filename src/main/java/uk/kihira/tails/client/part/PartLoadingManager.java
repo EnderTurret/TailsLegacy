@@ -13,6 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -54,7 +55,7 @@ import uk.kihira.tails.common.Tails;
 public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 	private final Runnable clear;
-	private final BiConsumer<List<Part>, Map<PartType, List<ResourceLocation>>> onComplete;
+	private final BiConsumer<List<Part>, Map<AttachmentPoint, List<ResourceLocation>>> onComplete;
 
 	/**
 	 * Whether to dump registry contents on (re)load.
@@ -65,7 +66,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 * @param clear A callback to run when the manager is cleared.
 	 * @param onComplete A callback to run when the manager finished loading part data.
 	 */
-	PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<PartType, List<ResourceLocation>>> onComplete) {
+	PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<AttachmentPoint, List<ResourceLocation>>> onComplete) {
 		this.clear = clear;
 		this.onComplete = onComplete;
 	}
@@ -87,7 +88,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 			Tails.LOGGER.fatal("Critical part loading failure!", e);
 		}
 
-		final Map<PartType, List<ResourceLocation>> ordering = new EnumMap<>(PartType.class);
+		final Map<AttachmentPoint, List<ResourceLocation>> ordering = new LinkedHashMap<>();
 
 		try {
 			ordering.putAll(readOrdering(manager));
@@ -105,8 +106,8 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 * @param manager The resource manager.
 	 * @return The root part ordering.
 	 */
-	private Map<PartType, List<ResourceLocation>> readOrdering(ResourceManager manager) {
-		final Map<PartType, List<ResourceLocation>> ordering = new EnumMap<>(PartType.class);
+	private Map<AttachmentPoint, List<ResourceLocation>> readOrdering(ResourceManager manager) {
+		final Map<AttachmentPoint, List<ResourceLocation>> ordering = new LinkedHashMap<>();
 
 		final ResourceLocation loc = new ResourceLocation(Tails.MOD_ID, "part_ordering.json");
 		final Resource res = manager.getResource(loc).get();
@@ -116,9 +117,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final Map<String, List<String>> rawOrdering = LocalPartManager.GSON.fromJson(json, ORDERING_TYPE);
 
 		for (Map.Entry<String, List<String>> entry : rawOrdering.entrySet()) {
-			final PartType type = PartType.forId(entry.getKey());
-			if (type == null)
-				Tails.LOGGER.warn("part_ordering.json: Unknown part type: " + entry.getKey());
+			final AttachmentPoint attachment = AttachmentPoints.get(entry.getKey());
+			if (attachment == null)
+				Tails.LOGGER.warn("part_ordering.json: Unknown attachment point: " + entry.getKey());
 			else {
 				final List<ResourceLocation> realValues = entry.getValue()
 						.stream()
@@ -133,7 +134,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 						.filter(rl -> rl != null)
 						.toList();
 
-				ordering.put(type, realValues);
+				ordering.put(attachment, realValues);
 			}
 		}
 
@@ -286,8 +287,8 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final String id = trim(location.getPath(), "parts/");
 		final ResourceLocation realId = new ResourceLocation(location.getNamespace(), id);
 
-		final PartType category = PartType.forId(json.get("category").getAsString());
-		if (category == null) throw new JsonParseException(location + ": missing category!");
+		final AttachmentPoint attachment = AttachmentPoints.getOrCreate(json.get("attachment").getAsString());
+		if (attachment == null) throw new JsonParseException(location + ": missing attachment!");
 
 		final int[] tints;
 		if (json.has("defaultTints")) {
@@ -300,7 +301,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
-		return new Part(realId, category, subs, tints);
+		return new Part(realId, attachment, subs, tints);
 	}
 
 	/**

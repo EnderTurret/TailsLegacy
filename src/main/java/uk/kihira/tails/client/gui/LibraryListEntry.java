@@ -25,10 +25,11 @@ import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
+import uk.kihira.tails.client.part.AttachmentPoint;
+import uk.kihira.tails.client.part.AttachmentPoints;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.LocalPartManager;
-import uk.kihira.tails.client.part.PartType;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 
@@ -56,17 +57,21 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		fontRenderer.draw(poseStack, (sel ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
-		for (PartType type : PartType.values())
-			if (partsData.hasPartInfo(type)) {
-				final ClientPartInfo partInfo = partsData.getPartInfo(type);
+		int index = 0;
+
+		for (AttachmentPoint attachment : AttachmentPoints.getAll())
+			if (partsData.hasPartInfo(attachment)) {
+				final ClientPartInfo partInfo = partsData.getPartInfo(attachment);
 				final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
 				RenderHelper.drawStringMultiLine(poseStack, fontRenderer, trans,
-						rowLeft + 5, rowTop + 12 + 8 * type.ordinal(), 0xFFFFFF);
+						rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
 				for (int i = 1; i < 4; i++)
 					GuiComponent.fill(poseStack,
-							listWidth - 8 * i, rowTop + 13 + type.ordinal() * 8,
-							listWidth + 7 - 8 * i, rowTop + 20 + type.ordinal() * 8,
+							listWidth - 8 * i, rowTop + 13 + index * 8,
+							listWidth + 7 - 8 * i, rowTop + 20 + index * 8,
 							partInfo.getTints()[i - 1]);
+
+				index++;
 			}
 
 		if (data.favourite) {

@@ -34,6 +34,7 @@ import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.FocusableExtendedButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
+import uk.kihira.tails.client.part.AttachmentPoint;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
@@ -62,13 +63,13 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	public void init() {
 		initPartList();
 
-		addRenderableWidget(partTypeButton = new FocusableExtendedButton((right - left) / 2 - 25, 16, 50, 16, Component.translatable("tails.part." + parent.getPartType().getId()), b -> {
-			if (parent.getPartType().ordinal() + 1 >= PartType.values().length)
-				parent.setPartType(PartType.values()[0]);
+		addRenderableWidget(partTypeButton = new FocusableExtendedButton((right - left) / 2 - 25, 16, 50, 16, Component.translatable("tails.part." + parent.getAttachmentPoint().id()), b -> {
+			if (parent.getAttachmentPoint().ordinal() + 1 >= PartType.values().length)
+				parent.setAttachmentPoint(PartType.values()[0]);
 			else
-				parent.setPartType(PartType.values()[parent.getPartType().ordinal() + 1]);
+				parent.setAttachmentPoint(PartType.values()[parent.getAttachmentPoint().ordinal() + 1]);
 
-			partTypeButton.setMessage(Component.translatable("tails.part." + parent.getPartType().getId()));
+			partTypeButton.setMessage(Component.translatable("tails.part." + parent.getAttachmentPoint().getId()));
 			initPartList();
 		}));
 	}
@@ -123,12 +124,12 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	public void initPartList() {
 		// Part List
 		final List<PartEntry> partList = new ArrayList<>();
-		final PartType partType = parent.getPartType();
+		final AttachmentPoint attachment = parent.getAttachmentPoint();
 
 		partList.add(new PartEntry(ClientPartInfo.empty())); // No tail
 
 		// Generate tail preview textures and add to list.
-		final List<Part> parts = PartRegistry.getParts(partType);
+		final List<Part> parts = PartRegistry.getParts(attachment);
 
 		for (int type = 0; type < parts.size(); type++) {
 			final Part part = parts.get(type);

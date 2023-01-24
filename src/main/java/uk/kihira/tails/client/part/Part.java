@@ -32,13 +32,13 @@ public final class Part {
 	public static final int[] DEFAULT_TINTS = { 0xFF0000, 0x00FF00, 0x0000FF };
 
 	protected final ResourceLocation id;
-	protected final PartType type;
+	protected final AttachmentPoint attachment;
 	protected final List<SubType> subTypes;
 	protected final int[] defaultTints;
 
-	public Part(ResourceLocation id, PartType type, List<SubType> subTypes, @Nullable int[] defaultTints) {
+	public Part(ResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints) {
 		this.id = id;
-		this.type = type;
+		this.attachment = attachment;
 		this.subTypes = List.copyOf(subTypes);
 		this.defaultTints = defaultTints == null ? DEFAULT_TINTS : defaultTints;
 	}
@@ -47,8 +47,8 @@ public final class Part {
 		return id;
 	}
 
-	public PartType getType() {
-		return type;
+	public AttachmentPoint getAttachment() {
+		return attachment;
 	}
 
 	public List<SubType> getSubTypes() {
@@ -74,7 +74,7 @@ public final class Part {
 	@Override
 	public String toString() {
 		final String tints = defaultTints != DEFAULT_TINTS ? ", defaultTints=[%s, %s, %s]".formatted(Integer.toHexString(defaultTints[0]), Integer.toHexString(defaultTints[1]), Integer.toHexString(defaultTints[2])) : "";
-		return "Part[id=" + id + ", type=" + type + tints + ", subTypes=" + subTypes + "]";
+		return "Part[id=" + id + ", attachment=" + attachment + tints + ", subTypes=" + subTypes + "]";
 	}
 
 	/**

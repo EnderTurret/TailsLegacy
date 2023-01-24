@@ -25,11 +25,13 @@ import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
+import uk.kihira.tails.client.part.AttachmentPoint;
+import uk.kihira.tails.client.part.AttachmentPoints;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
-import uk.kihira.tails.client.part.PartType;
+import uk.kihira.tails.client.part.RootAttachmentPoint;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.client.toast.ToastManager;
 
@@ -39,7 +41,8 @@ import uk.kihira.tails.client.toast.ToastManager;
 @Internal
 public final class EditorScreen extends LayeredScreen {
 
-	private PartType partType;
+	private RootAttachmentPoint rootAttachment;
+	private AttachmentPoint attachment;
 	private ClientPartsData partsData;
 	private ClientPartInfo editingPartInfo;
 	private ClientPartInfo originalPartInfo;
@@ -61,18 +64,19 @@ public final class EditorScreen extends LayeredScreen {
 		this.onSave = onSave;
 
 		// Default to Tail.
-		partType = PartType.TAIL;
+		attachment = AttachmentPoints.get("body/tail");
+		rootAttachment = attachment.root();
 		playerUUID = ClientUtils.getPlayerUUID();
 
 		// Backup original PartInfo or create default one.
 		if (original == null)
 			original = new ClientPartsData();
 
-		for (PartType partType : PartType.values())
-			if (!original.hasPartInfo(partType))
-				original.setPartInfo(partType, ClientPartInfo.empty());
+		for (AttachmentPoint attachment : AttachmentPoints.getAll())
+			if (!original.hasPartInfo(attachment))
+				original.setPartInfo(attachment, ClientPartInfo.empty());
 
-		final ClientPartInfo partInfo = original.getPartInfo(partType);
+		final ClientPartInfo partInfo = original.getPartInfo(attachment);
 
 		originalPartInfo = partInfo.clone();
 		editingPartInfo = originalPartInfo.clone();
@@ -155,7 +159,7 @@ public final class EditorScreen extends LayeredScreen {
 
 		editingPartInfo.checkTexture(playerUUID, true);
 
-		getPartsData().setPartInfo(partType, editingPartInfo);
+		getPartsData().setPartInfo(attachment, editingPartInfo);
 
 		texturePanel.updateButtons();
 	}
@@ -178,10 +182,15 @@ public final class EditorScreen extends LayeredScreen {
 		return partsData;
 	}
 
-	public void setPartType(PartType partType) {
-		this.partType = partType;
+	public void setRootAttachmentPoint(RootAttachmentPoint root) {
+		this.rootAttachment = root;
+		setAttachmentPoint(root.children().first());
+	}
 
-		ClientPartInfo newPartInfo = ClientPartInfo.coerce(getPartsData().getPartInfo(partType));
+	public void setAttachmentPoint(AttachmentPoint attachment) {
+		this.attachment = attachment;
+
+		ClientPartInfo newPartInfo = ClientPartInfo.coerce(getPartsData().getPartInfo(attachment));
 		originalPartInfo = newPartInfo.clone();
 		final ClientPartInfo partInfo = originalPartInfo.clone();
 
@@ -191,8 +200,8 @@ public final class EditorScreen extends LayeredScreen {
 		texturePanel.updateButtons();
 	}
 
-	public PartType getPartType() {
-		return partType;
+	public AttachmentPoint getAttachmentPoint() {
+		return attachment;
 	}
 
 	public ClientPartInfo getOriginalPartInfo() {

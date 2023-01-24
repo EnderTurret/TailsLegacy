@@ -1,5 +1,5 @@
 {
-  "category": "muzzle",
+  "attachment": ["head/face"],
   "ordering": [
     "very_short",
     "short",

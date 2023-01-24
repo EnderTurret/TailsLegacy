@@ -28,22 +28,22 @@ public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 	@Override
 	public void onPreRenderTail(RenderContext ctx, PartRenderer renderer) {
 		final Part part = ctx.info().getPart();
-		switch (part.getType()) {
-		case TAIL -> {
+		switch (part.getAttachment().id()) {
+		case "body/tail" -> {
 			ctx.poseStack().translate(0, 0.65, 0);
 			ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
 		}
-		case MUZZLE -> {
+		case "head/face" -> {
 			ctx.poseStack().translate(0.2, 1.25, 0);
 			ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(180F));
 			ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(-45F));
 			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(25F));
 		}
-		case EARS -> {
+		case "head/ears" -> {
 			ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(180F));
 			ctx.poseStack().translate(0, 1.4, 0);
 		}
-		case WINGS -> {
+		case "body/center" -> {
 			ctx.poseStack().translate(0, 0.9, 0);
 			ctx.poseStack().scale(0.6F, 0.6F, 0.6F);
 		}

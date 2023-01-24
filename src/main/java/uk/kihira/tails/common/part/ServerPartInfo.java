@@ -42,7 +42,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 	}
 
 	@Override
-	public String getType() {
+	public String getAttachment() {
 		return null;
 	}
 

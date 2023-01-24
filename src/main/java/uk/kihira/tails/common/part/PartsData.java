@@ -197,7 +197,7 @@ public class PartsData {
 					final IPartInfo info = context.deserialize(o, IPartInfo.class);
 					if (!info.isEmpty()) {
 						// Nasty hack to allow <1.10 data to update.
-						final String partType = o.has("partType") ? o.get("partType").getAsString().toLowerCase(Locale.ENGLISH) : info.getType();
+						final String partType = o.has("partType") ? o.get("partType").getAsString().toLowerCase(Locale.ENGLISH) : info.getAttachment();
 						ret.setPartInfo(partType, info);
 					}
 				}

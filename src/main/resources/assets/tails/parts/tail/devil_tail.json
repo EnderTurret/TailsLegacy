@@ -1,5 +1,5 @@
 {
-  "category": "tail",
+  "attachment": ["back/tail"],
   "ordering": [
     "with_tip",
     "no_tip"

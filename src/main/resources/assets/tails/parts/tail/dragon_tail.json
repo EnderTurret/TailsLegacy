@@ -1,5 +1,5 @@
 {
-  "category": "tail",
+  "attachment": ["back/tail"],
   "ordering": [
     "lizard_tail",
     "dragon_tail"

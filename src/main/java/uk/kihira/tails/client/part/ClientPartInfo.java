@@ -120,13 +120,13 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return getPart() == null || getSubType() == null || getPartTexture() == null;
 	}
 
-	public PartType getPartType() {
-		return part.getType();
+	public AttachmentPoint getAttachmentPoint() {
+		return part.getAttachment();
 	}
 
 	@Override
-	public String getType() {
-		return getPartType().getId();
+	public String getAttachment() {
+		return getAttachmentPoint().id();
 	}
 
 	/**
@@ -275,10 +275,10 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		public boolean isEmpty() { return true; }
 
 		@Override
-		public PartType getPartType() { return null; }
+		public AttachmentPoint getAttachmentPoint() { return null; }
 
 		@Override
-		public String getType() { return null; }
+		public String getAttachment() { return null; }
 
 		@Override
 		public ResourceLocation getPartId() { return new ResourceLocation(Tails.MOD_ID, "empty"); }

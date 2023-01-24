@@ -52,7 +52,6 @@ import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
-import uk.kihira.tails.client.part.PartType;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.helper.FakeEntityRenderHelper;
 import uk.kihira.tails.client.render.helper.PlayerRenderHelper;
@@ -199,10 +198,7 @@ public final class ClientEventHandler {
 
 			for (EntityRenderer<? extends Player> renderer : skinMap.values()) {
 				final PlayerRenderer renderer2 = (PlayerRenderer) renderer;
-				renderer2.addLayer(new PartLayer(renderer2, renderer2.getModel().body, PartType.TAIL));
-				renderer2.addLayer(new PartLayer(renderer2, renderer2.getModel().body, PartType.WINGS));
-				renderer2.addLayer(new PartLayer(renderer2, renderer2.getModel().head, PartType.EARS));
-				renderer2.addLayer(new PartLayer(renderer2, renderer2.getModel().head, PartType.MUZZLE));
+				renderer2.addLayer(new PartLayer(renderer2));
 
 				for (int i = 0; i < renderer2.layers.size(); i++)
 					// If other mods do this exact same thing, let them take precedence.

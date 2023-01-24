@@ -24,11 +24,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.part.AttachmentPoint;
+import uk.kihira.tails.client.part.AttachmentPoints;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.Part;
-import uk.kihira.tails.client.part.PartType;
+import uk.kihira.tails.client.part.RootAttachmentPoint;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
 
@@ -38,46 +40,42 @@ import uk.kihira.tails.common.Tails;
 @OnlyIn(Dist.CLIENT)
 public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
-	private final PartType partType;
-
 	/**
 	 * @param renderer The renderer.
-	 * @param modelPart The relevant part model. Currently unused.
-	 * @param partType The part type.
 	 */
-	public PartLayer(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, ModelPart modelPart, PartType partType) {
+	public PartLayer(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer) {
 		super(renderer);
-		this.partType = partType;
 	}
 
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(entity.getGameProfile());
 		final ClientPartsData partsData = ClientPlayerPartManager.get().get(uuid);
-		if (!partsData.isEmpty() && partsData.hasPartInfo(partType)) {
-			final ClientPartInfo partInfo = partsData.getPartInfo(partType);
-			if (partInfo.isInvalid()) return; // Skip unknown parts.
+		for (AttachmentPoint ap : AttachmentPoints.getAll())
+			if (!partsData.isEmpty() && partsData.hasPartInfo(ap)) {
+				final ClientPartInfo partInfo = partsData.getPartInfo(ap);
+				if (partInfo.isInvalid()) return; // Skip unknown parts.
 
-			poseStack.pushPose();
+				poseStack.pushPose();
 
-			if (partType == PartType.EARS || partType == PartType.MUZZLE)
-				getParentModel().head.translateAndRotate(poseStack);
+				if (ap.root().id().equals("head"))
+					getParentModel().head.translateAndRotate(poseStack);
 
-			else if (partType == PartType.TAIL)
-				getParentModel().body.translateAndRotate(poseStack);
+				else if (ap.root().id().equals("body"))
+					getParentModel().body.translateAndRotate(poseStack);
 
-			try {
-				final Part part = partInfo.getPart();
-				final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
-				if (renderer != null)
-					renderer.render(poseStack, entity, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F);
-				// TODO: Make this less spammy.
-				else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
-			} catch (Exception e) {
-				Tails.LOGGER.error("Exception rendering part {}: ", partInfo, e);
+				try {
+					final Part part = partInfo.getPart();
+					final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
+					if (renderer != null)
+						renderer.render(poseStack, entity, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F);
+					// TODO: Make this less spammy.
+					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
+				} catch (Exception e) {
+					Tails.LOGGER.error("Exception rendering part {}: ", partInfo, e);
+				}
+
+				poseStack.popPose();
 			}
-
-			poseStack.popPose();
-		}
 	}
 }

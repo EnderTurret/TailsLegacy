@@ -37,7 +37,7 @@ import uk.kihira.tails.common.part.Parts;
 public final class PartRegistry {
 
 	private static final Map<ResourceLocation, Part> PART_REGISTRY = new TreeMap<>();
-	private static final ListMultimap<PartType, Part> BY_TYPE = MultimapBuilder.enumKeys(PartType.class).arrayListValues().build();
+	private static final ListMultimap<AttachmentPoint, Part> BY_TYPE = MultimapBuilder.hashKeys().arrayListValues().build();
 
 	static final PartLoadingManager MANAGER = new PartLoadingManager(() -> {
 		PART_REGISTRY.clear();
@@ -48,14 +48,14 @@ public final class PartRegistry {
 		for (Part part : parts)
 			PART_REGISTRY.put(part.getId(), part);
 
-		for (Map.Entry<PartType, List<ResourceLocation>> entry : ordering.entrySet()) {
+		for (Map.Entry<AttachmentPoint, List<ResourceLocation>> entry : ordering.entrySet()) {
 			final List<Part> list = entry.getValue().stream()
 					.map(PART_REGISTRY::get)
 					.filter(p -> p != null)
 					.collect(Collectors.toList());
 
 			for (Part part : parts)
-				if (part.getType() == entry.getKey() && !list.contains(part))
+				if (part.getAttachment() == entry.getKey() && !list.contains(part))
 					list.add(part);
 
 			BY_TYPE.putAll(entry.getKey(), List.copyOf(list));
@@ -124,23 +124,12 @@ public final class PartRegistry {
 	}
 
 	/**
-	 * Returns a list of {@link Part Parts} under the given type.
-	 * @param partType The desired type of the renderers.
+	 * Returns a list of {@link Part Parts} under the given attachment point.
+	 * @param attachment The desired attachment point of the parts.
 	 * @return The list.
 	 */
-	public static List<Part> getParts(PartType partType) {
-		return BY_TYPE.get(partType);
-	}
-
-	/**
-	 * Returns the part at the given index for the given type.<br>
-	 * If the index is out of bounds, it's normalized to {@code 0}.
-	 * @param partType The part type.
-	 * @param index The type id.
-	 * @return The part renderer.
-	 */
-	public static Part byLegacyId(PartType partType, int index) {
-		return get(Parts.byLegacyId(partType.getId(), index));
+	public static List<Part> getParts(AttachmentPoint attachment) {
+		return BY_TYPE.get(attachment);
 	}
 
 	/**

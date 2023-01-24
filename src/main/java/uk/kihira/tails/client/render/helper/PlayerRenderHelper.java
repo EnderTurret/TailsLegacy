@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.part.PartRegistry;
-import uk.kihira.tails.client.part.PartType;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
@@ -29,7 +28,8 @@ public final class PlayerRenderHelper implements IRenderHelper<Player> {
 
 	@Override
 	public void onPreRenderTail(RenderContext ctx, PartRenderer renderer) {
-		if (ctx.info().getPart().getType() != PartType.TAIL) return;
+		// TODO: Just integrate this into the parts themselves.
+		if (!ctx.info().getPart().getAttachment().id().equals("body/tail")) return;
 
 		if (ctx.info().getPartId().equals(PartRegistry.DRAGON_TAIL.id())) {
 			if (ctx.entity().isShiftKeyDown()) ctx.poseStack().translate(0f, 0.82f, 0f);

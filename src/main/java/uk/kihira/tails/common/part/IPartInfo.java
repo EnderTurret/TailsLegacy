@@ -44,7 +44,7 @@ public interface IPartInfo {
 	/**
 	 * @return The part type.
 	 */
-	public String getType();
+	public String getAttachment();
 
 	/**
 	 * @return The id of the part.
@@ -97,7 +97,7 @@ public interface IPartInfo {
 		public IPartInfo clone() { return this; }
 
 		@Override
-		public String getType() { return null; }
+		public String getAttachment() { return null; }
 
 		@Override
 		public ResourceLocation getPartId() { return new ResourceLocation(Tails.MOD_ID, "empty"); }

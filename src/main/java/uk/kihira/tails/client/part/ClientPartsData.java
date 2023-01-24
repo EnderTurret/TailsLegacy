@@ -24,16 +24,16 @@ public final class ClientPartsData extends PartsData {
 		super(map);
 	}
 
-	public ClientPartInfo getPartInfo(PartType partType) {
-		return getPartInfo(partType.getId());
+	public ClientPartInfo getPartInfo(AttachmentPoint attachment) {
+		return getPartInfo(attachment.id());
 	}
 
-	public void setPartInfo(PartType partType, IPartInfo partInfo) {
-		setPartInfo(partType.getId(), partInfo);
+	public void setPartInfo(AttachmentPoint attachment, IPartInfo partInfo) {
+		setPartInfo(attachment.id(), partInfo);
 	}
 
-	public boolean hasPartInfo(PartType partType) {
-		return hasPartInfo(partType.getId());
+	public boolean hasPartInfo(AttachmentPoint attachment) {
+		return hasPartInfo(attachment.id());
 	}
 
 	@Override

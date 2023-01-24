@@ -28,7 +28,6 @@ public final class PlayerRenderHelper implements IRenderHelper<Player> {
 
 	@Override
 	public void onPreRenderTail(RenderContext ctx, PartRenderer renderer) {
-		// TODO: Just integrate this into the parts themselves.
 		if (!ctx.info().getPart().getAttachment().id().equals("body/tail")) return;
 
 		if (ctx.info().getPartId().equals(PartRegistry.DRAGON_TAIL.id())) {

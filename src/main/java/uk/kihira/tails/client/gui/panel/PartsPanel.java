@@ -203,7 +203,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 		final VertexConsumer consumer = impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture()));
 
-		renderer.render(poseStack, fakeEntity, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F);
+		renderer.render(poseStack, fakeEntity, null, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F);
 		impl.endBatch();
 
 		Lighting.setupFor3DItems();

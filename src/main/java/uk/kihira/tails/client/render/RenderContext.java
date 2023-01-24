@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.client.render;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -15,6 +17,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.ClientPartsData;
 
 /**
  * Contains all the context necessary for rendering parts.
@@ -29,12 +32,13 @@ import uk.kihira.tails.client.part.ClientPartInfo;
  * @param alpha The transparency.
  * @param partialTick The partial tick.
  * @param entity The entity being rendered.
+ * @param parts The entity's full part data.
  * @param info The part data.
  * @author EnderTurret
  */
 public record RenderContext(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay,
 		float red, float green, float blue, float alpha, float partialTick,
-		LivingEntity entity, ClientPartInfo info) {
+		LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info) {
 
 	/**
 	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, float, float, float, float)} on the given part with parameters from this {@link RenderContext}.

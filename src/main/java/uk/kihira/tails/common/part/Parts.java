@@ -188,7 +188,18 @@ public final class Parts {
 	@Internal
 	public static JsonElement update(JsonElement elem) {
 		if (elem instanceof JsonObject obj) {
-			if (obj.has("id") && obj.has("subType") && obj.has("textureId")) return elem;
+			if (obj.has("id")) {
+				final ResourceLocation partId = new ResourceLocation(obj.get("id").getAsString());
+				final ResourceLocation newPartId = Parts.remapId(partId);
+
+				if (partId != newPartId) {
+					if (!TESTING)
+						Tails.LOGGER.info("Remapped part id: {} → {}.", partId, newPartId);
+					obj.addProperty("id", newPartId.toString());
+				}
+
+				if (obj.has("subType") && obj.has("textureId")) return elem;
+			}
 
 			// Convert old style empty parts to new style empties.
 			if (obj.has("hasPart") && !obj.get("hasPart").getAsBoolean()) {
@@ -251,7 +262,7 @@ public final class Parts {
 						parts.add(part);
 				}
 
-			if (version == 1) {
+			else {
 				// Convert old partInfoMap to new parts list.
 				for (Map.Entry<String, JsonElement> entry : obj.get("partInfoMap").getAsJsonObject().entrySet()) {
 					final JsonElement part = entry.getValue();

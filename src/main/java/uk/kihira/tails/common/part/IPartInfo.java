@@ -9,6 +9,7 @@
 package uk.kihira.tails.common.part;
 
 import java.awt.Color;
+import java.util.Comparator;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -20,7 +21,7 @@ import uk.kihira.tails.common.Tails;
  * Represents a side-agnostic view of a part and its associated data.
  * @author EnderTurret
  */
-public interface IPartInfo {
+public interface IPartInfo extends Comparable<IPartInfo> {
 
 	/**
 	 * @return The empty {@link IPartInfo}.
@@ -76,6 +77,17 @@ public interface IPartInfo {
 	 * For obvious reasons, this does nothing on servers.
 	 */
 	public default void clearGlTexture() {}
+
+	public static final Comparator<IPartInfo> COMPARATOR = Comparator.<IPartInfo>nullsFirst(
+			Comparator.comparing(IPartInfo::isEmpty)
+			.thenComparing(IPartInfo::getPartId)
+			.thenComparing(IPartInfo::getSubTypeId)
+			.thenComparing(IPartInfo::getTextureId));
+
+	@Override
+	default int compareTo(IPartInfo o) {
+		return COMPARATOR.compare(this, o);
+	}
 
 	/**
 	 * Represents an "empty" {@link IPartInfo}.

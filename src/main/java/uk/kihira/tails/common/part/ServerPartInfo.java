@@ -68,8 +68,11 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 
 	@Override
 	public boolean equals(Object o) {
-		return o instanceof ServerPartInfo spi && Objects.equals(partId, spi.partId) && Objects.equals(subTypeId, spi.subTypeId)
-				&& Objects.equals(textureId, spi.textureId) && Arrays.equals(tints, spi.tints);
+		return o instanceof ServerPartInfo spi
+				&& Objects.equals(partId, spi.partId)
+				&& Objects.equals(subTypeId, spi.subTypeId)
+				&& Objects.equals(textureId, spi.textureId)
+				&& Arrays.equals(tints, spi.tints);
 	}
 
 	@Override
@@ -79,7 +82,11 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 
 	@Override
 	public String toString() {
-		return "ServerPartInfo[partId=" + partId + ", subTypeId=" + subTypeId + ", textureId=" + textureId + ", tints=" + Arrays.stream(tints).mapToObj(t -> "0x" + ColorUtil.hex(t, true, true)).toList() + "]";
+		return "ServerPartInfo[partId=" + partId
+				+ ", subTypeId=" + subTypeId
+				+ ", textureId=" + textureId
+				+ ", tints=" + Arrays.stream(tints).mapToObj(t -> "0x" + ColorUtil.hex(t, true, true)).toList()
+				+ "]";
 	}
 
 	/**
@@ -108,18 +115,13 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 			if ("tails:empty".equals(pId)) return IPartInfo.empty();
 
 			final ResourceLocation partId = new ResourceLocation(pId);
-			final ResourceLocation newPartId = Parts.remapId(partId);
-
-			if (partId != newPartId && !Parts.TESTING)
-				Tails.LOGGER.info("Remapped part id: {} → {}.", partId, newPartId);
-
 			final String subType = obj.get("subType").getAsString();
 			final String texture = obj.get("textureId").getAsString();
 
 			final JsonArray tints = obj.get("tints").getAsJsonArray();
 			final int[] tintsArr = {tints.get(0).getAsInt(), tints.get(1).getAsInt(), tints.get(2).getAsInt()};
 
-			return new ServerPartInfo(newPartId, subType, texture, tintsArr);
+			return new ServerPartInfo(partId, subType, texture, tintsArr);
 		}
 
 		@Override

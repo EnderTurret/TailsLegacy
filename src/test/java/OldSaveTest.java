@@ -33,10 +33,11 @@ public class OldSaveTest {
 				.registerTypeHierarchyAdapter(IPartInfo.class, ServerPartInfo.Serializer.INSTANCE)
 				.create();
 
-		final PartsData mostRecent = gson.fromJson(of(FORMAT_1_19.json()), PartsData.class);
+		final Format current = FORMAT_1_19_2;
+		final PartsData mostRecent = gson.fromJson(of(current.json()), PartsData.class);
 
 		for (Format f : FORMATS) {
-			final String testName = f.version() + "→" + FORMAT_1_19.version();
+			final String testName = f.version() + "→" + current.version();
 			try {
 				final PartsData parsed = gson.fromJson(f.json(), PartsData.class);
 

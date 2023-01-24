@@ -67,7 +67,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		addRenderableWidget(rootAttachment = new Spinner<>(AttachmentPoints.getRoots(), parent.getAttachmentPoint().root(),
-				(right - left) / 2, 16,
+				(right - left) / 2, 16, 108,
 				RootAttachmentPoint::toComponent, selection -> {
 					parent.setRootAttachmentPoint(selection);
 					attachment.setValues(selection.children());
@@ -75,26 +75,11 @@ public final class PartsPanel extends Panel<EditorScreen> {
 				}));
 
 		addRenderableWidget(attachment = new Spinner<>(rootAttachment.getSelection().children(), parent.getAttachmentPoint(),
-				(right - left) / 2, 32,
+				(right - left) / 2, 32, 108,
 				AttachmentPoint::toComponent, selection -> {
 					parent.setAttachmentPoint(selection);
 					initPartList();
 				}));
-
-		if (attachment.getWidth() > rootAttachment.getWidth()) {
-			rootAttachment.setWidth(attachment.getWidth());
-			rootAttachment.right.x = attachment.right.x;
-		}
-
-		int off = rootAttachment.getWidth() / 2;
-		rootAttachment.x -= off;
-		rootAttachment.left.x -= off;
-		rootAttachment.right.x -= off;
-
-		off = attachment.getWidth() / 2;
-		attachment.x -= off;
-		attachment.left.x -= off;
-		attachment.right.x -= off;
 
 		addRenderableWidget(rootAttachment.left);
 		addRenderableWidget(rootAttachment.right);

@@ -19,6 +19,8 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 public class Spinner<T> extends AbstractWidget {
 
+	public int centerX;
+
 	public final ExtendedButton left;
 	public final ExtendedButton right;
 
@@ -28,8 +30,9 @@ public class Spinner<T> extends AbstractWidget {
 	private final Stringifier<T> stringifier;
 	private final Listener<T> listener;
 
-	public Spinner(NavigableSet<T> values, @Nullable T initialSelection, int x, int y, Stringifier<T> stringifier, Listener<T> listener) {
-		super(x, y, 0, 0, Component.empty());
+	public Spinner(NavigableSet<T> values, @Nullable T initialSelection, int centerX, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
+		super(centerX, y, width, 0, Component.empty());
+		this.centerX = centerX;
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
@@ -39,10 +42,16 @@ public class Spinner<T> extends AbstractWidget {
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
 
 		setValues(Objects.requireNonNull(values));
+
+		final int off = getWidth() / 2;
+
+		x = centerX - off;
+		left.x = x;
+		right.x = x + getWidth() - right.getWidth();
 	}
 
-	public Spinner(NavigableSet<T> values, int x, int y, Stringifier<T> stringifier, Listener<T> listener) {
-		this(values, null, x, y, stringifier, listener);
+	public Spinner(NavigableSet<T> values, int x, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
+		this(values, null, x, y, width, stringifier, listener);
 	}
 
 	public void setValues(NavigableSet<T> values) {
@@ -50,18 +59,6 @@ public class Spinner<T> extends AbstractWidget {
 
 		this.values = values;
 		select(values.first(), runCallback);
-
-		final Font font = Minecraft.getInstance().font;
-		int largest = values.stream()
-				.mapToInt(v -> font.width(Component.translatable(v.toString())))
-				.max()
-				.orElse(0);
-
-		if (largest != 0) largest += 4 * 2;
-
-		right.x = x + left.getWidth() + largest;
-
-		setWidth(left.getWidth() + largest + right.getWidth());
 	}
 
 	public T getSelection() {

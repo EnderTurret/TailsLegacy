@@ -257,12 +257,11 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 				realParts.add(part);
 		}
 
-		if (DEBUG_REGISTRIES)
+		if (DEBUG_REGISTRIES) {
 			Tails.LOGGER.info("Parts ({}):\n{}", realParts.size(), realParts.stream()
 					.map(Part::toString)
 					.collect(Collectors.joining("\n")));
 
-		if (DEBUG_REGISTRIES) {
 			final String out = realParts.stream()
 					.map(part -> part.getId() + "\n  = " + part.getSubTypes().stream()
 							.map(sb -> sb.id() + "\n    - " + sb.textures().stream()
@@ -271,6 +270,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 							.collect(Collectors.joining("\n  = ")))
 					.collect(Collectors.joining("\n"));
 			Tails.LOGGER.info("Part dependency graph:\n{}", out);
+
+			Tails.LOGGER.info("Attachment point roots: {}", AttachmentPoints.getRoots());
+			Tails.LOGGER.info("Attachment points: {}", AttachmentPoints.getAll());
 		}
 
 		return realParts;

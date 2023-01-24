@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,25 +32,30 @@ public class OldSaveTest {
 				.excludeFieldsWithoutExposeAnnotation()
 				.registerTypeAdapter(PartsData.class, new PartsData.Serializer())
 				.registerTypeHierarchyAdapter(IPartInfo.class, ServerPartInfo.Serializer.INSTANCE)
+				.setPrettyPrinting()
 				.create();
 
 		final Format current = FORMAT_1_19_2;
 		final PartsData mostRecent = gson.fromJson(of(current.json()), PartsData.class);
 
-		for (Format f : FORMATS) {
-			final String testName = f.version() + "→" + current.version();
-			try {
-				final PartsData parsed = gson.fromJson(f.json(), PartsData.class);
+		for (Format f : FORMATS)
+			test(f.version() + "→" + current.version(), mostRecent,
+					() -> gson.fromJson(f.json(), PartsData.class));
 
-				if (!mostRecent.equals(parsed)) {
-					System.err.printf("Test %s failed:\n(Expected:)\n%s\n(Result:)\n%s\n", testName, mostRecent, parsed);
-				} else {
-					System.out.println("Test " + testName + " passed!");
-				}
-			} catch (Exception e) {
-				System.err.println("Test " + testName + " failed:");
-				e.printStackTrace();
+		test(current.version() + "→json", current.json(), () -> gson.toJson(mostRecent));
+	}
+
+	private static <T> void test(String testName, T target, Supplier<T> result) {
+		try {
+			final T res = result.get();
+			if (!target.equals(res)) {
+				System.err.printf("Test %s failed:\n(Expected:)\n%s\n(Result:)\n%s\n", testName, target, res);
+			} else {
+				System.out.println("Test " + testName + " passed!");
 			}
+		} catch (Exception e) {
+			System.err.println("Test " + testName + " failed:");
+			e.printStackTrace();
 		}
 	}
 

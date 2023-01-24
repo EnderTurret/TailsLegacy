@@ -1,5 +1,5 @@
 {
-  "attachment": ["head/sides"],
+  "attachment": "head/sides",
   "ordering": [
     "standard"
   ]

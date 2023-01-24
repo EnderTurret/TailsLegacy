@@ -17,13 +17,14 @@ import uk.kihira.tails.common.part.ServerPartInfo;
 
 public class OldSaveTest {
 
-	private static final Format FORMAT_1_7 = format(7);
-	private static final Format FORMAT_1_12 = format(12);
-	private static final Format FORMAT_1_16 = format(16);
-	private static final Format FORMAT_1_18 = format(18);
-	private static final Format FORMAT_1_19 = format(19);
+	private static final Format FORMAT_1_7 = format("7");
+	private static final Format FORMAT_1_12 = format("12");
+	private static final Format FORMAT_1_16 = format("16");
+	private static final Format FORMAT_1_18 = format("18");
+	private static final Format FORMAT_1_19 = format("19");
+	private static final Format FORMAT_1_19_2 = format("19.2");
 
-	private static final List<Format> FORMATS = List.of(FORMAT_1_7, FORMAT_1_12, FORMAT_1_16, FORMAT_1_18, FORMAT_1_19);
+	private static final List<Format> FORMATS = List.of(FORMAT_1_7, FORMAT_1_12, FORMAT_1_16, FORMAT_1_18, FORMAT_1_19, FORMAT_1_19_2);
 
 	public static void main(String[] args) {
 		final Gson gson = new GsonBuilder()
@@ -55,8 +56,8 @@ public class OldSaveTest {
 		return JsonParser.parseString(json);
 	}
 
-	private static Format format(int major) {
-		return new Format("1." + major, readFile("/partdatas/1" + major + ".json"));
+	private static Format format(String major) {
+		return new Format("1." + major, readFile("/partdatas/1" + major.replace(".", "") + ".json"));
 	}
 
 	private static String readFile(String path) {

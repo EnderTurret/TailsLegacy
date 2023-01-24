@@ -8,14 +8,19 @@
 
 package uk.kihira.tails.common.part;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -226,6 +231,41 @@ public final class Parts {
 				if (!TESTING)
 					Tails.LOGGER.info("Remapped texture {} → {}", textureId, texture);
 			}
+		}
+
+		return elem;
+	}
+
+	@Internal
+	public static JsonElement updatePartsData(JsonElement elem) {
+		if (elem instanceof JsonObject obj) {
+			final int version = obj.has("version") ? obj.get("version").getAsInt() : 0;
+			if (version == 2) return elem;
+
+			final List<JsonElement> parts = new ArrayList<>();
+
+			if (version == 0 && obj.has("partInfos"))
+				for (JsonElement part : obj.get("partInfos").getAsJsonArray()) {
+					update(part);
+					if (!part.getAsJsonObject().get("id").getAsString().equals("tails:empty"))
+						parts.add(part);
+				}
+
+			if (version == 1) {
+				// Convert old partInfoMap to new parts list.
+				for (Map.Entry<String, JsonElement> entry : obj.get("partInfoMap").getAsJsonObject().entrySet()) {
+					final JsonElement part = entry.getValue();
+					update(part);
+					if (!part.getAsJsonObject().get("id").getAsString().equals("tails:empty"))
+						parts.add(part);
+				}
+			}
+
+			final JsonArray partsArray = new JsonArray();
+			for (JsonElement p : parts) partsArray.add(p);
+
+			obj.addProperty("version", 2);
+			obj.add("parts", partsArray);
 		}
 
 		return elem;

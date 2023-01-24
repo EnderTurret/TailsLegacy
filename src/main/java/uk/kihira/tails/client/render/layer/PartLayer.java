@@ -51,31 +51,29 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
 	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(entity.getGameProfile());
 		final ClientPartsData partsData = ClientPlayerPartManager.get().get(uuid);
-		for (AttachmentPoint ap : AttachmentPoints.getAll())
-			if (!partsData.isEmpty() && partsData.hasPartInfo(ap)) {
-				final ClientPartInfo partInfo = partsData.getPartInfo(ap);
-				if (partInfo.isInvalid()) return; // Skip unknown parts.
+		for (ClientPartInfo partInfo : partsData.getParts()) {
+			if (partInfo.isInvalid()) return; // Skip unknown parts.
 
-				poseStack.pushPose();
+			poseStack.pushPose();
 
-				if (ap.root().id().equals("head"))
-					getParentModel().head.translateAndRotate(poseStack);
+			if (partInfo.getAttachmentPoint().root().id().equals("head"))
+				getParentModel().head.translateAndRotate(poseStack);
 
-				else if (ap.root().id().equals("body"))
-					getParentModel().body.translateAndRotate(poseStack);
+			else if (partInfo.getAttachmentPoint().root().id().equals("body"))
+				getParentModel().body.translateAndRotate(poseStack);
 
-				try {
-					final Part part = partInfo.getPart();
-					final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
-					if (renderer != null)
-						renderer.render(poseStack, entity, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F);
-					// TODO: Make this less spammy.
-					else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
-				} catch (Exception e) {
-					Tails.LOGGER.error("Exception rendering part {}: ", partInfo, e);
-				}
-
-				poseStack.popPose();
+			try {
+				final Part part = partInfo.getPart();
+				final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
+				if (renderer != null)
+					renderer.render(poseStack, entity, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F);
+				// TODO: Make this less spammy.
+				else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
+			} catch (Exception e) {
+				Tails.LOGGER.error("Exception rendering part {}: ", partInfo, e);
 			}
+
+			poseStack.popPose();
+		}
 	}
 }

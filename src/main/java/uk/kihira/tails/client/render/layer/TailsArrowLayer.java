@@ -74,18 +74,16 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 		parts.add(new PartConfig(new PartConfiguration.Player(getParentModel()), null, null));
 
 		if (!data.isEmpty())
-			for (AttachmentPoint ap : AttachmentPoints.getAll())
-				if (data.hasPartInfo(ap)) {
-					final ClientPartInfo info = data.getPartInfo(ap);
-					if (info.isInvalid()) continue;
-					final PartRenderer renderer = PartRenderRegistry.getRenderer(info.getPart());
+			for (ClientPartInfo info : data.getParts()) {
+				if (info.isInvalid()) continue;
+				final PartRenderer renderer = PartRenderRegistry.getRenderer(info.getPart());
 
-					if (renderer != null && renderer.modelPart != null)
-						for (PartConfiguration config : renderer.modelPart.getParts(info)) {
-							parts.add(new PartConfig(config, info, renderer));
-							parts.add(parts.get(0));
-						}
-				}
+				if (renderer != null && renderer.modelPart != null)
+					for (PartConfiguration config : renderer.modelPart.getParts(info)) {
+						parts.add(new PartConfig(config, info, renderer));
+						parts.add(parts.get(0));
+					}
+			}
 
 		return parts;
 	}

@@ -59,20 +59,18 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 
 		int index = 0;
 
-		for (AttachmentPoint attachment : AttachmentPoints.getAll())
-			if (partsData.hasPartInfo(attachment)) {
-				final ClientPartInfo partInfo = partsData.getPartInfo(attachment);
-				final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-				RenderHelper.drawStringMultiLine(poseStack, fontRenderer, trans,
-						rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
-				for (int i = 1; i < 4; i++)
-					GuiComponent.fill(poseStack,
-							listWidth - 8 * i, rowTop + 13 + index * 8,
-							listWidth + 7 - 8 * i, rowTop + 20 + index * 8,
-							partInfo.getTints()[i - 1]);
+		for (ClientPartInfo partInfo : partsData.getParts()) {
+			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
+			RenderHelper.drawStringMultiLine(poseStack, fontRenderer, trans,
+					rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
+			for (int i = 1; i < 4; i++)
+				GuiComponent.fill(poseStack,
+						listWidth - 8 * i, rowTop + 13 + index * 8,
+						listWidth + 7 - 8 * i, rowTop + 20 + index * 8,
+						partInfo.getTints()[i - 1]);
 
-				index++;
-			}
+			index++;
+		}
 
 		if (data.favourite) {
 			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);

@@ -72,10 +72,6 @@ public final class EditorScreen extends LayeredScreen {
 		if (original == null)
 			original = new ClientPartsData();
 
-		for (AttachmentPoint attachment : AttachmentPoints.getAll())
-			if (!original.hasPartInfo(attachment))
-				original.setPartInfo(attachment, ClientPartInfo.empty());
-
 		final ClientPartInfo partInfo = original.getPartInfo(attachment);
 
 		originalPartInfo = partInfo.clone();

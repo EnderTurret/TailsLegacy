@@ -1,7 +1,10 @@
 package uk.kihira.tails.client.part;
 
 import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -20,30 +23,42 @@ public final class ClientPartsData extends PartsData {
 		super();
 	}
 
-	public ClientPartsData(Map<String, IPartInfo> map) {
-		super(map);
+	public ClientPartsData(Set<IPartInfo> parts) {
+		super(parts);
 	}
 
 	public ClientPartInfo getPartInfo(AttachmentPoint attachment) {
-		return getPartInfo(attachment.id());
+		for (ClientPartInfo info : getParts())
+			if (info.getAttachmentPoint().equals(attachment))
+				return info;
+
+		return empty();
 	}
 
-	public void setPartInfo(AttachmentPoint attachment, IPartInfo partInfo) {
-		setPartInfo(attachment.id(), partInfo);
-	}
+	public void setPartInfo(AttachmentPoint attachment, ClientPartInfo info) {
+		Objects.requireNonNull(attachment);
+		Objects.requireNonNull(info);
 
-	public boolean hasPartInfo(AttachmentPoint attachment) {
-		return hasPartInfo(attachment.id());
+		for (Iterator<IPartInfo> it = parts.iterator(); it.hasNext(); )
+			if (((ClientPartInfo) it.next()).getAttachmentPoint().equals(attachment))
+				it.remove();
+
+		parts.add(info);
 	}
 
 	@Override
-	protected IPartInfo empty() {
+	protected ClientPartInfo empty() {
 		return ClientPartInfo.empty();
 	}
 
 	@Override
-	public ClientPartInfo getPartInfo(String partType) {
-		return ClientPartInfo.coerce(super.getPartInfo(partType));
+	public void addPartInfo(IPartInfo partInfo) {
+		super.addPartInfo(ClientPartInfo.coerce(partInfo));
+	}
+
+	@SuppressWarnings({ "cast", "unchecked" })
+	public Set<ClientPartInfo> getParts() {
+		return (Set<ClientPartInfo>) (Set) super.getPartInfos();
 	}
 
 	@Override
@@ -52,7 +67,7 @@ public final class ClientPartsData extends PartsData {
 	}
 
 	public static ClientPartsData clone(PartsData data) {
-		return new ClientPartsData(data.getPartInfoMap());
+		return new ClientPartsData(data.getPartInfos());
 	}
 
 	@Internal

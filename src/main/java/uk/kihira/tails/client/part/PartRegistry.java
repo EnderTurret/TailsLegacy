@@ -50,17 +50,21 @@ public final class PartRegistry {
 			PART_REGISTRY.put(part.getId(), part);
 
 		for (Map.Entry<AttachmentPoint, List<ResourceLocation>> entry : ordering.entrySet()) {
-			final List<Part> list = entry.getValue().stream()
+			final List<Part> ordered = entry.getValue().stream()
 					.map(PART_REGISTRY::get)
-					.filter(p -> p != null)
+					.filter(p -> p != null && p.getAttachment() == entry.getKey())
 					.collect(Collectors.toList());
 
 			for (Part part : parts)
-				if (part.getAttachment() == entry.getKey() && !list.contains(part))
-					list.add(part);
+				if (part.getAttachment() == entry.getKey() && !ordered.contains(part))
+					ordered.add(part);
 
-			BY_TYPE.putAll(entry.getKey(), List.copyOf(list));
+			BY_TYPE.putAll(entry.getKey(), List.copyOf(ordered));
 		}
+
+		for (Part part : parts)
+			if (!BY_TYPE.containsEntry(part.getAttachment(), part))
+				BY_TYPE.put(part.getAttachment(), part);
 
 		PartRenderRegistry.reload();
 

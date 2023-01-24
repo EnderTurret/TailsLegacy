@@ -19,16 +19,22 @@
     "tails:ears/cat_ears",
     "tails:ears/panda_ears",
     "tails:ears/small_cat_ears",
-    "tails:ears/sea_pickle",
     "tails:ears/antennae",
-    "tails:ears/demon_horns",
-    "tails:ears/deer_antlers",
-    "tails:ears/axolotl_gills",
-    "tails:ears/strider_whiskers"
+    "tails:ears/deer_antlers"
   ],
   "head/face": [
     "tails:muzzle/standard_muzzle",
     "tails:muzzle/slim_muzzle",
     "tails:muzzle/thin_muzzle"
+  ],
+  "head/sides": [
+    "tails:ears/axolotl_gills",
+    "tails:ears/strider_whiskers"
+  ],
+  "head/top_center": [
+    "tails:ears/sea_pickle"
+  ],
+  "head/top_front": [
+    "tails:ears/demon_horns"
   ]
 }

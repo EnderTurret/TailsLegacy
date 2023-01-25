@@ -31,7 +31,9 @@ import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.ServerPartInfo;
 
 /**
- * Stores a bunch of customization data for parts.
+ * Represents the client-side version of {@link IPartInfo}.
+ * Mostly, it provides more context to the otherwise-useless part/subtype/texture ids.
+ * @see IPartInfo
  */
 public class ClientPartInfo implements Cloneable, IPartInfo {
 

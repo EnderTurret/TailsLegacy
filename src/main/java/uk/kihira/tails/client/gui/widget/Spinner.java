@@ -17,6 +17,13 @@ import net.minecraft.network.chat.Component;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
+/**
+ * A widget that allows cycling through values using two arrow buttons.
+ * It is somewhat comparable to Java's spinners in design, but behaves closer to a combo box. 
+ * @author EnderTurret
+ *
+ * @param <T> The type of the elements the spinner cycles through.
+ */
 public class Spinner<T> extends AbstractWidget {
 
 	public int centerX;
@@ -118,11 +125,21 @@ public class Spinner<T> extends AbstractWidget {
 		narrationElementOutput.add(NarratedElementType.TITLE, getMessage());
 	}
 
+	/**
+	 * Turns a given element into a {@link Component}.
+	 * @author EnderTurret
+	 * @param <T> The type of element.
+	 */
 	@FunctionalInterface
 	public static interface Stringifier<T> {
 		public Component stringify(T value);
 	}
 
+	/**
+	 * A callback executed when an element is selected.
+	 * @author EnderTurret
+	 * @param <T> The type of element.
+	 */
 	@FunctionalInterface
 	public static interface Listener<T> {
 		public void onSelected(T selection);

@@ -16,6 +16,10 @@ import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.ServerPartInfo;
 
+/**
+ * Tests that ensure that old Tails data can be upgraded to newer versions without any problems.
+ * @author EnderTurret
+ */
 public class OldSaveTest {
 
 	private static final Format FORMAT_1_7 = format("7");

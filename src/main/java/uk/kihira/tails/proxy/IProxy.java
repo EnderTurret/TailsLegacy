@@ -24,9 +24,9 @@ import uk.kihira.tails.common.LibraryManager;
 public interface IProxy {
 
 	/**
-	 * Uses the power of <em>quiet class references</em> <sup>(reflection)</sup> to create and return a ClientProxy.<br>
+	 * Uses the power of <em>quiet class references</em> <sup>(reflection)</sup> to create and return a {@code ClientProxy}.
 	 * Please handle with care. <sup>(Read: enclose within 5,000 Suppliers and place calling code deep inside a forgotten package.)</sup>
-	 * @return A ClientProxy, made with a sprinkle of <strike>love</strike> Dist.CLIENT.
+	 * @return A {@code ClientProxy}, made with a sprinkle of <strike>love</strike> {@code Dist.CLIENT}.
 	 */
 	@Internal
 	public static IProxy makeClientProxy() {

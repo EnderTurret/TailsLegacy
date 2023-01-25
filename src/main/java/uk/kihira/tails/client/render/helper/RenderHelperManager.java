@@ -22,8 +22,8 @@ import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
- * The {@link IRenderHelper} manager.<br>
- * Manages and caches {@link IRenderHelper IRenderHelpers} for various entity classes.
+ * The {@link IRenderHelper} manager.
+ * This manages and caches {@link IRenderHelper IRenderHelpers} for various entity classes.
  * @author EnderTurret
  */
 public final class RenderHelperManager {

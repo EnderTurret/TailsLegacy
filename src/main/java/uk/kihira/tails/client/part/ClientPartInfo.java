@@ -162,8 +162,8 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	}
 
 	/**
-	 * Returns the texture location.<br>
-	 * If {@link #isEmpty()} is {@code true}, this always returns {@code null}.<br>
+	 * Returns the texture location.
+	 * If {@link #isEmpty()} is {@code true}, this always returns {@code null}.
 	 * Otherwise, this can return {@code null} if the texture needs regenerating.
 	 * @return The texture.
 	 */

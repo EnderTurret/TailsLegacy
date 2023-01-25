@@ -129,7 +129,7 @@ public class LibraryManager {
 	}
 
 	/**
-	 * Returns the path to the library file.<br>
+	 * Returns the path to the library file.
 	 * By default, this is {@code tailslibrary.json} in the game directory.
 	 * @return The library file.
 	 */

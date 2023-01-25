@@ -18,8 +18,7 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import uk.kihira.tails.client.RenderHelper;
 
 /**
- * An extended version of the extended list.<br>
- * Could have been called {@code ExtendedExtendedList}.
+ * A version of {@link ObjectSelectionList} that improves upon some things.
  *
  * @param <T> The list type.
  */

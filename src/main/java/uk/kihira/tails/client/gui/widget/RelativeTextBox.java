@@ -24,7 +24,7 @@ import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.gui.panel.Panel;
 
 /**
- * An {@link EditBox} that takes into account the {@link PoseStack} transformations when drawing the selection box.<br>
+ * An {@link EditBox} that takes into account the {@link PoseStack} transformations when drawing the selection box.
  * Without this, the selection overlay will attempt to yeet itself as far off-screen as possible.
  * @author EnderTurret
  */

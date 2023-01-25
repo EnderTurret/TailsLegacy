@@ -37,7 +37,7 @@ public final class Parts {
 	static final boolean TESTING = Boolean.getBoolean("tails.testing");
 
 	/**
-	 * Returns the named id of the part at the given index for the given type.<br>
+	 * Returns the named id of the part at the given index for the given type.
 	 * If the index is out of bounds, it's normalized to {@code 0}.
 	 * @param partType The part type.
 	 * @param index The type id.

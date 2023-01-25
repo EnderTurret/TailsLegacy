@@ -46,8 +46,8 @@ public class PartsData {
 	protected final Set<IPartInfo> parts = new TreeSet<>();
 
 	/**
-	 * The version.<br>
-	 * 1 is the current version.
+	 * The version of the part format.
+	 * 2 is the current version.
 	 */
 	private final int version = 2;
 

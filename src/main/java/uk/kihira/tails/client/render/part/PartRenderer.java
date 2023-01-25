@@ -32,8 +32,8 @@ import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 
 /**
- * A renderer for a part.<br>
- * You can register one using {@link RegisterPartRenderersEvent}.
+ * A renderer for a part.
+ * @see RegisterPartRenderersEvent
  */
 @OnlyIn(Dist.CLIENT)
 public class PartRenderer {

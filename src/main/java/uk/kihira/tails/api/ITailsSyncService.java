@@ -13,13 +13,13 @@ import java.util.UUID;
 import uk.kihira.tails.common.part.PartsData;
 
 /**
- * An interface that can be implemented to provide a syncing service for player tails.<br>
+ * An interface that can be implemented to provide a syncing service for player tails.
  * If set, this can be used when server-side syncing is not possible.
  */
 public interface ITailsSyncService {
 
 	/**
-	 * Uploads the given {@link PartsData} for the given {@link UUID}.<br>
+	 * Uploads the given {@link PartsData} for the given {@link UUID}.
 	 * This method may validate that the {@code UUID} belongs to the player, to prevent people from changing other people's data.
 	 * @param uuid The {@code UUID} to upload the data for.
 	 * @param data The data to upload.

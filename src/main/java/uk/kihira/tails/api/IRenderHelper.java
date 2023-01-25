@@ -14,7 +14,7 @@ import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
- * A pre-render callback for part rendering.<br>
+ * A pre-render callback for part rendering.
  * Called just before rendering in {@link PartRenderer#preRender(RenderContext)}.
  *
  * @param <T> The type of entity this helper is for.
@@ -23,8 +23,8 @@ import uk.kihira.tails.client.render.part.PartRenderer;
 public interface IRenderHelper<T extends LivingEntity> {
 
 	/**
-	 * Handles pre-render transformations and other fun stuff.<br><br>
-	 * You could render a sea pickle above the player's head here, if you wanted to.
+	 * <p>Handles pre-render transformations and other fun stuff.</p>
+	 * <p>You could render a sea pickle above the player's head here, if you wanted to.</p>
 	 * @param ctx The render context.
 	 * @param renderer The part renderer.
 	 */

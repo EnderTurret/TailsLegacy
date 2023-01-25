@@ -13,8 +13,8 @@ import java.awt.Color;
 import com.mojang.blaze3d.platform.NativeImage;
 
 /**
- * Miscellaneous utilities for converting between {@link NativeImage} color values and {@link Color} color values.<br>
- * This is needed because the packed versions are different:<br>
+ * Miscellaneous utilities for converting between {@link NativeImage} color values and {@link Color} color values.
+ * This is needed because the packed versions are different:
  * {@link NativeImage} packs it in the format {@code ABGR} whereas {@link Color} packs it in the format {@code ARGB}.
  * @author EnderTurret
  */

@@ -43,11 +43,6 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 	public IPartInfo clone();
 
 	/**
-	 * @return The part type.
-	 */
-	public String getAttachment();
-
-	/**
 	 * @return The id of the part.
 	 */
 	public ResourceLocation getPartId();
@@ -107,9 +102,6 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 
 		@Override
 		public IPartInfo clone() { return this; }
-
-		@Override
-		public String getAttachment() { return null; }
 
 		@Override
 		public ResourceLocation getPartId() { return new ResourceLocation(Tails.MOD_ID, "empty"); }

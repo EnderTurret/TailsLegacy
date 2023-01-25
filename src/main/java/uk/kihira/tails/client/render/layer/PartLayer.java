@@ -52,10 +52,10 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
 
 			poseStack.pushPose();
 
-			if (partInfo.getAttachmentPoint().root().id().equals("head"))
+			if (partInfo.getPart().getAttachment().root().id().equals("head"))
 				getParentModel().head.translateAndRotate(poseStack);
 
-			else if (partInfo.getAttachmentPoint().root().id().equals("body"))
+			else if (partInfo.getPart().getAttachment().root().id().equals("body"))
 				getParentModel().body.translateAndRotate(poseStack);
 
 			try {

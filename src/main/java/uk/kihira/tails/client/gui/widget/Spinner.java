@@ -103,6 +103,11 @@ public class Spinner<T> extends AbstractWidget {
 	}
 
 	@Override
+	public boolean changeFocus(boolean focus) {
+		return false;
+	}
+
+	@Override
 	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		final Font font = Minecraft.getInstance().font;
 		final Component message = getMessage();

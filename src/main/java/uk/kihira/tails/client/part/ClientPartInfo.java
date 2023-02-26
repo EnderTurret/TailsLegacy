@@ -25,6 +25,8 @@ import com.google.gson.JsonSerializer;
 
 import net.minecraft.resources.ResourceLocation;
 
+import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.IPartInfo;
@@ -77,6 +79,14 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		this(tints, part, subType, textureId, null);
 	}
 
+	public ClientPartInfo(int[] tints, Part part, Part.SubType subType) {
+		this(tints, part, subType, subType.textures().get(0));
+	}
+
+	public ClientPartInfo(int[] tints, Part part) {
+		this(tints, part, part.getSubTypes().get(0));
+	}
+
 	/**
 	 * Coerces the given {@link IPartInfo} into a {@link ClientPartInfo}.
 	 * @param info The {@link IPartInfo} to coerce.
@@ -120,6 +130,15 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 */
 	public boolean isInvalid() {
 		return getPart() == null || getSubType() == null || getPartTexture() == null;
+	}
+
+	/**
+	 * Convenience method for {@link PartRenderRegistry#getRenderer(Part) PartRenderRegistry.getRenderer(getPart())}.
+	 * @return The {@link PartRenderer} registered for this part.
+	 */
+	@Nullable
+	public PartRenderer getRenderer() {
+		return PartRenderRegistry.getRenderer(getPart());
 	}
 
 	/**

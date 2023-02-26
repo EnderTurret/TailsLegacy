@@ -186,9 +186,9 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	}
 
 	private void renderPart(PoseStack poseStack, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
-		final PartRenderer renderer = PartRenderRegistry.getRenderer(partInfo.getPart());
-
 		if (partInfo.isEmpty() || partInfo.isInvalid()) return;
+
+		final PartRenderer renderer = partInfo.getRenderer();
 
 		poseStack.pushPose();
 		poseStack.translate(x, y, z);

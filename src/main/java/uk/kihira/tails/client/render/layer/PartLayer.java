@@ -60,7 +60,7 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
 
 			try {
 				final Part part = partInfo.getPart();
-				final PartRenderer renderer = PartRenderRegistry.getRenderer(part);
+				final PartRenderer renderer = partInfo.getRenderer();
 				if (renderer != null)
 					renderer.render(poseStack, entity, partsData, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F);
 				// TODO: Make this less spammy.

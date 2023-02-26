@@ -11,19 +11,21 @@ package uk.kihira.tails.client.render;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.PartRegistry;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * Handles rendering Tails accessories on tiny potatoes named "foxtato" (case-insensitive).
@@ -31,9 +33,7 @@ import uk.kihira.tails.client.part.PartRegistry;
 @Internal
 public final class FoxtatoRenderer {
 
-	/*private FoxtatoFakeEntity fakeEntity;
-	private final PartInfo tailPartInfo = new PartInfo(PartRegistry.FLUFFY_TAIL.getId(), 0, 0, new int[]{-5480951, -6594259, -5197647}, null);
-	private final PartInfo earPartInfo = new PartInfo(PartRegistry.FOX_EARS.getId(), 0, 0, new int[]{-5480951, 0xFF000000, -5197647}, null);
+	private FakeEntity fakeEntity;
 
 	@SubscribeEvent
 	public void onWorldUnload(LevelEvent.Unload e) {
@@ -43,36 +43,36 @@ public final class FoxtatoRenderer {
 		}
 	}
 
-	@SubscribeEvent
-	public void onPotatoRender(TinyPotatoRenderEvent e) {
-		if (e.name.getString().equalsIgnoreCase("foxtato")) {
-			if (fakeEntity == null) fakeEntity = new FoxtatoFakeEntity(Minecraft.getInstance().level);
+	public void render(PoseStack poseStack, MultiBufferSource buffers, BlockPos pos, float partialTicks, int packedLight, int packedOverlay) {
+		if (fakeEntity == null) fakeEntity = new FakeEntity(Minecraft.getInstance().level);
 
-			final PartRenderer foxTailRenderer = PartRenderRegistry.getRenderer(PartRegistry.FLUFFY_TAIL);
-			final PartRenderer foxEarRenderer = PartRenderRegistry.getRenderer(PartRegistry.FOX_EARS);
+		final ClientPartInfo tailPartInfo = new ClientPartInfo(new int[]{-5480951, -6594259, -5197647}, PartRegistry.FLUFFY_TAIL.get());
+		final ClientPartInfo earPartInfo = new ClientPartInfo(new int[]{-5480951, 0xFF000000, -5197647}, PartRegistry.FOX_EARS.get());
 
-			e.ms.pushPose();
+		final PartRenderer foxTailRenderer = tailPartInfo.getRenderer();
+		final PartRenderer foxEarRenderer = earPartInfo.getRenderer();
 
-			e.ms.scale(0.5F, 0.5F, 0.5F);
+		poseStack.pushPose();
 
-			e.ms.translate(0, 2F, 0.2F);
+		poseStack.scale(0.5F, 0.5F, 0.5F);
 
-			foxTailRenderer.render(e.ms, fakeEntity, tailPartInfo, e.buffers, e.tile.getBlockPos().getX(), e.tile.getBlockPos().getY(), e.tile.getBlockPos().getZ(), e.partTicks, e.light, e.overlay, 1F, 1F, 1F, 1F);
+		poseStack.translate(0, 2F, 0.2F);
 
-			e.ms.translate(0, -0.7, -0.3F);
-			e.ms.mulPose(Vector3f.YP.rotationDegrees(180));
+		foxTailRenderer.render(poseStack, fakeEntity, null, tailPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 1F);
 
-			foxEarRenderer.render(e.ms, fakeEntity, earPartInfo, e.buffers, e.tile.getBlockPos().getX(), e.tile.getBlockPos().getY(), e.tile.getBlockPos().getZ(), e.partTicks, e.light, e.overlay, 1F, 1F, 1F, 1F);
+		poseStack.translate(0, -0.7, -0.3F);
+		poseStack.mulPose(Vector3f.YP.rotationDegrees(180));
 
-			e.ms.popPose();
+		foxEarRenderer.render(poseStack, fakeEntity, null, earPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 1F);
 
-			RenderSystem.setShaderColor(1F, 0F, 1F, 1F);
-		}
+		poseStack.popPose();
+
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 	}
 
-	public static class FoxtatoFakeEntity extends FakeEntity {
-		public FoxtatoFakeEntity(Level world) {
-			super(world);
-		}
+	/*@SubscribeEvent
+	public void onPotatoRender(TinyPotatoRenderEvent e) {
+		if (e.name.getString().equalsIgnoreCase("foxtato"))
+			render(e.ms, e.buffers, e.tile.getBlockPos(), e.partTicks, e.light, e.overlay);
 	}*/
 }

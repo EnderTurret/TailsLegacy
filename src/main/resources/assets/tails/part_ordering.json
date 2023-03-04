@@ -32,7 +32,8 @@
     "tails:ears/strider_whiskers"
   ],
   "head/top_center": [
-    "tails:ears/sea_pickle"
+    "tails:ears/sea_pickle",
+    "tails:ears/umbrella_hat"
   ],
   "head/top_front": [
     "tails:ears/demon_horns"

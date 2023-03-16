@@ -23,6 +23,7 @@ import net.minecraftforge.fml.event.IModBusEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.part.PartRenderer;
@@ -71,5 +72,17 @@ public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 	 */
 	public void register(PartRegistry.PartReference reference, PartRenderer renderer) {
 		register(reference.id(), renderer);
+	}
+
+	/**
+	 * {@link PartModel} version of {@link #register(uk.kihira.tails.client.part.PartRegistry.PartReference, PartRenderer) register(PartReference, PartRenderer)}.
+	 * @param reference A reference to the part to link the renderer to.
+	 * @param model The part model.
+	 * @see #register(ResourceLocation, PartRenderer)
+	 * @see #register(uk.kihira.tails.client.part.PartRegistry.PartReference, PartRenderer)
+	 * @see PartRegistry#reference(ResourceLocation)
+	 */
+	public void register(PartRegistry.PartReference reference, PartModel model) {
+		register(reference, new PartRenderer(model));
 	}
 }

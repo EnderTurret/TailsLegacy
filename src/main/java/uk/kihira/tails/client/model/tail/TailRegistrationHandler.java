@@ -25,15 +25,15 @@ public final class TailRegistrationHandler {
 
 	@SubscribeEvent
 	static void registerPartRenderers(RegisterPartRenderersEvent e) {
-		e.register(FLUFFY_TAIL, new PartRenderer(new FluffyTailModel()));
-		e.register(DRAGON_TAIL, new PartRenderer(new DragonTailModel()));
-		e.register(RACCOON_TAIL, new PartRenderer(new RaccoonTailModel()));
-		e.register(DEVIL_TAIL, new PartRenderer(new DevilTailModel()));
-		e.register(CAT_TAIL, new PartRenderer(new CatTailModel()));
-		e.register(BIRD_TAIL, new PartRenderer(new BirdTailModel()));
-		e.register(SHARK_TAIL, new PartRenderer(new SharkTailModel()));
-		e.register(BUNNY_TAIL, new PartRenderer(new BunnyTailModel()));
-		e.register(BEE_ABDOMEN, new PartRenderer(new BeeAbdomenModel()));
-		e.register(SCORPION_TAIL, new PartRenderer(new ScorpionTailModel()));
+		e.register(FLUFFY_TAIL, new FluffyTailModel());
+		e.register(DRAGON_TAIL, new DragonTailModel());
+		e.register(RACCOON_TAIL, new RaccoonTailModel());
+		e.register(DEVIL_TAIL, new DevilTailModel());
+		e.register(CAT_TAIL, new CatTailModel());
+		e.register(BIRD_TAIL, new BirdTailModel());
+		e.register(SHARK_TAIL, new SharkTailModel());
+		e.register(BUNNY_TAIL, new BunnyTailModel());
+		e.register(BEE_ABDOMEN, new BeeAbdomenModel());
+		e.register(SCORPION_TAIL, new ScorpionTailModel());
 	}
 }

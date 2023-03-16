@@ -44,9 +44,9 @@ public final class PartRenderRegistry {
 	static void registerPartRenderers(RegisterPartRenderersEvent e) {
 		e.register(BIG_WINGS, new WingRenderer());
 
-		e.register(STANDARD_MUZZLE, new PartRenderer(new MuzzleModel(-2f, -3f, -9f, 4, 3, 5)));
-		e.register(SLIM_MUZZLE, new PartRenderer(new MuzzleModel(-2f, -2f, -9f, 4, 2, 5)));
-		e.register(THIN_MUZZLE, new PartRenderer(new MuzzleModel(-1.5f, -2f, -9f, 3, 2, 5, 0, 9)));
+		e.register(STANDARD_MUZZLE, new MuzzleModel(-2f, -3f, -9f, 4, 3, 5));
+		e.register(SLIM_MUZZLE, new MuzzleModel(-2f, -2f, -9f, 4, 2, 5));
+		e.register(THIN_MUZZLE, new MuzzleModel(-1.5f, -2f, -9f, 3, 2, 5, 0, 9));
 	}
 
 	/**

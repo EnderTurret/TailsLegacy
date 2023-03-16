@@ -25,19 +25,19 @@ public final class EarRegistrationHandler {
 
 	@SubscribeEvent
 	static void registerPartRenderers(RegisterPartRenderersEvent e) {
-		e.register(FOX_EARS, new PartRenderer(new FoxEarsModel()));
-		e.register(CAT_EARS, new PartRenderer(new CatEarsModel()));
-		e.register(PANDA_EARS, new PartRenderer(new PandaEarsModel()));
-		e.register(SMALL_CAT_EARS, new PartRenderer(new SmallCatEarsModel()));
-		e.register(SEA_PICKLE, new PartRenderer(new SeaPickleModel()));
-		e.register(ANTENNAE, new PartRenderer(new AntennaeModel()));
-		e.register(DEMON_HORNS, new PartRenderer(new DemonHornsModel()));
-		e.register(DEER_ANTLERS, new PartRenderer(new DeerAntlersModel()));
-		e.register(AXOLOTL_GILLS, new PartRenderer(new AxolotlGillsModel()));
-		e.register(STRIDER_WHISKERS, new PartRenderer(new StriderWhiskersModel()));
-		e.register(FLASHLIGHT, new PartRenderer(new FlashlightModel()));
-		e.register(FLOWER_CROWN, new PartRenderer(new FlowerCrownModel()));
-		e.register(UMBRELLA_HAT, new PartRenderer(new UmbrellaHatModel()));
-		e.register(BEANIE, new PartRenderer(new BeanieModel()));
+		e.register(FOX_EARS, new FoxEarsModel());
+		e.register(CAT_EARS, new CatEarsModel());
+		e.register(PANDA_EARS, new PandaEarsModel());
+		e.register(SMALL_CAT_EARS, new SmallCatEarsModel());
+		e.register(SEA_PICKLE, new SeaPickleModel());
+		e.register(ANTENNAE, new AntennaeModel());
+		e.register(DEMON_HORNS, new DemonHornsModel());
+		e.register(DEER_ANTLERS, new DeerAntlersModel());
+		e.register(AXOLOTL_GILLS, new AxolotlGillsModel());
+		e.register(STRIDER_WHISKERS, new StriderWhiskersModel());
+		e.register(FLASHLIGHT, new FlashlightModel());
+		e.register(FLOWER_CROWN, new FlowerCrownModel());
+		e.register(UMBRELLA_HAT, new UmbrellaHatModel());
+		e.register(BEANIE, new BeanieModel());
 	}
 }

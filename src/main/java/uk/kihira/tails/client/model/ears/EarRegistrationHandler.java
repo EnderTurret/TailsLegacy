@@ -36,5 +36,6 @@ public final class EarRegistrationHandler {
 		e.register(AXOLOTL_GILLS, new PartRenderer(new AxolotlGillsModel()));
 		e.register(STRIDER_WHISKERS, new PartRenderer(new StriderWhiskersModel()));
 		e.register(UMBRELLA_HAT, new PartRenderer(new UmbrellaHatModel()));
+		e.register(BEANIE, new PartRenderer(new BeanieModel()));
 	}
 }

@@ -67,6 +67,7 @@
   "tails.part.ears/deer_antlers": "Deer Antlers",
   "tails.part.ears/strider_whiskers": "Strider Whiskers",
   "tails.part.ears/umbrella_hat": "Umbrella Hat",
+  "tails.part.ears/beanie": "Beanie",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -80,6 +81,7 @@
   "tails.part.ears/deer_antlers.subtype.standard": "Standard",
   "tails.part.ears/strider_whiskers.subtype.standard": "Standard",
   "tails.part.ears/umbrella_hat.subtype.standard": "Standard",
+  "tails.part.ears/beanie.subtype.standard": "Standard",
 
   "tails.part.ears/fox_ears.texture.standard": "Fox",
   "tails.part.ears/cat_ears.texture.standard": "Cat",
@@ -93,6 +95,8 @@
   "tails.part.ears/strider_whiskers.texture.standard": "Standard",
   "tails.part.ears/umbrella_hat.texture.standard": "Standard",
   "tails.part.ears/umbrella_hat.texture.alt": "Alt",
+  "tails.part.ears/beanie.texture.standard": "Standard",
+  "tails.part.ears/beanie.texture.alt": "Alt",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

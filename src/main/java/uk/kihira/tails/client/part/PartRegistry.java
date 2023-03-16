@@ -92,6 +92,7 @@ public final class PartRegistry {
 	public static final PartReference DEER_ANTLERS = reference("ears/deer_antlers");
 	public static final PartReference AXOLOTL_GILLS = reference("ears/axolotl_gills");
 	public static final PartReference STRIDER_WHISKERS = reference("ears/strider_whiskers");
+	public static final PartReference FLOWER_CROWN = reference("ears/flower_crown");
 	public static final PartReference UMBRELLA_HAT = reference("ears/umbrella_hat");
 	public static final PartReference BEANIE = reference("ears/beanie");
 

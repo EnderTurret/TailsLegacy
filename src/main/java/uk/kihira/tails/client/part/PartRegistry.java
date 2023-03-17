@@ -96,6 +96,7 @@ public final class PartRegistry {
 	public static final PartReference FLOWER_CROWN = reference("ears/flower_crown");
 	public static final PartReference UMBRELLA_HAT = reference("ears/umbrella_hat");
 	public static final PartReference BEANIE = reference("ears/beanie");
+	public static final PartReference TRAFFIC_CONE = reference("ears/traffic_cone");
 
 	public static final PartReference BIG_WINGS = reference("wings/big_wings");
 

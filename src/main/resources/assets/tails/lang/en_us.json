@@ -70,6 +70,7 @@
   "tails.part.ears/flower_crown": "Flower Crown",
   "tails.part.ears/umbrella_hat": "Umbrella Hat",
   "tails.part.ears/beanie": "Beanie",
+  "tails.part.ears/traffic_cone": "Traffic Cone",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -86,6 +87,7 @@
   "tails.part.ears/flower_crown.subtype.standard": "Standard",
   "tails.part.ears/umbrella_hat.subtype.standard": "Standard",
   "tails.part.ears/beanie.subtype.standard": "Standard",
+  "tails.part.ears/traffic_cone.subtype.standard": "Standard",
 
   "tails.part.ears/fox_ears.texture.standard": "Fox",
   "tails.part.ears/cat_ears.texture.standard": "Cat",
@@ -104,6 +106,8 @@
   "tails.part.ears/umbrella_hat.texture.alt": "Alt",
   "tails.part.ears/beanie.texture.standard": "Standard",
   "tails.part.ears/beanie.texture.alt": "Alt",
+  "tails.part.ears/traffic_cone.texture.standard": "Standard",
+  "tails.part.ears/traffic_cone.texture.alt": "Alt",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

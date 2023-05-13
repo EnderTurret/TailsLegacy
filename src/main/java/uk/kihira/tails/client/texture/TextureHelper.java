@@ -24,9 +24,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
@@ -37,7 +34,6 @@ import uk.kihira.tails.common.Tails;
  * Manages generation of {@link TripleTintTexture TripleTintTextures} and also provides some texture-related utilities.
  */
 @Internal
-@OnlyIn(Dist.CLIENT)
 public final class TextureHelper {
 
 	/**

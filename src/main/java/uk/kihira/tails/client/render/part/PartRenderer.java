@@ -20,9 +20,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
@@ -35,7 +32,6 @@ import uk.kihira.tails.client.render.helper.RenderHelperManager;
  * A renderer for a part.
  * @see RegisterPartRenderersEvent
  */
-@OnlyIn(Dist.CLIENT)
 public class PartRenderer {
 
 	/**

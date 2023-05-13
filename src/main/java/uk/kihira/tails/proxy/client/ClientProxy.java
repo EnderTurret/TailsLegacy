@@ -12,9 +12,6 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.Gson;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import uk.kihira.tails.api.IPlayerPartManager;
 import uk.kihira.tails.client.ClientLibraryManager;
 import uk.kihira.tails.client.part.ClientPlayerPartManager;
@@ -28,7 +25,6 @@ import uk.kihira.tails.proxy.IProxy;
  * please dispose of the class loader immediately and get one that is less cursed.</p>
  */
 @Internal
-@OnlyIn(Dist.CLIENT)
 public final class ClientProxy implements IProxy {
 
 	private final LibraryManager libraryManager = new ClientLibraryManager();

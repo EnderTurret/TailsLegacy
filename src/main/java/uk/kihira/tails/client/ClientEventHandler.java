@@ -35,7 +35,6 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Player;
 
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
@@ -65,7 +64,6 @@ import uk.kihira.tails.common.Tails;
  * Handles a variety of increasingly-exciting events.
  */
 @Internal
-@OnlyIn(Dist.CLIENT)
 public final class ClientEventHandler {
 
 	/**

@@ -19,9 +19,6 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.UUIDUtil;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
@@ -33,7 +30,6 @@ import uk.kihira.tails.common.Tails;
 /**
  * A {@link RenderLayer} for Tails parts/accessories.
  */
-@OnlyIn(Dist.CLIENT)
 public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
 	/**

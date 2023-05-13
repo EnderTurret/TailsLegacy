@@ -20,14 +20,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 /**
  * A sort of "dummy" entity implementation for rendering part previews.
  */
 @Internal
-@OnlyIn(Dist.CLIENT)
 public final class FakeEntity extends LivingEntity {
 
 	@Internal

@@ -37,7 +37,8 @@
     "tails:ears/flashlight",
     "tails:ears/umbrella_hat",
     "tails:ears/beanie",
-    "tails:ears/traffic_cone"
+    "tails:ears/traffic_cone",
+    "tails:ears/top_hat"
   ],
   "head/top_front": [
     "tails:ears/demon_horns"

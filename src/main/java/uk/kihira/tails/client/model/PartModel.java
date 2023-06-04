@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
@@ -45,20 +46,42 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 */
 	public abstract void render(RenderContext ctx);
 
+	/**
+	 * <p>Returns a list of "configurations" representing logical groupings of parts in this model.
+	 * For example, the nine fluffy tail model returns a list consisting of each separate tail.
+	 * Each configuration allows setting up a {@link PoseStack} with the same state as would be in {@link #render(RenderContext)},
+	 * meaning one doesn't have to simply guess or hard-code the location and rotation of each part.</p>
+	 * <p>This is mainly useful if you want to select a part or cube and render things on it,
+	 * such as what the {@link TailsArrowLayer} does.</p>
+	 * @param info The part info.
+	 * @return A list of part configurations.
+	 */
 	public List<PartConfiguration> getParts(ClientPartInfo info) {
 		return config == null ? List.of() : List.of(config);
 	}
 
+	/**
+	 * @deprecated Use {@link #render(RenderContext)} instead.
+	 */
 	@Override
 	@Deprecated
 	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {}
 
+	/**
+	 * @deprecated Use {@link #setupAnim(LivingEntity, float, float, float, uk.kihira.tails.client.part.Part.SubType, float)} instead.
+	 */
 	@Override
 	@Deprecated
 	public final void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float netHeadYaw, float headPitch) {}
 
 	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, Part.SubType subType, float headPitch) {}
 
+	/**
+	 * Allows modifying the rendering of this part model in the part preview pane.
+	 * In particular, allows for translating or rotating the part, so it doesn't clip with other parts or GUI components.
+	 * @param ctx The rendering context.
+	 * @param renderer The renderer wrapping this part model.
+	 */
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {}
 
 	/**

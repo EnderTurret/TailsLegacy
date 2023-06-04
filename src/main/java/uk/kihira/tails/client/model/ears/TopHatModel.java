@@ -38,14 +38,11 @@ final class TopHatModel extends PartModel {
 				.texOffs(15, 28).addBox(3.5F, -10.4F, -4.1F, 1F, 2F, 8F)
 				.texOffs(33, 34).addBox(-4.1F, -10.5F, -4.5F, 8F, 2F, 1F)
 				.texOffs(25, 31).addBox(-3.9F, -10.5F, 3.5F, 8F, 2F, 1F)
-				.texOffs(0, 11).addBox(-4F, -17F, -4F, 8F, 8F, 8F), PartPose.offset(0F, 0F, 0F));
+				.texOffs(0, 11).addBox(-4F, -17F, -4F, 8F, 8F, 8F), PartPose.ZERO);
 
 		root.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(21, 16).addBox(-0.9645F, 0.1589F, -5.5F, 2F, 1F, 11F), PartPose.offsetAndRotation(5.9645F, -8.6589F, 0F, 0F, 0F, 0.5236F));
-
 		root.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(24, 11).addBox(-5.1F, 0.1589F, -1.0355F, 10F, 1F, 2F), PartPose.offsetAndRotation(0F, -8.6589F, -5.9645F, 0.5236F, 0F, 0F));
-
 		root.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(25, 28).addBox(-4.9F, 0.1589F, -0.9645F, 10F, 1F, 2F), PartPose.offsetAndRotation(0F, -8.6589F, 5.9645F, -0.5236F, 0F, 0F));
-
 		root.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(0, 27).addBox(-1.0355F, 0.1589F, -5.5F, 2F, 1F, 11F), PartPose.offsetAndRotation(-5.9645F, -8.6589F, 0F, 0F, 0F, -0.5236F));
 
 		this.root = rootDef.bake(64, 64);

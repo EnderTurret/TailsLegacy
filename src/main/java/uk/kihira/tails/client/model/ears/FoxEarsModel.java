@@ -29,6 +29,7 @@ final class FoxEarsModel extends PartModel {
 
 	public FoxEarsModel() {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
+
 		rootDef.addOrReplaceChild("leftEar", CubeListBuilder.create()
 				.mirror()
 				.texOffs(0, 16).addBox(4, -11, 1, 1, 1, 1)
@@ -40,6 +41,7 @@ final class FoxEarsModel extends PartModel {
 				.texOffs(10, 14).addBox(3, -8, 1, 2, 1, 1)
 				.texOffs(4, 8).addBox(4, -11, 2, 1, 3, 1)
 				.texOffs(8, 0).addBox(3, -10, 2, 1, 2, 1), PartPose.ZERO);
+
 		rootDef.addOrReplaceChild("rightEar", CubeListBuilder.create()
 				.texOffs(0, 19).addBox(-5, -11, 1, 1, 1, 1)
 				.texOffs(4, 19).addBox(-5, -10, 1, 2, 2, 1)
@@ -50,6 +52,7 @@ final class FoxEarsModel extends PartModel {
 				.texOffs(10, 12).addBox(-5, -8, 1, 2, 1, 1)
 				.texOffs(4, 12).addBox(-5, -11, 2, 1, 3, 1)
 				.texOffs(8, 3).addBox(-4, -10, 2, 1, 2, 1), PartPose.ZERO);
+
 		root = rootDef.bake(16, 32);
 
 		leftEar = root.getChild("leftEar");

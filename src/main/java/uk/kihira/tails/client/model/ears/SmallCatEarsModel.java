@@ -23,11 +23,10 @@ import uk.kihira.tails.client.render.RenderContext;
 final class SmallCatEarsModel extends PartModel {
 
 	private final ModelPart root;
-	private final ModelPart leftEar;
-	private final ModelPart rightEar;
 
 	public SmallCatEarsModel() {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
+
 		rootDef.addOrReplaceChild("leftEar", CubeListBuilder.create()
 				.texOffs(0, 14).addBox(-1, -2, 1, 1, 1, 1)
 				.texOffs(0, 12).addBox(-2, -1, 1, 2, 1, 1)
@@ -35,6 +34,7 @@ final class SmallCatEarsModel extends PartModel {
 				.texOffs(0, 2).addBox(-3, -1, 0, 4, 1, 1)
 				.texOffs(0, 4).addBox(-2, -2, 0, 3, 1, 1)
 				.texOffs(0, 6).addBox(-1, -3, 0, 1, 1, 1), PartPose.offset(4, -8, 0));
+
 		rootDef.addOrReplaceChild("rightEar", CubeListBuilder.create()
 				.texOffs(13, 14).addBox(-1, -2, 1, 1, 1, 1)
 				.texOffs(13, 12).addBox(-1, -1, 1, 2, 1, 1)
@@ -42,15 +42,12 @@ final class SmallCatEarsModel extends PartModel {
 				.texOffs(13, 2).addBox(-2, -1, 0, 4, 1, 1)
 				.texOffs(13, 4).addBox(-2, -2, 0, 3, 1, 1)
 				.texOffs(13, 6).addBox(-1, -3, 0, 1, 1, 1), PartPose.offset(-3, -8, 0));
-		root = rootDef.bake(32, 32);
 
-		leftEar = root.getChild("leftEar");
-		rightEar = root.getChild("rightEar");
+		root = rootDef.bake(32, 32);
 	}
 
 	@Override
 	public void render(RenderContext ctx) {
-		ctx.render(rightEar);
-		ctx.render(leftEar);
+		ctx.render(root);
 	}
 }

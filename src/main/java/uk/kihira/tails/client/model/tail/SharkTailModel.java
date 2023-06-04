@@ -36,12 +36,6 @@ final class SharkTailModel extends PartModel {
 	private final ModelPart tail2;
 	private final ModelPart tail3;
 	private final ModelPart finBase;
-	private final ModelPart finTop1;
-	private final ModelPart finTop2;
-	private final ModelPart finTop3;
-	private final ModelPart finBot1;
-	private final ModelPart finBot2;
-	private final ModelPart finBot3;
 
 	public SharkTailModel() {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
@@ -80,12 +74,12 @@ final class SharkTailModel extends PartModel {
 		tail2 = tail1.getChild("tail2");
 		tail3 = tail2.getChild("tail3");
 		finBase = tail3.getChild("finBase");
-		finTop1 = finBase.getChild("finTop1");
-		finTop2 = finTop1.getChild("finTop2");
-		finTop3 = finTop2.getChild("finTop3");
-		finBot1 = finBase.getChild("finBot1");
-		finBot2 = finBot1.getChild("finBot2");
-		finBot3 = finBot2.getChild("finBot3");
+		final ModelPart finTop1 = finBase.getChild("finTop1");
+		final ModelPart finTop2 = finTop1.getChild("finTop2");
+		final ModelPart finTop3 = finTop2.getChild("finTop3");
+		final ModelPart finBot1 = finBase.getChild("finBot1");
+		final ModelPart finBot2 = finBot1.getChild("finBot2");
+		final ModelPart finBot3 = finBot2.getChild("finBot3");
 
 		config = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, finBase, finTop1, finTop2, finTop3, finBot1, finBot2, finBot3))
 				.setParents(finBot1, tailBase, tail1, tail2, tail3, finBase)

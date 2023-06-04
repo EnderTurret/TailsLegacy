@@ -41,7 +41,7 @@ final class TrafficConeModel extends PartModel {
 				.texOffs(18, 15).addBox(3F, -11F, -3F, 1F, 2F, 6F)
 				.texOffs(18, 23).addBox(-3F, -11F, 3F, 6F, 2F, 1F)
 				.texOffs(0, 9).addBox(-3F, -14F, -3F, 6F, 5F, 6F)
-				.texOffs(0, 20).addBox(-2F, -18F, -2F, 4F, 4F, 4F), PartPose.offset(0F, 0F, 0F));
+				.texOffs(0, 20).addBox(-2F, -18F, -2F, 4F, 4F, 4F), PartPose.ZERO);
 
 		root = rootDef.bake(64, 64);
 	}

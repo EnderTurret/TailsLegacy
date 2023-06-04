@@ -32,7 +32,7 @@ final class StriderWhiskersModel extends PartModel {
 	public StriderWhiskersModel() {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition rwhisk = rootDef.addOrReplaceChild("rwhiskers", CubeListBuilder.create(), PartPose.offset(-4F, 24F - 24, 0F));
+		final PartDefinition rwhisk = rootDef.addOrReplaceChild("rwhiskers", CubeListBuilder.create(), PartPose.offset(-4F, 0, 0F));
 
 		rwhisk.addOrReplaceChild("rwhisker1", CubeListBuilder.create()
 				.texOffs(4, 0).addBox(-0.5F, -7F, -3F, 1F, 1F, 1F)
@@ -48,7 +48,7 @@ final class StriderWhiskersModel extends PartModel {
 				.texOffs(4, 5).addBox(-0.5F, -5F, -2.5F, 0F, 2F, 1F)
 				, PartPose.ZERO);
 
-		final PartDefinition lwhisk = rootDef.addOrReplaceChild("lwhiskers", CubeListBuilder.create(), PartPose.offset(11F, 24F - 24, 0F));
+		final PartDefinition lwhisk = rootDef.addOrReplaceChild("lwhiskers", CubeListBuilder.create(), PartPose.offset(11F, 0, 0F));
 
 		lwhisk.addOrReplaceChild("lwhisker1", CubeListBuilder.create()
 				.texOffs(2, 2).addBox(-7.5F, -7F, -3F, 1F, 1F, 1F)

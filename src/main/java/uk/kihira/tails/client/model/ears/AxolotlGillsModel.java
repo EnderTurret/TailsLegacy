@@ -38,7 +38,7 @@ final class AxolotlGillsModel extends PartModel {
 				.texOffs(0, 1).addBox(-7.5F, -4.5F, -2F, 3F, 1F, 0F)
 				.texOffs(4, 7).addBox(-6.5F, -1.5F, -2F, 2F, 1F, 0F)
 				.texOffs(6, 5).addBox(-6.5F, -7.5F, -2F, 2F, 1F, 0F)
-				, PartPose.offset(0F, 24F - 24, 0F));
+				, PartPose.ZERO);
 
 		rootDef.addOrReplaceChild("lgill", CubeListBuilder.create()
 				.texOffs(0, 4).addBox(-11.5F, -4.5F, -2F, 1F, 1F, 1F)
@@ -49,7 +49,7 @@ final class AxolotlGillsModel extends PartModel {
 				.texOffs(0, 0).addBox(-10.5F, -4.5F, -2F, 3F, 1F, 0F)
 				.texOffs(6, 3).addBox(-10.5F, -1.5F, -2F, 2F, 1F, 0F)
 				.texOffs(6, 0).addBox(-10.5F, -7.5F, -2F, 2F, 1F, 0F)
-				, PartPose.offset(15F, 24F - 24, 0F));
+				, PartPose.offset(15F, 0, 0F));
 
 		root = rootDef.bake(16, 16);
 	}

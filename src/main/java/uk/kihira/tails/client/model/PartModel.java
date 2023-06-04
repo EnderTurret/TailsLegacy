@@ -33,7 +33,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 	protected PartConfiguration config;
 
-	public PartModel() {
+	protected PartModel() {
 		super(RenderType::entityCutoutNoCull);
 	}
 
@@ -68,7 +68,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param y The y angle
 	 * @param z The z angle
 	 */
-	protected void setRotationRadians(ModelPart model, double x, double y, double z) {
+	protected static void setRotationRadians(ModelPart model, double x, double y, double z) {
 		model.xRot = (float) x;
 		model.yRot = (float) y;
 		model.zRot = (float) z;
@@ -81,15 +81,15 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param y The y angle
 	 * @param z The z angle
 	 */
-	protected void setRotationDegrees(ModelPart model, float x, float y, float z) {
+	protected static void setRotationDegrees(ModelPart model, float x, float y, float z) {
 		setRotationRadians(model, rad(x), rad(y), rad(z));
 	}
 
-	protected double rad(double degrees) {
+	protected static double rad(double degrees) {
 		return Math.toRadians(degrees);
 	}
 
-	protected float radf(double degrees) {
+	protected static float radf(double degrees) {
 		return (float) Math.toRadians(degrees);
 	}
 
@@ -98,7 +98,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2 * Math.PI);
 	}
 
-	protected double[] getMotionAngles(Player player, float partialTick) {
+	protected static double[] getMotionAngles(Player player, float partialTick) {
 		// TODO: When falling a large distance, tails tend move wildly up and down.
 		// This seems to be a problem with yo and yCloakO. Test with capes?
 		final double yCloakO = player.yCloakO;
@@ -127,7 +127,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		return new double[] {rad(f1 / 2.5 + (xOffset + getTailBob(player, partialTick))), rad(-f2 / 20), rad(f2 / 2)};
 	}
 
-	protected float getTailBob(Player player, float partialTick) {
+	protected static float getTailBob(Player player, float partialTick) {
 		final float cameraYaw = player.oBob + (player.bob - player.oBob) * partialTick;
 		return Mth.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTick) * 6) * 12 * cameraYaw;
 	}

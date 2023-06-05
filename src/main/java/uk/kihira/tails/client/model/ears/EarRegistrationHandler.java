@@ -41,5 +41,6 @@ public final class EarRegistrationHandler {
 		e.register(BEANIE, new BeanieModel());
 		e.register(TRAFFIC_CONE, new TrafficConeModel());
 		e.register(TOP_HAT, new TopHatModel());
+		e.register(BLAZE_CROWN, new BlazeCrownModel());
 	}
 }

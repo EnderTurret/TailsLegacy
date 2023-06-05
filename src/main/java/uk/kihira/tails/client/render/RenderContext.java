@@ -43,8 +43,18 @@ public record RenderContext(PoseStack poseStack, VertexConsumer buffer, int pack
 	/**
 	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, float, float, float, float)} on the given part with parameters from this {@link RenderContext}.
 	 * @param part The part to render.
+	 * @param packedLight
+	 * @param packedOverlay
+	 */
+	public void render(ModelPart part, int packedLight, int packedOverlay) {
+		part.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	/**
+	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, float, float, float, float)} on the given part with parameters from this {@link RenderContext}.
+	 * @param part The part to render.
 	 */
 	public void render(ModelPart part) {
-		part.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		render(part, packedLight, packedOverlay);
 	}
 }

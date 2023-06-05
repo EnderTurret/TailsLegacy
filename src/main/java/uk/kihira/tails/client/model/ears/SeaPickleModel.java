@@ -33,7 +33,7 @@ final class SeaPickleModel extends PartModel {
 		rootDef.addOrReplaceChild("pickle", CubeListBuilder.create()
 				.texOffs(0, 1).addBox(-2, -0.2875F, -2, 4, 6, 4)
 				.texOffs(0, 11).addBox(-2, -0.2375F, -2, 4, 0, 4)
-				, PartPose.offset(0, 18.2875F, 0));
+				, PartPose.offset(0, -13.7125F, 0));
 
 		root = rootDef.bake(32, 32);
 	}
@@ -45,12 +45,6 @@ final class SeaPickleModel extends PartModel {
 
 	@Override
 	public void render(RenderContext ctx) {
-		ctx.poseStack().pushPose();
-
-		ctx.poseStack().translate(0, -2, 0);
-
 		ctx.render(root);
-
-		ctx.poseStack().popPose();
 	}
 }

@@ -43,5 +43,6 @@ public final class EarRegistrationHandler {
 		e.register(TOP_HAT, new TopHatModel());
 		e.register(BLAZE_CROWN, new BlazeCrownModel());
 		e.register(ELF_EARS, new ElfEarsModel());
+		e.register(HORNS, new HornsModel());
 	}
 }

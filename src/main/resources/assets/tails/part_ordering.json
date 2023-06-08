@@ -43,6 +43,7 @@
     "tails:ears/top_hat"
   ],
   "head/top_front": [
-    "tails:ears/demon_horns"
+    "tails:ears/demon_horns",
+    "tails:ears/horns"
   ]
 }

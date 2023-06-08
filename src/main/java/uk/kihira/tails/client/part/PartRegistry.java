@@ -100,6 +100,7 @@ public final class PartRegistry {
 	public static final PartReference TOP_HAT = reference("ears/top_hat");
 	public static final PartReference BLAZE_CROWN = reference("ears/blaze_crown");
 	public static final PartReference ELF_EARS = reference("ears/elf_ears");
+	public static final PartReference HORNS = reference("ears/horns");
 
 	public static final PartReference BIG_WINGS = reference("wings/big_wings");
 

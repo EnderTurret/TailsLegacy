@@ -64,7 +64,7 @@
   "tails.part.ears/panda_ears": "Panda Ears",
   "tails.part.ears/sea_pickle": "Sea Pickle",
   "tails.part.ears/antennae": "Antennae",
-  "tails.part.ears/demon_horns": "Demon Horns",
+  "tails.part.ears/demon_horns": "Horns",
   "tails.part.ears/axolotl_gills": "Axolotl Gills",
   "tails.part.ears/deer_antlers": "Deer Antlers",
   "tails.part.ears/strider_whiskers": "Strider Whiskers",
@@ -76,6 +76,7 @@
   "tails.part.ears/top_hat": "Top Hat",
   "tails.part.ears/blaze_crown": "Blaze Crown",
   "tails.part.ears/elf_ears": "Elf Ears",
+  "tails.part.ears/horns": "Demon Horns",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -97,6 +98,7 @@
   "tails.part.ears/blaze_crown.subtype.standard": "Standard",
   "tails.part.ears/elf_ears.subtype.standard": "Standard",
   "tails.part.ears/elf_ears.subtype.with_feathers": "With Feathers",
+  "tails.part.ears/horns.subtype.standard": "Standard",
 
   "tails.part.ears/fox_ears.texture.standard": "Standard",
   "tails.part.ears/fox_ears.texture.alt": "Alt",
@@ -121,6 +123,7 @@
   "tails.part.ears/top_hat.texture.standard": "Standard",
   "tails.part.ears/blaze_crown.texture.standard": "Standard",
   "tails.part.ears/elf_ears.texture.standard": "Standard",
+  "tails.part.ears/horns.texture.standard": "Standard",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

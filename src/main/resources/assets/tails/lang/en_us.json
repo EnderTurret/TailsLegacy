@@ -75,6 +75,7 @@
   "tails.part.ears/traffic_cone": "Traffic Cone",
   "tails.part.ears/top_hat": "Top Hat",
   "tails.part.ears/blaze_crown": "Blaze Crown",
+  "tails.part.ears/elf_ears": "Elf Ears",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -94,6 +95,8 @@
   "tails.part.ears/traffic_cone.subtype.standard": "Standard",
   "tails.part.ears/top_hat.subtype.standard": "Standard",
   "tails.part.ears/blaze_crown.subtype.standard": "Standard",
+  "tails.part.ears/elf_ears.subtype.standard": "Standard",
+  "tails.part.ears/elf_ears.subtype.with_feathers": "With Feathers",
 
   "tails.part.ears/fox_ears.texture.standard": "Standard",
   "tails.part.ears/fox_ears.texture.alt": "Alt",
@@ -117,6 +120,7 @@
   "tails.part.ears/traffic_cone.texture.alt": "Alt",
   "tails.part.ears/top_hat.texture.standard": "Standard",
   "tails.part.ears/blaze_crown.texture.standard": "Standard",
+  "tails.part.ears/elf_ears.texture.standard": "Standard",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

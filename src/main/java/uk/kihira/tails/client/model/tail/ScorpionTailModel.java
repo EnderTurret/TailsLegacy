@@ -27,7 +27,7 @@ final class ScorpionTailModel extends PartModel {
 	public ScorpionTailModel() {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition tail = rootDef.addOrReplaceChild("tail", CubeListBuilder.create(), PartPose.offset(0, 3.2F, 7.2F));
+		final PartDefinition tail = rootDef.addOrReplaceChild("tail", CubeListBuilder.create(), PartPose.offset(0, 2.5F, 7.2F));
 
 		tail.addOrReplaceChild("cube_r0", CubeListBuilder.create().texOffs(11, 12).addBox(-1.5F, -11F, -2F, 3F, 5F, 3F), PartPose.ZERO);
 
@@ -41,6 +41,7 @@ final class ScorpionTailModel extends PartModel {
 		root = rootDef.bake(32, 32);
 
 		config = new PartConfiguration(List.of(root), (info, poseStack, partialTick, entity) -> {
+			poseStack.scale(1.1F, 1.1F, 1.1F);
 			poseStack.mulPose(Vector3f.XN.rotationDegrees(10));
 		});
 	}
@@ -55,6 +56,7 @@ final class ScorpionTailModel extends PartModel {
 	public void render(RenderContext ctx) {
 		ctx.poseStack().pushPose();
 
+		ctx.poseStack().scale(1.1F, 1.1F, 1.1F);
 		ctx.poseStack().mulPose(Vector3f.XN.rotationDegrees(10));
 
 		ctx.render(root);

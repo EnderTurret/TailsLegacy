@@ -259,7 +259,7 @@ public final class Parts {
 						parts.add(part);
 				}
 
-			else {
+			else if (obj.has("partInfoMap")) {
 				// Convert old partInfoMap to new parts list.
 				for (Map.Entry<String, JsonElement> entry : obj.get("partInfoMap").getAsJsonObject().entrySet()) {
 					final JsonElement part = entry.getValue();

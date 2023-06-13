@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.client.Minecraft;
 
 import uk.kihira.tails.client.ClientUtils;
+import uk.kihira.tails.common.LoggingExclusionStrategy;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
 import uk.kihira.tails.common.TailsNetworkManager;
@@ -35,6 +36,7 @@ public final class LocalPartManager {
 	 */
 	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
+			.setExclusionStrategies(new LoggingExclusionStrategy())
 			.registerTypeHierarchyAdapter(PartsData.class, new ClientPartsData.Serializer())
 			.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer())
 			.create();

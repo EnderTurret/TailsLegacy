@@ -185,20 +185,7 @@ public final class Parts {
 	// DFU at home:
 	@Internal
 	public static JsonElement update(JsonElement elem) {
-		if (elem instanceof JsonObject obj) {
-			if (obj.has("id")) {
-				final ResourceLocation partId = new ResourceLocation(obj.get("id").getAsString());
-				final ResourceLocation newPartId = Parts.remapId(partId);
-
-				if (partId != newPartId) {
-					if (!TESTING)
-						Tails.LOGGER.info("Remapped part id: {} → {}.", partId, newPartId);
-					obj.addProperty("id", newPartId.toString());
-				}
-
-				if (obj.has("subType") && obj.has("textureId")) return elem;
-			}
-
+		if (elem instanceof JsonObject obj && obj.size() > 0) {
 			// Convert old style empty parts to new style empties.
 			if (obj.has("hasPart") && !obj.get("hasPart").getAsBoolean()) {
 				obj.keySet().clear(); // Removes all mappings from the object.
@@ -214,31 +201,43 @@ public final class Parts {
 				obj.remove("partType");
 				obj.remove("typeid");
 				obj.addProperty("id", partId.toString());
-				if (!TESTING)
-					Tails.LOGGER.info("Remapped part ({}, {}) → {}", type, id, partId);
+
+				if (!TESTING) Tails.LOGGER.info("Remapped part ({}, {}) → {}", type, id, partId);
 			}
 
-			ResourceLocation partId = ResourceLocation.tryParse(obj.get("id").getAsString());
-			partId = remapId(partId);
+			if (obj.has("id")) {
+				final ResourceLocation oldPartId = new ResourceLocation(obj.get("id").getAsString());
+				final ResourceLocation newPartId = Parts.remapId(oldPartId);
 
-			// Convert old style sub types to new ones.
-			if (obj.has("subid")) {
-				final int subId = obj.get("subid").getAsInt();
-				final String subType = legacySubType(partId, subId);
-				obj.remove("subid");
-				obj.addProperty("subType", subType);
-				if (!TESTING)
-					Tails.LOGGER.info("Remapped subtype {} → {}", subId, subType);
-			}
+				if (oldPartId != newPartId) {
+					obj.addProperty("id", newPartId.toString());
 
-			// Convert old style textures to new ones.
-			if (obj.has("textureID")) {
-				final int textureId = obj.get("textureID").getAsInt();
-				final String texture = legacyTexture(partId, textureId);
-				obj.remove("textureID");
-				obj.addProperty("textureId", texture);
-				if (!TESTING)
-					Tails.LOGGER.info("Remapped texture {} → {}", textureId, texture);
+					if (!TESTING) Tails.LOGGER.info("Remapped part id: {} → {}.", oldPartId, newPartId);
+				}
+
+				if (obj.has("subType") && obj.has("textureId")) return elem;
+
+				// Convert old style sub types to new ones.
+				if (obj.has("subid")) {
+					final int subId = obj.get("subid").getAsInt();
+					final String subType = legacySubType(newPartId, subId);
+
+					obj.remove("subid");
+					obj.addProperty("subType", subType);
+
+					if (!TESTING) Tails.LOGGER.info("Remapped subtype {} → {}", subId, subType);
+				}
+
+				// Convert old style textures to new ones.
+				if (obj.has("textureID")) {
+					final int textureId = obj.get("textureID").getAsInt();
+					final String texture = legacyTexture(newPartId, textureId);
+
+					obj.remove("textureID");
+					obj.addProperty("textureId", texture);
+
+					if (!TESTING) Tails.LOGGER.info("Remapped texture {} → {}", textureId, texture);
+				}
 			}
 		}
 

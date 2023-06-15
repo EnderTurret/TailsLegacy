@@ -17,8 +17,9 @@
   "head/top_ears": [
     "tails:ears/fox_ears",
     "tails:ears/cat_ears",
-    "tails:ears/panda_ears",
     "tails:ears/small_cat_ears",
+    "tails:ears/panda_ears",
+    "tails:ears/round_ears",
     "tails:ears/antennae",
     "tails:ears/deer_antlers"
   ],

@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -23,7 +24,11 @@ public final class ClientPartsData extends PartsData {
 	}
 
 	public ClientPartsData(Set<IPartInfo> parts) {
-		super(parts);
+		super(coerceAll(parts));
+	}
+
+	private static Set<IPartInfo> coerceAll(Set<IPartInfo> parts) {
+		return parts.stream().map(ClientPartInfo::coerce).collect(Collectors.toUnmodifiableSet());
 	}
 
 	public ClientPartInfo getPartInfo(AttachmentPoint attachment) {

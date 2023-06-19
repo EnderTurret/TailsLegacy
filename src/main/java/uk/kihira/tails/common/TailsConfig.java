@@ -19,6 +19,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.fml.config.ConfigTracker;
 import net.minecraftforge.fml.config.ModConfig;
@@ -59,17 +60,19 @@ public final class TailsConfig {
 
 	@Internal
 	public final ConfigValue<String> localPlayerData;
-	//@Internal
-	//public final BooleanValue forceLegacyRendering;
+	@Internal
+	public final BooleanValue hidePreviewInThirdPerson;
 
 	private TailsConfig(ForgeConfigSpec.Builder builder) {
 		builder.push("client");
 
+		hidePreviewInThirdPerson = builder
+				.comment("Whether to hide the preview in the editor screen when in third person mode.")
+				.define("hidePreviewInThirdPerson", true);
+
 		localPlayerData = builder
 				.comment("The local player's customization data. Editing this manually is discouraged.")
 				.define("localPlayerData", "");
-
-		//forceLegacyRendering = builder.comment("Forces the legacy renderer which may have better compatibility with other mods.").define("forceLegacyRendering", false);
 	}
 
 	/**

@@ -21,6 +21,7 @@ import net.minecraft.util.Mth;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IconButton;
+import uk.kihira.tails.common.TailsConfig;
 
 @Internal
 public final class PreviewPanel extends Panel<EditorScreen> {
@@ -38,7 +39,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		doRender = minecraft.options.getCameraType() == CameraType.FIRST_PERSON;
+		doRender = !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || minecraft.options.getCameraType() == CameraType.FIRST_PERSON;
 		if (!doRender) return;
 
 		// Help

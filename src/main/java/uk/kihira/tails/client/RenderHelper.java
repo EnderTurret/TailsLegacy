@@ -24,6 +24,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -64,39 +65,25 @@ public final class RenderHelper {
 
 	/**
 	 * Draws a string that respects new lines.
-	 * @param poseStack The {@link PoseStack} to use for transformation information.
+	 * @param gui The {@link GuiGraphics}.
 	 * @param font The {@link Font} to use for drawing the text.
 	 * @param text The text to draw.
 	 * @param x The x position of the text.
 	 * @param y The y position of the text.
 	 * @param color The color of the text.
 	 */
-	public static void drawStringMultiLine(PoseStack poseStack, Font font, String text, int x, int y, int color) {
+	public static void drawStringMultiLine(GuiGraphics gui, Font font, String text, int x, int y, int color) {
 		final String[] lines = text.split("\n");
 		for (int i = 0; i < lines.length; i++) {
 			final String line = lines[i];
-			font.draw(poseStack, line, x, y + font.lineHeight * i, color);
+			gui.drawString(font, line, x, y + font.lineHeight * i, color);
 		}
 	}
 
-	/**
-	 * Draws a centered string.
-	 * @param poseStack The {@link PoseStack} to use for transformation information.
-	 * @param font The {@link Font} to use for drawing the text.
-	 * @param text The text to draw.
-	 * @param x The x position of the center of the text.
-	 * @param y The y position of the text.
-	 * @param color The color of the text.
-	 */
-	public static void drawCenteredString(PoseStack poseStack, Font font, String text, int x, int y, int color) {
-		final int width = font.width(text);
-		font.draw(poseStack, text, x - width / 2, y, color);
-	}
-
-	public static void blitScaled(PoseStack poseStack, int x, int y, int blitOffset, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
+	public static void blitScaled(GuiGraphics gui, int x, int y, int blitOffset, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
 		final float f = 0.00390625F;
 		final float f1 = 0.00390625F;
-		final PoseStack.Pose e = poseStack.last();
+		final PoseStack.Pose e = gui.pose().last();
 		final Tesselator tess = Tesselator.getInstance();
 		final BufferBuilder renderer = tess.getBuilder();
 		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);

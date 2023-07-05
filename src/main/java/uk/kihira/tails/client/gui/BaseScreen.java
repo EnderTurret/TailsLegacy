@@ -12,7 +12,8 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -30,13 +31,13 @@ public abstract class BaseScreen extends Screen {
 		super(title);
 	}
 
-	public void renderTooltips(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		for (Widget btn : renderables)
+	public void renderTooltips(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		for (Renderable btn : renderables)
 			if (btn instanceof ITooltip tooltip && btn instanceof GuiEventListener listener && listener.isMouseOver(mouseX, mouseY)) {
 				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTick;
 				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
 
-				renderTooltip(poseStack, tooltip.getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY, font);
+				gui.renderTooltip(font, tooltip.getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY);
 
 				prevMouseX = mouseX;
 				prevMouseY = mouseY;
@@ -44,10 +45,10 @@ public abstract class BaseScreen extends Screen {
 			}
 	}
 
-	public void rect(PoseStack poseStack, int x1, int y1, int x2, int y2, int color) {
-		hLine(poseStack, x1, x2, y1, color);
-		hLine(poseStack, x1, x2, y2, color);
-		vLine(poseStack, x1, y1, y2, color);
-		vLine(poseStack, x2, y1, y2, color);
+	public void rect(GuiGraphics gui, int x1, int y1, int x2, int y2, int color) {
+		gui.hLine(x1, x2, y1, color);
+		gui.hLine(x1, x2, y2, color);
+		gui.vLine(x1, y1, y2, color);
+		gui.vLine(x2, y1, y2, color);
 	}
 }

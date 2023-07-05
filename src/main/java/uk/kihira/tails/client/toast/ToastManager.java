@@ -68,11 +68,15 @@ public final class ToastManager {
 	static void onDrawScreenPost(ScreenEvent.Render.Post event) {
 		final ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
 		profiler.push("toastNotification");
-		event.getPoseStack().pushPose();
-		event.getPoseStack().translate(0, 0, 300);
+
+		event.getGuiGraphics().pose().pushPose();
+		event.getGuiGraphics().pose().translate(0, 0, 300);
+
 		for (Toast toast : INSTANCE.toasts)
-			toast.drawToast(event.getPoseStack(), event.getMouseX(), event.getMouseY());
-		event.getPoseStack().popPose();
+			toast.drawToast(event.getGuiGraphics(), event.getMouseX(), event.getMouseY());
+
+		event.getGuiGraphics().pose().popPose();
+
 		profiler.pop();
 	}
 }

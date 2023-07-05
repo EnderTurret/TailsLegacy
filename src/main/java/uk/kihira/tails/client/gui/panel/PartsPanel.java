@@ -20,6 +20,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.renderer.LightTexture;
@@ -89,17 +90,18 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		setBlitOffset(-100);
-		fillGradient(poseStack, 0, 0, right - left, listTop, 0xEA000000, 0xEA000000);
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.pose().pushPose();
+		gui.pose().translate(0, 0, -100);
+		gui.fillGradient(0, 0, right - left, listTop, 0xEA000000, 0xEA000000);
 
-		fillGradient(poseStack, 0, listTop, right - left, bottom - top, 0xFF000000, 0xFF000000);
+		gui.fillGradient(0, listTop, right - left, bottom - top, 0xFF000000, 0xFF000000);
+		gui.pose().popPose();
 
-		setBlitOffset(0);
 		RenderSystem.setShaderColor(1, 1, 1, 1);
-		drawCenteredString(poseStack, font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
+		gui.drawCenteredString(font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
 	}
 
 	@Override
@@ -185,14 +187,14 @@ public final class PartsPanel extends Panel<EditorScreen> {
 			}
 	}
 
-	private void renderPart(PoseStack poseStack, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
+	private void renderPart(GuiGraphics gui, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
 		if (partInfo.isEmpty() || partInfo.isInvalid()) return;
 
 		final PartRenderer renderer = partInfo.getRenderer();
 
-		poseStack.pushPose();
-		poseStack.translate(x, y, z);
-		poseStack.scale(-scale, scale, 1F);
+		gui.pose().pushPose();
+		gui.pose().translate(x, y, z);
+		gui.pose().scale(-scale, scale, 1F);
 
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		RenderSystem.setShaderLights(RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_0, RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_1);
@@ -202,12 +204,12 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 		final VertexConsumer consumer = impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture()));
 
-		renderer.render(poseStack, fakeEntity, null, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F);
+		renderer.render(gui.pose(), fakeEntity, null, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F);
 		impl.endBatch();
 
 		Lighting.setupFor3DItems();
 
-		poseStack.popPose();
+		gui.pose().popPose();
 	}
 
 	class PartEntry extends ObjectSelectionList.Entry<PartEntry> {
@@ -219,14 +221,13 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		}
 
 		@Override
-		public void render(PoseStack poseStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+		public void render(GuiGraphics gui, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			setBlitOffset(0);
 
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
-				renderPart(poseStack, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				RenderHelper.drawStringMultiLine(poseStack, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
+				renderPart(gui, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+				RenderHelper.drawStringMultiLine(gui, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;
@@ -239,19 +240,17 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 					if (author != null) {
 						// Yeah its not nice but eh, works.
-						poseStack.pushPose();
-						poseStack.translate(5, x + 27, 0);
-						poseStack.scale(0.6F, 0.6F, 1F);
-						setBlitOffset(100);
-						font.draw(poseStack, I18n.get("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
-						poseStack.translate(0, 10, 0);
-						font.draw(poseStack, ChatFormatting.AQUA + author, 0, 0, 0xFFFFFF);
-						poseStack.popPose();
-						setBlitOffset(0);
+						gui.pose().pushPose();
+						gui.pose().translate(5, x + 27, 0);
+						gui.pose().scale(0.6F, 0.6F, 101);
+						gui.drawString(font, I18n.get("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
+						gui.pose().translate(0, 10, -100);
+						gui.drawString(font, ChatFormatting.AQUA + author, 0, 0, 0xFFFFFF);
+						gui.pose().popPose();
 					}
 				}
 			} else
-				font.draw(poseStack, I18n.get("tails.gui.part.none"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				gui.drawString(font, I18n.get("tails.gui.part.none"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
 		}
 
 		@Override

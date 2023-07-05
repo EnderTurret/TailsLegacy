@@ -12,6 +12,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
@@ -72,15 +73,15 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		poseStack.pushPose();
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.pose().pushPose();
 
-		poseStack.translate(0, 0, -400);
+		gui.pose().translate(0, 0, -400);
 
-		fill(poseStack, 0, 0, right - left, bottom - top, 0xDD000000);
+		gui.fill(0, 0, right - left, bottom - top, 0xDD000000);
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
 
-		poseStack.popPose();
+		gui.pose().popPose();
 	}
 }

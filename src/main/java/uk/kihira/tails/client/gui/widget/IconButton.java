@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -31,21 +32,29 @@ public class IconButton extends Button implements ITooltip {
 	private final List<FormattedCharSequence> tooltip;
 
 	public IconButton(int x, int y, Icons icon, OnPress onPress, Component... tooltips) {
-		super(x, y, 16 ,16, Component.empty(), onPress);
+		super(x, y, 16 ,16, Component.empty(), onPress, DEFAULT_NARRATION);
 		this.icon = icon;
 		tooltip = Arrays.stream(tooltips).map(Component::getVisualOrderText).collect(Collectors.toList());
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		RenderSystem.setShaderTexture(0, iconsTextures);
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 
-		final int textureOffset = getYImage(isHoveredOrFocused());
+		final int textureOffset = getYImage();
 
-		blit(poseStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
+		gui.blit(iconsTextures, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16);
+	}
+
+	protected int getYImage() {
+		if (!active)
+			return 0;
+		else if (isHoveredOrFocused())
+			return 2;
+		return 1;
 	}
 
 	public void setHover(boolean hover) {
@@ -69,8 +78,8 @@ public class IconButton extends Button implements ITooltip {
 		}
 
 		@Override
-		protected int getYImage(boolean isHovered) {
-			return toggled ? 2 : super.getYImage(isHovered);
+		protected int getYImage() {
+			return toggled ? 2 : super.getYImage();
 		}
 
 		@Override

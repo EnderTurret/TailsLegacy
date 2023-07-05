@@ -15,13 +15,12 @@ import java.util.stream.Collectors;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
-
-import net.minecraftforge.client.gui.ScreenUtils;
 
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.common.Tails;
@@ -50,8 +49,8 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partial) {
-		ScreenUtils.blitWithBorder(poseStack, WIDGETS_LOCATION, x, y, 0, 46, width, height, 200, 20, 2, 3, 2, 2, getBlitOffset());
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
+		gui.blitWithBorder(WIDGETS_LOCATION, getX(), getY(), 0, 46, width, height, 200, 20, 2, 3, 2, 2);
 		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 
 		int srcY = 236;
@@ -60,12 +59,12 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 			srcY -= 20;
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-		RenderHelper.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, srcY, 256, 20, width - 2, height - 2);
+		RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, srcY, 256, 20, width - 2, height - 2);
 
 		final int offset = isFocused() ? 5 : 0;
 
-		blit(poseStack, x + (int)(value * (width - 3) - 2), y, 0, offset, 7, 4);
-		blit(poseStack, x + (int)(value * (width - 3) - 2), y + height - 4, 7, offset, 7, 4);
+		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4);
+		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4);
 	}
 
 	public HSBSliderType getType() {

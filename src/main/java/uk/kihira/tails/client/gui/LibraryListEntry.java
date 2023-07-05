@@ -17,7 +17,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -44,7 +44,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+	public void render(GuiGraphics gui, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		if (panel.getList().getMaxScroll() > 0)
 			listWidth -= 6;
 
@@ -52,18 +52,17 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 
 		final Font fontRenderer = Minecraft.getInstance().font;
 		final boolean sel = partsData.equals(LocalPartManager.getLocalPartsData());
-		fontRenderer.draw(poseStack, (sel ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
+		gui.drawString(fontRenderer, (sel ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
 		int index = 0;
 
 		for (ClientPartInfo partInfo : partsData.getParts()) {
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			RenderHelper.drawStringMultiLine(poseStack, fontRenderer, trans,
+			RenderHelper.drawStringMultiLine(gui, fontRenderer, trans,
 					rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
 			for (int i = 1; i < 4; i++)
-				GuiComponent.fill(poseStack,
-						listWidth - 8 * i, rowTop + 13 + index * 8,
+				gui.fill(listWidth - 8 * i, rowTop + 13 + index * 8,
 						listWidth + 7 - 8 * i, rowTop + 20 + index * 8,
 						partInfo.getTints()[i - 1]);
 
@@ -71,18 +70,16 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		}
 
 		if (data.favourite) {
-			RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
-
 			final IconButton.Icons icon = IconButton.Icons.STAR;
 
-			poseStack.pushPose();
+			gui.pose().pushPose();
 
-			poseStack.translate(rowLeft + listWidth - 16, rowTop, 0F);
-			poseStack.scale(0.8F, 0.8F, 1F);
+			gui.pose().translate(rowLeft + listWidth - 16, rowTop, 0F);
+			gui.pose().scale(0.8F, 0.8F, 1F);
 
-			GuiComponent.blit(poseStack, 0, 0, 10, icon.u, icon.v + 32, 16, 16, 256, 256);
+			gui.blit(IconButton.iconsTextures, 0, 0, 10, icon.u, icon.v + 32, 16, 16, 256, 256);
 
-			poseStack.popPose();
+			gui.pose().popPose();
 		}
 	}
 
@@ -103,8 +100,8 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		}
 
 		@Override
-		public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
-			Minecraft.getInstance().font.draw(poseStack, I18n.get("tails.gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
+		public void render(GuiGraphics gui, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+			gui.drawString(Minecraft.getInstance().font, I18n.get("tails.gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
 		}
 
 		@Override

@@ -13,9 +13,8 @@ import java.awt.Color;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import net.minecraftforge.client.gui.ScreenUtils;
 
 import uk.kihira.tails.client.RenderHelper;
 
@@ -37,8 +36,8 @@ public class SaturationSlider extends HSBSlider {
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partial) {
-		ScreenUtils.blitWithBorder(poseStack, WIDGETS_LOCATION, x, y, 0, 46, width, height, 200, 20, 2, 3, 2, 2, getBlitOffset());
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
+		gui.blitWithBorder(WIDGETS_LOCATION, getX(), getY(), 0, 46, width, height, 200, 20, 2, 3, 2, 2);
 		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 
 		{
@@ -47,7 +46,7 @@ public class SaturationSlider extends HSBSlider {
 			final float green = hueColour.getGreen() / 255F;
 			final float blue = hueColour.getBlue() / 255F;
 			RenderSystem.setShaderColor(red, green, blue, 1F);
-			RenderHelper.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, 176, 256, 20, width - 2, height - 2);
+			RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, 176, 256, 20, width - 2, height - 2);
 		}
 
 		final int srcY = 236 - 40;
@@ -58,15 +57,15 @@ public class SaturationSlider extends HSBSlider {
 			final float green = hueColour.getGreen() / 255F;
 			final float blue = hueColour.getBlue() / 255F;
 			RenderSystem.setShaderColor(red, green, blue, 1F);
-			RenderHelper.blitScaled(poseStack, x + 1, y + 1, getBlitOffset(), 0, srcY, 231, 20, width - 2, height - 2);
+			RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, srcY, 231, 20, width - 2, height - 2);
 		}
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 		final int offset = isFocused() ? 5 : 0;
 
-		blit(poseStack, x + (int)(value * (width - 3) - 2), y, 0, offset, 7, 4);
-		blit(poseStack, x + (int)(value * (width - 3) - 2), y + height - 4, 7, offset, 7, 4);
+		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4);
+		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4);
 	}
 
 	/**

@@ -18,9 +18,10 @@ import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
@@ -77,26 +78,28 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		setBlitOffset(0);
-		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.fillGradient(0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
 		RenderSystem.setShaderColor(0F, 0F, 0F, 0F);
 
-		setBlitOffset(10);
-		fillGradient(poseStack, 3, 3, right - left - 3, bottom - top - 3, 0xFF000000, 0xFF000000);
+		gui.pose().pushPose();
+		gui.pose().translate(0, 0, 10);
+		gui.fillGradient(3, 3, right - left - 3, bottom - top - 3, 0xFF000000, 0xFF000000);
 
 		if (entry != null) {
-			textField.render(poseStack, mouseX, mouseY, partialTick);
+			textField.render(gui, mouseX, mouseY, partialTick);
 
-			font.draw(poseStack, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
-			font.draw(poseStack, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
-			font.draw(poseStack, I18n.get("tails.gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
+			gui.drawString(font, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
+			gui.drawString(font, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
+			gui.drawString(font, I18n.get("tails.gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
-			font.draw(poseStack, date, right - left - 5 - font.width(date), bottom - top - 32, 0xAAAAAA);
+			gui.drawString(font, date, right - left - 5 - font.width(date), bottom - top - 32, 0xAAAAAA);
 		}
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
+
+		gui.pose().popPose();
 	}
 
 	@Override
@@ -135,7 +138,7 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 		textField.setVisible(visible);
 
-		for (Widget renderable : renderables)
+		for (Renderable renderable : renderables)
 			if (renderable instanceof AbstractWidget widget)
 				widget.visible = visible;
 	}

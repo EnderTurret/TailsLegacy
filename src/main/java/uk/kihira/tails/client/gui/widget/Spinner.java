@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarratedElementType;
@@ -43,7 +44,7 @@ public class Spinner<T> extends AbstractWidget {
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new ExtendedButton(x, y, 15, 15, Component.literal("<"), this::previous);
+		left = new ExtendedButton(getX(), y, 15, 15, Component.literal("<"), this::previous);
 		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), this::next);
 
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
@@ -53,9 +54,9 @@ public class Spinner<T> extends AbstractWidget {
 
 		final int off = getWidth() / 2;
 
-		x = centerX - off;
-		left.x = x;
-		right.x = x + getWidth() - right.getWidth();
+		setX(centerX - off);
+		left.setX(getX());
+		right.setX(getX() + getWidth() - right.getWidth());
 	}
 
 	public Spinner(NavigableSet<T> values, int x, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
@@ -108,16 +109,16 @@ public class Spinner<T> extends AbstractWidget {
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		final Font font = Minecraft.getInstance().font;
 		final Component message = getMessage();
 		final int width = font.width(message);
 
-		int left = x;
+		int left = getX();
 		left += getWidth() / 2;
 		left -= width / 2;
 
-		font.draw(poseStack, message, left, y + getHeight() /  2 - font.lineHeight / 2, 0xFFFFFFFF);
+		gui.drawString(font, message, left, getY() + getHeight() /  2 - font.lineHeight / 2, 0xFFFFFFFF);
 	}
 
 	@Override

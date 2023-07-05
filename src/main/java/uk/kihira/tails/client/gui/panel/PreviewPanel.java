@@ -15,6 +15,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
@@ -59,16 +60,18 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		if (!doRender) return;
 
-		setBlitOffset(-900);
+		gui.pose().pushPose();
+		gui.pose().translate(0, 0, -900);
+
 		// Background
-		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
+		gui.fillGradient(0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
+
+		gui.pose().popPose();
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-		setBlitOffset(0);
-
 		RenderHelper.startGlScissor(left, top, width, height);
 
 		final int mcHeight = minecraft.getWindow().getGuiScaledHeight();
@@ -80,7 +83,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 
 		RenderHelper.endGlScissor();
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
 	}
 
 	@Override

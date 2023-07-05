@@ -14,6 +14,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
@@ -50,16 +51,17 @@ public final class TexturePanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		setBlitOffset(-10);
-		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
-		setBlitOffset(-5);
-		fillGradient(poseStack, 7, variantSelectY, right - left - 15, texSelectY + 15, 0x55000000, 0x55000000); // Use fillGradient so it actually takes into account blitOffset.
+		gui.pose().pushPose();
+		gui.pose().translate(0, 0, -10);
+		gui.fill(0, 0, right - left, bottom - top, 0xCC000000);
+		gui.pose().translate(0, 0, 5);
+		gui.fill(7, variantSelectY, right - left - 15, texSelectY + 15, 0x55000000);
 
 		// Texture select
-		drawCenteredString(poseStack, font, I18n.get("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
+		gui.drawCenteredString(font, I18n.get("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
 
 		final Part part = partInfo.getPart();
 
@@ -82,19 +84,19 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		} else
 			variantFormatted = partInfo.getSubTypeId();
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
 
 		if (!texTranslated) {
-			fill(poseStack, 25, texSelectY + 4, 25 + font.width(texFormatted), texSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
-			font.draw(poseStack, texFormatted, 25, texSelectY + 4, 0xFF0000);
+			gui.fill(25, texSelectY + 4, 25 + font.width(texFormatted), texSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
+			gui.drawString(font, texFormatted, 25, texSelectY + 4, 0xFF0000);
 		} else
-			font.draw(poseStack, texFormatted, 25, texSelectY + 4, 0xFFFFFF);
+			gui.drawString(font, texFormatted, 25, texSelectY + 4, 0xFFFFFF);
 
 		if (!variantTranslated) {
-			fill(poseStack, 25, variantSelectY + 4, 25 + font.width(variantFormatted), variantSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
-			font.draw(poseStack, variantFormatted, 25, variantSelectY + 4, 0xFF0000);
+			gui.fill(25, variantSelectY + 4, 25 + font.width(variantFormatted), variantSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
+			gui.drawString(font, variantFormatted, 25, variantSelectY + 4, 0xFF0000);
 		} else
-			font.draw(poseStack, variantFormatted, 25, variantSelectY + 4, 0xFFFFFF);
+			gui.drawString(font, variantFormatted, 25, variantSelectY + 4, 0xFFFFFF);
 	}
 
 	private void cycleTexLeft() {

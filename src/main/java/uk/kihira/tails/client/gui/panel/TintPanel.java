@@ -22,6 +22,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
@@ -116,30 +117,27 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		setBlitOffset(-100);
-		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
-
-		setBlitOffset(0);
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.fillGradient(0, 0, right - left, bottom - top, -100, 0xCC000000, 0xCC000000);
 
 		// Tints
 		int topOffset = 10;
 		for (int tint = 1; tint <= 3; tint++) {
 			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
-			fillGradient(poseStack, 5, topOffset + 10, 25, topOffset + 30, colour, colour);
-			font.draw(poseStack, I18n.get("tails.gui.tint", tint), 5, topOffset, 0xFFFFFF);
+			gui.fillGradient(5, topOffset + 10, 25, topOffset + 30, colour, colour);
+			gui.drawString(font, I18n.get("tails.gui.tint", tint), 5, topOffset, 0xFFFFFF);
 			topOffset += 35;
 		}
 
 		// Editing tint pane
 		if (editingTint > 0) {
-			hLine(poseStack, 0, width, editPaneTop, 0xFF000000);
-			font.draw(poseStack, I18n.get("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
+			gui.hLine(0, width, editPaneTop, 0xFF000000);
+			gui.drawString(font, I18n.get("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
 
-			font.draw(poseStack, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
+			gui.drawString(font, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
 		}
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
 	}
 
 	protected void handleTintButton(int id) {

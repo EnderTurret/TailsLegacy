@@ -18,6 +18,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
@@ -59,29 +60,26 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		setBlitOffset(-100);
-		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.pose().pushPose();
+		gui.pose().translate(0, 0, -100);
+		gui.fillGradient(0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
-		list.render(poseStack, mouseX, mouseY, partialTick);
+		list.render(gui, mouseX, mouseY, partialTick);
 
-		setBlitOffset(0);
+		gui.pose().popPose();
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
 
-		setBlitOffset(30);
+		gui.pose().pushPose();
 
-		RenderSystem.setShaderTexture(0, IconButton.iconsTextures);
-
-		poseStack.pushPose();
+		gui.pose().translate(right - left - 16, bottom - top - 32, 30);
+		gui.pose().scale(0.75F, 0.75F, 0F);
 
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-		poseStack.translate(right - left - 16, bottom - top - 32, 0);
-		poseStack.scale(0.75F, 0.75F, 0F);
+		gui.blit(IconButton.iconsTextures, 0, 0, 160, 0, 16, 16);
 
-		blit(poseStack, 0, 0, 160, 0, 16, 16);
-
-		poseStack.popPose();
+		gui.pose().popPose();
 	}
 
 	@Override

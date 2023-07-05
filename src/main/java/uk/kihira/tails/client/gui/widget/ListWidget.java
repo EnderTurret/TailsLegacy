@@ -13,6 +13,7 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 
 import uk.kihira.tails.client.RenderHelper;
@@ -41,10 +42,10 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		RenderHelper.startGlScissor(x0, y0, width, height);
 		try {
-			super.render(poseStack, mouseX, mouseY, partialTick);
+			super.render(gui, mouseX, mouseY, partialTick);
 		} catch (IndexOutOfBoundsException e) {
 			// Thanks Mojang.
 		}
@@ -52,7 +53,7 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	protected void renderBackground(PoseStack poseStack) {}
+	protected void renderBackground(GuiGraphics gui) {}
 
 	@Override
 	public int getRowWidth() {
@@ -65,13 +66,13 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	protected void renderSelection(PoseStack poseStack, int top, int width, int height, int outerColor, int innerColor) {
+	protected void renderSelection(GuiGraphics gui, int top, int width, int height, int outerColor, int innerColor) {
 		final int left = x0 + (this.width - width) / 2;
 		int right = x0 + (this.width + width) / 2;
 		if (getMaxScroll() > 0)
 			right -= 6;
-		fill(poseStack, left, top - 2, right, top + height + 2, outerColor);
-		fill(poseStack, left + 1, top - 1, right - 1, top + height + 1, innerColor);
+		gui.fill(left, top - 2, right, top + height + 2, outerColor);
+		gui.fill(left + 1, top - 1, right - 1, top + height + 1, innerColor);
 	}
 
 	// Exposes isSelectedItem(), don't remove this.

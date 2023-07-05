@@ -20,6 +20,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
@@ -77,50 +78,50 @@ public abstract class LayeredScreen extends BaseScreen {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		//int color = 0;
 
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
-					poseStack.pushPose();
-					poseStack.translate(panel.left, panel.top, 0);
+					gui.pose().pushPose();
+					gui.pose().translate(panel.left, panel.top, 0);
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-					panel.render(poseStack, mouseX - panel.left, mouseY - panel.top, partialTick);
+					panel.render(gui, mouseX - panel.left, mouseY - panel.top, partialTick);
 
 					/*if (color == -1) {
-						poseStack.translate(0, 0, 100);
+						gui.pose().translate(0, 0, 100);
 
 						final int c = COLORS[color >= COLORS.length ? COLORS.length - 1 : color];
 
 						final int right = panel.right - panel.left;
 						final int bottom = panel.bottom - panel.top;
 
-						rect(poseStack, 0, 0, right, bottom, c);
+						rect(gui, 0, 0, right, bottom, c);
 
-						font.drawStringWithShadow(poseStack, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c);
+						gui.drawString(font, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c, true);
 					}
 
 					color++;*/
 
-					poseStack.popPose();
+					gui.pose().popPose();
 				}
 
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
 
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
-					poseStack.pushPose();
-					poseStack.translate(panel.left, panel.top, 0);
+					gui.pose().pushPose();
+					gui.pose().translate(panel.left, panel.top, 0);
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-					panel.renderTooltips(poseStack, mouseX - panel.left, mouseY - panel.top, partialTick);
+					panel.renderTooltips(gui, mouseX - panel.left, mouseY - panel.top, partialTick);
 
-					poseStack.popPose();
+					gui.pose().popPose();
 				}
 	}
 

@@ -32,8 +32,6 @@ public final class RelativeTextBox extends EditBox {
 
 	private final Panel<?> parent;
 
-	private PoseStack poseStack;
-
 	public RelativeTextBox(Panel<?> parent, Font font, int x, int y, int width, int height, Component message) {
 		super(font, x, y, width, height, message);
 		this.parent = parent;
@@ -43,51 +41,5 @@ public final class RelativeTextBox extends EditBox {
 	public void setFocus(boolean isFocused) {
 		super.setFocus(isFocused);
 		parent.getParent().setFocusedPanel(parent);
-	}
-
-	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		this.poseStack = poseStack;
-		super.renderButton(poseStack, mouseX, mouseY, partialTick);
-		this.poseStack = null;
-	}
-
-	// Fixes TextBox#renderHighlight not taking into account PoseStack transformations.
-	@Override
-	public void renderHighlight(int startX, int startY, int endX, int endY) {
-		if (startX < endX) {
-			int i = startX;
-			startX = endX;
-			endX = i;
-		}
-
-		if (startY < endY) {
-			int j = startY;
-			startY = endY;
-			endY = j;
-		}
-
-		if (endX > x + width)
-			endX = x + width;
-
-		if (startX > x + width)
-			startX = x + width;
-
-		Tesselator tessellator = Tesselator.getInstance();
-		BufferBuilder bufferbuilder = tessellator.getBuilder();
-		RenderSystem.setShader(GameRenderer::getPositionShader);
-		RenderSystem.setShaderColor(0.0F, 0.0F, 1.0F, 1.0F);
-		RenderSystem.disableTexture();
-		RenderSystem.enableColorLogicOp();
-		RenderSystem.logicOp(GlStateManager.LogicOp.OR_REVERSE);
-		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
-		bufferbuilder.vertex(poseStack.last().pose(), startX, endY, 0F).endVertex();
-		bufferbuilder.vertex(poseStack.last().pose(), endX, endY, 0F).endVertex();
-		bufferbuilder.vertex(poseStack.last().pose(), endX, startY, 0F).endVertex();
-		bufferbuilder.vertex(poseStack.last().pose(), startX, startY, 0F).endVertex();
-		tessellator.end();
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.disableColorLogicOp();
-		RenderSystem.enableTexture();
 	}
 }

@@ -23,6 +23,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
@@ -151,9 +152,9 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		fillGradient(poseStack, 0, 0, right - left, bottom - top, 0xDE000000, 0xDE000000);
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.fillGradient(0, 0, right - left, bottom - top, 0xDE000000, 0xDE000000);
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(gui, mouseX, mouseY, partialTick);
 	}
 }

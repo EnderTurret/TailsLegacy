@@ -12,6 +12,8 @@ import java.awt.Color;
 
 import com.mojang.blaze3d.platform.NativeImage;
 
+import net.minecraft.util.FastColor;
+
 /**
  * Miscellaneous utilities for converting between {@link NativeImage} color values and {@link Color} color values.
  * This is needed because the packed versions are different:
@@ -29,7 +31,7 @@ public final class ColorUtil {
 	 * @return The packed value.
 	 */
 	public static int combined(int alpha, int red, int green, int blue) {
-		return NativeImage.combine(alpha, blue, green, red);
+		return FastColor.ABGR32.color(alpha, blue, green, red);
 	}
 
 	/**
@@ -69,10 +71,10 @@ public final class ColorUtil {
 	 * @return The converted color.
 	 */
 	public static int toJavaColor(int combined) {
-		return (NativeImage.getA(combined) & 0xFF) << 24 |
-				(NativeImage.getR(combined) & 0xFF) << 16 |
-				(NativeImage.getG(combined) & 0xFF) << 8  |
-				(NativeImage.getB(combined) & 0xFF) << 0;
+		return (FastColor.ABGR32.alpha(combined) & 0xFF) << 24 |
+				(FastColor.ABGR32.red(combined) & 0xFF) << 16 |
+				(FastColor.ABGR32.green(combined) & 0xFF) << 8  |
+				(FastColor.ABGR32.blue(combined) & 0xFF) << 0;
 	}
 
 	/**
@@ -84,8 +86,8 @@ public final class ColorUtil {
 	 */
 	public static String hex(int combined, boolean ignoreAlpha, boolean java) {
 		if (!java)
-			return (ignoreAlpha ? "" : Integer.toHexString(NativeImage.getA(combined)))
-					+ String.format("%02x%02x%02x", NativeImage.getR(combined), NativeImage.getG(combined), NativeImage.getB(combined));
+			return (ignoreAlpha ? "" : Integer.toHexString(FastColor.ABGR32.alpha(combined)))
+					+ String.format("%02x%02x%02x", FastColor.ABGR32.red(combined), FastColor.ABGR32.green(combined), FastColor.ABGR32.blue(combined));
 
 		return (ignoreAlpha ? "" : Integer.toHexString(combined >> 24 & 0xFF))
 				+ String.format("%02x%02x%02x", combined >> 16 & 0xFF, combined >> 8 & 0xFF, combined & 0xFF);

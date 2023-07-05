@@ -8,10 +8,10 @@
 
 package uk.kihira.tails.client.texture;
 
-import static com.mojang.blaze3d.platform.NativeImage.getA;
-import static com.mojang.blaze3d.platform.NativeImage.getB;
-import static com.mojang.blaze3d.platform.NativeImage.getG;
-import static com.mojang.blaze3d.platform.NativeImage.getR;
+import static net.minecraft.util.FastColor.ABGR32.alpha;
+import static net.minecraft.util.FastColor.ABGR32.blue;
+import static net.minecraft.util.FastColor.ABGR32.green;
+import static net.minecraft.util.FastColor.ABGR32.red;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +29,7 @@ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.FastColor;
 
 import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.part.Part;
@@ -120,18 +121,18 @@ public final class TripleTintTexture extends AbstractTexture {
 	/**
 	 * Recolors the given input color according to the three given tints.
 	 * See {@link #colorise(int, int, int, int, int, int, int)} for more information.
-	 * @param input The input color in {@linkplain NativeImage#combine(int, int, int, int) ABGR form}.
+	 * @param input The input color in {@linkplain net.minecraft.util.FastColor.ABGR32#color(int, int, int, int) ABGR form}.
 	 * @param tint1 The first tint in ABGR form.
 	 * @param tint2 The second tint in ABGR form.
 	 * @param tint3 The third tint in ABGR form.
 	 * @return The resultant color in ABGR form.
 	 */
 	private static int colorise(int input, int tint1, int tint2, int tint3) {
-		final int a = getA(input);
+		final int a = alpha(input);
 		if (a == 0) return input;
-		final int r = getR(input);
-		final int g = getG(input);
-		final int b = getB(input);
+		final int r = red(input);
+		final int g = green(input);
+		final int b = blue(input);
 
 		return colorise(r, g, b, a, tint1, tint2, tint3);
 	}
@@ -155,7 +156,7 @@ public final class TripleTintTexture extends AbstractTexture {
 	 * @param tint1 The first tint.
 	 * @param tint2 The second tint.
 	 * @param tint3 The third tint.
-	 * @return The new color, packed using {@link NativeImage#combine(int, int, int, int)}.
+	 * @return The new color, packed using {@link net.minecraft.util.FastColor.ABGR32#color(int, int, int, int)}.
 	 */
 	private static int colorise(int saturation, int weight2, int weight3, int alpha, int tint1, int tint2, int tint3) {
 		double w2 = weight2 / 255D;
@@ -165,23 +166,23 @@ public final class TripleTintTexture extends AbstractTexture {
 
 		final double w1 = 1 - (w2 + w3);
 
-		final double r1 = scale(getR(tint1)) / 255;
-		final double g1 = scale(getG(tint1)) / 255;
-		final double b1 = scale(getB(tint1)) / 255;
+		final double r1 = scale(red(tint1)) / 255;
+		final double g1 = scale(green(tint1)) / 255;
+		final double b1 = scale(blue(tint1)) / 255;
 
-		final double r2 = scale(getR(tint2)) / 255;
-		final double g2 = scale(getG(tint2)) / 255;
-		final double b2 = scale(getB(tint2)) / 255;
+		final double r2 = scale(red(tint2)) / 255;
+		final double g2 = scale(green(tint2)) / 255;
+		final double b2 = scale(blue(tint2)) / 255;
 
-		final double r3 = scale(getR(tint3)) / 255;
-		final double g3 = scale(getG(tint3)) / 255;
-		final double b3 = scale(getB(tint3)) / 255;
+		final double r3 = scale(red(tint3)) / 255;
+		final double g3 = scale(green(tint3)) / 255;
+		final double b3 = scale(blue(tint3)) / 255;
 
 		final int rfinal = (int) Math.floor(saturation * (r1 * w1 + r2 * w2 + r3 * w3));
 		final int gfinal = (int) Math.floor(saturation * (g1 * w1 + g2 * w2 + g3 * w3));
 		final int bfinal = (int) Math.floor(saturation * (b1 * w1 + b2 * w2 + b3 * w3));
 
-		return NativeImage.combine(alpha, bfinal, gfinal, rfinal);
+		return FastColor.ABGR32.color(alpha, bfinal, gfinal, rfinal);
 	}
 
 	private static double scale(int color) {

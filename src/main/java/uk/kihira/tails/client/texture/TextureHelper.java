@@ -23,6 +23,7 @@ import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 
 import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.part.ClientPartInfo;
@@ -158,10 +159,10 @@ public final class TextureHelper {
 		for (int y = fromY; y < fromY + height; y++)
 			for (int x = fromX; x < fromX + width; x++) {
 				final int pixel = src.getPixelRGBA(x, y);
-				dest.put((byte) NativeImage.getR(pixel));
-				dest.put((byte) NativeImage.getG(pixel));
-				dest.put((byte) NativeImage.getB(pixel));
-				dest.put((byte) NativeImage.getA(pixel));
+				dest.put((byte) FastColor.ABGR32.red(pixel));
+				dest.put((byte) FastColor.ABGR32.green(pixel));
+				dest.put((byte) FastColor.ABGR32.blue(pixel));
+				dest.put((byte) FastColor.ABGR32.alpha(pixel));
 			}
 	}
 }

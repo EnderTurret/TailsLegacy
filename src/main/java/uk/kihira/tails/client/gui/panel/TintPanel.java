@@ -71,7 +71,9 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		int topOffset = 20;
 		for (int id = 1; id <= 3; id++) {
 			final int finalId = id;
-			addRenderableWidget(new Button(30, topOffset, 40, 20, Component.translatable("tails.gui.button.edit"), b -> handleTintButton(finalId)));
+			addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.edit"), b -> handleTintButton(finalId))
+					.bounds(30, topOffset, 40, 20)
+					.build());
 			topOffset += 35;
 		}
 

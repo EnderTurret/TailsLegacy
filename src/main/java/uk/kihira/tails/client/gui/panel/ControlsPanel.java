@@ -32,12 +32,16 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 	@Override
 	public void init() {
 		// Mode Switch
-		addRenderableWidget(new Button(3, bottom - top - 25, 46, 20, Component.translatable("tails.gui.button.mode.library"), this::switchMode));
+		addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.mode.library"), this::switchMode)
+				.bounds(3, bottom - top - 25, 46, 20)
+				.build());
 		// Reset/Save
-		addRenderableWidget(new Button((right - left) / 2 - 23, bottom - top - 25, 46, 20, Component.translatable("tails.gui.button.reset"), this::reset));
-		addRenderableWidget(new Button(right - left - 49, bottom - top - 25, 46, 20, Component.translatable("tails.gui.done"), b -> {
-			parent.close();
-		}));
+		addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.reset"), this::reset)
+				.bounds((right - left) / 2 - 23, bottom - top - 25, 46, 20)
+				.build());
+		addRenderableWidget(Button.builder(Component.translatable("tails.gui.done"), b -> parent.close())
+				.bounds(right - left - 49, bottom - top - 25, 46, 20)
+				.build());
 	}
 
 	private void switchMode(Button b) {

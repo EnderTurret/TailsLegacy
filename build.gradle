@@ -15,7 +15,7 @@ repositories {
 }
 
 group = 'uk.kihira'
-version = '1.19.2-1.5.3'
+version = '1.19.2-1.5.4'
 
 base {
     archivesName = 'Tails'

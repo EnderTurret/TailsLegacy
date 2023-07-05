@@ -55,7 +55,7 @@ public abstract class LayeredScreen extends BaseScreen {
 		if (old != null)
 			for (GuiEventListener listener : old.children())
 				if (listener instanceof AbstractWidget widget && widget.isFocused())
-					widget.changeFocus(true);
+					widget.setFocused(false);
 
 		setFocused(focus);
 	}
@@ -243,6 +243,7 @@ public abstract class LayeredScreen extends BaseScreen {
 		super.removed();
 	}
 
+	/* TODO: Port this.
 	@Override
 	public boolean changeFocus(boolean forward) {
 		final GuiEventListener focused = getFocused();
@@ -278,6 +279,7 @@ public abstract class LayeredScreen extends BaseScreen {
 
 		return false;
 	}
+	*/
 
 	@Override
 	public void setFocused(GuiEventListener listener) {

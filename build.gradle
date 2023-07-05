@@ -15,23 +15,23 @@ repositories {
 }
 
 group = 'uk.kihira'
-version = '1.19.2-1.5.4'
+version = '2.0.0+1.20.1'
 
 base {
     archivesName = 'Tails'
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.2.6'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.0.43'
 
     //compileOnly fg.deobf('vazkii.botania:Botania:1.18.2-434:api')
     //runtimeOnly fg.deobf('vazkii.botania:Botania:1.18.2-434')
     //runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.19.2-76')
-    //runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:1.19.2-5.1.1.0')
+    //runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1')
 }
 
 minecraft {
-    mappings channel: 'parchment', version: '2022.11.27-1.19.2'
+    mappings channel: 'parchment', version: '2023.07.02-1.20.1'
 	accessTransformer = file("$rootDir/src/main/resources/META-INF/accesstransformer.cfg")
 
     runs {

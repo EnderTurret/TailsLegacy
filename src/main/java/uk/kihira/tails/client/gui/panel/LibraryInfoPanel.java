@@ -81,11 +81,9 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		gui.fillGradient(0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
 
-		RenderSystem.setShaderColor(0F, 0F, 0F, 0F);
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
-		gui.pose().pushPose();
-		gui.pose().translate(0, 0, 10);
-		gui.fillGradient(3, 3, right - left - 3, bottom - top - 3, 0xFF000000, 0xFF000000);
+		gui.fillGradient(3, 3, right - left - 3, bottom - top - 3, 0, 0xFF000000, 0xFF000000);
 
 		if (entry != null) {
 			textField.render(gui, mouseX, mouseY, partialTick);
@@ -98,8 +96,6 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 		}
 
 		super.render(gui, mouseX, mouseY, partialTick);
-
-		gui.pose().popPose();
 	}
 
 	@Override

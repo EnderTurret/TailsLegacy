@@ -78,14 +78,8 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.pose().pushPose();
-
-		gui.pose().translate(0, 0, -400);
-
-		gui.fill(0, 0, right - left, bottom - top, 0xDD000000);
+		gui.fill(0, 0, right - left, bottom - top, -400, 0xDD000000);
 
 		super.render(gui, mouseX, mouseY, partialTick);
-
-		gui.pose().popPose();
 	}
 }

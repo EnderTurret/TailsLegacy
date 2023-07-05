@@ -63,13 +63,8 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		if (!doRender) return;
 
-		gui.pose().pushPose();
-		gui.pose().translate(0, 0, -900);
-
 		// Background
-		gui.fillGradient(0, 0, right - left, bottom - top, 0xFF000000, 0xFF000000);
-
-		gui.pose().popPose();
+		gui.fillGradient(0, 0, right - left, bottom - top, -900, 0xFF000000, 0xFF000000);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderHelper.startGlScissor(left, top, width, height);

@@ -43,8 +43,8 @@ public class Spinner<T> extends AbstractWidget {
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new FocusableExtendedButton(x, y, 15, 15, Component.literal("<"), this::previous);
-		right = new FocusableExtendedButton(0, y, 15, 15, Component.literal(">"), this::next);
+		left = new ExtendedButton(x, y, 15, 15, Component.literal("<"), this::previous);
+		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), this::next);
 
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
 

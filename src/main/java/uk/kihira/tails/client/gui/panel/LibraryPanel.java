@@ -21,9 +21,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
+import net.minecraftforge.client.gui.widget.ExtendedButton;
+
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
-import uk.kihira.tails.client.gui.widget.FocusableExtendedButton;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
@@ -50,7 +51,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 	public void init() {
 		initList();
 
-		addRenderableWidget(new FocusableExtendedButton(3, bottom - top - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
+		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
 			Tails.PROXY.getLibraryManager().reload(true);
 			initList();
 		}));

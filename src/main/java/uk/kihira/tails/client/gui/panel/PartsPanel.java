@@ -96,8 +96,6 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 		gui.drawCenteredString(font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 
-		RenderSystem.setShaderColor(1, 1, 1, 1);
-
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
 
@@ -167,6 +165,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 				onEntrySelected(item);
 			}
 		};
+		this.partList.setRenderTopAndBottom(false);
 
 		addRenderableWidget(this.partList);
 		selectDefaultListEntry();

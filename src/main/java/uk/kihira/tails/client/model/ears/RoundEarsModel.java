@@ -8,8 +8,6 @@
 
 package uk.kihira.tails.client.model.ears;
 
-import com.mojang.math.Vector3f;
-
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;

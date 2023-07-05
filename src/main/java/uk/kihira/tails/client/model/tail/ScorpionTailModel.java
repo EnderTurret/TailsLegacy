@@ -2,13 +2,14 @@ package uk.kihira.tails.client.model.tail;
 
 import java.util.List;
 
-import com.mojang.math.Vector3f;
+import org.joml.Quaternionf;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
@@ -42,14 +43,14 @@ final class ScorpionTailModel extends PartModel {
 
 		config = new PartConfiguration(List.of(root), (info, poseStack, partialTick, entity) -> {
 			poseStack.scale(1.1F, 1.1F, 1.1F);
-			poseStack.mulPose(Vector3f.XN.rotationDegrees(10));
+			poseStack.mulPose(new Quaternionf().rotateX(-10 * Mth.DEG_TO_RAD));
 		});
 	}
 
 	@Override
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
 		ctx.poseStack().translate(-0.3, 0.8, 0);
-		ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(140));
+		ctx.poseStack().mulPose(new Quaternionf().rotateY(140 * Mth.DEG_TO_RAD));
 	}
 
 	@Override
@@ -57,7 +58,7 @@ final class ScorpionTailModel extends PartModel {
 		ctx.poseStack().pushPose();
 
 		ctx.poseStack().scale(1.1F, 1.1F, 1.1F);
-		ctx.poseStack().mulPose(Vector3f.XN.rotationDegrees(10));
+		ctx.poseStack().mulPose(new Quaternionf().rotateX(-10 * Mth.DEG_TO_RAD));
 
 		ctx.render(root);
 

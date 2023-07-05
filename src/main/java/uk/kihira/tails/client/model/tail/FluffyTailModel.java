@@ -10,7 +10,7 @@ package uk.kihira.tails.client.model.tail;
 
 import java.util.List;
 
-import com.mojang.math.Vector3f;
+import org.joml.Quaternionf;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -69,14 +69,14 @@ final class FluffyTailModel extends PartModel {
 
 		single = List.of(new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(0, getAnimationTime(4000F, entity), 1F, 1F, 0, 0, partialTick, entity);
-			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
+			poseStack.mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
 		}));
 
 		twin = List.of(new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(1, getAnimationTime(4000F, entity), 1F, 1F, 0F, rad(40), partialTick, entity);
-			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
+			poseStack.mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
 		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
-			poseStack.mulPose(Vector3f.XP.rotationDegrees(-20F));
+			poseStack.mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
 			setRotationAngles(1, getAnimationTime(4000F, entity), 1.4F, 0F, 0F, rad(-40), partialTick, entity);
 		}));
 
@@ -172,14 +172,14 @@ final class FluffyTailModel extends PartModel {
 		if (ctx.info().getSubType().id().equals("one_tail")) {
 			setRotationAngles(0, timestep, 1, 1, 0, 0, ctx.partialTick(), ctx.entity());
 			ctx.poseStack().pushPose();
-			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(-20F));
+			ctx.poseStack().mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
 			ctx.render(tailBase);
 			ctx.poseStack().popPose();
 		}
 		else if (ctx.info().getSubType().id().equals("two_tails")) {
 			setRotationAngles(1, timestep, 1, 1, 0, rad(40), ctx.partialTick(), ctx.entity());
 			ctx.poseStack().pushPose();
-			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(-20F));
+			ctx.poseStack().mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
 			ctx.render(tailBase);
 
 			setRotationAngles(1, timestep, 1.4F, 0, 0, rad(-40), ctx.partialTick(), ctx.entity());

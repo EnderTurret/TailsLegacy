@@ -8,13 +8,14 @@
 
 package uk.kihira.tails.client.model.ears;
 
-import com.mojang.math.Vector3f;
+import org.joml.Quaternionf;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
@@ -70,7 +71,7 @@ final class StriderWhiskersModel extends PartModel {
 	@Override
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
 		ctx.poseStack().scale(0.8f, 0.8f, 0.8f);
-		ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(-45));
+		ctx.poseStack().mulPose(new Quaternionf().rotateY(-45 * Mth.DEG_TO_RAD));
 	}
 
 	@Override

@@ -9,14 +9,15 @@
 package uk.kihira.tails.client.render;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.joml.Quaternionf;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
 import net.minecraftforge.event.level.LevelEvent;
@@ -61,7 +62,7 @@ public final class FoxtatoRenderer {
 		foxTailRenderer.render(poseStack, fakeEntity, null, tailPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 1F);
 
 		poseStack.translate(0, -0.7, -0.3F);
-		poseStack.mulPose(Vector3f.YP.rotationDegrees(180));
+		poseStack.mulPose(new Quaternionf().rotateY(Mth.PI));
 
 		foxEarRenderer.render(poseStack, fakeEntity, null, earPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 1F);
 

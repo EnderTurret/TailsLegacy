@@ -9,8 +9,9 @@
 package uk.kihira.tails.client.render.helper;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.joml.Quaternionf;
 
-import com.mojang.math.Vector3f;
+import net.minecraft.util.Mth;
 
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.FakeEntity;
@@ -39,13 +40,13 @@ public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 		}
 		case "head/face" -> {
 			ctx.poseStack().translate(0.2, 1.25, 0);
-			ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(180F));
-			ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(-45F));
-			ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(25F));
+			ctx.poseStack().mulPose(new Quaternionf().rotateY(Mth.PI));
+			ctx.poseStack().mulPose(new Quaternionf().rotateY(-45F * Mth.DEG_TO_RAD));
+			ctx.poseStack().mulPose(new Quaternionf().rotateX(25F * Mth.DEG_TO_RAD));
 		}
 		default -> {
 			if (part.getAttachment().root().id().equals("head")) {
-				ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(180F));
+				ctx.poseStack().mulPose(new Quaternionf().rotateY(Mth.PI));
 				ctx.poseStack().translate(0, 1.4, 0);
 			}
 		}

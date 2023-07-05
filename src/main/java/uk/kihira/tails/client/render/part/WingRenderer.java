@@ -10,7 +10,7 @@ package uk.kihira.tails.client.render.part;
 
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import org.joml.Quaternionf;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -38,20 +38,20 @@ public final class WingRenderer extends PartRenderer {
 		ctx.poseStack().pushPose();
 
 		ctx.poseStack().translate(0, -(scale * 8F) * PartModel.SCALE + (small ? 0.1F : 0), 0.1F);
-		ctx.poseStack().mulPose(Vector3f.YP.rotationDegrees(90));
-		ctx.poseStack().mulPose(Vector3f.ZP.rotationDegrees(90));
+		ctx.poseStack().mulPose(new Quaternionf().rotateY(Mth.HALF_PI));
+		ctx.poseStack().mulPose(new Quaternionf().rotateZ(Mth.HALF_PI));
 		ctx.poseStack().scale(scale, scale, scale);
 		ctx.poseStack().translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
 
 		if (ctx.entity().isCrouching()) {
-			ctx.poseStack().mulPose(Vector3f.ZP.rotationDegrees(35));
+			ctx.poseStack().mulPose(new Quaternionf().rotateZ(35 * Mth.DEG_TO_RAD));
 			ctx.poseStack().translate(0, -0.3, 0);
 		}
 
 		ctx.poseStack().pushPose();
 
 		ctx.poseStack().translate(0F, 0F, 1F * PartModel.SCALE);
-		ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(30F - angle));
+		ctx.poseStack().mulPose(new Quaternionf().rotateX((30F - angle) * Mth.DEG_TO_RAD));
 
 		Matrix4f m = ctx.poseStack().last().pose();
 		Matrix3f n = ctx.poseStack().last().normal();
@@ -68,7 +68,7 @@ public final class WingRenderer extends PartRenderer {
 		// TODO: Why is this here? It causes one of the wings to be off-center.
 		//ctx.poseStack().translate(0F, 0.3F * PartModel.SCALE, 0F);
 
-		ctx.poseStack().mulPose(Vector3f.XP.rotationDegrees(-30F + angle));
+		ctx.poseStack().mulPose(new Quaternionf().rotateX((-30F + angle) * Mth.DEG_TO_RAD));
 
 		m = ctx.poseStack().last().pose();
 		n = ctx.poseStack().last().normal();

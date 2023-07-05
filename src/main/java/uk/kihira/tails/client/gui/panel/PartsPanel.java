@@ -91,15 +91,12 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.pose().pushPose();
-		gui.pose().translate(0, 0, -100);
-		gui.fillGradient(0, 0, right - left, listTop, 0xEA000000, 0xEA000000);
+		gui.fillGradient(0, 0, right - left, listTop, -100, 0xEA000000, 0xEA000000);
+		gui.fillGradient(0, listTop, right - left, bottom - top, -100, 0xFF000000, 0xFF000000);
 
-		gui.fillGradient(0, listTop, right - left, bottom - top, 0xFF000000, 0xFF000000);
-		gui.pose().popPose();
+		gui.drawCenteredString(font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 
 		RenderSystem.setShaderColor(1, 1, 1, 1);
-		gui.drawCenteredString(font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
@@ -161,7 +158,10 @@ public final class PartsPanel extends Panel<EditorScreen> {
 			removeWidget(this.partList);
 		}
 
-		this.partList = new ListWidget<>(108 + 6, bottom - top - listTop, listTop, bottom - top, 55, partList) {
+		this.partList = new ListWidget<>(
+				108 + 6, bottom - top - listTop,
+				listTop, bottom - top,
+				55, partList) {
 			@Override
 			public void onItemSelected(PartEntry item) {
 				onEntrySelected(item);
@@ -242,10 +242,9 @@ public final class PartsPanel extends Panel<EditorScreen> {
 						// Yeah its not nice but eh, works.
 						gui.pose().pushPose();
 						gui.pose().translate(5, x + 27, 0);
-						gui.pose().scale(0.6F, 0.6F, 101);
+						gui.pose().scale(0.6F, 0.6F, 1);
 						gui.drawString(font, I18n.get("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
-						gui.pose().translate(0, 10, -100);
-						gui.drawString(font, ChatFormatting.AQUA + author, 0, 0, 0xFFFFFF);
+						gui.drawString(font, Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
 						gui.pose().popPose();
 					}
 				}

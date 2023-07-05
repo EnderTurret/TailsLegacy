@@ -8,8 +8,8 @@
 
 package uk.kihira.tails.client.render.part;
 
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 import net.minecraft.util.Mth;

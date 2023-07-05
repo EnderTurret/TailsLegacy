@@ -54,8 +54,8 @@ public class PartRenderer {
 	 */
 	public void preRender(RenderContext ctx) {
 		if (modelPart != null) {
-			modelPart.setupAnim(ctx.entity(), ctx.entity().animationPosition, ctx.entity().animationSpeed, ctx.partialTick(), ctx.info().getSubType(), ctx.entity().getXRot());
-			modelPart.prepareMobModel(ctx.entity(), ctx.entity().animationPosition, ctx.entity().animationSpeed, ctx.partialTick());
+			modelPart.setupAnim(ctx.entity(), ctx.entity().walkAnimation.position(ctx.partialTick()), ctx.entity().walkAnimation.speed(ctx.partialTick()), ctx.partialTick(), ctx.info().getSubType(), ctx.entity().getXRot());
+			modelPart.prepareMobModel(ctx.entity(), ctx.entity().walkAnimation.position(ctx.partialTick()), ctx.entity().walkAnimation.speed(ctx.partialTick()), ctx.partialTick());
 		}
 
 		RenderHelperManager.applyRenderHelpers(ctx, this);

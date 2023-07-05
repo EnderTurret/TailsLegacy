@@ -107,6 +107,8 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 	private static Services services;
 
 	private static String fetchUsername(UUID uuid) {
+		final Minecraft mc = Minecraft.getInstance();
+
 		// So, there are a few different places we can try first...
 
 		// Option A - Forge's "username cache"
@@ -115,10 +117,10 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 
 		// Option B - The user cache (some assembly required)
 		if (services == null) {
-			final MinecraftSessionService session = Minecraft.getInstance().getMinecraftSessionService();
+			final MinecraftSessionService session = mc.getMinecraftSessionService();
 			if (session instanceof HttpMinecraftSessionService http && http.getAuthenticationService() instanceof YggdrasilAuthenticationService auth) {
-				services = Services.create(auth, Minecraft.getInstance().gameDirectory);
-				services.profileCache().setExecutor(Minecraft.getInstance());
+				services = Services.create(auth, mc.gameDirectory);
+				services.profileCache().setExecutor(mc);
 				GameProfileCache.setUsesAuthentication(false);
 			}
 		}
@@ -131,7 +133,7 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 		// Option C - "Just query it lol"
 		GameProfile prof = new GameProfile(uuid, null);
 
-		prof = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(prof, false);
+		prof = mc.getMinecraftSessionService().fillProfileProperties(prof, false);
 		username = prof.getName();
 
 		// Incredible, we actually got a username. Let's let the caches know, shall we?

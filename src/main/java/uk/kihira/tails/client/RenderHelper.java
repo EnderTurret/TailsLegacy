@@ -95,7 +95,7 @@ public final class RenderHelper {
 	}
 
 	/**
-	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(int, int, int, float, float, LivingEntity) inventory screen}.
+	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(GuiGraphics, int, int, int, Quaternionf, Quaternionf, LivingEntity) inventory screen}.
 	 * @param x The x coordinate of the entity.
 	 * @param y The y coordinate of the entity.
 	 * @param scale The scale to render the entity at.

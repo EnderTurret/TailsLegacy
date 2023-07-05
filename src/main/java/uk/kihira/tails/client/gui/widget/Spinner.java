@@ -8,12 +8,14 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.network.chat.Component;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
@@ -104,8 +106,8 @@ public class Spinner<T> extends AbstractWidget {
 	}
 
 	@Override
-	public boolean changeFocus(boolean focus) {
-		return false;
+	public ComponentPath nextFocusPath(FocusNavigationEvent event) {
+		return null;
 	}
 
 	@Override
@@ -127,7 +129,7 @@ public class Spinner<T> extends AbstractWidget {
 	}
 
 	@Override
-	public void updateNarration(NarrationElementOutput narrationElementOutput) {
+	public void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 		narrationElementOutput.add(NarratedElementType.TITLE, getMessage());
 	}
 

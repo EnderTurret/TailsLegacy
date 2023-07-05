@@ -54,11 +54,8 @@ public final class TexturePanel extends Panel<EditorScreen> {
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		gui.pose().pushPose();
-		gui.pose().translate(0, 0, -10);
-		gui.fill(0, 0, right - left, bottom - top, 0xCC000000);
-		gui.pose().translate(0, 0, 5);
-		gui.fill(7, variantSelectY, right - left - 15, texSelectY + 15, 0x55000000);
+		gui.fill(0, 0, right - left, bottom - top, -10, 0xCC000000);
+		gui.fill(7, variantSelectY, right - left - 15, texSelectY + 15, -5, 0x55000000);
 
 		// Texture select
 		gui.drawCenteredString(font, I18n.get("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);

@@ -40,6 +40,9 @@ public class SaturationSlider extends HSBSlider {
 		gui.blitWithBorder(WIDGETS_LOCATION, getX(), getY(), 0, 46, width, height, 200, 20, 2, 3, 2, 2);
 		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+
 		{
 			final Color hueColour = Color.getHSBColor(hueValue, 1, 1);
 			final float red = hueColour.getRed() / 255F;

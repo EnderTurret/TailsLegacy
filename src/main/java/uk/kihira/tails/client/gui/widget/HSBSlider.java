@@ -51,7 +51,6 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
 		gui.blitWithBorder(WIDGETS_LOCATION, getX(), getY(), 0, 46, width, height, 200, 20, 2, 3, 2, 2);
-		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 
 		int srcY = 236;
 
@@ -59,9 +58,13 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 			srcY -= 20;
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 		RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, srcY, 256, 20, width - 2, height - 2);
 
 		final int offset = isFocused() ? 5 : 0;
+
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
 
 		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4);
 		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4);

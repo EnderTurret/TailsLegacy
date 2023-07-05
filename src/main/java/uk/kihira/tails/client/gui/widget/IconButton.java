@@ -39,10 +39,7 @@ public class IconButton extends Button implements ITooltip {
 
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		RenderSystem.setShaderTexture(0, iconsTextures);
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-		RenderSystem.enableBlend();
-		RenderSystem.defaultBlendFunc();
 
 		final int textureOffset = getYImage();
 

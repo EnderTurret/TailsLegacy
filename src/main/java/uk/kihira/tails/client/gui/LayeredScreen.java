@@ -33,8 +33,6 @@ import uk.kihira.tails.client.gui.panel.Panel;
 @Internal
 public abstract class LayeredScreen extends BaseScreen {
 
-	//private static final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
-
 	// 0 is bottom layer.
 	private final List<List<Panel<?>>> layers = new ArrayList<>();
 
@@ -79,7 +77,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		//int color = 0;
+		//final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
+		//int color = -1;
 
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
@@ -90,20 +89,23 @@ public abstract class LayeredScreen extends BaseScreen {
 
 					panel.render(gui, mouseX - panel.left, mouseY - panel.top, partialTick);
 
-					/*if (color == -1) {
-						gui.pose().translate(0, 0, 100);
-
+					/*
+					if (color != -1) {
 						final int c = COLORS[color >= COLORS.length ? COLORS.length - 1 : color];
 
-						final int right = panel.right - panel.left;
-						final int bottom = panel.bottom - panel.top;
+						final int width = panel.right - panel.left;
+						final int height = panel.bottom - panel.top;
 
-						rect(gui, 0, 0, right, bottom, c);
+						gui.pose().pushPose();
+						gui.pose().translate(0, 0, 500);
+						rect(gui, 0, 0, width, height, c);
 
 						gui.drawString(font, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c, true);
-					}
+						gui.pose().popPose();
 
-					color++;*/
+						color++;
+					}
+					/**/
 
 					gui.pose().popPose();
 				}

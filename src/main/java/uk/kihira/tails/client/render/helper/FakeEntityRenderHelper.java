@@ -45,7 +45,7 @@ public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 			ctx.poseStack().mulPose(new Quaternionf().rotateX(25F * Mth.DEG_TO_RAD));
 		}
 		default -> {
-			if (part.getAttachment().root().id().equals("head")) {
+			if ("head".equals(part.getAttachment().root().id())) {
 				ctx.poseStack().mulPose(new Quaternionf().rotateY(Mth.PI));
 				ctx.poseStack().translate(0, 1.4, 0);
 			}

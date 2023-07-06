@@ -28,7 +28,7 @@ public final class PlayerRenderHelper implements IRenderHelper<Player> {
 
 	@Override
 	public void onPreRenderTail(RenderContext ctx, PartRenderer renderer) {
-		if (!ctx.info().getPart().getAttachment().id().equals("body/tail")) return;
+		if (!"body/tail".equals(ctx.info().getPart().getAttachment().id())) return;
 
 		if (ctx.info().getPartId().equals(PartRegistry.DRAGON_TAIL.id())) {
 			if (ctx.entity().isShiftKeyDown()) ctx.poseStack().translate(0f, 0.82f, 0f);

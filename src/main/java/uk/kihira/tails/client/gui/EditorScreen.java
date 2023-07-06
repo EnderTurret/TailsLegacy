@@ -179,7 +179,7 @@ public final class EditorScreen extends LayeredScreen {
 	}
 
 	public void setRootAttachmentPoint(RootAttachmentPoint root) {
-		this.rootAttachment = root;
+		rootAttachment = root;
 		setAttachmentPoint(root.children().first());
 	}
 

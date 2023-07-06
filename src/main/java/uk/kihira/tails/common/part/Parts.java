@@ -109,7 +109,7 @@ public final class Parts {
 	 * @return The remapped id.
 	 */
 	public static ResourceLocation remapId(ResourceLocation id) {
-		if (id.getNamespace().equals("tails")) {
+		if ("tails".equals(id.getNamespace())) {
 			final String newPath = REMAP.get(id.getPath());
 			if (newPath != null)
 				return new ResourceLocation(id.getNamespace(), newPath);
@@ -255,7 +255,7 @@ public final class Parts {
 			if (version == 0 && obj.has("partInfos"))
 				for (JsonElement part : obj.get("partInfos").getAsJsonArray()) {
 					update(part);
-					if (!part.getAsJsonObject().get("id").getAsString().equals("tails:empty"))
+					if (!"tails:empty".equals(part.getAsJsonObject().get("id").getAsString()))
 						parts.add(part);
 				}
 
@@ -264,7 +264,7 @@ public final class Parts {
 				for (Map.Entry<String, JsonElement> entry : obj.get("partInfoMap").getAsJsonObject().entrySet()) {
 					final JsonElement part = entry.getValue();
 					update(part);
-					if (!part.getAsJsonObject().get("id").getAsString().equals("tails:empty"))
+					if (!"tails:empty".equals(part.getAsJsonObject().get("id").getAsString()))
 						parts.add(part);
 				}
 			}

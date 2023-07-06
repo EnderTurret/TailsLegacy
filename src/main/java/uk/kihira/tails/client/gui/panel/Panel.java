@@ -37,10 +37,10 @@ public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
 		Validate.isInstanceOf(LayeredScreen.class, parent);
 
 		this.parent = parent;
-		this.left = x;
-		this.top = y;
-		this.right = x + width;
-		this.bottom = y + height;
+		left = x;
+		top = y;
+		right = x + width;
+		bottom = y + height;
 		this.width = width;
 		this.height = height;
 	}

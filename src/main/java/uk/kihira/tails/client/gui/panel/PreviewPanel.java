@@ -82,7 +82,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		zoom += (delta * .1);
+		zoom += delta * .1;
 		zoom = Mth.clamp(zoom, 1F, 3F);
 		return true;
 	}

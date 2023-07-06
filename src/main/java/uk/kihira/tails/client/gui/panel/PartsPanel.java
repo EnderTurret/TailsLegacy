@@ -50,7 +50,6 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	private Spinner<AttachmentPoint> attachment;
 
 	private ListWidget<PartEntry> partList;
-	private Button partTypeButton;
 
 	private final FakeEntity fakeEntity;
 	private final int listTop = 32 + 15;

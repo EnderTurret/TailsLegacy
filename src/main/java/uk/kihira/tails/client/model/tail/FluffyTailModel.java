@@ -169,14 +169,14 @@ final class FluffyTailModel extends PartModel {
 	public void render(RenderContext ctx) {
 		float timestep = getAnimationTime(4000F, ctx.entity());
 
-		if (ctx.info().getSubType().id().equals("one_tail")) {
+		if ("one_tail".equals(ctx.info().getSubType().id())) {
 			setRotationAngles(0, timestep, 1, 1, 0, 0, ctx.partialTick(), ctx.entity());
 			ctx.poseStack().pushPose();
 			ctx.poseStack().mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
 			ctx.render(tailBase);
 			ctx.poseStack().popPose();
 		}
-		else if (ctx.info().getSubType().id().equals("two_tails")) {
+		else if ("two_tails".equals(ctx.info().getSubType().id())) {
 			setRotationAngles(1, timestep, 1, 1, 0, rad(40), ctx.partialTick(), ctx.entity());
 			ctx.poseStack().pushPose();
 			ctx.poseStack().mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
@@ -186,7 +186,7 @@ final class FluffyTailModel extends PartModel {
 			ctx.render(tailBase);
 			ctx.poseStack().popPose();
 		}
-		else if (ctx.info().getSubType().id().equals("three_tails")) {
+		else if ("three_tails".equals(ctx.info().getSubType().id())) {
 			setRotationAngles(0, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity());
 			ctx.render(tailBase);
 
@@ -196,7 +196,7 @@ final class FluffyTailModel extends PartModel {
 			setRotationAngles(0, timestep, -1.1F, 0.7F, 0, rad(-45), ctx.partialTick(), ctx.entity());
 			ctx.render(tailBase);
 		}
-		else if (ctx.info().getSubType().id().equals("nine_tails")) {
+		else if ("nine_tails".equals(ctx.info().getSubType().id())) {
 			timestep = getAnimationTime(6500F, ctx.entity());
 
 			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity());
@@ -235,13 +235,13 @@ final class FluffyTailModel extends PartModel {
 
 	@Override
 	public List<PartConfiguration> getParts(ClientPartInfo info) {
-		if (info.getSubType().id().equals("one_tail"))
+		if ("one_tail".equals(info.getSubType().id()))
 			return single;
-		if (info.getSubType().id().equals("two_tails"))
+		if ("two_tails".equals(info.getSubType().id()))
 			return twin;
-		if (info.getSubType().id().equals("three_tails"))
+		if ("three_tails".equals(info.getSubType().id()))
 			return three;
-		if (info.getSubType().id().equals("nine_tails"))
+		if ("nine_tails".equals(info.getSubType().id()))
 			return nine;
 
 		return List.of();

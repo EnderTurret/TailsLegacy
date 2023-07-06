@@ -48,7 +48,7 @@ public class IconButton extends Button implements ITooltip {
 	protected int getYImage() {
 		if (!active)
 			return 0;
-		else if (isHoveredOrFocused())
+		if (isHoveredOrFocused())
 			return 2;
 		return 1;
 	}

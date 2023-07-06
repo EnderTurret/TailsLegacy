@@ -59,11 +59,6 @@ final class ElfEarsModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(ears);
 

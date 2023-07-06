@@ -106,7 +106,7 @@ final class DragonTailModel extends PartModel {
 		setRotationRadians(tail2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
 		setRotationRadians(tail3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 
-		if (subType.id().equals("dragon_tail")) {
+		if ("dragon_tail".equals(subType.id())) {
 			setRotationRadians(tailSubBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
 			setRotationRadians(tailSub1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
 			setRotationRadians(tailSub2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
@@ -118,13 +118,13 @@ final class DragonTailModel extends PartModel {
 	public void render(RenderContext ctx) {
 		ctx.render(tailBase);
 
-		if (ctx.info().getSubType().id().equals("dragon_tail"))
+		if ("dragon_tail".equals(ctx.info().getSubType().id()))
 			ctx.render(tailSubBase);
 	}
 
 	@Override
 	public List<PartConfiguration> getParts(ClientPartInfo info) {
-		if (!info.getSubType().id().equals("dragon_tail"))
+		if (!"dragon_tail".equals(info.getSubType().id()))
 			return List.of(config0);
 
 		return super.getParts(info);

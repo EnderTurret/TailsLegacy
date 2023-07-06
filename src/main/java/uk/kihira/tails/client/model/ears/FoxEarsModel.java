@@ -65,12 +65,12 @@ final class FoxEarsModel extends PartModel {
 
 		ctx.poseStack().translate(0f, 0f, -0.0625f);
 
-		if (ctx.info().getSubType().id().equals("inward"))
+		if ("inward".equals(ctx.info().getSubType().id()))
 			ctx.poseStack().translate(-0.4375f, 0f, 0f);
 
 		ctx.render(leftEar);
 
-		if (ctx.info().getSubType().id().equals("inward"))
+		if ("inward".equals(ctx.info().getSubType().id()))
 			ctx.poseStack().translate(0.875f, 0f, 0f);
 
 		ctx.render(rightEar);

@@ -52,11 +52,10 @@ public class OldSaveTest {
 	private static <T> void test(String testName, T target, Supplier<T> result) {
 		try {
 			final T res = result.get();
-			if (!target.equals(res)) {
+			if (!target.equals(res))
 				System.err.printf("Test %s failed:\n(Expected:)\n%s\n(Result:)\n%s\n", testName, target, res);
-			} else {
+			else
 				System.out.println("Test " + testName + " passed!");
-			}
 		} catch (Exception e) {
 			System.err.println("Test " + testName + " failed:");
 			e.printStackTrace();
@@ -73,8 +72,8 @@ public class OldSaveTest {
 
 	private static String readFile(String path) {
 		try (InputStream is = OldSaveTest.class.getResourceAsStream(path);
-				InputStreamReader isr = (is == null ? null : new InputStreamReader(is));
-				BufferedReader br = (isr == null ? null : new BufferedReader(isr))) {
+				InputStreamReader isr = is == null ? null : new InputStreamReader(is);
+				BufferedReader br = isr == null ? null : new BufferedReader(isr)) {
 			if (br == null)
 				throw new FileNotFoundException(path);
 

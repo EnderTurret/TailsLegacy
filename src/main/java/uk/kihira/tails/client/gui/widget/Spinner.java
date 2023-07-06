@@ -20,7 +20,7 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 /**
  * A widget that allows cycling through values using two arrow buttons.
- * It is somewhat comparable to Java's spinners in design, but behaves closer to a combo box. 
+ * It is somewhat comparable to Java's spinners in design, but behaves closer to a combo box.
  * @author EnderTurret
  *
  * @param <T> The type of the elements the spinner cycles through.

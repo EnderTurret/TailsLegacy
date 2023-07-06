@@ -116,7 +116,7 @@ public class PartsData {
 	public String toString() {
 		return "PartsData{" + parts.stream()
 				.filter(e -> !e.isEmpty())
-				.map(e -> e.toString())
+				.map(IPartInfo::toString)
 				.collect(Collectors.joining(", ")) + '}';
 	}
 

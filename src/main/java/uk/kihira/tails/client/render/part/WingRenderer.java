@@ -32,7 +32,7 @@ public final class WingRenderer extends PartRenderer {
 		final boolean isFlying = ctx.entity() instanceof Player player && player.getAbilities().flying && ctx.entity().hasImpulse || ctx.entity().fallDistance > 1.5F;
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, ctx.entity());
 		final float angle = Mth.sin(timestep) * (isFlying ? 24F : 4F);
-		final boolean small = ctx.info().getSubType().id().equals("small");
+		final boolean small = "small".equals(ctx.info().getSubType().id());
 		final float scale = small ? 1F : 2F;
 
 		ctx.poseStack().pushPose();

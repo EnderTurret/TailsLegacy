@@ -57,7 +57,7 @@ final class BeeAbdomenModel extends PartModel {
 
 	@Override
 	public void render(RenderContext ctx) {
-		stinger.visible = ctx.info().getSubType().id().equals("with_stinger");
+		stinger.visible = "with_stinger".equals(ctx.info().getSubType().id());
 
 		ctx.poseStack().pushPose();
 

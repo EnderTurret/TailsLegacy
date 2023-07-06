@@ -60,11 +60,6 @@ final class BlazeCrownModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(crown);
 		ctx.render(rods, LightTexture.FULL_BRIGHT, ctx.packedOverlay());

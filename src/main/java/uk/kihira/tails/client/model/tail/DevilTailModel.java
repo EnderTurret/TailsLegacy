@@ -105,7 +105,7 @@ final class DevilTailModel extends PartModel {
 
 	@Override
 	public void render(RenderContext ctx) {
-		tailTip.visible = !ctx.info().getSubType().id().equals("no_tip");
+		tailTip.visible = !"no_tip".equals(ctx.info().getSubType().id());
 
 		ctx.render(tailBase);
 
@@ -114,7 +114,7 @@ final class DevilTailModel extends PartModel {
 
 	@Override
 	public List<PartConfiguration> getParts(ClientPartInfo info) {
-		if (info.getSubType().id().equals("no_tip"))
+		if ("no_tip".equals(info.getSubType().id()))
 			return List.of(config0);
 
 		return super.getParts(info);

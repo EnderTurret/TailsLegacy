@@ -43,13 +43,11 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		RenderHelper.startGlScissor(x0, y0, width, height);
 		try {
 			super.render(gui, mouseX, mouseY, partialTick);
 		} catch (IndexOutOfBoundsException e) {
 			// Thanks Mojang.
 		}
-		RenderHelper.endGlScissor();
 	}
 
 	@Override

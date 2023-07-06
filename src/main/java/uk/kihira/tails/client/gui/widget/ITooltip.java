@@ -10,7 +10,7 @@ package uk.kihira.tails.client.gui.widget;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.util.FormattedCharSequence;
 
@@ -26,6 +26,6 @@ public interface ITooltip {
 	 * @param mouseIdleTime
 	 * @return The tooltip.
 	 */
-	@Nonnull
+	@NotNull
 	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
 }

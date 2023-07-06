@@ -27,8 +27,6 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
  */
 public class Spinner<T> extends AbstractWidget {
 
-	public int centerX;
-
 	public final ExtendedButton left;
 	public final ExtendedButton right;
 
@@ -40,7 +38,6 @@ public class Spinner<T> extends AbstractWidget {
 
 	public Spinner(NavigableSet<T> values, @Nullable T initialSelection, int centerX, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
 		super(centerX, y, width, 0, Component.empty());
-		this.centerX = centerX;
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 

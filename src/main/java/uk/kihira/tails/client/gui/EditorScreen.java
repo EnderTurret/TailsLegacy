@@ -94,8 +94,6 @@ public final class EditorScreen extends LayeredScreen {
 
 			LocalPartManager.syncToServer();
 
-			ToastManager.INSTANCE.createCenteredToast(screen.width / 2, screen.height - 40, 100, Component.translatable("tails.gui.saved").withStyle(ChatFormatting.GREEN));
-
 			screen.minecraft.popGuiLayer();
 		});
 	}

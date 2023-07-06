@@ -8,6 +8,9 @@
 
 package uk.kihira.tails.client.gui;
 
+import java.util.List;
+import java.util.Objects;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,6 +18,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 
 import uk.kihira.tails.client.gui.widget.ITooltip;
 
@@ -35,7 +39,10 @@ public abstract class BaseScreen extends Screen {
 				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTick;
 				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
 
-				gui.renderTooltip(font, tooltip.getTooltip(mouseX, mouseY, mouseIdleTicks), mouseX, mouseY);
+				final List<FormattedCharSequence> tooltips = Objects.requireNonNull(tooltip.getTooltip(mouseX, mouseY, mouseIdleTicks));
+
+				if (!tooltips.isEmpty())
+					gui.renderTooltip(font, tooltips, mouseX, mouseY);
 
 				prevMouseX = mouseX;
 				prevMouseY = mouseY;

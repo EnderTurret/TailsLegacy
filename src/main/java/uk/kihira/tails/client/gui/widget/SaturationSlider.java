@@ -26,10 +26,6 @@ public class SaturationSlider extends HSBSlider {
 	private float hueValue = 0;
 	private float briValue = 0;
 
-	public SaturationSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback) {
-		super(xPos, yPos, width, height, callback, HSBSlider.HSBSliderType.SATURATION);
-	}
-
 	public SaturationSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, Component... tooltip) {
 		super(xPos, yPos, width, height, callback, HSBSlider.HSBSliderType.SATURATION, tooltip);
 	}

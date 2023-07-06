@@ -72,7 +72,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 		gui.pose().scale(0.75F, 0.75F, 0F);
 
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-		gui.blit(IconButton.iconsTextures, 0, 0, 160, 0, 16, 16);
+		gui.blit(IconButton.ICONS_TEXTURE, 0, 0, 160, 0, 16, 16);
 
 		gui.pose().popPose();
 	}

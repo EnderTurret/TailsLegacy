@@ -150,7 +150,7 @@ public final class ClientEventHandler {
 		}
 
 		private static void registerCursor(ResourceManager manager) {
-			final Resource resource = manager.getResource(IconButton.iconsTextures).orElse(null);
+			final Resource resource = manager.getResource(IconButton.ICONS_TEXTURE).orElse(null);
 
 			if (resource == null)
 				throw new IllegalStateException("Could not find icon textures!");

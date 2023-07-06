@@ -75,7 +75,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 			gui.pose().translate(rowLeft + listWidth - 16, rowTop, 0F);
 			gui.pose().scale(0.8F, 0.8F, 1F);
 
-			gui.blit(IconButton.iconsTextures, 0, 0, 10, icon.u, icon.v + 32, 16, 16, 256, 256);
+			gui.blit(IconButton.ICONS_TEXTURE, 0, 0, 10, icon.u, icon.v + 32, 16, 16, 256, 256);
 
 			gui.pose().popPose();
 		}

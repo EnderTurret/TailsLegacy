@@ -36,14 +36,10 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	private final IHSBSliderCallback callback;
 	private List<FormattedCharSequence> tooltips;
 
-	public HSBSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
+	public HSBSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, Component... tooltips) {
 		super(xPos, yPos, width, height, Component.empty(), 0);
 		this.type = type;
 		this.callback = callback;
-	}
-
-	public HSBSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, Component... tooltips) {
-		this(xPos, yPos, width, height, callback, type);
 		this.tooltips = Arrays.stream(tooltips).map(Component::getVisualOrderText).collect(Collectors.toList());
 	}
 

@@ -20,12 +20,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
+import uk.kihira.tails.common.Tails;
+
 /**
  * A button with an icon and a tooltip.
  */
 public class IconButton extends Button implements ITooltip {
 
-	public static final ResourceLocation iconsTextures = new ResourceLocation("tails", "textures/gui/icons.png");
+	public static final ResourceLocation ICONS_TEXTURE = new ResourceLocation(Tails.MOD_ID, "textures/gui/icons.png");
 
 	protected final Icons icon;
 	private final List<FormattedCharSequence> tooltip;
@@ -42,7 +44,7 @@ public class IconButton extends Button implements ITooltip {
 
 		final int textureOffset = getYImage();
 
-		gui.blit(iconsTextures, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16);
+		gui.blit(ICONS_TEXTURE, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16);
 	}
 
 	protected int getYImage() {

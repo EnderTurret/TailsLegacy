@@ -11,7 +11,6 @@ package uk.kihira.tails.client.gui.widget;
 import java.awt.Color;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

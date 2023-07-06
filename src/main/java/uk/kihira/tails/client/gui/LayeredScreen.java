@@ -10,14 +10,10 @@ package uk.kihira.tails.client.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

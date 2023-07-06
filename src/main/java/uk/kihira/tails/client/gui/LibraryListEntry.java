@@ -11,8 +11,6 @@ package uk.kihira.tails.client.gui;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

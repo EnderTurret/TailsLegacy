@@ -13,7 +13,6 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.client.ClientUtils;
@@ -33,7 +32,6 @@ import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.part.RootAttachmentPoint;
 import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.client.toast.ToastManager;
 
 /**
  * The editor screen.

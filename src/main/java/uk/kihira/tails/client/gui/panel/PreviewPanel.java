@@ -71,9 +71,12 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		final int mcHeight = minecraft.getWindow().getGuiScaledHeight();
 
 		// Player
-		RenderHelper.drawEntity(left + width / 2, top + height / 2 + (int) (mcHeight / 4 * zoom),
+		RenderHelper.drawEntity(gui,
+				left + width / 2,
+				top + height / 2 + (int) (mcHeight / 4 * zoom),
 				(int) (mcHeight / 4 * zoom),
-				yaw, pitch, partialTick, Minecraft.getInstance().player);
+				yaw, pitch,
+				partialTick, minecraft.player);
 
 		RenderHelper.endGlScissor();
 

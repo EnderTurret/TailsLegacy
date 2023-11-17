@@ -13,7 +13,6 @@ package uk.kihira.tails.client;
 import org.joml.Quaternionf;
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -26,8 +25,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -96,6 +93,7 @@ public final class RenderHelper {
 
 	/**
 	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(GuiGraphics, int, int, int, Quaternionf, Quaternionf, LivingEntity) inventory screen}.
+	 * @param gui The {@link GuiGraphics}.
 	 * @param x The x coordinate of the entity.
 	 * @param y The y coordinate of the entity.
 	 * @param scale The scale to render the entity at.
@@ -104,29 +102,7 @@ public final class RenderHelper {
 	 * @param partialTick The partial tick.
 	 * @param entity The entity to render.
 	 */
-	@SuppressWarnings("deprecation")
-	public static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
-		final PoseStack poseStack = RenderSystem.getModelViewStack();
-
-		poseStack.pushPose();
-
-		poseStack.translate(x, y, 1050);
-		poseStack.scale(1, 1, -1);
-
-		RenderSystem.applyModelViewMatrix();
-
-		final PoseStack pose2 = new PoseStack();
-		pose2.translate(0, 0, 1000);
-		pose2.scale(scale, scale, scale);
-
-		final Quaternionf quaternion = new Quaternionf().rotateZ(Mth.PI);
-		final Quaternionf quaternion1 = new Quaternionf().rotateX(pitch * 20F * Mth.DEG_TO_RAD);
-		quaternion.mul(quaternion1);
-
-		pose2.mulPose(quaternion);
-		pose2.mulPose(new Quaternionf().rotateZ(Mth.PI));
-		pose2.mulPose(new Quaternionf().rotateY(yaw * Mth.DEG_TO_RAD));
-
+	public static void drawEntity(GuiGraphics gui, int x, int y, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
 		final float oldYBodyRot = entity.yBodyRot;
 		final float oldYRot = entity.getYRot();
 		final float oldXRot = entity.getXRot();
@@ -140,33 +116,24 @@ public final class RenderHelper {
 		entity.yHeadRotO = 0;
 		entity.setShiftKeyDown(false);
 
-		Lighting.setupForEntityInInventory();
+		final Quaternionf pose = new Quaternionf().rotateZ(Mth.PI);
+		final Quaternionf cameraOrientation = new Quaternionf().rotateX(pitch * 20F * Mth.DEG_TO_RAD);
+		pose.mul(cameraOrientation);
 
-		final EntityRenderDispatcher rendererManager = Minecraft.getInstance().getEntityRenderDispatcher();
+		pose.mul(new Quaternionf().rotateZ(Mth.PI));
+		pose.mul(new Quaternionf().rotateY(yaw * Mth.DEG_TO_RAD));
 
-		quaternion1.conjugate();
+		gui.pose().pushPose();
+		gui.pose().translate(-100, 0, 0); // TODO: This shouldn't be necessary, but is.
 
-		rendererManager.overrideCameraOrientation(quaternion1);
-		rendererManager.setRenderShadow(false);
+		InventoryScreen.renderEntityInInventory(gui, x, y, scale, pose, cameraOrientation, entity);
 
-		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
-
-		RenderSystem.runAsFancy(() -> {
-			rendererManager.render(entity, 0, 0, 0, 0F, 1F, pose2, impl, 15728880);
-		});
-
-		impl.endBatch();
-
-		rendererManager.setRenderShadow(true);
+		gui.pose().popPose();
 
 		entity.yBodyRot = oldYBodyRot;
 		entity.setYRot(oldYRot);
 		entity.setXRot(oldXRot);
 		entity.yHeadRot = oldYHeadRot;
 		entity.yHeadRotO = oldYHeadRotO;
-
-		poseStack.popPose();
-		RenderSystem.applyModelViewMatrix();
-		Lighting.setupFor3DItems();
 	}
 }

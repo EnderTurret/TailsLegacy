@@ -9,9 +9,8 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 java.withSourcesJar()
 
 repositories {
-    mavenCentral()
-    maven { url 'https://maven.blamejared.com' }
-    maven { url 'https://maven.theillusivec4.top' }
+    //maven { url 'https://maven.blamejared.com' }
+    //maven { url 'https://maven.theillusivec4.top' }
 }
 
 group = 'uk.kihira'

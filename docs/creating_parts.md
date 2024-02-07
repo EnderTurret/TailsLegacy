@@ -35,7 +35,7 @@ For example, the fluffy tail file from earlier has the following content:
 
 ```json
 {
-  "category": "tail",
+  "attachment": "body/tail",
   "ordering": [
     "one_tail",
     "two_tails",
@@ -45,15 +45,16 @@ For example, the fluffy tail file from earlier has the following content:
 }
 ```
 
-Specifying only a category is discouraged:
+Specifying only an attachment is discouraged:
 
 ```json
 {
-  "category": "ears"
+  "attachment": "head/top_ears"
 }
 ```
 
-This is perfectly legal, but may cause subtle subtype ordering problems. Because other resource packs can add new subtypes, their subtypes might come before yours, which can be a surprise.
+This is perfectly legal, but may cause subtle subtype ordering problems.
+Because other resource packs can add new subtypes, their subtypes might come before yours!
 
 #### The root ordering
 
@@ -78,7 +79,7 @@ Its format looks like this:
 ```
 
 Each of these arrays defines the ordering of parts within that specific attachment point.
-Parts that aren't defined in the ordering go at the end of the list, in alphabetical order.
+Parts that aren't defined in the ordering automatically go at the end of the list, in alphabetical order.
 
 ### Making a part
 
@@ -91,17 +92,18 @@ Our example tail part definition will look something like this:
 
 ```json
 {
-  "category": "tail",
+  "attachment": "body/tail",
   "ordering": [
     "standard"
   ]
 }
 ```
 
-This is the most common part definition, specifying only a category and ordering.
+This is the most common part definition, specifying only an attachment and ordering.
 The ordering of the part will be important later.
 
-This json file will go in the `example:parts` directory with the name `example_tail.json`. The id of the part will be inferred from the filename.
+This json file will go in the `example:parts` directory with the name `example_tail.json`.
+The id of the part is automatically inferred from the filename.
 
 #### Translations
 
@@ -124,6 +126,7 @@ Now that we have a translation, we can look at subtypes.
 ## Subtypes
 
 Subtypes can be thought of as variants of a part.
+They tend to customize the structure of the part, such as making certain pieces (in)visible.
 Every part has at least one subtype, and (hopefully) vice versa.
 
 ### File format
@@ -137,12 +140,13 @@ A subtype's file format is *very* simple:
 ```
 
 Yep, that's it. That's all there is to a subtype definition.
-Most subtypes only have the content `{}`.
+Many subtypes only have the content `{}`.
 
 All of these subtype files go under the `parts/subtypes` directory plus the id of the part the subtype is for.
 The namespace *must* match the namespace of the part.
 
-For example, `tails:parts/subtypes/tail/fluffy_tail/one_tail.json` identifies the single tail subtype of the fluffy tail. It is a combination of `parts/subtypes/` (the subtypes folder), `tail/fluffy_tail/` (the part id), and `one_tail.json` (the subtype id).
+For example, `tails:parts/subtypes/tail/fluffy_tail/one_tail.json` identifies the single tail subtype of the fluffy tail.
+It is a combination of `parts/subtypes/` (the subtypes folder), `tail/fluffy_tail/` (the part id), and `one_tail.json` (the subtype id).
 The namespace also matches the part, as the full part id is `tails:tail/fluffy_tail`.
 
 ### Making a subtype
@@ -241,10 +245,11 @@ public void render(RenderContext ctx) {
 ```
 
 Lastly, you need to link this model to the part.
-In order to do this, a new `PartReference` should be added to the `PartRegistry` class. Look at the other `PartReferences` in that class to understand how.
+In order to do this, a new `PartReference` should be added to the `PartRegistry` class.
+Look at the other `PartReferences` in that class to understand how.
 
 After you have a reference, you'll need to add the linking code.
-If you put your model in one of the category packages, this will be in the class containing the name `RegistrationHandler`.
+If you put your model in one of the category packages, this will be in the class ending in `RegistrationHandler`.
 Otherwise, it will be in `PartRenderRegistry`.
 
 Look for the `registerPartRenderers()` method, where you'll see a bunch of `e.register(...)` lines.
@@ -264,7 +269,7 @@ This is what the texture file format looks like:
     "standard"
   ],
   "path": "mypack:textures/path/to/texture.png", // Optional; defaults to <namespace>:textures/part/<part id>/<texture id>.png
-  "tintingStrategy": "<one of: triple_tint, single_tint, no_tint>" // Specifies how the texture should be tinted; optional
+  "tintingStrategy": "<one of: triple_tint, single_tint, no_tint>" // Specifies how the texture should be tinted; optional, defaults to triple_tint
 }
 ```
 
@@ -344,12 +349,13 @@ If we break this pixel down, we have three components: `ff` (the red component),
 These are the color components, sure. But what if I told you they're all wrong?
 
 The pixel here is actually made of these components: `ff` (the *saturation component*), `2c` (the *first weight component*), and `00` (the *second weight component*).
-The easiest one here to understand is the saturation component, which determines how intense or "saturated" the output pixel is. It's an easy way to specify how bright or dark something is.
+The easiest one here to understand is the saturation component, which determines how intense or "saturated" the output pixel is.
+It's an easy way to specify how bright or dark something is.
 
 The weight values on the other hand determine how much of each tint affects the pixel.
 It might help if we visualize it:
 
-![The color matrix](colormatrix.png)
+![The color matrix, where the first tint is concentrated in the top-left corner, the second tint is concentrated in the top-right corner, and the third tint is concentrated along the bottom](colormatrix.png)
 
 This is a grid where the first weight increases along the x axis (towards the right) and the second weight increases along the y axis (towards the bottom).
 The saturation is a constant `ff`.
@@ -374,8 +380,13 @@ In this case, you can make the texture as it should appear in game and then disa
 
 If you're creating a part or texture you want others to be able to customize, such as a spotted pattern for the fluffy tail, then you'll want to use this triple-tint system.
 
-If you go with triple-tinting, you'll likely want these colors: `ff0000` (tint 1), `ffff00` (tint 2), and `ff00ff` (tint 3). These are the colors that are most affected by their respective tint and no others.
+If you go with triple-tinting, you'll likely want these colors: `ff0000` (tint 1), `ffff00` (tint 2), and `ff00ff` (tint 3).
+These are the colors that are most affected by their respective tint and no others.
 You can also use the "color matrix" images from the previous section as references.
+Finally, there's also this image which is a palette of sorts for different triple-tint colors.
+It may or may not be useful.
+
+![A triple-tint color palette image](tripletint_palette.png)
 
 Regardless of format, you can and should preview your texture in-game.
 Additionally, `F3 + T` forces a resource reload, which will also reload all of the parts.

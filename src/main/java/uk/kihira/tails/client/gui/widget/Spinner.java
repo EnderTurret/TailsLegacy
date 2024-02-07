@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.client.gui.widget;
 
 import java.util.NavigableSet;

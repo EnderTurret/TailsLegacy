@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2022-2024 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.client.model.tail;
 
 import static uk.kihira.tails.client.part.PartRegistry.*;

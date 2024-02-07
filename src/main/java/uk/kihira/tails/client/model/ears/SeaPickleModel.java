@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Zoe Lee (Kihira)
+ * Copyright (c) 2021-2024 EnderTurret
  *
  * See LICENSE for full License
  */
@@ -20,7 +20,7 @@ import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * <p>The sea pickle part model.</p>
- * <p>Model created by Mojang, with implementation & programming by EnderTurret.</p>
+ * <p>Original sea pickle model created by Mojang (duh), ported to Tails by EnderTurret.</p>
  * @author EnderTurret
  */
 final class SeaPickleModel extends PartModel {

@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2022-2024 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;

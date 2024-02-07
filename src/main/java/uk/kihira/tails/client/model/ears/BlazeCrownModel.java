@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Zoe Lee (Kihira)
+ * Copyright (c) 2023-2024 EnderTurret
  *
  * See LICENSE for full License
  */
@@ -20,7 +20,7 @@ import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * <p>The blaze crown part model.</p>
- * <p>Model created by Dustskys, with implementation & programming by EnderTurret.</p>
+ * <p>Model created by Dustskys.</p>
  * @author EnderTurret
  */
 final class BlazeCrownModel extends PartModel {

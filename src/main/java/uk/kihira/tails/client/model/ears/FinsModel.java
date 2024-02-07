@@ -29,8 +29,10 @@ import uk.kihira.tails.client.render.part.PartRenderer;
 final class FinsModel extends PartModel {
 
 	private final ModelPart root;
+	private final boolean sides;
 
 	public FinsModel(boolean sides) {
+		this.sides = sides;
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
 		if (sides) {
@@ -65,12 +67,12 @@ final class FinsModel extends PartModel {
 
 	@Override
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		if ("ears/head_fin".equals(ctx.info().getPartId().getPath())) {
-			ctx.poseStack().mulPose(new Quaternionf().rotateY(-90 * Mth.DEG_TO_RAD));
-			ctx.poseStack().translate(0, 0.2, 0);
-		} else {
+		if (sides) {
 			ctx.poseStack().mulPose(new Quaternionf().rotateX(-45 * Mth.DEG_TO_RAD));
 			ctx.poseStack().translate(0, -0.3, 0);
+		} else {
+			ctx.poseStack().mulPose(new Quaternionf().rotateY(-90 * Mth.DEG_TO_RAD));
+			ctx.poseStack().translate(0, 0.2, 0);
 		}
 	}
 

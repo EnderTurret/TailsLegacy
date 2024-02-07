@@ -78,6 +78,8 @@
   "tails.part.ears/elf_ears": "Elf Ears",
   "tails.part.ears/horns": "Demon Horns",
   "tails.part.ears/round_ears": "Round Ears",
+  "tails.part.ears/head_fin": "Head Fin",
+  "tails.part.ears/side_fins": "Side Fins",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -101,6 +103,8 @@
   "tails.part.ears/elf_ears.subtype.with_feathers": "With Feathers",
   "tails.part.ears/horns.subtype.standard": "Standard",
   "tails.part.ears/round_ears.subtype.standard": "Standard",
+  "tails.part.ears/head_fin.subtype.standard": "Standard",
+  "tails.part.ears/side_fins.subtype.standard": "Standard",
 
   "tails.part.ears/fox_ears.texture.standard": "Standard",
   "tails.part.ears/fox_ears.texture.alt": "Alt",
@@ -127,6 +131,8 @@
   "tails.part.ears/elf_ears.texture.standard": "Standard",
   "tails.part.ears/horns.texture.standard": "Standard",
   "tails.part.ears/round_ears.texture.standard": "Standard",
+  "tails.part.ears/head_fin.texture.standard": "Standard",
+  "tails.part.ears/side_fins.texture.standard": "Standard",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

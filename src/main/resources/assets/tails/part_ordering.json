@@ -33,7 +33,8 @@
     "tails:ears/strider_whiskers",
     "tails:ears/flower_crown",
     "tails:ears/blaze_crown",
-    "tails:ears/elf_ears"
+    "tails:ears/elf_ears",
+    "tails:ears/side_fins"
   ],
   "head/top_center": [
     "tails:ears/sea_pickle",
@@ -41,7 +42,8 @@
     "tails:ears/umbrella_hat",
     "tails:ears/beanie",
     "tails:ears/traffic_cone",
-    "tails:ears/top_hat"
+    "tails:ears/top_hat",
+    "tails:ears/head_fin"
   ],
   "head/top_front": [
     "tails:ears/demon_horns",

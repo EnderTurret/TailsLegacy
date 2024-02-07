@@ -45,5 +45,7 @@ public final class EarRegistrationHandler {
 		e.register(ELF_EARS, new ElfEarsModel());
 		e.register(HORNS, new HornsModel());
 		e.register(ROUND_EARS, new RoundEarsModel());
+		e.register(HEAD_FIN, new FinsModel(false));
+		e.register(SIDE_FINS, new FinsModel(true));
 	}
 }

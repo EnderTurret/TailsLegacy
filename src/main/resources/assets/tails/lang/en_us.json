@@ -85,6 +85,7 @@
   "tails.part.ears/leaves": "Leaves",
   "tails.part.ears/mushrooms": "Mushrooms",
   "tails.part.ears/sculk_shrieker": "Sculk Shrieker",
+  "tails.part.ears/straw_hat": "Straw Hat",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -116,6 +117,7 @@
   "tails.part.ears/leaves.subtype.standard": "Standard",
   "tails.part.ears/mushrooms.subtype.standard": "Standard",
   "tails.part.ears/sculk_shrieker.subtype.standard": "Standard",
+  "tails.part.ears/straw_hat.subtype.standard": "Standard",
 
   "tails.part.ears/fox_ears.texture.standard": "Standard",
   "tails.part.ears/fox_ears.texture.alt": "Alt",
@@ -149,6 +151,7 @@
   "tails.part.ears/leaves.texture.standard": "Standard",
   "tails.part.ears/mushrooms.texture.standard": "Standard",
   "tails.part.ears/sculk_shrieker.texture.standard": "Standard",
+  "tails.part.ears/straw_hat.texture.standard": "Standard",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

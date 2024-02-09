@@ -3,7 +3,7 @@
 Includes models by:
 * Adeon - fox ears
 * CogwheelCat - antlers, head/side fins, leaves, mushrooms, sculk shrieker
-* DustSkys - antennae, axolotl gills, beanie, bee abdomen, blaze crown, deer antlers, demon horns, elf ears, flashlight, flower crown, goggles, horns, round ears, scorpion tail, strider whiskers, top hat, traffic cone, umbrella hat
+* DustSkys - antennae, axolotl gills, beanie, bee abdomen, blaze crown, deer antlers, demon horns, elf ears, flashlight, flower crown, goggles, horns, round ears, scorpion tail, straw hat, strider whiskers, top hat, traffic cone, umbrella hat
 * TTFTCUTS - dragon tail
 * access_denied - shark tail
 * blusunrize - bird tail

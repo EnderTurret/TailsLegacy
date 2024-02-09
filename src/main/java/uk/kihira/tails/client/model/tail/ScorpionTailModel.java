@@ -39,7 +39,6 @@ final class ScorpionTailModel extends PartModel {
 		final PartDefinition tail = rootDef.addOrReplaceChild("tail", CubeListBuilder.create(), PartPose.offset(0, 2.5F, 7.2F));
 
 		tail.addOrReplaceChild("cube_r0", CubeListBuilder.create().texOffs(11, 12).addBox(-1.5F, -11F, -2F, 3F, 5F, 3F), PartPose.ZERO);
-
 		tail.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 8).addBox(-1.5F, -1.5F, -2F, 3F, 3F, 4F), PartPose.offsetAndRotation(0F, -12.5F, -4F, -0.1745F, 0F, 0F));
 		tail.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(13, 5).addBox(-1.6F, -6F, -1.5F, 3F, 4F, 3F), PartPose.offsetAndRotation(0F, -8F, 0.5F, 0.6109F, 0F, 0F));
 		tail.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(0, 17).addBox(-1.6F, 1F, -1.5F, 3F, 4F, 3F), PartPose.offsetAndRotation(0F, -8F, -0.5F, -0.3491F, 0F, 0F));
@@ -48,28 +47,21 @@ final class ScorpionTailModel extends PartModel {
 		tail.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(11, 0).addBox(-1F, 0.5F, -1.5F, 2F, 1F, 3F), PartPose.offsetAndRotation(0F, -13.5F, -7F, 0.6109F, 0F, 0F));
 
 		root = rootDef.bake(32, 32);
+		root.xScale = root.yScale = root.zScale = 1.1F;
+		root.xRot = -10 * Mth.DEG_TO_RAD;
 
-		config = new PartConfiguration(List.of(root), (info, poseStack, partialTick, entity) -> {
-			poseStack.scale(1.1F, 1.1F, 1.1F);
-			poseStack.mulPose(new Quaternionf().rotateX(-10 * Mth.DEG_TO_RAD));
-		});
+		config = new PartConfiguration(List.of(root));
 	}
 
 	@Override
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().translate(-0.3, 0.8, 0);
+		ctx.poseStack().scale(0.8F, 0.8F, 0.8F);
+		ctx.poseStack().translate(-0.25, 0.9, 0);
 		ctx.poseStack().mulPose(new Quaternionf().rotateY(140 * Mth.DEG_TO_RAD));
 	}
 
 	@Override
 	public void render(RenderContext ctx) {
-		ctx.poseStack().pushPose();
-
-		ctx.poseStack().scale(1.1F, 1.1F, 1.1F);
-		ctx.poseStack().mulPose(new Quaternionf().rotateX(-10 * Mth.DEG_TO_RAD));
-
 		ctx.render(root);
-
-		ctx.poseStack().popPose();
 	}
 }

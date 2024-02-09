@@ -62,6 +62,8 @@ final class BeanieModel extends PartModel {
 
 	@Override
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
+		ctx.poseStack().translate(-0.06, -0.1, 0);
 		ctx.poseStack().mulPose(new Quaternionf().rotateY(-25 * Mth.DEG_TO_RAD));
 	}
 

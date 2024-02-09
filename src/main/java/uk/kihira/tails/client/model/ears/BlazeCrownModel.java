@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.LightTexture;
 
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * <p>The blaze crown part model.</p>
@@ -36,9 +37,11 @@ final class BlazeCrownModel extends PartModel {
 				.texOffs(0, 9).addBox(-4.5F, -7F, -4F, 1F, 1F, 8F)
 				.texOffs(0, 0).addBox(3.5F, -7F, -4F, 1F, 1F, 8F)
 				.texOffs(10, 2).addBox(-4.6F, -7.1F, -4.5F, 9F, 1F, 1F)
-				.texOffs(10, 0).addBox(-4.4F, -7.1F, 3.5F, 9F, 1F, 1F), PartPose.ZERO);
+				.texOffs(10, 0).addBox(-4.4F, -7.1F, 3.5F, 9F, 1F, 1F),
+				PartPose.ZERO);
 
-		crown.addOrReplaceChild("rods", CubeListBuilder.create().texOffs(0, 18).addBox(-2F, -9.5F, -5F, 1F, 4F, 1F)
+		crown.addOrReplaceChild("rods", CubeListBuilder.create()
+				.texOffs(0, 18).addBox(-2F, -9.5F, -5F, 1F, 4F, 1F)
 				.texOffs(0, 0).addBox(-2F, -8.5F, 4F, 1F, 4F, 1F)
 				.texOffs(14, 9).addBox(-5F, -7.5F, -1F, 1F, 4F, 1F)
 				.texOffs(4, 9).addBox(4F, -7.5F, -1F, 1F, 4F, 1F)
@@ -51,11 +54,18 @@ final class BlazeCrownModel extends PartModel {
 				.texOffs(18, 4).addBox(-4F, -8F, -5F, 1F, 3F, 1F)
 				.texOffs(14, 4).addBox(-4F, -8F, 4F, 1F, 3F, 1F)
 				.texOffs(4, 18).addBox(-5F, -8F, -3F, 1F, 3F, 1F)
-				.texOffs(17, 13).addBox(4F, -8F, -3F, 1F, 3F, 1F), PartPose.ZERO);
+				.texOffs(17, 13).addBox(4F, -8F, -3F, 1F, 3F, 1F),
+				PartPose.ZERO);
 
 		root = rootDef.bake(32, 32);
 		this.crown = root.getChild("crown");
 		rods = this.crown.getChild("rods");
+	}
+
+	@Override
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
+		ctx.poseStack().translate(0.1F, 0, 0);
 	}
 
 	@Override

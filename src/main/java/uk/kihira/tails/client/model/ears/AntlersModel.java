@@ -70,7 +70,8 @@ final class AntlersModel extends PartModel {
 
 	@Override
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().translate(-0.25, 0.3, 0);
+		ctx.poseStack().scale(0.8F, 0.8F, 0.8F);
+		ctx.poseStack().translate(-0.2, 0.3, 0);
 	}
 
 	@Override

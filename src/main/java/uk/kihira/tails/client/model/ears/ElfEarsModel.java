@@ -16,6 +16,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * <p>The elf ears part model.</p>
@@ -55,6 +56,11 @@ final class ElfEarsModel extends PartModel {
 		root = rootDef.bake(16, 16);
 		this.ears = root.getChild("ears");
 		this.feathers = root.getChild("feathers");
+	}
+
+	@Override
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.poseStack().translate(0, -0.2, 0);
 	}
 
 	@Override

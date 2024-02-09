@@ -44,7 +44,10 @@
     "tails:ears/beanie",
     "tails:ears/traffic_cone",
     "tails:ears/top_hat",
-    "tails:ears/head_fin"
+    "tails:ears/head_fin",
+    "tails:ears/leaves",
+    "tails:ears/mushrooms",
+    "tails:ears/sculk_shrieker"
   ],
   "head/top_front": [
     "tails:ears/demon_horns",

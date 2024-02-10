@@ -149,8 +149,10 @@
   "tails.part.ears/head_fin.texture.standard": "Standard",
   "tails.part.ears/side_fins.texture.standard": "Standard",
   "tails.part.ears/leaves.texture.standard": "Standard",
-  "tails.part.ears/mushrooms.texture.standard": "Standard",
-  "tails.part.ears/sculk_shrieker.texture.standard": "Standard",
+  "tails.part.ears/mushrooms.texture.spots": "Spots",
+  "tails.part.ears/mushrooms.texture.no_spots": "No Spots",
+  "tails.part.ears/sculk_shrieker.texture.tinted": "Tinted",
+  "tails.part.ears/sculk_shrieker.texture.vanilla": "Vanilla",
   "tails.part.ears/straw_hat.texture.standard": "Standard",
 
   "tails.part.wings/big_wings": "Large Wings",

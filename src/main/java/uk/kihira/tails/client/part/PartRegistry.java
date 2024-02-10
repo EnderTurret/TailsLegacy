@@ -108,6 +108,7 @@ public final class PartRegistry {
 	public static final PartReference SIDE_FINS = reference("ears/side_fins");
 	public static final PartReference LEAVES = reference("ears/leaves");
 	public static final PartReference MUSHROOMS = reference("ears/mushrooms");
+	public static final PartReference RAM_HORNS = reference("ears/ram_horns");
 	public static final PartReference SCULK_SHRIEKER = reference("ears/sculk_shrieker");
 	public static final PartReference STRAW_HAT = reference("ears/straw_hat");
 

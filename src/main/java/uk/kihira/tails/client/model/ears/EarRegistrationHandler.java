@@ -59,6 +59,7 @@ public final class EarRegistrationHandler {
 		e.register(SIDE_FINS, new FinsModel(true));
 		e.register(LEAVES, new LeavesModel());
 		e.register(MUSHROOMS, new MushroomsModel());
+		e.register(RAM_HORNS, new RamHornsModel());
 		e.register(SCULK_SHRIEKER, new SculkShriekerModel());
 		e.register(STRAW_HAT, new StrawHatModel());
 	}

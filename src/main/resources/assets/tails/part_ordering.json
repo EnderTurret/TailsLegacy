@@ -22,7 +22,8 @@
     "tails:ears/round_ears",
     "tails:ears/antennae",
     "tails:ears/deer_antlers",
-    "tails:ears/antlers"
+    "tails:ears/antlers",
+    "tails:ears/ram_horns"
   ],
   "head/face": [
     "tails:muzzle/standard_muzzle",

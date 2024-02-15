@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.client.model.tail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Quaternionf;
@@ -50,7 +51,16 @@ final class ScorpionTailModel extends PartModel {
 		root.xScale = root.yScale = root.zScale = 1.1F;
 		root.xRot = -10 * Mth.DEG_TO_RAD;
 
-		config = new PartConfiguration(List.of(root));
+		final ModelPart _tail = root.getChild("tail");
+		final List<ModelPart> parts = new ArrayList<>();
+
+		for (int i = 0; i <= 6; i++)
+			parts.add(_tail.getChild("cube_r" + i));
+
+		config = new PartConfiguration(List.copyOf(parts));
+
+		for (ModelPart part : parts)
+			config.setParents(part, root, _tail);
 	}
 
 	@Override

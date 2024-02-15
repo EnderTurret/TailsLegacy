@@ -37,7 +37,8 @@ final class BunnyTailModel extends PartModel {
 
 		root = rootDef.bake(16, 16);
 
-		config = new PartConfiguration(List.of(root));
+		final ModelPart _tail = root.getChild("tail");
+		config = new PartConfiguration(List.of(_tail));
 	}
 
 	@Override

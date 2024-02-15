@@ -36,12 +36,28 @@ public class PartConfiguration {
 	public PartConfiguration(List<ModelPart> parts, Translator translator) {
 		this.parts = parts;
 		this.translator = translator;
+		if (parts.isEmpty()) throw new IllegalArgumentException("PartConfiguration contains no parts");
+		for (ModelPart part : parts)
+			if (part.isEmpty()) // Also serves as a null check.
+				throw new IllegalArgumentException("Part " + part + " has no cubes!");
 	}
 
 	public PartConfiguration(List<ModelPart> parts) {
 		this(parts, Translator.EMPTY);
 	}
 
+	/**
+	 * <p>
+	 * Defines the parent {@code ModelParts} of a given {@code ModelPart}.
+	 * </p>
+	 * <p>
+	 * This is required to set up the correct pose for each {@code ModelPart}.
+	 * However, this is only necessary if the parent parts change the pose state.
+	 * </p>
+	 * @param child The {@code ModelPart} the hierarchy is for.
+	 * @param hierarchy The {@code ModelPart} hierarchy.
+	 * @return {@code this}.
+	 */
 	public PartConfiguration setParents(ModelPart child, ModelPart... hierarchy) {
 		if (parents.isEmpty())
 			parents = new HashMap<>();

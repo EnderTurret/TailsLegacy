@@ -36,7 +36,10 @@ public class PartConfiguration {
 	public PartConfiguration(List<ModelPart> parts, Translator translator) {
 		this.parts = parts;
 		this.translator = translator;
-		if (parts.isEmpty()) throw new IllegalArgumentException("PartConfiguration contains no parts");
+
+		if (parts.isEmpty() && getClass() == PartConfiguration.class)
+			throw new IllegalArgumentException("PartConfiguration contains no parts");
+
 		for (ModelPart part : parts)
 			if (part.isEmpty()) // Also serves as a null check.
 				throw new IllegalArgumentException("Part " + part + " has no cubes!");

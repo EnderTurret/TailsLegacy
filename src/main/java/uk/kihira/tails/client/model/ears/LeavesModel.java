@@ -33,7 +33,7 @@ final class LeavesModel extends PartModel {
 	public LeavesModel() {
 		final PartDefinition _rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition rootDef = _rootDef.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offsetAndRotation(5F, -6F, -1F, 0F, 3.1416F, 0F));
+		final PartDefinition rootDef = _rootDef.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offsetAndRotation(5F, -6F, 0F, 0F, 3.1416F, 0F));
 
 		final PartDefinition back = rootDef.addOrReplaceChild("back", CubeListBuilder.create(), PartPose.offsetAndRotation(5F, 0F, -5F, 0F, -1.5708F, 0F));
 
@@ -67,7 +67,6 @@ final class LeavesModel extends PartModel {
 				PartPose.rotation(0F, 0F, 0.5672F));
 
 		root = _rootDef.bake(16, 16);
-		root.z = 1;
 	}
 
 	@Override

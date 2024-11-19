@@ -34,7 +34,9 @@ final class StrawHatModel extends PartModel {
 	public StrawHatModel() {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
-		final PartDefinition hat = rootDef.addOrReplaceChild("hat", CubeListBuilder.create().texOffs(0, 0).addBox(-7.8317F, -3.9225F, 1.9124F, 6F, 4F, 6F, new CubeDeformation(0.01F)), PartPose.offset(4.8317F, -8.2F, -4.9124F));
+		final PartDefinition hat = rootDef.addOrReplaceChild("hat", CubeListBuilder.create()
+				.texOffs(0, 0).addBox(-7.8317F, -3.9225F, 1.9124F, 6F, 4F, 6F, new CubeDeformation(0.01F)),
+				PartPose.offset(4.8317F, -8.2F, -4.9124F));
 
 		hat.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(15, 18).addBox(-2.7F, -0.2F, -2.5F, 3F, 1F, 5F), PartPose.offsetAndRotation(0F, 0F, 0F, 0.2444F, 0.7854F, 0.3465F));
 		hat.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(19, 5).addBox(-2.7F, -0.2F, -2.5F, 3F, 1F, 5F), PartPose.offsetAndRotation(0F, 0F, 9.8248F, -0.2444F, -0.7854F, 0.3465F));

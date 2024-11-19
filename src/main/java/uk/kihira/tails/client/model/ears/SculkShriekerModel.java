@@ -32,12 +32,11 @@ final class SculkShriekerModel extends PartModel {
 		final PartDefinition rootDef = new MeshDefinition().getRoot();
 
 		rootDef.addOrReplaceChild("root", CubeListBuilder.create()
-				.texOffs(0, 0).addBox(-4F, -16F, -5F, 8F, 5F, 8F, new CubeDeformation(-0.5F))
-				.texOffs(0, 16).addBox(-4F, -12F, -5F, 8F, 4F, 8F),
+				.texOffs(0, 0).addBox(-4F, -16F, -4F, 8F, 5F, 8F, new CubeDeformation(-0.5F))
+				.texOffs(0, 16).addBox(-4F, -12F, -4F, 8F, 4F, 8F),
 				PartPose.ZERO);
 
 		root = rootDef.bake(32, 32);
-		root.z = 1;
 	}
 
 	@Override

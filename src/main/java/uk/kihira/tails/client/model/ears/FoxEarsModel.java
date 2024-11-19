@@ -24,44 +24,12 @@ import uk.kihira.tails.client.render.RenderContext;
  */
 final class FoxEarsModel extends PartModel {
 
-	private final ModelPart root;
-	private final ModelPart leftEar;
-	private final ModelPart rightEar;
-
-	public FoxEarsModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot();
-
-		rootDef.addOrReplaceChild("leftEar", CubeListBuilder.create()
-				.mirror()
-				.texOffs(0, 16).addBox(4, -11, 1, 1, 1, 1)
-				.texOffs(4, 16).addBox(3, -10, 1, 2, 2, 1)
-				.texOffs(0, 0).addBox(2, -10, 1, 1, 3, 1)
-				.texOffs(4, 0).addBox(3, -11, 1, 1, 1, 1)
-				.texOffs(4, 4).addBox(4, -12, 1, 1, 1, 1)
-				.texOffs(0, 8).addBox(5, -11, 1, 1, 3, 1)
-				.texOffs(10, 14).addBox(3, -8, 1, 2, 1, 1)
-				.texOffs(4, 8).addBox(4, -11, 2, 1, 3, 1)
-				.texOffs(8, 0).addBox(3, -10, 2, 1, 2, 1), PartPose.ZERO);
-
-		rootDef.addOrReplaceChild("rightEar", CubeListBuilder.create()
-				.texOffs(0, 19).addBox(-5, -11, 1, 1, 1, 1)
-				.texOffs(4, 19).addBox(-5, -10, 1, 2, 2, 1)
-				.texOffs(0, 4).addBox(-3, -10, 1, 1, 3, 1)
-				.texOffs(4, 2).addBox(-4, -11, 1, 1, 1, 1)
-				.texOffs(4, 6).addBox(-5, -12, 1, 1, 1, 1)
-				.texOffs(0, 12).addBox(-6, -11, 1, 1, 3, 1)
-				.texOffs(10, 12).addBox(-5, -8, 1, 2, 1, 1)
-				.texOffs(4, 12).addBox(-5, -11, 2, 1, 3, 1)
-				.texOffs(8, 3).addBox(-4, -10, 2, 1, 2, 1), PartPose.ZERO);
-
-		root = ModelSerializer.bake(rootDef, 16, 32, "ears/fox_ears");
-
-		leftEar = root.getChild("leftEar");
-		rightEar = root.getChild("rightEar");
-	}
-
 	@Override
 	public void render(RenderContext ctx) {
+		final ModelPart model = ctx.getModel();
+		final ModelPart leftEar = model.getChild("leftEar");
+		final ModelPart rightEar = model.getChild("rightEar");
+
 		ctx.poseStack().pushPose();
 
 		ctx.poseStack().translate(0f, 0f, -0.0625f);

@@ -108,7 +108,7 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 
 					RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
 
-					config.renderer.modelPart.setupAnim(entity, limbSwing, limbSwingAmount, partialTick, config.info.getSubType(), headPitch);
+					config.renderer.modelPart.setupAnim(entity, limbSwing, limbSwingAmount, partialTick, headPitch, config.info.getSubType(), config.info.getPart().getModel());
 					config.renderer.modelPart.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
 				}
 

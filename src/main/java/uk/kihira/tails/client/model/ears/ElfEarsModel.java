@@ -63,7 +63,7 @@ final class ElfEarsModel extends PartModel {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, SubType subType, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float headPitch, SubType subType, ModelPart model) {
 		feathers.visible = "with_feathers".equals(subType.id());
 	}
 

@@ -81,13 +81,13 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {}
 
 	/**
-	 * @deprecated Use {@link #setupAnim(LivingEntity, float, float, float, uk.kihira.tails.client.part.Part.SubType, float)} instead.
+	 * @deprecated Use {@link #setupAnim(LivingEntity, float, float, float, float, uk.kihira.tails.client.part.Part.SubType, ModelPart)} instead.
 	 */
 	@Override
 	@Deprecated
 	public final void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float netHeadYaw, float headPitch) {}
 
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, Part.SubType subType, float headPitch) {}
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float headPitch, Part.SubType subType, ModelPart model) {}
 
 	/**
 	 * Allows modifying the rendering of this part model in the part preview pane.

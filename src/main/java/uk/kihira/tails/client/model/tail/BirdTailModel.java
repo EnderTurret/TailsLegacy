@@ -83,7 +83,7 @@ final class BirdTailModel extends PartModel {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, Part.SubType subType, float headPitch) {
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float headPitch, Part.SubType subType, ModelPart model) {
 		final float timestep = getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double zAngleOffset = 0;

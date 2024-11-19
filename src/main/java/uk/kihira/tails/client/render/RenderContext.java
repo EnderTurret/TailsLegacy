@@ -57,4 +57,8 @@ public record RenderContext(PoseStack poseStack, VertexConsumer buffer, int pack
 	public void render(ModelPart part) {
 		render(part, packedLight, packedOverlay);
 	}
+
+	public ModelPart getModel() {
+		return info.getPart().getModel();
+	}
 }

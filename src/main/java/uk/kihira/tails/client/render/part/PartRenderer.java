@@ -28,6 +28,7 @@ import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
+import uk.kihira.tails.common.Tails;
 
 /**
  * A renderer for a part.
@@ -54,12 +55,16 @@ public class PartRenderer {
 	 * @param ctx The render context.
 	 */
 	public void preRender(RenderContext ctx) {
-		if (modelPart != null) {
-			modelPart.setupAnim(ctx.entity(), ctx.entity().walkAnimation.position(ctx.partialTick()), ctx.entity().walkAnimation.speed(ctx.partialTick()), ctx.partialTick(), ctx.info().getSubType(), ctx.entity().getXRot());
-			modelPart.prepareMobModel(ctx.entity(), ctx.entity().walkAnimation.position(ctx.partialTick()), ctx.entity().walkAnimation.speed(ctx.partialTick()), ctx.partialTick());
-		}
+		try {
+			if (modelPart != null) {
+				modelPart.setupAnim(ctx.entity(), ctx.entity().walkAnimation.position(ctx.partialTick()), ctx.entity().walkAnimation.speed(ctx.partialTick()), ctx.partialTick(), ctx.entity().getXRot(), ctx.info().getSubType(), ctx.info().getPart().getModel());
+				modelPart.prepareMobModel(ctx.entity(), ctx.entity().walkAnimation.position(ctx.partialTick()), ctx.entity().walkAnimation.speed(ctx.partialTick()), ctx.partialTick());
+			}
 
-		RenderHelperManager.applyRenderHelpers(ctx, this);
+			RenderHelperManager.applyRenderHelpers(ctx, this);
+		} catch (Exception e) {
+			Tails.LOGGER.error("Exception rendering part:", e);
+		}
 	}
 
 	/**

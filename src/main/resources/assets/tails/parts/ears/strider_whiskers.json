@@ -2,5 +2,9 @@
   "attachment": "head/sides",
   "ordering": [
     "standard"
-  ]
+  ],
+  "preview": {
+    "scale": [0.8, 0.8, 0.8],
+    "rotation": [0, -45, 0]
+  }
 }

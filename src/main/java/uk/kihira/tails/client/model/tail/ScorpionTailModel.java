@@ -64,13 +64,6 @@ final class ScorpionTailModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().scale(0.8F, 0.8F, 0.8F);
-		ctx.poseStack().translate(-0.25, 0.9, 0);
-		ctx.poseStack().mulPose(new Quaternionf().rotateY(140 * Mth.DEG_TO_RAD));
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(root);
 	}

@@ -71,13 +71,6 @@ final class LeavesModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
-		ctx.poseStack().mulPose(new Quaternionf().rotateY(10 * Mth.DEG_TO_RAD));
-		ctx.poseStack().translate(-0.1, -0.1, 0);
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(root);
 	}

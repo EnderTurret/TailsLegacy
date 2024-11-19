@@ -41,12 +41,6 @@ final class FlashlightModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().translate(0, 0.2, 0);
-		ctx.poseStack().mulPose(new Quaternionf().rotateY(-45 * Mth.DEG_TO_RAD));
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(root);
 	}

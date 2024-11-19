@@ -83,7 +83,9 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param ctx The rendering context.
 	 * @param renderer The renderer wrapping this part model.
 	 */
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {}
+	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.info().getPart().getPreviewTransforms().apply(ctx.poseStack());
+	}
 
 	/**
 	 * Sets the rotation on a model where the provided params are in radians

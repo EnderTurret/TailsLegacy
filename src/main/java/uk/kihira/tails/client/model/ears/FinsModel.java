@@ -66,17 +66,6 @@ final class FinsModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		if (sides) {
-			ctx.poseStack().mulPose(new Quaternionf().rotateX(-45 * Mth.DEG_TO_RAD));
-			ctx.poseStack().translate(0, -0.3, 0);
-		} else {
-			ctx.poseStack().mulPose(new Quaternionf().rotateY(-90 * Mth.DEG_TO_RAD));
-			ctx.poseStack().translate(0, 0.2, 0);
-		}
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(root);
 	}

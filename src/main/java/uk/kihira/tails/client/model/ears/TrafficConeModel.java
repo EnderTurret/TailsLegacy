@@ -48,13 +48,6 @@ final class TrafficConeModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().scale(0.8F, 0.8F, 0.8F);
-		ctx.poseStack().translate(-0.02, 0.5, 0);
-		ctx.poseStack().mulPose(new Quaternionf().rotateY(-45 * Mth.DEG_TO_RAD));
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(root);
 	}

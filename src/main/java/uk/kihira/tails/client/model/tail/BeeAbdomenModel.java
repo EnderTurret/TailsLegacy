@@ -58,13 +58,6 @@ final class BeeAbdomenModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().scale(0.8F, 0.8F, 0.8F);
-		ctx.poseStack().translate(0.15, 0.25, 0);
-		ctx.poseStack().mulPose(new Quaternionf().rotateY(-35 * Mth.DEG_TO_RAD));
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		stinger.visible = "with_stinger".equals(ctx.info().getSubType().id());
 

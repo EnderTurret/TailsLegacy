@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -37,6 +39,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.util.GsonHelper;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
@@ -299,7 +302,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final int[] tints;
 		if (json.has("defaultTints")) {
-			final JsonArray arr = json.get("defaultTints").getAsJsonArray();
+			final JsonArray arr = GsonHelper.getAsJsonArray(json, "defaultTints");
 			tints = new int[] { hex(arr.get(0).getAsString()), hex(arr.get(1).getAsString()), hex(arr.get(2).getAsString()) };
 		}
 		else tints = null;
@@ -308,7 +311,24 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
-		return new Part(realId, attachment, subs, tints);
+		return new Part(realId, attachment, subs, tints,
+				json.has("render") ? readTransform(GsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO,
+				json.has("preview") ? readTransform(GsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO);
+	}
+
+	private static Transformation readTransform(JsonObject obj) {
+		final Vector3fc scale = obj.has("scale") ? readVector(GsonHelper.getAsJsonArray(obj, "scale"), "scale") : Transformation.ZERO_VECTOR;
+		final Vector3fc offset = obj.has("offset") ? readVector(GsonHelper.getAsJsonArray(obj, "offset"), "offset") : Transformation.ZERO_VECTOR;
+		final Vector3fc rotation = obj.has("rotation") ? readVector(GsonHelper.getAsJsonArray(obj, "rotation"), "rotation") : Transformation.ZERO_VECTOR;
+		return new Transformation(scale, offset, rotation);
+	}
+
+	private static Vector3f readVector(JsonArray array, String name) {
+		return new Vector3f(
+				GsonHelper.convertToFloat(array.get(0), name + "[0]"),
+				GsonHelper.convertToFloat(array.get(1), name + "[1]"),
+				GsonHelper.convertToFloat(array.get(2), name + "[2]")
+				);
 	}
 
 	/**

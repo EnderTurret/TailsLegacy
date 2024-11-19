@@ -2,5 +2,9 @@
   "attachment": "head/sides",
   "ordering": [
     "standard"
-  ]
+  ],
+  "preview": {
+    "scale": [0.9, 0.9, 0.9],
+    "offset": [0.1, 0, 0]
+  }
 }

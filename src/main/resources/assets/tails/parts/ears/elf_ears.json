@@ -3,5 +3,8 @@
   "ordering": [
     "standard",
     "with_feathers"
-  ]
+  ],
+  "preview": {
+    "offset": [0, -0.2, 0]
+  }
 }

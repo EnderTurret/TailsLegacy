@@ -55,12 +55,6 @@ final class AxolotlGillsModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().scale(0.81F, 0.81F, 0.81F);
-		ctx.poseStack().translate(0.05, -0.2, 0);
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(root);
 	}

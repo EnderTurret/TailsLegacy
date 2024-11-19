@@ -2,5 +2,9 @@
   "attachment": "head/top_ears",
   "ordering": [
     "standard"
-  ]
+  ],
+  "preview": {
+    "offset": [-0.15, 0.25, 0],
+    "rotation": [0, -45, 0]
+  }
 }

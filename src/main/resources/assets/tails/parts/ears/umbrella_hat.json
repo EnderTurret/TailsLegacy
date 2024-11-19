@@ -2,5 +2,10 @@
   "attachment": "head/top_center",
   "ordering": [
     "standard"
-  ]
+  ],
+  "preview": {
+    "scale": [0.8, 0.8, 0.8],
+    "offset": [-0.05, 0.35, 0],
+    "rotation": [0, -45, 0]
+  }
 }

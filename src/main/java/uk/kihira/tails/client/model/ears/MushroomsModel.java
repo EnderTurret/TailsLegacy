@@ -49,12 +49,6 @@ final class MushroomsModel extends PartModel {
 	}
 
 	@Override
-	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
-		ctx.poseStack().mulPose(new Quaternionf().rotateY(50 * Mth.DEG_TO_RAD));
-		ctx.poseStack().translate(0, 0.2, 0);
-	}
-
-	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(root);
 	}

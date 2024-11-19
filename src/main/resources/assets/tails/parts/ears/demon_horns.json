@@ -2,5 +2,8 @@
   "attachment": "head/top_front",
   "ordering": [
     "standard"
-  ]
+  ],
+  "preview": {
+    "offset": [0.05, 0.2, 0]
+  }
 }

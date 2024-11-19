@@ -3,5 +3,8 @@
   "ordering": [
     "standard"
   ],
-  "defaultTints": [ "0xffffff", "0xffffff", "0xffffff" ]
+  "defaultTints": [ "0xffffff", "0xffffff", "0xffffff" ],
+  "preview": {
+    "offset": [0, 0.25, 0]
+  }
 }

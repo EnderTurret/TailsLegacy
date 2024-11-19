@@ -22,6 +22,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
@@ -57,7 +58,7 @@ final class FluffyTailModel extends PartModel {
 			.addOrReplaceChild("tail5", CubeListBuilder.create()
 					.texOffs(12, 26).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.4F, radf(15), 0, 0));
 
-		root = rootDef.bake(32, 32);
+		root = ModelSerializer.bake(rootDef, 32, 32, "tail/fluffy_tail");
 
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");

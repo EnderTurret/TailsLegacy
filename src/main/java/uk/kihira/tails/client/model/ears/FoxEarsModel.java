@@ -14,6 +14,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 
@@ -53,7 +54,7 @@ final class FoxEarsModel extends PartModel {
 				.texOffs(4, 12).addBox(-5, -11, 2, 1, 3, 1)
 				.texOffs(8, 3).addBox(-4, -10, 2, 1, 2, 1), PartPose.ZERO);
 
-		root = rootDef.bake(16, 32);
+		root = ModelSerializer.bake(rootDef, 16, 32, "ears/fox_ears");
 
 		leftEar = root.getChild("leftEar");
 		rightEar = root.getChild("rightEar");

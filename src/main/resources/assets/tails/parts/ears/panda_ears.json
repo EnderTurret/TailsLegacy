@@ -2,5 +2,34 @@
   "attachment": "head/top_ears",
   "ordering": [
     "standard"
-  ]
+  ],
+  "model": {
+    "texture_size": [16, 16],
+    "leftEar": {
+      "pose": {
+        "pos": [-4, -8, 0]
+      },
+      "cubes": [
+        {
+          "uv": [0, 0],
+          "pos": [-2, -2, 0],
+          "size": [3, 3, 1],
+          "mirror": true
+        }
+      ]
+    },
+    "rightEar": {
+      "pose": {
+        "pos": [4, -8, 0]
+      },
+      "cubes": [
+        {
+          "uv": [0, 4],
+          "pos": [-1, -2, 0],
+          "size": [3, 3, 1],
+          "mirror": true
+        }
+      ]
+    }
+  }
 }

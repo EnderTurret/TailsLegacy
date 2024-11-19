@@ -16,6 +16,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.LightTexture;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
@@ -58,7 +59,8 @@ final class BlazeCrownModel extends PartModel {
 				.texOffs(17, 13).addBox(4F, -8F, -3F, 1F, 3F, 1F, new CubeDeformation(0F, 0.01F, 0F)),
 				PartPose.ZERO);
 
-		root = rootDef.bake(32, 32);
+		root = ModelSerializer.bake(rootDef, 32, 32, "ears/blaze_crown");
+
 		this.crown = root.getChild("crown");
 		rods = this.crown.getChild("rods");
 	}

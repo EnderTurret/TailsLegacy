@@ -3,6 +3,24 @@
   "ordering": [
     "standard"
   ],
+  "model": {
+    "texture_size": [32, 32],
+    "root": {
+      "cubes": [
+        {
+          "uv": [0, 0],
+          "pos": [-4, -16, -4],
+          "size": [8, 5, 8],
+          "grow": -0.5
+        },
+        {
+          "uv": [0, 16],
+          "pos": [-4, -12, -4],
+          "size": [8, 4, 8]
+        }
+      ]
+    }
+  },
   "preview": {
     "offset": [0.1, 0.3, 0]
   }

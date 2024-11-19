@@ -3,6 +3,68 @@
   "ordering": [
     "standard"
   ],
+  "model": {
+    "texture_size": [16, 16],
+    "root": {
+      "pose": {
+        "rotation": [0, 3.1416, 0]
+      },
+      "children": {
+        "leftFin": {
+          "pose": {
+            "pos": [4, -3, 1],
+            "rotation": [-0.0151, -0.043, 0.1739]
+          },
+          "children": {
+            "cube_r3": {
+              "pose": {
+                "rotation": [0.4796, -0.0201, 0.6496]
+              },
+              "cubes": [
+                {
+                  "uv": [0, 3],
+                  "pos": [-1, -4, 0],
+                  "size": [1, 5, 1]
+                },
+                {
+                  "uv": [4, 2],
+                  "pos": [-0.5, -5, -4],
+                  "size": [0, 6, 5]
+                }
+              ]
+            }
+          }
+        },
+        "rightFin": {
+          "pose": {
+            "pos": [-4, -3, 1],
+            "rotation": [-0.0151, 0.043, -0.1739]
+          },
+          "children": {
+            "cube_r4": {
+              "pose": {
+                "rotation": [0.4796, 0.0201, -0.6496]
+              },
+              "cubes": [
+                {
+                  "uv": [0, 3],
+                  "pos": [0, -4, 0],
+                  "size": [1, 5, 1],
+                  "mirror": true
+                },
+                {
+                  "uv": [4, 2],
+                  "pos": [0.5, -5, -4],
+                  "size": [0, 6, 5],
+                  "mirror": true
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
   "preview": {
     "offset": [0, -0.3, 0],
     "rotation": [-45, 0, 0]

@@ -45,7 +45,19 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * Renders the part model.
 	 * @param ctx All the fun rendering objects.
 	 */
-	public abstract void render(RenderContext ctx);
+	public void render(RenderContext ctx) {
+		final Part part = ctx.info().getPart();
+		final boolean transformed = !part.getRenderTransforms().isEmpty();
+		if (transformed) {
+			ctx.poseStack().pushPose();
+			part.getRenderTransforms().apply(ctx.poseStack());
+		}
+
+		ctx.render(part.getModel());
+
+		if (transformed)
+			ctx.poseStack().popPose();
+	}
 
 	/**
 	 * <p>Returns a list of "configurations" representing logical groupings of parts in this model.
@@ -84,6 +96,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param renderer The renderer wrapping this part model.
 	 */
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
+		ctx.info().getPart().getRenderTransforms().apply(ctx.poseStack());
 		ctx.info().getPart().getPreviewTransforms().apply(ctx.poseStack());
 	}
 

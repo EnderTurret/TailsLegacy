@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.gui.panel.PartsPanel;
@@ -35,14 +36,16 @@ public final class Part {
 	protected final AttachmentPoint attachment;
 	protected final List<SubType> subTypes;
 	protected final int[] defaultTints;
+	protected final ModelPart model;
 	protected final Transformation renderTransforms;
 	protected final Transformation previewTransforms;
 
-	public Part(ResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, Transformation renderTransforms, Transformation previewTransforms) {
+	public Part(ResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, ModelPart model, Transformation renderTransforms, Transformation previewTransforms) {
 		this.id = id;
 		this.attachment = attachment;
 		this.subTypes = List.copyOf(subTypes);
 		this.defaultTints = defaultTints == null ? DEFAULT_TINTS : defaultTints;
+		this.model = model;
 		this.renderTransforms = renderTransforms;
 		this.previewTransforms = previewTransforms;
 	}
@@ -61,6 +64,10 @@ public final class Part {
 
 	public String getTranslationKey() {
 		return id.getNamespace() + ".part." + id.getPath();
+	}
+
+	public ModelPart getModel() {
+		return model;
 	}
 
 	public Transformation getRenderTransforms() {

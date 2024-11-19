@@ -17,6 +17,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
@@ -35,7 +36,7 @@ final class BunnyTailModel extends PartModel {
 		rootDef.addOrReplaceChild("tail", CubeListBuilder.create()
 				.addBox(0, 0, 0, 4, 3, 3), PartPose.offset(-2, -1.5F, 0));
 
-		root = rootDef.bake(16, 16);
+		root = ModelSerializer.bake(rootDef, 16, 16, "tail/bunny_tail");
 
 		final ModelPart _tail = root.getChild("tail");
 		config = new PartConfiguration(List.of(_tail));

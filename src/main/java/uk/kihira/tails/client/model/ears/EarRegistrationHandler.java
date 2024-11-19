@@ -34,33 +34,8 @@ public final class EarRegistrationHandler {
 	@SubscribeEvent
 	static void registerPartRenderers(RegisterPartRenderersEvent e) {
 		e.register(FOX_EARS, new FoxEarsModel());
-		e.register(CAT_EARS, new CatEarsModel());
-		e.register(PANDA_EARS, new PandaEarsModel());
-		e.register(SMALL_CAT_EARS, new SmallCatEarsModel());
-		e.register(SEA_PICKLE, new SeaPickleModel());
-		e.register(ANTENNAE, new AntennaeModel());
-		e.register(DEMON_HORNS, new DemonHornsModel());
-		e.register(DEER_ANTLERS, new DeerAntlersModel());
-		e.register(AXOLOTL_GILLS, new AxolotlGillsModel());
-		e.register(STRIDER_WHISKERS, new StriderWhiskersModel());
-		e.register(FLASHLIGHT, new FlashlightModel());
-		e.register(FLOWER_CROWN, new FlowerCrownModel());
-		e.register(UMBRELLA_HAT, new UmbrellaHatModel());
-		e.register(BEANIE, new BeanieModel());
-		e.register(TRAFFIC_CONE, new TrafficConeModel());
-		e.register(TOP_HAT, new TopHatModel());
 		e.register(BLAZE_CROWN, new BlazeCrownModel());
 		e.register(ELF_EARS, new ElfEarsModel());
-		e.register(HORNS, new HornsModel());
-		e.register(ROUND_EARS, new RoundEarsModel());
-		e.register(GOGGLES, new GogglesModel());
 		e.register(ANTLERS, new AntlersModel());
-		e.register(HEAD_FIN, new FinsModel(false));
-		e.register(SIDE_FINS, new FinsModel(true));
-		e.register(LEAVES, new LeavesModel());
-		e.register(MUSHROOMS, new MushroomsModel());
-		e.register(RAM_HORNS, new RamHornsModel());
-		e.register(SCULK_SHRIEKER, new SculkShriekerModel());
-		e.register(STRAW_HAT, new StrawHatModel());
 	}
 }

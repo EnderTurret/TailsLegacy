@@ -20,6 +20,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
@@ -47,9 +48,10 @@ final class ScorpionTailModel extends PartModel {
 		tail.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(12, 20).addBox(-1F, 0F, -1F, 2F, 2F, 2F), PartPose.offsetAndRotation(0F, -3F, -7F, 0.4363F, 0F, 0F));
 		tail.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(11, 0).addBox(-1F, 0.5F, -1.5F, 2F, 1F, 3F), PartPose.offsetAndRotation(0F, -13.5F, -7F, 0.6109F, 0F, 0F));
 
-		root = rootDef.bake(32, 32);
-		root.xScale = root.yScale = root.zScale = 1.1F;
-		root.xRot = -10 * Mth.DEG_TO_RAD;
+		root = ModelSerializer.bake(rootDef, 32, 32, "tail/scorpion_tail");
+
+		//root.xScale = root.yScale = root.zScale = 1.1F;
+		//root.xRot = -10 * Mth.DEG_TO_RAD;
 
 		final ModelPart _tail = root.getChild("tail");
 		final List<ModelPart> parts = new ArrayList<>();
@@ -63,8 +65,8 @@ final class ScorpionTailModel extends PartModel {
 			config.setParents(part, root, _tail);
 	}
 
-	@Override
+	/*@Override
 	public void render(RenderContext ctx) {
 		ctx.render(root);
-	}
+	}*/
 }

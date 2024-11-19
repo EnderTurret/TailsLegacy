@@ -35,6 +35,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import net.minecraft.ResourceLocationException;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -46,6 +47,7 @@ import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -311,7 +313,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
-		return new Part(realId, attachment, subs, tints,
+		final ModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(GsonHelper.getAsJsonObject(json, "model")).bake() : null;
+
+		return new Part(realId, attachment, subs, tints, model,
 				json.has("render") ? readTransform(GsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO,
 				json.has("preview") ? readTransform(GsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO);
 	}

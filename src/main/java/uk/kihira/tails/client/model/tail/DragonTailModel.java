@@ -20,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
@@ -69,7 +70,8 @@ final class DragonTailModel extends PartModel {
 			.addOrReplaceChild("tailSub3", CubeListBuilder.create()
 					.texOffs(29, 6).addBox(0, -5.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, radf(20), 0, 0));
 
-		root = rootDef.bake(64, 32);
+		root = ModelSerializer.bake(rootDef, 64, 32, "tail/dragon_tail");
+
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");
 		tail2 = tail1.getChild("tail2");

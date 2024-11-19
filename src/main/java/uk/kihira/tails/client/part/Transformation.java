@@ -13,10 +13,11 @@ public record Transformation(Vector3fc scale, Vector3fc offset, Vector3fc rotati
 	public static final Vector3fc ZERO_VECTOR = new Vector3f();
 	public static final Transformation ZERO = new Transformation(ZERO_VECTOR, ZERO_VECTOR, ZERO_VECTOR);
 
-	public void apply(PoseStack pose) {
-		if (!scale.equals(ZERO_VECTOR))
-			pose.scale(scale.x(), scale.y(), scale.z());
+	public boolean isEmpty() {
+		return this == ZERO || (scale.equals(ZERO_VECTOR) && offset.equals(ZERO_VECTOR) && rotation.equals(ZERO_VECTOR));
+	}
 
+	public void apply(PoseStack pose) {
 		if (!offset.equals(ZERO_VECTOR))
 			pose.translate(offset.x(), offset.y(), offset.z());
 
@@ -27,5 +28,8 @@ public record Transformation(Vector3fc scale, Vector3fc offset, Vector3fc rotati
 					.rotateZ(rotation.z() * Mth.DEG_TO_RAD);
 			pose.mulPose(rot);
 		}
+
+		if (!scale.equals(ZERO_VECTOR))
+			pose.scale(scale.x(), scale.y(), scale.z());
 	}
 }

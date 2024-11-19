@@ -20,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.Part;
@@ -55,7 +56,7 @@ final class CatTailModel extends PartModel {
 			.addOrReplaceChild("tail5", CubeListBuilder.create()
 					.texOffs(0, 21).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offset(0, 0, 1.75F));
 
-		root = rootDef.bake(32, 32);
+		root = ModelSerializer.bake(rootDef, 32, 32, "tail/cat_tail");
 
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");

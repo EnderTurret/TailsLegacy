@@ -20,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.ClientPartInfo;
@@ -61,7 +62,7 @@ final class DevilTailModel extends PartModel {
 			.addOrReplaceChild("tailTip", CubeListBuilder.create()
 					.texOffs(12, 0).addBox(-2.5F, 0, 0, 5, 5, 0), PartPose.offsetAndRotation(0, 0, 1.8F, radf(120), 0, 0));
 
-		root = rootDef.bake(32, 32);
+		root = ModelSerializer.bake(rootDef, 32, 32, "tail/devil_tail");
 
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");

@@ -19,6 +19,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
@@ -43,12 +44,13 @@ final class BeeAbdomenModel extends PartModel {
 				.texOffs(12, 12).addBox(-2F, -7F, -7.5F, 4F, 4F, 2F)
 				.texOffs(0, 12).addBox(-2F, -7F, 0.5F, 4F, 4F, 2F)
 				.texOffs(0, 0).addBox(-3F, -8F, -5.5F, 6F, 6F, 6F)
-				, PartPose.offsetAndRotation(0F, 23F - 15, -5F + 7.2F, -0.8727F, 0F, 0F));
+				, PartPose.offsetAndRotation(0F, 8F, 2.2F, -0.8727F, 0F, 0F));
 
 		abdomenDef.addOrReplaceChild("stinger", CubeListBuilder.create()
 				.texOffs(0, 0).addBox(0F, -6F, 2.5F, 0F, 2F, 2F), PartPose.ZERO);
 
-		root = rootDef.bake(32, 32);
+		root = ModelSerializer.bake(rootDef, 32, 32, "tail/bee_abdomen");
+
 		abdomen = root.getChild("abdomen");
 		stinger = abdomen.getChild("stinger");
 

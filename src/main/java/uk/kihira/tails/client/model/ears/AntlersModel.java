@@ -17,6 +17,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.Part.SubType;
 import uk.kihira.tails.client.render.RenderContext;
@@ -60,7 +61,7 @@ final class AntlersModel extends PartModel {
 		rightTopBranch.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(4, 11).mirror().addBox(-0.3885F, -2.1699F, 0.2F, 1F, 2F, 1F, new CubeDeformation(-0.1F)).mirror(false), PartPose.offsetAndRotation(-0.0115F, 0.2699F, -0.0866F, -1.2983F, -0.6364F, 0.9699F));
 		rightTopBranch.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(0, 5).mirror().addBox(0.3F, -3.8F, 0.4F, 1F, 4F, 1F).mirror(false), PartPose.offsetAndRotation(-2.0724F, 0.0306F, -3.0462F, -1.0036F, 0F, 1.1345F));
 
-		root = rootDef.bake(16, 16);
+		root = ModelSerializer.bake(rootDef, 16, 16, "ears/antlers");
 	}
 
 	@Override

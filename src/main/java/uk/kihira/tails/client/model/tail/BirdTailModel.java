@@ -20,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.Part;
@@ -62,7 +63,7 @@ final class BirdTailModel extends PartModel {
 			.addOrReplaceChild("right2", CubeListBuilder.create()
 					.texOffs(6, 19).addBox(-0.5F, 0, -0.5F, 1, 6, 1), PartPose.offsetAndRotation(0.5F, 0, 0, 0, radf(6), radf(-15)));
 
-		root = rootDef.bake(32, 32);
+		root = ModelSerializer.bake(rootDef, 32, 32, "tail/bird_tail");
 
 		center = root.getChild("center");
 		left0 = center.getChild("left0");

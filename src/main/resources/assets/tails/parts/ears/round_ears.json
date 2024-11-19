@@ -2,5 +2,34 @@
   "attachment": "head/top_ears",
   "ordering": [
     "standard"
-  ]
+  ],
+  "model": {
+    "texture_size": [16, 16],
+    "left": {
+      "pose": {
+        "pos": [3.5338, -8.8608, -0.5],
+        "rotation": [0, 0, 0.2443]
+      },
+      "cubes": [
+        {
+          "uv": [0, 0],
+          "pos": [-1.5, -1.5, -0.5],
+          "size": [3, 3, 1]
+        }
+      ]
+    },
+    "right": {
+      "pose": {
+        "pos": [-3.5338, -8.8608, -0.5],
+        "rotation": [0, 0, -0.2443]
+      },
+      "cubes": [
+        {
+          "uv": [0, 4],
+          "pos": [-1.5, -1.5, -0.5],
+          "size": [3, 3, 1]
+        }
+      ]
+    }
+  }
 }

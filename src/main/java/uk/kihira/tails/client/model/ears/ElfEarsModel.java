@@ -13,8 +13,11 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.LivingEntity;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.client.part.Part.SubType;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
@@ -53,16 +56,19 @@ final class ElfEarsModel extends PartModel {
 		feathers.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(0, 7).addBox(-0.2991F, -1.5F, -1F, 0F, 1F, 3F), PartPose.offsetAndRotation(-0.6F, 0F, 0F, -3.098F, -0.3142F, -0.1047F));
 		feathers.addOrReplaceChild("cube_r10", CubeListBuilder.create().texOffs(0, 7).addBox(-0.1991F, -0.5F, -1.9F, 0F, 1F, 3F), PartPose.offsetAndRotation(-0.6F, 0F, 0F, -2.6616F, -0.3142F, -0.1047F));
 
-		root = rootDef.bake(16, 16);
+		root = ModelSerializer.bake(rootDef, 16, 16, "ears/elf_ears");
+
 		this.ears = root.getChild("ears");
 		this.feathers = root.getChild("feathers");
 	}
 
 	@Override
+	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, SubType subType, float headPitch) {
+		feathers.visible = "with_feathers".equals(subType.id());
+	}
+
+	@Override
 	public void render(RenderContext ctx) {
 		ctx.render(ears);
-
-		if ("with_feathers".equals(ctx.info().getSubType().id()))
-			ctx.render(feathers);
 	}
 }

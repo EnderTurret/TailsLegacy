@@ -20,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.part.Part;
@@ -69,7 +70,8 @@ final class SharkTailModel extends PartModel {
 			.addOrReplaceChild("finBot3", CubeListBuilder.create()
 					.texOffs(26, 17).addBox(0, 0, -2, 1, 2, 2), PartPose.offsetAndRotation(0, 0, -3, 0.1980948701013564F, 0, 0));
 
-		root = rootDef.bake(64, 32);
+		root = ModelSerializer.bake(rootDef, 64, 32, "tail/shark_tail");
+
 		tailBase = root.getChild("tailBase");
 		tail1 = tailBase.getChild("tail1");
 		tail2 = tail1.getChild("tail2");

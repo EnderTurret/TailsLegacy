@@ -9,18 +9,7 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import java.util.List;
-
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
-
-import uk.kihira.tails.client.model.ModelSerializer;
-import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.render.RenderContext;
 
 /**
  * <p>The bunny tail part model.</p>

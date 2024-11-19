@@ -1,0 +1,12 @@
+{
+  "minVersion": "0.8",
+  "package": "uk.kihira.tails.mixin",
+  "refmap": "tails.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": [
+    "client.CubeDefinitionAccess",
+    "client.CubeDeformationAccess",
+    "client.PartDefinitionAccess"
+  ]
+}

@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0, 6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7.38'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -27,6 +28,8 @@ dependencies {
     //runtimeOnly fg.deobf('vazkii.botania:Botania:1.18.2-434')
     //runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.19.2-76')
     //runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1')
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 minecraft {
@@ -35,6 +38,8 @@ minecraft {
 
     runs {
         configureEach {
+            arg '-mixin.config=mixins.tails.json'
+
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
@@ -63,7 +68,8 @@ tasks.named('jar', Jar).configure {
             'Specification-Version': '1',
             'Implementation-Title': project.name,
             'Implementation-Version': "${version}",
-            'Implementation-Vendor' : 'EnderTurret'
+            'Implementation-Vendor': 'EnderTurret',
+            'MixinConfigs': 'mixins.tails.json'
         ])
     }
     finalizedBy('reobfJar')

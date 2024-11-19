@@ -27,23 +27,4 @@ import uk.kihira.tails.client.render.RenderContext;
  * <p>Model created by carrotcodes.</p>
  */
 final class BunnyTailModel extends PartModel {
-
-	private final ModelPart root;
-
-	public BunnyTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot();
-
-		rootDef.addOrReplaceChild("tail", CubeListBuilder.create()
-				.addBox(0, 0, 0, 4, 3, 3), PartPose.offset(-2, -1.5F, 0));
-
-		root = ModelSerializer.bake(rootDef, 16, 16, "tail/bunny_tail");
-
-		final ModelPart _tail = root.getChild("tail");
-		config = new PartConfiguration(List.of(_tail));
-	}
-
-	@Override
-	public void render(RenderContext ctx) {
-		ctx.render(root);
-	}
 }

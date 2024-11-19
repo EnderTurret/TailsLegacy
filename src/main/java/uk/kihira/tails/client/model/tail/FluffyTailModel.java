@@ -33,42 +33,8 @@ import uk.kihira.tails.client.render.RenderContext;
  */
 final class FluffyTailModel extends PartModel {
 
-	private final ModelPart root;
-	private final ModelPart tailBase;
-	private final ModelPart tail1;
-	private final ModelPart tail2;
-	private final ModelPart tail3;
-	private final ModelPart tail4;
-	private final ModelPart tail5;
-
 	public FluffyTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot();
-
-		rootDef
-			.addOrReplaceChild("tailBase", CubeListBuilder.create()
-					.texOffs(0, 0).addBox(-1, -1, 0, 2, 2, 3), PartPose.rotation(radf(-15), 0, 0))
-			.addOrReplaceChild("tail1", CubeListBuilder.create()
-					.texOffs(10, 0).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.5F, radf(-15), 0, 0))
-			.addOrReplaceChild("tail2", CubeListBuilder.create()
-					.texOffs(0, 5).addBox(-2, -2, 0, 4, 4, 4), PartPose.offsetAndRotation(0, 0, 1.5F, radf(-15), 0, 0))
-			.addOrReplaceChild("tail3", CubeListBuilder.create()
-					.texOffs(0, 13).addBox(-2.5F, -2.5F, 0, 5, 5, 8), PartPose.offsetAndRotation(0, 0, 3F, radf(-25), 0, 0))
-			.addOrReplaceChild("tail4", CubeListBuilder.create()
-					.texOffs(0, 26).addBox(-2, -2, 0, 4, 4, 2), PartPose.offsetAndRotation(0, 0, 7.4F, radf(15), 0, 0))
-			.addOrReplaceChild("tail5", CubeListBuilder.create()
-					.texOffs(12, 26).addBox(-1.5F, -1.5F, 0, 3, 3, 2), PartPose.offsetAndRotation(0, 0, 1.4F, radf(15), 0, 0));
-
-		root = ModelSerializer.bake(rootDef, 32, 32, "tail/fluffy_tail");
-
-		tailBase = root.getChild("tailBase");
-		tail1 = tailBase.getChild("tail1");
-		tail2 = tail1.getChild("tail2");
-		tail3 = tail2.getChild("tail3");
-		tail4 = tail3.getChild("tail4");
-		tail5 = tail4.getChild("tail5");
-
-		final List<ModelPart> parts = List.of(tailBase, tail1, tail2, tail3, tail4, tail5);
-
+		/*
 		single = List.of(new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(0, getAnimationTime(4000F, entity), 1F, 1F, 0, 0, partialTick, entity);
 			poseStack.mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
@@ -109,9 +75,11 @@ final class FluffyTailModel extends PartModel {
 		}), new PartConfiguration(parts, (info, poseStack, partialTick, entity) -> {
 			setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 1.6F, rad(45), rad(-15), partialTick, entity);
 		}));
+		*/
 	}
 
-	public void setRotationAngles(int subtype, float timestep, float yOffset, float xOffset, double xAngle, double yAngle, float partialTick, Entity entity) {
+	public void setRotationAngles(int subtype, float timestep, float yOffset, float xOffset, double xAngle, double yAngle, float partialTick, Entity entity,
+			ModelPart tailBase, ModelPart tail1, ModelPart tail2, ModelPart tail3, ModelPart tail4, ModelPart tail5) {
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
@@ -169,83 +137,72 @@ final class FluffyTailModel extends PartModel {
 
 	@Override
 	public void render(RenderContext ctx) {
+		final ModelPart model = ctx.getModel();
+		final ModelPart tailBase = model.getChild("tailBase");
+		final ModelPart tail1 = tailBase.getChild("tail1");
+		final ModelPart tail2 = tail1.getChild("tail2");
+		final ModelPart tail3 = tail2.getChild("tail3");
+		final ModelPart tail4 = tail3.getChild("tail4");
+		final ModelPart tail5 = tail4.getChild("tail5");
+
 		float timestep = getAnimationTime(4000F, ctx.entity());
 
 		if ("one_tail".equals(ctx.info().getSubType().id())) {
-			setRotationAngles(0, timestep, 1, 1, 0, 0, ctx.partialTick(), ctx.entity());
+			setRotationAngles(0, timestep, 1, 1, 0, 0, ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
 			ctx.poseStack().pushPose();
 			ctx.poseStack().mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
-			ctx.render(tailBase);
+			ctx.render(model);
 			ctx.poseStack().popPose();
 		}
 		else if ("two_tails".equals(ctx.info().getSubType().id())) {
-			setRotationAngles(1, timestep, 1, 1, 0, rad(40), ctx.partialTick(), ctx.entity());
+			setRotationAngles(1, timestep, 1, 1, 0, rad(40), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
 			ctx.poseStack().pushPose();
 			ctx.poseStack().mulPose(new Quaternionf().rotateX(-20F * Mth.DEG_TO_RAD));
-			ctx.render(tailBase);
+			ctx.render(model);
 
-			setRotationAngles(1, timestep, 1.4F, 0, 0, rad(-40), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(1, timestep, 1.4F, 0, 0, rad(-40), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 			ctx.poseStack().popPose();
 		}
 		else if ("three_tails".equals(ctx.info().getSubType().id())) {
-			setRotationAngles(0, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(0, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(0, timestep, -1.3F, 1.6F, 0, rad(45), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(0, timestep, -1.3F, 1.6F, 0, rad(45), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(0, timestep, -1.1F, 0.7F, 0, rad(-45), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(0, timestep, -1.1F, 0.7F, 0, rad(-45), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 		}
 		else if ("nine_tails".equals(ctx.info().getSubType().id())) {
 			timestep = getAnimationTime(6500F, ctx.entity());
 
-			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(2, timestep, -1.3F, 1.6F, 0, rad(30), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -1.3F, 1.6F, 0, rad(30), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(2, timestep, -1.1F, 0.7F, 0, rad(-30), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -1.1F, 0.7F, 0, rad(-30), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(2, timestep, -1.2F, 2.6F, rad(20), rad(-15), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -1.2F, 2.6F, rad(20), rad(-15), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(2, timestep, -0.9F, 1.1F, rad(20), rad(15), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -0.9F, 1.1F, rad(20), rad(15), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(2, timestep, -0.8F, 2F, rad(20), rad(45), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -0.8F, 2F, rad(20), rad(45), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(2, timestep, -1.25F, 0.6F, rad(20), rad(-45), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -1.25F, 0.6F, rad(20), rad(-45), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(2, timestep, -1.4F, 0.9F, rad(45), rad(15), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -1.4F, 0.9F, rad(45), rad(15), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 
-			setRotationAngles(2, timestep, -1.1F, 1.6F, rad(45), rad(-15), ctx.partialTick(), ctx.entity());
-			ctx.render(tailBase);
+			setRotationAngles(2, timestep, -1.1F, 1.6F, rad(45), rad(-15), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
+			ctx.render(model);
 		}
-	}
-
-	private final List<PartConfiguration> single;
-	private final List<PartConfiguration> twin;
-	private final List<PartConfiguration> three;
-	private final List<PartConfiguration> nine;
-
-	@Override
-	public List<PartConfiguration> getParts(ClientPartInfo info) {
-		if ("one_tail".equals(info.getSubType().id()))
-			return single;
-		if ("two_tails".equals(info.getSubType().id()))
-			return twin;
-		if ("three_tails".equals(info.getSubType().id()))
-			return three;
-		if ("nine_tails".equals(info.getSubType().id()))
-			return nine;
-
-		return List.of();
 	}
 }

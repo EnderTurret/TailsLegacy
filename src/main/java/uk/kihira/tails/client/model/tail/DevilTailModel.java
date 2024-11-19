@@ -32,50 +32,6 @@ import uk.kihira.tails.client.render.RenderContext;
  */
 final class DevilTailModel extends PartModel {
 
-	private final ModelPart root;
-	private final ModelPart tailBase;
-	private final ModelPart tail1;
-	private final ModelPart tail2;
-	private final ModelPart tail3;
-	private final ModelPart tail4;
-	private final ModelPart tail5;
-	private final ModelPart tailTip;
-
-	private final PartConfiguration config0;
-
-	public DevilTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot();
-
-		rootDef
-			.addOrReplaceChild("tailBase", CubeListBuilder.create()
-					.texOffs(0, 0).addBox(-1, -1, 0, 2, 2, 2), PartPose.rotation(radf(-30), 0, 0))
-			.addOrReplaceChild("tail1", CubeListBuilder.create()
-					.texOffs(0, 4).addBox(-0.5F, -0.5F, 0, 1, 1, 4), PartPose.offsetAndRotation(0, 0, 1.8F, radf(-30), 0, 0))
-			.addOrReplaceChild("tail2", CubeListBuilder.create()
-					.texOffs(0, 9).addBox(-0.5F, -0.5F, 0, 1, 1, 5), PartPose.offsetAndRotation(0, 0, 3.8F, radf(-30), 0, 0))
-			.addOrReplaceChild("tail3", CubeListBuilder.create()
-					.texOffs(0, 15).addBox(-0.5F, -0.5F, 0, 1, 1, 3), PartPose.offsetAndRotation(0, 0, 4.8F, radf(20), 0, 0))
-			.addOrReplaceChild("tail4", CubeListBuilder.create()
-					.texOffs(0, 19).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offsetAndRotation(0, 0, 2.6F, radf(50), 0, 0))
-			.addOrReplaceChild("tail5", CubeListBuilder.create()
-					.texOffs(0, 22).addBox(-0.5F, -0.5F, 0, 1, 1, 2), PartPose.offsetAndRotation(0, 0, 1.7F, radf(50), 0, 0))
-			.addOrReplaceChild("tailTip", CubeListBuilder.create()
-					.texOffs(12, 0).addBox(-2.5F, 0, 0, 5, 5, 0), PartPose.offsetAndRotation(0, 0, 1.8F, radf(120), 0, 0));
-
-		root = ModelSerializer.bake(rootDef, 32, 32, "tail/devil_tail");
-
-		tailBase = root.getChild("tailBase");
-		tail1 = tailBase.getChild("tail1");
-		tail2 = tail1.getChild("tail2");
-		tail3 = tail2.getChild("tail3");
-		tail4 = tail3.getChild("tail4");
-		tail5 = tail4.getChild("tail5");
-		tailTip = tail5.getChild("tailTip");
-
-		config = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, tail4, tail5, tailTip));
-		config0 = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, tail4, tail5));
-	}
-
 	@Override
 	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float headPitch, Part.SubType subType, ModelPart model) {
 		final float seed = getAnimationTime(6000, entity);
@@ -96,6 +52,13 @@ final class DevilTailModel extends PartModel {
 			yAngleMultiplier = 0.25;
 		}
 
+		final ModelPart tailBase = model.getChild("tailBase");
+		final ModelPart tail1 = tailBase.getChild("tail1");
+		final ModelPart tail2 = tail1.getChild("tail2");
+		final ModelPart tail3 = tail2.getChild("tail3");
+		final ModelPart tail4 = tail3.getChild("tail4");
+		final ModelPart tail5 = tail4.getChild("tail5");
+		final ModelPart tailTip = tail5.getChild("tailTip");
 		setRotationRadians(tailBase, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 1) / 8 * yAngleMultiplier, 0);
 		setRotationRadians(tail1, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 2) / 8 * yAngleMultiplier, 0);
 		setRotationRadians(tail2, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 3) / 8 * yAngleMultiplier, 0);
@@ -103,22 +66,7 @@ final class DevilTailModel extends PartModel {
 		setRotationRadians(tail4, rad(50) - xAngleOffset * 3 + Mth.cos(xseed - 5) / 8 * yAngleMultiplier, Mth.cos(seed - 5) / 8 * yAngleMultiplier, Mth.cos(xseed - 5) / 8 * yAngleMultiplier);
 		setRotationRadians(tail5, rad(50) - xAngleOffset * 4 + Mth.cos(xseed - 6) / 4  * yAngleMultiplier, Mth.cos(seed - 6) / 8 * yAngleMultiplier, Mth.cos(xseed - 6) / 8 * yAngleMultiplier);
 		setRotationRadians(tailTip, rad(120) - xAngleOffset, 0, 0);
-	}
 
-	@Override
-	public void render(RenderContext ctx) {
-		tailTip.visible = !"no_tip".equals(ctx.info().getSubType().id());
-
-		ctx.render(tailBase);
-
-		tailTip.visible = true;
-	}
-
-	@Override
-	public List<PartConfiguration> getParts(ClientPartInfo info) {
-		if ("no_tip".equals(info.getSubType().id()))
-			return List.of(config0);
-
-		return super.getParts(info);
+		tailTip.visible = !"no_tip".equals(subType.id());
 	}
 }

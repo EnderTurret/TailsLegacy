@@ -33,58 +33,6 @@ import uk.kihira.tails.client.render.RenderContext;
  */
 final class DragonTailModel extends PartModel {
 
-	private final ModelPart root;
-
-	private final ModelPart tailBase;
-	private final ModelPart tail1;
-	private final ModelPart tail2;
-	private final ModelPart tail3;
-
-	private final ModelPart tailSubBase;
-	private final ModelPart tailSub1;
-	private final ModelPart tailSub2;
-	private final ModelPart tailSub3;
-
-	private final PartConfiguration config0;
-
-	public DragonTailModel() {
-		final PartDefinition rootDef = new MeshDefinition().getRoot();
-
-		rootDef
-			.addOrReplaceChild("tailBase", CubeListBuilder.create()
-					.texOffs(22, 0).addBox(-2.5F, -2.5F, -2, 5, 5, 8), PartPose.rotation(radf(-40), 0, 0))
-			.addOrReplaceChild("tail1", CubeListBuilder.create()
-					.texOffs(0, 0).addBox(-2, -2, 0, 4, 4, 7), PartPose.offsetAndRotation(0, 0.3F, 5, radf(-8), 0, 0))
-			.addOrReplaceChild("tail2", CubeListBuilder.create()
-					.texOffs(0, 11).addBox(-1.5F, -1.5F, 0, 3, 3, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, radf(10), 0, 0))
-			.addOrReplaceChild("tail3", CubeListBuilder.create()
-					.texOffs(0, 22).addBox(-1, -1, 0, 2, 2, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, radf(20), 0, 0));
-
-		rootDef
-			.addOrReplaceChild("tailSubBase", CubeListBuilder.create()
-					.texOffs(22, 5).addBox(0, -7.25F, -2, 0, 5, 8), PartPose.rotation(radf(-40), 0, 0))
-			.addOrReplaceChild("tailSub1", CubeListBuilder.create()
-					.texOffs(22, 11).addBox(0, -6.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.3F, 5, radf(-8), 0, 0))
-			.addOrReplaceChild("tailSub2", CubeListBuilder.create()
-					.texOffs(22, 15).addBox(0, -6.25F, 1, 0, 5, 8), PartPose.offsetAndRotation(0, 0.2F, 5.5F, radf(10), 0, 0))
-			.addOrReplaceChild("tailSub3", CubeListBuilder.create()
-					.texOffs(29, 6).addBox(0, -5.75F, 1, 0, 5, 7), PartPose.offsetAndRotation(0, 0.4F, 7.5F, radf(20), 0, 0));
-
-		root = ModelSerializer.bake(rootDef, 64, 32, "tail/dragon_tail");
-
-		tailBase = root.getChild("tailBase");
-		tail1 = tailBase.getChild("tail1");
-		tail2 = tail1.getChild("tail2");
-		tail3 = tail2.getChild("tail3");
-		tailSubBase = root.getChild("tailSubBase");
-		tailSub1 = tailSubBase.getChild("tailSub1");
-		tailSub2 = tailSub1.getChild("tailSub2");
-		tailSub3 = tailSub2.getChild("tailSub3");
-
-		config = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3, tailSubBase, tailSub1, tailSub2, tailSub3));
-		config0 = new PartConfiguration(List.of(tailBase, tail1, tail2, tail3));
-	}
-
 	@Override
 	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float headPitch, Part.SubType subType, ModelPart model) {
 		double xAngleOffset = 0;
@@ -104,32 +52,27 @@ final class DragonTailModel extends PartModel {
 		}
 
 		final float timestep = getAnimationTime(4000, entity);
+
+		final ModelPart tailBase = model.getChild("tailBase");
+		final ModelPart tail1 = tailBase.getChild("tail1");
+		final ModelPart tail2 = tail1.getChild("tail2");
+		final ModelPart tail3 = tail2.getChild("tail3");
 		setRotationRadians(tailBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
 		setRotationRadians(tail1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
 		setRotationRadians(tail2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
 		setRotationRadians(tail3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 
+		final ModelPart tailSubBase = model.getChild("tailSubBase");
+		final ModelPart tailSub1 = tailSubBase.getChild("tailSub1");
+		final ModelPart tailSub2 = tailSub1.getChild("tailSub2");
+		final ModelPart tailSub3 = tailSub2.getChild("tailSub3");
 		if ("dragon_tail".equals(subType.id())) {
+			tailSubBase.visible = true;
 			setRotationRadians(tailSubBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
 			setRotationRadians(tailSub1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
 			setRotationRadians(tailSub2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
 			setRotationRadians(tailSub3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
-		}
-	}
-
-	@Override
-	public void render(RenderContext ctx) {
-		ctx.render(tailBase);
-
-		if ("dragon_tail".equals(ctx.info().getSubType().id()))
-			ctx.render(tailSubBase);
-	}
-
-	@Override
-	public List<PartConfiguration> getParts(ClientPartInfo info) {
-		if (!"dragon_tail".equals(info.getSubType().id()))
-			return List.of(config0);
-
-		return super.getParts(info);
+		} else
+			tailSubBase.visible = false;
 	}
 }

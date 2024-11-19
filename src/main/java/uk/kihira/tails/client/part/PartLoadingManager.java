@@ -147,25 +147,30 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 * @return The fully-baked list of parts.
 	 */
 	private List<Part> reload(ResourceManager manager) {
-		final var resources = manager.listResources("parts", rl -> rl.getPath().endsWith(".json"));
+		var resources = manager.listResources("parts", rl -> rl.getPath().endsWith(".json"));
 
 		final List<ResourcePair> parts = new ArrayList<>();
+
+		for (Map.Entry<ResourceLocation, Resource> entry : resources.entrySet())
+			parts.add(new ResourcePair(entry.getKey(), entry.getValue()));
+
 		final List<ResourcePair> subTypes = new ArrayList<>();
+		resources = manager.listResources("subtypes", rl -> rl.getPath().endsWith(".json"));
+
+		for (Map.Entry<ResourceLocation, Resource> entry : resources.entrySet())
+			subTypes.add(new ResourcePair(entry.getKey(), entry.getValue()));
+
 		final List<ResourcePair> textures = new ArrayList<>();
 		final List<ResourcePair> orderings = new ArrayList<>();
+		resources = manager.listResources("part_textures", rl -> rl.getPath().endsWith(".json"));
 
 		for (Map.Entry<ResourceLocation, Resource> entry : resources.entrySet()) {
 			final String path = entry.getKey().getPath();
 			final ResourcePair pair = new ResourcePair(entry.getKey(), entry.getValue());
 
-			if (path.contains("parts/subtypes"))
-				subTypes.add(pair);
-			else if (path.contains("parts/textures")) {
-				if (path.endsWith("/ordering.json"))
-					orderings.add(pair);
-				else textures.add(pair);
-			} else
-				parts.add(pair);
+			if (path.endsWith("/ordering.json"))
+				orderings.add(pair);
+			else textures.add(pair);
 		}
 
 		final Map<ResourceLocation, List<String>> realOrderings = new TreeMap<>();
@@ -183,7 +188,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 			for (int i = 0; i < arr.size(); i++)
 				values.add(arr.get(i).getAsString());
 
-			String id = trim(pair.location().getPath(), "parts/textures/");
+			String id = trim(pair.location().getPath(), "part_textures/");
 			id = id.substring(0, id.length() - "/ordering".length());
 
 			realOrderings.put(new ResourceLocation(pair.location().getNamespace(), id), values);
@@ -315,7 +320,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 * @return The subtype.
 	 */
 	private static NamedSubType readSubType(ResourceLocation location, JsonObject json, List<NamedTexture> textures, Map<ResourceLocation, List<String>> textureOrderings) {
-		final String id = trim(location.getPath(), "parts/subtypes/");
+		final String id = trim(location.getPath(), "subtypes/");
 
 		final String partPath = id.substring(0, id.lastIndexOf('/'));
 		final ResourceLocation partId = new ResourceLocation(location.getNamespace(), partPath);
@@ -342,7 +347,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 * @return The texture.
 	 */
 	private static NamedTexture readTexture(ResourceLocation location, JsonObject json) {
-		final String id = trim(location.getPath(), "parts/textures/");
+		final String id = trim(location.getPath(), "part_textures/");
 
 		final String partPath = id.substring(0, id.lastIndexOf('/'));
 		final ResourceLocation partId = new ResourceLocation(location.getNamespace(), partPath);

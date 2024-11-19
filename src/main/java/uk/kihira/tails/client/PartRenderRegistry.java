@@ -25,6 +25,7 @@ import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
+import uk.kihira.tails.client.model.DefaultPartModel;
 import uk.kihira.tails.client.model.MuzzleModel;
 import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.part.PartRenderer;
@@ -71,6 +72,6 @@ public final class PartRenderRegistry {
 	@Nullable
 	public static PartRenderer getRenderer(Part part) {
 		if (part == null) throw new NullPointerException();
-		return PART_RENDERER_REGISTRY.get(part.getId());
+		return PART_RENDERER_REGISTRY.computeIfAbsent(part.getId(), k -> new PartRenderer(DefaultPartModel.INSTANCE));
 	}
 }

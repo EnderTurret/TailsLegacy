@@ -163,7 +163,7 @@ public class PartConfiguration {
 	public void translate(ClientPartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity, ModelPart part) {
 		translator.translate(info, poseStack, partialTick, entity);
 
-		for (ModelPart part2 : parents.getOrDefault(part, visible())) {
+		for (ModelPart part2 : parents.getOrDefault(part, new ModelPart[0])) {
 			if (part2 == part) break;
 			part2.translateAndRotate(poseStack);
 		}

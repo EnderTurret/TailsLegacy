@@ -6,6 +6,7 @@
     "three_tails",
     "nine_tails"
   ],
+  "allowArrows": true,
   "model": {
     "texture_size": [32, 32],
     "tailBase": {

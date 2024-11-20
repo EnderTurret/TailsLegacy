@@ -76,7 +76,7 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 				final PartRenderer renderer = info.getRenderer();
 
 				if (renderer != null && renderer.modelPart != null)
-					for (PartConfiguration config : renderer.modelPart.getParts(info)) {
+					for (PartConfiguration config : renderer.modelPart.collectParts(info)) {
 						parts.add(new PartConfig(config, info, renderer));
 						parts.add(parts.get(0));
 					}

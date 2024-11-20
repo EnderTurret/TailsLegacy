@@ -33,8 +33,6 @@ import uk.kihira.tails.client.render.part.PartRenderer;
  */
 public abstract class PartModel extends EntityModel<LivingEntity> {
 
-	protected PartConfiguration config;
-
 	protected PartModel() {
 		super(RenderType::entityCutoutNoCull);
 	}
@@ -69,8 +67,8 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param info The part info.
 	 * @return A list of part configurations.
 	 */
-	public List<PartConfiguration> getParts(ClientPartInfo info) {
-		return config == null ? List.of() : List.of(config);
+	public List<PartConfiguration> collectParts(ClientPartInfo info) {
+		return info.getPart().allowArrows() ? List.of(PartConfiguration.derive(info.getPart().getModel())) : List.of();
 	}
 
 	/**

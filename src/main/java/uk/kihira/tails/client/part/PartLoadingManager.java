@@ -315,7 +315,8 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final ModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(GsonHelper.getAsJsonObject(json, "model")).bake() : null;
 
-		return new Part(realId, attachment, subs, tints, model,
+		return new Part(realId, attachment, subs, tints,
+				GsonHelper.getAsBoolean(json, "allowArrows", false), model,
 				json.has("render") ? readTransform(GsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO,
 				json.has("preview") ? readTransform(GsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO);
 	}

@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.client.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.mixin.client.ModelPartAccess;
 
 /**
  * <p>Defines a "unique" configuration of a part.</p>
@@ -31,7 +33,13 @@ public class PartConfiguration {
 
 	private final List<ModelPart> parts;
 	private Map<ModelPart, ModelPart[]> parents = Map.of();
-	private final Translator translator;
+	private Translator translator;
+
+	private PartConfiguration(List<ModelPart> parts, Map<ModelPart, ModelPart[]> parents, Translator translator) {
+		this.parts = parts;
+		this.parents = parents;
+		this.translator = translator;
+	}
 
 	public PartConfiguration(List<ModelPart> parts, Translator translator) {
 		this.parts = parts;
@@ -47,6 +55,45 @@ public class PartConfiguration {
 
 	public PartConfiguration(List<ModelPart> parts) {
 		this(parts, Translator.EMPTY);
+	}
+
+	// TODO: This automatically includes 'thin' cubes, which may be undesired behavior for most models.
+	@SuppressWarnings("cast")
+	public static PartConfiguration derive(ModelPart root) {
+		final List<ModelPart> queue = new ArrayList<>();
+		final Map<ModelPart, ModelPart> parentsByChildren = new HashMap<>();
+		queue.add(root);
+
+		final List<ModelPart> partsWithCubes = new ArrayList<>();
+
+		while (!queue.isEmpty()) {
+			final ModelPart part = queue.remove(0);
+
+			if (!part.isEmpty())
+				partsWithCubes.add(part);
+
+			if (((Object) part) instanceof ModelPartAccess access && !access.tails$children().isEmpty())
+				for (ModelPart child : access.tails$children().values()) {
+					parentsByChildren.put(child, part);
+					queue.add(child);
+				}
+		}
+
+		final Map<ModelPart, ModelPart[]> allParents = new HashMap<>();
+
+		for (ModelPart part : partsWithCubes) {
+			final List<ModelPart> parents = new ArrayList<>();
+
+			ModelPart parent = part;
+			while ((parent = parentsByChildren.get(parent)) != null) {
+				if (!ModelSerializer.isZero(parent.getInitialPose()))
+					parents.add(0, parent); // We're traversing upwards, so insert the parents in reverse order.
+			}
+
+			allParents.put(part, parents.toArray(ModelPart[]::new));
+		}
+
+		return new PartConfiguration(List.copyOf(partsWithCubes), Map.copyOf(allParents), Translator.EMPTY);
 	}
 
 	/**
@@ -68,6 +115,15 @@ public class PartConfiguration {
 		parents.put(child, hierarchy);
 
 		return this;
+	}
+
+	public PartConfiguration withTranslator(Translator translator) {
+		this.translator = translator;
+		return this;
+	}
+
+	public PartConfiguration copy() {
+		return new PartConfiguration(parts, parents, translator);
 	}
 
 	private ModelPart[] visible;

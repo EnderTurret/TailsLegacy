@@ -4,6 +4,7 @@
     "lizard_tail",
     "dragon_tail"
   ],
+  "allowArrows": true,
   "model": {
     "texture_size": [64, 32],
     "tailBase": {

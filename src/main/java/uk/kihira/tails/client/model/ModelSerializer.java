@@ -137,7 +137,7 @@ public final class ModelSerializer {
 		return poseO;
 	}
 
-	private static boolean isZero(PartPose pose) {
+	static boolean isZero(PartPose pose) {
 		return pose.x == 0 && pose.y == 0 && pose.z == 0 && pose.xRot == 0 && pose.yRot == 0 && pose.zRot == 0;
 	}
 

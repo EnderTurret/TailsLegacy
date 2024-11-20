@@ -8,6 +8,7 @@
     "client.CubeDefinitionAccess",
     "client.CubeDeformationAccess",
     "client.LivingEntityRendererAccess",
+    "client.ModelPartAccess",
     "client.PartDefinitionAccess"
   ]
 }

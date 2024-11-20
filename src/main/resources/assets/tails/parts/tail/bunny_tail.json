@@ -3,6 +3,7 @@
   "ordering": [
     "standard"
   ],
+  "allowArrows": true,
   "model": {
     "texture_size": [16, 16],
     "tail": {

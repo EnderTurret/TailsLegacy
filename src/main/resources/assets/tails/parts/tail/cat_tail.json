@@ -4,6 +4,7 @@
     "tabby",
     "tiger"
   ],
+  "allowArrows": true,
   "model": {
     "texture_size": [32, 32],
     "tailBase": {

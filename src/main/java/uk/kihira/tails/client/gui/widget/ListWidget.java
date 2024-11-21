@@ -42,13 +42,16 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	protected void renderListBackground(GuiGraphics gui) {}
 
 	@Override
+	protected void renderListSeparators(GuiGraphics guiGraphics) {}
+
+	@Override
 	public int getRowWidth() {
 		return width;
 	}
 
 	@Override
 	protected int getScrollbarPosition() {
-		return getRowRight() - 6;
+		return getRowRight() - 8;
 	}
 
 	@Override

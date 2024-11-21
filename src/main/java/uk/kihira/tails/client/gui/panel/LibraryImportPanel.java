@@ -41,6 +41,7 @@ import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.mixin.client.MinecraftAccess;
 
 @Internal
 public final class LibraryImportPanel extends Panel<EditorScreen> {
@@ -116,13 +117,10 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 		if (username != null) return username;
 
 		// Option B - The user cache (some assembly required)
-		if (services == null) {
-			final MinecraftSessionService session = mc.getMinecraftSessionService();
-			if (session instanceof HttpMinecraftSessionService http && http.getAuthenticationService() instanceof YggdrasilAuthenticationService auth) {
-				services = Services.create(auth, mc.gameDirectory);
-				services.profileCache().setExecutor(mc);
-				GameProfileCache.setUsesAuthentication(false);
-			}
+		if (services == null && mc instanceof MinecraftAccess access) {
+			services = Services.create(access.tails$authenticationService(), mc.gameDirectory);
+			services.profileCache().setExecutor(mc);
+			GameProfileCache.setUsesAuthentication(false);
 		}
 
 		if (services != null) {

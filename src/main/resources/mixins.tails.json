@@ -7,6 +7,7 @@
     "client.CubeDefinitionAccess",
     "client.CubeDeformationAccess",
     "client.LivingEntityRendererAccess",
+    "client.MinecraftAccess",
     "client.ModelPartAccess",
     "client.PartDefinitionAccess"
   ]

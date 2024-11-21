@@ -1,12 +1,10 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0, 6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    id 'org.spongepowered.mixin' version '0.7.38'
+    id 'net.neoforged.moddev' version '1.0.21'
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.withSourcesJar()
 
 repositories {
@@ -22,39 +20,37 @@ base {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.1.3'
-
     //compileOnly fg.deobf('vazkii.botania:Botania:1.18.2-434:api')
     //runtimeOnly fg.deobf('vazkii.botania:Botania:1.18.2-434')
     //runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.19.2-76')
     //runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1')
-
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
-minecraft {
-    mappings channel: 'parchment', version: '2023.09.03-1.20.1'
+neoForge {
+    version = '21.1.72'
+
+    mods {
+        tails {
+            sourceSet sourceSets.main
+        }
+    }
+
+    parchment {
+        // https://parchmentmc.org/docs/getting-started
+        // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/
+        minecraftVersion = '1.21'
+        mappingsVersion = '2024.07.28'
+    }
 
     runs {
-        configureEach {
-            arg '-mixin.config=mixins.tails.json'
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            mods {
-                tails {
-                    source sourceSets.main
-                }
-            }
-        }
-
         client {
-            workingDirectory project.file('run')
+            client()
+            ideName = 'runTailsClient'
         }
 
         server {
-            workingDirectory project.file('run/server')
+            server()
+            ideName = 'runTailsServer'
         }
     }
 }
@@ -71,15 +67,10 @@ tasks.named('jar', Jar).configure {
             'MixinConfigs': 'mixins.tails.json'
         ])
     }
-    finalizedBy('reobfJar')
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-tasks.withType(GenerateModuleMetadata).configureEach {
-    enabled = false
 }
 
 tasks.withType(AbstractArchiveTask).configureEach {
@@ -96,13 +87,6 @@ publishing {
             pom {
                 name = 'Tails'
                 description = 'For all your taily needs.'
-            }
-
-            pom.withXml {
-                asNode().dependencies.dependency.each { dep ->
-                    if (dep.artifactId.last().value().last().contains('forge'))
-                        dep.parent().remove(dep)
-                }
             }
         }
     }

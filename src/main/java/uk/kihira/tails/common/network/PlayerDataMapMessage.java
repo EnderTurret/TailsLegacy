@@ -16,11 +16,17 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.google.common.reflect.TypeToken;
+import com.google.gson.reflect.TypeToken;
+
+import io.netty.buffer.ByteBuf;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsNetworkManager;
@@ -28,14 +34,21 @@ import uk.kihira.tails.common.part.PartsData;
 
 // S → C
 @Internal
-public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
+public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload {
 
-	private static final Type PART_DATA_MAP_TYPE = new TypeToken<Map<UUID, PartsData>>() {}.getType();
+	public static final Type<PlayerDataMapMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "bulk_sync_to_client"));
 
-	@Internal
-	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
-		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
+	public static final StreamCodec<ByteBuf, PlayerDataMapMessage> STREAM_CODEC = ByteBufCodecs.stringUtf8(Short.MAX_VALUE)
+			.map(PlayerDataMapMessage::decode, PlayerDataMapMessage::encode);
 
+	@Override
+	public Type<PlayerDataMapMessage> type() {
+		return TYPE;
+	}
+
+	private static final TypeToken<Map<UUID, PartsData>> PART_DATA_MAP_TYPE = new TypeToken<>() {};
+
+	private static PlayerDataMapMessage decode(String tailInfoJson) {
 		if (TailsNetworkManager.DEBUG_NETWORK)
 			Tails.LOGGER.info("[PlayerDataMapMessage] Received {}", tailInfoJson);
 
@@ -50,17 +63,14 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
 		return new PlayerDataMapMessage(partsDataMap);
 	}
 
-	@Internal
-	public static void encode(PlayerDataMapMessage msg, FriendlyByteBuf buf) {
-		buf.writeUtf(Tails.SERVER_GSON.toJson(msg.partsDataMap), Short.MAX_VALUE);
+	private static String encode(PlayerDataMapMessage msg) {
+		return Tails.SERVER_GSON.toJson(msg.partsDataMap);
 	}
 
 	@Internal
-	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(PlayerDataMapMessage message, IPayloadContext context) {
 		if (message.partsDataMap != null)
 			for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet())
 				Tails.PROXY.getPartManager().set(entry.getKey(), entry.getValue());
-
-		ctx.get().setPacketHandled(true);
 	}
 }

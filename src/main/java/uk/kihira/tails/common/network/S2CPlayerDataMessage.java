@@ -17,18 +17,29 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.google.common.base.Strings;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.part.PartsData;
 
 @Internal
-public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) {
+public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) implements CustomPacketPayload {
 
-	@Internal
-	public static S2CPlayerDataMessage decode(FriendlyByteBuf buf) {
+	public static final Type<S2CPlayerDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "sync_to_client"));
+
+	public static final StreamCodec<FriendlyByteBuf, S2CPlayerDataMessage> STREAM_CODEC = StreamCodec.of(S2CPlayerDataMessage::encode, S2CPlayerDataMessage::decode);
+
+	@Override
+	public Type<S2CPlayerDataMessage> type() {
+		return TYPE;
+	}
+
+	private static S2CPlayerDataMessage decode(FriendlyByteBuf buf) {
 		final UUID uuid = buf.readUUID();
 
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
@@ -48,18 +59,15 @@ public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) {
 		return new S2CPlayerDataMessage(uuid, partsData);
 	}
 
-	@Internal
-	public static void encode(S2CPlayerDataMessage msg, FriendlyByteBuf buf) {
+	private static void encode(FriendlyByteBuf buf, S2CPlayerDataMessage msg) {
 		buf.writeUUID(msg.uuid);
 		final String tailInfoJson = msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.SERVER_GSON.toJson(msg.partsData);
 		buf.writeUtf(tailInfoJson, Short.MAX_VALUE);
 	}
 
 	@Internal
-	public static void handle(S2CPlayerDataMessage message, Supplier<NetworkEvent.Context> ctx) {
+	public static void handle(S2CPlayerDataMessage message, IPayloadContext context) {
 		if (message.partsData != null)
 			Tails.PROXY.getPartManager().set(message.uuid, message.partsData);
-
-		ctx.get().setPacketHandled(true);
 	}
 }

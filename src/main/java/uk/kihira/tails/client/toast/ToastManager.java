@@ -19,15 +19,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import uk.kihira.tails.common.Tails;
 
-@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public final class ToastManager {
 
 	public static final ToastManager INSTANCE = new ToastManager();
@@ -54,14 +54,12 @@ public final class ToastManager {
 	}
 
 	@SubscribeEvent
-	static void onClientTickPost(TickEvent.ClientTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			final Iterator<Toast> toasts = INSTANCE.toasts.iterator();
-			while (toasts.hasNext()) {
-				final Toast toast = toasts.next();
-				toast.time--;
-				if (toast.time <= 0) toasts.remove();
-			}
+	static void onClientTickPost(ClientTickEvent.Post event) {
+		final Iterator<Toast> toasts = INSTANCE.toasts.iterator();
+		while (toasts.hasNext()) {
+			final Toast toast = toasts.next();
+			toast.time--;
+			if (toast.time <= 0) toasts.remove();
 		}
 	}
 

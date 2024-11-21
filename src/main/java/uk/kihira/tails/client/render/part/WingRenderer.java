@@ -13,6 +13,8 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
+import com.mojang.blaze3d.vertex.PoseStack.Pose;
+
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 
@@ -54,13 +56,12 @@ public final class WingRenderer extends PartRenderer {
 		ctx.poseStack().translate(0F, 0F, 1F * PartModel.SCALE);
 		ctx.poseStack().mulPose(new Quaternionf().rotateX((30F - angle) * Mth.DEG_TO_RAD));
 
-		Matrix4f m = ctx.poseStack().last().pose();
-		Matrix3f n = ctx.poseStack().last().normal();
+		Pose p = ctx.poseStack().last();
 
-		ctx.buffer().vertex(m, 0, 1, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(0, 0).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
-		ctx.buffer().vertex(m, 1, 1, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(1, 0).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
-		ctx.buffer().vertex(m, 1, 0, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(1, 1).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
-		ctx.buffer().vertex(m, 0, 0, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(0, 1).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().addVertex(p, 0, 1, 0).setColor(ctx.color()).setUv(0, 0).setOverlay(ctx.packedOverlay()).setLight(ctx.packedLight()).setNormal(p, 0, 0, 0);
+		ctx.buffer().addVertex(p, 1, 1, 0).setColor(ctx.color()).setUv(1, 0).setOverlay(ctx.packedOverlay()).setLight(ctx.packedLight()).setNormal(p, 0, 0, 0);
+		ctx.buffer().addVertex(p, 1, 0, 0).setColor(ctx.color()).setUv(1, 1).setOverlay(ctx.packedOverlay()).setLight(ctx.packedLight()).setNormal(p, 0, 0, 0);
+		ctx.buffer().addVertex(p, 0, 0, 0).setColor(ctx.color()).setUv(0, 1).setOverlay(ctx.packedOverlay()).setLight(ctx.packedLight()).setNormal(p, 0, 0, 0);
 
 		ctx.poseStack().popPose();
 
@@ -71,13 +72,12 @@ public final class WingRenderer extends PartRenderer {
 
 		ctx.poseStack().mulPose(new Quaternionf().rotateX((-30F + angle) * Mth.DEG_TO_RAD));
 
-		m = ctx.poseStack().last().pose();
-		n = ctx.poseStack().last().normal();
+		p = ctx.poseStack().last();
 
-		ctx.buffer().vertex(m, 0, 1, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(0, 0).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
-		ctx.buffer().vertex(m, 1, 1, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(1, 0).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
-		ctx.buffer().vertex(m, 1, 0, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(1, 1).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
-		ctx.buffer().vertex(m, 0, 0, 0).color(ctx.red(), ctx.green(), ctx.blue(), ctx.alpha()).uv(0, 1).overlayCoords(ctx.packedOverlay()).uv2(ctx.packedLight()).normal(n, 0, 0, 0).endVertex();
+		ctx.buffer().addVertex(p, 0, 1, 0).setColor(ctx.color()).setUv(0, 0).setOverlay(ctx.packedOverlay()).setLight(ctx.packedLight()).setNormal(p, 0, 0, 0);
+		ctx.buffer().addVertex(p, 1, 1, 0).setColor(ctx.color()).setUv(1, 0).setOverlay(ctx.packedOverlay()).setLight(ctx.packedLight()).setNormal(p, 0, 0, 0);
+		ctx.buffer().addVertex(p, 1, 0, 0).setColor(ctx.color()).setUv(1, 1).setOverlay(ctx.packedOverlay()).setLight(ctx.packedLight()).setNormal(p, 0, 0, 0);
+		ctx.buffer().addVertex(p, 0, 0, 0).setColor(ctx.color()).setUv(0, 1).setOverlay(ctx.packedOverlay()).setLight(ctx.packedLight()).setNormal(p, 0, 0, 0);
 
 		ctx.poseStack().popPose();
 

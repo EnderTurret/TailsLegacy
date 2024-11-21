@@ -41,7 +41,7 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
 
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
-		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(entity.getGameProfile());
+		final UUID uuid = entity.getUUID();
 		final ClientPartsData partsData = ClientPlayerPartManager.get().get(uuid);
 		for (ClientPartInfo partInfo : partsData.getParts()) {
 			if (partInfo.isInvalid()) return; // Skip unknown parts.
@@ -58,7 +58,7 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
 				final Part part = partInfo.getPart();
 				final PartRenderer renderer = partInfo.getRenderer();
 				if (renderer != null)
-					renderer.render(poseStack, entity, partsData, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 1F);
+					renderer.render(poseStack, entity, partsData, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 0xFF);
 				// TODO: Make this less spammy.
 				else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
 			} catch (Exception e) {

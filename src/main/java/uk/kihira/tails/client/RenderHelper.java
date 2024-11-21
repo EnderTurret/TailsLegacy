@@ -12,11 +12,13 @@
 package uk.kihira.tails.client;
 
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -83,17 +85,16 @@ public final class RenderHelper {
 		final float f1 = 0.00390625F;
 		final PoseStack.Pose e = gui.pose().last();
 		final Tesselator tess = Tesselator.getInstance();
-		final BufferBuilder renderer = tess.getBuilder();
-		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		renderer.vertex(e.pose(), x + 0,		y + tarHeight,	blitOffset).uv((u + 0) * f,			(v + srcHeight) * f1).endVertex();
-		renderer.vertex(e.pose(), x + tarWidth,	y + tarHeight,	blitOffset).uv((u + srcWidth) * f,	(v + srcHeight) * f1).endVertex();
-		renderer.vertex(e.pose(), x + tarWidth,	y + 0,			blitOffset).uv((u + srcWidth) * f,	(v + 0) * f1).endVertex();
-		renderer.vertex(e.pose(), x + 0,		y + 0,			blitOffset).uv((u + 0) * f,			(v + 0) * f1).endVertex();
-		tess.end();
+		final BufferBuilder renderer = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		renderer.addVertex(e.pose(), x + 0,			y + tarHeight,	blitOffset).setUv((u + 0) * f,			(v + srcHeight) * f1);
+		renderer.addVertex(e.pose(), x + tarWidth,	y + tarHeight,	blitOffset).setUv((u + srcWidth) * f,	(v + srcHeight) * f1);
+		renderer.addVertex(e.pose(), x + tarWidth,	y + 0,			blitOffset).setUv((u + srcWidth) * f,	(v + 0) * f1);
+		renderer.addVertex(e.pose(), x + 0,			y + 0,			blitOffset).setUv((u + 0) * f,			(v + 0) * f1);
+		BufferUploader.drawWithShader(renderer.buildOrThrow());
 	}
 
 	/**
-	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(GuiGraphics, int, int, int, Quaternionf, Quaternionf, LivingEntity) inventory screen}.
+	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(GuiGraphics, float, float, float, Vector3f, Quaternionf, Quaternionf, LivingEntity) inventory screen}.
 	 * @param gui The {@link GuiGraphics}.
 	 * @param x The x coordinate of the entity.
 	 * @param y The y coordinate of the entity.
@@ -127,7 +128,7 @@ public final class RenderHelper {
 		gui.pose().pushPose();
 		gui.pose().translate(-100, 0, 0); // TODO: This shouldn't be necessary, but is.
 
-		InventoryScreen.renderEntityInInventory(gui, x, y, scale, pose, cameraOrientation, entity);
+		InventoryScreen.renderEntityInInventory(gui, x, y, scale, new Vector3f(), pose, cameraOrientation, entity);
 
 		gui.pose().popPose();
 

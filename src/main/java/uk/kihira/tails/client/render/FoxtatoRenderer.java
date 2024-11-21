@@ -21,8 +21,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.part.ClientPartInfo;
@@ -60,12 +60,12 @@ public final class FoxtatoRenderer {
 
 		poseStack.translate(0, 2F, 0.2F);
 
-		foxTailRenderer.render(poseStack, fakeEntity, null, tailPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 1F);
+		foxTailRenderer.render(poseStack, fakeEntity, null, tailPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 0xFF);
 
 		poseStack.translate(0, -0.7, -0.3F);
 		poseStack.mulPose(new Quaternionf().rotateY(Mth.PI));
 
-		foxEarRenderer.render(poseStack, fakeEntity, null, earPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 1F);
+		foxEarRenderer.render(poseStack, fakeEntity, null, earPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 0xFF);
 
 		poseStack.popPose();
 

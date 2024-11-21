@@ -82,7 +82,7 @@ public class PartRenderer {
 	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
 		if (!info.isEmpty()) {
 			final boolean visible = !entity.isInvisible();
 			final boolean visibleToPlayer = !visible && !entity.isInvisibleTo(Minecraft.getInstance().player);
@@ -93,7 +93,7 @@ public class PartRenderer {
 
 			if (type == null) return;
 
-			alpha = visibleToPlayer && alpha == 1F ? 0.15F : alpha;
+			alpha = visibleToPlayer && alpha == 0xFF ? 0x23 : alpha;
 			final VertexConsumer buf = bufferSource.getBuffer(type);
 
 			render(poseStack, entity, parts, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
@@ -116,21 +116,19 @@ public class PartRenderer {
 	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, float alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
 		if (!info.isEmpty()) {
-			final float red, green, blue;
+			final int color;
 
 			if (info.getPartTexture().tintingStrategy() == Part.TintingStrategy.SINGLE_TINT) {
 				final int tint = info.getTints()[0];
-				red = (tint >> 16 & 255) / 255F;
-				green = (tint >> 8 & 255) / 255F;
-				blue = (tint & 255) / 255F;
+				color = 0xFF000000 | tint;
 			} else
-				red = green = blue = 1F;
+				color = 0xFFFFFFFF;
 
 			final RenderContext ctx = new RenderContext(
 					poseStack, buffer, packedLight, packedOverlay,
-					red, green, blue, alpha, partialTick,
+					color, partialTick,
 					entity, parts, info);
 
 			poseStack.pushPose();

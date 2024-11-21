@@ -12,9 +12,9 @@ import static uk.kihira.tails.client.part.PartRegistry.*;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.render.part.PartRenderer;

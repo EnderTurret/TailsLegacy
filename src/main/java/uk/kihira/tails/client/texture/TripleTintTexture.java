@@ -54,7 +54,7 @@ public final class TripleTintTexture extends AbstractTexture {
 	public TripleTintTexture(String namespace, String texturename, int tint1, int tint2, int tint3, Part.TintingStrategy strategy) {
 		Objects.requireNonNull(namespace);
 		Objects.requireNonNull(texturename);
-		textureLocation = new ResourceLocation(namespace, texturename);
+		textureLocation = ResourceLocation.fromNamespaceAndPath(namespace, texturename);
 		this.tint1 = ColorUtil.fromJavaColor(tint1, true);
 		this.tint2 = ColorUtil.fromJavaColor(tint2, true);
 		this.tint3 = ColorUtil.fromJavaColor(tint3, true);

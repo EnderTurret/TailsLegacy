@@ -61,7 +61,7 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 	protected ClientPartsData getPartData(LivingEntity entity) {
 		if (!(entity instanceof Player player)) return null;
 
-		final UUID uuid = UUIDUtil.getOrCreatePlayerUUID(player.getGameProfile());
+		final UUID uuid = player.getUUID();
 
 		return ClientPlayerPartManager.get().get(uuid);
 	}
@@ -104,7 +104,7 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 				poseStack.pushPose();
 
 				if (config.renderer != null) {
-					final RenderContext ctx = new RenderContext(poseStack, null, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F, partialTick, entity, data, config.info);
+					final RenderContext ctx = new RenderContext(poseStack, null, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF, partialTick, entity, data, config.info);
 
 					RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
 

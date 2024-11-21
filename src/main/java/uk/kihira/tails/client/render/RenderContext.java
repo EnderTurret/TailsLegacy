@@ -26,10 +26,7 @@ import uk.kihira.tails.client.part.ClientPartsData;
  * @param buffer The buffer to render to.
  * @param packedLight The packed light.
  * @param packedOverlay The packed overlay.
- * @param red The red color.
- * @param green The green color.
- * @param blue The blue color.
- * @param alpha The transparency.
+ * @param color The color.
  * @param partialTick The partial tick.
  * @param entity The entity being rendered.
  * @param parts The entity's full part data.
@@ -37,21 +34,21 @@ import uk.kihira.tails.client.part.ClientPartsData;
  * @author EnderTurret
  */
 public record RenderContext(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay,
-		float red, float green, float blue, float alpha, float partialTick,
+		int color, float partialTick,
 		LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info) {
 
 	/**
-	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, float, float, float, float)} on the given part with parameters from this {@link RenderContext}.
+	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, int)} on the given part with parameters from this {@link RenderContext}.
 	 * @param part The part to render.
 	 * @param packedLight
 	 * @param packedOverlay
 	 */
 	public void render(ModelPart part, int packedLight, int packedOverlay) {
-		part.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		part.render(poseStack, buffer, packedLight, packedOverlay, color);
 	}
 
 	/**
-	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, float, float, float, float)} on the given part with parameters from this {@link RenderContext}.
+	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, int)} on the given part with parameters from this {@link RenderContext}.
 	 * @param part The part to render.
 	 */
 	public void render(ModelPart part) {

@@ -76,7 +76,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 */
 	@Override
 	@Deprecated
-	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {}
+	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {}
 
 	/**
 	 * @deprecated Use {@link #setupAnim(LivingEntity, float, float, float, float, uk.kihira.tails.client.part.Part.SubType, ModelPart)} instead.

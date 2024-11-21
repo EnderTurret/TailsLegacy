@@ -66,7 +66,7 @@ public final class TextureHelper {
 	 */
 	private static ResourceLocation generateTexture(UUID uuid, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints) {
 		// Add UUID to prevent deleting similar textures.
-		final ResourceLocation textureId = new ResourceLocation("tails",
+		final ResourceLocation textureId = ResourceLocation.fromNamespaceAndPath("tails",
 				"%s__%s_%s__%s__%s__%s_%s_%s".formatted(uuid, part.getId().getNamespace(),
 						part.getId().getPath(), subType.id(), texture.id(),
 						ColorUtil.hex(tints[0], true, true), ColorUtil.hex(tints[1], true, true), ColorUtil.hex(tints[2], true, true)));

@@ -33,7 +33,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.util.GsonHelper;
 
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.mixin.client.CubeDefinitionAccess;
@@ -56,7 +56,7 @@ public final class ModelSerializer {
 	}
 
 	private static void dump(PartDefinition root, int textureWidth, int textureHeight, String name) {
-		final Resource base = Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation(Tails.MOD_ID, "parts/" + name + ".json"))
+		final Resource base = Minecraft.getInstance().getResourceManager().getResource(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "parts/" + name + ".json"))
 				.orElseThrow(() -> new IllegalArgumentException("No such file: parts/" + name + ".json"));
 
 		final JsonObject json;

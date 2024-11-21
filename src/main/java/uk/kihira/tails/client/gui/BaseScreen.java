@@ -34,6 +34,10 @@ public abstract class BaseScreen extends Screen {
 		super(title);
 	}
 
+	@Override
+	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+	}
+
 	public void renderTooltips(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		for (Renderable btn : renderables)
 			if (btn instanceof ITooltip tooltip && btn instanceof GuiEventListener listener && listener.isMouseOver(mouseX, mouseY)) {

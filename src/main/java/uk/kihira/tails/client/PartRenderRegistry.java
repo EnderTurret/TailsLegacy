@@ -19,10 +19,10 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.resources.ResourceLocation;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoader;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.model.DefaultPartModel;
@@ -59,7 +59,7 @@ public final class PartRenderRegistry {
 		PART_RENDERER_REGISTRY.clear();
 
 		final Map<ResourceLocation, PartRenderer> map = new ConcurrentHashMap<>();
-		ModLoader.get().postEvent(new RegisterPartRenderersEvent(map));
+		ModLoader.postEvent(new RegisterPartRenderersEvent(map));
 
 		PART_RENDERER_REGISTRY.putAll(map);
 	}

@@ -109,7 +109,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 			final String pId = obj.get("id").getAsString();
 			if ("tails:empty".equals(pId)) return IPartInfo.empty();
 
-			final ResourceLocation partId = new ResourceLocation(pId);
+			final ResourceLocation partId = ResourceLocation.parse(pId);
 			final String subType = obj.get("subType").getAsString();
 			final String texture = obj.get("textureId").getAsString();
 

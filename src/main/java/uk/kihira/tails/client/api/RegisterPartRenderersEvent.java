@@ -15,12 +15,10 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.resources.ResourceLocation;
 
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.Event.HasResult;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.event.IModBusEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.event.IModBusEvent;
 
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartModel;
@@ -32,9 +30,9 @@ import uk.kihira.tails.client.render.part.PartRenderer;
  * <p>An event fired when {@linkplain PartRenderer PartRenderers} are being registered.
  * Use this event to link part renderers to {@linkplain Part Parts}.</p>
  *
- * <p>This event is not {@linkplain Cancelable cancellable}, and does not {@linkplain HasResult have a result}.</p>
+ * <p>This event is not {@linkplain ICancellableEvent cancellable}, and does not have a result.</p>
  *
- * <p>This event is fired on the {@linkplain FMLJavaModLoadingContext#getModEventBus() mod-specific event bus},
+ * <p>This event is fired on the {@linkplain IModBusEvent mod-specific event bus},
  * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
  *
  * @author EnderTurret

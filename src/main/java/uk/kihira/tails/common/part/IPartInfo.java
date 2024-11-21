@@ -104,7 +104,7 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 		public IPartInfo clone() { return this; }
 
 		@Override
-		public ResourceLocation getPartId() { return new ResourceLocation(Tails.MOD_ID, "empty"); }
+		public ResourceLocation getPartId() { return ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "empty"); }
 
 		@Override
 		public String getSubTypeId() { return "empty"; }

@@ -14,10 +14,11 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.level.ServerPlayer;
 
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import uk.kihira.tails.common.network.PlayerDataMapMessage;
 
@@ -25,19 +26,19 @@ import uk.kihira.tails.common.network.PlayerDataMapMessage;
  * A server event handler, for handling events on the server.
  */
 @Internal
-@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public final class ServerEventHandler {
 
 	@SubscribeEvent
-	static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+	static void onPlayerLogin(PlayerLoggedInEvent event) {
 		final ServerPlayer player = (ServerPlayer) event.getEntity();
 		// Send current known tails to uk.kihira.tails.client
-		TailsNetworkManager.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.PROXY.getPartManager().getData()));
+		PacketDistributor.sendToPlayer(player, new PlayerDataMapMessage(Tails.PROXY.getPartManager().getData()));
 	}
 
 	@SubscribeEvent
-	static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+	static void onPlayerLogout(PlayerLoggedOutEvent event) {
 		// Server doesn't save tails so we discard.
-		Tails.PROXY.getPartManager().remove(UUIDUtil.getOrCreatePlayerUUID(event.getEntity().getGameProfile()));
+		Tails.PROXY.getPartManager().remove(event.getEntity().getUUID());
 	}
 }

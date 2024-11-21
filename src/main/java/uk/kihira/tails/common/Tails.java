@@ -16,13 +16,11 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
@@ -47,10 +45,15 @@ public final class Tails {
 	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-	// I know this looks bad, but it's the only way to prevent class loading ClientProxy.
-	// Placing ClientProxy::new in here class loads it anyway.
 	@Internal
-	public static final IProxy PROXY = DistExecutor.safeRunForDist(() -> IProxy::makeClientProxy, () -> ServerProxy::new);
+	public static final IProxy PROXY;
+
+	static {
+		if (FMLEnvironment.dist == Dist.CLIENT)
+			PROXY = IProxy.makeClientProxy();
+		else
+			PROXY = new ServerProxy();
+	}
 
 	/**
 	 * A nice {@link Gson} instance for deserializing {@link PartsData}, among other things.
@@ -63,14 +66,7 @@ public final class Tails {
 			.create();
 
 	@Internal
-	public Tails() {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
-
-		final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-		modBus.addListener(this::setup);
-	}
-
-	private void setup(FMLCommonSetupEvent e) {
-		TailsNetworkManager.registerMessages();
+	public Tails(ModContainer mc) {
+		mc.registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
 	}
 }

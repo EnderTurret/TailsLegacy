@@ -287,7 +287,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		public boolean isEmpty() { return true; }
 
 		@Override
-		public ResourceLocation getPartId() { return new ResourceLocation(Tails.MOD_ID, "empty"); }
+		public ResourceLocation getPartId() { return ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "empty"); }
 
 		@Override
 		public String getSubTypeId() { return "empty"; }

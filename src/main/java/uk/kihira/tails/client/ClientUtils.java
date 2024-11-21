@@ -26,6 +26,6 @@ public final class ClientUtils {
 		final Minecraft mc = Minecraft.getInstance();
 		/*if (mc.player != null && mc.player.getUniqueID() != null)
 			return mc.player.getUniqueID();*/
-		return UUIDUtil.getOrCreatePlayerUUID(mc.getUser().getGameProfile());
+		return mc.player != null ? mc.player.getUUID() : mc.getUser().getProfileId();
 	}
 }

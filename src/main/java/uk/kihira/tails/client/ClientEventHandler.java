@@ -30,23 +30,24 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Player;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.panel.TintPanel;
@@ -73,7 +74,7 @@ public final class ClientEventHandler {
 	 * Handles events on the Forge bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 	static class Forge {
 
 		private static boolean sentPartInfoToServer = false;
@@ -108,18 +109,17 @@ public final class ClientEventHandler {
 		}
 
 		@SubscribeEvent
-		static void onClientTick(TickEvent.ClientTickEvent e) {
-			if (e.phase == TickEvent.Phase.START)
-				if (clearAllPartInfo) {
-					ClientPlayerPartManager.get().clear();
-					clearAllPartInfo = false;
-				}
-				// World can't be null if we want to send a packet it seems.
-				else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
-					LocalPartManager.syncToServer();
+		static void onClientTick(ClientTickEvent.Pre e) {
+			if (clearAllPartInfo) {
+				ClientPlayerPartManager.get().clear();
+				clearAllPartInfo = false;
+			}
+			// World can't be null if we want to send a packet it seems.
+			else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
+				LocalPartManager.syncToServer();
 
-					sentPartInfoToServer = true;
-				}
+				sentPartInfoToServer = true;
+			}
 		}
 	}
 
@@ -185,13 +185,13 @@ public final class ClientEventHandler {
 		}
 
 		private static void registerFoxtato() {
-			MinecraftForge.EVENT_BUS.register(new FoxtatoRenderer());
+			NeoForge.EVENT_BUS.register(new FoxtatoRenderer());
 		}
 
 		@SubscribeEvent
 		static void addLayers(EntityRenderersEvent.AddLayers e) {
 			final Minecraft mc = Minecraft.getInstance();
-			final Map<String, EntityRenderer<? extends Player>> skinMap = mc.getEntityRenderDispatcher().getSkinMap();
+			final Map<PlayerSkin.Model, EntityRenderer<? extends Player>> skinMap = mc.getEntityRenderDispatcher().getSkinMap();
 
 			for (EntityRenderer<? extends Player> renderer : skinMap.values()) {
 				final PlayerRenderer renderer2 = (PlayerRenderer) renderer;

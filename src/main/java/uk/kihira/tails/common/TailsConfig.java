@@ -18,13 +18,9 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.fml.config.ConfigTracker;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.config.ModConfig.Type;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
 
 /**
  * The Tails config, for all your configuration needs.
@@ -34,28 +30,14 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 @Internal
 public final class TailsConfig {
 
-	/**
-	 * Now with more spicy reflection.
-	 */
-	private static final MethodHandle CONFIGTRACKER_CONFIGSBYMOD;
-
-	static final ForgeConfigSpec CLIENT_SPEC;
+	static final ModConfigSpec CLIENT_SPEC;
 	@Internal
 	public static final TailsConfig CLIENT_INSTANCE;
 
-	private static ModConfig instance;
-
 	static {
-		final Pair<TailsConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(TailsConfig::new);
+		final Pair<TailsConfig, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(TailsConfig::new);
 		CLIENT_SPEC = pair.getRight();
 		CLIENT_INSTANCE = pair.getLeft();
-
-		try {
-			final Field field = ObfuscationReflectionHelper.findField(ConfigTracker.class, "configsByMod");
-			CONFIGTRACKER_CONFIGSBYMOD = MethodHandles.publicLookup().unreflectGetter(field);
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		}
 	}
 
 	@Internal
@@ -63,7 +45,7 @@ public final class TailsConfig {
 	@Internal
 	public final BooleanValue hidePreviewInThirdPerson;
 
-	private TailsConfig(ForgeConfigSpec.Builder builder) {
+	private TailsConfig(ModConfigSpec.Builder builder) {
 		builder.push("client");
 
 		hidePreviewInThirdPerson = builder
@@ -76,22 +58,11 @@ public final class TailsConfig {
 	}
 
 	/**
-	 * Returns the internal {@link ModConfig}.
+	 * Returns the internal {@link ModConfigSpec}.
 	 * @return The config.
 	 */
 	@Internal
-	@Nullable
-	public static ModConfig getConfig() {
-		if (instance == null)
-			try {
-				final Map<String, Map<ModConfig.Type, ModConfig>> configsByMod = (Map<String, Map<Type, ModConfig>>) CONFIGTRACKER_CONFIGSBYMOD.invoke(ConfigTracker.INSTANCE);
-				final Map<ModConfig.Type, ModConfig> modConfigs = configsByMod.get(Tails.MOD_ID);
-				if (modConfigs == null) return null;
-				instance = modConfigs.get(ModConfig.Type.CLIENT);
-			} catch (Throwable e) {
-				return null;
-			}
-
-		return instance;
+	public static ModConfigSpec getConfig() {
+		return CLIENT_SPEC;
 	}
 }

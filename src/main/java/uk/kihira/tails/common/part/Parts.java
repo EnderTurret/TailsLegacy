@@ -112,7 +112,7 @@ public final class Parts {
 		if ("tails".equals(id.getNamespace())) {
 			final String newPath = REMAP.get(id.getPath());
 			if (newPath != null)
-				return new ResourceLocation(id.getNamespace(), newPath);
+				return id.withPath(newPath);
 		}
 
 		return id;
@@ -173,7 +173,7 @@ public final class Parts {
 	 * @return The new {@link ResourceLocation}.
 	 */
 	private static ResourceLocation id(String path) {
-		return new ResourceLocation(Tails.MOD_ID, path);
+		return ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, path);
 	}
 
 	/**
@@ -206,7 +206,7 @@ public final class Parts {
 			}
 
 			if (obj.has("id")) {
-				final ResourceLocation oldPartId = new ResourceLocation(obj.get("id").getAsString());
+				final ResourceLocation oldPartId = ResourceLocation.parse(obj.get("id").getAsString());
 				final ResourceLocation newPartId = Parts.remapId(oldPartId);
 
 				if (oldPartId != newPartId) {

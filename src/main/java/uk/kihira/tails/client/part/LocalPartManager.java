@@ -16,6 +16,8 @@ import com.google.gson.GsonBuilder;
 
 import net.minecraft.client.Minecraft;
 
+import net.neoforged.neoforge.network.PacketDistributor;
+
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.common.LoggingExclusionStrategy;
 import uk.kihira.tails.common.Tails;
@@ -95,7 +97,7 @@ public final class LocalPartManager {
 	@Internal
 	public static void syncToServer() {
 		if (Minecraft.getInstance().level != null)
-			TailsNetworkManager.CHANNEL.sendToServer(new C2SPlayerDataMessage(getLocalPartsData()));
+			PacketDistributor.sendToServer(new C2SPlayerDataMessage(getLocalPartsData()));
 
 		if (ClientPlayerPartManager.sync != null)
 			ClientPlayerPartManager.sync.upload(ClientUtils.getPlayerUUID(), getLocalPartsData());

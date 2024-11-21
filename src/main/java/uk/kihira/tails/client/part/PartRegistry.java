@@ -21,7 +21,7 @@ import com.google.common.collect.MultimapBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
@@ -133,7 +133,7 @@ public final class PartRegistry {
 	 * @return The new reference.
 	 */
 	public static PartReference reference(String id) {
-		return reference(new ResourceLocation(Tails.MOD_ID, id));
+		return reference(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, id));
 	}
 
 	/**
@@ -156,7 +156,7 @@ public final class PartRegistry {
 	}
 
 	/**
-	 * Like a {@link RegistryObject} but for parts.
+	 * Like a {@link DeferredHolder} but for parts.
 	 * @author EnderTurret
 	 * @see PartRegistry#reference(ResourceLocation)
 	 */

@@ -42,10 +42,10 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 
 import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.common.Tails;
@@ -114,7 +114,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	private Map<AttachmentPoint, List<ResourceLocation>> readOrdering(ResourceManager manager) {
 		final Map<AttachmentPoint, List<ResourceLocation>> ordering = new LinkedHashMap<>();
 
-		final ResourceLocation loc = new ResourceLocation(Tails.MOD_ID, "part_ordering.json");
+		final ResourceLocation loc = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "part_ordering.json");
 		final Resource res = manager.getResource(loc).get();
 		final JsonElement json = readJson(loc, res);
 		if (json == null) return Map.of();
@@ -130,7 +130,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 						.stream()
 						.map(str -> {
 							try {
-								return new ResourceLocation(Objects.requireNonNull(str));
+								return ResourceLocation.parse(Objects.requireNonNull(str));
 							} catch (ResourceLocationException e) {
 								Tails.LOGGER.warn("part_ordering.json: Invalid resource location '{}'!\n{}", str, e.toString());
 								return null;
@@ -196,7 +196,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 			String id = trim(pair.location().getPath(), "part_textures/");
 			id = id.substring(0, id.length() - "/ordering".length());
 
-			realOrderings.put(new ResourceLocation(pair.location().getNamespace(), id), values);
+			realOrderings.put(ResourceLocation.fromNamespaceAndPath(pair.location().getNamespace(), id), values);
 		}
 
 		if (DEBUG_REGISTRIES)
@@ -297,7 +297,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 */
 	private static Part readPart(ResourceLocation location, JsonObject json, List<NamedSubType> subTypes) {
 		final String id = trim(location.getPath(), "parts/");
-		final ResourceLocation realId = new ResourceLocation(location.getNamespace(), id);
+		final ResourceLocation realId = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), id);
 
 		final AttachmentPoint attachment = AttachmentPoints.getOrCreate(json.get("attachment").getAsString());
 		if (attachment == null) throw new JsonParseException(location + ": missing attachment!");
@@ -348,7 +348,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final String id = trim(location.getPath(), "subtypes/");
 
 		final String partPath = id.substring(0, id.lastIndexOf('/'));
-		final ResourceLocation partId = new ResourceLocation(location.getNamespace(), partPath);
+		final ResourceLocation partId = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), partPath);
 
 		final String typeId = id.substring(partPath.length() + 1);
 
@@ -375,7 +375,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final String id = trim(location.getPath(), "part_textures/");
 
 		final String partPath = id.substring(0, id.lastIndexOf('/'));
-		final ResourceLocation partId = new ResourceLocation(location.getNamespace(), partPath);
+		final ResourceLocation partId = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), partPath);
 
 		final String texId = id.substring(partPath.length() + 1);
 

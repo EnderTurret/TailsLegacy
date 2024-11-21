@@ -28,7 +28,7 @@ import uk.kihira.tails.common.Tails;
  */
 public class IconButton extends Button implements ITooltip {
 
-	public static final ResourceLocation ICONS_TEXTURE = new ResourceLocation(Tails.MOD_ID, "textures/gui/icons.png");
+	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "textures/gui/icons.png");
 
 	protected final Icons icon;
 	private final List<FormattedCharSequence> tooltip;

@@ -17,8 +17,8 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.common.base.Strings;
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.HttpMinecraftSessionService;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
+import com.mojang.authlib.yggdrasil.ProfileResult;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import net.minecraft.ChatFormatting;
@@ -30,8 +30,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.Services;
 import net.minecraft.server.players.GameProfileCache;
 
-import net.minecraftforge.client.gui.widget.ExtendedButton;
-import net.minecraftforge.common.UsernameCache;
+import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
+import net.neoforged.neoforge.common.UsernameCache;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
@@ -131,17 +131,15 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 		}
 
 		// Option C - "Just query it lol"
-		GameProfile prof = new GameProfile(uuid, null);
-
-		prof = mc.getMinecraftSessionService().fillProfileProperties(prof, false);
-		username = prof.getName();
+		final ProfileResult result = mc.getMinecraftSessionService().fetchProfile(uuid, false);
+		username = result.profile().getName();
 
 		// Incredible, we actually got a username. Let's let the caches know, shall we?
 		if (username != null) {
 			// Unfortunately, it looks like Forge's username cache is and I quote "too good for manipulation."
 			// So instead we are only able to let our little profile cache know.
 			if (services != null)
-				services.profileCache().add(prof);
+				services.profileCache().add(result.profile());
 			return username;
 		}
 

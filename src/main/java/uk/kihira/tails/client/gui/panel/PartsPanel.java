@@ -155,14 +155,14 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 		this.partList = new ListWidget<>(
 				108 + 6, bottom - top - listTop,
-				listTop, bottom - top,
+				listTop,
 				55, partList) {
 			@Override
 			public void onItemSelected(PartEntry item) {
 				onEntrySelected(item);
 			}
 		};
-		this.partList.setRenderTopAndBottom(false);
+		//this.partList.setRenderTopAndBottom(false);
 
 		addRenderableWidget(this.partList);
 		selectDefaultListEntry();
@@ -200,7 +200,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 		final VertexConsumer consumer = impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture()));
 
-		renderer.render(gui.pose(), fakeEntity, null, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1F);
+		renderer.render(gui.pose(), fakeEntity, null, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
 		impl.endBatch();
 
 		Lighting.setupFor3DItems();

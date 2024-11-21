@@ -22,8 +22,8 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
  */
 public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSelectionList<T> {
 
-	public ListWidget(int width, int height, int top, int bottom, int slotHeight, List<T> entries) {
-		super(Minecraft.getInstance(), width, height, top, bottom, slotHeight);
+	public ListWidget(int width, int height, int top, int slotHeight, List<T> entries) {
+		super(Minecraft.getInstance(), width, height, top, slotHeight);
 		replaceEntries(entries);
 	}
 
@@ -39,16 +39,7 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		try {
-			super.render(gui, mouseX, mouseY, partialTick);
-		} catch (IndexOutOfBoundsException e) {
-			// Thanks Mojang.
-		}
-	}
-
-	@Override
-	protected void renderBackground(GuiGraphics gui) {}
+	protected void renderListBackground(GuiGraphics gui) {}
 
 	@Override
 	public int getRowWidth() {
@@ -57,13 +48,13 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 
 	@Override
 	protected int getScrollbarPosition() {
-		return x1 - 6;
+		return getRowRight() - 6;
 	}
 
 	@Override
 	protected void renderSelection(GuiGraphics gui, int top, int width, int height, int outerColor, int innerColor) {
-		final int left = x0 + (this.width - width) / 2;
-		int right = x0 + (this.width + width) / 2;
+		final int left = getX() + (this.width - width) / 2;
+		int right = getX() + (this.width + width) / 2;
 		if (getMaxScroll() > 0)
 			right -= 6;
 		gui.fill(left, top - 2, right, top + height + 2, outerColor);

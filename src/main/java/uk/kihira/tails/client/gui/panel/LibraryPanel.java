@@ -22,7 +22,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
-import net.minecraftforge.client.gui.widget.ExtendedButton;
+import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
@@ -103,7 +103,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 		libraryEntries.sort(SORTER);
 
 		removeWidget(list);
-		addWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, bottom - top - 34, 50, libraryEntries));
+		addWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50, libraryEntries));
 	}
 
 	public void addSelectedEntry(LibraryListEntry entry) {

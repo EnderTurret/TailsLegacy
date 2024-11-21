@@ -33,7 +33,7 @@ public class SaturationSlider extends HSBSlider {
 
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
-		gui.blitWithBorder(WIDGETS_LOCATION, getX(), getY(), 0, 46, width, height, 200, 20, 2, 3, 2, 2);
+		gui.blitWithBorder(SLIDER_TEXTURE, getX(), getY(), 0, 10, width, height, 200, 20, 2, 3, 2, 2);
 		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 
 		RenderSystem.enableBlend();

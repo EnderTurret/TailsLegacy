@@ -177,17 +177,17 @@ public abstract class LayeredScreen extends BaseScreen {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
 		final Panel<?> focused = (Panel<?>) getFocused();
-		if (focused != null && focused.mouseScrolled(mouseX - focused.left, mouseY - focused.top, delta))
+		if (focused != null && focused.mouseScrolled(mouseX - focused.left, mouseY - focused.top, scrollX, scrollY))
 			return true;
 
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
-				if (focused != panel && shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseScrolled(mouseX - panel.left, mouseY - panel.top, delta))
+				if (focused != panel && shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseScrolled(mouseX - panel.left, mouseY - panel.top, scrollX, scrollY))
 					return true;
 
-		return super.mouseScrolled(mouseX, mouseY, delta);
+		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
-import net.minecraftforge.client.gui.widget.ExtendedButton;
+import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.part.ClientPartInfo;

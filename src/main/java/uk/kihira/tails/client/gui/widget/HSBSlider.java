@@ -31,7 +31,7 @@ import uk.kihira.tails.common.Tails;
  */
 public class HSBSlider extends AbstractSliderButton implements ITooltip {
 
-	protected static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(Tails.MOD_ID, "textures/gui/controls/slider_hue.png");
+	protected static final ResourceLocation SLIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "textures/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
@@ -46,7 +46,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
-		gui.blitWithBorder(WIDGETS_LOCATION, getX(), getY(), 0, 46, width, height, 200, 20, 2, 3, 2, 2);
+		gui.blitWithBorder(SLIDER_TEXTURE, getX(), getY(), 0, 10, width, height, 200, 20, 2, 3, 2, 2);
 
 		int srcY = 236;
 

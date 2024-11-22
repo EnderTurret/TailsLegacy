@@ -101,6 +101,9 @@ public final class Parts {
 		REMAP.put("slim_muzzle", "muzzle/slim_muzzle");
 		REMAP.put("thin_muzzle", "muzzle/thin_muzzle");
 		REMAP.put("big_wings", "wings/big_wings");
+
+		REMAP.put("ears/head_fin", "ears/small_head_frill");
+		REMAP.put("ears/side_fins", "ears/small_side_frills");
 	}
 
 	/**

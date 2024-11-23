@@ -27,6 +27,7 @@
 
   "tails.part.tail/dragon_tail.subtype.lizard_tail": "Lizard Tail",
   "tails.part.tail/dragon_tail.subtype.dragon_tail": "Dragon Tail",
+  "tails.part.tail/dragon_tail.subtype.finned_dragon_tail": "Finned Dragon Tail",
   "tails.part.tail/fluffy_tail.subtype.one_tail": "One Tail",
   "tails.part.tail/fluffy_tail.subtype.two_tails": "Two Tails",
   "tails.part.tail/fluffy_tail.subtype.three_tails": "Three Tails",
@@ -49,6 +50,7 @@
   "tails.part.tail/raccoon_tail.texture.standard": "Standard",
   "tails.part.tail/dragon_tail.texture.standard": "Standard",
   "tails.part.tail/dragon_tail.texture.striped": "Striped",
+  "tails.part.tail/dragon_tail.texture.simplified": "Simplified",
   "tails.part.tail/cat_tail.texture.tabby": "Tabby",
   "tails.part.tail/cat_tail.texture.tiger": "Tiger",
   "tails.part.tail/bird_tail.texture.standard": "Standard",

@@ -56,7 +56,7 @@ final class DragonTailModel extends PartModel {
 		final ModelPart tailSub1 = tailSubBase.getChild("tailSub1");
 		final ModelPart tailSub2 = tailSub1.getChild("tailSub2");
 		final ModelPart tailSub3 = tailSub2.getChild("tailSub3");
-		if ("dragon_tail".equals(subType.id())) {
+		if ("dragon_tail".equals(subType.id()) || "finned_dragon_tail".equals(subType.id())) {
 			tailSubBase.visible = true;
 			setRotationRadians(tailSubBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
 			setRotationRadians(tailSub1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
@@ -64,5 +64,8 @@ final class DragonTailModel extends PartModel {
 			setRotationRadians(tailSub3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 		} else
 			tailSubBase.visible = false;
+
+		final ModelPart fins = tail3.getChild("fins");
+		fins.visible = "finned_dragon_tail".equals(subType.id());
 	}
 }

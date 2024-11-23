@@ -1,0 +1,29 @@
+{
+  "attachment": "head/top_ears",
+  "ordering": [
+    "standard"
+  ],
+  "model": {
+    "texture_size": [16, 16],
+    "tall_ears": {
+      "pose": {
+        "pos": [0, -8, 0],
+        "rotation": [-0.4363, 0, 0]
+      },
+      "cubes": [
+        {
+          "uv": [0, 0],
+          "pos": [-3, -4, -1],
+          "size": [2, 5, 2],
+          "grow": 0.2
+        },
+        {
+          "uv": [0, 7],
+          "pos": [1, -4, -1],
+          "size": [2, 5, 2],
+          "grow": 0.2
+        }
+      ]
+    }
+  }
+}

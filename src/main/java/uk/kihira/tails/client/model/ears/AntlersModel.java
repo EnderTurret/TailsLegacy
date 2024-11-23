@@ -17,7 +17,7 @@ import uk.kihira.tails.client.part.Part.SubType;
 
 /**
  * <p>The antlers part model.</p>
- * <p>Model created by CogwheelCat.</p>
+ * <p>Model created by PuffballFungus.</p>
  * @author EnderTurret
  */
 final class AntlersModel extends PartModel {

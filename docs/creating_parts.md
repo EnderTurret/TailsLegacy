@@ -184,7 +184,7 @@ I won't be creating a model for our example tail, as it's just a hypothetical ta
 However, if you're adding a custom part or subtype, you'll need a model for it.
 
 Now unfortunately, Minecraft does not yet have data-driven entity models, so adding a part model is a lot more involved.
-This process will likely improve over the following Minecraft updates as entity models get closer to fully data-driven.
+This process will hopefully improve once entity models are fully data-driven.
 
 Once you have a model, it'll need to be saved as a `.java` file (use the `Export > Export Java Entity` option).
 This file contains all of the Java code necessary to define a model and probably looks something like this:
@@ -204,57 +204,11 @@ public class custom_model<T extends Entity> extends EntityModel<T> {
 
 For the purposes of adding a part model, we only need the contents of the `createBodyLayer()` section -- all of the rest is irrelevant.
 
-Here's the part of adding a model that gets *really* complicated and I don't recommend proceeding unless you have at least a basic understanding of Java.
+Here's the part of adding a model that gets *really* complicated.
 
-#### Implementing a part model in Java
+#### Implementing a part model
 
-Before you can add a Java part model, you will need either Tails on the classpath, or to be working on Tails itself.
-
-I'm going to describe the process for the second scenario, as it can be adapted to the first easily enough.
-
-The first thing you'll want to do is create a new Java class file in the `uk.kihira.tails.client.model` package, under one of the existing category packages if one of those applies.
-
-This class file should contain something like this:
-
-```java
-final class ExampleModel extends PartModel {
-
-	public ExampleModel() {
-
-	}
-
-	@Override
-	public void render(RenderContext ctx) {
-
-	}
-}
-```
-
-In the constructor you should add the code from the `createBodyLayer()` method from earlier.
-You do *not* need the `LayerDefinition` for this.
-I would recommend looking at the other part models for an idea of how this is structured.
-
-Next, you'll need to fill in the `render()` method.
-Generally, you can do something like this:
-
-```java
-@Override
-public void render(RenderContext ctx) {
-	ctx.render(root);
-}
-```
-
-Lastly, you need to link this model to the part.
-In order to do this, a new `PartReference` should be added to the `PartRegistry` class.
-Look at the other `PartReferences` in that class to understand how.
-
-After you have a reference, you'll need to add the linking code.
-If you put your model in one of the category packages, this will be in the class ending in `RegistrationHandler`.
-Otherwise, it will be in `PartRenderRegistry`.
-
-Look for the `registerPartRenderers()` method, where you'll see a bunch of `e.register(...)` lines.
-You need to add another one of these.
-You can copy one of the others for this, and change the part reference and model construction.
+TODO: Write this entire section now that part models are data-driven.
 
 ## Textures
 

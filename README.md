@@ -2,7 +2,7 @@
 
 A Minecraft mod that adds in a variety of tails, ears, wings, and other accessories.
 
-This is a fork of [the original project](https://github.com/kihira/Tails) that has been updated to newer versions of Minecraft and expanded with additional features.
+This is a fork of [the original project](https://github.com/kihira/Tails) that has been updated to newer versions of Minecraft and expanded with additional features. (This fork is based on the 1.12 branch — not the in-development rewrite.)
 
 ## Differences
 
@@ -37,7 +37,7 @@ To support all of these changes, the Tails data format has changed (a lot):
 Basically, the accessory data is smaller and uses fewer "magic numbers."
 
 Additionally, Tails will upgrade your old library and accessories to the newest format, so you don't have to worry about recreating them from scratch.
-This works on theoretically every version since 1.7 -- you can toss a 1.7-era library in the game directory and Tails will upgrade it for you.
+This works on theoretically every version since 1.7 — you can toss a 1.7-era library in the game directory and Tails will upgrade it for you.
 This process is not reversible, so you can't take a new Tails library and use it on an older version.
 
 ### Configuration
@@ -63,7 +63,7 @@ Forge hasn't supported this esoteric config format since, so this is what the co
 ```
 
 This change means that you won't be able to just drop an old config in the configs folder and expect it to work.
-Fortunately, you can still use your old customization data by following following one of these guides:
+Fortunately, you can still use your old customization data by following one of these guides:
 
 #### Option 1
 
@@ -98,7 +98,5 @@ Regardless of option, Tails will handle upgrading the data to the newer format, 
 
 As mentioned earlier, Tails's part system is now completely data-driven.
 For most people, the only change will be that resource packs can now define their own parts/subtypes/textures.
-Currently, this is limited to only adding new textures, as part models can only be defined in code.
-This is a limitation of Minecraft that is likely to disappear in the next few updates.
 
 There is a guide to creating parts, subtypes, and textures [here](docs/creating_parts.md).

@@ -36,7 +36,8 @@
     "tails:ears/flower_crown",
     "tails:ears/blaze_crown",
     "tails:ears/elf_ears",
-    "tails:ears/small_side_frills"
+    "tails:ears/small_side_frills",
+    "tails:ears/large_side_frills"
   ],
   "head/top_center": [
     "tails:ears/sea_pickle",
@@ -47,6 +48,7 @@
     "tails:ears/top_hat",
     "tails:ears/goggles",
     "tails:ears/small_head_frill",
+    "tails:ears/large_head_frill",
     "tails:ears/leaves",
     "tails:ears/mushrooms",
     "tails:ears/sculk_shrieker"

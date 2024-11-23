@@ -87,6 +87,8 @@
   "tails.part.ears/ram_horns": "Ram Horns",
   "tails.part.ears/sculk_shrieker": "Sculk Shrieker",
   "tails.part.ears/straw_hat": "Straw Hat",
+  "tails.part.ears/large_head_frill": "Large Head Frill",
+  "tails.part.ears/large_side_frills": "Large Side Frills",
 
   "tails.part.ears/fox_ears.subtype.outward": "Outward",
   "tails.part.ears/fox_ears.subtype.inward": "Inward",
@@ -120,6 +122,8 @@
   "tails.part.ears/ram_horns.subtype.standard": "Standard",
   "tails.part.ears/sculk_shrieker.subtype.standard": "Standard",
   "tails.part.ears/straw_hat.subtype.standard": "Standard",
+  "tails.part.ears/large_head_frill.subtype.standard": "Standard",
+  "tails.part.ears/large_side_frills.subtype.standard": "Standard",
 
   "tails.part.ears/fox_ears.texture.standard": "Standard",
   "tails.part.ears/fox_ears.texture.alt": "Alt",
@@ -157,6 +161,8 @@
   "tails.part.ears/sculk_shrieker.texture.tinted": "Tinted",
   "tails.part.ears/sculk_shrieker.texture.vanilla": "Vanilla",
   "tails.part.ears/straw_hat.texture.standard": "Standard",
+  "tails.part.ears/large_head_frill.texture.standard": "Standard",
+  "tails.part.ears/large_side_frills.texture.standard": "Standard",
 
   "tails.part.wings/big_wings": "Large Wings",
   "tails.part.wings/big_wings.subtype.large": "Large",

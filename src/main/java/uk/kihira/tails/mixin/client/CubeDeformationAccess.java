@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2024 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
 package uk.kihira.tails.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;

@@ -139,7 +139,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return The resolved part.
 	 */
 	public Part getPart() {
-		return part.get();
+		return part != null ? part.get() : null;
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return The resolved subtype.
 	 */
 	public Part.SubType getSubType() {
-		return part.get().getSubType(subType);
+		return part == null ? null : part.get().getSubType(subType);
 	}
 
 	@Override

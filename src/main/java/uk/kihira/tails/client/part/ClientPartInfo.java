@@ -26,6 +26,7 @@ import com.google.gson.JsonSerializer;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.PartRenderRegistry;
+import uk.kihira.tails.client.part.PartRegistry.PartReference;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.Tails;
@@ -41,20 +42,20 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 
 	private final IPartInfo delegate;
 
-	private final Part part;
-	private final Part.SubType subType;
-	private final Part.PartTexture textureId;
+	private final PartReference part;
+	private final String subType;
+	private final String textureId;
 
 	private transient ResourceLocation texture;
 
-	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture, boolean empty) {
+	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, PartReference part, String subType, String textureId, @Nullable ResourceLocation texture, boolean empty) {
 		if (delegate == null && !empty) {
 			if (subType == null)
-				subType = part.getSubTypes().get(0);
+				subType = part.get().getSubTypes().get(0).id();
 			if (textureId == null)
-				textureId = subType.textures().get(0);
+				textureId = part.get().getSubType(subType).textures().get(0).id();
 
-			delegate = new ServerPartInfo(part.getId(), subType.id(), textureId.id(), tints);
+			delegate = new ServerPartInfo(part.id(), subType, textureId, tints);
 		}
 		this.delegate = delegate;
 		this.part = part;
@@ -63,28 +64,28 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		this.texture = texture;
 	}
 
-	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
+	public ClientPartInfo(IPartInfo delegate, PartReference part, String subType, String textureId, @Nullable ResourceLocation texture) {
 		this(delegate, null, part, subType, textureId, texture, false);
 	}
 
-	public ClientPartInfo(IPartInfo delegate, Part part, Part.SubType subType, Part.PartTexture textureId) {
+	public ClientPartInfo(IPartInfo delegate, PartReference part, String subType, String textureId) {
 		this(delegate, part, subType, textureId, null);
 	}
 
-	public ClientPartInfo(int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId, @Nullable ResourceLocation texture) {
+	public ClientPartInfo(int[] tints, PartReference part, String subType, String textureId, @Nullable ResourceLocation texture) {
 		this(null, tints, part, subType, textureId, texture, false);
 	}
 
-	public ClientPartInfo(int[] tints, Part part, Part.SubType subType, Part.PartTexture textureId) {
+	public ClientPartInfo(int[] tints, PartReference part, String subType, String textureId) {
 		this(tints, part, subType, textureId, null);
 	}
 
-	public ClientPartInfo(int[] tints, Part part, Part.SubType subType) {
-		this(tints, part, subType, subType.textures().get(0));
+	public ClientPartInfo(int[] tints, PartReference part, String subType) {
+		this(tints, part, subType, part.get().getSubType(subType).textures().get(0).id());
 	}
 
-	public ClientPartInfo(int[] tints, Part part) {
-		this(tints, part, part.getSubTypes().get(0));
+	public ClientPartInfo(int[] tints, PartReference part) {
+		this(tints, part, part.get().getSubTypes().get(0).id());
 	}
 
 	/**
@@ -96,17 +97,9 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		if (info instanceof ClientPartInfo cpi) return cpi;
 		if (info.isEmpty()) return empty();
 
-		final Part part = PartRegistry.get(info.getPartId());
+		final PartReference part = PartRegistry.reference(info.getPartId());
 
-		final Part.SubType subType = part == null ? null : part.getSubTypes().stream()
-				.filter(st -> st.id().equals(info.getSubTypeId()))
-				.findFirst().orElse(null);
-
-		final Part.PartTexture tex = part == null || subType == null ? null : subType.textures().stream()
-				.filter(st -> st.id().equals(info.getTextureId()))
-				.findFirst().orElse(null);
-
-		return new ClientPartInfo(info, part, subType, tex);
+		return new ClientPartInfo(info, part, info.getSubTypeId(), info.getTextureId());
 	}
 
 	/**
@@ -146,7 +139,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return The resolved part.
 	 */
 	public Part getPart() {
-		return part;
+		return part.get();
 	}
 
 	@Override
@@ -159,7 +152,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return The resolved subtype.
 	 */
 	public Part.SubType getSubType() {
-		return subType;
+		return part.get().getSubType(subType);
 	}
 
 	@Override
@@ -172,7 +165,9 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return The resolved texture.
 	 */
 	public Part.PartTexture getPartTexture() {
-		return textureId;
+		final Part.SubType subType = getSubType();
+		if (subType == null) return null;
+		return subType.getTexture(textureId);
 	}
 
 	@Override
@@ -260,7 +255,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 
 	@Override
 	public ClientPartInfo clone() {
-		return new ClientPartInfo(delegate.clone(), getPart(), getSubType(), getPartTexture(), null);
+		return new ClientPartInfo(delegate.clone(), part, subType, textureId, null);
 	}
 
 	/**

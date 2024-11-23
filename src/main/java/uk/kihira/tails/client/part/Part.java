@@ -84,6 +84,15 @@ public final class Part {
 		return previewTransforms;
 	}
 
+	@Nullable
+	public SubType getSubType(String id) {
+		for (SubType type : subTypes)
+			if (type.id.equals(id))
+				return type;
+
+		return null;
+	}
+
 	/**
 	 * Returns a default {@link ClientPartInfo} for the {@link PartsPanel} to display.
 	 * @param subType The sub type of this part.
@@ -93,7 +102,7 @@ public final class Part {
 		final int[] tints = { 0xFF000000 | defaultTints[0], 0xFF000000 | defaultTints[1], 0xFF000000 | defaultTints[2] };
 		final PartTexture texture = subType.textures().get(0);
 
-		return new ClientPartInfo(tints, this, subType, texture);
+		return new ClientPartInfo(tints, PartRegistry.reference(id), subType.id, texture.id);
 	}
 
 	@Override
@@ -110,6 +119,15 @@ public final class Part {
 	 * @author EnderTurret
 	 */
 	public static record SubType(String id, @Nullable String author, List<PartTexture> textures) {
+		@Nullable
+		public PartTexture getTexture(String id) {
+			for (PartTexture tex : textures)
+				if (tex.id.equals(id))
+					return tex;
+
+			return null;
+		}
+
 		@Override
 		public String toString() {
 			final String auth = author != null ? ", author=" + author : "";

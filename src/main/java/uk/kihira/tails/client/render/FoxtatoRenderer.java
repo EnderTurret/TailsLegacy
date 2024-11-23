@@ -48,8 +48,8 @@ public final class FoxtatoRenderer {
 	public void render(PoseStack poseStack, MultiBufferSource buffers, BlockPos pos, float partialTicks, int packedLight, int packedOverlay) {
 		if (fakeEntity == null) fakeEntity = new FakeEntity(Minecraft.getInstance().level);
 
-		final ClientPartInfo tailPartInfo = new ClientPartInfo(new int[]{-5480951, -6594259, -5197647}, PartRegistry.FLUFFY_TAIL.get());
-		final ClientPartInfo earPartInfo = new ClientPartInfo(new int[]{-5480951, 0xFF000000, -5197647}, PartRegistry.FOX_EARS.get());
+		final ClientPartInfo tailPartInfo = new ClientPartInfo(new int[]{-5480951, -6594259, -5197647}, PartRegistry.FLUFFY_TAIL);
+		final ClientPartInfo earPartInfo = new ClientPartInfo(new int[]{-5480951, 0xFF000000, -5197647}, PartRegistry.FOX_EARS);
 
 		final PartRenderer foxTailRenderer = tailPartInfo.getRenderer();
 		final PartRenderer foxEarRenderer = earPartInfo.getRenderer();

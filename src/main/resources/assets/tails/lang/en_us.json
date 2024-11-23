@@ -244,5 +244,8 @@
   "tails.gui.createdby": "Created by",
   "tails.gui.partselect": "Part Select",
   "tails.gui.done": "Done",
-  "tails.gui.saved": "Saved!"
+  "tails.gui.saved": "Saved!",
+
+  "key.category.tails": "Tails",
+  "key.tails.reload_parts": "Reload All Parts"
 }

@@ -22,6 +22,7 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.client.part.PartRegistry;
 
 @Internal
 public final class TexturePanel extends Panel<EditorScreen> {
@@ -99,28 +100,28 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		final Part part = partInfo.getPart();
 		final Part.PartTexture texture = cycle(partInfo.getSubType().textures(), partInfo.getPartTexture(), -1);
-		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), texture));
+		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), PartRegistry.reference(partInfo.getPartId()), partInfo.getSubTypeId(), texture.id()));
 	}
 
 	private void cycleTexRight() {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		final Part part = partInfo.getPart();
 		final Part.PartTexture texture = cycle(partInfo.getSubType().textures(), partInfo.getPartTexture(), 1);
-		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), part, partInfo.getSubType(), texture));
+		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), PartRegistry.reference(partInfo.getPartId()), partInfo.getSubTypeId(), texture.id()));
 	}
 
 	private void cycleVariantLeft() {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		final Part part = partInfo.getPart();
 		final Part.SubType newType = cycle(part.getSubTypes(), partInfo.getSubType(), -1);
-		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), part, newType, partInfo.getPartTexture()));
+		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), PartRegistry.reference(partInfo.getPartId()), newType.id(), partInfo.getTextureId()));
 	}
 
 	private void cycleVariantRight() {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 		final Part part = partInfo.getPart();
 		final Part.SubType newType = cycle(part.getSubTypes(), partInfo.getSubType(), 1);
-		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), part, newType, partInfo.getPartTexture()));
+		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), PartRegistry.reference(partInfo.getPartId()), newType.id(), partInfo.getTextureId()));
 	}
 
 	private static <T> T cycle(List<T> elements, T current, int direction) {

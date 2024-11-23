@@ -45,7 +45,9 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -120,6 +122,11 @@ public final class ClientEventHandler {
 
 				sentPartInfoToServer = true;
 			}
+		}
+
+		@SubscribeEvent
+		static void onKeyPressed(InputEvent.Key e) {
+			TailsKeybinds.onKeyPressed(e);
 		}
 	}
 
@@ -206,6 +213,11 @@ public final class ClientEventHandler {
 						break;
 					}
 			}
+		}
+
+		@SubscribeEvent
+		static void registerKeys(RegisterKeyMappingsEvent e) {
+			TailsKeybinds.registerKeys(e);
 		}
 	}
 }

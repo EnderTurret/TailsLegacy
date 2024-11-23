@@ -116,7 +116,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 			final String subId = subType != null ? subType.id() : oldInfo.getSubTypeId();
 			final String textureId = texture != null ? texture.id() : oldInfo.getTextureId();
 			final ServerPartInfo spi = new ServerPartInfo(entry.partInfo.getPart().getId(), subId, textureId, oldInfo.getTints().clone());
-			partInfo = new ClientPartInfo(spi, entry.partInfo.getPart(), subType, texture);
+			partInfo = new ClientPartInfo(spi, PartRegistry.reference(entry.partInfo.getPart().getId()), subType.id(), texture.id());
 		}
 
 		// Breaks immutability, but it's probably fine, right?

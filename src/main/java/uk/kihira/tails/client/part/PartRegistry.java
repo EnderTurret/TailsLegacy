@@ -38,7 +38,7 @@ public final class PartRegistry {
 	private static final Map<ResourceLocation, Part> PART_REGISTRY = new TreeMap<>();
 	private static final ListMultimap<AttachmentPoint, Part> BY_TYPE = MultimapBuilder.hashKeys().arrayListValues().build();
 
-	static final PartLoadingManager MANAGER = new PartLoadingManager(() -> {
+	public static final PartLoadingManager MANAGER = new PartLoadingManager(() -> {
 		PART_REGISTRY.clear();
 		BY_TYPE.clear();
 		AttachmentPoints.clear();
@@ -83,34 +83,9 @@ public final class PartRegistry {
 	public static final PartReference SCORPION_TAIL = reference("tail/scorpion_tail");
 
 	public static final PartReference FOX_EARS = reference("ears/fox_ears");
-	public static final PartReference CAT_EARS = reference("ears/cat_ears");
-	public static final PartReference PANDA_EARS = reference("ears/panda_ears");
-	public static final PartReference SMALL_CAT_EARS = reference("ears/small_cat_ears");
-	public static final PartReference SEA_PICKLE = reference("ears/sea_pickle");
-	public static final PartReference ANTENNAE = reference("ears/antennae");
-	public static final PartReference DEMON_HORNS = reference("ears/demon_horns");
-	public static final PartReference DEER_ANTLERS = reference("ears/deer_antlers");
-	public static final PartReference AXOLOTL_GILLS = reference("ears/axolotl_gills");
-	public static final PartReference STRIDER_WHISKERS = reference("ears/strider_whiskers");
-	public static final PartReference FLASHLIGHT = reference("ears/flashlight");
-	public static final PartReference FLOWER_CROWN = reference("ears/flower_crown");
-	public static final PartReference UMBRELLA_HAT = reference("ears/umbrella_hat");
-	public static final PartReference BEANIE = reference("ears/beanie");
-	public static final PartReference TRAFFIC_CONE = reference("ears/traffic_cone");
-	public static final PartReference TOP_HAT = reference("ears/top_hat");
 	public static final PartReference BLAZE_CROWN = reference("ears/blaze_crown");
 	public static final PartReference ELF_EARS = reference("ears/elf_ears");
-	public static final PartReference HORNS = reference("ears/horns");
-	public static final PartReference ROUND_EARS = reference("ears/round_ears");
-	public static final PartReference GOGGLES = reference("ears/goggles");
 	public static final PartReference ANTLERS = reference("ears/antlers");
-	public static final PartReference HEAD_FIN = reference("ears/head_fin");
-	public static final PartReference SIDE_FINS = reference("ears/side_fins");
-	public static final PartReference LEAVES = reference("ears/leaves");
-	public static final PartReference MUSHROOMS = reference("ears/mushrooms");
-	public static final PartReference RAM_HORNS = reference("ears/ram_horns");
-	public static final PartReference SCULK_SHRIEKER = reference("ears/sculk_shrieker");
-	public static final PartReference STRAW_HAT = reference("ears/straw_hat");
 
 	public static final PartReference BIG_WINGS = reference("wings/big_wings");
 

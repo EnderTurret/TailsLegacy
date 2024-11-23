@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/EnderTurret/Tails/issues"
 
 [[mods]]
     modId="tails"
-    displayName="Tails"
+    displayName="Tails Legacy"
     displayURL="https://github.com/EnderTurret/Tails"
     description='''
 Adds a variety of accessories that can be colored in many ways.

@@ -1,4 +1,4 @@
-# Tails
+# Tails Legacy
 
 A Minecraft mod that adds in a variety of tails, ears, wings, and other accessories.
 

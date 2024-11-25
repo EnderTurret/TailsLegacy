@@ -259,7 +259,13 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 				continue;
 			}
 
-			final Part part = readPart(pair.location(), json.getAsJsonObject(), realSubTypes);
+			final Part part;
+			try {
+				part = readPart(pair.location(), json.getAsJsonObject(), realSubTypes);
+			} catch (Exception e) {
+				Tails.LOGGER.error("Failed to read part {}:", pair.location(), e);
+				continue;
+			}
 
 			if (part.getSubTypes().isEmpty())
 				Tails.LOGGER.error("Part {} is missing any sub types! Skipping!", pair.location());
@@ -299,7 +305,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final String id = trim(location.getPath(), "parts/");
 		final ResourceLocation realId = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), id);
 
-		final AttachmentPoint attachment = AttachmentPoints.getOrCreate(json.get("attachment").getAsString());
+		final AttachmentPoint attachment = AttachmentPoints.getOrCreate(GsonHelper.getAsString(json, "attachment"));
 		if (attachment == null) throw new JsonParseException(location + ": missing attachment!");
 
 		final int[] tints;

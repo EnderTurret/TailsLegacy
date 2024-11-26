@@ -311,11 +311,15 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final int[] tints;
 		if (json.has("defaultTints")) {
 			final JsonArray arr = GsonHelper.getAsJsonArray(json, "defaultTints");
-			tints = new int[] { hex(arr.get(0).getAsString()), hex(arr.get(1).getAsString()), hex(arr.get(2).getAsString()) };
+			tints = new int[] {
+					hex(GsonHelper.convertToString(arr.get(0), "defaultTints[0]")),
+					hex(GsonHelper.convertToString(arr.get(1), "defaultTints[1]")),
+					hex(GsonHelper.convertToString(arr.get(2), "defaultTints[2]"))
+			};
 		}
 		else tints = null;
 
-		final List<String> ordering = json.has("ordering") ? readStringArray(json.get("ordering")) : List.of();
+		final List<String> ordering = json.has("ordering") ? getAsStringArray(json, "ordering") : List.of();
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
@@ -358,7 +362,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final String typeId = id.substring(partPath.length() + 1);
 
-		final String author = json.has("author") ? json.get("author").getAsString() : null;
+		final String author = json.has("author") ? GsonHelper.getAsString(json, "author") : null;
 
 		final List<NamedTexture> tex = textures.stream()
 				.filter(tx -> tx.partId().equals(partId) && tx.applyTo().contains(typeId))
@@ -385,18 +389,19 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final String texId = id.substring(partPath.length() + 1);
 
-		final String path = json.has("path") ? "textures/" + json.get("path").getAsString() + ".png" : "textures/part/" + partId.getPath() + "/" + texId + ".png";
-		final String author = json.has("author") ? json.get("author").getAsString() : null;
+		String path = json.has("path") ? GsonHelper.getAsString(json, "path") : partId.getPath() + "/" + texId;
+		path = "textures/part/" + path + ".png";
+		final String author = json.has("author") ? GsonHelper.getAsString(json, "author") : null;
 
 		final List<String> applyTo = new ArrayList<>();
 
 		if (json.has("applyTo"))
-			applyTo.addAll(readStringArray(json.get("applyTo")));
+			applyTo.addAll(getAsStringArray(json, "applyTo"));
 
 		Part.TintingStrategy tintingStrategy = Part.TintingStrategy.TRIPLE_TINT;
 
 		if (json.has("tintingStrategy")) {
-			final String strat = json.get("tintingStrategy").getAsString();
+			final String strat = GsonHelper.getAsString(json, "tintingStrategy");
 			tintingStrategy = Part.TintingStrategy.of(strat);
 			if (tintingStrategy == null) {
 				tintingStrategy = Part.TintingStrategy.TRIPLE_TINT;
@@ -408,18 +413,17 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	}
 
 	/**
-	 * Attempts to parse the given json as a string array.
-	 * @param elem The element to parse.
+	 * Attempts to parse the specified json member as a string array.
+	 * @param obj The object containing the array.
+	 * @param name The name of the array.
 	 * @return The contents of the string array.
 	 */
-	private static List<String> readStringArray(JsonElement elem) {
+	private static List<String> getAsStringArray(JsonObject obj, String name) {
 		final List<String> ret = new ArrayList<>();
 
-		if (elem.isJsonArray()) {
-			final JsonArray arr = elem.getAsJsonArray();
+		if (obj.get(name) instanceof JsonArray arr)
 			for (int i = 0; i < arr.size(); i++)
-				ret.add(arr.get(i).getAsString());
-		}
+				ret.add(GsonHelper.convertToString(arr.get(i), name + "[" + i + "]"));
 
 		return ret;
 	}

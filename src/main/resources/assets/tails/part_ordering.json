@@ -9,7 +9,8 @@
     "tails:tail/shark_tail",
     "tails:tail/bunny_tail",
     "tails:tail/bee_abdomen",
-    "tails:tail/scorpion_tail"
+    "tails:tail/scorpion_tail",
+    "tails:tail/thick_tail"
   ],
   "body/back": [
     "tails:wings/big_wings"

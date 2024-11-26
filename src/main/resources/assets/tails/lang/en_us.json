@@ -24,6 +24,7 @@
   "tails.part.tail/bunny_tail": "Bunny Tail",
   "tails.part.tail/bee_abdomen": "Bee Abdomen",
   "tails.part.tail/scorpion_tail": "Scorpion Tail",
+  "tails.part.tail/thick_tail": "Thick Tail",
 
   "tails.part.tail/dragon_tail.subtype.lizard_tail": "Lizard Tail",
   "tails.part.tail/dragon_tail.subtype.dragon_tail": "Dragon Tail",
@@ -42,6 +43,7 @@
   "tails.part.tail/bee_abdomen.subtype.with_stinger": "With Stinger",
   "tails.part.tail/bee_abdomen.subtype.no_stinger": "No Stinger",
   "tails.part.tail/scorpion_tail.subtype.standard": "Standard",
+  "tails.part.tail/thick_tail.subtype.standard": "Standard",
 
   "tails.part.tail/fluffy_tail.texture.standard": "Standard",
   "tails.part.tail/fluffy_tail.texture.striped": "Striped",
@@ -59,6 +61,8 @@
   "tails.part.tail/bee_abdomen.texture.striped": "Striped",
   "tails.part.tail/bee_abdomen.texture.gradient": "Gradient",
   "tails.part.tail/scorpion_tail.texture.standard": "Standard",
+  "tails.part.tail/thick_tail.texture.simple": "Simple",
+  "tails.part.tail/thick_tail.texture.spots": "Spots",
 
   "tails.part.ears/fox_ears": "Fox Ears",
   "tails.part.ears/cat_ears": "Cat Ears",

@@ -1,0 +1,101 @@
+{
+  "attachment": "body/tail",
+  "ordering": [
+    "standard"
+  ],
+  "allowArrows": true,
+  "model": {
+    "texture_size": [64, 32],
+    "tailBase": {
+      "pose": {
+        "offset": [0, 0.5, 0],
+        "rotation": [-0.0873, 0, 0]
+      },
+      "cubes": [
+        {
+          "uv": [20, 1],
+          "pos": [-2.5, -3.5, -1.25],
+          "size": [5, 7, 4]
+        }
+      ],
+      "children": {
+        "tail1": {
+          "pose": {
+            "pos": [0, -0.75, 0],
+            "rotation": [-0.2967, 0, 0]
+          },
+          "cubes": [
+            {
+              "uv": [0, 0],
+              "pos": [-3, -3.2, 1],
+              "size": [6, 8, 4]
+            }
+          ],
+          "children": {
+            "tail2": {
+              "pose": {
+                "pos": [1, -0.25, 15.25],
+                "rotation": [0.1309, 0, 0]
+              },
+              "cubes": [
+                {
+                  "uv": [0, 12],
+                  "pos": [-4.5, -3.75, -11.5],
+                  "size": [7, 7, 4]
+                }
+              ],
+              "children": {
+                "tail3": {
+                  "pose": {
+                    "pos": [-1, -10.45, 11.5],
+                    "rotation": [0.3491, 0, 0]
+                  },
+                  "cubes": [
+                    {
+                      "uv": [38, 0],
+                      "pos": [-3, 0.1, -23.25],
+                      "size": [6, 6, 5]
+                    }
+                  ],
+                  "children": {
+                    "tail4": {
+                      "pose": {
+                        "pos": [0, 4.2, -18],
+                        "rotation": [0.3491, 0, 0]
+                      },
+                      "cubes": [
+                        {
+                          "uv": [22, 13],
+                          "pos": [-2, -3.75, -1],
+                          "size": [4, 5, 4]
+                        }
+                      ],
+                      "children": {
+                        "tail5": {
+                          "pose": {
+                            "pos": [0, 0, -10.25],
+                            "rotation": [0.0436, 0, 0]
+                          },
+                          "cubes": [
+                            {
+                              "uv": [38, 11],
+                              "pos": [-1, -1.75, 13],
+                              "size": [2, 2, 2]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "preview": {
+    "offset": [0, 0.3, 0]
+  }
+}

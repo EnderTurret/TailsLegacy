@@ -41,5 +41,6 @@ public final class TailRegistrationHandler {
 		e.register(BIRD_TAIL, new BirdTailModel());
 		e.register(SHARK_TAIL, new SharkTailModel());
 		e.register(BEE_ABDOMEN, new BeeAbdomenModel());
+		e.register(THICK_TAIL, new ThickTailModel());
 	}
 }

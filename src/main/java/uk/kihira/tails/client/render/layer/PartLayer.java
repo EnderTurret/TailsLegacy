@@ -44,7 +44,7 @@ public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerMod
 		final UUID uuid = entity.getUUID();
 		final ClientPartsData partsData = ClientPlayerPartManager.get().get(uuid);
 		for (ClientPartInfo partInfo : partsData.getParts()) {
-			if (partInfo.isInvalid()) return; // Skip unknown parts.
+			if (partInfo.isInvalid()) continue; // Skip unknown parts.
 
 			poseStack.pushPose();
 

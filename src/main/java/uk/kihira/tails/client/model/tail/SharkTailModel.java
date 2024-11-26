@@ -49,9 +49,9 @@ final class SharkTailModel extends PartModel {
 		final ModelPart tail3 = tail2.getChild("tail3");
 		final ModelPart finBase = tail3.getChild("finBase");
 		setRotationRadians(tailBase, -rad(37.37) + xAngleOffset * 4, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail1, rad(0.08) + xAngleOffset * 1, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail2, rad(15.96) - xAngleOffset * 2, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail3, rad(13.04) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(finBase, rad(148.7), Mth.cos(timestep - 10) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail1,     rad(0.08)  + xAngleOffset * 1, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail2,     rad(15.96) - xAngleOffset * 2, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail3,     rad(13.04) - xAngleOffset,     Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(finBase,   rad(148.7),                    Mth.cos(timestep - 10) / 5 * yAngleMultiplier, 0);
 	}
 }

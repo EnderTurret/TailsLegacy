@@ -15,7 +15,8 @@
           "uv": [16, -8],
           "pos": [0.0963, -9.6883, -0.2342],
           "size": [0, 9, 8],
-          "mirror": true
+          "mirror": true,
+          "visible": ["east", "west"]
         },
         {
           "uv": [0, 12],

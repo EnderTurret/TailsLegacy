@@ -293,9 +293,17 @@ public final class ModelSerializer {
 
 		final boolean mirror = GsonHelper.getAsBoolean(obj, "mirror", false);
 
+		final Set<Direction> visible;
+		if (obj.has("visible")) {
+			visible = EnumSet.noneOf(Direction.class);
+			final JsonArray array = GsonHelper.getAsJsonArray(obj, "visible");
+			for (int i = 0; i < array.size(); i++)
+				visible.add(Direction.byName(GsonHelper.convertToString(array.get(i), "visible[" + i + "]")));
+		} else visible = ALL_VISIBLE;
+
 		return CubeDefinitionAccess.tails$new(comment,
 				u, v, x, y, z, sizeX, sizeY, sizeZ,
-				grow, mirror, 1F, 1F, ALL_VISIBLE);
+				grow, mirror, 1F, 1F, visible);
 	}
 
 	public static record RootPartDefinition(PartDefinition definition, int textureWidth, int textureHeight) {

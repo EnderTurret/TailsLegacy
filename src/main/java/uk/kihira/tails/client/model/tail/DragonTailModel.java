@@ -12,6 +12,7 @@ package uk.kihira.tails.client.model.tail;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartModel;
@@ -29,10 +30,17 @@ final class DragonTailModel extends PartModel {
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.getVehicle() == null) {
 			if (entity instanceof Player player) {
-				final double[] angles = getMotionAngles(player, partialTick);
+				if (player.getPose() == Pose.SWIMMING)
+					xAngleOffset = -0.1;
+				else if (player.getPose() == Pose.SLEEPING) {
+					xAngleOffset = -0.1;
+					yAngleMultiplier = 0;
+				} else {
+					final double[] angles = getMotionAngles(player, partialTick);
 
-				xAngleOffset = Mth.clamp(angles[0] / 5, -1, 0.45);
-				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
+					xAngleOffset = Mth.clamp(angles[0] / 5, -1, 0.45);
+					yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
+				}
 			}
 		}
 		// Mounted
@@ -47,10 +55,10 @@ final class DragonTailModel extends PartModel {
 		final ModelPart tail1 = tailBase.getChild("tail1");
 		final ModelPart tail2 = tail1.getChild("tail2");
 		final ModelPart tail3 = tail2.getChild("tail3");
-		setRotationRadians(tailBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tailBase, rad(-40) + xAngleOffset * 2,                                  Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail1,    rad(-8)  + xAngleOffset * 2,                                  Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail2,    rad(10)  - xAngleOffset / 4,                                  Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail3,    rad(20)  + (xAngleOffset < 0 ? xAngleOffset : -xAngleOffset), Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 
 		final ModelPart tailSubBase = model.getChild("tailSubBase");
 		final ModelPart tailSub1 = tailSubBase.getChild("tailSub1");
@@ -58,10 +66,10 @@ final class DragonTailModel extends PartModel {
 		final ModelPart tailSub3 = tailSub2.getChild("tailSub3");
 		if ("dragon_tail".equals(subType.id()) || "finned_dragon_tail".equals(subType.id())) {
 			tailSubBase.visible = true;
-			setRotationRadians(tailSubBase, rad(-40) + xAngleOffset * 2, Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
-			setRotationRadians(tailSub1, rad(-8) + xAngleOffset * 2, Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
-			setRotationRadians(tailSub2, rad(10) - xAngleOffset / 4, Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
-			setRotationRadians(tailSub3, rad(20) - xAngleOffset, Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
+			setRotationRadians(tailSubBase, tailBase.xRot, tailBase.yRot, tailBase.zRot);
+			setRotationRadians(tailSub1, tail1.xRot, tail1.yRot, tail1.zRot);
+			setRotationRadians(tailSub2, tail2.xRot, tail2.yRot, tail2.zRot);
+			setRotationRadians(tailSub3, tail3.xRot, tail3.yRot, tail3.zRot);
 		} else
 			tailSubBase.visible = false;
 

@@ -13,17 +13,17 @@ repositories {
 }
 
 group = 'uk.kihira'
-version = '3.1.2+1.21.1'
+version = '3.1.3+1.21.1'
 
 base {
     archivesName = 'Tails'
 }
 
 dependencies {
-    //compileOnly fg.deobf('vazkii.botania:Botania:1.18.2-434:api')
-    //runtimeOnly fg.deobf('vazkii.botania:Botania:1.18.2-434')
-    //runtimeOnly fg.deobf('vazkii.patchouli:Patchouli:1.19.2-76')
-    //runtimeOnly fg.deobf('top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1')
+    //compileOnly 'vazkii.botania:Botania:1.20.1-446-FORGE:api'
+    //runtimeOnly 'vazkii.botania:Botania:1.20.1-446-FORGE'
+    //runtimeOnly 'vazkii.patchouli:Patchouli:1.21-87-NEOFORGE'
+    //runtimeOnly 'top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1'
 }
 
 neoForge {

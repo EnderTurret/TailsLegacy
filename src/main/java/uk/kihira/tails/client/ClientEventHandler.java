@@ -139,8 +139,10 @@ public final class ClientEventHandler {
 
 		@SubscribeEvent
 		static void clientSetup(FMLClientSetupEvent e) {
-			RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper<>());
-			RenderHelperManager.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
+			e.enqueueWork(() -> {
+				RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper<>());
+				RenderHelperManager.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
+			});
 
 			if (ModList.get().isLoaded("botania"))
 				registerFoxtato(); // Try to avoid class loading it if Botania isn't present.

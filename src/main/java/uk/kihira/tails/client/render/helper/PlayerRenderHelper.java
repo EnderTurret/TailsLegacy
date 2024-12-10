@@ -11,6 +11,7 @@ package uk.kihira.tails.client.render.helper;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.api.IRenderHelper;
@@ -20,9 +21,10 @@ import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * An {@link IRenderHelper} for players.
+ * @param <T> The type.
  */
 @Internal
-public final class PlayerRenderHelper implements IRenderHelper<Player> {
+public final class PlayerRenderHelper<T extends LivingEntity> implements IRenderHelper<T> {
 
 	@Internal
 	public PlayerRenderHelper() {}

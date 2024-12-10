@@ -202,7 +202,7 @@ public final class ClientEventHandler {
 
 			for (EntityRenderer<? extends Player> renderer : skinMap.values()) {
 				final PlayerRenderer renderer2 = (PlayerRenderer) renderer;
-				renderer2.addLayer(new PartLayer(renderer2));
+				renderer2.addLayer(new PartLayer<>(renderer2));
 
 				final List<RenderLayer<?, ?>> layers = ((LivingEntityRendererAccess) renderer2).tails$layers();
 				for (int i = 0; i < layers.size(); i++)

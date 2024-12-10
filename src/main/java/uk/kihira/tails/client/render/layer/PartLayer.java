@@ -13,12 +13,14 @@ import java.util.UUID;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.ClientPartsData;
@@ -29,20 +31,27 @@ import uk.kihira.tails.common.Tails;
 
 /**
  * A {@link RenderLayer} for Tails parts/accessories.
+ * @param <T> The entity type.
+ * @param <M> The model type.
  */
-public final class PartLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
+public class PartLayer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 
 	/**
 	 * @param renderer The renderer.
 	 */
-	public PartLayer(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer) {
+	public PartLayer(LivingEntityRenderer<T, M> renderer) {
 		super(renderer);
 	}
 
-	@Override
-	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
+	protected ClientPartsData getPartsData(T entity) {
 		final UUID uuid = entity.getUUID();
 		final ClientPartsData partsData = ClientPlayerPartManager.get().get(uuid);
+		return partsData;
+	}
+
+	@Override
+	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
+		final ClientPartsData partsData = getPartsData(entity);
 		for (ClientPartInfo partInfo : partsData.getParts()) {
 			if (partInfo.isInvalid()) continue; // Skip unknown parts.
 

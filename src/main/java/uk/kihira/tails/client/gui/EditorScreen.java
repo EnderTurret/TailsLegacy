@@ -40,10 +40,11 @@ import uk.kihira.tails.client.texture.TextureHelper;
  * The editor screen.
  */
 @Internal
-public final class EditorScreen extends LayeredScreen {
+public class EditorScreen extends LayeredScreen {
 
 	private RootAttachmentPoint rootAttachment;
 	private AttachmentPoint attachment;
+	private final ClientPartsData originalPartsData;
 	private ClientPartsData partsData;
 	private ClientPartInfo editingPartInfo;
 	private ClientPartInfo originalPartInfo;
@@ -82,6 +83,7 @@ public final class EditorScreen extends LayeredScreen {
 
 		originalPartInfo = partInfo.clone();
 		editingPartInfo = originalPartInfo.clone();
+		originalPartsData = original;
 		setPartsData(original.deepCopy());
 	}
 
@@ -142,7 +144,7 @@ public final class EditorScreen extends LayeredScreen {
 
 	@Override
 	public void removed() {
-		ClientPlayerPartManager.get().set(playerUUID, LocalPartManager.getLocalPartsData());
+		setPartsData(originalPartsData);
 		super.removed();
 		TextureHelper.logLeaks();
 	}

@@ -45,7 +45,7 @@ public class EditorScreen extends LayeredScreen {
 	private RootAttachmentPoint rootAttachment;
 	private AttachmentPoint attachment;
 	private final ClientPartsData originalPartsData;
-	private ClientPartsData partsData;
+	protected ClientPartsData partsData;
 	private ClientPartInfo editingPartInfo;
 	private ClientPartInfo originalPartInfo;
 

@@ -39,7 +39,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		doRender = !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || minecraft.options.getCameraType() == CameraType.FIRST_PERSON;
+		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || minecraft.options.getCameraType() == CameraType.FIRST_PERSON;
 		if (!doRender) return;
 
 		// Help
@@ -76,7 +76,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 				top + height / 2 + (int) (mcHeight / 4 * zoom),
 				(int) (mcHeight / 4 * zoom),
 				yaw, pitch,
-				partialTick, minecraft.player);
+				partialTick, parent.renderingEntity);
 
 		RenderHelper.endGlScissor();
 

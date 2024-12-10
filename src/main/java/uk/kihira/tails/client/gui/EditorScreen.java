@@ -14,7 +14,9 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.ControlsPanel;
@@ -45,7 +47,10 @@ public final class EditorScreen extends LayeredScreen {
 	private ClientPartsData partsData;
 	private ClientPartInfo editingPartInfo;
 	private ClientPartInfo originalPartInfo;
+
 	private final UUID playerUUID;
+	public final boolean isLocalPlayer;
+	public final LivingEntity renderingEntity;
 
 	private final Consumer<EditorScreen> onSave;
 
@@ -58,14 +63,16 @@ public final class EditorScreen extends LayeredScreen {
 	protected LibraryInfoPanel libraryInfoPanel;
 	protected LibraryImportPanel libraryImportPanel;
 
-	public EditorScreen(ClientPartsData original, Consumer<EditorScreen> onSave) {
+	public EditorScreen(ClientPartsData original, UUID uuid, LivingEntity renderingEntity, Consumer<EditorScreen> onSave) {
 		super(4, Component.empty());
 		this.onSave = onSave;
 
 		// Default to Tail.
 		attachment = AttachmentPoints.get("body/tail");
 		rootAttachment = attachment.root();
-		playerUUID = ClientUtils.getPlayerUUID();
+		playerUUID = uuid;
+		this.renderingEntity = renderingEntity;
+		isLocalPlayer = uuid.equals(ClientUtils.getPlayerUUID());
 
 		// Backup original PartInfo or create default one.
 		if (original == null)
@@ -84,7 +91,7 @@ public final class EditorScreen extends LayeredScreen {
 		if (data == null)
 			LocalPartManager.setLocalPartsData(data = new ClientPartsData());
 
-		return new EditorScreen(data, screen -> {
+		return new EditorScreen(data, ClientUtils.getPlayerUUID(), Minecraft.getInstance().player, screen -> {
 			// Update part info, set local and send it to the server.
 			final ClientPartsData partsData = screen.getPartsData();
 

@@ -63,8 +63,7 @@ tasks.named('jar', Jar).configure {
             'Specification-Version': '1',
             'Implementation-Title': project.name,
             'Implementation-Version': "${version}",
-            'Implementation-Vendor': 'EnderTurret',
-            'MixinConfigs': 'mixins.tails.json'
+            'Implementation-Vendor': 'EnderTurret'
         ])
     }
 }
@@ -81,8 +80,7 @@ tasks.withType(AbstractArchiveTask).configureEach {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
-            artifact sourcesJar
+            from components.java
 
             pom {
                 name = 'Tails'

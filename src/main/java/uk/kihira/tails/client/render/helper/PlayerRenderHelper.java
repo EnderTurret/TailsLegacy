@@ -10,6 +10,7 @@
 package uk.kihira.tails.client.render.helper;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.joml.Matrix4f;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -34,13 +35,17 @@ public final class PlayerRenderHelper<T extends LivingEntity> implements IRender
 		if (!"body/tail".equals(ctx.info().getPart().getAttachment().id())) return;
 
 		if (ctx.info().getPartId().equals(PartRegistry.DRAGON_TAIL.id())) {
-			if (ctx.entity().isShiftKeyDown()) ctx.poseStack().translate(0f, 0.82f, 0f);
+			if (ctx.entity().isShiftKeyDown()) {
+				ctx.poseStack().translate(0F, 0.55F, 0F);
+				ctx.poseStack().mulPose(new Matrix4f().rotateX(0.4F));
+			}
 			else ctx.poseStack().translate(0F, 0.68F, 0.1F);
 			ctx.poseStack().scale(0.8F, 0.8F, 0.8F);
 		}
 		else if (ctx.info().getPartId().equals(PartRegistry.CAT_TAIL.id()) || ctx.info().getPartId().equals(PartRegistry.DEVIL_TAIL.id())) {
-			if (ctx.entity().isShiftKeyDown()) ctx.poseStack().translate(0f, 0.82f, 0f);
-			else ctx.poseStack().translate(0F, 0.65F, 0.1F);
+			ctx.poseStack().translate(0F, 0.65F, 0.1F);
+			if (ctx.entity().isShiftKeyDown())
+				ctx.poseStack().mulPose(new Matrix4f().rotateX(0.4F));
 			ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
 		}
 		else {

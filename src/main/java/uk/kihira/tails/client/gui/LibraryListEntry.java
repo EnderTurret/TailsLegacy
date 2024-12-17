@@ -50,20 +50,23 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		final ClientPartsData partsData = (ClientPartsData) data.partsData;
 
 		final Font fontRenderer = Minecraft.getInstance().font;
-		final boolean sel = partsData.equals(LocalPartManager.getLocalPartsData());
+		final boolean sel = partsData.equals(panel.getParent().getPartsData());
 		gui.drawString(fontRenderer, (sel ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
 				5, rowTop + 3, 0xFFFFFF);
 
 		int index = 0;
 
 		for (ClientPartInfo partInfo : partsData.getParts()) {
+			if (index == 4) break;
+
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
 			RenderHelper.drawStringMultiLine(gui, fontRenderer, trans,
 					rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
+
 			for (int i = 1; i < 4; i++)
-				gui.fill(listWidth - 8 * i, rowTop + 13 + index * 8,
-						listWidth + 7 - 8 * i, rowTop + 20 + index * 8,
-						partInfo.getTints()[i - 1]);
+				gui.fill(listWidth - 1 - 8 * i, rowTop + 13 + index * 8,
+						listWidth - 1 + 7 - 8 * i, rowTop + 20 + index * 8,
+						0xFF000000 | partInfo.getTints()[i - 1]);
 
 			index++;
 		}
@@ -107,9 +110,15 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
-			final LibraryEntryData data = new LibraryEntryData(profile.getId(), profile.getName(), I18n.get("tails.gui.library.entry.default"), LocalPartManager.getLocalPartsData());
+			final LibraryEntryData data = new LibraryEntryData(
+					profile.getId(),
+					profile.getName(),
+					I18n.get("tails.gui.library.entry.default"),
+					panel.getParent().getPartsData());
+
 			Tails.PROXY.getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
+
 			return true;
 		}
 	}

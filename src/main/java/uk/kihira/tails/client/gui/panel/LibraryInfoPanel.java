@@ -25,10 +25,13 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
+import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
+import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common.LibraryEntryData;
@@ -89,6 +92,40 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 		if (entry != null) {
 			textField.render(gui, mouseX, mouseY, partialTick);
+
+			int index = 0;
+
+			final int xOffset = 0;
+			final int yOffset = 0;
+			for (ClientPartInfo partInfo : ((ClientPartsData) entry.data.partsData).getParts()) {
+				String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
+				RenderHelper.drawStringMultiLine(gui, font, trans,
+						xOffset + 5,
+						yOffset + 32 + 8 * (index * 4),
+						0xFFFFFF);
+
+				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.get(partInfo.getPart().getTranslationKey() + ".subtype." + partInfo.getSubTypeId());
+				RenderHelper.drawStringMultiLine(gui, font, trans,
+						xOffset + 5,
+						yOffset + 32 + 8 * (index * 4 + 1),
+						0xFFFFFF);
+
+				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.get(partInfo.getPart().getTranslationKey() + ".texture." + partInfo.getTextureId());
+				RenderHelper.drawStringMultiLine(gui, font, trans,
+						xOffset + 5,
+						yOffset + 32 + 8 * (index * 4 + 2),
+						0xFFFFFF);
+
+				for (int i = 1; i < 4; i++)
+					gui.fill(
+							xOffset + (right - left) - 4 - 8 * i,
+							yOffset + 32 + (index * 4 + 3) * 8,
+							xOffset + (right - left) - 4 + 7 - 8 * i,
+							yOffset + 32 + 7 + (index * 4 + 3) * 8,
+							0xFF000000 | partInfo.getTints()[i - 1]);
+
+				index++;
+			}
 
 			gui.drawString(font, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
 			gui.drawString(font, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);

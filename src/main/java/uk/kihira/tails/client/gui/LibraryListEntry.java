@@ -90,6 +90,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		panel.getList().setSelected(this);
 		panel.getParent().getLibraryInfoPanel().setEntry(this);
 		panel.getParent().setPartsData(ClientPartsData.clone(data.partsData.deepCopy()));
+		panel.getParent().setPartsInfo(panel.getParent().getPartsData().getPartInfo(panel.getParent().getAttachmentPoint()));
 		return true;
 	}
 

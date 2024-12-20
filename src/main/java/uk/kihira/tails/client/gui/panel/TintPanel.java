@@ -264,6 +264,12 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	}
 
 	public void refreshTintPane(int newTint, boolean changeText, boolean force) {
+		final boolean visible = editingTint > 0;
+
+		red.visible = green.visible = blue.visible =
+				hue.visible = saturation.visible = brightness.visible =
+				tintReset.visible = colourPicker.visible = hexText.visible = visible;
+
 		if (!force && newTint == currentTint) return;
 
 		currentTint = newTint;
@@ -286,12 +292,6 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		// The saturation slider needs to know the value of the other 2 sliders.
 		saturation.setHue((float) hue.getValue());
 		saturation.setBrightness((float) brightness.getValue());
-
-		final boolean visible = editingTint > 0;
-
-		red.visible = green.visible = blue.visible =
-				hue.visible = saturation.visible = brightness.visible =
-				tintReset.visible = colourPicker.visible = hexText.visible = visible;
 
 		tintReset.active = true;
 

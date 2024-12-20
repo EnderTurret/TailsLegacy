@@ -128,15 +128,12 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 	}
 
 	private List<LibraryListEntry> filterListEntries(String filter) {
-		final ArrayList<LibraryListEntry> filteredEntries = new ArrayList<>();
-		final List<LibraryListEntry> entries = new ArrayList<>();
+		final List<LibraryListEntry> filteredEntries = new ArrayList<>();
 
 		for (LibraryEntryData data : Tails.PROXY.getLibraryManager().libraryEntries)
-			entries.add(new LibraryListEntry(this, data));
+			if (data.entryName.toLowerCase(Locale.ROOT).contains(filter))
+				filteredEntries.add(new LibraryListEntry(this, data));
 
-		for (LibraryListEntry entry : entries)
-			if (entry instanceof LibraryListEntry.NewLibraryListEntry || entry.data.entryName.toLowerCase(Locale.ROOT).contains(filter))
-				filteredEntries.add(entry);
 		return filteredEntries;
 	}
 

@@ -38,7 +38,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 	private static final LibrarySorter SORTER = new LibrarySorter();
 	private ListWidget<LibraryListEntry> list;
 	private EditBox searchField;
-	private boolean libraryChanged = false;
+	boolean libraryChanged = false;
 
 	public LibraryPanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
@@ -54,6 +54,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 
 		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
 			Tails.PROXY.getLibraryManager().reload(true);
+			libraryChanged = false;
 			initList();
 		}));
 		addRenderableWidget(searchField = new RelativeTextBox(this, font, 5, bottom - top - 31, right - left - 10, 10, Component.empty()));
@@ -119,6 +120,13 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 		libraryChanged = true;
 	}
 
+	public void save() {
+		if (libraryChanged) {
+			Tails.PROXY.getLibraryManager().saveLibrary();
+			libraryChanged = false;
+		}
+	}
+
 	private List<LibraryListEntry> filterListEntries(String filter) {
 		final ArrayList<LibraryListEntry> filteredEntries = new ArrayList<>();
 		final List<LibraryListEntry> entries = new ArrayList<>();
@@ -134,8 +142,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void removed() {
-		if (libraryChanged)
-			Tails.PROXY.getLibraryManager().saveLibrary();
+		save();
 		super.removed();
 	}
 

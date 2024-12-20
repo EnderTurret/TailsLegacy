@@ -58,11 +58,13 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 		addRenderableWidget(favButton = new IconButton.Toggle(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
 		}, Component.translatable("tails.gui.library.button.favorite")));
+
 		addRenderableWidget(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
 			((IconButton) b).setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
 		}, Component.translatable("tails.gui.library.button.delete")));
+
 		addRenderableWidget(new IconButton(68, bottom - top - 20, IconButton.Icons.EXPORT, b -> {
 			final StringBuilder sb = new StringBuilder();
 			final LibraryEntryData libData = getEntry().data;
@@ -104,7 +106,7 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 		if (handled && entry != null) {
 			entry.data.entryName = textField.getValue();
-			Tails.PROXY.getLibraryManager().saveLibrary();
+			parent.getLibraryPanel().libraryChanged = true;
 		}
 
 		return handled || textField.canConsumeInput();
@@ -116,7 +118,7 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 		if (handled && entry != null) {
 			entry.data.entryName = textField.getValue();
-			Tails.PROXY.getLibraryManager().saveLibrary();
+			parent.getLibraryPanel().libraryChanged = true;
 		}
 
 		return handled;

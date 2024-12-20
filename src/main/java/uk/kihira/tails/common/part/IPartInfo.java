@@ -9,6 +9,7 @@
 package uk.kihira.tails.common.part;
 
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.Comparator;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -77,7 +78,8 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 			Comparator.comparing(IPartInfo::isEmpty)
 			.thenComparing(IPartInfo::getPartId)
 			.thenComparing(IPartInfo::getSubTypeId)
-			.thenComparing(IPartInfo::getTextureId));
+			.thenComparing(IPartInfo::getTextureId)
+			.thenComparing(IPartInfo::getTints, Arrays::compare));
 
 	@Override
 	default int compareTo(IPartInfo o) {

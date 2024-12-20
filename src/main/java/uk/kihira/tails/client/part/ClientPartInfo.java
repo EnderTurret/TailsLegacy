@@ -227,8 +227,11 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		if (this == o) return true;
 		if (!(o instanceof IPartInfo partInfo)) return false;
 
-		return isEmpty() == partInfo.isEmpty() && Objects.equals(getPartId(), partInfo.getPartId()) && Objects.equals(getSubTypeId(), partInfo.getSubTypeId())
-				&& Arrays.equals(getTints(), partInfo.getTints()) && Objects.equals(getTextureId(), partInfo.getTextureId());
+		return isEmpty() == partInfo.isEmpty()
+				&& Objects.equals(getPartId(), partInfo.getPartId())
+				&& Objects.equals(getSubTypeId(), partInfo.getSubTypeId())
+				&& Objects.equals(getTextureId(), partInfo.getTextureId())
+				&& Arrays.equals(getTints(), partInfo.getTints());
 	}
 
 	@Override

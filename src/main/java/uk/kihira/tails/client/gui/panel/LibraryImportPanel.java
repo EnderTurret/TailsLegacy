@@ -100,6 +100,7 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 
 		final LibraryEntryData entry = new LibraryEntryData(creatorId, fetchUsername(creatorId), name, partData);
 		Tails.PROXY.getLibraryManager().addEntry(entry);
+		parent.getLibraryPanel().libraryChanged = true;
 		parent.getLibraryPanel().initList();
 
 		toast(Component.translatable("tails.gui.library.import.toast.success", name).withStyle(ChatFormatting.GREEN));

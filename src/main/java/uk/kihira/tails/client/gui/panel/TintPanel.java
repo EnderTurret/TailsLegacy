@@ -145,7 +145,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 	protected void handleTintButton(int id) {
 		editingTint = id;
 		final int newTint = parent.getEditingPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
-		refreshTintPane(newTint, true);
+		refreshTintPane(newTint, true, true);
 		tintReset.active = false;
 		//colourPicker.active = true;
 	}

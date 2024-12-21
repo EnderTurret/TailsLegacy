@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -122,9 +123,15 @@ public class LibraryManager {
 	 * @param to The file to write the data to.
 	 */
 	protected void saveLibrary(Path to) {
+		// [
+		//   { ... },
+		//   { ... }
+		// ]
+		final String json = libraryEntries.stream().map(getGson()::toJson).collect(Collectors.joining(",\n  ", "[\n  ", "\n]"));
+
 		try (BufferedWriter bw = Files.newBufferedWriter(to, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-			getGson().toJson(libraryEntries, bw);
-		} catch (IOException e) {
+			bw.write(json);
+		} catch (Exception e) {
 			Tails.LOGGER.error("Exception writing library:", e);
 		}
 	}

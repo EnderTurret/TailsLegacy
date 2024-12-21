@@ -10,6 +10,7 @@
 package uk.kihira.tails.common;
 
 import java.lang.reflect.Type;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.UUID;
@@ -54,7 +55,7 @@ public final class LibraryEntryData {
 	}
 
 	public LibraryEntryData(UUID creatorUUID, String creatorName, String name, PartsData partsData) {
-		this(name, Calendar.getInstance().getTimeInMillis(), creatorUUID, creatorName, false, partsData);
+		this(name, Instant.now().toEpochMilli(), creatorUUID, creatorName, false, partsData);
 	}
 
 	@Override

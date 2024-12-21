@@ -22,6 +22,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 
 import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.common.Tails;
@@ -106,15 +107,19 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 
 			final JsonObject obj = json.getAsJsonObject();
 
-			final String pId = obj.get("id").getAsString();
+			final String pId = GsonHelper.getAsString(obj, "id");
 			if ("tails:empty".equals(pId)) return IPartInfo.empty();
 
 			final ResourceLocation partId = ResourceLocation.parse(pId);
-			final String subType = obj.get("subType").getAsString();
-			final String texture = obj.get("textureId").getAsString();
+			final String subType = GsonHelper.getAsString(obj, "subType");
+			final String texture = GsonHelper.getAsString(obj, "textureId");
 
-			final JsonArray tints = obj.get("tints").getAsJsonArray();
-			final int[] tintsArr = {tints.get(0).getAsInt(), tints.get(1).getAsInt(), tints.get(2).getAsInt()};
+			final JsonArray tints = GsonHelper.getAsJsonArray(obj, "tints");
+			final int[] tintsArr = {
+					tints.get(0).getAsInt() | 0xFF000000,
+					tints.get(1).getAsInt() | 0xFF000000,
+					tints.get(2).getAsInt() | 0xFF000000
+			};
 
 			return new ServerPartInfo(partId, subType, texture, tintsArr);
 		}
@@ -130,9 +135,9 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 				obj.addProperty("textureId", src.getTextureId());
 
 				final JsonArray tints = new JsonArray();
-				tints.add(src.getTints()[0]);
-				tints.add(src.getTints()[1]);
-				tints.add(src.getTints()[2]);
+				tints.add(src.getTints()[0] & 0xFFFFFF);
+				tints.add(src.getTints()[1] & 0xFFFFFF);
+				tints.add(src.getTints()[2] & 0xFFFFFF);
 				obj.add("tints", tints);
 			}
 

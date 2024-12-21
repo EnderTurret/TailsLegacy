@@ -29,8 +29,6 @@ public final class LoggingExclusionStrategy implements ExclusionStrategy {
 
 	@Override
 	public boolean shouldSkipField(FieldAttributes f) {
-		if (f.getDeclaringClass() == LibraryEntryData.class) return false;
-
 		Tails.LOGGER.warn("Attempting to reflectively (de)serialize field {} in class {}!", f.getName(), f.getDeclaringClass().getName(), new Throwable("stacktrace"));
 
 		return false;

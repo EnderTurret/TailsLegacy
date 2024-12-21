@@ -59,10 +59,10 @@ public final class Tails {
 	 * A nice {@link Gson} instance for deserializing {@link PartsData}, among other things.
 	 */
 	public static final Gson SERVER_GSON = new GsonBuilder()
-			.excludeFieldsWithoutExposeAnnotation()
 			.setExclusionStrategies(new LoggingExclusionStrategy())
 			.registerTypeHierarchyAdapter(PartsData.class, new PartsData.Serializer())
 			.registerTypeHierarchyAdapter(IPartInfo.class, ServerPartInfo.Serializer.INSTANCE)
+			.registerTypeAdapter(LibraryEntryData.class, new LibraryEntryData.Serializer())
 			.create();
 
 	@Internal

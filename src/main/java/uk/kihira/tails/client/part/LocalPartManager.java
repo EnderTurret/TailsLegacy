@@ -19,6 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import uk.kihira.tails.client.ClientUtils;
+import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.LoggingExclusionStrategy;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
@@ -42,6 +43,7 @@ public final class LocalPartManager {
 			.setExclusionStrategies(new LoggingExclusionStrategy())
 			.registerTypeHierarchyAdapter(PartsData.class, new ClientPartsData.Serializer())
 			.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer())
+			.registerTypeAdapter(LibraryEntryData.class, new LibraryEntryData.Serializer())
 			.create();
 
 	private static ClientPartsData localPartsData = ClientPartsData.EMPTY;

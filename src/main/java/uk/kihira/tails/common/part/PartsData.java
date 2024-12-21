@@ -144,8 +144,7 @@ public class PartsData {
 
 		@Override
 		public PartsData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-			json = json.deepCopy();
-			Parts.updatePartsData(json);
+			json = Parts.updatePartsData(json);
 
 			final JsonObject obj = json.getAsJsonObject();
 			final PartsData ret = new PartsData();

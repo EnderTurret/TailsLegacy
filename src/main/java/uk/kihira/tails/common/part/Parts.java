@@ -189,14 +189,25 @@ public final class Parts {
 	@Internal
 	public static JsonElement update(JsonElement elem) {
 		if (elem instanceof JsonObject obj && obj.size() > 0) {
+			boolean modified = false;
 			// Convert old style empty parts to new style empties.
 			if (obj.has("hasPart") && !obj.get("hasPart").getAsBoolean()) {
+				if (!modified) {
+					elem = obj = obj.deepCopy();
+					modified = true;
+				}
+
 				obj.keySet().clear(); // Removes all mappings from the object.
 				obj.addProperty("id", "tails:empty");
 			}
 
 			// Convert old style parts to new ones.
 			if (obj.has("partType") && obj.has("typeid")) {
+				if (!modified) {
+					elem = obj = obj.deepCopy();
+					modified = true;
+				}
+
 				final String type = obj.get("partType").getAsString().toLowerCase(Locale.ROOT);
 				final int id = obj.get("typeid").getAsInt();
 				final ResourceLocation partId = byLegacyId(type, id);
@@ -213,6 +224,11 @@ public final class Parts {
 				final ResourceLocation newPartId = Parts.remapId(oldPartId);
 
 				if (oldPartId != newPartId) {
+					if (!modified) {
+						elem = obj = obj.deepCopy();
+						modified = true;
+					}
+
 					obj.addProperty("id", newPartId.toString());
 
 					if (!TESTING) Tails.LOGGER.info("Remapped part id: {} → {}.", oldPartId, newPartId);
@@ -222,6 +238,11 @@ public final class Parts {
 
 				// Convert old style sub types to new ones.
 				if (obj.has("subid")) {
+					if (!modified) {
+						elem = obj = obj.deepCopy();
+						modified = true;
+					}
+
 					final int subId = obj.get("subid").getAsInt();
 					final String subType = legacySubType(newPartId, subId);
 
@@ -233,6 +254,11 @@ public final class Parts {
 
 				// Convert old style textures to new ones.
 				if (obj.has("textureID")) {
+					if (!modified) {
+						elem = obj = obj.deepCopy();
+						modified = true;
+					}
+
 					final int textureId = obj.get("textureID").getAsInt();
 					final String texture = legacyTexture(newPartId, textureId);
 
@@ -253,11 +279,13 @@ public final class Parts {
 			final int version = obj.has("version") ? obj.get("version").getAsInt() : 0;
 			if (version == 2) return elem;
 
+			elem = obj = obj.deepCopy();
+
 			final List<JsonElement> parts = new ArrayList<>();
 
 			if (version == 0 && obj.has("partInfos"))
 				for (JsonElement part : obj.get("partInfos").getAsJsonArray()) {
-					update(part);
+					part = update(part);
 					if (!"tails:empty".equals(part.getAsJsonObject().get("id").getAsString()))
 						parts.add(part);
 				}
@@ -265,8 +293,8 @@ public final class Parts {
 			else if (obj.has("partInfoMap")) {
 				// Convert old partInfoMap to new parts list.
 				for (Map.Entry<String, JsonElement> entry : obj.get("partInfoMap").getAsJsonObject().entrySet()) {
-					final JsonElement part = entry.getValue();
-					update(part);
+					JsonElement part = entry.getValue();
+					part = update(part);
 					if (!"tails:empty".equals(part.getAsJsonObject().get("id").getAsString()))
 						parts.add(part);
 				}

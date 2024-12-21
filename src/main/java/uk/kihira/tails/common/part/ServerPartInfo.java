@@ -101,9 +101,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 
 		@Override
 		public IPartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-			json = json.deepCopy();
-
-			Parts.update(json);
+			json = Parts.update(json);
 
 			final JsonObject obj = json.getAsJsonObject();
 

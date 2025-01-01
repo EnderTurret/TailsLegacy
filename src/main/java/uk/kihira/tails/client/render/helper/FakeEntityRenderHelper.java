@@ -31,26 +31,26 @@ public final class FakeEntityRenderHelper implements IRenderHelper<FakeEntity> {
 	public void onPreRenderTail(RenderContext ctx, PartRenderer renderer) {
 		final Part part = ctx.info().getPart();
 		switch (part.getAttachment().id()) {
-		case "body/tail" -> {
-			ctx.poseStack().translate(0, 0.65, 0);
-			ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
-		}
-		case "body/back" -> {
-			ctx.poseStack().translate(0, 0.9, 0);
-			ctx.poseStack().scale(0.6F, 0.6F, 0.6F);
-		}
-		case "head/face" -> {
-			ctx.poseStack().translate(0.2, 1.25, 0);
-			ctx.poseStack().mulPose(new Quaternionf().rotateY(Mth.PI));
-			ctx.poseStack().mulPose(new Quaternionf().rotateY(-45F * Mth.DEG_TO_RAD));
-			ctx.poseStack().mulPose(new Quaternionf().rotateX(25F * Mth.DEG_TO_RAD));
-		}
-		default -> {
-			if ("head".equals(part.getAttachment().root().id())) {
-				ctx.poseStack().mulPose(new Quaternionf().rotateY(Mth.PI));
-				ctx.poseStack().translate(0, 1.4, 0);
+			case "body/tail" -> {
+				ctx.poseStack().translate(0, 0.65, 0);
+				ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
 			}
-		}
+			case "body/back" -> {
+				ctx.poseStack().translate(0, 0.9, 0);
+				ctx.poseStack().scale(0.6F, 0.6F, 0.6F);
+			}
+			case "head/face" -> {
+				ctx.poseStack().translate(0.2, 1.25, 0);
+				ctx.poseStack().mulPose(new Quaternionf().rotateY(Mth.PI));
+				ctx.poseStack().mulPose(new Quaternionf().rotateY(-45F * Mth.DEG_TO_RAD));
+				ctx.poseStack().mulPose(new Quaternionf().rotateX(25F * Mth.DEG_TO_RAD));
+			}
+			default -> {
+				if ("head".equals(part.getAttachment().root().id())) {
+					ctx.poseStack().mulPose(new Quaternionf().rotateY(Mth.PI));
+					ctx.poseStack().translate(0, 1.4, 0);
+				}
+			}
 		}
 
 		if (renderer.modelPart != null)

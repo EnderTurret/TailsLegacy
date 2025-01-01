@@ -34,20 +34,24 @@ public final class PlayerRenderHelper<T extends LivingEntity> implements IRender
 	public void onPreRenderTail(RenderContext ctx, PartRenderer renderer) {
 		if (!"body/tail".equals(ctx.info().getPart().getAttachment().id())) return;
 
+		final boolean crouching = ctx.entity().isCrouching();
+
 		if (ctx.info().getPartId().equals(PartRegistry.DRAGON_TAIL.id())) {
-			if (ctx.entity().isShiftKeyDown()) {
+			if (crouching) {
 				ctx.poseStack().translate(0F, 0.55F, 0F);
 				ctx.poseStack().mulPose(new Matrix4f().rotateX(0.4F));
 			}
 			else ctx.poseStack().translate(0F, 0.68F, 0.1F);
 			ctx.poseStack().scale(0.8F, 0.8F, 0.8F);
 		}
+
 		else if (ctx.info().getPartId().equals(PartRegistry.CAT_TAIL.id()) || ctx.info().getPartId().equals(PartRegistry.DEVIL_TAIL.id())) {
 			ctx.poseStack().translate(0F, 0.65F, 0.1F);
-			if (ctx.entity().isShiftKeyDown())
+			if (crouching)
 				ctx.poseStack().mulPose(new Matrix4f().rotateX(0.4F));
 			ctx.poseStack().scale(0.9F, 0.9F, 0.9F);
 		}
+
 		else {
 			ctx.poseStack().translate(0F, 0.65F, 0.1F);
 			ctx.poseStack().scale(0.8F, 0.8F, 0.8F);

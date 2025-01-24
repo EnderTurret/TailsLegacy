@@ -136,13 +136,14 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	}
 
 	protected static double[] getMotionAngles(Player player, float partialTick) {
-		// TODO: When falling a large distance, tails tend move wildly up and down.
-		// This seems to be a problem with yo and yCloakO. Test with capes?
+		// TODO: When falling a large distance, tails tend to move wildly up and down.
+		// This seems to be caused by yCloakO and yCloak being set to Y when the difference between them is greater than 10.
+		// See Player.moveCloak() for details.
 		final double xMotion = Mth.lerp(partialTick, player.xCloakO, player.xCloak) - Mth.lerp(partialTick, player.xo, player.getX());
 		final double yMotion = Mth.lerp(partialTick, player.yCloakO, player.yCloak) - Mth.lerp(partialTick, player.yo, player.getY()); // Positive when falling, negative when climbing
 		final double zMotion = Mth.lerp(partialTick, player.zCloakO, player.zCloak) - Mth.lerp(partialTick, player.zo, player.getZ());
 
-		final float bodyYaw = Mth.lerp(partialTick, player.yBodyRotO, player.yBodyRot);
+		final float bodyYaw = Mth.rotLerp(partialTick, player.yBodyRotO, player.yBodyRot);
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
 		final float bodyYawRads = radf(bodyYaw);
@@ -151,12 +152,14 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 
 		final float xOffset = Mth.clamp((float) yMotion * 10F, -6F, 32F);
 		float forwardMotion = (float)(xMotion * bodyYawSin + zMotion * bodyYawCos) * 100F;
-		final float sideMotion = (float)(xMotion * bodyYawCos - zMotion * bodyYawSin) * 100F;
+		forwardMotion = Mth.clamp(forwardMotion, 0, 150);
+		float sideMotion = (float)(xMotion * bodyYawCos - zMotion * bodyYawSin) * 100F;
+		sideMotion = Mth.clamp(sideMotion, -20, 20);
 
 		if (forwardMotion < 0F) forwardMotion = 0F;
 
 		return new double[] {
-				rad(forwardMotion / 2.5 + (xOffset + getTailBob(player, partialTick))),
+				rad(forwardMotion / 2.5 + xOffset + getTailBob(player, partialTick)),
 				rad(-sideMotion / 20),
 				rad(sideMotion / 2)
 		};

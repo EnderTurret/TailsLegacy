@@ -138,11 +138,11 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	protected static double[] getMotionAngles(Player player, float partialTick) {
 		// TODO: When falling a large distance, tails tend move wildly up and down.
 		// This seems to be a problem with yo and yCloakO. Test with capes?
-		final double xMotion = player.xCloakO + (player.xCloak - player.xCloakO) * partialTick - (player.xo + (player.getX() - player.xo) * partialTick);
-		final double yMotion = player.yCloakO + (player.yCloak - player.yCloakO) * partialTick - (player.yo + (player.getY() - player.yo) * partialTick); // Positive when falling, negative when climbing
-		final double zMotion = player.zCloakO + (player.zCloak - player.zCloakO) * partialTick - (player.zo + (player.getZ() - player.zo) * partialTick);
+		final double xMotion = Mth.lerp(partialTick, player.xCloakO, player.xCloak) - Mth.lerp(partialTick, player.xo, player.getX());
+		final double yMotion = Mth.lerp(partialTick, player.yCloakO, player.yCloak) - Mth.lerp(partialTick, player.yo, player.getY()); // Positive when falling, negative when climbing
+		final double zMotion = Mth.lerp(partialTick, player.zCloakO, player.zCloak) - Mth.lerp(partialTick, player.zo, player.getZ());
 
-		final float bodyYaw = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO) * partialTick;
+		final float bodyYaw = Mth.lerp(partialTick, player.yBodyRotO, player.yBodyRot);
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
 		final float bodyYawRads = radf(bodyYaw);
@@ -163,7 +163,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	}
 
 	protected static float getTailBob(Player player, float partialTick) {
-		final float cameraYaw = player.oBob + (player.bob - player.oBob) * partialTick;
-		return Mth.sin((player.walkDistO + (player.walkDist - player.walkDistO) * partialTick) * 6) * 12 * cameraYaw;
+		final float cameraYaw = Mth.lerp(partialTick, player.oBob, player.bob);
+		return Mth.sin(Mth.lerp(partialTick, player.walkDistO, player.walkDist) * 6) * 12 * cameraYaw;
 	}
 }

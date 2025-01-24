@@ -93,7 +93,9 @@ public class PartRenderer {
 
 			if (type == null) return;
 
-			alpha = visibleToPlayer && alpha == 0xFF ? 0x23 : alpha;
+			if (visibleToPlayer && alpha == 0xFF)
+				alpha = 0x26;
+
 			final VertexConsumer buf = bufferSource.getBuffer(type);
 
 			render(poseStack, entity, parts, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
@@ -118,13 +120,13 @@ public class PartRenderer {
 	 */
 	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
 		if (!info.isEmpty()) {
-			final int color;
+			int color = alpha << 24;
 
 			if (info.getPartTexture().tintingStrategy() == Part.TintingStrategy.SINGLE_TINT) {
 				final int tint = info.getTints()[0];
-				color = 0xFF000000 | tint;
+				color |= tint;
 			} else
-				color = 0xFFFFFFFF;
+				color |= 0xFFFFFF;
 
 			final RenderContext ctx = new RenderContext(
 					poseStack, buffer, packedLight, packedOverlay,

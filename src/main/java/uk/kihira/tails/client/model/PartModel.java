@@ -138,14 +138,8 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	protected static double[] getMotionAngles(Player player, float partialTick) {
 		// TODO: When falling a large distance, tails tend move wildly up and down.
 		// This seems to be a problem with yo and yCloakO. Test with capes?
-		final double yCloakO = player.yCloakO;
-		final double yCloak = player.yCloak;
-		final double yo = player.yo;
-		final double y = player.getY();
-
 		final double xMotion = player.xCloakO + (player.xCloak - player.xCloakO) * partialTick - (player.xo + (player.getX() - player.xo) * partialTick);
-		final double yMotion = yCloakO + (yCloak - yCloakO) * partialTick
-				- (yo + (y - yo) * partialTick); // Positive when falling, negative when climbing
+		final double yMotion = player.yCloakO + (player.yCloak - player.yCloakO) * partialTick - (player.yo + (player.getY() - player.yo) * partialTick); // Positive when falling, negative when climbing
 		final double zMotion = player.zCloakO + (player.zCloak - player.zCloakO) * partialTick - (player.zo + (player.getZ() - player.zo) * partialTick);
 
 		final float bodyYaw = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO) * partialTick;
@@ -156,12 +150,16 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		final double bodyYawCos = -Mth.cos(bodyYawRads);
 
 		final float xOffset = Mth.clamp((float) yMotion * 10F, -6F, 32F);
-		float f1 = (float)(xMotion * bodyYawSin + zMotion * bodyYawCos) * 100F;
-		final float f2 = (float)(xMotion * bodyYawCos - zMotion * bodyYawSin) * 100F;
+		float forwardMotion = (float)(xMotion * bodyYawSin + zMotion * bodyYawCos) * 100F;
+		final float sideMotion = (float)(xMotion * bodyYawCos - zMotion * bodyYawSin) * 100F;
 
-		if (f1 < 0F) f1 = 0F;
+		if (forwardMotion < 0F) forwardMotion = 0F;
 
-		return new double[] {rad(f1 / 2.5 + (xOffset + getTailBob(player, partialTick))), rad(-f2 / 20), rad(f2 / 2)};
+		return new double[] {
+				rad(forwardMotion / 2.5 + (xOffset + getTailBob(player, partialTick))),
+				rad(-sideMotion / 20),
+				rad(sideMotion / 2)
+		};
 	}
 
 	protected static float getTailBob(Player player, float partialTick) {

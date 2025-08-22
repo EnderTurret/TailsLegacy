@@ -28,7 +28,7 @@ import uk.kihira.tails.common.network.S2CPlayerDataMessage;
  * @author EnderTurret
  */
 @Internal
-@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Tails.MOD_ID)
 public class TailsNetworkManager {
 
 	/**

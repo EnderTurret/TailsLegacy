@@ -26,7 +26,7 @@ import uk.kihira.tails.common.Tails;
  * @see RegisterPartRenderersEvent
  */
 @Internal
-@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
 public final class EarRegistrationHandler {
 
 	private EarRegistrationHandler() {}

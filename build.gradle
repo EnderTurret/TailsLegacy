@@ -1,7 +1,7 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.78'
+    id 'net.neoforged.moddev' version '2.0.107'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -27,7 +27,7 @@ dependencies {
 }
 
 neoForge {
-    version = '21.1.143'
+    version = '21.1.203'
 
     mods {
         tails {

@@ -76,7 +76,7 @@ public final class ClientEventHandler {
 	 * Handles events on the Forge bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
 	static class Forge {
 
 		private static boolean sentPartInfoToServer = false;
@@ -134,7 +134,7 @@ public final class ClientEventHandler {
 	 * Handles events on the mod bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
 	static class Mod {
 
 		@SubscribeEvent

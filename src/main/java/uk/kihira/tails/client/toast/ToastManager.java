@@ -27,7 +27,7 @@ import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import uk.kihira.tails.common.Tails;
 
-@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
 public final class ToastManager {
 
 	public static final ToastManager INSTANCE = new ToastManager();

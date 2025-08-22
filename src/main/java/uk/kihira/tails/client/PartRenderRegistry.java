@@ -36,7 +36,7 @@ import uk.kihira.tails.common.Tails;
  * Manages the registry of {@link PartRenderer PartRenderers} that correspond to different parts.
  * @author EnderTurret
  */
-@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
 public final class PartRenderRegistry {
 
 	private static final Map<ResourceLocation, PartRenderer> PART_RENDERER_REGISTRY = new HashMap<>();

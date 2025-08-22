@@ -56,7 +56,7 @@ import uk.kihira.tails.common.Tails;
  * @author EnderTurret
  */
 @Internal
-@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
 public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 	private final Runnable clear;

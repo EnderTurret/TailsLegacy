@@ -26,7 +26,7 @@ import uk.kihira.tails.common.network.PlayerDataMapMessage;
  * A server event handler, for handling events on the server.
  */
 @Internal
-@EventBusSubscriber(modid = Tails.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Tails.MOD_ID)
 public final class ServerEventHandler {
 
 	@SubscribeEvent

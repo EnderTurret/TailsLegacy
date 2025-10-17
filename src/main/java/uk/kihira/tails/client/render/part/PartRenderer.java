@@ -98,7 +98,7 @@ public class PartRenderer {
 
 			final VertexConsumer buf = bufferSource.getBuffer(type);
 
-			render(poseStack, entity, parts, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
+			render(poseStack, entity, parts, info, bufferSource, type, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
 		}
 	}
 
@@ -109,6 +109,7 @@ public class PartRenderer {
 	 * @param parts The entity's part data.
 	 * @param info The {@link ClientPartInfo}.
 	 * @param bufferSource The buffer to retrieve buffers from.
+	 * @param renderType The render type.
 	 * @param buffer The builder to draw to.
 	 * @param x The x location.
 	 * @param y The y location.
@@ -118,7 +119,7 @@ public class PartRenderer {
 	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
+	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, RenderType renderType, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
 		if (!info.isEmpty()) {
 			int color = alpha << 24;
 
@@ -129,7 +130,7 @@ public class PartRenderer {
 				color |= 0xFFFFFF;
 
 			final RenderContext ctx = new RenderContext(
-					poseStack, buffer, packedLight, packedOverlay,
+					poseStack, bufferSource, renderType, buffer, packedLight, packedOverlay,
 					color, partialTick,
 					entity, parts, info);
 

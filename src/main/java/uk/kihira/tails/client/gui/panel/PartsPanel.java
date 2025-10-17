@@ -24,6 +24,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -198,9 +199,10 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
-		final VertexConsumer consumer = impl.getBuffer(RenderStates.getPartPreview(partInfo.getTexture()));
+		final RenderType renderType = RenderStates.getPartPreview(partInfo.getTexture());
+		final VertexConsumer consumer = impl.getBuffer(renderType);
 
-		renderer.render(gui.pose(), fakeEntity, null, partInfo, impl, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
+		renderer.render(gui.pose(), fakeEntity, null, partInfo, impl, renderType, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
 		impl.endBatch();
 
 		Lighting.setupFor3DItems();

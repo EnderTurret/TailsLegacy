@@ -14,6 +14,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.part.ClientPartInfo;
@@ -23,6 +25,8 @@ import uk.kihira.tails.client.part.ClientPartsData;
  * Contains all the context necessary for rendering parts.
  * Created to consolidate the hundreds of parameters being accumulated in the render methods.
  * @param poseStack The {@link PoseStack} to use for transformations.
+ * @param bufferSource The buffer source.
+ * @param renderType The render type.
  * @param buffer The buffer to render to.
  * @param packedLight The packed light.
  * @param packedOverlay The packed overlay.
@@ -33,7 +37,7 @@ import uk.kihira.tails.client.part.ClientPartsData;
  * @param info The part data.
  * @author EnderTurret
  */
-public record RenderContext(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay,
+public record RenderContext(PoseStack poseStack, MultiBufferSource bufferSource, RenderType renderType, VertexConsumer buffer, int packedLight, int packedOverlay,
 		int color, float partialTick,
 		LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info) {
 

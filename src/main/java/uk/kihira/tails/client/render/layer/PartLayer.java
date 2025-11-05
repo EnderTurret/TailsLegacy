@@ -52,17 +52,28 @@ public class PartLayer<T extends LivingEntity, M extends HumanoidModel<T>> exten
 		for (ClientPartInfo partInfo : partsData.getParts()) {
 			if (partInfo.isInvalid()) continue; // Skip unknown parts.
 
+			final Part part = partInfo.getPart();
+			final PartRenderer renderer = partInfo.getRenderer();
+			final String attachmentRoot = part.getAttachment().root().id();
+			final M model = getParentModel();
+
+			// Don't render a part if its root attachment isn't visible.
+			// Prevents head parts rendering in first person in Sleep Tight beds, for example.
+			final boolean visible = switch (attachmentRoot) {
+				case "head" -> model.head.visible;
+				case "body" -> model.body.visible;
+				default -> true;
+			};
+			if (!visible) continue;
+
 			poseStack.pushPose();
 
-			if ("head".equals(partInfo.getPart().getAttachment().root().id()))
-				getParentModel().head.translateAndRotate(poseStack);
-
-			else if ("body".equals(partInfo.getPart().getAttachment().root().id()))
-				getParentModel().body.translateAndRotate(poseStack);
+			switch (attachmentRoot) {
+				case "head" -> model.head.translateAndRotate(poseStack);
+				case "body" -> model.body.translateAndRotate(poseStack);
+			}
 
 			try {
-				final Part part = partInfo.getPart();
-				final PartRenderer renderer = partInfo.getRenderer();
 				if (renderer != null)
 					renderer.render(poseStack, entity, partsData, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 0xFF);
 				// TODO: Make this less spammy.

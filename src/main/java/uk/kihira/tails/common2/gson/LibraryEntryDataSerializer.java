@@ -13,8 +13,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import net.minecraft.util.GsonHelper;
-
 import uk.kihira.tails.common2.LibraryEntryData;
 import uk.kihira.tails.common2.part.PartsData;
 
@@ -23,14 +21,14 @@ public final class LibraryEntryDataSerializer implements JsonDeserializer<Librar
 
 	@Override
 	public LibraryEntryData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-		final JsonObject entry = GsonHelper.convertToJsonObject(json, "root");
+		final JsonObject entry = TailsGsonHelper.convertToJsonObject(json, "root");
 		return new LibraryEntryData(
-				GsonHelper.getAsString(entry, "entryName"),
-				GsonHelper.getAsLong(entry, "creationDate"),
-				UUID.fromString(GsonHelper.getAsString(entry, "creatorUUID")),
-				GsonHelper.getAsString(entry, "creatorName"),
-				GsonHelper.getAsBoolean(entry, "favourite"),
-				context.deserialize(GsonHelper.getAsJsonObject(entry, "partsData"), PartsData.class)
+				TailsGsonHelper.getAsString(entry, "entryName"),
+				TailsGsonHelper.getAsLong(entry, "creationDate"),
+				UUID.fromString(TailsGsonHelper.getAsString(entry, "creatorUUID")),
+				TailsGsonHelper.getAsString(entry, "creatorName"),
+				TailsGsonHelper.getAsBoolean(entry, "favourite"),
+				context.deserialize(TailsGsonHelper.getAsJsonObject(entry, "partsData"), PartsData.class)
 				);
 	}
 

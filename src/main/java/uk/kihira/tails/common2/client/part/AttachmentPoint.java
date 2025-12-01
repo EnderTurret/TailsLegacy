@@ -8,8 +8,6 @@
 
 package uk.kihira.tails.common2.client.part;
 
-import net.minecraft.network.chat.Component;
-
 /**
  * <p>Represents an "attachment point." This is rather similar to the old "part type" system.</p>
  *
@@ -28,11 +26,8 @@ import net.minecraft.network.chat.Component;
  */
 public record AttachmentPoint(RootAttachmentPoint root, String subId, String id) implements Comparable<AttachmentPoint> {
 
-	/**
-	 * @return A translatable component for this {@code AttachmentPoint}.
-	 */
-	public Component toComponent() {
-		return Component.translatable("tails.attachment." + id);
+	public String translationKey() {
+		return "tails.attachment." + id;
 	}
 
 	@Override

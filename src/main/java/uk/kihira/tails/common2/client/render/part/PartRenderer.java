@@ -11,8 +11,6 @@ package uk.kihira.tails.common2.client.render.part;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.renderer.texture.OverlayTexture;
-
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.client.duck.TailsBuffer;
@@ -74,7 +72,7 @@ public class PartRenderer {
 	 * @param z The z location.
 	 * @param partialTick The current partial ticks.
 	 * @param packedLight The packed light.
-	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
+	 * @param packedOverlay The packed overlay.
 	 * @param alpha The transparency value.
 	 */
 	public void render(TailsPoseStack poseStack, TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, TailsBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
@@ -104,7 +102,7 @@ public class PartRenderer {
 	 * @param z The z location.
 	 * @param partialTick The current partial ticks.
 	 * @param packedLight The packed light.
-	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
+	 * @param packedOverlay The packed overlay.
 	 * @param alpha The transparency value.
 	 */
 	public void render(TailsPoseStack poseStack, TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, TailsBufferSource bufferSource, TailsBuffer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {

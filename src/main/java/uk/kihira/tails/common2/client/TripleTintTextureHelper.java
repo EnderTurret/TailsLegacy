@@ -2,6 +2,7 @@ package uk.kihira.tails.common2.client;
 
 import static uk.kihira.tails.common2.JavaColor.*;
 
+import uk.kihira.tails.common2.JavaColor;
 import uk.kihira.tails.common2.client.duck.TailsImage;
 import uk.kihira.tails.common2.client.part.Part;
 
@@ -37,7 +38,7 @@ public class TripleTintTextureHelper {
 	/**
 	 * Recolors the given input color according to the three given tints.
 	 * See {@link #colorise(int, int, int, int, int, int, int)} for more information.
-	 * @param input The input color in {@linkplain net.minecraft.util.FastColor.ABGR32#color(int, int, int, int) ABGR form}.
+	 * @param input The input color in {@linkplain JavaColor#pack(int, int, int, int) ARGB form}.
 	 * @param tint1 The first tint in ABGR form.
 	 * @param tint2 The second tint in ABGR form.
 	 * @param tint3 The third tint in ABGR form.
@@ -72,7 +73,7 @@ public class TripleTintTextureHelper {
 	 * @param tint1 The first tint.
 	 * @param tint2 The second tint.
 	 * @param tint3 The third tint.
-	 * @return The new color, packed using {@link net.minecraft.util.FastColor.ABGR32#color(int, int, int, int)}.
+	 * @return The new color, packed using {@linkplain JavaColor#pack(int, int, int, int)}.
 	 */
 	private static int colorise(int saturation, int weight2, int weight3, int alpha, int tint1, int tint2, int tint3) {
 		double w2 = weight2 / 255D;

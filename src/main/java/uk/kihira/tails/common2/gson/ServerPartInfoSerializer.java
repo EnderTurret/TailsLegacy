@@ -11,8 +11,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import net.minecraft.util.GsonHelper;
-
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
@@ -39,14 +37,14 @@ public class ServerPartInfoSerializer implements JsonSerializer<IPartInfo>, Json
 
 		final JsonObject obj = json.getAsJsonObject();
 
-		final String pId = GsonHelper.getAsString(obj, "id");
+		final String pId = TailsGsonHelper.getAsString(obj, "id");
 		if ("tails:empty".equals(pId)) return IPartInfo.empty();
 
 		final TResourceLocation partId = TailsPlatform.get().parseResourceLocation(pId);
-		final String subType = GsonHelper.getAsString(obj, "subType");
-		final String texture = GsonHelper.getAsString(obj, "textureId");
+		final String subType = TailsGsonHelper.getAsString(obj, "subType");
+		final String texture = TailsGsonHelper.getAsString(obj, "textureId");
 
-		final JsonArray tints = GsonHelper.getAsJsonArray(obj, "tints");
+		final JsonArray tints = TailsGsonHelper.getAsJsonArray(obj, "tints");
 		final int[] tintsArr = {
 				tints.get(0).getAsInt() | 0xFF000000,
 				tints.get(1).getAsInt() | 0xFF000000,

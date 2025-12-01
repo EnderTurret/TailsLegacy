@@ -10,8 +10,6 @@ package uk.kihira.tails.common2.client.part;
 
 import java.util.NavigableSet;
 
-import net.minecraft.network.chat.Component;
-
 /**
  * Represents a "root attachment point," which can be thought of as the general body part of {@link AttachmentPoint AttachmentPoints}.
  * @param id The id of the {@code RootAttachmentPoint}.
@@ -21,11 +19,8 @@ import net.minecraft.network.chat.Component;
  */
 public record RootAttachmentPoint(String id) implements Comparable<RootAttachmentPoint> {
 
-	/**
-	 * @return A translatable component for this {@code RootAttachmentPoint}.
-	 */
-	public Component toComponent() {
-		return Component.translatable("tails.attachment." + id);
+	public String translationKey() {
+		return "tails.attachment." + id;
 	}
 
 	/**

@@ -38,6 +38,12 @@ public final class TailsGsonHelper {
 		throw new JsonSyntaxException("Missing " + memberName + ", expected to find a string");
 	}
 
+	public static long getAsLong(JsonObject json, String memberName) {
+		if (json.has(memberName))
+			return convertToLong(json.get(memberName), memberName);
+		throw new JsonSyntaxException("Missing " + memberName + ", expected to find a long");
+	}
+
 	//
 
 	public static JsonArray convertToJsonArray(JsonElement json, String memberName) {
@@ -74,6 +80,12 @@ public final class TailsGsonHelper {
 		if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber())
 			return json.getAsInt();
 		throw new JsonSyntaxException("Expected " + memberName + " to be a Int, was " + getType(json));
+	}
+
+	public static long convertToLong(JsonElement json, String memberName) {
+		if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber())
+			return json.getAsLong();
+		throw new JsonSyntaxException("Expected " + memberName + " to be a Long, was " + getType(json));
 	}
 
 	public static String getType(@Nullable JsonElement json) {

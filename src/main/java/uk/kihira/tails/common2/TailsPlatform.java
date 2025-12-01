@@ -19,7 +19,7 @@ public interface TailsPlatform {
 	public void logInfo(String msg);
 	public void logInfo(String msg, Object arg1);
 	public void logInfo(String msg, Object arg1, Object arg2);
-	public void logError(String msg);
+	public void logError(String msg, Object... args);
 
 	public TResourceLocation newResourceLocation(String path);
 	public TResourceLocation parseResourceLocation(String rl);

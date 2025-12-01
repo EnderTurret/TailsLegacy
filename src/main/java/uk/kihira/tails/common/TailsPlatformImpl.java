@@ -20,7 +20,7 @@ public final class TailsPlatformImpl implements TailsPlatform {
 	public void logInfo(String msg, Object arg1, Object arg2) { Tails.LOGGER.info(msg, arg1, arg2); }
 
 	@Override
-	public void logError(String msg) { Tails.LOGGER.error(msg); }
+	public void logError(String msg, Object... args) { Tails.LOGGER.error(msg, args); }
 
 	@Override
 	public TResourceLocation newResourceLocation(String path) {

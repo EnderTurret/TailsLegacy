@@ -22,7 +22,24 @@ public interface TailsModelPart {
 	public boolean t$isEmpty();
 	public TailsModelPart t$getChild(String name);
 	public Map<String, TailsModelPart> t$getChildren();
+	public CubePose t$getRandomCube(TailsRandomSource random);
 
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color);
 	public void t$translateAndRotate(TailsPoseStack poseStack);
+
+	public static final class CubePose {
+
+		public final float minX, maxX;
+		public final float minY, maxY;
+		public final float minZ, maxZ;
+
+		public CubePose(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+			this.minX = minX;
+			this.minY = minY;
+			this.minZ = minZ;
+			this.maxX = maxX;
+			this.maxY = maxY;
+			this.maxZ = maxZ;
+		}
+	}
 }

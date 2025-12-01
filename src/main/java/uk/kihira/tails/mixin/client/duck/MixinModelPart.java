@@ -11,10 +11,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.util.RandomSource;
 
 import uk.kihira.tails.common2.client.duck.TailsBuffer;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.duck.TailsPoseStack;
+import uk.kihira.tails.common2.client.duck.TailsRandomSource;
 
 @Mixin(ModelPart.class)
 public class MixinModelPart implements TailsModelPart {
@@ -98,6 +100,12 @@ public class MixinModelPart implements TailsModelPart {
 	@SuppressWarnings("unchecked")
 	public Map<String, TailsModelPart> t$getChildren() {
 		return (Map) children;
+	}
+
+	@Override
+	public CubePose t$getRandomCube(TailsRandomSource random) {
+		final ModelPart.Cube cube = ((ModelPart) (Object) this).getRandomCube((RandomSource) random.t$unwrap());
+		return new CubePose(cube.minX, cube.minY, cube.minZ, cube.maxX, cube.maxY, cube.maxZ);
 	}
 
 	@Override

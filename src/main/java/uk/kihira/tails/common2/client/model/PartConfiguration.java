@@ -13,12 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.util.RandomSource;
-
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.duck.TailsPoseStack;
+import uk.kihira.tails.common2.client.duck.TailsRandomSource;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 
 /**
@@ -144,8 +142,8 @@ public class PartConfiguration {
 	 * @param rand The random to use for deciding which part to return.
 	 * @return The part.
 	 */
-	public TailsModelPart randomPart(RandomSource rand) {
-		return visible[rand.nextInt(visible.length)];
+	public TailsModelPart randomPart(TailsRandomSource rand) {
+		return visible[rand.t$nextInt(visible.length)];
 	}
 
 	/**
@@ -165,28 +163,6 @@ public class PartConfiguration {
 		}
 
 		part.t$translateAndRotate(poseStack);
-	}
-
-	/**
-	 * Represents a part configuration for a whole player.
-	 * @author EnderTurret
-	 */
-	public static class Player extends PartConfiguration {
-
-		private final PlayerModel<?> model;
-
-		/**
-		 * @param model The model of the player.
-		 */
-		public Player(PlayerModel<?> model) {
-			super(List.of());
-			this.model = model;
-		}
-
-		@Override
-		public TailsModelPart randomPart(RandomSource rand) {
-			return (TailsModelPart) (Object) model.getRandomModelPart(rand);
-		}
 	}
 
 	/**

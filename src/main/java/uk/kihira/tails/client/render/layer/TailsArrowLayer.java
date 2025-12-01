@@ -8,36 +8,30 @@
 
 package uk.kihira.tails.client.render.layer;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
+import uk.kihira.tails.common.TailsRandomSourceImpl;
+import uk.kihira.tails.common2.client.duck.TailsBufferSource;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.duck.TailsPoseStack;
+import uk.kihira.tails.common2.client.duck.TailsRandomSource;
 import uk.kihira.tails.common2.client.model.PartConfiguration;
-import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
-import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
-import uk.kihira.tails.common2.client.render.RenderContext;
-import uk.kihira.tails.common2.client.render.helper.RenderHelperManager;
-import uk.kihira.tails.common2.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.render.layer.BaseArrowLayer;
 
 /**
  * A specialized {@link ArrowLayer} for rendering arrows on Tails parts/accessories in addition to normal body parts.
@@ -48,7 +42,7 @@ import uk.kihira.tails.common2.client.render.part.PartRenderer;
  * @param <M>
  */
 @Internal
-public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> extends ArrowLayer<T, M> {
+public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> extends ArrowLayer<T, M> implements BaseArrowLayer {
 
 	@Internal
 	public TailsArrowLayer(EntityRendererProvider.Context context, LivingEntityRenderer<T, M> renderer) {
@@ -60,84 +54,51 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 		return super.numStuck(entity);
 	}
 
-	protected ClientPartsData getPartData(LivingEntity entity) {
-		if (!(entity instanceof Player player)) return null;
-
-		final UUID uuid = player.getUUID();
-
-		return ClientPlayerPartManager.get().get(uuid);
-	}
-
-	protected List<PartConfig> getConfigurations(ClientPartsData data, LivingEntity entity) {
-		final List<PartConfig> parts = new ArrayList<>();
-		parts.add(new PartConfig(new PartConfiguration.Player(getParentModel()), null, null));
-
-		if (!data.isEmpty())
-			for (ClientPartInfo info : data.getParts()) {
-				if (info.isInvalid()) continue;
-				final PartRenderer renderer = info.getRenderer();
-
-				if (renderer != null && renderer.modelPart != null)
-					for (PartConfiguration config : renderer.modelPart.collectParts(info)) {
-						parts.add(new PartConfig(config, info, renderer));
-						parts.add(parts.get(0));
-					}
-			}
-
-		return parts;
+	@Override
+	public PartConfiguration makeRootConfig(ClientPartsData data, TailsEntity entity) {
+		return new Player(getParentModel());
 	}
 
 	@Override
 	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 		final int stuck = numStuck(entity);
+		if (stuck <= 0) return;
 
-		if (stuck > 0) {
-			final RandomSource rand = RandomSource.create(entity.getId());
-			final ClientPartsData data = getPartData(entity);
-			final List<PartConfig> configurations = getConfigurations(data, entity);
+		final RandomSource rand = RandomSource.create(entity.getId());
 
-			for (int i = 0; i < stuck; i++) {
-				final int pick = rand.nextInt(configurations.size());
-				final PartConfig config = configurations.get(pick);
-
-				final ModelPart part = (ModelPart) (Object) config.config.randomPart(rand);
-				final ModelPart.Cube cube = part.getRandomCube(rand);
-
-				poseStack.pushPose();
-
-				if (config.renderer != null) {
-					final RenderContext ctx = new RenderContext((TailsPoseStack) poseStack, null, null, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF, partialTick, (TailsEntity) entity, data, config.info);
-
-					RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
-
-					config.renderer.modelPart.setupAnim((TailsEntity) entity, partialTick, config.info.getSubType(), config.info.getPart().getModel());
-				}
-
-				config.config.translate(config.info, (TailsPoseStack) poseStack, partialTick, (TailsEntity) entity, (TailsModelPart) (Object) part);
-
-				float xOffset = rand.nextFloat();
-				float yOffset = rand.nextFloat();
-				float zOffset = rand.nextFloat();
-				final float x = Mth.lerp(xOffset, cube.minX, cube.maxX) / 16F;
-				final float y = Mth.lerp(yOffset, cube.minY, cube.maxY) / 16F;
-				final float z = Mth.lerp(zOffset, cube.minZ, cube.maxZ) / 16F;
-
-				poseStack.translate(x, y, z);
-
-				xOffset = -(xOffset * 2F - 1F);
-				yOffset = -(yOffset * 2F - 1F);
-				zOffset = -(zOffset * 2F - 1F);
-
-				renderStuckItem(poseStack, buffer, packedLight, entity, xOffset, yOffset, zOffset, partialTick);
-
-				poseStack.popPose();
-			}
-		}
+		renderArrows(
+				(TailsEntity) entity,
+				(TailsPoseStack) poseStack,
+				(TailsBufferSource) buffer,
+				new TailsRandomSourceImpl(rand),
+				stuck, partialTick, packedLight, OverlayTexture.NO_OVERLAY);
 	}
 
-	private static record PartConfig(PartConfiguration config, ClientPartInfo info, PartRenderer renderer) {
-		public PartConfig {
-			config.prime();
+	@Override
+	@SuppressWarnings("unchecked")
+	public void renderStuckItem(TailsPoseStack poseStack, TailsBufferSource bufferSource, int packedLight, TailsEntity entity, float x, float y, float z, float partialTick) {
+		renderStuckItem((PoseStack) poseStack, (MultiBufferSource) bufferSource, packedLight, (T) entity, x, y, z, partialTick);
+	}
+
+	/**
+	 * Represents a part configuration for a whole player.
+	 * @author EnderTurret
+	 */
+	private static class Player extends PartConfiguration {
+
+		private final PlayerModel<?> model;
+
+		/**
+		 * @param model The model of the player.
+		 */
+		public Player(PlayerModel<?> model) {
+			super(List.of());
+			this.model = model;
+		}
+
+		@Override
+		public TailsModelPart randomPart(TailsRandomSource rand) {
+			return (TailsModelPart) (Object) model.getRandomModelPart((RandomSource) rand.t$unwrap());
 		}
 	}
 }

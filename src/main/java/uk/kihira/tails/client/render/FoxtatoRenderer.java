@@ -13,15 +13,10 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
-
-import uk.kihira.tails.client.FakeEntity;
+import uk.kihira.tails.common2.client.duck.FakeTailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsBufferSource;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsPoseStack;
@@ -35,18 +30,8 @@ import uk.kihira.tails.common2.client.render.part.PartRenderer;
 @Internal
 public final class FoxtatoRenderer {
 
-	private FakeEntity fakeEntity;
-
-	@SubscribeEvent
-	public void onWorldUnload(LevelEvent.Unload e) {
-		if (fakeEntity != null) {
-			fakeEntity.remove(Entity.RemovalReason.DISCARDED);
-			fakeEntity = null;
-		}
-	}
-
 	public void render(TailsPoseStack poseStack, TailsBufferSource buffers, BlockPos pos, float partialTicks, int packedLight, int packedOverlay) {
-		if (fakeEntity == null) fakeEntity = new FakeEntity(Minecraft.getInstance().level);
+		final TailsEntity fakeEntity = FakeTailsEntity.getInstance();
 
 		final ClientPartInfo tailPartInfo = new ClientPartInfo(new int[]{-5480951, -6594259, -5197647}, PartRegistry.FLUFFY_TAIL);
 		final ClientPartInfo earPartInfo = new ClientPartInfo(new int[]{-5480951, 0xFF000000, -5197647}, PartRegistry.FOX_EARS);
@@ -60,12 +45,12 @@ public final class FoxtatoRenderer {
 
 		poseStack.t$translate(0, 2F, 0.2F);
 
-		foxTailRenderer.render(poseStack, (TailsEntity) (Object) fakeEntity, null, tailPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 0xFF);
+		foxTailRenderer.render(poseStack, fakeEntity, null, tailPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 0xFF);
 
 		poseStack.t$translate(0, -0.7, -0.3F);
 		poseStack.t$rotateY(Mth.PI);
 
-		foxEarRenderer.render(poseStack, (TailsEntity) (Object) fakeEntity, null, earPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 0xFF);
+		foxEarRenderer.render(poseStack, fakeEntity, null, earPartInfo, buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay, 0xFF);
 
 		poseStack.t$pop();
 

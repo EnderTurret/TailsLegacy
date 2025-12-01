@@ -19,11 +19,14 @@ public interface MixinMultiBufferSource extends TailsBufferSource {
 
 	@Override
 	public default TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
-		final LivingEntity living = (LivingEntity) entity.t$unwrap();
 		final ResourceLocation tex = (ResourceLocation) (Object) texture;
-		final boolean visible = !living.isInvisible();
-		final boolean visibleToPlayer = !visible && !living.isInvisibleTo(Minecraft.getInstance().player);
-		final boolean glowing = Minecraft.getInstance().shouldEntityAppearGlowing(living);
+		boolean visible = true, visibleToPlayer = false, glowing = false;
+
+		if (!entity.t$isPreview() && entity.t$unwrap() instanceof LivingEntity living) {
+			visible = !living.isInvisible();
+			visibleToPlayer = !visible && !living.isInvisibleTo(Minecraft.getInstance().player);
+			glowing = Minecraft.getInstance().shouldEntityAppearGlowing(living);
+		}
 
 		final RenderType renderType;
 		if (visibleToPlayer)

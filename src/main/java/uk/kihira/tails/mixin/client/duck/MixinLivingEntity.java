@@ -9,7 +9,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 
-import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 
 @Mixin(LivingEntity.class)
@@ -155,7 +154,7 @@ public class MixinLivingEntity implements TailsEntity {
 
 	@Override
 	public boolean t$isPreview() {
-		return ((Object) this) instanceof FakeEntity;
+		return false;
 	}
 
 	@Override

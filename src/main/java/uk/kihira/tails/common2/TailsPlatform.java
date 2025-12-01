@@ -1,6 +1,7 @@
 package uk.kihira.tails.common2;
 
 import java.util.ServiceLoader;
+import java.util.UUID;
 
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
 
@@ -22,4 +23,6 @@ public interface TailsPlatform {
 
 	public TResourceLocation newResourceLocation(String path);
 	public TResourceLocation parseResourceLocation(String rl);
+
+	public UUID randomUUID();
 }

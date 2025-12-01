@@ -30,12 +30,12 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.Spinner;
 import uk.kihira.tails.client.render.RenderStates;
+import uk.kihira.tails.common2.client.duck.FakeTailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsBuffer;
 import uk.kihira.tails.common2.client.duck.TailsBufferSource;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
@@ -57,14 +57,14 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 	private ListWidget<PartEntry> partList;
 
-	private final FakeEntity fakeEntity;
+	private final TailsEntity fakeEntity;
 	private final int listTop = 32 + 15;
 
 	public PartsPanel(EditorScreen parent, int left, int top, int right, int bottom) {
 		super(parent, left, top, right, bottom);
 		alwaysReceiveMouse = true;
 
-		fakeEntity = new FakeEntity(Minecraft.getInstance().level);
+		fakeEntity = FakeTailsEntity.getInstance();
 	}
 
 	@Override
@@ -203,13 +203,13 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
-		renderer.compileTextureIfNeeded((TailsEntity) (Object) fakeEntity, partInfo);
+		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 		final RenderType renderType = RenderStates.getPartPreview((ResourceLocation) (Object) partInfo.getTexture());
 		final VertexConsumer consumer = impl.getBuffer(renderType);
 
 		renderer.render(
 				(TailsPoseStack) gui.pose(),
-				(TailsEntity) (Object) fakeEntity,
+				fakeEntity,
 				null, partInfo,
 				(TailsBufferSource) impl, (TailsBuffer) consumer,
 				0, 0, 0, partialTick,

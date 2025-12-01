@@ -1,6 +1,9 @@
 package uk.kihira.tails.common;
 
+import java.util.UUID;
+
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
@@ -27,5 +30,10 @@ public final class TailsPlatformImpl implements TailsPlatform {
 	@Override
 	public TResourceLocation parseResourceLocation(String rl) {
 		return (TResourceLocation) (Object) ResourceLocation.parse(rl);
+	}
+
+	@Override
+	public UUID randomUUID() {
+		return Mth.createInsecureUUID();
 	}
 }

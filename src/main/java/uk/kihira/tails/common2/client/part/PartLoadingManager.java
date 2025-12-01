@@ -22,8 +22,6 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-import org.joml.Vector3f;
-import org.joml.Vector3fc;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -34,6 +32,7 @@ import com.google.gson.reflect.TypeToken;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common2.client.TailsVec3f;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.ModelSerializer;
@@ -314,14 +313,14 @@ public class PartLoadingManager {
 	}
 
 	private static Transformation readTransform(JsonObject obj) {
-		final Vector3fc scale = obj.has("scale") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "scale"), "scale") : Transformation.ZERO_VECTOR;
-		final Vector3fc offset = obj.has("offset") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "offset"), "offset") : Transformation.ZERO_VECTOR;
-		final Vector3fc rotation = obj.has("rotation") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "rotation"), "rotation") : Transformation.ZERO_VECTOR;
+		final TailsVec3f scale = obj.has("scale") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "scale"), "scale") : TailsVec3f.ZERO;
+		final TailsVec3f offset = obj.has("offset") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "offset"), "offset") : TailsVec3f.ZERO;
+		final TailsVec3f rotation = obj.has("rotation") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "rotation"), "rotation") : TailsVec3f.ZERO;
 		return new Transformation(scale, offset, rotation);
 	}
 
-	private static Vector3f readVector(JsonArray array, String name) {
-		return new Vector3f(
+	private static TailsVec3f readVector(JsonArray array, String name) {
+		return new TailsVec3f(
 				TailsGsonHelper.convertToFloat(array.get(0), name + "[0]"),
 				TailsGsonHelper.convertToFloat(array.get(1), name + "[1]"),
 				TailsGsonHelper.convertToFloat(array.get(2), name + "[2]")

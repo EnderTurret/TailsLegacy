@@ -13,8 +13,6 @@ import java.util.Locale;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.texture.TripleTintTexture;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
@@ -167,7 +165,6 @@ public final class Part {
 		TRIPLE_TINT,
 		/**
 		 * Apply only the first tint to the texture.
-		 * @see RenderSystem#setShaderColor(float, float, float, float)
 		 */
 		SINGLE_TINT,
 		/**

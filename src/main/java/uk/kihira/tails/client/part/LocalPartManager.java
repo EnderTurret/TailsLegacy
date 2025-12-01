@@ -21,7 +21,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
-import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common2.LibraryEntryData;
 import uk.kihira.tails.common2.client.part.ClientPartsData;

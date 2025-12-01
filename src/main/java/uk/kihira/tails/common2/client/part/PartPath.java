@@ -1,6 +1,6 @@
 package uk.kihira.tails.common2.client.part;
 
-import net.minecraft.client.model.geom.ModelPart;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
 
 public final class PartPath {
 
@@ -14,9 +14,9 @@ public final class PartPath {
 		this(path.split("\\."));
 	}
 
-	public ModelPart traverse(ModelPart root) {
+	public TailsModelPart traverse(TailsModelPart root) {
 		for (String segment : path)
-			root = root.getChild(segment);
+			root = root.t$getChild(segment);
 
 		return root;
 	}

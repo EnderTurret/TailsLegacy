@@ -9,12 +9,11 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.part.Part;
 
 /**
@@ -23,35 +22,31 @@ import uk.kihira.tails.common2.client.part.Part;
 final class RaccoonTailModel extends PartModel {
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float headPitch, Part.SubType subType, ModelPart model) {
+	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {
 		final float timestep = getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 
-		if (entity.getVehicle() == null) {
-			if (entity instanceof Player player) {
-				final double[] angles = getMotionAngles(player, partialTick);
-
-				xAngleOffset = angles[0];
-				yAngleOffset = angles[1];
-				zAngleOffset = angles[2];
-				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
-
-				xAngleOffset = Mth.clamp(xAngleOffset * 0.6, -1, 0.45);
-				zAngleOffset = Mth.clamp(zAngleOffset * 0.5, -0.5, 0.5);
-			}
-		}
-		// Mounted
-		else {
+		if (entity.t$isPassenger()) {
 			xAngleOffset = rad(20);
 			yAngleMultiplier = 0.2F;
+		} else {
+			final double[] angles = getMotionAngles(entity, partialTick);
+
+			xAngleOffset = angles[0];
+			yAngleOffset = angles[1];
+			zAngleOffset = angles[2];
+			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
+
+			xAngleOffset = Mth.clamp(xAngleOffset * 0.6, -1, 0.45);
+			zAngleOffset = Mth.clamp(zAngleOffset * 0.5, -0.5, 0.5);
 		}
 
-		final ModelPart tailBase = model.getChild("tailBase");
-		final ModelPart tail1 = tailBase.getChild("tail1");
-		final ModelPart tail2 = tail1.getChild("tail2");
+		final TailsModelPart tailBase = model.t$getChild("tailBase");
+		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
+		final TailsModelPart tail2 = tail1.t$getChild("tail2");
 		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
 		setRotationRadians(tail1, rad(-40) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
 		setRotationRadians(tail2, rad(-30) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);

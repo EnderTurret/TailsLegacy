@@ -70,6 +70,12 @@ public final class TailsGsonHelper {
 		throw new JsonSyntaxException("Expected " + memberName + " to be a float, was " + getType(json));
 	}
 
+	public static int convertToInt(JsonElement json, String memberName) {
+		if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber())
+			return json.getAsInt();
+		throw new JsonSyntaxException("Expected " + memberName + " to be a Int, was " + getType(json));
+	}
+
 	public static String getType(@Nullable JsonElement json) {
 		if (json == null) return "null (missing)";
 		if (json.isJsonNull()) return "null (json)";

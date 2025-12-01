@@ -10,7 +10,6 @@
 package uk.kihira.tails.common.network;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -18,8 +17,6 @@ import com.google.common.base.Strings;
 
 import io.netty.buffer.ByteBuf;
 
-import net.minecraft.core.UUIDUtil;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

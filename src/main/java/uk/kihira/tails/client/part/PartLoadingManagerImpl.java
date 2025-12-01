@@ -1,18 +1,10 @@
 package uk.kihira.tails.client.part;
 
-import java.io.BufferedReader;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Predicate;
-
-import org.jetbrains.annotations.Nullable;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 
@@ -27,7 +19,6 @@ import uk.kihira.tails.common2.client.part.AttachmentPoint;
 import uk.kihira.tails.common2.client.part.Part;
 import uk.kihira.tails.common2.client.part.PartLoadingManager;
 import uk.kihira.tails.common2.client.part.PartRegistry;
-import uk.kihira.tails.common_gson.ResourceManagerWrapper;
 
 @EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
 public final class PartLoadingManagerImpl extends PartLoadingManager implements ResourceManagerReloadListener {

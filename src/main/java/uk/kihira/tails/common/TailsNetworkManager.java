@@ -8,11 +8,7 @@
 
 package uk.kihira.tails.common;
 
-import java.util.Optional;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
-
-import net.minecraft.resources.ResourceLocation;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

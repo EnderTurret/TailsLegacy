@@ -11,7 +11,6 @@ package uk.kihira.tails.common;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.level.ServerPlayer;
 
 import net.neoforged.bus.api.SubscribeEvent;

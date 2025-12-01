@@ -9,19 +9,15 @@
 
 package uk.kihira.tails.api;
 
-import net.minecraft.world.entity.LivingEntity;
-
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
 
 /**
  * A pre-render callback for part rendering.
  * Called just before rendering in {@link PartRenderer#preRender(RenderContext)}.
- *
- * @param <T> The type of entity this helper is for.
  */
 @FunctionalInterface
-public interface IRenderHelper<T extends LivingEntity> {
+public interface IRenderHelper {
 
 	/**
 	 * <p>Handles pre-render transformations and other fun stuff.</p>

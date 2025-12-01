@@ -36,6 +36,10 @@ import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.Spinner;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.duck.TailsBuffer;
+import uk.kihira.tails.common2.client.duck.TailsBufferSource;
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 import uk.kihira.tails.common2.client.part.AttachmentPoint;
 import uk.kihira.tails.common2.client.part.AttachmentPoints;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
@@ -198,11 +202,18 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
-		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
+		renderer.compileTextureIfNeeded((TailsEntity) (Object) fakeEntity, partInfo);
 		final RenderType renderType = RenderStates.getPartPreview(partInfo.getTexture());
 		final VertexConsumer consumer = impl.getBuffer(renderType);
 
-		renderer.render(gui.pose(), fakeEntity, null, partInfo, impl, renderType, consumer, 0, 0, 0, partialTick, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
+		renderer.render(
+				(TailsPoseStack) gui.pose(),
+				(TailsEntity) (Object) fakeEntity,
+				null, partInfo,
+				(TailsBufferSource) impl, (TailsBuffer) consumer,
+				0, 0, 0, partialTick,
+				LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
+
 		impl.endBatch();
 
 		Lighting.setupFor3DItems();

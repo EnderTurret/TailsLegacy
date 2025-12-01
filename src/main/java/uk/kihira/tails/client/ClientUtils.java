@@ -12,7 +12,6 @@ package uk.kihira.tails.client;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.UUIDUtil;
 
 /**
  * Various client-side utilities.

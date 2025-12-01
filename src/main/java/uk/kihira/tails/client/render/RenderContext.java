@@ -14,10 +14,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.entity.LivingEntity;
 
+import uk.kihira.tails.common2.client.duck.TailsBuffer;
+import uk.kihira.tails.common2.client.duck.TailsBufferSource;
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
+import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
 
@@ -26,7 +28,6 @@ import uk.kihira.tails.common2.client.part.ClientPartsData;
  * Created to consolidate the hundreds of parameters being accumulated in the render methods.
  * @param poseStack The {@link PoseStack} to use for transformations.
  * @param bufferSource The buffer source.
- * @param renderType The render type.
  * @param buffer The buffer to render to.
  * @param packedLight The packed light.
  * @param packedOverlay The packed overlay.
@@ -37,9 +38,9 @@ import uk.kihira.tails.common2.client.part.ClientPartsData;
  * @param info The part data.
  * @author EnderTurret
  */
-public record RenderContext(PoseStack poseStack, MultiBufferSource bufferSource, RenderType renderType, VertexConsumer buffer, int packedLight, int packedOverlay,
+public record RenderContext(TailsPoseStack poseStack, TailsBufferSource bufferSource, TailsBuffer buffer, int packedLight, int packedOverlay,
 		int color, float partialTick,
-		LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info) {
+		TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info) {
 
 	/**
 	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, int)} on the given part with parameters from this {@link RenderContext}.
@@ -47,19 +48,19 @@ public record RenderContext(PoseStack poseStack, MultiBufferSource bufferSource,
 	 * @param packedLight
 	 * @param packedOverlay
 	 */
-	public void render(ModelPart part, int packedLight, int packedOverlay) {
-		part.render(poseStack, buffer, packedLight, packedOverlay, color);
+	public void render(TailsModelPart part, int packedLight, int packedOverlay) {
+		part.t$render(poseStack, buffer, packedLight, packedOverlay, color);
 	}
 
 	/**
 	 * Calls {@link ModelPart#render(PoseStack, VertexConsumer, int, int, int)} on the given part with parameters from this {@link RenderContext}.
 	 * @param part The part to render.
 	 */
-	public void render(ModelPart part) {
+	public void render(TailsModelPart part) {
 		render(part, packedLight, packedOverlay);
 	}
 
-	public ModelPart getModel() {
+	public TailsModelPart getModel() {
 		return info.getPart().getModel();
 	}
 }

@@ -8,10 +8,9 @@
 
 package uk.kihira.tails.client.model.ears;
 
-import net.minecraft.client.model.geom.ModelPart;
-
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
 
 /**
  * <p>The fox ears part model.</p>
@@ -21,24 +20,24 @@ final class FoxEarsModel extends PartModel {
 
 	@Override
 	public void render(RenderContext ctx) {
-		final ModelPart model = ctx.getModel();
-		final ModelPart leftEar = model.getChild("leftEar");
-		final ModelPart rightEar = model.getChild("rightEar");
+		final TailsModelPart model = ctx.getModel();
+		final TailsModelPart leftEar = model.t$getChild("leftEar");
+		final TailsModelPart rightEar = model.t$getChild("rightEar");
 
-		ctx.poseStack().pushPose();
+		ctx.poseStack().t$push();
 
-		ctx.poseStack().translate(0f, 0f, -0.0625f);
+		ctx.poseStack().t$translate(0f, 0f, -0.0625f);
 
 		if ("inward".equals(ctx.info().getSubType().id()))
-			ctx.poseStack().translate(-0.4375f, 0f, 0f);
+			ctx.poseStack().t$translate(-0.4375f, 0f, 0f);
 
 		ctx.render(leftEar);
 
 		if ("inward".equals(ctx.info().getSubType().id()))
-			ctx.poseStack().translate(0.875f, 0f, 0f);
+			ctx.poseStack().t$translate(0.875f, 0f, 0f);
 
 		ctx.render(rightEar);
 
-		ctx.poseStack().popPose();
+		ctx.poseStack().t$pop();
 	}
 }

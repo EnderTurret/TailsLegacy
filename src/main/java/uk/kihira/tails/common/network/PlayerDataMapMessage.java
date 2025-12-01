@@ -9,10 +9,8 @@
 
 package uk.kihira.tails.common.network;
 
-import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -20,7 +18,6 @@ import com.google.gson.reflect.TypeToken;
 
 import io.netty.buffer.ByteBuf;
 
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

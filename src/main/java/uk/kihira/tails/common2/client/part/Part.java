@@ -15,11 +15,11 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.texture.TripleTintTexture;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
 
 /**
  * The client-side representation of a part.
@@ -37,11 +37,11 @@ public final class Part {
 	protected final List<SubType> subTypes;
 	protected final int[] defaultTints;
 	protected final boolean allowArrows;
-	protected final ModelPart model;
+	protected final TailsModelPart model;
 	protected final Transformation renderTransforms;
 	protected final Transformation previewTransforms;
 
-	public Part(ResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, boolean allowArrows, ModelPart model, Transformation renderTransforms, Transformation previewTransforms) {
+	public Part(ResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, boolean allowArrows, TailsModelPart model, Transformation renderTransforms, Transformation previewTransforms) {
 		this.id = id;
 		this.attachment = attachment;
 		this.subTypes = List.copyOf(subTypes);
@@ -72,7 +72,7 @@ public final class Part {
 		return allowArrows;
 	}
 
-	public ModelPart getModel() {
+	public TailsModelPart getModel() {
 		return model;
 	}
 

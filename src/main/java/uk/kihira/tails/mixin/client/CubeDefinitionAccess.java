@@ -36,25 +36,4 @@ public interface CubeDefinitionAccess {
 			Set<Direction> visibleFaces) {
 		return null;
 	}
-
-	@Accessor("comment")
-	public String tails$comment();
-
-	@Accessor("origin")
-	public Vector3f tails$origin();
-
-	@Accessor("dimensions")
-	public Vector3f tails$dimensions();
-
-	@Accessor("grow")
-	public CubeDeformation tails$grow();
-
-	@Accessor("mirror")
-	public boolean tails$mirror();
-
-	@Accessor("texCoord")
-	public UVPair tails$texCoord();
-
-	//@Accessor("texScale")
-	//public UVPair tails$texScale();
 }

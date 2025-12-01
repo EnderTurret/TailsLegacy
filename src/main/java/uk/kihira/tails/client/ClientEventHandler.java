@@ -140,8 +140,8 @@ public final class ClientEventHandler {
 		@SubscribeEvent
 		static void clientSetup(FMLClientSetupEvent e) {
 			e.enqueueWork(() -> {
-				RenderHelperManager.registerRenderHelper(Player.class, new PlayerRenderHelper<>());
-				RenderHelperManager.registerRenderHelper(FakeEntity.class, new FakeEntityRenderHelper());
+				RenderHelperManager.registerRenderHelper(new PlayerRenderHelper());
+				RenderHelperManager.registerRenderHelper(new FakeEntityRenderHelper());
 			});
 
 			if (ModList.get().isLoaded("botania"))

@@ -69,7 +69,6 @@ public final class PartRenderRegistry {
 	 * @param part The {@link Part} to retrieve the {@link PartRenderer} for.
 	 * @return The {@link PartRenderer}.
 	 */
-	@Nullable
 	public static PartRenderer getRenderer(Part part) {
 		if (part == null) throw new NullPointerException();
 		return PART_RENDERER_REGISTRY.computeIfAbsent(part.getId(), k -> new PartRenderer(DefaultPartModel.INSTANCE));

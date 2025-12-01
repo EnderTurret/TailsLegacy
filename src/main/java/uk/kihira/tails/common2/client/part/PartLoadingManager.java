@@ -8,7 +8,6 @@
 
 package uk.kihira.tails.common2.client.part;
 
-import java.io.BufferedReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,11 +19,9 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
@@ -32,25 +29,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import net.minecraft.ResourceLocationException;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 
 import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common_gson.ResourceManagerWrapper;
 import uk.kihira.tails.common_gson.TailsGsonHelper;
 
@@ -319,7 +307,7 @@ public class PartLoadingManager {
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
-		final ModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(TailsGsonHelper.getAsJsonObject(json, "model")).bake() : null;
+		final TailsModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(TailsGsonHelper.getAsJsonObject(json, "model")).bake() : null;
 
 		return new Part(realId, attachment, subs, tints,
 				TailsGsonHelper.getAsBoolean(json, "allowArrows", false), model,

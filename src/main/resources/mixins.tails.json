@@ -4,8 +4,12 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [
+    "client.duck.MixinLivingEntity",
+    "client.duck.MixinModelPart",
+    "client.duck.MixinMultiBufferSource",
+    "client.duck.MixinPoseStack",
+    "client.duck.MixinVertexConsumer",
     "client.CubeDefinitionAccess",
-    "client.CubeDeformationAccess",
     "client.LivingEntityRendererAccess",
     "client.MinecraftAccess",
     "client.ModelPartAccess",

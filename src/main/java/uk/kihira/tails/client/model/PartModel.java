@@ -15,16 +15,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.Part;
 import uk.kihira.tails.common2.client.part.Part.SubType;
@@ -50,28 +49,28 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		final SubType subType = ctx.info().getSubType();
 
 		final int len = subType.hideParts().size() + subType.showParts().size();
-		final ModelPart[] changedParts = len == 0 ? null : new ModelPart[len];
+		final TailsModelPart[] changedParts = len == 0 ? null : new TailsModelPart[len];
 		final boolean[] partStates = len == 0 ? null : new boolean[changedParts.length];
 
 		if (len != 0) {
 			int pos = 0;
 			for (PartPath path : subType.hideParts()) {
 				changedParts[pos] = path.traverse(ctx.getModel());
-				partStates[pos] = changedParts[pos].visible;
-				changedParts[pos].visible = false;
+				partStates[pos] = changedParts[pos].t$isVisible();
+				changedParts[pos].t$setVisible(false);
 				pos++;
 			}
 			for (PartPath path : subType.showParts()) {
 				changedParts[pos] = path.traverse(ctx.getModel());
-				partStates[pos] = changedParts[pos].visible;
-				changedParts[pos].visible = true;
+				partStates[pos] = changedParts[pos].t$isVisible();
+				changedParts[pos].t$setVisible(true);
 				pos++;
 			}
 		}
 
 		final boolean transformed = !part.getRenderTransforms().isEmpty() || !subType.renderTransforms().isEmpty();
 		if (transformed) {
-			ctx.poseStack().pushPose();
+			ctx.poseStack().t$push();
 
 			if (!part.getRenderTransforms().isEmpty())
 				part.getRenderTransforms().apply(ctx.poseStack());
@@ -83,10 +82,10 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		ctx.render(part.getModel());
 
 		if (transformed)
-			ctx.poseStack().popPose();
+			ctx.poseStack().t$pop();
 
 		for (int i = 0; i < len; i++)
-			changedParts[i].visible = partStates[i];
+			changedParts[i].t$setVisible(partStates[i]);
 	}
 
 	/**
@@ -111,13 +110,17 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {}
 
 	/**
-	 * @deprecated Use {@link #setupAnim(LivingEntity, float, float, float, float, uk.kihira.tails.common2.client.part.Part.SubType, ModelPart)} instead.
+	 * @deprecated Use {@link #setupAnim(TailsEntity, float, uk.kihira.tails.common2.client.part.Part.SubType, TailsModelPart)} instead.
 	 */
 	@Override
 	@Deprecated
 	public final void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float netHeadYaw, float headPitch) {}
 
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float headPitch, Part.SubType subType, ModelPart model) {}
+	@Override
+	@Deprecated
+	public final void prepareMobModel(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick) {}
+
+	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {}
 
 	/**
 	 * Allows modifying the rendering of this part model in the part preview pane.
@@ -138,10 +141,10 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param y The y angle
 	 * @param z The z angle
 	 */
-	protected static void setRotationRadians(ModelPart model, double x, double y, double z) {
-		model.xRot = (float) x;
-		model.yRot = (float) y;
-		model.zRot = (float) z;
+	protected static void setRotationRadians(TailsModelPart model, double x, double y, double z) {
+		model.t$setXRot((float) x);
+		model.t$setYRot((float) y);
+		model.t$setZRot((float) z);
 	}
 
 	/**
@@ -151,7 +154,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 * @param y The y angle
 	 * @param z The z angle
 	 */
-	protected static void setRotationDegrees(ModelPart model, float x, float y, float z) {
+	protected static void setRotationDegrees(TailsModelPart model, float x, float y, float z) {
 		setRotationRadians(model, rad(x), rad(y), rad(z));
 	}
 
@@ -163,20 +166,20 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		return (float) Math.toRadians(degrees);
 	}
 
-	public static float getAnimationTime(double cycleTime, Entity entity) {
+	public static float getAnimationTime(double cycleTime, TailsEntity entity) {
 		// Returns between 0-360 in radians depending on far in the "cycle" we are.
 		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2 * Math.PI);
 	}
 
-	protected static double[] getMotionAngles(Player player, float partialTick) {
+	protected static double[] getMotionAngles(TailsEntity player, float partialTick) {
 		// TODO: When falling a large distance, tails tend to move wildly up and down.
 		// This seems to be caused by yCloakO and yCloak being set to Y when the difference between them is greater than 10.
 		// See Player.moveCloak() for details.
-		final double xMotion = Mth.lerp(partialTick, player.xCloakO, player.xCloak) - Mth.lerp(partialTick, player.xo, player.getX());
-		final double yMotion = Mth.lerp(partialTick, player.yCloakO, player.yCloak) - Mth.lerp(partialTick, player.yo, player.getY()); // Positive when falling, negative when climbing
-		final double zMotion = Mth.lerp(partialTick, player.zCloakO, player.zCloak) - Mth.lerp(partialTick, player.zo, player.getZ());
+		final double xMotion = Mth.lerp(partialTick, player.t$xCloakO(), player.t$xCloak()) - Mth.lerp(partialTick, player.t$xO(), player.t$x());
+		final double yMotion = Mth.lerp(partialTick, player.t$yCloakO(), player.t$yCloak()) - Mth.lerp(partialTick, player.t$yO(), player.t$y()); // Positive when falling, negative when climbing
+		final double zMotion = Mth.lerp(partialTick, player.t$zCloakO(), player.t$zCloak()) - Mth.lerp(partialTick, player.t$zO(), player.t$z());
 
-		final float bodyYaw = Mth.rotLerp(partialTick, player.yBodyRotO, player.yBodyRot);
+		final float bodyYaw = Mth.rotLerp(partialTick, player.t$yBodyRotO(), player.t$yBodyRot());
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
 		final float bodyYawRads = radf(bodyYaw);
@@ -198,8 +201,8 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 		};
 	}
 
-	protected static float getTailBob(Player player, float partialTick) {
-		final float cameraYaw = Mth.lerp(partialTick, player.oBob, player.bob);
-		return Mth.sin(Mth.lerp(partialTick, player.walkDistO, player.walkDist) * 6) * 12 * cameraYaw;
+	protected static float getTailBob(TailsEntity player, float partialTick) {
+		final float cameraYaw = Mth.lerp(partialTick, player.t$bobO(), player.t$bob());
+		return Mth.sin(Mth.lerp(partialTick, player.t$walkDistanceO(), player.t$walkDistance()) * 6) * 12 * cameraYaw;
 	}
 }

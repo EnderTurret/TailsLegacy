@@ -16,12 +16,12 @@ import java.util.Map;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.LivingEntity;
 
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
+import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
-import uk.kihira.tails.mixin.client.ModelPartAccess;
 
 /**
  * <p>Defines a "unique" configuration of a part.</p>
@@ -31,66 +31,64 @@ import uk.kihira.tails.mixin.client.ModelPartAccess;
  */
 public class PartConfiguration {
 
-	private final List<ModelPart> parts;
-	private Map<ModelPart, ModelPart[]> parents = Map.of();
+	private final List<TailsModelPart> parts;
+	private Map<TailsModelPart, TailsModelPart[]> parents = Map.of();
 	private Translator translator;
 
-	private PartConfiguration(List<ModelPart> parts, Map<ModelPart, ModelPart[]> parents, Translator translator) {
+	private PartConfiguration(List<TailsModelPart> parts, Map<TailsModelPart, TailsModelPart[]> parents, Translator translator) {
 		this.parts = parts;
 		this.parents = parents;
 		this.translator = translator;
 	}
 
-	public PartConfiguration(List<ModelPart> parts, Translator translator) {
+	public PartConfiguration(List<TailsModelPart> parts, Translator translator) {
 		this.parts = parts;
 		this.translator = translator;
 
 		if (parts.isEmpty() && getClass() == PartConfiguration.class)
 			throw new IllegalArgumentException("PartConfiguration contains no parts");
 
-		for (ModelPart part : parts)
-			if (part.isEmpty()) // Also serves as a null check.
+		for (TailsModelPart part : parts)
+			if (part.t$isEmpty()) // Also serves as a null check.
 				throw new IllegalArgumentException("Part " + part + " has no cubes!");
 	}
 
-	public PartConfiguration(List<ModelPart> parts) {
+	public PartConfiguration(List<TailsModelPart> parts) {
 		this(parts, Translator.EMPTY);
 	}
 
 	// TODO: This automatically includes 'thin' cubes, which may be undesired behavior for most models.
-	@SuppressWarnings("cast")
-	public static PartConfiguration derive(ModelPart root) {
-		final List<ModelPart> queue = new ArrayList<>();
-		final Map<ModelPart, ModelPart> parentsByChildren = new HashMap<>();
+	public static PartConfiguration derive(TailsModelPart root) {
+		final List<TailsModelPart> queue = new ArrayList<>();
+		final Map<TailsModelPart, TailsModelPart> parentsByChildren = new HashMap<>();
 		queue.add(root);
 
-		final List<ModelPart> partsWithCubes = new ArrayList<>();
+		final List<TailsModelPart> partsWithCubes = new ArrayList<>();
 
 		while (!queue.isEmpty()) {
-			final ModelPart part = queue.remove(0);
+			final TailsModelPart part = queue.remove(0);
 
-			if (!part.isEmpty())
+			if (!part.t$isEmpty())
 				partsWithCubes.add(part);
 
-			if (((Object) part) instanceof ModelPartAccess access && !access.tails$children().isEmpty())
-				for (ModelPart child : access.tails$children().values()) {
-					parentsByChildren.put(child, part);
-					queue.add(child);
-				}
+			for (TailsModelPart child : part.t$getChildren().values()) {
+				parentsByChildren.put(child, part);
+				queue.add(child);
+			}
 		}
 
-		final Map<ModelPart, ModelPart[]> allParents = new HashMap<>();
+		final Map<TailsModelPart, TailsModelPart[]> allParents = new HashMap<>();
 
-		for (ModelPart part : partsWithCubes) {
-			final List<ModelPart> parents = new ArrayList<>();
+		for (TailsModelPart part : partsWithCubes) {
+			final List<TailsModelPart> parents = new ArrayList<>();
 
-			ModelPart parent = part;
+			TailsModelPart parent = part;
 			while ((parent = parentsByChildren.get(parent)) != null) {
-				if (!ModelSerializer.isZero(parent.getInitialPose()))
+				if (parent.t$hasInitialPose())
 					parents.add(0, parent); // We're traversing upwards, so insert the parents in reverse order.
 			}
 
-			allParents.put(part, parents.toArray(ModelPart[]::new));
+			allParents.put(part, parents.toArray(TailsModelPart[]::new));
 		}
 
 		return new PartConfiguration(List.copyOf(partsWithCubes), Map.copyOf(allParents), Translator.EMPTY);
@@ -108,7 +106,7 @@ public class PartConfiguration {
 	 * @param hierarchy The {@code ModelPart} hierarchy.
 	 * @return {@code this}.
 	 */
-	public PartConfiguration setParents(ModelPart child, ModelPart... hierarchy) {
+	public PartConfiguration setParents(TailsModelPart child, TailsModelPart... hierarchy) {
 		if (parents.isEmpty())
 			parents = new HashMap<>();
 
@@ -126,20 +124,20 @@ public class PartConfiguration {
 		return new PartConfiguration(parts, parents, translator);
 	}
 
-	private ModelPart[] visible;
+	private TailsModelPart[] visible;
 
 	/**
 	 * Recomputes the visibilities of each cube in the configuration.
 	 */
 	public void prime() {
-		visible = parts.stream().filter(p -> p.visible).toArray(ModelPart[]::new);
+		visible = parts.stream().filter(p -> p.t$isVisible()).toArray(TailsModelPart[]::new);
 	}
 
 	/**
 	 * @return The visible parts.
 	 * @see #prime()
 	 */
-	public ModelPart[] visible() {
+	public TailsModelPart[] visible() {
 		return visible;
 	}
 
@@ -148,7 +146,7 @@ public class PartConfiguration {
 	 * @param rand The random to use for deciding which part to return.
 	 * @return The part.
 	 */
-	public ModelPart randomPart(RandomSource rand) {
+	public TailsModelPart randomPart(RandomSource rand) {
 		return visible[rand.nextInt(visible.length)];
 	}
 
@@ -160,15 +158,15 @@ public class PartConfiguration {
 	 * @param entity The entity being rendered.
 	 * @param part The part in question.
 	 */
-	public void translate(ClientPartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity, ModelPart part) {
+	public void translate(ClientPartInfo info, TailsPoseStack poseStack, float partialTick, TailsEntity entity, TailsModelPart part) {
 		translator.translate(info, poseStack, partialTick, entity);
 
-		for (ModelPart part2 : parents.getOrDefault(part, new ModelPart[0])) {
+		for (TailsModelPart part2 : parents.getOrDefault(part, new TailsModelPart[0])) {
 			if (part2 == part) break;
-			part2.translateAndRotate(poseStack);
+			part2.t$translateAndRotate(poseStack);
 		}
 
-		part.translateAndRotate(poseStack);
+		part.t$translateAndRotate(poseStack);
 	}
 
 	/**
@@ -188,8 +186,8 @@ public class PartConfiguration {
 		}
 
 		@Override
-		public ModelPart randomPart(RandomSource rand) {
-			return model.getRandomModelPart(rand);
+		public TailsModelPart randomPart(RandomSource rand) {
+			return (TailsModelPart) (Object) model.getRandomModelPart(rand);
 		}
 	}
 
@@ -211,6 +209,6 @@ public class PartConfiguration {
 		 * @param partialTick The partial tick.
 		 * @param entity The entity being rendered.
 		 */
-		public void translate(ClientPartInfo info, PoseStack poseStack, float partialTick, LivingEntity entity);
+		public void translate(ClientPartInfo info, TailsPoseStack poseStack, float partialTick, TailsEntity entity);
 	}
 }

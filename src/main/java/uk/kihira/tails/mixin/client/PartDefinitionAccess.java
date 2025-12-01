@@ -27,12 +27,6 @@ public interface PartDefinitionAccess {
 		return null;
 	}
 
-	@Accessor("cubes")
-	public List<CubeDefinition> tails$cubes();
-
-	@Accessor("partPose")
-	public PartPose tails$partPose();
-
 	@Accessor("children")
 	public Map<String, PartDefinition> tails$children();
 }

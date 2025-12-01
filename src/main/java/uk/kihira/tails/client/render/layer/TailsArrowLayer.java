@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,6 +32,9 @@ import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
+import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
@@ -98,21 +100,20 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 				final int pick = rand.nextInt(configurations.size());
 				final PartConfig config = configurations.get(pick);
 
-				final ModelPart part = config.config.randomPart(rand);
+				final ModelPart part = (ModelPart) (Object) config.config.randomPart(rand);
 				final ModelPart.Cube cube = part.getRandomCube(rand);
 
 				poseStack.pushPose();
 
 				if (config.renderer != null) {
-					final RenderContext ctx = new RenderContext(poseStack, null, null, null, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF, partialTick, entity, data, config.info);
+					final RenderContext ctx = new RenderContext((TailsPoseStack) poseStack, null, null, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF, partialTick, (TailsEntity) entity, data, config.info);
 
 					RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
 
-					config.renderer.modelPart.setupAnim(entity, limbSwing, limbSwingAmount, partialTick, headPitch, config.info.getSubType(), config.info.getPart().getModel());
-					config.renderer.modelPart.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
+					config.renderer.modelPart.setupAnim((TailsEntity) entity, partialTick, config.info.getSubType(), config.info.getPart().getModel());
 				}
 
-				config.config.translate(config.info, poseStack, partialTick, entity, part);
+				config.config.translate(config.info, (TailsPoseStack) poseStack, partialTick, (TailsEntity) entity, (TailsModelPart) (Object) part);
 
 				float xOffset = rand.nextFloat();
 				float yOffset = rand.nextFloat();

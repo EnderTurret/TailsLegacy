@@ -121,7 +121,6 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * Convenience method for {@link PartRenderRegistry#getRenderer(Part) PartRenderRegistry.getRenderer(getPart())}.
 	 * @return The {@link PartRenderer} registered for this part.
 	 */
-	@Nullable
 	public PartRenderer getRenderer() {
 		return PartRenderRegistry.getRenderer(getPart());
 	}

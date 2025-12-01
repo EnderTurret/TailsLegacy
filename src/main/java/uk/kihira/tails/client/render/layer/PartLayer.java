@@ -21,6 +21,9 @@ import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.duck.TailsBufferSource;
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
@@ -74,10 +77,7 @@ public class PartLayer<T extends LivingEntity, M extends HumanoidModel<T>> exten
 			}
 
 			try {
-				if (renderer != null)
-					renderer.render(poseStack, entity, partsData, partInfo, buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 0xFF);
-				// TODO: Make this less spammy.
-				else Tails.LOGGER.error("No PartRenderer for part {} found! Did someone forget to register one?", partInfo);
+				renderer.render((TailsPoseStack) poseStack, (TailsEntity) entity, partsData, partInfo, (TailsBufferSource) buffer, 0, 0, 0, partialTick, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0F), 0xFF);
 			} catch (Exception e) {
 				Tails.LOGGER.error("Exception rendering part {}: ", partInfo, e);
 			}

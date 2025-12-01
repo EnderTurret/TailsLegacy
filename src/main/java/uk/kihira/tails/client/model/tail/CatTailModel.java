@@ -9,12 +9,11 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartModel;
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.part.Part;
 
 /**
@@ -23,30 +22,27 @@ import uk.kihira.tails.common2.client.part.Part;
 final class CatTailModel extends PartModel {
 
 	@Override
-	public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float headPitch, Part.SubType subType, ModelPart model) {
+	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {
 		final float seed = getAnimationTime(6000, entity);
 		final float xseed = getAnimationTime(12000, entity);
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
-		if (entity.getVehicle() == null) {
-			if (entity instanceof Player player) {
-				final double[] angles = getMotionAngles(player, partialTick);
-
-				xAngleOffset = Mth.clamp(angles[0] / 3.5, -1F, 0.33);
-				yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
-			}
-		}
-		else {
+		if (entity.t$isPassenger()) {
 			xAngleOffset = rad(13);
 			yAngleMultiplier = 0.25;
+		} else {
+			final double[] angles = getMotionAngles(entity, partialTick);
+
+			xAngleOffset = Mth.clamp(angles[0] / 3.5, -1F, 0.33);
+			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 		}
 
-		final ModelPart tailBase = model.getChild("tailBase");
-		final ModelPart tail1 = tailBase.getChild("tail1");
-		final ModelPart tail2 = tail1.getChild("tail2");
-		final ModelPart tail3 = tail2.getChild("tail3");
-		final ModelPart tail4 = tail3.getChild("tail4");
-		final ModelPart tail5 = tail4.getChild("tail5");
+		final TailsModelPart tailBase = model.t$getChild("tailBase");
+		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
+		final TailsModelPart tail2 = tail1.t$getChild("tail2");
+		final TailsModelPart tail3 = tail2.t$getChild("tail3");
+		final TailsModelPart tail4 = tail3.t$getChild("tail4");
+		final TailsModelPart tail5 = tail4.t$getChild("tail5");
 		setRotationRadians(tailBase, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 1) / 8 * yAngleMultiplier, 0);
 		setRotationRadians(tail1, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 2) / 8 * yAngleMultiplier, 0);
 		setRotationRadians(tail2, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 3) / 8 * yAngleMultiplier, Mth.cos(xseed - 3) / 16);

@@ -11,12 +11,10 @@ package uk.kihira.tails.client.render.helper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.render.RenderContext;
@@ -29,46 +27,19 @@ import uk.kihira.tails.client.render.part.PartRenderer;
  */
 public final class RenderHelperManager {
 
-	private static final Map<Class<? extends LivingEntity>, List<IRenderHelper<?>>> RENDER_HELPERS = new HashMap<>();
+	private static final List<IRenderHelper> RENDER_HELPERS = new ArrayList<>();
+	private static final List<IRenderHelper> RENDER_HELPERS_VIEW = Collections.unmodifiableList(RENDER_HELPERS);
 
-	private static boolean dirty = false;
-	private static final Map<Class<? extends LivingEntity>, List<IRenderHelper<?>>> RENDER_HELPER_CACHE = new HashMap<>();
-
-	public static <T extends LivingEntity> void registerRenderHelper(Class<T> clazz, IRenderHelper<T> helper) {
-		if (helper != null && clazz != null) {
-			RENDER_HELPERS.computeIfAbsent(clazz, k -> new ArrayList<>(1)).add(helper);
-			dirty = true;
-		} else
-			throw new IllegalArgumentException("Attempted to register an invalid IRenderHelper (" + helper + ") for class " + (clazz == null ? "null" : clazz.getName()) + "!");
+	public static <T extends LivingEntity> void registerRenderHelper(IRenderHelper helper) {
+		RENDER_HELPERS.add(Objects.requireNonNull(helper));
 	}
 
-	public static <T extends LivingEntity> List<IRenderHelper<?>> getRenderHelpers(Class<T> clazz) {
-		if (dirty) {
-			RENDER_HELPER_CACHE.clear();
-			dirty = false;
-		}
-
-		return RENDER_HELPER_CACHE.computeIfAbsent(clazz, RenderHelperManager::buildCache);
-	}
-
-	private static List<IRenderHelper<?>> buildCache(Class<? extends LivingEntity> clazz) {
-		final List<IRenderHelper<?>> helpers = new ArrayList<>();
-
-		Class<?> parent = clazz;
-
-		do {
-			helpers.addAll(RENDER_HELPERS.getOrDefault(parent, Collections.emptyList()));
-			parent = parent.getSuperclass();
-		} while (parent != LivingEntity.class);
-
-		return helpers;
+	public static List<IRenderHelper> getRenderHelpers() {
+		return RENDER_HELPERS_VIEW;
 	}
 
 	public static <T extends LivingEntity> void applyRenderHelpers(RenderContext ctx, PartRenderer renderer) {
-		// TODO: Should we be doing this?
-		final List<IRenderHelper<?>> helpers = ctx.entity() instanceof Player ? getRenderHelpers(Player.class) : getRenderHelpers(ctx.entity().getClass());
-
-		for (IRenderHelper helper : helpers)
+		for (IRenderHelper helper : getRenderHelpers())
 			helper.onPreRenderTail(ctx, renderer);
 	}
 }

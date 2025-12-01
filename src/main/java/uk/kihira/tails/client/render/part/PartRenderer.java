@@ -14,18 +14,18 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.duck.TailsBuffer;
+import uk.kihira.tails.common2.client.duck.TailsBufferSource;
+import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
 import uk.kihira.tails.common2.client.part.Part;
@@ -46,8 +46,8 @@ public class PartRenderer {
 		this.modelPart = modelPart;
 	}
 
-	public void compileTextureIfNeeded(LivingEntity entity, ClientPartInfo info) {
-		info.checkTexture(entity.getUUID(), false);
+	public void compileTextureIfNeeded(TailsEntity entity, ClientPartInfo info) {
+		info.checkTexture(entity.t$uuid(), false);
 	}
 
 	/**
@@ -57,8 +57,7 @@ public class PartRenderer {
 	public void preRender(RenderContext ctx) {
 		try {
 			if (modelPart != null) {
-				modelPart.setupAnim(ctx.entity(), ctx.entity().walkAnimation.position(ctx.partialTick()), ctx.entity().walkAnimation.speed(ctx.partialTick()), ctx.partialTick(), ctx.entity().getXRot(), ctx.info().getSubType(), ctx.info().getPart().getModel());
-				modelPart.prepareMobModel(ctx.entity(), ctx.entity().walkAnimation.position(ctx.partialTick()), ctx.entity().walkAnimation.speed(ctx.partialTick()), ctx.partialTick());
+				modelPart.setupAnim(ctx.entity(), ctx.partialTick(), ctx.info().getSubType(), ctx.info().getPart().getModel());
 			}
 
 			RenderHelperManager.applyRenderHelpers(ctx, this);
@@ -82,23 +81,17 @@ public class PartRenderer {
 	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
+	public void render(TailsPoseStack poseStack, TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, TailsBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
 		if (!info.isEmpty()) {
-			final boolean visible = !entity.isInvisible();
-			final boolean visibleToPlayer = !visible && !entity.isInvisibleTo(Minecraft.getInstance().player);
-			final boolean glowing = Minecraft.getInstance().shouldEntityAppearGlowing(entity);
+			info.checkTexture(entity.t$uuid(), false);
 
-			info.checkTexture(entity.getUUID(), false);
-			final RenderType type = getRenderType(entity, info.getTexture(), visible, visibleToPlayer, glowing);
+			final TailsBuffer buf = bufferSource.t$getEntityBuffer(entity, info.getTexture());
+			if (buf == null) return;
 
-			if (type == null) return;
-
-			if (visibleToPlayer && alpha == 0xFF)
+			if (entity.t$isVisibleToPlayer() && alpha == 0xFF)
 				alpha = 0x26;
 
-			final VertexConsumer buf = bufferSource.getBuffer(type);
-
-			render(poseStack, entity, parts, info, bufferSource, type, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
+			render(poseStack, entity, parts, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
 		}
 	}
 
@@ -109,7 +102,6 @@ public class PartRenderer {
 	 * @param parts The entity's part data.
 	 * @param info The {@link ClientPartInfo}.
 	 * @param bufferSource The buffer to retrieve buffers from.
-	 * @param renderType The render type.
 	 * @param buffer The builder to draw to.
 	 * @param x The x location.
 	 * @param y The y location.
@@ -119,7 +111,7 @@ public class PartRenderer {
 	 * @param packedOverlay The packed overlay. Use {@link OverlayTexture#NO_OVERLAY} for no overlay.
 	 * @param alpha The transparency value.
 	 */
-	public void render(PoseStack poseStack, LivingEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, MultiBufferSource bufferSource, RenderType renderType, VertexConsumer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
+	public void render(TailsPoseStack poseStack, TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, TailsBufferSource bufferSource, TailsBuffer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
 		if (!info.isEmpty()) {
 			int color = alpha << 24;
 
@@ -130,36 +122,18 @@ public class PartRenderer {
 				color |= 0xFFFFFF;
 
 			final RenderContext ctx = new RenderContext(
-					poseStack, bufferSource, renderType, buffer, packedLight, packedOverlay,
+					poseStack, bufferSource, buffer, packedLight, packedOverlay,
 					color, partialTick,
 					entity, parts, info);
 
-			poseStack.pushPose();
+			poseStack.t$push();
 
 			preRender(ctx);
 
 			doRender(ctx);
 
-			poseStack.popPose();
+			poseStack.t$pop();
 		}
-	}
-
-	/**
-	 * Returns the {@link RenderType} to use for rendering this part.
-	 * @param entity The entity being rendered.
-	 * @param tex The texture of the part being rendered.
-	 * @param visible {@code true} if the entity is visible.
-	 * @param visibleToPlayer {@code true} if the entity is visible to the viewer but not others.
-	 * @param glowing {@code true} if the entity is glowing.
-	 * @return The render type.
-	 */
-	@Nullable
-	protected RenderType getRenderType(LivingEntity entity, ResourceLocation tex, boolean visible, boolean visibleToPlayer, boolean glowing) {
-		if (visibleToPlayer)
-			return RenderType.itemEntityTranslucentCull(tex);
-		if (visible)
-			return RenderType.entityCutoutNoCull(tex);
-		return glowing ? RenderType.outline(tex) : null;
 	}
 
 	/**

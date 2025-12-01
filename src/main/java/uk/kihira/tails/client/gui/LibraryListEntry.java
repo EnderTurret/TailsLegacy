@@ -24,7 +24,6 @@ import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
-import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.LibraryEntryData;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;

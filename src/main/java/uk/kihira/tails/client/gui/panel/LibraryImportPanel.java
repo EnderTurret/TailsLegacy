@@ -17,9 +17,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.common.base.Strings;
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.yggdrasil.ProfileResult;
-import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

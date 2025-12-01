@@ -9,15 +9,15 @@
 
 package uk.kihira.tails.client.model;
 
+import java.util.List;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
-
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.common2.client.TailsClientPlatform;
+import uk.kihira.tails.common2.client.duck.TailsModelPart;
+import uk.kihira.tails.common2.client.model.TailsCubeDefinition;
+import uk.kihira.tails.common2.client.model.TailsPartDefinition;
 
 /**
  * The muzzle part model.
@@ -25,17 +25,15 @@ import uk.kihira.tails.client.render.RenderContext;
 @Internal
 public final class MuzzleModel extends PartModel {
 
-	private final ModelPart root;
-	private final ModelPart muzzle;
+	private final TailsModelPart root;
 
 	@Internal
 	public MuzzleModel(float xOffset, float yOffset, float zOffset, int xSize, int ySize, int zSize, int xTex, int yTex) {
-		final PartDefinition rootDef = new MeshDefinition().getRoot();
-		rootDef.addOrReplaceChild("muzzle", CubeListBuilder.create()
-						.texOffs(xTex, yTex).addBox(xOffset, yOffset, zOffset, xSize, ySize, zSize), PartPose.ZERO);
-		root = rootDef.bake(32, 32);
-
-		muzzle = root.getChild("muzzle");
+		root = TailsClientPlatform.get().bake(
+				new TailsPartDefinition(
+						List.of(new TailsCubeDefinition(xOffset, yOffset, zOffset, xSize, ySize, zSize, false, xTex, yTex))
+						),
+				32, 32);
 	}
 
 	@Internal
@@ -45,20 +43,20 @@ public final class MuzzleModel extends PartModel {
 
 	@Override
 	public void render(RenderContext ctx) {
-		ctx.poseStack().pushPose();
+		ctx.poseStack().t$push();
 
-		ctx.poseStack().translate(0, -0.001D, 0);
+		ctx.poseStack().t$translate(0, -0.001D, 0);
 
 		switch (ctx.info().getSubType().id()) {
-		case "very_short" -> ctx.poseStack().translate(0, 0, 4 / 16D);
-		case "short" -> ctx.poseStack().translate(0, 0, 3 / 16D);
-		case "standard" -> ctx.poseStack().translate(0, 0, 2 / 16D);
-		case "long" -> ctx.poseStack().translate(0, 0, 1 / 16D);
-		case "very_long" -> {}
+			case "very_short" -> ctx.poseStack().t$translate(0, 0, 4 / 16D);
+			case "short" -> ctx.poseStack().t$translate(0, 0, 3 / 16D);
+			case "standard" -> ctx.poseStack().t$translate(0, 0, 2 / 16D);
+			case "long" -> ctx.poseStack().t$translate(0, 0, 1 / 16D);
+			case "very_long" -> {}
 		}
 
-		ctx.render(muzzle);
+		ctx.render(root);
 
-		ctx.poseStack().popPose();
+		ctx.poseStack().t$pop();
 	}
 }

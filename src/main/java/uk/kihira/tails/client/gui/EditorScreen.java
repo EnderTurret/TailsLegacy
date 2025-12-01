@@ -28,7 +28,6 @@ import uk.kihira.tails.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.part.LocalPartManager;
-import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common2.client.part.AttachmentPoint;
 import uk.kihira.tails.common2.client.part.AttachmentPoints;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
@@ -146,7 +145,6 @@ public class EditorScreen extends LayeredScreen {
 	public void removed() {
 		setPartsData(originalPartsData);
 		super.removed();
-		TextureHelper.logLeaks();
 	}
 
 	public void close() {

@@ -66,7 +66,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		boolean texTranslated = true;
 
 		if (partInfo.isEmpty() || partInfo.getPartTexture() != null) {
-			final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().getNamespace() + ".part." + part.getId().getPath() + ".texture." + partInfo.getPartTexture().id();
+			final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().t$getNamespace() + ".part." + part.getId().t$getPath() + ".texture." + partInfo.getPartTexture().id();
 			texFormatted = I18n.get(texLangKey);
 			texTranslated = !texLangKey.equals(texFormatted);
 		} else texFormatted = partInfo.getTextureId();

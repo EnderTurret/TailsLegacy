@@ -28,6 +28,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.FakeEntity;
 import uk.kihira.tails.client.RenderHelper;
@@ -203,7 +204,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		renderer.compileTextureIfNeeded((TailsEntity) (Object) fakeEntity, partInfo);
-		final RenderType renderType = RenderStates.getPartPreview(partInfo.getTexture());
+		final RenderType renderType = RenderStates.getPartPreview((ResourceLocation) (Object) partInfo.getTexture());
 		final VertexConsumer consumer = impl.getBuffer(renderType);
 
 		renderer.render(

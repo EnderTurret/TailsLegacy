@@ -11,9 +11,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.minecraft.resources.ResourceLocation;
-
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.part.Parts;
 
 final class GsonParts {
@@ -55,7 +55,7 @@ final class GsonParts {
 
 				final String type = obj.get("partType").getAsString().toLowerCase(Locale.ROOT);
 				final int id = obj.get("typeid").getAsInt();
-				final ResourceLocation partId = Parts.byLegacyId(type, id);
+				final TResourceLocation partId = Parts.byLegacyId(type, id);
 
 				obj.remove("partType");
 				obj.remove("typeid");
@@ -65,8 +65,8 @@ final class GsonParts {
 			}
 
 			if (obj.has("id")) {
-				final ResourceLocation oldPartId = ResourceLocation.parse(obj.get("id").getAsString());
-				final ResourceLocation newPartId = Parts.remapId(oldPartId);
+				final TResourceLocation oldPartId = TailsPlatform.get().parseResourceLocation(obj.get("id").getAsString());
+				final TResourceLocation newPartId = Parts.remapId(oldPartId);
 
 				if (oldPartId != newPartId) {
 					if (!modified) {

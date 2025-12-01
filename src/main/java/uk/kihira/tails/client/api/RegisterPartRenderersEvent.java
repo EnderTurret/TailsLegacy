@@ -13,8 +13,6 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.resources.ResourceLocation;
-
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.fml.LogicalSide;
@@ -23,6 +21,7 @@ import net.neoforged.fml.event.IModBusEvent;
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartModel;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.part.Part;
 import uk.kihira.tails.common2.client.part.PartRegistry;
 
@@ -42,10 +41,10 @@ import uk.kihira.tails.common2.client.part.PartRegistry;
  */
 public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 
-	private final Map<ResourceLocation, PartRenderer> entries;
+	private final Map<TResourceLocation, PartRenderer> entries;
 
 	@Internal
-	public RegisterPartRenderersEvent(Map<ResourceLocation, PartRenderer> map) {
+	public RegisterPartRenderersEvent(Map<TResourceLocation, PartRenderer> map) {
 		entries = map;
 	}
 
@@ -55,7 +54,7 @@ public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 	 * @param renderer The part renderer.
 	 * @see #register(PartRegistry.PartReference, PartRenderer)
 	 */
-	public void register(ResourceLocation part, PartRenderer renderer) {
+	public void register(TResourceLocation part, PartRenderer renderer) {
 		Objects.requireNonNull(part);
 		Objects.requireNonNull(renderer);
 		entries.put(part, renderer);
@@ -65,8 +64,8 @@ public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 	 * Registers a {@link PartRenderer} for the part referenced by the given part reference.
 	 * @param reference A reference to the part to link the renderer to.
 	 * @param renderer The part renderer.
-	 * @see #register(ResourceLocation, PartRenderer)
-	 * @see PartRegistry#reference(ResourceLocation)
+	 * @see #register(TResourceLocation, PartRenderer)
+	 * @see PartRegistry#reference(TResourceLocation)
 	 */
 	public void register(PartRegistry.PartReference reference, PartRenderer renderer) {
 		register(reference.id(), renderer);
@@ -76,9 +75,9 @@ public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 	 * {@link PartModel} version of {@link #register(uk.kihira.tails.common2.client.part.PartRegistry.PartReference, PartRenderer) register(PartReference, PartRenderer)}.
 	 * @param reference A reference to the part to link the renderer to.
 	 * @param model The part model.
-	 * @see #register(ResourceLocation, PartRenderer)
+	 * @see #register(TResourceLocation, PartRenderer)
 	 * @see #register(uk.kihira.tails.common2.client.part.PartRegistry.PartReference, PartRenderer)
-	 * @see PartRegistry#reference(ResourceLocation)
+	 * @see PartRegistry#reference(TResourceLocation)
 	 */
 	public void register(PartRegistry.PartReference reference, PartModel model) {
 		register(reference, new PartRenderer(model));

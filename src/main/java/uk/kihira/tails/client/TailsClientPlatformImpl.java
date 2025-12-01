@@ -1,14 +1,20 @@
 package uk.kihira.tails.client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDefinition;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.resources.ResourceLocation;
 
+import uk.kihira.tails.client.texture.TripleTintTexture;
 import uk.kihira.tails.common2.client.TailsClientPlatform;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.TailsCubeDefinition;
 import uk.kihira.tails.common2.client.model.TailsPartDefinition;
+import uk.kihira.tails.common2.client.part.Part;
 import uk.kihira.tails.mixin.client.CubeDefinitionAccess;
 import uk.kihira.tails.mixin.client.PartDefinitionAccess;
 
@@ -40,5 +46,25 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 				cube.sizeX, cube.sizeY, cube.sizeZ,
 				new CubeDeformation(cube.growX, cube.growY, cube.growZ),
 				cube.mirror, 1, 1, cube.visibleFaces);
+	}
+
+	@Override
+	public boolean hasTexture(TResourceLocation id) {
+		return Minecraft.getInstance().getTextureManager()
+				.getTexture((ResourceLocation) (Object) id, MissingTextureAtlasSprite.getTexture()) != MissingTextureAtlasSprite.getTexture();
+	}
+
+	@Override
+	public void registerTripleTintTexture(TResourceLocation id, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints) {
+		Minecraft.getInstance().getTextureManager().register((ResourceLocation) (Object) id, new TripleTintTexture(
+				part.getId().t$getNamespace(), texture.path(), tints[0], tints[1], tints[2], texture.tintingStrategy()
+				));
+	}
+
+	@Override
+	public void releaseTexture(TResourceLocation id) {
+		try {
+			Minecraft.getInstance().getTextureManager().release((ResourceLocation) (Object) id);
+		} catch (Exception ignored) {}
 	}
 }

@@ -14,22 +14,25 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common_gson.ResourceManagerWrapper;
 
 public record ResourceManagerWrapperImpl(ResourceManager manager) implements ResourceManagerWrapper {
 
 	@Override
-	public JsonElement getJson(ResourceLocation path) {
-		return readJson(path, manager.getResource(path).get());
+	public JsonElement getJson(TResourceLocation path) {
+		final ResourceLocation rl = (ResourceLocation) (Object) path;
+		return readJson(rl, manager.getResource(rl).get());
 	}
 
 	@Override
-	public Map<ResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<ResourceLocation> filter) {
-		final var map = manager.listResources(prefix, filter);
-		final Map<ResourceLocation, JsonElement> ret = new LinkedHashMap<>();
+	public Map<TResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<TResourceLocation> filter) {
+		@SuppressWarnings("unchecked")
+		final Map<ResourceLocation, Resource> map = manager.listResources(prefix, (Predicate) filter);
+		final Map<TResourceLocation, JsonElement> ret = new LinkedHashMap<>();
 
 		for (var entry : map.entrySet())
-			ret.put(entry.getKey(), readJson(entry.getKey(), entry.getValue()));
+			ret.put((TResourceLocation) (Object) entry.getKey(), readJson(entry.getKey(), entry.getValue()));
 
 		return ret;
 	}

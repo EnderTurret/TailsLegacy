@@ -5,10 +5,10 @@ import java.util.function.Predicate;
 
 import com.google.gson.JsonElement;
 
-import net.minecraft.resources.ResourceLocation;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 
 public interface ResourceManagerWrapper {
 
-	public JsonElement getJson(ResourceLocation path);
-	public Map<ResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<ResourceLocation> filter);
+	public JsonElement getJson(TResourceLocation path);
+	public Map<TResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<TResourceLocation> filter);
 }

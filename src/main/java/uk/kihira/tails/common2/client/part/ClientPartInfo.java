@@ -15,12 +15,11 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
-
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.render.part.PartRenderer;
-import uk.kihira.tails.client.texture.TextureHelper;
-import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common2.client.TextureHelper;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.part.PartRegistry.PartReference;
 import uk.kihira.tails.common2.part.IPartInfo;
 import uk.kihira.tails.common2.part.ServerPartInfo;
@@ -38,9 +37,9 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	private final String subType;
 	private final String textureId;
 
-	private transient ResourceLocation texture;
+	private transient TResourceLocation texture;
 
-	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, PartReference part, String subType, String textureId, @Nullable ResourceLocation texture, boolean empty) {
+	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, PartReference part, String subType, String textureId, @Nullable TResourceLocation texture, boolean empty) {
 		if (delegate == null && !empty) {
 			if (subType == null)
 				subType = part.get().getSubTypes().get(0).id();
@@ -56,7 +55,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		this.texture = texture;
 	}
 
-	public ClientPartInfo(IPartInfo delegate, PartReference part, String subType, String textureId, @Nullable ResourceLocation texture) {
+	public ClientPartInfo(IPartInfo delegate, PartReference part, String subType, String textureId, @Nullable TResourceLocation texture) {
 		this(delegate, null, part, subType, textureId, texture, false);
 	}
 
@@ -64,7 +63,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		this(delegate, part, subType, textureId, null);
 	}
 
-	public ClientPartInfo(int[] tints, PartReference part, String subType, String textureId, @Nullable ResourceLocation texture) {
+	public ClientPartInfo(int[] tints, PartReference part, String subType, String textureId, @Nullable TResourceLocation texture) {
 		this(null, tints, part, subType, textureId, texture, false);
 	}
 
@@ -134,7 +133,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	}
 
 	@Override
-	public ResourceLocation getPartId() {
+	public TResourceLocation getPartId() {
 		return delegate.getPartId();
 	}
 
@@ -173,7 +172,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return The texture.
 	 */
 	@Nullable
-	public ResourceLocation getTexture() {
+	public TResourceLocation getTexture() {
 		return texture;
 	}
 
@@ -186,8 +185,8 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * Sets the texture location, possibly releasing the old texture reference.
 	 * @param texture The new texture.
 	 */
-	public void setTexture(@Nullable ResourceLocation texture) {
-		final ResourceLocation old = this.texture;
+	public void setTexture(@Nullable TResourceLocation texture) {
+		final TResourceLocation old = this.texture;
 
 		if (old != null && !old.equals(texture))
 			clearGlTexture();
@@ -276,7 +275,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		public boolean isEmpty() { return true; }
 
 		@Override
-		public ResourceLocation getPartId() { return ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "empty"); }
+		public TResourceLocation getPartId() { return TailsPlatform.get().newResourceLocation("empty"); }
 
 		@Override
 		public String getSubTypeId() { return "empty"; }
@@ -291,7 +290,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		public void clearGlTexture() {}
 
 		@Override
-		public void setTexture(ResourceLocation texture) {}
+		public void setTexture(TResourceLocation texture) {}
 
 		@Override
 		public String toString() {

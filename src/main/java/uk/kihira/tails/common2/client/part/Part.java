@@ -15,10 +15,9 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.resources.ResourceLocation;
-
 import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.texture.TripleTintTexture;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 
 /**
@@ -32,7 +31,7 @@ public final class Part {
 	 */
 	public static final int[] DEFAULT_TINTS = { 0xFF0000, 0x00FF00, 0x0000FF };
 
-	protected final ResourceLocation id;
+	protected final TResourceLocation id;
 	protected final AttachmentPoint attachment;
 	protected final List<SubType> subTypes;
 	protected final int[] defaultTints;
@@ -41,7 +40,7 @@ public final class Part {
 	protected final Transformation renderTransforms;
 	protected final Transformation previewTransforms;
 
-	public Part(ResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, boolean allowArrows, TailsModelPart model, Transformation renderTransforms, Transformation previewTransforms) {
+	public Part(TResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, boolean allowArrows, TailsModelPart model, Transformation renderTransforms, Transformation previewTransforms) {
 		this.id = id;
 		this.attachment = attachment;
 		this.subTypes = List.copyOf(subTypes);
@@ -52,7 +51,7 @@ public final class Part {
 		this.previewTransforms = previewTransforms;
 	}
 
-	public ResourceLocation getId() {
+	public TResourceLocation getId() {
 		return id;
 	}
 
@@ -65,7 +64,7 @@ public final class Part {
 	}
 
 	public String getTranslationKey() {
-		return id.getNamespace() + ".part." + id.getPath();
+		return id.t$getNamespace() + ".part." + id.t$getPath();
 	}
 
 	public boolean allowArrows() {

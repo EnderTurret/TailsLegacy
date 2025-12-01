@@ -12,14 +12,11 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 import net.minecraft.client.model.geom.builders.CubeDefinition;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.core.Direction;
 
 @Mixin(CubeDefinition.class)

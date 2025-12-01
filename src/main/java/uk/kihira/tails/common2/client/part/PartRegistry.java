@@ -18,23 +18,22 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
-
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 
 /**
  * Contains all of the parts read from the {@link PartLoadingManager}.
  * @see RegisterPartRenderersEvent
- * @see #get(ResourceLocation)
+ * @see #get(TResourceLocation)
  * @author EnderTurret
  */
 public final class PartRegistry {
 
-	private static final Map<ResourceLocation, Part> PART_REGISTRY = new TreeMap<>();
+	private static final Map<TResourceLocation, Part> PART_REGISTRY = new TreeMap<>();
 	private static final Map<AttachmentPoint, List<Part>> BY_TYPE = new LinkedHashMap<>();
 
 	public static final PartLoadingManager MANAGER = TailsPlatform.get().createPartLoadingManager(PartRegistry::clear, PartRegistry::register);
@@ -45,13 +44,13 @@ public final class PartRegistry {
 		AttachmentPoints.clear();
 	}
 
-	private static void register(List<Part> parts, Map<AttachmentPoint, List<ResourceLocation>> ordering) {
+	private static void register(List<Part> parts, Map<AttachmentPoint, List<TResourceLocation>> ordering) {
 		Tails.LOGGER.debug("Registering {} parts.", parts.size());
 
 		for (Part part : parts)
 			PART_REGISTRY.put(part.getId(), part);
 
-		for (Map.Entry<AttachmentPoint, List<ResourceLocation>> entry : ordering.entrySet()) {
+		for (Map.Entry<AttachmentPoint, List<TResourceLocation>> entry : ordering.entrySet()) {
 			final List<Part> ordered = entry.getValue().stream()
 					.map(PART_REGISTRY::get)
 					.filter(p -> p != null && p.getAttachment() == entry.getKey())
@@ -102,17 +101,17 @@ public final class PartRegistry {
 	 * @param id The id of the part.
 	 * @return The new reference.
 	 */
-	public static PartReference reference(ResourceLocation id) {
+	public static PartReference reference(TResourceLocation id) {
 		return new PartReference(id);
 	}
 
 	/**
-	 * Equivalent to {@link #reference(ResourceLocation)} with "tails" as the namespace.
+	 * Equivalent to {@link #reference(TResourceLocation)} with "tails" as the namespace.
 	 * @param id The id of the part.
 	 * @return The new reference.
 	 */
 	public static PartReference reference(String id) {
-		return reference(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, id));
+		return reference(TailsPlatform.get().newResourceLocation(id));
 	}
 
 	/**
@@ -121,7 +120,7 @@ public final class PartRegistry {
 	 * @return The retrieved part, or {@code null} if no such part exists.
 	 */
 	@Nullable
-	public static Part get(ResourceLocation id) {
+	public static Part get(TResourceLocation id) {
 		return PART_REGISTRY.get(id);
 	}
 
@@ -137,20 +136,20 @@ public final class PartRegistry {
 	/**
 	 * Like a {@code DeferredHolder} but for parts.
 	 * @author EnderTurret
-	 * @see PartRegistry#reference(ResourceLocation)
+	 * @see PartRegistry#reference(TResourceLocation)
 	 */
 	public static final class PartReference implements Supplier<Part> {
 
-		private final ResourceLocation id;
+		private final TResourceLocation id;
 
-		PartReference(ResourceLocation id) {
+		PartReference(TResourceLocation id) {
 			this.id = id;
 		}
 
 		/**
 		 * @return The id of the referenced part.
 		 */
-		public ResourceLocation id() {
+		public TResourceLocation id() {
 			return id;
 		}
 

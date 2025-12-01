@@ -11,9 +11,8 @@ package uk.kihira.tails.common2.part;
 import java.util.Arrays;
 import java.util.Objects;
 
-import net.minecraft.resources.ResourceLocation;
-
-import uk.kihira.tails.client.ColorUtil;
+import uk.kihira.tails.common2.JavaColor;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 
 /**
  * The server-side implementation of {@link IPartInfo}.
@@ -23,7 +22,7 @@ import uk.kihira.tails.client.ColorUtil;
  * @param tints The tints.
  * @author EnderTurret
  */
-public record ServerPartInfo(ResourceLocation partId, String subTypeId, String textureId, int[] tints) implements IPartInfo {
+public record ServerPartInfo(TResourceLocation partId, String subTypeId, String textureId, int[] tints) implements IPartInfo {
 
 	@Override
 	public IPartInfo clone() {
@@ -31,7 +30,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 	}
 
 	@Override
-	public ResourceLocation getPartId() {
+	public TResourceLocation getPartId() {
 		return partId;
 	}
 
@@ -69,7 +68,7 @@ public record ServerPartInfo(ResourceLocation partId, String subTypeId, String t
 		return "ServerPartInfo[partId=" + partId
 				+ ", subTypeId=" + subTypeId
 				+ ", textureId=" + textureId
-				+ ", tints=" + Arrays.stream(tints).mapToObj(t -> "0x" + ColorUtil.hex(t, true, true)).toList()
+				+ ", tints=" + Arrays.stream(tints).mapToObj(t -> "0x" + JavaColor.hex(t, true)).toList()
 				+ "]";
 	}
 }

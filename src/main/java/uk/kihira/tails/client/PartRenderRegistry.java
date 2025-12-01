@@ -15,9 +15,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-import org.jetbrains.annotations.Nullable;
-
-import net.minecraft.resources.ResourceLocation;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -30,6 +27,7 @@ import uk.kihira.tails.client.model.MuzzleModel;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.client.render.part.WingRenderer;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.part.Part;
 
 /**
@@ -39,7 +37,7 @@ import uk.kihira.tails.common2.client.part.Part;
 @EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
 public final class PartRenderRegistry {
 
-	private static final Map<ResourceLocation, PartRenderer> PART_RENDERER_REGISTRY = new HashMap<>();
+	private static final Map<TResourceLocation, PartRenderer> PART_RENDERER_REGISTRY = new HashMap<>();
 
 	@SubscribeEvent
 	static void registerPartRenderers(RegisterPartRenderersEvent e) {
@@ -58,7 +56,7 @@ public final class PartRenderRegistry {
 	public static void reload() {
 		PART_RENDERER_REGISTRY.clear();
 
-		final Map<ResourceLocation, PartRenderer> map = new ConcurrentHashMap<>();
+		final Map<TResourceLocation, PartRenderer> map = new ConcurrentHashMap<>();
 		ModLoader.postEvent(new RegisterPartRenderersEvent(map));
 
 		PART_RENDERER_REGISTRY.putAll(map);

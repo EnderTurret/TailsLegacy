@@ -29,12 +29,12 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
-import uk.kihira.tails.client.ColorUtil;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.HSBSlider;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.client.gui.widget.SaturationSlider;
+import uk.kihira.tails.common2.JavaColor;
 
 @Internal
 public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSliderCallback {
@@ -276,7 +276,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 		hexText.setTextColor(currentTint);
 		if (changeText)
-			hexText.setValue(ColorUtil.hex(currentTint, true, true));
+			hexText.setValue(JavaColor.hex(currentTint, true));
 
 		// RGB Sliders
 		final Color c = new Color(currentTint);

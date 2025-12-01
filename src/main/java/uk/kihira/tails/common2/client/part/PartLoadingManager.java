@@ -31,13 +31,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
-import net.minecraft.ResourceLocationException;
-import net.minecraft.resources.ResourceLocation;
-
 import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common_gson.ResourceManagerWrapper;
 import uk.kihira.tails.common_gson.TailsGsonHelper;
@@ -51,7 +49,7 @@ import uk.kihira.tails.common_gson.TailsGsonHelper;
 public class PartLoadingManager {
 
 	private final Runnable clear;
-	private final BiConsumer<List<Part>, Map<AttachmentPoint, List<ResourceLocation>>> onComplete;
+	private final BiConsumer<List<Part>, Map<AttachmentPoint, List<TResourceLocation>>> onComplete;
 
 	/**
 	 * Whether to dump registry contents on (re)load.
@@ -62,7 +60,7 @@ public class PartLoadingManager {
 	 * @param clear A callback to run when the manager is cleared.
 	 * @param onComplete A callback to run when the manager finished loading part data.
 	 */
-	public PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<AttachmentPoint, List<ResourceLocation>>> onComplete) {
+	public PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<AttachmentPoint, List<TResourceLocation>>> onComplete) {
 		this.clear = clear;
 		this.onComplete = onComplete;
 	}
@@ -78,7 +76,7 @@ public class PartLoadingManager {
 			Tails.LOGGER.fatal("Critical part loading failure!", e);
 		}
 
-		final Map<AttachmentPoint, List<ResourceLocation>> ordering = new LinkedHashMap<>();
+		final Map<AttachmentPoint, List<TResourceLocation>> ordering = new LinkedHashMap<>();
 
 		try {
 			ordering.putAll(readOrdering(manager));
@@ -96,10 +94,10 @@ public class PartLoadingManager {
 	 * @param manager The resource manager.
 	 * @return The root part ordering.
 	 */
-	private Map<AttachmentPoint, List<ResourceLocation>> readOrdering(ResourceManagerWrapper manager) {
-		final Map<AttachmentPoint, List<ResourceLocation>> ordering = new LinkedHashMap<>();
+	private Map<AttachmentPoint, List<TResourceLocation>> readOrdering(ResourceManagerWrapper manager) {
+		final Map<AttachmentPoint, List<TResourceLocation>> ordering = new LinkedHashMap<>();
 
-		final ResourceLocation loc = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "part_ordering.json");
+		final TResourceLocation loc = TailsPlatform.get().newResourceLocation("part_ordering.json");
 		final JsonElement json = manager.getJson(loc);
 		if (json == null) return Map.of();
 
@@ -110,12 +108,12 @@ public class PartLoadingManager {
 			if (attachment == null)
 				Tails.LOGGER.warn("part_ordering.json: Unknown attachment point: " + entry.getKey());
 			else {
-				final List<ResourceLocation> realValues = entry.getValue()
+				final List<TResourceLocation> realValues = entry.getValue()
 						.stream()
 						.map(str -> {
 							try {
-								return ResourceLocation.parse(Objects.requireNonNull(str));
-							} catch (ResourceLocationException e) {
+								return TailsPlatform.get().parseResourceLocation(Objects.requireNonNull(str));
+							} catch (Exception e) {
 								Tails.LOGGER.warn("part_ordering.json: Invalid resource location '{}'!\n{}", str, e.toString());
 								return null;
 							}
@@ -136,25 +134,25 @@ public class PartLoadingManager {
 	 * @return The fully-baked list of parts.
 	 */
 	private List<Part> reloadParts(ResourceManagerWrapper manager) {
-		var resources = manager.listJsonFiles("tails/parts", rl -> rl.getPath().endsWith(".json"));
+		var resources = manager.listJsonFiles("tails/parts", rl -> rl.t$getPath().endsWith(".json"));
 
 		final List<ResourcePair> parts = new ArrayList<>();
 
-		for (Map.Entry<ResourceLocation, JsonElement> entry : resources.entrySet())
+		for (Map.Entry<TResourceLocation, JsonElement> entry : resources.entrySet())
 			parts.add(new ResourcePair(entry.getKey(), entry.getValue()));
 
 		final List<ResourcePair> subTypes = new ArrayList<>();
-		resources = manager.listJsonFiles("tails/subtypes", rl -> rl.getPath().endsWith(".json"));
+		resources = manager.listJsonFiles("tails/subtypes", rl -> rl.t$getPath().endsWith(".json"));
 
-		for (Map.Entry<ResourceLocation, JsonElement> entry : resources.entrySet())
+		for (Map.Entry<TResourceLocation, JsonElement> entry : resources.entrySet())
 			subTypes.add(new ResourcePair(entry.getKey(), entry.getValue()));
 
 		final List<ResourcePair> textures = new ArrayList<>();
 		final List<ResourcePair> orderings = new ArrayList<>();
-		resources = manager.listJsonFiles("tails/part_textures", rl -> rl.getPath().endsWith(".json"));
+		resources = manager.listJsonFiles("tails/part_textures", rl -> rl.t$getPath().endsWith(".json"));
 
-		for (Map.Entry<ResourceLocation, JsonElement> entry : resources.entrySet()) {
-			final String path = entry.getKey().getPath();
+		for (Map.Entry<TResourceLocation, JsonElement> entry : resources.entrySet()) {
+			final String path = entry.getKey().t$getPath();
 			final ResourcePair pair = new ResourcePair(entry.getKey(), entry.getValue());
 
 			if (path.endsWith("/ordering.json"))
@@ -162,7 +160,7 @@ public class PartLoadingManager {
 			else textures.add(pair);
 		}
 
-		final Map<ResourceLocation, List<String>> realOrderings = new TreeMap<>();
+		final Map<TResourceLocation, List<String>> realOrderings = new TreeMap<>();
 
 		for (ResourcePair pair : orderings) {
 			final JsonElement json = pair.json();
@@ -177,10 +175,10 @@ public class PartLoadingManager {
 			for (int i = 0; i < arr.size(); i++)
 				values.add(arr.get(i).getAsString());
 
-			String id = trim(pair.location().getPath(), "tails/part_textures/");
+			String id = trim(pair.location().t$getPath(), "tails/part_textures/");
 			id = id.substring(0, id.length() - "/ordering".length());
 
-			realOrderings.put(ResourceLocation.fromNamespaceAndPath(pair.location().getNamespace(), id), values);
+			realOrderings.put(pair.location().t$withPath(id), values);
 		}
 
 		if (DEBUG_REGISTRIES)
@@ -285,9 +283,9 @@ public class PartLoadingManager {
 	 * @param subTypes The subtypes of the part.
 	 * @return The part.
 	 */
-	private static Part readPart(ResourceLocation location, JsonObject json, List<NamedSubType> subTypes) {
-		final String id = trim(location.getPath(), "tails/parts/");
-		final ResourceLocation realId = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), id);
+	private static Part readPart(TResourceLocation location, JsonObject json, List<NamedSubType> subTypes) {
+		final String id = trim(location.t$getPath(), "tails/parts/");
+		final TResourceLocation realId = location.t$withPath(id);
 
 		final AttachmentPoint attachment = AttachmentPoints.getOrCreate(TailsGsonHelper.getAsString(json, "attachment"));
 		if (attachment == null) throw new JsonParseException(location + ": missing attachment!");
@@ -338,11 +336,11 @@ public class PartLoadingManager {
 	 * @param textureOrderings The list of texture orderings.
 	 * @return The subtype.
 	 */
-	private static NamedSubType readSubType(ResourceLocation location, JsonObject json, List<NamedTexture> textures, Map<ResourceLocation, List<String>> textureOrderings) {
-		final String id = trim(location.getPath(), "tails/subtypes/");
+	private static NamedSubType readSubType(TResourceLocation location, JsonObject json, List<NamedTexture> textures, Map<TResourceLocation, List<String>> textureOrderings) {
+		final String id = trim(location.t$getPath(), "tails/subtypes/");
 
 		final String partPath = id.substring(0, id.lastIndexOf('/'));
-		final ResourceLocation partId = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), partPath);
+		final TResourceLocation partId = location.t$withPath(partPath);
 
 		final String typeId = id.substring(partPath.length() + 1);
 
@@ -368,15 +366,15 @@ public class PartLoadingManager {
 	 * @param json The json contents of the texture.
 	 * @return The texture.
 	 */
-	private static NamedTexture readTexture(ResourceLocation location, JsonObject json) {
-		final String id = trim(location.getPath(), "tails/part_textures/");
+	private static NamedTexture readTexture(TResourceLocation location, JsonObject json) {
+		final String id = trim(location.t$getPath(), "tails/part_textures/");
 
 		final String partPath = id.substring(0, id.lastIndexOf('/'));
-		final ResourceLocation partId = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), partPath);
+		final TResourceLocation partId = location.t$withPath(partPath);
 
 		final String texId = id.substring(partPath.length() + 1);
 
-		String path = json.has("path") ? TailsGsonHelper.getAsString(json, "path") : partId.getPath() + "/" + texId;
+		String path = json.has("path") ? TailsGsonHelper.getAsString(json, "path") : partId.t$getPath() + "/" + texId;
 		path = "textures/part/" + path + ".png";
 		final String author = json.has("author") ? TailsGsonHelper.getAsString(json, "author") : null;
 
@@ -439,10 +437,10 @@ public class PartLoadingManager {
 		return input.substring(0, input.length() - ".json".length());
 	}
 
-	private static <V, T extends Named<V>> List<V> order(ResourceLocation id, List<String> ordering, List<T> all, BiPredicate<T, String> orderMatcher) {
+	private static <V, T extends Named<V>> List<V> order(TResourceLocation id, List<String> ordering, List<T> all, BiPredicate<T, String> orderMatcher) {
 		final List<T> applicable = all.stream()
 				.filter(n -> n.id().equals(id))
-				.sorted(Comparator.comparing(Named::id, ResourceLocation::compareNamespaced))
+				.sorted(Comparator.comparing(Named::id, TResourceLocation::t$compareNamespaced))
 				.toList();
 
 		final List<V> resolved = ordering.stream()
@@ -463,25 +461,25 @@ public class PartLoadingManager {
 	}
 
 	private static interface Named<T> {
-		public ResourceLocation id();
+		public TResourceLocation id();
 		public T unwrap();
 	}
 
-	private static record NamedSubType(ResourceLocation partId, Part.SubType subType) implements Named<Part.SubType> {
+	private static record NamedSubType(TResourceLocation partId, Part.SubType subType) implements Named<Part.SubType> {
 		@Override
-		public ResourceLocation id() { return partId; }
+		public TResourceLocation id() { return partId; }
 		@Override
 		public Part.SubType unwrap() { return subType; }
 	}
 
-	private static record NamedTexture(ResourceLocation partId, List<String> applyTo, Part.PartTexture texture) implements Named<Part.PartTexture> {
+	private static record NamedTexture(TResourceLocation partId, List<String> applyTo, Part.PartTexture texture) implements Named<Part.PartTexture> {
 		@Override
-		public ResourceLocation id() { return partId; }
+		public TResourceLocation id() { return partId; }
 		@Override
 		public Part.PartTexture unwrap() { return texture; }
 	}
 
-	private static record ResourcePair(ResourceLocation location, JsonElement json) {
+	private static record ResourcePair(TResourceLocation location, JsonElement json) {
 		@Override
 		public String toString() {
 			return location.toString();

@@ -2,7 +2,9 @@
   "minVersion": "0.8",
   "package": "uk.kihira.tails.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "duck.MixinResourceLocation"
+  ],
   "client": [
     "client.duck.MixinLivingEntity",
     "client.duck.MixinModelPart",

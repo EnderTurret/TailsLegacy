@@ -14,9 +14,8 @@ import java.util.Comparator;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.resources.ResourceLocation;
-
-import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 
 /**
  * Represents a side-agnostic view of a part and its associated data.
@@ -46,7 +45,7 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 	/**
 	 * @return The id of the part.
 	 */
-	public ResourceLocation getPartId();
+	public TResourceLocation getPartId();
 
 	/**
 	 * Returns the subtype id, which is a unique identifier for the part subtype.
@@ -76,7 +75,7 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 
 	public static final Comparator<IPartInfo> COMPARATOR = Comparator.<IPartInfo>nullsFirst(
 			Comparator.comparing(IPartInfo::isEmpty)
-			.thenComparing(IPartInfo::getPartId)
+			.thenComparing(IPartInfo::getPartId, TResourceLocation::t$compareTo)
 			.thenComparing(IPartInfo::getSubTypeId)
 			.thenComparing(IPartInfo::getTextureId)
 			.thenComparing(IPartInfo::getTints, Arrays::compare));
@@ -106,7 +105,7 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 		public IPartInfo clone() { return this; }
 
 		@Override
-		public ResourceLocation getPartId() { return ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "empty"); }
+		public TResourceLocation getPartId() { return TailsPlatform.get().newResourceLocation("empty"); }
 
 		@Override
 		public String getSubTypeId() { return "empty"; }

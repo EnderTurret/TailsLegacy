@@ -11,9 +11,8 @@ package uk.kihira.tails.common2.part;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.resources.ResourceLocation;
-
-import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common2.client.duck.TResourceLocation;
 
 /**
  * Various utilities for working with parts.
@@ -28,7 +27,7 @@ public final class Parts {
 	 * @param index The type id.
 	 * @return The part renderer.
 	 */
-	public static ResourceLocation byLegacyId(String partType, int index) {
+	public static TResourceLocation byLegacyId(String partType, int index) {
 		return switch (partType) {
 		case "tail" -> {
 			yield switch (index) {
@@ -96,11 +95,11 @@ public final class Parts {
 	 * @param id The id to remap.
 	 * @return The remapped id.
 	 */
-	public static ResourceLocation remapId(ResourceLocation id) {
-		if ("tails".equals(id.getNamespace())) {
-			final String newPath = REMAP.get(id.getPath());
+	public static TResourceLocation remapId(TResourceLocation id) {
+		if ("tails".equals(id.t$getNamespace())) {
+			final String newPath = REMAP.get(id.t$getPath());
 			if (newPath != null)
-				return id.withPath(newPath);
+				return id.t$withPath(newPath);
 		}
 
 		return id;
@@ -112,7 +111,7 @@ public final class Parts {
 	 * @param subType The legacy numeric subtype id.
 	 * @return The named subtype id.
 	 */
-	public static String legacySubType(ResourceLocation id, int subType) {
+	public static String legacySubType(TResourceLocation id, int subType) {
 		return switch (id.toString()) {
 		case "tails:tail/fluffy_tail" -> map(subType, "one_tail", "two_tails", "nine_tails");
 		case "tails:tail/dragon_tail" -> map(subType, "lizard_tail", "dragon_tail");
@@ -132,7 +131,7 @@ public final class Parts {
 	 * @param texture The legacy numeric texture id.
 	 * @return The named texture id.
 	 */
-	public static String legacyTexture(ResourceLocation id, int texture) {
+	public static String legacyTexture(TResourceLocation id, int texture) {
 		return switch (id.toString()) {
 		case "tails:tail/dragon_tail" -> map(texture, "standard", "striped");
 		case "tails:tail/cat_tail" -> map(texture, "tabby", "tiger");
@@ -156,11 +155,11 @@ public final class Parts {
 	}
 
 	/**
-	 * Utility method to build a {@link ResourceLocation} in the Tails namespace.
-	 * @param path The path of the {@link ResourceLocation}.
-	 * @return The new {@link ResourceLocation}.
+	 * Utility method to build a {@link TResourceLocation} in the Tails namespace.
+	 * @param path The path of the {@link TResourceLocation}.
+	 * @return The new {@link TResourceLocation}.
 	 */
-	private static ResourceLocation id(String path) {
-		return ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, path);
+	private static TResourceLocation id(String path) {
+		return TailsPlatform.get().newResourceLocation(path);
 	}
 }

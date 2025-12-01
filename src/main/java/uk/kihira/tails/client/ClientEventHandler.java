@@ -61,8 +61,8 @@ import uk.kihira.tails.client.render.helper.PlayerRenderHelper;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
-import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.ABGRColor;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.mixin.client.LivingEntityRendererAccess;
 
@@ -178,7 +178,7 @@ public final class ClientEventHandler {
 			try (GLFWImage img = GLFWImage.malloc(); MemoryStack stack = MemoryStack.stackPush()) {
 				final ByteBuffer data = stack.malloc(16 * 16 * 4);
 
-				TextureHelper.copyPixels(iconImg, data, IconButton.Icons.EYEDROPPER.u, IconButton.Icons.EYEDROPPER.v + 16, 16, 16);
+				copyPixels(iconImg, data, IconButton.Icons.EYEDROPPER.u, IconButton.Icons.EYEDROPPER.v + 16, 16, 16);
 				data.flip();
 				img.set(16, 16, data);
 
@@ -191,6 +191,26 @@ public final class ClientEventHandler {
 			}
 
 			iconImg.close();
+		}
+
+		/**
+		 * Copies a region of pixels from the given {@link NativeImage} into the given buffer.
+		 * @param src The source image.
+		 * @param dest The destination buffer.
+		 * @param fromX The coordinate corresponding to the left side of the region.
+		 * @param fromY The coordinate corresponding to the top side of the region.
+		 * @param width The width of the region.
+		 * @param height The height of the region.
+		 */
+		public static void copyPixels(NativeImage src, ByteBuffer dest, int fromX, int fromY, int width, int height) {
+			for (int y = fromY; y < fromY + height; y++)
+				for (int x = fromX; x < fromX + width; x++) {
+					final int pixel = src.getPixelRGBA(x, y);
+					dest.put((byte) ABGRColor.red(pixel));
+					dest.put((byte) ABGRColor.green(pixel));
+					dest.put((byte) ABGRColor.blue(pixel));
+					dest.put((byte) ABGRColor.alpha(pixel));
+				}
 		}
 
 		private static void registerFoxtato() {

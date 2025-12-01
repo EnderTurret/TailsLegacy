@@ -31,7 +31,8 @@ public final class TailsVec3f {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
-		if (!(obj instanceof TailsVec3f vec)) return false;
+		if (!(obj instanceof TailsVec3f)) return false;
+		final TailsVec3f vec = (TailsVec3f) obj;
 		return x == vec.x && y == vec.y && z == vec.z;
 	}
 

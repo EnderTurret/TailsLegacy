@@ -33,7 +33,8 @@ final class GsonParts {
 	// DFU at home:
 	@Internal
 	public static JsonElement update(JsonElement elem) {
-		if (elem instanceof JsonObject obj && obj.size() > 0) {
+		if (elem.isJsonObject() && elem.getAsJsonObject().size() > 0) {
+			JsonObject obj = elem.getAsJsonObject();
 			boolean modified = false;
 			// Convert old style empty parts to new style empties.
 			if (obj.has("hasPart") && !obj.get("hasPart").getAsBoolean()) {
@@ -120,7 +121,8 @@ final class GsonParts {
 
 	@Internal
 	public static JsonElement updatePartsData(JsonElement elem) {
-		if (elem instanceof JsonObject obj) {
+		if (elem.isJsonObject()) {
+			JsonObject obj = elem.getAsJsonObject();
 			final int version = obj.has("version") ? obj.get("version").getAsInt() : 0;
 			if (version == 2) return elem;
 

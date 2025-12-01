@@ -405,9 +405,11 @@ public class PartLoadingManager {
 	public static List<String> getAsStringArray(JsonObject obj, String name) {
 		final List<String> ret = new ArrayList<>();
 
-		if (obj.get(name) instanceof JsonArray arr)
+		if (obj.get(name).isJsonArray()) {
+			final JsonArray arr = obj.get(name).getAsJsonArray();
 			for (int i = 0; i < arr.size(); i++)
 				ret.add(TailsGsonHelper.convertToString(arr.get(i), name + "[" + i + "]"));
+		}
 
 		return ret;
 	}

@@ -85,7 +85,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return The coerced {@link ClientPartInfo}.
 	 */
 	public static ClientPartInfo coerce(IPartInfo info) {
-		if (info instanceof ClientPartInfo cpi) return cpi;
+		if (info instanceof ClientPartInfo) return (ClientPartInfo) info;
 		if (info.isEmpty()) return empty();
 
 		final PartReference part = PartRegistry.reference(info.getPartId());
@@ -215,7 +215,8 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	@Override
 	public final boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof IPartInfo partInfo)) return false;
+		if (!(o instanceof IPartInfo)) return false;
+		final IPartInfo partInfo = (IPartInfo) o;
 
 		return isEmpty() == partInfo.isEmpty()
 				&& Objects.equals(getPartId(), partInfo.getPartId())

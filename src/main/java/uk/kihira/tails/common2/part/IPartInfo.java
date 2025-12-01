@@ -121,8 +121,8 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 		@Override
 		public boolean equals(Object obj) {
 			if (obj == this) return true;
-			if (!(obj instanceof IPartInfo partInfo)) return false;
-			return partInfo.isEmpty();
+			if (!(obj instanceof IPartInfo)) return false;
+			return ((IPartInfo) obj).isEmpty();
 		}
 
 		@Override

@@ -49,7 +49,8 @@ public final class LibraryEntryData {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof LibraryEntryData data)) return false;
+		if (!(o instanceof LibraryEntryData)) return false;
+		final LibraryEntryData data = (LibraryEntryData) o;
 
 		return creationDate == data.creationDate && favourite == data.favourite && creatorUUID.equals(data.creatorUUID)
 				&& Objects.equals(entryName, data.entryName) && Objects.equals(partsData, data.partsData);

@@ -93,9 +93,8 @@ public class PartsData {
 	@Override
 	public final boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof PartsData partsData)) return false;
-
-		return parts.equals(partsData.parts);
+		if (!(o instanceof PartsData)) return false;
+		return parts.equals(((PartsData) o).parts);
 	}
 
 	@Override

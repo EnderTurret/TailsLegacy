@@ -66,8 +66,10 @@ public final class ServerPartInfo implements IPartInfo {
 
 	@Override
 	public boolean equals(Object o) {
-		return o instanceof ServerPartInfo spi
-				&& Objects.equals(partId, spi.partId)
+		if (this == o) return true;
+		if (!(o instanceof ServerPartInfo)) return false;
+		final ServerPartInfo spi = (ServerPartInfo) o;
+		return Objects.equals(partId, spi.partId)
 				&& Objects.equals(subTypeId, spi.subTypeId)
 				&& Objects.equals(textureId, spi.textureId)
 				&& Arrays.equals(tints, spi.tints);

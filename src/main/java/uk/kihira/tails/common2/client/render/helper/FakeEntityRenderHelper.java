@@ -13,14 +13,14 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.util.Mth;
 
-import uk.kihira.tails.client.render.FoxtatoRenderer;
+import uk.kihira.tails.client.render.BotaniaFoxtatoRenderer;
 import uk.kihira.tails.common2.client.api.IRenderHelper;
 import uk.kihira.tails.common2.client.part.Part;
 import uk.kihira.tails.common2.client.render.RenderContext;
 import uk.kihira.tails.common2.client.render.part.PartRenderer;
 
 /**
- * An {@link IRenderHelper} for "fake" entities -- that is, the part preview and/or {@linkplain FoxtatoRenderer foxtato}.
+ * An {@link IRenderHelper} for "fake" entities -- that is, the part preview and/or {@linkplain BotaniaFoxtatoRenderer foxtato}.
  */
 @Internal
 public final class FakeEntityRenderHelper implements IRenderHelper {

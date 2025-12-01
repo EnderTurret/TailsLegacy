@@ -55,7 +55,7 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.part.LocalPartManager;
-import uk.kihira.tails.client.render.FoxtatoRenderer;
+import uk.kihira.tails.client.render.BotaniaFoxtatoRenderer;
 import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.Tails;
@@ -215,7 +215,7 @@ public final class ClientEventHandler {
 		}
 
 		private static void registerFoxtato() {
-			NeoForge.EVENT_BUS.register(new FoxtatoRenderer());
+			NeoForge.EVENT_BUS.register(BotaniaFoxtatoRenderer.class);
 		}
 
 		@SubscribeEvent

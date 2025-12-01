@@ -8,6 +8,9 @@
   "allowArrows": true,
   "model": {
     "texture_size": [64, 32],
+    "hidden_parts": [
+      "tailBase.tail1.tail2.tail3.fins"
+    ],
     "tailBase": {
       "pose": {
         "rotation": [-0.6981317, 0, 0]

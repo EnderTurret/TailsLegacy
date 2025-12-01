@@ -27,6 +27,8 @@ import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.Part;
+import uk.kihira.tails.common2.client.part.Part.SubType;
+import uk.kihira.tails.common2.client.part.PartPath;
 
 /**
  * A base class that all parts extend.
@@ -45,16 +47,46 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 */
 	public void render(RenderContext ctx) {
 		final Part part = ctx.info().getPart();
-		final boolean transformed = !part.getRenderTransforms().isEmpty();
+		final SubType subType = ctx.info().getSubType();
+
+		final int len = subType.hideParts().size() + subType.showParts().size();
+		final ModelPart[] changedParts = len == 0 ? null : new ModelPart[len];
+		final boolean[] partStates = len == 0 ? null : new boolean[changedParts.length];
+
+		if (len != 0) {
+			int pos = 0;
+			for (PartPath path : subType.hideParts()) {
+				changedParts[pos] = path.traverse(ctx.getModel());
+				partStates[pos] = changedParts[pos].visible;
+				changedParts[pos].visible = false;
+				pos++;
+			}
+			for (PartPath path : subType.showParts()) {
+				changedParts[pos] = path.traverse(ctx.getModel());
+				partStates[pos] = changedParts[pos].visible;
+				changedParts[pos].visible = true;
+				pos++;
+			}
+		}
+
+		final boolean transformed = !part.getRenderTransforms().isEmpty() || !subType.renderTransforms().isEmpty();
 		if (transformed) {
 			ctx.poseStack().pushPose();
-			part.getRenderTransforms().apply(ctx.poseStack());
+
+			if (!part.getRenderTransforms().isEmpty())
+				part.getRenderTransforms().apply(ctx.poseStack());
+
+			if (!subType.renderTransforms().isEmpty())
+				subType.renderTransforms().apply(ctx.poseStack());
 		}
 
 		ctx.render(part.getModel());
 
 		if (transformed)
 			ctx.poseStack().popPose();
+
+		for (int i = 0; i < len; i++)
+			changedParts[i].visible = partStates[i];
 	}
 
 	/**
@@ -95,6 +127,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	 */
 	public void setupPartPreviewAnim(RenderContext ctx, PartRenderer renderer) {
 		ctx.info().getPart().getRenderTransforms().apply(ctx.poseStack());
+		ctx.info().getSubType().renderTransforms().apply(ctx.poseStack());
 		ctx.info().getPart().getPreviewTransforms().apply(ctx.poseStack());
 	}
 

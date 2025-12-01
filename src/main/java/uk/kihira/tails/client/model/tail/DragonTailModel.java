@@ -65,15 +65,10 @@ final class DragonTailModel extends PartModel {
 		final ModelPart tailSub2 = tailSub1.getChild("tailSub2");
 		final ModelPart tailSub3 = tailSub2.getChild("tailSub3");
 		if ("dragon_tail".equals(subType.id()) || "finned_dragon_tail".equals(subType.id())) {
-			tailSubBase.visible = true;
 			setRotationRadians(tailSubBase, tailBase.xRot, tailBase.yRot, tailBase.zRot);
 			setRotationRadians(tailSub1, tail1.xRot, tail1.yRot, tail1.zRot);
 			setRotationRadians(tailSub2, tail2.xRot, tail2.yRot, tail2.zRot);
 			setRotationRadians(tailSub3, tail3.xRot, tail3.yRot, tail3.zRot);
-		} else
-			tailSubBase.visible = false;
-
-		final ModelPart fins = tail3.getChild("fins");
-		fins.visible = "finned_dragon_tail".equals(subType.id());
+		}
 	}
 }

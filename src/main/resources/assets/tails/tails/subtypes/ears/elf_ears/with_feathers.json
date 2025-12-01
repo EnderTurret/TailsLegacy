@@ -1,3 +1,6 @@
 {
-  "author": "Dustskys"
+  "author": "Dustskys",
+  "showParts": [
+    "feathers"
+  ]
 }

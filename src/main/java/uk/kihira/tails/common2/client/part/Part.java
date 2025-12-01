@@ -115,10 +115,13 @@ public final class Part {
 	 * Represents a "subtype," which is a variant of a part.
 	 * @param id The id of the subtype.
 	 * @param author The author of the subtype. May be {@code null}.
+	 * @param renderTransforms The render transformation.
+	 * @param hideParts Parts that should be hidden before render.
+	 * @param showParts Parts that should be shown before render.
 	 * @param textures A list of textures that apply to the subtype.
 	 * @author EnderTurret
 	 */
-	public static record SubType(String id, @Nullable String author, List<PartTexture> textures) {
+	public static record SubType(String id, @Nullable String author, Transformation renderTransforms, List<PartPath> hideParts, List<PartPath> showParts, List<PartTexture> textures) {
 		@Nullable
 		public PartTexture getTexture(String id) {
 			for (PartTexture tex : textures)

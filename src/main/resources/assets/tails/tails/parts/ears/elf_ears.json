@@ -6,6 +6,7 @@
   ],
   "model": {
     "texture_size": [16, 16],
+    "hidden_parts": ["feathers"],
     "ears": {
       "children": {
         "left": {

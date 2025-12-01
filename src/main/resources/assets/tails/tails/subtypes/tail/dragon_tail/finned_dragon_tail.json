@@ -1,3 +1,6 @@
 {
-  "author": "PuffballFungus"
+  "author": "PuffballFungus",
+  "showParts": [
+    "tailBase.tail1.tail2.tail3.fins"
+  ]
 }

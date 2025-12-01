@@ -35,7 +35,5 @@ public final class EarRegistrationHandler {
 	static void registerPartRenderers(RegisterPartRenderersEvent e) {
 		e.register(FOX_EARS, new FoxEarsModel());
 		e.register(BLAZE_CROWN, new BlazeCrownModel());
-		e.register(ELF_EARS, new ElfEarsModel());
-		e.register(ANTLERS, new AntlersModel());
 	}
 }

@@ -1,1 +1,5 @@
-{}
+{
+  "hideParts": [
+    "tailBase.tail1.tail2.tail3.tail4.tail5.tailTip"
+  ]
+}

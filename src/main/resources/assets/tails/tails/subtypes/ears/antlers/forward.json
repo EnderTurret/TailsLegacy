@@ -1,3 +1,6 @@
 {
-  "author": "PuffballFungus"
+  "author": "PuffballFungus",
+  "pose": {
+    "rotation": [0, 180, 0]
+  }
 }

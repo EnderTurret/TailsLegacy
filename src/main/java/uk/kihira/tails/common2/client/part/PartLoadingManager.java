@@ -359,6 +359,9 @@ public class PartLoadingManager {
 		final String typeId = id.substring(partPath.length() + 1);
 
 		final String author = json.has("author") ? TailsGsonHelper.getAsString(json, "author") : null;
+		final Transformation transforms = json.has("pose") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "pose")) : Transformation.ZERO;
+		final List<PartPath> hideParts = json.has("hideParts") ? getAsStringArray(json, "hideParts").stream().map(PartPath::new).toList() : List.of();
+		final List<PartPath> showParts = json.has("showParts") ? getAsStringArray(json, "showParts").stream().map(PartPath::new).toList() : List.of();
 
 		final List<NamedTexture> tex = textures.stream()
 				.filter(tx -> tx.partId().equals(partId) && tx.applyTo().contains(typeId))
@@ -368,7 +371,7 @@ public class PartLoadingManager {
 
 		final List<Part.PartTexture> newTex = order(partId, ordering, tex, (t, ord) -> t.unwrap().id().equals(ord));
 
-		return new NamedSubType(partId, new Part.SubType(typeId, author, newTex));
+		return new NamedSubType(partId, new Part.SubType(typeId, author, transforms, hideParts, showParts, newTex));
 	}
 
 	/**
@@ -414,7 +417,7 @@ public class PartLoadingManager {
 	 * @param name The name of the array.
 	 * @return The contents of the string array.
 	 */
-	private static List<String> getAsStringArray(JsonObject obj, String name) {
+	public static List<String> getAsStringArray(JsonObject obj, String name) {
 		final List<String> ret = new ArrayList<>();
 
 		if (obj.get(name) instanceof JsonArray arr)

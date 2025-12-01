@@ -44,6 +44,8 @@ import net.minecraft.util.GsonHelper;
 import net.neoforged.fml.loading.FMLPaths;
 
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.part.PartLoadingManager;
+import uk.kihira.tails.common2.client.part.PartPath;
 import uk.kihira.tails.mixin.client.CubeDefinitionAccess;
 import uk.kihira.tails.mixin.client.CubeDeformationAccess;
 import uk.kihira.tails.mixin.client.PartDefinitionAccess;
@@ -199,10 +201,12 @@ public final class ModelSerializer {
 	public static RootPartDefinition deserializeRoot(JsonObject obj) {
 		final PartDefinition def = deserialize(obj, true);
 		final JsonArray textureSize = GsonHelper.getAsJsonArray(obj, "texture_size");
+		final List<PartPath> hidden = obj.has("hidden_parts") ? PartLoadingManager.getAsStringArray(obj, "hidden_parts").stream().map(PartPath::new).toList() : List.of();
 
 		return new RootPartDefinition(def,
 				GsonHelper.convertToInt(textureSize.get(0), "texture_size[0]"),
-				GsonHelper.convertToInt(textureSize.get(1), "texture_size[1]"));
+				GsonHelper.convertToInt(textureSize.get(1), "texture_size[1]"),
+				hidden);
 	}
 
 	public static PartDefinition deserialize(JsonObject obj, boolean root) {
@@ -228,7 +232,7 @@ public final class ModelSerializer {
 			final PartDefinitionAccess access = (PartDefinitionAccess) ret;
 			final JsonObject children = GsonHelper.convertToJsonObject(childrenE, "children");
 			for (Map.Entry<String, JsonElement> entry : children.entrySet()) {
-				if (root && "texture_size".equals(entry.getKey())) continue;
+				if (root && ("texture_size".equals(entry.getKey()) || "hidden_parts".equals(entry.getKey()))) continue;
 				final PartDefinition child = deserialize(GsonHelper.convertToJsonObject(entry.getValue(), "children." + entry.getKey()), false);
 				access.tails$children().put(entry.getKey(), child);
 			}
@@ -306,10 +310,12 @@ public final class ModelSerializer {
 				grow, mirror, 1F, 1F, visible);
 	}
 
-	public static record RootPartDefinition(PartDefinition definition, int textureWidth, int textureHeight) {
+	public static record RootPartDefinition(PartDefinition definition, int textureWidth, int textureHeight, List<PartPath> hiddenParts) {
 
 		public ModelPart bake() {
-			return definition.bake(textureWidth, textureHeight);
+			final ModelPart ret = definition.bake(textureWidth, textureHeight);
+			for (PartPath path : hiddenParts) path.traverse(ret).visible = false;
+			return ret;
 		}
 	}
 }

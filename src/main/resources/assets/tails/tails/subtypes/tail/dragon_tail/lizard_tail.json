@@ -1,3 +1,6 @@
 {
-  "author": "@TTFTCUTS"
+  "author": "@TTFTCUTS",
+  "hideParts": [
+    "tailSubBase"
+  ]
 }

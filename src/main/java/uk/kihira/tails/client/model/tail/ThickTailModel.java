@@ -49,7 +49,5 @@ final class ThickTailModel extends PartModel {
 		setRotationRadians(tail2,    tail2.getInitialPose().xRot    - xAngleOffset / 4, Mth.cos(timestep - 3) / 45 * yAngleMultiplier, 0);
 		setRotationRadians(tail3,    tail3.getInitialPose().xRot    - xAngleOffset / 4, Mth.cos(timestep - 4) / 45 * yAngleMultiplier, 0);
 		setRotationRadians(tail4,    tail4.getInitialPose().xRot    - xAngleOffset / 4, Mth.cos(timestep - 5) / 45 * yAngleMultiplier, 0);
-
-		tailBase.xScale = tailBase.yScale = tailBase.zScale = 1.2f;
 	}
 }

@@ -56,7 +56,5 @@ final class DevilTailModel extends PartModel {
 		setRotationRadians(tail4, rad(50) - xAngleOffset * 3 + Mth.cos(xseed - 5) / 8 * yAngleMultiplier, Mth.cos(seed - 5) / 8 * yAngleMultiplier, Mth.cos(xseed - 5) / 8 * yAngleMultiplier);
 		setRotationRadians(tail5, rad(50) - xAngleOffset * 4 + Mth.cos(xseed - 6) / 4  * yAngleMultiplier, Mth.cos(seed - 6) / 8 * yAngleMultiplier, Mth.cos(xseed - 6) / 8 * yAngleMultiplier);
 		setRotationRadians(tailTip, rad(120) - xAngleOffset, 0, 0);
-
-		tailTip.visible = !"no_tip".equals(subType.id());
 	}
 }

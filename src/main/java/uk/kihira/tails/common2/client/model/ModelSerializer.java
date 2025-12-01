@@ -18,8 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.minecraft.core.Direction;
-
+import uk.kihira.tails.common2.TailsDirection;
 import uk.kihira.tails.common2.client.TailsClientPlatform;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.part.PartLoadingManager;
@@ -88,7 +87,7 @@ public final class ModelSerializer {
 		}
 	}
 
-	private static final Set<Direction> ALL_VISIBLE = EnumSet.allOf(Direction.class);
+	private static final Set<TailsDirection> ALL_VISIBLE = EnumSet.allOf(TailsDirection.class);
 
 	private static TailsCubeDefinition deserializeCube(JsonObject obj) {
 		final JsonArray uvA = TailsGsonHelper.getAsJsonArray(obj, "uv");
@@ -120,12 +119,12 @@ public final class ModelSerializer {
 
 		final boolean mirror = TailsGsonHelper.getAsBoolean(obj, "mirror", false);
 
-		final Set<Direction> visible;
+		final Set<TailsDirection> visible;
 		if (obj.has("visible")) {
-			visible = EnumSet.noneOf(Direction.class);
+			visible = EnumSet.noneOf(TailsDirection.class);
 			final JsonArray array = TailsGsonHelper.getAsJsonArray(obj, "visible");
 			for (int i = 0; i < array.size(); i++)
-				visible.add(Direction.byName(TailsGsonHelper.convertToString(array.get(i), "visible[" + i + "]")));
+				visible.add(TailsDirection.byName(TailsGsonHelper.convertToString(array.get(i), "visible[" + i + "]")));
 		} else visible = ALL_VISIBLE;
 
 		return new TailsCubeDefinition(

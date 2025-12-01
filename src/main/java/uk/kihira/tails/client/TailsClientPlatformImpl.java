@@ -1,11 +1,15 @@
 package uk.kihira.tails.client;
 
+import java.util.EnumSet;
+import java.util.stream.Collectors;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDefinition;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 
@@ -52,7 +56,9 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 				cube.x, cube.y, cube.z,
 				cube.sizeX, cube.sizeY, cube.sizeZ,
 				new CubeDeformation(cube.growX, cube.growY, cube.growZ),
-				cube.mirror, 1, 1, cube.visibleFaces);
+				cube.mirror, 1, 1, cube.visibleFaces.stream()
+				.map(dir -> Direction.values()[dir.ordinal()])
+				.collect(Collectors.toCollection(() -> EnumSet.noneOf(Direction.class))));
 	}
 
 	@Override

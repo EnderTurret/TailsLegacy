@@ -3,7 +3,7 @@ package uk.kihira.tails.common2.client.model;
 import java.util.EnumSet;
 import java.util.Set;
 
-import net.minecraft.core.Direction;
+import uk.kihira.tails.common2.TailsDirection;
 
 public final class TailsCubeDefinition {
 
@@ -12,13 +12,13 @@ public final class TailsCubeDefinition {
 	public final float growX, growY, growZ;
 	public final boolean mirror;
 	public final float u, v;
-	public final Set<Direction> visibleFaces;
+	public final Set<TailsDirection> visibleFaces;
 
 	public TailsCubeDefinition(float x, float y, float z,
 			float sizeX, float sizeY, float sizeZ,
 			float growX, float growY, float growZ,
 			boolean mirror, float u, float v,
-			Set<Direction> visibleFaces) {
+			Set<TailsDirection> visibleFaces) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -37,6 +37,6 @@ public final class TailsCubeDefinition {
 	public TailsCubeDefinition(float x, float y, float z,
 			float sizeX, float sizeY, float sizeZ,
 			boolean mirror, float u, float v) {
-		this(x, y, z, sizeX, sizeY, sizeZ, 0, 0, 0, mirror, u, v, EnumSet.allOf(Direction.class));
+		this(x, y, z, sizeX, sizeY, sizeZ, 0, 0, 0, mirror, u, v, EnumSet.allOf(TailsDirection.class));
 	}
 }

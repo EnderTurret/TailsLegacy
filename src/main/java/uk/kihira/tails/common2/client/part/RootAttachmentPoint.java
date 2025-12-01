@@ -9,15 +9,29 @@
 package uk.kihira.tails.common2.client.part;
 
 import java.util.NavigableSet;
+import java.util.Objects;
 
 /**
  * Represents a "root attachment point," which can be thought of as the general body part of {@link AttachmentPoint AttachmentPoints}.
- * @param id The id of the {@code RootAttachmentPoint}.
  * @see AttachmentPoint
  * @see AttachmentPoints
  * @author EnderTurret
  */
-public record RootAttachmentPoint(String id) implements Comparable<RootAttachmentPoint> {
+public final class RootAttachmentPoint implements Comparable<RootAttachmentPoint> {
+
+	private final String id;
+
+	/**
+	 * Constructs a new {@code RootAttachmentPoint}.
+	 * @param id The id of the {@code RootAttachmentPoint}.
+	 */
+	public RootAttachmentPoint(String id) {
+		this.id = id;
+	}
+
+	public String id() {
+		return id;
+	}
 
 	public String translationKey() {
 		return "tails.attachment." + id;
@@ -29,6 +43,18 @@ public record RootAttachmentPoint(String id) implements Comparable<RootAttachmen
 	 */
 	public NavigableSet<AttachmentPoint> children() {
 		return AttachmentPoints.getAll(this);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof RootAttachmentPoint)) return false;
+		return id.equals(((RootAttachmentPoint) obj).id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	@Override

@@ -132,7 +132,19 @@ public final class ModelSerializer {
 				growX, growY, growZ, mirror, u, v, visible);
 	}
 
-	public static record RootPartDefinition(TailsPartDefinition definition, int textureWidth, int textureHeight, List<PartPath> hiddenParts) {
+	public static final class RootPartDefinition {
+
+		public final TailsPartDefinition definition;
+		public final int textureWidth;
+		public final int textureHeight;
+		public final List<PartPath> hiddenParts;
+
+		public RootPartDefinition(TailsPartDefinition definition, int textureWidth, int textureHeight, List<PartPath> hiddenParts) {
+			this.definition = definition;
+			this.textureWidth = textureWidth;
+			this.textureHeight = textureHeight;
+			this.hiddenParts = hiddenParts;
+		}
 
 		public TailsModelPart bake() {
 			final TailsModelPart ret = TailsClientPlatform.get().bake(definition, textureWidth, textureHeight);

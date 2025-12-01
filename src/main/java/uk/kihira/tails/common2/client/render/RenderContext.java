@@ -21,21 +21,88 @@ import uk.kihira.tails.common2.client.part.ClientPartsData;
 /**
  * Contains all the context necessary for rendering parts.
  * Created to consolidate the hundreds of parameters being accumulated in the render methods.
- * @param poseStack The {@link TailsPoseStack} to use for transformations.
- * @param bufferSource The buffer source.
- * @param buffer The buffer to render to.
- * @param packedLight The packed light.
- * @param packedOverlay The packed overlay.
- * @param color The color.
- * @param partialTick The partial tick.
- * @param entity The entity being rendered.
- * @param parts The entity's full part data.
- * @param info The part data.
  * @author EnderTurret
  */
-public record RenderContext(TailsPoseStack poseStack, TailsBufferSource bufferSource, TailsBuffer buffer, int packedLight, int packedOverlay,
-		int color, float partialTick,
-		TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info) {
+public final class RenderContext {
+
+	private final TailsPoseStack poseStack;
+	private final TailsBufferSource bufferSource;
+	private final TailsBuffer buffer;
+	private final int packedLight;
+	private final int packedOverlay;
+	private final int color;
+	private final float partialTick;
+	private final TailsEntity entity;
+	private final @Nullable ClientPartsData parts;
+	private final ClientPartInfo info;
+
+	/**
+	 * Constructs a new {@code RenderContext}.
+	 * @param poseStack The {@link TailsPoseStack} to use for transformations.
+	 * @param bufferSource The buffer source.
+	 * @param buffer The buffer to render to.
+	 * @param packedLight The packed light.
+	 * @param packedOverlay The packed overlay.
+	 * @param color The color.
+	 * @param partialTick The partial tick.
+	 * @param entity The entity being rendered.
+	 * @param parts The entity's full part data.
+	 * @param info The part data.
+	 */
+	public RenderContext(
+			TailsPoseStack poseStack, TailsBufferSource bufferSource, TailsBuffer buffer, int packedLight, int packedOverlay,
+			int color, float partialTick, TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info) {
+		this.poseStack = poseStack;
+		this.bufferSource = bufferSource;
+		this.buffer = buffer;
+		this.packedLight = packedLight;
+		this.packedOverlay = packedOverlay;
+		this.color = color;
+		this.partialTick = partialTick;
+		this.entity = entity;
+		this.parts = parts;
+		this.info = info;
+	}
+
+	public TailsPoseStack poseStack() {
+		return poseStack;
+	}
+
+	public TailsBufferSource bufferSource() {
+		return bufferSource;
+	}
+
+	public TailsBuffer buffer() {
+		return buffer;
+	}
+
+	public int packedLight() {
+		return packedLight;
+	}
+
+	public int packedOverlay() {
+		return packedOverlay;
+	}
+
+	public int color() {
+		return color;
+	}
+
+	public float partialTick() {
+		return partialTick;
+	}
+
+	public TailsEntity entity() {
+		return entity;
+	}
+
+	public ClientPartsData parts() {
+		return parts;
+	}
+
+	public ClientPartInfo info() {
+		return info;
+	}
 
 	/**
 	 * Calls {@link TailsModelPart#t$render(TailsPoseStack, TailsBuffer, int, int, int)} on the given part with parameters from this {@link RenderContext}.

@@ -8,13 +8,37 @@
 
 package uk.kihira.tails.common2.client.part;
 
+import java.util.Objects;
+
 import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.TailsVec3f;
 import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 
-public record Transformation(TailsVec3f scale, TailsVec3f offset, TailsVec3f rotation) {
+public final class Transformation {
 
 	public static final Transformation ZERO = new Transformation(TailsVec3f.ZERO, TailsVec3f.ZERO, TailsVec3f.ZERO);
+
+	private final TailsVec3f scale;
+	private final TailsVec3f offset;
+	private final TailsVec3f rotation;
+
+	public Transformation(TailsVec3f scale, TailsVec3f offset, TailsVec3f rotation) {
+		this.scale = scale;
+		this.offset = offset;
+		this.rotation = rotation;
+	}
+
+	public TailsVec3f scale() {
+		return scale;
+	}
+
+	public TailsVec3f offset() {
+		return offset;
+	}
+
+	public TailsVec3f rotation() {
+		return rotation;
+	}
 
 	public boolean isEmpty() {
 		return this == ZERO || (scale.equals(TailsVec3f.ZERO) && offset.equals(TailsVec3f.ZERO) && rotation.equals(TailsVec3f.ZERO));
@@ -32,5 +56,18 @@ public record Transformation(TailsVec3f scale, TailsVec3f offset, TailsVec3f rot
 
 		if (!scale.equals(TailsVec3f.ZERO))
 			pose.t$scale(scale.x(), scale.y(), scale.z());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof Transformation)) return false;
+		final Transformation t = (Transformation) obj;
+		return offset.equals(t.offset) && rotation.equals(t.rotation) && scale.equals(t.scale);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(scale, offset, rotation);
 	}
 }

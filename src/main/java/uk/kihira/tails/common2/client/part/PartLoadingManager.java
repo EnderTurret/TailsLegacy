@@ -162,10 +162,10 @@ public class PartLoadingManager {
 		final Map<TResourceLocation, List<String>> realOrderings = new TreeMap<>();
 
 		for (ResourcePair pair : orderings) {
-			final JsonElement json = pair.json();
+			final JsonElement json = pair.json;
 			if (json == null) continue;
 			if (!json.isJsonArray()) {
-				Tails.LOGGER.warn("Texture ordering {} must be a json array!", pair.location());
+				Tails.LOGGER.warn("Texture ordering {} must be a json array!", pair.location);
 				continue;
 			}
 
@@ -174,10 +174,10 @@ public class PartLoadingManager {
 			for (int i = 0; i < arr.size(); i++)
 				values.add(arr.get(i).getAsString());
 
-			String id = trim(pair.location().t$getPath(), "tails/part_textures/");
+			String id = trim(pair.location.t$getPath(), "tails/part_textures/");
 			id = id.substring(0, id.length() - "/ordering".length());
 
-			realOrderings.put(pair.location().t$withPath(id), values);
+			realOrderings.put(pair.location.t$withPath(id), values);
 		}
 
 		if (DEBUG_REGISTRIES)
@@ -188,18 +188,18 @@ public class PartLoadingManager {
 		final List<NamedTexture> realTextures = new ArrayList<>(textures.size());
 
 		for (ResourcePair pair : textures) {
-			final JsonElement json = pair.json();
+			final JsonElement json = pair.json;
 			if (json == null) continue;
 			if (!json.isJsonObject()) {
-				Tails.LOGGER.warn("Texture {} must be a json object!", pair.location());
+				Tails.LOGGER.warn("Texture {} must be a json object!", pair.location);
 				continue;
 			}
 
-			final NamedTexture tex = readTexture(pair.location(), json.getAsJsonObject());
+			final NamedTexture tex = readTexture(pair.location, json.getAsJsonObject());
 			realTextures.add(tex);
 
-			if (tex.applyTo().isEmpty())
-				Tails.LOGGER.warn("Texture {} does not apply to any sub types!", pair.location());
+			if (tex.applyTo.isEmpty())
+				Tails.LOGGER.warn("Texture {} does not apply to any sub types!", pair.location);
 		}
 
 		if (DEBUG_REGISTRIES)
@@ -210,17 +210,17 @@ public class PartLoadingManager {
 		final List<NamedSubType> realSubTypes = new ArrayList<>(subTypes.size());
 
 		for (ResourcePair pair : subTypes) {
-			final JsonElement json = pair.json();
+			final JsonElement json = pair.json;
 			if (json == null) continue;
 			if (!json.isJsonObject()) {
-				Tails.LOGGER.warn("Sub type {} must be a json object!", pair.location());
+				Tails.LOGGER.warn("Sub type {} must be a json object!", pair.location);
 				continue;
 			}
 
-			final NamedSubType subType = readSubType(pair.location(), json.getAsJsonObject(), realTextures, realOrderings);
+			final NamedSubType subType = readSubType(pair.location, json.getAsJsonObject(), realTextures, realOrderings);
 
-			if (subType.subType().textures().isEmpty())
-				Tails.LOGGER.error("Sub type {} is missing any texture definitions! Skipping!", pair.location());
+			if (subType.subType.textures().isEmpty())
+				Tails.LOGGER.error("Sub type {} is missing any texture definitions! Skipping!", pair.location);
 			else
 				realSubTypes.add(subType);
 		}
@@ -233,23 +233,23 @@ public class PartLoadingManager {
 		final List<Part> realParts = new ArrayList<>();
 
 		for (ResourcePair pair : parts) {
-			final JsonElement json = pair.json();
+			final JsonElement json = pair.json;
 			if (json == null) continue;
 			if (!json.isJsonObject()) {
-				Tails.LOGGER.warn("Part {} must be a json object!", pair.location());
+				Tails.LOGGER.warn("Part {} must be a json object!", pair.location);
 				continue;
 			}
 
 			final Part part;
 			try {
-				part = readPart(pair.location(), json.getAsJsonObject(), realSubTypes);
+				part = readPart(pair.location, json.getAsJsonObject(), realSubTypes);
 			} catch (Exception e) {
-				Tails.LOGGER.error("Failed to read part {}:", pair.location(), e);
+				Tails.LOGGER.error("Failed to read part {}:", pair.location, e);
 				continue;
 			}
 
 			if (part.getSubTypes().isEmpty())
-				Tails.LOGGER.error("Part {} is missing any sub types! Skipping!", pair.location());
+				Tails.LOGGER.error("Part {} is missing any sub types! Skipping!", pair.location);
 			else
 				realParts.add(part);
 		}
@@ -349,7 +349,7 @@ public class PartLoadingManager {
 		final List<PartPath> showParts = json.has("showParts") ? getAsStringArray(json, "showParts").stream().map(PartPath::new).toList() : List.of();
 
 		final List<NamedTexture> tex = textures.stream()
-				.filter(tx -> tx.partId().equals(partId) && tx.applyTo().contains(typeId))
+				.filter(tx -> tx.partId.equals(partId) && tx.applyTo.contains(typeId))
 				.toList();
 
 		final List<String> ordering = textureOrderings.getOrDefault(partId, List.of());
@@ -464,21 +464,50 @@ public class PartLoadingManager {
 		public T unwrap();
 	}
 
-	private static record NamedSubType(TResourceLocation partId, Part.SubType subType) implements Named<Part.SubType> {
+	private static final class NamedSubType implements Named<Part.SubType> {
+
+		public final TResourceLocation partId;
+		public final Part.SubType subType;
+
+		public NamedSubType(TResourceLocation partId, Part.SubType subType) {
+			this.partId = partId;
+			this.subType = subType;
+		}
+
 		@Override
 		public TResourceLocation id() { return partId; }
 		@Override
 		public Part.SubType unwrap() { return subType; }
 	}
 
-	private static record NamedTexture(TResourceLocation partId, List<String> applyTo, Part.PartTexture texture) implements Named<Part.PartTexture> {
+	private static final class NamedTexture implements Named<Part.PartTexture> {
+
+		private final TResourceLocation partId;
+		private final List<String> applyTo;
+		private final Part.PartTexture texture;
+
+		public NamedTexture(TResourceLocation partId, List<String> applyTo, Part.PartTexture texture) {
+			this.partId = partId;
+			this.applyTo = applyTo;
+			this.texture = texture;
+		}
+
 		@Override
 		public TResourceLocation id() { return partId; }
 		@Override
 		public Part.PartTexture unwrap() { return texture; }
 	}
 
-	private static record ResourcePair(TResourceLocation location, JsonElement json) {
+	private static final class ResourcePair {
+
+		public final TResourceLocation location;
+		public final JsonElement json;
+
+		public ResourcePair(TResourceLocation location, JsonElement json) {
+			this.location = location;
+			this.json = json;
+		}
+
 		@Override
 		public String toString() {
 			return location.toString();

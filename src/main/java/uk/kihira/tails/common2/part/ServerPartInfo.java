@@ -16,13 +16,28 @@ import uk.kihira.tails.common2.client.duck.TResourceLocation;
 
 /**
  * The server-side implementation of {@link IPartInfo}.
- * @param partId The part id.
- * @param subTypeId The subtype id.
- * @param textureId The texture id.
- * @param tints The tints.
  * @author EnderTurret
  */
-public record ServerPartInfo(TResourceLocation partId, String subTypeId, String textureId, int[] tints) implements IPartInfo {
+public final class ServerPartInfo implements IPartInfo {
+
+	private final TResourceLocation partId;
+	private final String subTypeId;
+	private final String textureId;
+	private final int[] tints;
+
+	/**
+	 * Constructs a new {@code ServerPartInfo}.
+	 * @param partId The part id.
+	 * @param subTypeId The subtype id.
+	 * @param textureId The texture id.
+	 * @param tints The tints.
+	 */
+	public ServerPartInfo(TResourceLocation partId, String subTypeId, String textureId, int[] tints) {
+		this.partId = partId;
+		this.subTypeId = subTypeId;
+		this.textureId = textureId;
+		this.tints = tints;
+	}
 
 	@Override
 	public IPartInfo clone() {

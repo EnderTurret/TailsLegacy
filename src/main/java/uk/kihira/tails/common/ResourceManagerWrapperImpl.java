@@ -17,7 +17,13 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.gson.ResourceManagerWrapper;
 
-public record ResourceManagerWrapperImpl(ResourceManager manager) implements ResourceManagerWrapper {
+public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper {
+
+	public final ResourceManager manager;
+
+	public ResourceManagerWrapperImpl(ResourceManager manager) {
+		this.manager = manager;
+	}
 
 	@Override
 	public JsonElement getJson(TResourceLocation path) {

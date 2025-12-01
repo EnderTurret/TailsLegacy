@@ -10,6 +10,7 @@ package uk.kihira.tails.common2.client.part;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -110,15 +111,59 @@ public final class Part {
 
 	/**
 	 * Represents a "subtype," which is a variant of a part.
-	 * @param id The id of the subtype.
-	 * @param author The author of the subtype. May be {@code null}.
-	 * @param renderTransforms The render transformation.
-	 * @param hideParts Parts that should be hidden before render.
-	 * @param showParts Parts that should be shown before render.
-	 * @param textures A list of textures that apply to the subtype.
 	 * @author EnderTurret
 	 */
-	public static record SubType(String id, @Nullable String author, Transformation renderTransforms, List<PartPath> hideParts, List<PartPath> showParts, List<PartTexture> textures) {
+	public static final class SubType {
+
+		private final String id;
+		private final @Nullable String author;
+		private final Transformation renderTransforms;
+		private final List<PartPath> hideParts;
+		private final List<PartPath> showParts;
+		private final List<PartTexture> textures;
+
+		/**
+		 * Constructs a new {@code SubType}.
+		 * @param id The id of the subtype.
+		 * @param author The author of the subtype. May be {@code null}.
+		 * @param renderTransforms The render transformation.
+		 * @param hideParts Parts that should be hidden before render.
+		 * @param showParts Parts that should be shown before render.
+		 * @param textures A list of textures that apply to the subtype.
+		 */
+		public SubType(String id, @Nullable String author, Transformation renderTransforms, List<PartPath> hideParts, List<PartPath> showParts, List<PartTexture> textures) {
+			this.id = id;
+			this.author = author;
+			this.renderTransforms = renderTransforms;
+			this.hideParts = hideParts;
+			this.showParts = showParts;
+			this.textures = textures;
+		}
+
+		public String id() {
+			return id;
+		}
+
+		public @Nullable String author() {
+			return author;
+		}
+
+		public Transformation renderTransforms() {
+			return renderTransforms;
+		}
+
+		public List<PartPath> hideParts() {
+			return hideParts;
+		}
+
+		public List<PartPath> showParts() {
+			return showParts;
+		}
+
+		public List<PartTexture> textures() {
+			return textures;
+		}
+
 		@Nullable
 		public PartTexture getTexture(String id) {
 			for (PartTexture tex : textures)
@@ -126,6 +171,20 @@ public final class Part {
 					return tex;
 
 			return null;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) return true;
+			if (!(obj instanceof SubType)) return false;
+			final SubType s = (SubType) obj;
+			return id.equals(s.id) && Objects.equals(author, s.author) && renderTransforms.equals(s.renderTransforms) && hideParts.equals(s.hideParts)
+					&& showParts.equals(s.showParts) && textures.equals(s.textures);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(id, author, renderTransforms, hideParts, showParts, textures);
 		}
 
 		@Override
@@ -137,13 +196,58 @@ public final class Part {
 
 	/**
 	 * Represents a part texture.
-	 * @param id The id of the texture.
-	 * @param path The path to the texture in a resource pack.
-	 * @param author The author of the texture. May be {@code null}.
-	 * @param tintingStrategy The {@link TintingStrategy} to use for tinting the texture.
 	 * @author EnderTurret
 	 */
-	public static record PartTexture(String id, String path, @Nullable String author, TintingStrategy tintingStrategy) {
+	public static final class PartTexture {
+
+		private final String id;
+		private final String path;
+		private final @Nullable String author;
+		private final TintingStrategy tintingStrategy;
+
+		/**
+		 * Constructs a new {@code PartTexture}.
+		 * @param id The id of the texture.
+		 * @param path The path to the texture in a resource pack.
+		 * @param author The author of the texture. May be {@code null}.
+		 * @param tintingStrategy The {@link TintingStrategy} to use for tinting the texture.
+		 */
+		public PartTexture(String id, String path, @Nullable String author, TintingStrategy tintingStrategy) {
+			this.id = id;
+			this.path = path;
+			this.author = author;
+			this.tintingStrategy = tintingStrategy;
+		}
+
+		public String id() {
+			return id;
+		}
+
+		public String path() {
+			return path;
+		}
+
+		public @Nullable String author() {
+			return author;
+		}
+
+		public TintingStrategy tintingStrategy() {
+			return tintingStrategy;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) return true;
+			if (!(obj instanceof PartTexture)) return false;
+			final PartTexture t = (PartTexture) obj;
+			return id.equals(t.id) && path.equals(t.path) && Objects.equals(author, t.author) && tintingStrategy == t.tintingStrategy;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(id, path, author, tintingStrategy);
+		}
+
 		@Override
 		public String toString() {
 			final String auth = author != null ? ", author=" + author : "";

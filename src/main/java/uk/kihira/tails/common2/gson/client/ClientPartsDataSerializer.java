@@ -1,4 +1,4 @@
-package uk.kihira.tails.common_gson.client;
+package uk.kihira.tails.common2.gson.client;
 
 import java.lang.reflect.Type;
 
@@ -9,8 +9,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 import uk.kihira.tails.common2.client.part.ClientPartsData;
+import uk.kihira.tails.common2.gson.PartsDataSerializer;
 import uk.kihira.tails.common2.part.PartsData;
-import uk.kihira.tails.common_gson.PartsDataSerializer;
 
 @Internal
 public class ClientPartsDataSerializer extends PartsDataSerializer {

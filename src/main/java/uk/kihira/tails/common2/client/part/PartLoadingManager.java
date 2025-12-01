@@ -37,8 +37,8 @@ import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.ModelSerializer;
-import uk.kihira.tails.common_gson.ResourceManagerWrapper;
-import uk.kihira.tails.common_gson.TailsGsonHelper;
+import uk.kihira.tails.common2.gson.ResourceManagerWrapper;
+import uk.kihira.tails.common2.gson.TailsGsonHelper;
 
 /**
  * Manages loading all of the parts, subtypes, and part textures.

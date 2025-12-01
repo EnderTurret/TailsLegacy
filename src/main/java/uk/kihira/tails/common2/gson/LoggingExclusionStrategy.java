@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.common_gson;
+package uk.kihira.tails.common2.gson;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 

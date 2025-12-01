@@ -1,4 +1,4 @@
-package uk.kihira.tails.common_gson;
+package uk.kihira.tails.common2.gson;
 
 import java.util.ArrayList;
 import java.util.List;

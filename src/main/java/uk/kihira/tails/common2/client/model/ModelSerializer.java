@@ -24,7 +24,7 @@ import uk.kihira.tails.common2.client.TailsClientPlatform;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.part.PartLoadingManager;
 import uk.kihira.tails.common2.client.part.PartPath;
-import uk.kihira.tails.common_gson.TailsGsonHelper;
+import uk.kihira.tails.common2.gson.TailsGsonHelper;
 
 public final class ModelSerializer {
 

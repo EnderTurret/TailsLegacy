@@ -23,12 +23,12 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 
 import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.gson.LibraryEntryDataSerializer;
+import uk.kihira.tails.common2.gson.LoggingExclusionStrategy;
+import uk.kihira.tails.common2.gson.PartsDataSerializer;
+import uk.kihira.tails.common2.gson.ServerPartInfoSerializer;
 import uk.kihira.tails.common2.part.IPartInfo;
 import uk.kihira.tails.common2.part.PartsData;
-import uk.kihira.tails.common_gson.LibraryEntryDataSerializer;
-import uk.kihira.tails.common_gson.LoggingExclusionStrategy;
-import uk.kihira.tails.common_gson.PartsDataSerializer;
-import uk.kihira.tails.common_gson.ServerPartInfoSerializer;
 import uk.kihira.tails.proxy.IProxy;
 import uk.kihira.tails.proxy.ServerProxy;
 

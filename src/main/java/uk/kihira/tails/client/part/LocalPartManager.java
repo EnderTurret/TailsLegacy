@@ -25,12 +25,12 @@ import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common2.LibraryEntryData;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.gson.LibraryEntryDataSerializer;
+import uk.kihira.tails.common2.gson.LoggingExclusionStrategy;
+import uk.kihira.tails.common2.gson.client.ClientPartInfoSerializer;
+import uk.kihira.tails.common2.gson.client.ClientPartsDataSerializer;
 import uk.kihira.tails.common2.part.IPartInfo;
 import uk.kihira.tails.common2.part.PartsData;
-import uk.kihira.tails.common_gson.LibraryEntryDataSerializer;
-import uk.kihira.tails.common_gson.LoggingExclusionStrategy;
-import uk.kihira.tails.common_gson.client.ClientPartInfoSerializer;
-import uk.kihira.tails.common_gson.client.ClientPartsDataSerializer;
 
 /**
  * Manages the local part data, among other things.

@@ -1,4 +1,4 @@
-package uk.kihira.tails.common_gson.client;
+package uk.kihira.tails.common2.gson.client;
 
 import java.lang.reflect.Type;
 
@@ -11,8 +11,8 @@ import com.google.gson.JsonSerializer;
 
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.gson.ServerPartInfoSerializer;
 import uk.kihira.tails.common2.part.IPartInfo;
-import uk.kihira.tails.common_gson.ServerPartInfoSerializer;
 
 /**
  * A serializer for {@link ClientPartInfo}.

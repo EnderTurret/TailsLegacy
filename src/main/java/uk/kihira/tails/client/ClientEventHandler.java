@@ -54,13 +54,15 @@ import net.neoforged.neoforge.common.NeoForge;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
-import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.render.BotaniaFoxtatoRenderer;
 import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.ABGRColor;
+import uk.kihira.tails.common2.client.TailsClientPlatform;
+import uk.kihira.tails.common2.client.gui.TailsIcons;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.client.part.LocalPartManager;
 import uk.kihira.tails.common2.client.render.helper.FakeEntityRenderHelper;
 import uk.kihira.tails.common2.client.render.helper.PlayerRenderHelper;
 import uk.kihira.tails.common2.client.render.helper.RenderHelperManager;
@@ -100,7 +102,7 @@ public final class ClientEventHandler {
 		@SubscribeEvent
 		static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
 			// Add local player texture to map.
-			ClientPlayerPartManager.get().set(ClientUtils.getPlayerUUID(), LocalPartManager.getLocalPartsData());
+			ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), LocalPartManager.getLocalPartsData());
 		}
 
 		@SubscribeEvent
@@ -179,7 +181,7 @@ public final class ClientEventHandler {
 			try (GLFWImage img = GLFWImage.malloc(); MemoryStack stack = MemoryStack.stackPush()) {
 				final ByteBuffer data = stack.malloc(16 * 16 * 4);
 
-				copyPixels(iconImg, data, IconButton.Icons.EYEDROPPER.u, IconButton.Icons.EYEDROPPER.v + 16, 16, 16);
+				copyPixels(iconImg, data, TailsIcons.EYEDROPPER.u, TailsIcons.EYEDROPPER.v + 16, 16, 16);
 				data.flip();
 				img.set(16, 16, data);
 

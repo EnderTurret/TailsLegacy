@@ -1,7 +1,11 @@
 package uk.kihira.tails.client;
 
 import java.util.EnumSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.yggdrasil.ProfileResult;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.PartPose;
@@ -11,22 +15,30 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.Services;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.players.GameProfileCache;
 
 import net.neoforged.fml.ModLoader;
+import net.neoforged.neoforge.common.UsernameCache;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.texture.TripleTintTexture;
 import uk.kihira.tails.common.ResourceManagerWrapperImpl;
+import uk.kihira.tails.common.TailsConfig;
+import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common2.client.TailsClientPlatform;
 import uk.kihira.tails.common2.client.api.PartRendererRegistrar;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.TailsCubeDefinition;
 import uk.kihira.tails.common2.client.model.TailsPartDefinition;
+import uk.kihira.tails.common2.client.part.ClientPartsData;
 import uk.kihira.tails.common2.client.part.Part;
 import uk.kihira.tails.common2.client.part.PartRegistry;
 import uk.kihira.tails.mixin.client.CubeDefinitionAccess;
+import uk.kihira.tails.mixin.client.MinecraftAccess;
 import uk.kihira.tails.mixin.client.PartDefinitionAccess;
 
 public final class TailsClientPlatformImpl implements TailsClientPlatform {
@@ -89,5 +101,74 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public void fireRegisterPartRenderersEvent(PartRendererRegistrar registrar) {
 		ModLoader.postEvent(new RegisterPartRenderersEvent(registrar));
+	}
+
+	private static Services services;
+
+	@Override
+	public String fetchUsername(UUID uuid) {
+		final Minecraft mc = Minecraft.getInstance();
+
+		// So, there are a few different places we can try first...
+
+		// Option A - Forge's "username cache"
+		String username = UsernameCache.getLastKnownUsername(uuid);
+		if (username != null) return username;
+
+		// Option B - The user cache (some assembly required)
+		if (services == null && mc instanceof MinecraftAccess access) {
+			services = Services.create(access.tails$authenticationService(), mc.gameDirectory);
+			services.profileCache().setExecutor(mc);
+			GameProfileCache.setUsesAuthentication(false);
+		}
+
+		if (services != null) {
+			username = services.profileCache().get(uuid).map(GameProfile::getName).orElse(null);
+			if (username != null) return username;
+		}
+
+		// Option C - "Just query it lol"
+		final ProfileResult result = mc.getMinecraftSessionService().fetchProfile(uuid, false);
+		username = result.profile().getName();
+
+		// Surprisingly, we actually got a username. Let's inform the caches, shall we?
+		if (username != null) {
+			// Unfortunately, it looks like Forge's username cache is and I quote "too good for manipulation."
+			// So instead we are only able to let our little profile cache know.
+			if (services != null)
+				services.profileCache().add(result.profile());
+
+			return username;
+		}
+
+		// Option D - Just use the UUID
+		return uuid.toString();
+	}
+
+	@Override
+	public UUID getLocalUUID() {
+		final Minecraft mc = Minecraft.getInstance();
+		/*
+		if (mc.player != null && mc.player.getUniqueID() != null)
+			return mc.player.getUniqueID();
+		*/
+		return mc.player != null ? mc.player.getUUID() : mc.getUser().getProfileId();
+	}
+
+	@Override
+	public String getConfigParts() {
+		return TailsConfig.CLIENT_INSTANCE.localPlayerData.get();
+	}
+
+	@Override
+	public void setConfigParts(String json) {
+		TailsConfig.CLIENT_INSTANCE.localPlayerData.set(json);
+		TailsConfig.getConfig().save();
+	}
+
+	@Override
+	public void syncLocalToServer(ClientPartsData partsData) {
+		if (Minecraft.getInstance().level != null)
+			PacketDistributor.sendToServer(new C2SPlayerDataMessage(partsData));
 	}
 }

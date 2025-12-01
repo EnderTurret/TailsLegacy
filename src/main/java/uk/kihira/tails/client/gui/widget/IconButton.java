@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.gui.TailsIcons;
 
 /**
  * A button with an icon and a tooltip.
@@ -30,10 +31,10 @@ public class IconButton extends Button implements ITooltip {
 
 	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "textures/gui/icons.png");
 
-	protected final Icons icon;
+	protected final TailsIcons icon;
 	private final List<FormattedCharSequence> tooltip;
 
-	public IconButton(int x, int y, Icons icon, OnPress onPress, Component... tooltips) {
+	public IconButton(int x, int y, TailsIcons icon, OnPress onPress, Component... tooltips) {
 		super(x, y, 16 ,16, Component.empty(), onPress, DEFAULT_NARRATION);
 		this.icon = icon;
 		tooltip = Arrays.stream(tooltips).map(Component::getVisualOrderText).collect(Collectors.toList());
@@ -72,7 +73,7 @@ public class IconButton extends Button implements ITooltip {
 
 		public boolean toggled;
 
-		public Toggle(int x, int y, Icons icon, OnPress onPress, Component... tooltips) {
+		public Toggle(int x, int y, TailsIcons icon, OnPress onPress, Component... tooltips) {
 			super(x, y, icon, onPress, tooltips);
 		}
 
@@ -85,31 +86,6 @@ public class IconButton extends Button implements ITooltip {
 		public void onPress() {
 			toggled = !toggled;
 			super.onPress();
-		}
-	}
-
-	public enum Icons {
-		UNDO(0, 0),
-		QUESTION(16, 0),
-		EYEDROPPER(32, 0),
-		SAVE(48, 0),
-		DELETE(64, 0),
-		COPY(80, 0),
-		STAR(96, 0),
-		EDIT(112, 0),
-		UPLOAD(128, 0),
-		DOWNLOAD(144, 0),
-		SEARCH(160, 0),
-		SERVER(176, 0),
-		IMPORT(192, 0),
-		EXPORT(208, 0);
-
-		public final int u;
-		public final int v;
-
-		private Icons(int u, int v) {
-			this.u = u;
-			this.v = v;
 		}
 	}
 }

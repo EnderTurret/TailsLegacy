@@ -73,6 +73,16 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 	 */
 	public default void clearGlTexture() {}
 
+	public default String getSubTypeTranslationKey() {
+		if (isEmpty()) return "tails.subtype.none";
+		return getPartId().t$getNamespace() + ".part." + getPartId().t$getPath() + ".subtype." + getSubTypeId();
+	}
+
+	public default String getTextureTranslationKey() {
+		if (isEmpty()) return "tails.texture.none";
+		return getPartId().t$getNamespace() + ".part." + getPartId().t$getPath() + ".texture." + getTextureId();
+	}
+
 	public static final Comparator<IPartInfo> COMPARATOR = Comparator.<IPartInfo>nullsFirst(
 			Comparator.comparing(IPartInfo::isEmpty)
 			.thenComparing(IPartInfo::getPartId, TResourceLocation::t$compareTo)

@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
-import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;

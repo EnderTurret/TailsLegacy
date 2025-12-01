@@ -26,6 +26,7 @@ import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.client.gui.TailsIcons;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
 
@@ -71,7 +72,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		}
 
 		if (data.favourite) {
-			final IconButton.Icons icon = IconButton.Icons.STAR;
+			final TailsIcons icon = TailsIcons.STAR;
 
 			gui.pose().pushPose();
 

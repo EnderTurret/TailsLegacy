@@ -7,24 +7,18 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.part;
+package uk.kihira.tails.common2.client.part;
+
+import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.minecraft.client.Minecraft;
-
-import net.neoforged.neoforge.network.PacketDistributor;
-
-import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.TailsConfig;
-import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common2.LibraryEntryData;
-import uk.kihira.tails.common2.client.part.ClientPartsData;
-import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.client.TailsClientPlatform;
 import uk.kihira.tails.common2.gson.LibraryEntryDataSerializer;
 import uk.kihira.tails.common2.gson.LoggingExclusionStrategy;
 import uk.kihira.tails.common2.gson.client.ClientPartInfoSerializer;
@@ -60,7 +54,7 @@ public final class LocalPartManager {
 		// Load local player info.
 		try {
 			// Load player data.
-			final String localPlayerOutfit = TailsConfig.CLIENT_INSTANCE.localPlayerData.get();
+			final String localPlayerOutfit = TailsClientPlatform.get().getConfigParts();
 
 			// Load default if none exists.
 			if (localPlayerOutfit == null || localPlayerOutfit.isEmpty())
@@ -68,9 +62,7 @@ public final class LocalPartManager {
 			else
 				localPartsData = (ClientPartsData) GSON.fromJson(localPlayerOutfit, PartsData.class);
 		} catch (Exception e) {
-			TailsConfig.CLIENT_INSTANCE.localPlayerData.set("");
 			Tails.LOGGER.error("Failed to load local player data! Invalid data has been removed.", e);
-			//TailsConfig.getConfig().save();
 		}
 	}
 
@@ -80,13 +72,16 @@ public final class LocalPartManager {
 	 */
 	@Internal
 	public static void setLocalPartsData(ClientPartsData partsData) {
-		if (partsData == null) throw new NullPointerException();
+		localPartsData = Objects.requireNonNull(partsData);
+		TailsClientPlatform.get().setConfigParts(GSON.toJson(localPartsData));
+	}
 
-		localPartsData = partsData;
+	@Internal
+	public static void setLocalPartsDataFromEditorAndSync(ClientPartsData partsData) {
+		setLocalPartsData(partsData);
+		ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), partsData);
 
-		TailsConfig.CLIENT_INSTANCE.localPlayerData.set(GSON.toJson(localPartsData));
-
-		TailsConfig.getConfig().save();
+		syncToServer();
 	}
 
 	/**
@@ -97,15 +92,26 @@ public final class LocalPartManager {
 		return localPartsData;
 	}
 
+	@Internal
+	public static ClientPartsData getOrCreateLocalPartsData() {
+		ClientPartsData data = getLocalPartsData();
+
+		if (data == null)
+			setLocalPartsData(data = new ClientPartsData());
+
+		return data;
+	}
+
 	/**
 	 * Syncs the local part data to the server and/or the sync service (if defined).
 	 */
 	@Internal
 	public static void syncToServer() {
-		if (Minecraft.getInstance().level != null)
-			PacketDistributor.sendToServer(new C2SPlayerDataMessage(getLocalPartsData()));
+		final ClientPartsData partsData = getLocalPartsData();
+
+		TailsClientPlatform.get().syncLocalToServer(partsData);
 
 		if (ClientPlayerPartManager.sync != null)
-			ClientPlayerPartManager.sync.upload(ClientUtils.getPlayerUUID(), getLocalPartsData());
+			ClientPlayerPartManager.sync.upload(TailsClientPlatform.get().getLocalUUID(), partsData);
 	}
 }

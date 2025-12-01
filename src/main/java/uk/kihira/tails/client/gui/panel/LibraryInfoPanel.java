@@ -30,11 +30,12 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
-import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.toast.ToastManager;
 import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.client.gui.TailsIcons;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
+import uk.kihira.tails.common2.client.part.LocalPartManager;
 
 @Internal
 public final class LibraryInfoPanel extends Panel<EditorScreen> {
@@ -57,17 +58,17 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 		textField.setMaxLength(16);
 		addWidget(textField);
 
-		addRenderableWidget(favButton = new IconButton.Toggle(5, bottom - top - 20, IconButton.Icons.STAR, b -> {
+		addRenderableWidget(favButton = new IconButton.Toggle(5, bottom - top - 20, TailsIcons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
 		}, Component.translatable("tails.gui.library.button.favorite")));
 
-		addRenderableWidget(deleteButton = new IconButton(21, bottom - top - 20, IconButton.Icons.DELETE, b -> {
+		addRenderableWidget(deleteButton = new IconButton(21, bottom - top - 20, TailsIcons.DELETE, b -> {
 			((IconButton) b).setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
 		}, Component.translatable("tails.gui.library.button.delete")));
 
-		addRenderableWidget(new IconButton(68, bottom - top - 20, IconButton.Icons.EXPORT, b -> {
+		addRenderableWidget(new IconButton(68, bottom - top - 20, TailsIcons.EXPORT, b -> {
 			final StringBuilder sb = new StringBuilder();
 			final LibraryEntryData libData = getEntry().data;
 			sb.append(libData.entryName).append(":");

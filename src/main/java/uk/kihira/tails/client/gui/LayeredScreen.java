@@ -74,9 +74,6 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		//final int[] COLORS = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF, 0xFF00FFFF, 0xFFFF00FF};
-		//int color = -1;
-
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
@@ -85,24 +82,6 @@ public abstract class LayeredScreen extends BaseScreen {
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
 					panel.render(gui, mouseX - panel.left, mouseY - panel.top, partialTick);
-
-					/*
-					if (color != -1) {
-						final int c = COLORS[color >= COLORS.length ? COLORS.length - 1 : color];
-
-						final int width = panel.right - panel.left;
-						final int height = panel.bottom - panel.top;
-
-						gui.pose().pushPose();
-						gui.pose().translate(0, 0, 500);
-						rect(gui, 0, 0, width, height, c);
-
-						gui.drawString(font, panel.getClass().getSimpleName() + ": " + mouseX + ", " + mouseY, 3, 3, c, true);
-						gui.pose().popPose();
-
-						color++;
-					}
-					/**/
 
 					gui.pose().popPose();
 				}

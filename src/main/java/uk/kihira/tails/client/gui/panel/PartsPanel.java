@@ -71,7 +71,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 	public void init() {
 		addRenderableWidget(rootAttachment = new Spinner<>(AttachmentPoints.getRoots(), parent.getAttachmentPoint().root(),
 				(right - left) / 2, 16, 108,
-				ap -> Component.translatable(ap.translationKey()), selection -> {
+				ap -> ap.translationKey(), selection -> {
 					parent.setRootAttachmentPoint(selection);
 					attachment.setValues(selection.children());
 					initPartList();
@@ -79,7 +79,7 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 		addRenderableWidget(attachment = new Spinner<>(rootAttachment.getSelection().children(), parent.getAttachmentPoint(),
 				(right - left) / 2, 32, 108,
-				ap -> Component.translatable(ap.translationKey()), selection -> {
+				ap -> ap.translationKey(), selection -> {
 					parent.setAttachmentPoint(selection);
 					initPartList();
 				}));

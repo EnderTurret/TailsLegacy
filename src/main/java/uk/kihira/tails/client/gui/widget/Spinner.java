@@ -18,13 +18,14 @@ import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.network.chat.Component;
 
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
+
+import uk.kihira.tails.common2.client.gui.BaseSpinner;
 
 /**
  * A widget that allows cycling through values using two arrow buttons.
@@ -33,7 +34,7 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
  *
  * @param <T> The type of the elements the spinner cycles through.
  */
-public class Spinner<T> extends AbstractWidget {
+public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 
 	public final ExtendedButton left;
 	public final ExtendedButton right;
@@ -49,8 +50,8 @@ public class Spinner<T> extends AbstractWidget {
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new ExtendedButton(getX(), y, 15, 15, Component.literal("<"), this::previous);
-		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), this::next);
+		left = new ExtendedButton(getX(), y, 15, 15, Component.literal("<"), b -> previous());
+		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), b -> next());
 
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
 
@@ -68,6 +69,7 @@ public class Spinner<T> extends AbstractWidget {
 		this(values, null, x, y, width, stringifier, listener);
 	}
 
+	@Override
 	public void setValues(NavigableSet<T> values) {
 		final boolean runCallback = values == null;
 
@@ -75,37 +77,26 @@ public class Spinner<T> extends AbstractWidget {
 		select(values.first(), runCallback);
 	}
 
+	@Override
+	public NavigableSet<T> values() {
+		return values;
+	}
+
+	@Override
 	public T getSelection() {
 		return selected;
 	}
 
+	@Override
 	public T select(T value) {
 		return select(value, true);
 	}
 
 	private T select(T value, boolean runCallback) {
 		selected = Objects.requireNonNull(value);
-		setMessage(stringifier.stringify(value));
+		setMessage(Component.translatable(stringifier.stringify(value)));
 		if (runCallback) listener.onSelected(value);
 		return value;
-	}
-
-	private void next(Button b) {
-		next();
-	}
-
-	public T next() {
-		T next = values.higher(selected);
-		return select(next == null ? values.first() : next);
-	}
-
-	private void previous(Button b) {
-		previous();
-	}
-
-	public T previous() {
-		T previous = values.lower(selected);
-		return select(previous == null ? values.last() : previous);
 	}
 
 	@Override
@@ -134,25 +125,5 @@ public class Spinner<T> extends AbstractWidget {
 	@Override
 	public void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 		narrationElementOutput.add(NarratedElementType.TITLE, getMessage());
-	}
-
-	/**
-	 * Turns a given element into a {@link Component}.
-	 * @author EnderTurret
-	 * @param <T> The type of element.
-	 */
-	@FunctionalInterface
-	public static interface Stringifier<T> {
-		public Component stringify(T value);
-	}
-
-	/**
-	 * A callback executed when an element is selected.
-	 * @author EnderTurret
-	 * @param <T> The type of element.
-	 */
-	@FunctionalInterface
-	public static interface Listener<T> {
-		public void onSelected(T selection);
 	}
 }

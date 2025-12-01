@@ -14,14 +14,13 @@ import java.util.UUID;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
-import uk.kihira.tails.client.ClientUtils;
-import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.LibraryEntryData;
 import uk.kihira.tails.common2.api.ITailsSyncService;
 import uk.kihira.tails.common2.client.api.ITailsAccess;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.client.part.LocalPartManager;
 import uk.kihira.tails.common2.part.PartsData;
 
 /**
@@ -55,7 +54,7 @@ public final class TailsAccess implements ITailsAccess {
 			data = ClientPartsData.clone(data);
 
 		LocalPartManager.setLocalPartsData((ClientPartsData) data);
-		setPartData(data, ClientUtils.getPlayerUUID());
+		setPartData(data, TailsClientPlatform.get().getLocalUUID());
 		LocalPartManager.syncToServer();
 	}
 

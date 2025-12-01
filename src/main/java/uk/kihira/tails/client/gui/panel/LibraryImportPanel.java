@@ -9,40 +9,27 @@
 
 package uk.kihira.tails.client.gui.panel;
 
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.base.Strings;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.yggdrasil.ProfileResult;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.Services;
-import net.minecraft.server.players.GameProfileCache;
 
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
-import net.neoforged.neoforge.common.UsernameCache;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
-import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.toast.ToastManager;
-import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.LibraryEntryData;
-import uk.kihira.tails.common2.client.part.ClientPartsData;
-import uk.kihira.tails.common2.part.PartsData;
-import uk.kihira.tails.mixin.client.MinecraftAccess;
+import uk.kihira.tails.common2.client.gui.panel.BaseLibraryImportPanel;
 
 @Internal
-public final class LibraryImportPanel extends Panel<EditorScreen> {
+public final class LibraryImportPanel extends Panel<EditorScreen> implements BaseLibraryImportPanel {
 
 	private EditBox inputField;
 
@@ -52,99 +39,28 @@ public final class LibraryImportPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		addRenderableWidget(new ExtendedButton(3, 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString));
+		addRenderableWidget(new ExtendedButton(3, 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString0));
 
 		inputField = new RelativeTextBox(this, font, 3, 41, right - left - 6, 15, null);
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}
 
-	private static final Pattern PATTERN = Pattern.compile("(^.*):([0-9a-f\\-]+):(\\{.+\\})$");
-
-	private void importFromString(Button b) {
+	private void importFromString0(Button b) {
 		final String input = inputField.getValue();
-		if (Strings.isNullOrEmpty(input)) return;
+		if (!Strings.isNullOrEmpty(input)) importFromString(input);
+	}
 
-		final Matcher m = PATTERN.matcher(input);
-
-		if (!m.matches()) {
-			toast(Component.translatable("tails.gui.library.import.toast.invalid").withStyle(ChatFormatting.RED));
-			return;
-		}
-
-		final String name = m.group(1);
-		final String rawCreatorId = m.group(2);
-		final String json = m.group(3);
-
-		final UUID creatorId;
-
-		try {
-			creatorId = UUID.fromString(rawCreatorId);
-		} catch (Exception e) {
-			toast(Component.translatable("tails.gui.library.import.toast.invalid.uuid").withStyle(ChatFormatting.RED));
-			Tails.LOGGER.error("Exception parsing import UUID \"{}\":", rawCreatorId, e);
-			return;
-		}
-
-		final ClientPartsData partData;
-
-		try {
-			partData = (ClientPartsData) LocalPartManager.GSON.fromJson(json, PartsData.class);
-		} catch (Exception e) {
-			toast(Component.translatable("tails.gui.library.import.toast.invalid.parts").withStyle(ChatFormatting.RED));
-			Tails.LOGGER.error("Exception parsing import part data:", e);
-			return;
-		}
-
-		final LibraryEntryData entry = new LibraryEntryData(creatorId, fetchUsername(creatorId), name, partData);
-		Tails.PROXY.getLibraryManager().addEntry(entry);
+	@Override
+	public void importPartsData(LibraryEntryData entry) {
 		parent.getLibraryPanel().libraryChanged = true;
 		parent.getLibraryPanel().initList();
-
-		toast(Component.translatable("tails.gui.library.import.toast.success", name).withStyle(ChatFormatting.GREEN));
 	}
 
-	private static Services services;
-
-	private static String fetchUsername(UUID uuid) {
-		final Minecraft mc = Minecraft.getInstance();
-
-		// So, there are a few different places we can try first...
-
-		// Option A - Forge's "username cache"
-		String username = UsernameCache.getLastKnownUsername(uuid);
-		if (username != null) return username;
-
-		// Option B - The user cache (some assembly required)
-		if (services == null && mc instanceof MinecraftAccess access) {
-			services = Services.create(access.tails$authenticationService(), mc.gameDirectory);
-			services.profileCache().setExecutor(mc);
-			GameProfileCache.setUsesAuthentication(false);
-		}
-
-		if (services != null) {
-			username = services.profileCache().get(uuid).map(GameProfile::getName).orElse(null);
-			if (username != null) return username;
-		}
-
-		// Option C - "Just query it lol"
-		final ProfileResult result = mc.getMinecraftSessionService().fetchProfile(uuid, false);
-		username = result.profile().getName();
-
-		// Incredible, we actually got a username. Let's let the caches know, shall we?
-		if (username != null) {
-			// Unfortunately, it looks like Forge's username cache is and I quote "too good for manipulation."
-			// So instead we are only able to let our little profile cache know.
-			if (services != null)
-				services.profileCache().add(result.profile());
-			return username;
-		}
-
-		// Option D - Just use the UUID
-		return uuid.toString();
-	}
-
-	private void toast(Component text) {
+	@Override
+	public void toast(String langKey, @Nullable String name, boolean error) {
+		final Component text = Component.translatable(langKey, name == null ? new Object[0] : new Object[] { name })
+				.withStyle(error ? ChatFormatting.RED : ChatFormatting.GREEN);
 		ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, text);
 	}
 

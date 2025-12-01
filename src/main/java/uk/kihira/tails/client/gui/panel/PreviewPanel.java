@@ -22,6 +22,7 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.common.TailsConfig;
 import uk.kihira.tails.common2.TailsMath;
+import uk.kihira.tails.common2.client.gui.TailsIcons;
 
 @Internal
 public final class PreviewPanel extends Panel<EditorScreen> {
@@ -43,7 +44,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		if (!doRender) return;
 
 		// Help
-		addRenderableWidget(new IconButton(right - left - 18, 4, IconButton.Icons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")) {
+		addRenderableWidget(new IconButton(right - left - 18, 4, TailsIcons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")) {
 			@Override
 			protected boolean isValidClickButton(int button) {
 				return false;
@@ -51,7 +52,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		});
 
 		// Reset Camera
-		addRenderableWidget(new IconButton(right - left - 18, 22, IconButton.Icons.UNDO, b -> {
+		addRenderableWidget(new IconButton(right - left - 18, 22, TailsIcons.UNDO, b -> {
 			yaw = 0;
 			pitch = 8F;
 			zoom = 1F;

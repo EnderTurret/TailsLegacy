@@ -9,8 +9,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.LocalPartManager;
 import uk.kihira.tails.common2.gson.ServerPartInfoSerializer;
 import uk.kihira.tails.common2.part.IPartInfo;
 

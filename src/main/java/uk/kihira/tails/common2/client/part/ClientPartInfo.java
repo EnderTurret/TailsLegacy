@@ -9,6 +9,7 @@
 package uk.kihira.tails.common2.client.part;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -98,6 +99,33 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 */
 	public static ClientPartInfo empty() {
 		return Empty.INSTANCE;
+	}
+
+	public ClientPartInfo withSubType(Part.SubType value) {
+		return new ClientPartInfo(null, getTints().clone(), part, value.id(), textureId, null, false);
+	}
+
+	public ClientPartInfo withTexture(Part.PartTexture value) {
+		return new ClientPartInfo(null, getTints().clone(), part, subType, value.id(), null, false);
+	}
+
+	public ClientPartInfo nextSubType(int direction) {
+		return withSubType(cycle(getPart().getSubTypes(), getSubType(), direction));
+	}
+
+	public ClientPartInfo nextTexture(int direction) {
+		return withTexture(cycle(getSubType().textures(), getPartTexture(), direction));
+	}
+
+	private static <T> T cycle(List<T> elements, T current, int direction) {
+		final int index = elements.indexOf(current);
+
+		int next = index + direction;
+
+		if (next < 0) next = elements.size() - 1;
+		else if (next == elements.size()) next = 0;
+
+		return elements.get(next);
 	}
 
 	/**

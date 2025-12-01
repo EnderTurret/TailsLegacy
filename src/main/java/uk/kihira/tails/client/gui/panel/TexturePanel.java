@@ -9,8 +9,6 @@
 
 package uk.kihira.tails.client.gui.panel;
 
-import java.util.List;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,7 +20,6 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.Part;
-import uk.kihira.tails.common2.client.part.PartRegistry;
 
 @Internal
 public final class TexturePanel extends Panel<EditorScreen> {
@@ -66,7 +63,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		boolean texTranslated = true;
 
 		if (partInfo.isEmpty() || partInfo.getPartTexture() != null) {
-			final String texLangKey = partInfo.isEmpty() ? "tails.texture.none" : part.getId().t$getNamespace() + ".part." + part.getId().t$getPath() + ".texture." + partInfo.getPartTexture().id();
+			final String texLangKey = partInfo.getTextureTranslationKey();
 			texFormatted = I18n.get(texLangKey);
 			texTranslated = !texLangKey.equals(texFormatted);
 		} else texFormatted = partInfo.getTextureId();
@@ -75,7 +72,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 		boolean variantTranslated = true;
 
 		if (partInfo.isEmpty() || partInfo.getSubType() != null) {
-			final String variantLangKey = partInfo.isEmpty() ? "tails.subtype.none" : part.getTranslationKey() + ".subtype." + partInfo.getSubType().id();
+			final String variantLangKey = partInfo.getSubTypeTranslationKey();
 			variantFormatted = I18n.get(variantLangKey);
 			variantTranslated = !variantLangKey.equals(variantFormatted);
 		} else
@@ -97,52 +94,28 @@ public final class TexturePanel extends Panel<EditorScreen> {
 	}
 
 	private void cycleTexLeft() {
-		final ClientPartInfo partInfo = parent.getEditingPartInfo();
-		final Part part = partInfo.getPart();
-		final Part.PartTexture texture = cycle(partInfo.getSubType().textures(), partInfo.getPartTexture(), -1);
-		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), PartRegistry.reference(partInfo.getPartId()), partInfo.getSubTypeId(), texture.id()));
+		parent.setPartsInfo(parent.getEditingPartInfo().nextTexture(-1));
 	}
 
 	private void cycleTexRight() {
-		final ClientPartInfo partInfo = parent.getEditingPartInfo();
-		final Part part = partInfo.getPart();
-		final Part.PartTexture texture = cycle(partInfo.getSubType().textures(), partInfo.getPartTexture(), 1);
-		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), PartRegistry.reference(partInfo.getPartId()), partInfo.getSubTypeId(), texture.id()));
+		parent.setPartsInfo(parent.getEditingPartInfo().nextTexture(1));
 	}
 
 	private void cycleVariantLeft() {
-		final ClientPartInfo partInfo = parent.getEditingPartInfo();
-		final Part part = partInfo.getPart();
-		final Part.SubType newType = cycle(part.getSubTypes(), partInfo.getSubType(), -1);
-		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), PartRegistry.reference(partInfo.getPartId()), newType.id(), partInfo.getTextureId()));
+		parent.setPartsInfo(parent.getEditingPartInfo().nextSubType(-1));
 	}
 
 	private void cycleVariantRight() {
-		final ClientPartInfo partInfo = parent.getEditingPartInfo();
-		final Part part = partInfo.getPart();
-		final Part.SubType newType = cycle(part.getSubTypes(), partInfo.getSubType(), 1);
-		parent.setPartsInfo(new ClientPartInfo(partInfo.getTints(), PartRegistry.reference(partInfo.getPartId()), newType.id(), partInfo.getTextureId()));
-	}
-
-	private static <T> T cycle(List<T> elements, T current, int direction) {
-		final int index = elements.indexOf(current);
-
-		int next = index + direction;
-
-		if (next < 0) next = elements.size() - 1;
-		else if (next == elements.size()) next = 0;
-
-		return elements.get(next);
+		parent.setPartsInfo(parent.getEditingPartInfo().nextSubType(1));
 	}
 
 	public void updateButtons() {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
-		final Part part = partInfo.getPart();
 
 		if (leftBtn != null && rightBtn != null)
 			leftBtn.active = rightBtn.active = !partInfo.isInvalid() && partInfo.getSubType().textures().size() > 1;
 
 		if (variantLeftBtn != null && variantRightBtn != null)
-			variantLeftBtn.active = variantRightBtn.active = !partInfo.isInvalid() && part.getSubTypes().size() > 1;
+			variantLeftBtn.active = variantRightBtn.active = !partInfo.isInvalid() && partInfo.getPart().getSubTypes().size() > 1;
 	}
 }

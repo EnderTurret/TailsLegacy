@@ -9,6 +9,7 @@
 
 package uk.kihira.tails.client.gui;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -18,7 +19,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.client.ClientUtils;
 import uk.kihira.tails.client.gui.panel.ControlsPanel;
 import uk.kihira.tails.client.gui.panel.LibraryImportPanel;
 import uk.kihira.tails.client.gui.panel.LibraryInfoPanel;
@@ -27,12 +27,13 @@ import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
-import uk.kihira.tails.client.part.LocalPartManager;
+import uk.kihira.tails.common2.client.TailsClientPlatform;
 import uk.kihira.tails.common2.client.part.AttachmentPoint;
 import uk.kihira.tails.common2.client.part.AttachmentPoints;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.client.part.LocalPartManager;
 import uk.kihira.tails.common2.client.part.RootAttachmentPoint;
 
 /**
@@ -65,18 +66,16 @@ public class EditorScreen extends LayeredScreen {
 
 	public EditorScreen(ClientPartsData original, UUID uuid, LivingEntity renderingEntity, Consumer<EditorScreen> onSave) {
 		super(4, Component.empty());
-		this.onSave = onSave;
+		Objects.requireNonNull(original, "original");
+
+		this.onSave = Objects.requireNonNull(onSave, "onSave");
 
 		// Default to Tail.
 		attachment = AttachmentPoints.get("body/tail");
 		rootAttachment = attachment.root();
-		playerUUID = uuid;
-		this.renderingEntity = renderingEntity;
-		isLocalPlayer = uuid.equals(ClientUtils.getPlayerUUID());
-
-		// Backup original PartInfo or create default one.
-		if (original == null)
-			original = new ClientPartsData();
+		playerUUID = Objects.requireNonNull(uuid, "uuid");
+		isLocalPlayer = uuid.equals(TailsClientPlatform.get().getLocalUUID());
+		this.renderingEntity = Objects.requireNonNull(renderingEntity, "renderingEntity");
 
 		final ClientPartInfo partInfo = original.getPartInfo(attachment);
 
@@ -87,22 +86,15 @@ public class EditorScreen extends LayeredScreen {
 	}
 
 	public static EditorScreen openDefault() {
-		ClientPartsData data = LocalPartManager.getLocalPartsData();
-
-		if (data == null)
-			LocalPartManager.setLocalPartsData(data = new ClientPartsData());
-
-		return new EditorScreen(data, ClientUtils.getPlayerUUID(), Minecraft.getInstance().player, screen -> {
-			// Update part info, set local and send it to the server.
-			final ClientPartsData partsData = screen.getPartsData();
-
-			LocalPartManager.setLocalPartsData(partsData);
-			ClientPlayerPartManager.get().set(ClientUtils.getPlayerUUID(), partsData);
-
-			LocalPartManager.syncToServer();
-
-			screen.minecraft.popGuiLayer();
-		});
+		return new EditorScreen(
+				LocalPartManager.getOrCreateLocalPartsData(),
+				TailsClientPlatform.get().getLocalUUID(),
+				Minecraft.getInstance().player,
+				screen -> {
+					// Update part info, set local and send it to the server.
+					LocalPartManager.setLocalPartsDataFromEditorAndSync(screen.getPartsData());
+					screen.minecraft.popGuiLayer();
+				});
 	}
 
 	@Override

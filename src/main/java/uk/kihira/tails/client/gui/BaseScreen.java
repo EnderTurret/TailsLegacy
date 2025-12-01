@@ -35,8 +35,7 @@ public abstract class BaseScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-	}
+	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
 
 	public void renderTooltips(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		for (Renderable btn : renderables)
@@ -53,12 +52,5 @@ public abstract class BaseScreen extends Screen {
 				prevMouseY = mouseY;
 				break;
 			}
-	}
-
-	public void rect(GuiGraphics gui, int x1, int y1, int x2, int y2, int color) {
-		gui.hLine(x1, x2, y1, color);
-		gui.hLine(x1, x2, y2, color);
-		gui.vLine(x1, y1, y2, color);
-		gui.vLine(x2, y1, y2, color);
 	}
 }

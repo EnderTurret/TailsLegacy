@@ -27,14 +27,14 @@ import uk.kihira.tails.client.gui.panel.PartsPanel;
 import uk.kihira.tails.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.client.gui.panel.TexturePanel;
 import uk.kihira.tails.client.gui.panel.TintPanel;
-import uk.kihira.tails.client.part.AttachmentPoint;
-import uk.kihira.tails.client.part.AttachmentPoints;
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.ClientPartsData;
-import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
-import uk.kihira.tails.client.part.RootAttachmentPoint;
 import uk.kihira.tails.client.texture.TextureHelper;
+import uk.kihira.tails.common2.client.part.AttachmentPoint;
+import uk.kihira.tails.common2.client.part.AttachmentPoints;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.ClientPartsData;
+import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.client.part.RootAttachmentPoint;
 
 /**
  * The editor screen.

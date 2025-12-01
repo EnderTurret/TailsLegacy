@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.part;
+package uk.kihira.tails.common2.client.part;
 
 import java.io.BufferedReader;
 import java.lang.reflect.Type;
@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -40,7 +41,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraft.util.GsonHelper;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -48,7 +48,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 
 import uk.kihira.tails.client.model.ModelSerializer;
+import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.TailsPlatform;
+import uk.kihira.tails.common_gson.ResourceManagerWrapper;
+import uk.kihira.tails.common_gson.TailsGsonHelper;
 
 /**
  * Manages loading all of the parts, subtypes, and part textures.
@@ -56,8 +60,7 @@ import uk.kihira.tails.common.Tails;
  * @author EnderTurret
  */
 @Internal
-@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
-public final class PartLoadingManager implements ResourceManagerReloadListener {
+public class PartLoadingManager {
 
 	private final Runnable clear;
 	private final BiConsumer<List<Part>, Map<AttachmentPoint, List<ResourceLocation>>> onComplete;
@@ -71,24 +74,18 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 * @param clear A callback to run when the manager is cleared.
 	 * @param onComplete A callback to run when the manager finished loading part data.
 	 */
-	PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<AttachmentPoint, List<ResourceLocation>>> onComplete) {
+	public PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<AttachmentPoint, List<ResourceLocation>>> onComplete) {
 		this.clear = clear;
 		this.onComplete = onComplete;
 	}
 
-	@SubscribeEvent
-	static void registerReloadListeners(RegisterClientReloadListenersEvent e) {
-		e.registerReloadListener(PartRegistry.MANAGER);
-	}
-
-	@Override
-	public void onResourceManagerReload(ResourceManager manager) {
+	public void reload(ResourceManagerWrapper manager) {
 		clear.run();
 
 		final List<Part> parts = new ArrayList<>();
 
 		try {
-			parts.addAll(reload(manager));
+			parts.addAll(reloadParts(manager));
 		} catch (Exception e) {
 			Tails.LOGGER.fatal("Critical part loading failure!", e);
 		}
@@ -111,12 +108,11 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 * @param manager The resource manager.
 	 * @return The root part ordering.
 	 */
-	private Map<AttachmentPoint, List<ResourceLocation>> readOrdering(ResourceManager manager) {
+	private Map<AttachmentPoint, List<ResourceLocation>> readOrdering(ResourceManagerWrapper manager) {
 		final Map<AttachmentPoint, List<ResourceLocation>> ordering = new LinkedHashMap<>();
 
 		final ResourceLocation loc = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "part_ordering.json");
-		final Resource res = manager.getResource(loc).get();
-		final JsonElement json = readJson(loc, res);
+		final JsonElement json = manager.getJson(loc);
 		if (json == null) return Map.of();
 
 		final Map<String, List<String>> rawOrdering = LocalPartManager.GSON.fromJson(json, ORDERING_TYPE);
@@ -151,25 +147,25 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	 * @param manager The resource manager.
 	 * @return The fully-baked list of parts.
 	 */
-	private List<Part> reload(ResourceManager manager) {
-		var resources = manager.listResources("tails/parts", rl -> rl.getPath().endsWith(".json"));
+	private List<Part> reloadParts(ResourceManagerWrapper manager) {
+		var resources = manager.listJsonFiles("tails/parts", rl -> rl.getPath().endsWith(".json"));
 
 		final List<ResourcePair> parts = new ArrayList<>();
 
-		for (Map.Entry<ResourceLocation, Resource> entry : resources.entrySet())
+		for (Map.Entry<ResourceLocation, JsonElement> entry : resources.entrySet())
 			parts.add(new ResourcePair(entry.getKey(), entry.getValue()));
 
 		final List<ResourcePair> subTypes = new ArrayList<>();
-		resources = manager.listResources("tails/subtypes", rl -> rl.getPath().endsWith(".json"));
+		resources = manager.listJsonFiles("tails/subtypes", rl -> rl.getPath().endsWith(".json"));
 
-		for (Map.Entry<ResourceLocation, Resource> entry : resources.entrySet())
+		for (Map.Entry<ResourceLocation, JsonElement> entry : resources.entrySet())
 			subTypes.add(new ResourcePair(entry.getKey(), entry.getValue()));
 
 		final List<ResourcePair> textures = new ArrayList<>();
 		final List<ResourcePair> orderings = new ArrayList<>();
-		resources = manager.listResources("tails/part_textures", rl -> rl.getPath().endsWith(".json"));
+		resources = manager.listJsonFiles("tails/part_textures", rl -> rl.getPath().endsWith(".json"));
 
-		for (Map.Entry<ResourceLocation, Resource> entry : resources.entrySet()) {
+		for (Map.Entry<ResourceLocation, JsonElement> entry : resources.entrySet()) {
 			final String path = entry.getKey().getPath();
 			final ResourcePair pair = new ResourcePair(entry.getKey(), entry.getValue());
 
@@ -181,7 +177,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final Map<ResourceLocation, List<String>> realOrderings = new TreeMap<>();
 
 		for (ResourcePair pair : orderings) {
-			final JsonElement json = readJson(pair.location(), pair.resource());
+			final JsonElement json = pair.json();
 			if (json == null) continue;
 			if (!json.isJsonArray()) {
 				Tails.LOGGER.warn("Texture ordering {} must be a json array!", pair.location());
@@ -207,7 +203,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final List<NamedTexture> realTextures = new ArrayList<>(textures.size());
 
 		for (ResourcePair pair : textures) {
-			final JsonElement json = readJson(pair.location(), pair.resource());
+			final JsonElement json = pair.json();
 			if (json == null) continue;
 			if (!json.isJsonObject()) {
 				Tails.LOGGER.warn("Texture {} must be a json object!", pair.location());
@@ -229,7 +225,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final List<NamedSubType> realSubTypes = new ArrayList<>(subTypes.size());
 
 		for (ResourcePair pair : subTypes) {
-			final JsonElement json = readJson(pair.location(), pair.resource());
+			final JsonElement json = pair.json();
 			if (json == null) continue;
 			if (!json.isJsonObject()) {
 				Tails.LOGGER.warn("Sub type {} must be a json object!", pair.location());
@@ -252,7 +248,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final List<Part> realParts = new ArrayList<>();
 
 		for (ResourcePair pair : parts) {
-			final JsonElement json = readJson(pair.location(), pair.resource());
+			final JsonElement json = pair.json();
 			if (json == null) continue;
 			if (!json.isJsonObject()) {
 				Tails.LOGGER.warn("Part {} must be a json object!", pair.location());
@@ -274,7 +270,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		}
 
 		if (DEBUG_REGISTRIES) {
-			Tails.LOGGER.info("Parts ({}):\n{}", realParts.size(), realParts.stream()
+			TailsPlatform.get().logInfo("Parts ({}):\n{}", realParts.size(), realParts.stream()
 					.map(Part::toString)
 					.collect(Collectors.joining("\n")));
 
@@ -285,10 +281,10 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 									.collect(Collectors.joining("\n    - ")))
 							.collect(Collectors.joining("\n  = ")))
 					.collect(Collectors.joining("\n"));
-			Tails.LOGGER.info("Part dependency graph:\n{}", out);
+			TailsPlatform.get().logInfo("Part dependency graph:\n{}", out);
 
-			Tails.LOGGER.info("Attachment point roots: {}", AttachmentPoints.getRoots());
-			Tails.LOGGER.info("Attachment points: {}", AttachmentPoints.getAll());
+			TailsPlatform.get().logInfo("Attachment point roots: {}", AttachmentPoints.getRoots());
+			TailsPlatform.get().logInfo("Attachment points: {}", AttachmentPoints.getAll());
 		}
 
 		return realParts;
@@ -305,16 +301,16 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		final String id = trim(location.getPath(), "tails/parts/");
 		final ResourceLocation realId = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), id);
 
-		final AttachmentPoint attachment = AttachmentPoints.getOrCreate(GsonHelper.getAsString(json, "attachment"));
+		final AttachmentPoint attachment = AttachmentPoints.getOrCreate(TailsGsonHelper.getAsString(json, "attachment"));
 		if (attachment == null) throw new JsonParseException(location + ": missing attachment!");
 
 		final int[] tints;
 		if (json.has("defaultTints")) {
-			final JsonArray arr = GsonHelper.getAsJsonArray(json, "defaultTints");
+			final JsonArray arr = TailsGsonHelper.getAsJsonArray(json, "defaultTints");
 			tints = new int[] {
-					hex(GsonHelper.convertToString(arr.get(0), "defaultTints[0]")),
-					hex(GsonHelper.convertToString(arr.get(1), "defaultTints[1]")),
-					hex(GsonHelper.convertToString(arr.get(2), "defaultTints[2]"))
+					hex(TailsGsonHelper.convertToString(arr.get(0), "defaultTints[0]")),
+					hex(TailsGsonHelper.convertToString(arr.get(1), "defaultTints[1]")),
+					hex(TailsGsonHelper.convertToString(arr.get(2), "defaultTints[2]"))
 			};
 		}
 		else tints = null;
@@ -323,26 +319,26 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
-		final ModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(GsonHelper.getAsJsonObject(json, "model")).bake() : null;
+		final ModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(TailsGsonHelper.getAsJsonObject(json, "model")).bake() : null;
 
 		return new Part(realId, attachment, subs, tints,
-				GsonHelper.getAsBoolean(json, "allowArrows", false), model,
-				json.has("render") ? readTransform(GsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO,
-				json.has("preview") ? readTransform(GsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO);
+				TailsGsonHelper.getAsBoolean(json, "allowArrows", false), model,
+				json.has("render") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO,
+				json.has("preview") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO);
 	}
 
 	private static Transformation readTransform(JsonObject obj) {
-		final Vector3fc scale = obj.has("scale") ? readVector(GsonHelper.getAsJsonArray(obj, "scale"), "scale") : Transformation.ZERO_VECTOR;
-		final Vector3fc offset = obj.has("offset") ? readVector(GsonHelper.getAsJsonArray(obj, "offset"), "offset") : Transformation.ZERO_VECTOR;
-		final Vector3fc rotation = obj.has("rotation") ? readVector(GsonHelper.getAsJsonArray(obj, "rotation"), "rotation") : Transformation.ZERO_VECTOR;
+		final Vector3fc scale = obj.has("scale") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "scale"), "scale") : Transformation.ZERO_VECTOR;
+		final Vector3fc offset = obj.has("offset") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "offset"), "offset") : Transformation.ZERO_VECTOR;
+		final Vector3fc rotation = obj.has("rotation") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "rotation"), "rotation") : Transformation.ZERO_VECTOR;
 		return new Transformation(scale, offset, rotation);
 	}
 
 	private static Vector3f readVector(JsonArray array, String name) {
 		return new Vector3f(
-				GsonHelper.convertToFloat(array.get(0), name + "[0]"),
-				GsonHelper.convertToFloat(array.get(1), name + "[1]"),
-				GsonHelper.convertToFloat(array.get(2), name + "[2]")
+				TailsGsonHelper.convertToFloat(array.get(0), name + "[0]"),
+				TailsGsonHelper.convertToFloat(array.get(1), name + "[1]"),
+				TailsGsonHelper.convertToFloat(array.get(2), name + "[2]")
 				);
 	}
 
@@ -362,7 +358,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final String typeId = id.substring(partPath.length() + 1);
 
-		final String author = json.has("author") ? GsonHelper.getAsString(json, "author") : null;
+		final String author = json.has("author") ? TailsGsonHelper.getAsString(json, "author") : null;
 
 		final List<NamedTexture> tex = textures.stream()
 				.filter(tx -> tx.partId().equals(partId) && tx.applyTo().contains(typeId))
@@ -389,9 +385,9 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		final String texId = id.substring(partPath.length() + 1);
 
-		String path = json.has("path") ? GsonHelper.getAsString(json, "path") : partId.getPath() + "/" + texId;
+		String path = json.has("path") ? TailsGsonHelper.getAsString(json, "path") : partId.getPath() + "/" + texId;
 		path = "textures/part/" + path + ".png";
-		final String author = json.has("author") ? GsonHelper.getAsString(json, "author") : null;
+		final String author = json.has("author") ? TailsGsonHelper.getAsString(json, "author") : null;
 
 		final List<String> applyTo = new ArrayList<>();
 
@@ -401,7 +397,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		Part.TintingStrategy tintingStrategy = Part.TintingStrategy.TRIPLE_TINT;
 
 		if (json.has("tintingStrategy")) {
-			final String strat = GsonHelper.getAsString(json, "tintingStrategy");
+			final String strat = TailsGsonHelper.getAsString(json, "tintingStrategy");
 			tintingStrategy = Part.TintingStrategy.of(strat);
 			if (tintingStrategy == null) {
 				tintingStrategy = Part.TintingStrategy.TRIPLE_TINT;
@@ -423,7 +419,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 
 		if (obj.get(name) instanceof JsonArray arr)
 			for (int i = 0; i < arr.size(); i++)
-				ret.add(GsonHelper.convertToString(arr.get(i), name + "[" + i + "]"));
+				ret.add(TailsGsonHelper.convertToString(arr.get(i), name + "[" + i + "]"));
 
 		return ret;
 	}
@@ -450,23 +446,6 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 	private static String trim(String input, String beginning) {
 		input = input.substring(beginning.length());
 		return input.substring(0, input.length() - ".json".length());
-	}
-
-	/**
-	 * Reads the given resource as json, catching any errors that may arise from doing so.
-	 * @param location The location of the resource. Used for logging purposes.
-	 * @param resource The resource itself.
-	 * @return The parsed json, or {@code null} if an error occurred.
-	 */
-	@Nullable
-	private static JsonElement readJson(ResourceLocation location, Resource resource) {
-		try (BufferedReader br = resource.openAsReader()) {
-			return JsonParser.parseReader(br);
-		} catch (Exception e) {
-			// The stack trace might be increasingly large, so try not to log it.
-			Tails.LOGGER.warn("Failed to read json file {}:\n{}", location, e.toString());
-			return null;
-		}
 	}
 
 	private static <V, T extends Named<V>> List<V> order(ResourceLocation id, List<String> ordering, List<T> all, BiPredicate<T, String> orderMatcher) {
@@ -511,7 +490,7 @@ public final class PartLoadingManager implements ResourceManagerReloadListener {
 		public Part.PartTexture unwrap() { return texture; }
 	}
 
-	private static record ResourcePair(ResourceLocation location, Resource resource) {
+	private static record ResourcePair(ResourceLocation location, JsonElement json) {
 		@Override
 		public String toString() {
 			return location.toString();

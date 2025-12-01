@@ -6,9 +6,8 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.part;
+package uk.kihira.tails.common2.client.part;
 
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
@@ -16,22 +15,15 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.client.PartRenderRegistry;
-import uk.kihira.tails.client.part.PartRegistry.PartReference;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.IPartInfo;
-import uk.kihira.tails.common.part.ServerPartInfo;
+import uk.kihira.tails.common2.client.part.PartRegistry.PartReference;
+import uk.kihira.tails.common2.part.IPartInfo;
+import uk.kihira.tails.common2.part.ServerPartInfo;
 
 /**
  * Represents the client-side version of {@link IPartInfo}.
@@ -305,25 +297,6 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		@Override
 		public String toString() {
 			return "ClientPartInfo.Empty.INSTANCE";
-		}
-	}
-
-	/**
-	 * A serializer for {@link ClientPartInfo}.
-	 * @author EnderTurret
-	 * @see LocalPartManager#GSON
-	 */
-	public static class Serializer implements JsonSerializer<IPartInfo>, JsonDeserializer<IPartInfo> {
-
-		@Override
-		public IPartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-			final IPartInfo info = ServerPartInfo.Serializer.INSTANCE.deserialize(json, typeOfT, context);
-			return coerce(info);
-		}
-
-		@Override
-		public JsonElement serialize(IPartInfo src, Type typeOfSrc, JsonSerializationContext context) {
-			return ServerPartInfo.Serializer.INSTANCE.serialize(src, typeOfSrc, context);
 		}
 	}
 }

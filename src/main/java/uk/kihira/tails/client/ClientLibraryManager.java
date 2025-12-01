@@ -19,15 +19,16 @@ import net.minecraft.client.gui.screens.Screen;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.part.LocalPartManager;
-import uk.kihira.tails.common.LibraryEntryData;
-import uk.kihira.tails.common.LibraryManager;
+import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.LibraryManager;
+import uk.kihira.tails.common_gson.GsonLibraryManager;
 
 /**
  * The client-side implementation of the {@link LibraryManager}.
  * @author EnderTurret
  */
 @Internal
-public final class ClientLibraryManager extends LibraryManager {
+public final class ClientLibraryManager extends GsonLibraryManager {
 
 	@Override
 	protected Gson getGson() {

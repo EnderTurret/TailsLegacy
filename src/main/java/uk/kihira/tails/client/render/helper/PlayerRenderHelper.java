@@ -16,9 +16,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.api.IRenderHelper;
-import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.part.PartRegistry;
 
 /**
  * An {@link IRenderHelper} for players.

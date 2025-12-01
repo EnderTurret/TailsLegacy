@@ -8,7 +8,7 @@
 
 package uk.kihira.tails.client.model.tail;
 
-import static uk.kihira.tails.client.part.PartRegistry.*;
+import static uk.kihira.tails.common2.client.part.PartRegistry.*;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 

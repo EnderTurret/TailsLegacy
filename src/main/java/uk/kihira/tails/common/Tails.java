@@ -22,9 +22,13 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 
-import uk.kihira.tails.common.part.IPartInfo;
-import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.common.part.ServerPartInfo;
+import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.part.IPartInfo;
+import uk.kihira.tails.common2.part.PartsData;
+import uk.kihira.tails.common_gson.LibraryEntryDataSerializer;
+import uk.kihira.tails.common_gson.LoggingExclusionStrategy;
+import uk.kihira.tails.common_gson.PartsDataSerializer;
+import uk.kihira.tails.common_gson.ServerPartInfoSerializer;
 import uk.kihira.tails.proxy.IProxy;
 import uk.kihira.tails.proxy.ServerProxy;
 
@@ -60,9 +64,9 @@ public final class Tails {
 	 */
 	public static final Gson SERVER_GSON = new GsonBuilder()
 			.setExclusionStrategies(new LoggingExclusionStrategy())
-			.registerTypeHierarchyAdapter(PartsData.class, new PartsData.Serializer())
-			.registerTypeHierarchyAdapter(IPartInfo.class, ServerPartInfo.Serializer.INSTANCE)
-			.registerTypeAdapter(LibraryEntryData.class, new LibraryEntryData.Serializer())
+			.registerTypeHierarchyAdapter(PartsData.class, new PartsDataSerializer())
+			.registerTypeHierarchyAdapter(IPartInfo.class, ServerPartInfoSerializer.INSTANCE)
+			.registerTypeAdapter(LibraryEntryData.class, new LibraryEntryDataSerializer())
 			.create();
 
 	@Internal

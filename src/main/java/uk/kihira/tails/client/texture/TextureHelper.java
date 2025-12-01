@@ -27,10 +27,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 
 import uk.kihira.tails.client.ColorUtil;
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.ClientPlayerPartManager;
-import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.client.part.Part;
 
 /**
  * Manages generation of {@link TripleTintTexture TripleTintTextures} and also provides some texture-related utilities.

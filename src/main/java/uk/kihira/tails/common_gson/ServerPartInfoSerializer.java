@@ -1,0 +1,77 @@
+package uk.kihira.tails.common_gson;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+
+import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.part.IPartInfo;
+import uk.kihira.tails.common2.part.ServerPartInfo;
+
+/**
+ * The serializer for {@link ServerPartInfo}.
+ * @author EnderTurret
+ * @see Tails#SERVER_GSON
+ */
+public class ServerPartInfoSerializer implements JsonSerializer<IPartInfo>, JsonDeserializer<IPartInfo> {
+
+	/**
+	 * The singleton instance.
+	 */
+	public static final ServerPartInfoSerializer INSTANCE = new ServerPartInfoSerializer();
+
+	private ServerPartInfoSerializer() {}
+
+	@Override
+	public IPartInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+		json = GsonParts.update(json);
+
+		final JsonObject obj = json.getAsJsonObject();
+
+		final String pId = GsonHelper.getAsString(obj, "id");
+		if ("tails:empty".equals(pId)) return IPartInfo.empty();
+
+		final ResourceLocation partId = ResourceLocation.parse(pId);
+		final String subType = GsonHelper.getAsString(obj, "subType");
+		final String texture = GsonHelper.getAsString(obj, "textureId");
+
+		final JsonArray tints = GsonHelper.getAsJsonArray(obj, "tints");
+		final int[] tintsArr = {
+				tints.get(0).getAsInt() | 0xFF000000,
+				tints.get(1).getAsInt() | 0xFF000000,
+				tints.get(2).getAsInt() | 0xFF000000
+		};
+
+		return new ServerPartInfo(partId, subType, texture, tintsArr);
+	}
+
+	@Override
+	public JsonElement serialize(IPartInfo src, Type typeOfSrc, JsonSerializationContext context) {
+		final JsonObject obj = new JsonObject();
+
+		obj.addProperty("id", src.getPartId().toString());
+
+		if (!src.isEmpty()) {
+			obj.addProperty("subType", src.getSubTypeId());
+			obj.addProperty("textureId", src.getTextureId());
+
+			final JsonArray tints = new JsonArray();
+			tints.add(src.getTints()[0] & 0xFFFFFF);
+			tints.add(src.getTints()[1] & 0xFFFFFF);
+			tints.add(src.getTints()[2] & 0xFFFFFF);
+			obj.add("tints", tints);
+		}
+
+		return obj;
+	}
+}

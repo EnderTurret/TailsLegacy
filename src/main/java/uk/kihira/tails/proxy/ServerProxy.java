@@ -13,10 +13,10 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.Gson;
 
-import uk.kihira.tails.api.IPlayerPartManager;
-import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PlayerPartManager;
+import uk.kihira.tails.common2.LibraryManager;
+import uk.kihira.tails.common2.api.IPlayerPartManager;
+import uk.kihira.tails.common2.part.PlayerPartManager;
 
 /**
  * It's a server proxy alright.

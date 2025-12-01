@@ -20,9 +20,9 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.client.gui.EditorScreen;
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.Part;
-import uk.kihira.tails.client.part.PartRegistry;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.Part;
+import uk.kihira.tails.common2.client.part.PartRegistry;
 
 @Internal
 public final class TexturePanel extends Panel<EditorScreen> {

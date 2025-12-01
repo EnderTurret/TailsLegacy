@@ -14,8 +14,9 @@ import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.client.TailsAccess;
-import uk.kihira.tails.common.LibraryEntryData;
-import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.api.ITailsSyncService;
+import uk.kihira.tails.common2.part.PartsData;
 
 /**
  * Allows accessing certain Tails internals without falling victim to breaking changes to internal non-API.

@@ -22,9 +22,9 @@ import net.neoforged.fml.event.IModBusEvent;
 
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.Part;
-import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.part.Part;
+import uk.kihira.tails.common2.client.part.PartRegistry;
 
 /**
  * <p>An event fired when {@linkplain PartRenderer PartRenderers} are being registered.
@@ -73,11 +73,11 @@ public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 	}
 
 	/**
-	 * {@link PartModel} version of {@link #register(uk.kihira.tails.client.part.PartRegistry.PartReference, PartRenderer) register(PartReference, PartRenderer)}.
+	 * {@link PartModel} version of {@link #register(uk.kihira.tails.common2.client.part.PartRegistry.PartReference, PartRenderer) register(PartReference, PartRenderer)}.
 	 * @param reference A reference to the part to link the renderer to.
 	 * @param model The part model.
 	 * @see #register(ResourceLocation, PartRenderer)
-	 * @see #register(uk.kihira.tails.client.part.PartRegistry.PartReference, PartRenderer)
+	 * @see #register(uk.kihira.tails.common2.client.part.PartRegistry.PartReference, PartRenderer)
 	 * @see PartRegistry#reference(ResourceLocation)
 	 */
 	public void register(PartRegistry.PartReference reference, PartModel model) {

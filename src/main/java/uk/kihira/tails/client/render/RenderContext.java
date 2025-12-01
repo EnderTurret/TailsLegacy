@@ -18,8 +18,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.ClientPartsData;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.ClientPartsData;
 
 /**
  * Contains all the context necessary for rendering parts.

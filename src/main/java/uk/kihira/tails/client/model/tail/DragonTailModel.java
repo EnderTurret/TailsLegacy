@@ -16,7 +16,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.common2.client.part.Part;
 
 /**
  * <p>The dragon tail part model.</p>

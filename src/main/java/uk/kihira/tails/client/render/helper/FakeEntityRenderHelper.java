@@ -16,10 +16,10 @@ import net.minecraft.util.Mth;
 
 import uk.kihira.tails.api.IRenderHelper;
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.part.Part;
 
 /**
  * An {@link IRenderHelper} for "fake" entities -- that is, the part preview and/or {@linkplain FoxtatoRenderer foxtato}.

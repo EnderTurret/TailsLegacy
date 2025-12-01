@@ -30,12 +30,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartConfiguration;
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.ClientPartsData;
-import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.ClientPartsData;
+import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
 
 /**
  * A specialized {@link ArrowLayer} for rendering arrows on Tails parts/accessories in addition to normal body parts.

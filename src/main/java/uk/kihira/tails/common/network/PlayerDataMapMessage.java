@@ -30,7 +30,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsNetworkManager;
-import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common2.part.PartsData;
 
 // S → C
 @Internal

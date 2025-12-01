@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.common.part;
+package uk.kihira.tails.common2.part;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import uk.kihira.tails.api.IPlayerPartManager;
+import uk.kihira.tails.common2.api.IPlayerPartManager;
 
 /**
  * The base implementation of {@link IPlayerPartManager}.

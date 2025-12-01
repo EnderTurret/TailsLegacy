@@ -20,7 +20,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.mixin.client.ModelPartAccess;
 
 /**

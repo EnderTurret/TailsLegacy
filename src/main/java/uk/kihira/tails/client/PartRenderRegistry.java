@@ -8,7 +8,7 @@
 
 package uk.kihira.tails.client;
 
-import static uk.kihira.tails.client.part.PartRegistry.*;
+import static uk.kihira.tails.common2.client.part.PartRegistry.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +27,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.model.DefaultPartModel;
 import uk.kihira.tails.client.model.MuzzleModel;
-import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.client.render.part.WingRenderer;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.part.Part;
 
 /**
  * Manages the registry of {@link PartRenderer PartRenderers} that correspond to different parts.

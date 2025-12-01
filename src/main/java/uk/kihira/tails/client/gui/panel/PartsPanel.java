@@ -34,15 +34,15 @@ import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.Spinner;
-import uk.kihira.tails.client.part.AttachmentPoint;
-import uk.kihira.tails.client.part.AttachmentPoints;
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.Part;
-import uk.kihira.tails.client.part.PartRegistry;
-import uk.kihira.tails.client.part.RootAttachmentPoint;
 import uk.kihira.tails.client.render.RenderStates;
 import uk.kihira.tails.client.render.part.PartRenderer;
-import uk.kihira.tails.common.part.ServerPartInfo;
+import uk.kihira.tails.common2.client.part.AttachmentPoint;
+import uk.kihira.tails.common2.client.part.AttachmentPoints;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.Part;
+import uk.kihira.tails.common2.client.part.PartRegistry;
+import uk.kihira.tails.common2.client.part.RootAttachmentPoint;
+import uk.kihira.tails.common2.part.ServerPartInfo;
 
 @Internal
 public final class PartsPanel extends Panel<EditorScreen> {

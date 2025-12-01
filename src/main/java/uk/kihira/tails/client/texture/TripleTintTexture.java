@@ -33,8 +33,8 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.FastColor;
 
 import uk.kihira.tails.client.ColorUtil;
-import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.part.Part;
 
 /**
  * A texture that tints another texture based on three tint values.

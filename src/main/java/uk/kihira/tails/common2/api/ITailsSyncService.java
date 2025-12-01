@@ -6,11 +6,11 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.api;
+package uk.kihira.tails.common2.api;
 
 import java.util.UUID;
 
-import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common2.part.PartsData;
 
 /**
  * An interface that can be implemented to provide a syncing service for player tails.

@@ -21,8 +21,8 @@ import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartConfiguration;
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.render.RenderContext;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
 
 /**
  * The fluffy tail part model.

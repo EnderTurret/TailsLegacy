@@ -6,8 +6,10 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.part;
+package uk.kihira.tails.common2.client.part;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,15 +18,11 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
-
 import net.minecraft.resources.ResourceLocation;
-
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
+import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 
 /**
@@ -36,13 +34,17 @@ import uk.kihira.tails.common.Tails;
 public final class PartRegistry {
 
 	private static final Map<ResourceLocation, Part> PART_REGISTRY = new TreeMap<>();
-	private static final ListMultimap<AttachmentPoint, Part> BY_TYPE = MultimapBuilder.hashKeys().arrayListValues().build();
+	private static final Map<AttachmentPoint, List<Part>> BY_TYPE = new LinkedHashMap<>();
 
-	public static final PartLoadingManager MANAGER = new PartLoadingManager(() -> {
+	public static final PartLoadingManager MANAGER = new PartLoadingManager(PartRegistry::clear, PartRegistry::register);
+
+	private static void clear() {
 		PART_REGISTRY.clear();
 		BY_TYPE.clear();
 		AttachmentPoints.clear();
-	}, (parts, ordering) -> {
+	}
+
+	private static void register(List<Part> parts, Map<AttachmentPoint, List<ResourceLocation>> ordering) {
 		Tails.LOGGER.debug("Registering {} parts.", parts.size());
 
 		for (Part part : parts)
@@ -58,18 +60,18 @@ public final class PartRegistry {
 				if (part.getAttachment() == entry.getKey() && !ordered.contains(part))
 					ordered.add(part);
 
-			BY_TYPE.putAll(entry.getKey(), List.copyOf(ordered));
+			BY_TYPE.put(entry.getKey(), List.copyOf(ordered));
 		}
 
 		for (Part part : parts)
-			if (!BY_TYPE.containsEntry(part.getAttachment(), part))
-				BY_TYPE.put(part.getAttachment(), part);
+			if (!BY_TYPE.getOrDefault(part.getAttachment(), List.of()).contains(part))
+				BY_TYPE.computeIfAbsent(part.getAttachment(), k -> new ArrayList<>()).add(part);
 
 		PartRenderRegistry.reload();
 
 		LocalPartManager.reload();
 		Tails.PROXY.getLibraryManager().reload(false);
-	});
+	}
 
 	public static final PartReference FLUFFY_TAIL = reference("tail/fluffy_tail");
 	public static final PartReference DRAGON_TAIL = reference("tail/dragon_tail");
@@ -132,7 +134,7 @@ public final class PartRegistry {
 	}
 
 	/**
-	 * Like a {@link DeferredHolder} but for parts.
+	 * Like a {@code DeferredHolder} but for parts.
 	 * @author EnderTurret
 	 * @see PartRegistry#reference(ResourceLocation)
 	 */

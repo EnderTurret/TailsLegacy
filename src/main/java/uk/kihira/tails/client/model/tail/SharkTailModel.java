@@ -15,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.Part;
+import uk.kihira.tails.common2.client.part.Part;
 
 /**
  * <p>The shark tail part model.</p>

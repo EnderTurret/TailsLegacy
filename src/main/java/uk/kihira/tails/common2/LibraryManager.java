@@ -7,7 +7,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.common;
+package uk.kihira.tails.common2;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,18 +22,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import uk.kihira.tails.common.Tails;
 
 /**
  * As you may have guessed, this manages the Tails library.
  * It handles saving/loading the library as well as manipulating its entries.
  */
 @Internal
-public class LibraryManager {
+public abstract class LibraryManager {
 
-	private static final Type ENTRY_DATA_LIST = new TypeToken<List<LibraryEntryData>>() {}.getType();
 	private static final Path LIBRARY_PATH = Paths.get("tailslibrary.json");
 
 	/**
@@ -42,13 +41,6 @@ public class LibraryManager {
 	public final List<LibraryEntryData> libraryEntries = new ArrayList<>();
 
 	public LibraryManager() {}
-
-	/**
-	 * @return The {@link Gson} used for deserializing library entries.
-	 */
-	protected Gson getGson() {
-		return Tails.SERVER_GSON;
-	}
 
 	/**
 	 * Adds the given entries to the library.
@@ -90,6 +82,9 @@ public class LibraryManager {
 		libraryEntries.addAll(entries);
 	}
 
+	@Nullable
+	protected abstract List<LibraryEntryData> readEntries();
+
 	/**
 	 * Loads the library data from the file specified by {@link #createLibraryFile()}.
 	 * @return A list of loaded library data.
@@ -97,16 +92,13 @@ public class LibraryManager {
 	private List<LibraryEntryData> loadLibrary() {
 		final List<LibraryEntryData> libraryEntries = new ArrayList<>();
 
-		if (Files.exists(LIBRARY_PATH))
-			try (BufferedReader br = Files.newBufferedReader(createLibraryFile())) {
-				final List<LibraryEntryData> loadedEntries = getGson().fromJson(br, ENTRY_DATA_LIST);
-				if (loadedEntries != null && !loadedEntries.isEmpty())
-					for (LibraryEntryData libEntry : loadedEntries)
-						if (libEntry.partsData != null)
-							libraryEntries.add(libEntry);
-			} catch (Exception e) {
-				Tails.LOGGER.error("Failed to load library entries!", e);
-			}
+		if (Files.exists(LIBRARY_PATH)) {
+			final List<LibraryEntryData> loadedEntries = readEntries();
+			if (loadedEntries != null && !loadedEntries.isEmpty())
+				for (LibraryEntryData libEntry : loadedEntries)
+					if (libEntry.partsData != null)
+						libraryEntries.add(libEntry);
+		}
 
 		return libraryEntries;
 	}
@@ -122,19 +114,7 @@ public class LibraryManager {
 	 * Saves the library data to the given file.
 	 * @param to The file to write the data to.
 	 */
-	protected void saveLibrary(Path to) {
-		// [
-		//   { ... },
-		//   { ... }
-		// ]
-		final String json = libraryEntries.stream().map(getGson()::toJson).collect(Collectors.joining(",\n  ", "[\n  ", "\n]"));
-
-		try (BufferedWriter bw = Files.newBufferedWriter(to, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-			bw.write(json);
-		} catch (Exception e) {
-			Tails.LOGGER.error("Exception writing library:", e);
-		}
-	}
+	protected abstract void saveLibrary(Path to);
 
 	/**
 	 * Returns the path to the library file.

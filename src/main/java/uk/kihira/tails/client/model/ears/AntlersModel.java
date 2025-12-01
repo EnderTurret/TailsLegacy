@@ -13,7 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.client.model.PartModel;
-import uk.kihira.tails.client.part.Part.SubType;
+import uk.kihira.tails.common2.client.part.Part.SubType;
 
 /**
  * <p>The antlers part model.</p>

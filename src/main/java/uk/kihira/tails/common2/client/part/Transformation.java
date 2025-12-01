@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.part;
+package uk.kihira.tails.common2.client.part;
 
 import org.joml.Quaternionf;
 import org.joml.Vector3f;

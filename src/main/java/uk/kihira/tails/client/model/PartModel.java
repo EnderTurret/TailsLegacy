@@ -22,11 +22,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.RenderContext;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.Part;
 
 /**
  * A base class that all parts extend.
@@ -79,7 +79,7 @@ public abstract class PartModel extends EntityModel<LivingEntity> {
 	public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {}
 
 	/**
-	 * @deprecated Use {@link #setupAnim(LivingEntity, float, float, float, float, uk.kihira.tails.client.part.Part.SubType, ModelPart)} instead.
+	 * @deprecated Use {@link #setupAnim(LivingEntity, float, float, float, float, uk.kihira.tails.common2.client.part.Part.SubType, ModelPart)} instead.
 	 */
 	@Override
 	@Deprecated

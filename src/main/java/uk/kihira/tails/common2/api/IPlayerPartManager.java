@@ -6,12 +6,12 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.api;
+package uk.kihira.tails.common2.api;
 
 import java.util.Map;
 import java.util.UUID;
 
-import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common2.part.PartsData;
 
 /**
  * Manages the data of all the players on either side.

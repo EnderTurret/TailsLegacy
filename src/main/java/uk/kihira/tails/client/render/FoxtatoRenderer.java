@@ -25,9 +25,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 
 import uk.kihira.tails.client.FakeEntity;
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.PartRegistry;
 import uk.kihira.tails.client.render.part.PartRenderer;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.PartRegistry;
 
 /**
  * Handles rendering Tails accessories on tiny potatoes named "foxtato" (case-insensitive).

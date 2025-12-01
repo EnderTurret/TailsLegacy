@@ -29,8 +29,8 @@ import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
-import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.LibraryEntryData;
 
 @Internal
 public final class LibraryPanel extends Panel<EditorScreen> {

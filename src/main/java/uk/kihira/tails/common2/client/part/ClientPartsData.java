@@ -6,22 +6,15 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.part;
+package uk.kihira.tails.common2.client.part;
 
-import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.jetbrains.annotations.ApiStatus.Internal;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-
-import uk.kihira.tails.common.part.IPartInfo;
-import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common2.part.IPartInfo;
+import uk.kihira.tails.common2.part.PartsData;
 
 public final class ClientPartsData extends PartsData {
 
@@ -80,14 +73,5 @@ public final class ClientPartsData extends PartsData {
 
 	public static ClientPartsData clone(PartsData data) {
 		return new ClientPartsData(data.getPartInfos());
-	}
-
-	@Internal
-	public static class Serializer extends PartsData.Serializer {
-
-		@Override
-		public PartsData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-			return ClientPartsData.clone(super.deserialize(json, typeOfT, context));
-		}
 	}
 }

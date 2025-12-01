@@ -6,12 +6,14 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.common;
+package uk.kihira.tails.common_gson;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
+
+import uk.kihira.tails.common.Tails;
 
 /**
  * <p>An {@link ExclusionStrategy} that logs a message when used.

@@ -19,12 +19,12 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.client.part.ClientPartInfo;
-import uk.kihira.tails.client.part.ClientPartsData;
-import uk.kihira.tails.client.part.ClientPlayerPartManager;
-import uk.kihira.tails.client.part.Part;
 import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
+import uk.kihira.tails.common2.client.part.ClientPartsData;
+import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.client.part.Part;
 
 /**
  * A {@link RenderLayer} for Tails parts/accessories.

@@ -7,23 +7,13 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.common.part;
+package uk.kihira.tails.common2.part;
 
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
 /**
  * Holds a {@link IPartInfo} for every part type.
@@ -50,7 +40,7 @@ public class PartsData {
 	 * The version of the part format.
 	 * 2 is the current version.
 	 */
-	private final int version = 2;
+	public final int version = 2;
 
 	public PartsData() {}
 
@@ -119,44 +109,5 @@ public class PartsData {
 				.filter(e -> !e.isEmpty())
 				.map(IPartInfo::toString)
 				.collect(Collectors.joining(", ")) + '}';
-	}
-
-	/**
-	 * A serializer/deserializer setup for your everyday {@link PartsData} json needs.
-	 * @author EnderTurret
-	 */
-	public static class Serializer implements JsonDeserializer<PartsData>, JsonSerializer<PartsData> {
-
-		@Override
-		public JsonElement serialize(PartsData src, Type typeOfSrc, JsonSerializationContext context) {
-			final JsonObject ret = new JsonObject();
-			final JsonArray parts = new JsonArray();
-
-			for (IPartInfo part : src.parts)
-				if (!part.isEmpty())
-					parts.add(context.serialize(part));
-
-			ret.add("parts", parts);
-			ret.addProperty("version", src.version);
-
-			return ret;
-		}
-
-		@Override
-		public PartsData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-			json = Parts.updatePartsData(json);
-
-			final JsonObject obj = json.getAsJsonObject();
-			final PartsData ret = new PartsData();
-
-			if (obj.has("parts")) {
-				final JsonArray parts = obj.get("parts").getAsJsonArray();
-
-				for (JsonElement entry : parts)
-					ret.addPartInfo(context.deserialize(entry, IPartInfo.class));
-			}
-
-			return ret;
-		}
 	}
 }

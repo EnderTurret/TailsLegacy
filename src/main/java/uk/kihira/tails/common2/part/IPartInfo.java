@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.common.part;
+package uk.kihira.tails.common2.part;
 
 import java.awt.Color;
 import java.util.Arrays;

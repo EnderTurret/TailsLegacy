@@ -16,8 +16,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.client.gui.EditorScreen;
-import uk.kihira.tails.client.part.ClientPartInfo;
 import uk.kihira.tails.client.part.LocalPartManager;
+import uk.kihira.tails.common2.client.part.ClientPartInfo;
 
 @Internal
 public final class ControlsPanel extends Panel<EditorScreen> {

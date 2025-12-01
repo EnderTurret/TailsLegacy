@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.client.part;
+package uk.kihira.tails.common2.client.part;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -16,10 +16,10 @@ import java.util.UUID;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
-import uk.kihira.tails.api.ITailsSyncService;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.common.part.PlayerPartManager;
+import uk.kihira.tails.common2.api.ITailsSyncService;
+import uk.kihira.tails.common2.part.PartsData;
+import uk.kihira.tails.common2.part.PlayerPartManager;
 
 /**
  * The client-side implementation of the {@link PlayerPartManager}.

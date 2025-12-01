@@ -54,7 +54,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
-import uk.kihira.tails.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
 import uk.kihira.tails.client.render.helper.FakeEntityRenderHelper;
@@ -64,6 +63,7 @@ import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.client.texture.TextureHelper;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.mixin.client.LivingEntityRendererAccess;
 
 /**

@@ -19,14 +19,19 @@ import net.minecraft.client.Minecraft;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import uk.kihira.tails.client.ClientUtils;
-import uk.kihira.tails.common.LibraryEntryData;
-import uk.kihira.tails.common.LoggingExclusionStrategy;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
 import uk.kihira.tails.common.TailsNetworkManager;
 import uk.kihira.tails.common.network.C2SPlayerDataMessage;
-import uk.kihira.tails.common.part.IPartInfo;
-import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.client.part.ClientPartsData;
+import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.part.IPartInfo;
+import uk.kihira.tails.common2.part.PartsData;
+import uk.kihira.tails.common_gson.LibraryEntryDataSerializer;
+import uk.kihira.tails.common_gson.LoggingExclusionStrategy;
+import uk.kihira.tails.common_gson.client.ClientPartInfoSerializer;
+import uk.kihira.tails.common_gson.client.ClientPartsDataSerializer;
 
 /**
  * Manages the local part data, among other things.
@@ -41,9 +46,9 @@ public final class LocalPartManager {
 	public static final Gson GSON = new GsonBuilder()
 			.excludeFieldsWithoutExposeAnnotation()
 			.setExclusionStrategies(new LoggingExclusionStrategy())
-			.registerTypeHierarchyAdapter(PartsData.class, new ClientPartsData.Serializer())
-			.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfo.Serializer())
-			.registerTypeAdapter(LibraryEntryData.class, new LibraryEntryData.Serializer())
+			.registerTypeHierarchyAdapter(PartsData.class, new ClientPartsDataSerializer())
+			.registerTypeHierarchyAdapter(IPartInfo.class, new ClientPartInfoSerializer())
+			.registerTypeAdapter(LibraryEntryData.class, new LibraryEntryDataSerializer())
 			.create();
 
 	private static ClientPartsData localPartsData = ClientPartsData.EMPTY;

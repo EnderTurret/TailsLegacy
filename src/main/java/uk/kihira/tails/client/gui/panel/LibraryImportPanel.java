@@ -35,12 +35,12 @@ import net.neoforged.neoforge.common.UsernameCache;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
-import uk.kihira.tails.client.part.ClientPartsData;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.toast.ToastManager;
-import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.part.PartsData;
+import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.client.part.ClientPartsData;
+import uk.kihira.tails.common2.part.PartsData;
 import uk.kihira.tails.mixin.client.MinecraftAccess;
 
 @Internal

@@ -17,8 +17,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
-import uk.kihira.tails.client.part.PartRegistry;
+import uk.kihira.tails.client.part.PartLoadingManagerImpl;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.client.part.PartRegistry;
 
 public final class TailsKeybinds {
 
@@ -33,7 +34,7 @@ public final class TailsKeybinds {
 
 		if (RELOAD_PARTS.consumeClick() || RELOAD_PARTS.matches(e.getKey(), e.getScanCode())) {
 			Tails.LOGGER.info("Reloading all parts!");
-			PartRegistry.MANAGER.onResourceManagerReload(Minecraft.getInstance().getResourceManager());
+			((PartLoadingManagerImpl) PartRegistry.MANAGER).onResourceManagerReload(Minecraft.getInstance().getResourceManager());
 		}
 	}
 }

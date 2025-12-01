@@ -30,26 +30,25 @@ public final class FakeEntityRenderHelper implements IRenderHelper {
 
 		final Part part = ctx.info().getPart();
 		switch (part.getAttachment().id()) {
-			case "body/tail" -> {
+			case "body/tail":
 				ctx.poseStack().t$translate(0, 0.65, 0);
 				ctx.poseStack().t$scale(0.9F, 0.9F, 0.9F);
-			}
-			case "body/back" -> {
+				break;
+			case "body/back":
 				ctx.poseStack().t$translate(0, 0.9, 0);
 				ctx.poseStack().t$scale(0.6F, 0.6F, 0.6F);
-			}
-			case "head/face" -> {
+				break;
+			case "head/face":
 				ctx.poseStack().t$translate(0.2, 1.25, 0);
 				ctx.poseStack().t$rotateY(TailsMath.PI);
 				ctx.poseStack().t$rotateY(-45F * TailsMath.DEG_TO_RAD);
 				ctx.poseStack().t$rotateX(25F * TailsMath.DEG_TO_RAD);
-			}
-			default -> {
+				break;
+			default:
 				if ("head".equals(part.getAttachment().root().id())) {
 					ctx.poseStack().t$rotateY(TailsMath.PI);
 					ctx.poseStack().t$translate(0, 1.4, 0);
 				}
-			}
 		}
 
 		if (renderer.modelPart != null)

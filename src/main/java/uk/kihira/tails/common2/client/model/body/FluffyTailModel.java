@@ -36,20 +36,20 @@ final class FluffyTailModel extends PartModel {
 		if (entity.t$isPassenger()) {
 			switch (subtype) {
 				// Fox Tail
-				case 0 -> {
+				case 0:
 					xAngleOffset = rad(22);
 					yAngleMultiplier = 0.5F;
-				}
+					break;
 				// Twin Tails
-				case 1 -> {
+				case 1:
 					xAngleOffset = rad(20);
 					yAngleMultiplier = 0.5F;
-				}
+					break;
 				// Nine Tails
-				case 2 -> {
+				case 2:
 					xAngleOffset = rad(15);
 					yAngleMultiplier = 0.75F;
-				}
+					break;
 			}
 		} else {
 			final double[] angles = getMotionAngles(entity, partialTick);
@@ -59,16 +59,16 @@ final class FluffyTailModel extends PartModel {
 
 			switch (subtype) {
 				// Fox Tail; Twin Tails
-				case 0, 1 -> {
+				case 0, 1:
 					xAngleOffset = TailsMath.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
 					zAngleOffset = TailsMath.clamp(zAngleOffset, -0.5D, 0.5D);
-				}
+					break;
 				// Nine tails
-				case 2 -> {
+				case 2:
 					zAngleOffset = TailsMath.clamp(zAngleOffset * 0.5D, -1D, 0.5D);
 					xAngleOffset = TailsMath.clamp(xAngleOffset * 0.25D, -1D, 0.2D);
 					xAngleOffset += TailsMath.cos(timestep + xOffset) / 30F;
-				}
+					break;
 			}
 			yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running
 		}

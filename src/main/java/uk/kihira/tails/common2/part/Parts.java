@@ -28,41 +28,38 @@ public final class Parts {
 	 * @return The part renderer.
 	 */
 	public static TResourceLocation byLegacyId(String partType, int index) {
-		return switch (partType) {
-		case "tail" -> {
-			yield switch (index) {
-			case 0 -> id("tail/fluffy_tail");
-			case 1 -> id("tail/dragon_tail");
-			case 2 -> id("tail/raccoon_tail");
-			case 3 -> id("tail/devil_tail");
-			case 4 -> id("tail/cat_tail");
-			case 5 -> id("tail/bird_tail");
-			case 6 -> id("tail/shark_tail");
-			case 7 -> id("tail/bunny_tail");
-			default -> id("tail/fluffy_tail");
-			};
+		switch (partType) {
+			case "tail":
+				switch (index) {
+					case 0: return id("tail/fluffy_tail");
+					case 1: return id("tail/dragon_tail");
+					case 2: return id("tail/raccoon_tail");
+					case 3: return id("tail/devil_tail");
+					case 4: return id("tail/cat_tail");
+					case 5: return id("tail/bird_tail");
+					case 6: return id("tail/shark_tail");
+					case 7: return id("tail/bunny_tail");
+					default: return id("tail/fluffy_tail");
+				}
+			case "ears":
+				switch (index) {
+					case 0: return id("ears/fox_ears");
+					case 1: return id("ears/cat_ears");
+					case 2: return id("ears/panda_ears");
+					case 3: return id("ears/small_cat_ears");
+					case 4: return id("ears/sea_pickle");
+					default: return id("ears/fox_ears");
+				}
+			case "muzzle":
+				switch (index) {
+					case 0: return id("muzzle/standard_muzzle");
+					case 1: return id("muzzle/slim_muzzle");
+					case 2: return id("muzzle/thin_muzzle");
+					default: return id("muzzle/standard_muzzle");
+				}
+			case "wings": return id("wings/big_wings");
+			default: throw new IllegalArgumentException("Unhandled part type: " + partType);
 		}
-		case "ears" -> {
-			yield switch (index) {
-			case 0 -> id("ears/fox_ears");
-			case 1 -> id("ears/cat_ears");
-			case 2 -> id("ears/panda_ears");
-			case 3 -> id("ears/small_cat_ears");
-			case 4 -> id("ears/sea_pickle");
-			default -> id("ears/fox_ears");
-			};
-		}
-		case "muzzle" -> {
-			yield switch (index) {
-			case 0 -> id("muzzle/standard_muzzle");
-			case 1 -> id("muzzle/slim_muzzle");
-			case 2 -> id("muzzle/thin_muzzle");
-			default -> id("muzzle/standard_muzzle");
-			};
-		}
-		case "wings" -> id("wings/big_wings");
-		default -> throw new IllegalArgumentException("Unhandled part type: " + partType);
-		};
 	}
 
 	private static final Map<String, String> REMAP = new HashMap<>();
@@ -112,17 +109,17 @@ public final class Parts {
 	 * @return The named subtype id.
 	 */
 	public static String legacySubType(TResourceLocation id, int subType) {
-		return switch (id.toString()) {
-		case "tails:tail/fluffy_tail" -> map(subType, "one_tail", "two_tails", "nine_tails");
-		case "tails:tail/dragon_tail" -> map(subType, "lizard_tail", "dragon_tail");
-		case "tails:tail/devil_tail" -> map(subType, "with_tip", "no_tip");
-		case "tails:ears/fox_ears" -> map(subType, "outward", "inward");
-		case "tails:muzzle/slim_muzzle" -> map(subType, "very_short", "short", "standard", "long", "very_long");
-		case "tails:muzzle/standard_muzzle" -> map(subType, "very_short", "short", "standard", "long", "very_long");
-		case "tails:muzzle/thin_muzzle" -> map(subType, "very_short", "short", "standard", "long", "very_long");
-		case "tails:wings/big_wings" -> map(subType, "large", "small");
-		default -> "standard";
-		};
+		switch (id.toString()) {
+			case "tails:tail/fluffy_tail": return map(subType, "one_tail", "two_tails", "nine_tails");
+			case "tails:tail/dragon_tail": return map(subType, "lizard_tail", "dragon_tail");
+			case "tails:tail/devil_tail": return map(subType, "with_tip", "no_tip");
+			case "tails:ears/fox_ears": return map(subType, "outward", "inward");
+			case "tails:muzzle/slim_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
+			case "tails:muzzle/standard_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
+			case "tails:muzzle/thin_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
+			case "tails:wings/big_wings": return map(subType, "large", "small");
+			default: return "standard";
+		}
 	}
 
 	/**
@@ -132,15 +129,15 @@ public final class Parts {
 	 * @return The named texture id.
 	 */
 	public static String legacyTexture(TResourceLocation id, int texture) {
-		return switch (id.toString()) {
-		case "tails:tail/dragon_tail" -> map(texture, "standard", "striped");
-		case "tails:tail/cat_tail" -> map(texture, "tabby", "tiger");
-		case "tails:muzzle/slim_muzzle" -> map(texture, "standard", "alt");
-		case "tails:muzzle/standard_muzzle" -> map(texture, "standard", "alt");
-		case "tails:muzzle/thin_muzzle" -> map(texture, "standard", "alt");
-		case "tails:wings/big_wings" -> map(texture, "metal", "dragon", "dragon_boneless");
-		default -> "standard";
-		};
+		switch (id.toString()) {
+			case "tails:tail/dragon_tail": return map(texture, "standard", "striped");
+			case "tails:tail/cat_tail": return map(texture, "tabby", "tiger");
+			case "tails:muzzle/slim_muzzle": return map(texture, "standard", "alt");
+			case "tails:muzzle/standard_muzzle": return map(texture, "standard", "alt");
+			case "tails:muzzle/thin_muzzle": return map(texture, "standard", "alt");
+			case "tails:wings/big_wings": return map(texture, "metal", "dragon", "dragon_boneless");
+			default: return "standard";
+		}
 	}
 
 	/**

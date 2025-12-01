@@ -46,11 +46,11 @@ public final class MuzzleModel extends PartModel {
 		ctx.poseStack().t$translate(0, -0.001D, 0);
 
 		switch (ctx.info().getSubType().id()) {
-			case "very_short" -> ctx.poseStack().t$translate(0, 0, 4 / 16D);
-			case "short" -> ctx.poseStack().t$translate(0, 0, 3 / 16D);
-			case "standard" -> ctx.poseStack().t$translate(0, 0, 2 / 16D);
-			case "long" -> ctx.poseStack().t$translate(0, 0, 1 / 16D);
-			case "very_long" -> {}
+			case "very_short": ctx.poseStack().t$translate(0, 0, 4 / 16D); break;
+			case "short": ctx.poseStack().t$translate(0, 0, 3 / 16D); break;
+			case "standard": ctx.poseStack().t$translate(0, 0, 2 / 16D); break;
+			case "long": ctx.poseStack().t$translate(0, 0, 1 / 16D); break;
+			case "very_long": break;
 		}
 
 		ctx.render(root);

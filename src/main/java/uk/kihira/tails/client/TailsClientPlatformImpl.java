@@ -64,7 +64,8 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public void registerTripleTintTexture(TResourceLocation id, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints) {
 		Minecraft.getInstance().getTextureManager().register((ResourceLocation) (Object) id, new TripleTintTexture(
-				part.getId().t$getNamespace(), texture.path(), tints[0], tints[1], tints[2], texture.tintingStrategy()
+				(ResourceLocation) (Object) part.getId().t$withPath(texture.path()),
+				tints[0], tints[1], tints[2], texture.tintingStrategy()
 				));
 	}
 

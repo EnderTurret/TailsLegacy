@@ -53,6 +53,7 @@ public final class LibraryImportPanel extends Panel<EditorScreen> implements Bas
 
 	@Override
 	public void importPartsData(LibraryEntryData entry) {
+		inputField.setValue("");
 		parent.getLibraryPanel().libraryChanged = true;
 		parent.getLibraryPanel().initList();
 	}

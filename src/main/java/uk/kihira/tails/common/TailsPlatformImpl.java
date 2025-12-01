@@ -36,4 +36,14 @@ public final class TailsPlatformImpl implements TailsPlatform {
 	public UUID randomUUID() {
 		return Mth.createInsecureUUID();
 	}
+
+	@Override
+	public float lookupSin(float angle) {
+		return Mth.sin(angle);
+	}
+
+	@Override
+	public float lookupCos(float angle) {
+		return Mth.cos(angle);
+	}
 }

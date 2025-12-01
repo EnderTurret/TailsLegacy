@@ -9,8 +9,7 @@
 
 package uk.kihira.tails.common2.client.model.body;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.PartModel;
@@ -40,15 +39,15 @@ final class RaccoonTailModel extends PartModel {
 			zAngleOffset = angles[2];
 			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 
-			xAngleOffset = Mth.clamp(xAngleOffset * 0.6, -1, 0.45);
-			zAngleOffset = Mth.clamp(zAngleOffset * 0.5, -0.5, 0.5);
+			xAngleOffset = TailsMath.clamp(xAngleOffset * 0.6, -1, 0.45);
+			zAngleOffset = TailsMath.clamp(zAngleOffset * 0.5, -0.5, 0.5);
 		}
 
 		final TailsModelPart tailBase = model.t$getChild("tailBase");
 		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
 		final TailsModelPart tail2 = tail1.t$getChild("tail2");
-		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
-		setRotationRadians(tail1, rad(-40) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
-		setRotationRadians(tail2, rad(-30) + xAngleOffset, (-zAngleOffset + Mth.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
+		setRotationRadians(tailBase, xAngleOffset, (-zAngleOffset + TailsMath.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
+		setRotationRadians(tail1, rad(-40) + xAngleOffset, (-zAngleOffset + TailsMath.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
+		setRotationRadians(tail2, rad(-30) + xAngleOffset, (-zAngleOffset + TailsMath.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
 	}
 }

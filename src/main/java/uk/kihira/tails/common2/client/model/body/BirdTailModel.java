@@ -9,8 +9,7 @@
 
 package uk.kihira.tails.common2.client.model.body;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.PartModel;
@@ -35,10 +34,10 @@ final class BirdTailModel extends PartModel {
 			xAngleOffset = angles[0];
 			zAngleOffset = angles[2];
 
-			xAngleOffset -= Mth.cos(timestep - 1) / 15F;
-			zAngleOffset -= Mth.cos(timestep - 1) / 25F;
-			xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
-			zAngleOffset = Mth.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
+			xAngleOffset -= TailsMath.cos(timestep - 1) / 15F;
+			zAngleOffset -= TailsMath.cos(timestep - 1) / 25F;
+			xAngleOffset = TailsMath.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
+			zAngleOffset = TailsMath.clamp(zAngleOffset * 0.5D, -0.5D, 0.5D);
 		}
 
 		final TailsModelPart center = model.t$getChild("center");

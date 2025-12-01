@@ -16,12 +16,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.common.TailsConfig;
+import uk.kihira.tails.common2.TailsMath;
 
 @Internal
 public final class PreviewPanel extends Panel<EditorScreen> {
@@ -86,7 +86,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
 		zoom += scrollY * .1;
-		zoom = Mth.clamp(zoom, 1F, 3F);
+		zoom = TailsMath.clamp(zoom, 1F, 3F);
 		return true;
 	}
 
@@ -99,7 +99,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 			// Pitch
 			if (prevMouseY != -1) {
 				pitch -= (mouseY - prevMouseY) * 0.05F;
-				pitch = Mth.clamp(pitch, 4.8F, 13F);
+				pitch = TailsMath.clamp(pitch, 4.8F, 13F);
 			}
 
 			prevMouseX = mouseX;

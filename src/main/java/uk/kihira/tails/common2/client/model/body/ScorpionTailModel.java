@@ -8,8 +8,7 @@
 
 package uk.kihira.tails.common2.client.model.body;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.PartModel;
@@ -27,7 +26,7 @@ final class ScorpionTailModel extends PartModel {
 		} else {
 			final double[] angles = getMotionAngles(entity, partialTick);
 
-			xAngleOffset = Mth.clamp(angles[0] / 8, -0.1, 0.1);
+			xAngleOffset = TailsMath.clamp(angles[0] / 8, -0.1, 0.1);
 			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 		}
 
@@ -38,7 +37,7 @@ final class ScorpionTailModel extends PartModel {
 
 		setRotationRadians(tailBase,
 				tailBase.t$getInitialXRot() - 0.15 - xAngleOffset * 2,
-				Mth.cos(timestep1 - 1) / 12 * yAngleMultiplier,
-				Mth.cos(timestep2 - 2) / 12 * yAngleMultiplier);
+				TailsMath.cos(timestep1 - 1) / 12 * yAngleMultiplier,
+				TailsMath.cos(timestep2 - 2) / 12 * yAngleMultiplier);
 	}
 }

@@ -9,8 +9,7 @@
 
 package uk.kihira.tails.common2.client.model.body;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.PartModel;
@@ -33,7 +32,7 @@ final class CatTailModel extends PartModel {
 		} else {
 			final double[] angles = getMotionAngles(entity, partialTick);
 
-			xAngleOffset = Mth.clamp(angles[0] / 3.5, -1F, 0.33);
+			xAngleOffset = TailsMath.clamp(angles[0] / 3.5, -1F, 0.33);
 			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 		}
 
@@ -43,11 +42,11 @@ final class CatTailModel extends PartModel {
 		final TailsModelPart tail3 = tail2.t$getChild("tail3");
 		final TailsModelPart tail4 = tail3.t$getChild("tail4");
 		final TailsModelPart tail5 = tail4.t$getChild("tail5");
-		setRotationRadians(tailBase, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 1) / 8 * yAngleMultiplier, 0);
-		setRotationRadians(tail1, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 2) / 8 * yAngleMultiplier, 0);
-		setRotationRadians(tail2, rad(-30) + xAngleOffset * 2, Mth.cos(seed - 3) / 8 * yAngleMultiplier, Mth.cos(xseed - 3) / 16);
-		setRotationRadians(tail3, rad(20) - xAngleOffset * 2 + Mth.cos(xseed - 4) / 8, Mth.cos(seed - 4) / 8 * yAngleMultiplier, Mth.cos(xseed - 4) / 8);
-		setRotationRadians(tail4, rad(50) - xAngleOffset * 2.5 + Mth.cos(xseed - 5) / 10, Mth.cos(seed - 5) / 8 * yAngleMultiplier, Mth.cos(xseed - 5) / 8);
-		setRotationRadians(tail5, rad(50) - xAngleOffset * 3 + Mth.cos(xseed - 6) / 10, Mth.cos(seed - 6) / 8 * yAngleMultiplier, Mth.cos(xseed - 6) / 8);
+		setRotationRadians(tailBase, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 1) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail1, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 2) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail2, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 3) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 3) / 16);
+		setRotationRadians(tail3, rad(20) - xAngleOffset * 2 + TailsMath.cos(xseed - 4) / 8, TailsMath.cos(seed - 4) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 4) / 8);
+		setRotationRadians(tail4, rad(50) - xAngleOffset * 2.5 + TailsMath.cos(xseed - 5) / 10, TailsMath.cos(seed - 5) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 5) / 8);
+		setRotationRadians(tail5, rad(50) - xAngleOffset * 3 + TailsMath.cos(xseed - 6) / 10, TailsMath.cos(seed - 6) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 6) / 8);
 	}
 }

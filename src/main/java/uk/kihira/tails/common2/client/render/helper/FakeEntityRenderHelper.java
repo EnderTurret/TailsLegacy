@@ -11,9 +11,8 @@ package uk.kihira.tails.common2.client.render.helper;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.util.Mth;
-
 import uk.kihira.tails.client.render.BotaniaFoxtatoRenderer;
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.api.IRenderHelper;
 import uk.kihira.tails.common2.client.part.Part;
 import uk.kihira.tails.common2.client.render.RenderContext;
@@ -41,13 +40,13 @@ public final class FakeEntityRenderHelper implements IRenderHelper {
 			}
 			case "head/face" -> {
 				ctx.poseStack().t$translate(0.2, 1.25, 0);
-				ctx.poseStack().t$rotateY(Mth.PI);
-				ctx.poseStack().t$rotateY(-45F * Mth.DEG_TO_RAD);
-				ctx.poseStack().t$rotateX(25F * Mth.DEG_TO_RAD);
+				ctx.poseStack().t$rotateY(TailsMath.PI);
+				ctx.poseStack().t$rotateY(-45F * TailsMath.DEG_TO_RAD);
+				ctx.poseStack().t$rotateX(25F * TailsMath.DEG_TO_RAD);
 			}
 			default -> {
 				if ("head".equals(part.getAttachment().root().id())) {
-					ctx.poseStack().t$rotateY(Mth.PI);
+					ctx.poseStack().t$rotateY(TailsMath.PI);
 					ctx.poseStack().t$translate(0, 1.4, 0);
 				}
 			}

@@ -11,7 +11,6 @@ package uk.kihira.tails.client.texture;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.jetbrains.annotations.ApiStatus.Internal;

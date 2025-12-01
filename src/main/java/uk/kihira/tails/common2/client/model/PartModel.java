@@ -11,9 +11,8 @@ package uk.kihira.tails.common2.client.model;
 
 import java.util.List;
 
-import net.minecraft.util.Mth;
-
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.duck.TailsPoseStack;
@@ -152,22 +151,22 @@ public abstract class PartModel {
 		// TODO: When falling a large distance, tails tend to move wildly up and down.
 		// This seems to be caused by yCloakO and yCloak being set to Y when the difference between them is greater than 10.
 		// See Player.moveCloak() for details.
-		final double xMotion = Mth.lerp(partialTick, player.t$xCloakO(), player.t$xCloak()) - Mth.lerp(partialTick, player.t$xO(), player.t$x());
-		final double yMotion = Mth.lerp(partialTick, player.t$yCloakO(), player.t$yCloak()) - Mth.lerp(partialTick, player.t$yO(), player.t$y()); // Positive when falling, negative when climbing
-		final double zMotion = Mth.lerp(partialTick, player.t$zCloakO(), player.t$zCloak()) - Mth.lerp(partialTick, player.t$zO(), player.t$z());
+		final double xMotion = TailsMath.lerp(partialTick, player.t$xCloakO(), player.t$xCloak()) - TailsMath.lerp(partialTick, player.t$xO(), player.t$x());
+		final double yMotion = TailsMath.lerp(partialTick, player.t$yCloakO(), player.t$yCloak()) - TailsMath.lerp(partialTick, player.t$yO(), player.t$y()); // Positive when falling, negative when climbing
+		final double zMotion = TailsMath.lerp(partialTick, player.t$zCloakO(), player.t$zCloak()) - TailsMath.lerp(partialTick, player.t$zO(), player.t$z());
 
-		final float bodyYaw = Mth.rotLerp(partialTick, player.t$yBodyRotO(), player.t$yBodyRot());
+		final float bodyYaw = TailsMath.rotLerp(partialTick, player.t$yBodyRotO(), player.t$yBodyRot());
 		// Pretty sure renderYawOffset is actually the way the body is "pointing"
 		// In degrees, not bound 0-360, be warned!
 		final float bodyYawRads = radf(bodyYaw);
-		final double bodyYawSin = Mth.sin(bodyYawRads);
-		final double bodyYawCos = -Mth.cos(bodyYawRads);
+		final double bodyYawSin = TailsMath.sin(bodyYawRads);
+		final double bodyYawCos = -TailsMath.cos(bodyYawRads);
 
-		final float xOffset = Mth.clamp((float) yMotion * 10F, -6F, 32F);
+		final float xOffset = TailsMath.clamp((float) yMotion * 10F, -6F, 32F);
 		float forwardMotion = (float)(xMotion * bodyYawSin + zMotion * bodyYawCos) * 100F;
-		forwardMotion = Mth.clamp(forwardMotion, 0, 150);
+		forwardMotion = TailsMath.clamp(forwardMotion, 0, 150);
 		float sideMotion = (float)(xMotion * bodyYawCos - zMotion * bodyYawSin) * 100F;
-		sideMotion = Mth.clamp(sideMotion, -20, 20);
+		sideMotion = TailsMath.clamp(sideMotion, -20, 20);
 
 		if (forwardMotion < 0F) forwardMotion = 0F;
 
@@ -179,7 +178,7 @@ public abstract class PartModel {
 	}
 
 	protected static float getTailBob(TailsEntity player, float partialTick) {
-		final float cameraYaw = Mth.lerp(partialTick, player.t$bobO(), player.t$bob());
-		return Mth.sin(Mth.lerp(partialTick, player.t$walkDistanceO(), player.t$walkDistance()) * 6) * 12 * cameraYaw;
+		final float cameraYaw = TailsMath.lerp(partialTick, player.t$bobO(), player.t$bob());
+		return TailsMath.sin(TailsMath.lerp(partialTick, player.t$walkDistanceO(), player.t$walkDistance()) * 6) * 12 * cameraYaw;
 	}
 }

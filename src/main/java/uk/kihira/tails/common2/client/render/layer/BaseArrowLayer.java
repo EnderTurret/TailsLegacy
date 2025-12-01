@@ -6,8 +6,7 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsBufferSource;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
@@ -79,9 +78,9 @@ public interface BaseArrowLayer {
 			float xOffset = rand.t$nextFloat();
 			float yOffset = rand.t$nextFloat();
 			float zOffset = rand.t$nextFloat();
-			final float x = Mth.lerp(xOffset, cube.minX, cube.maxX) / 16F;
-			final float y = Mth.lerp(yOffset, cube.minY, cube.maxY) / 16F;
-			final float z = Mth.lerp(zOffset, cube.minZ, cube.maxZ) / 16F;
+			final float x = TailsMath.lerp(xOffset, cube.minX, cube.maxX) / 16F;
+			final float y = TailsMath.lerp(yOffset, cube.minY, cube.maxY) / 16F;
+			final float z = TailsMath.lerp(zOffset, cube.minZ, cube.maxZ) / 16F;
 
 			poseStack.t$translate(x, y, z);
 

@@ -9,8 +9,7 @@
 
 package uk.kihira.tails.common2.client.model.body;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.PartModel;
@@ -37,7 +36,7 @@ final class DragonTailModel extends PartModel {
 		} else {
 			final double[] angles = getMotionAngles(entity, partialTick);
 
-			xAngleOffset = Mth.clamp(angles[0] / 5, -1, 0.45);
+			xAngleOffset = TailsMath.clamp(angles[0] / 5, -1, 0.45);
 			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 		}
 
@@ -47,10 +46,10 @@ final class DragonTailModel extends PartModel {
 		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
 		final TailsModelPart tail2 = tail1.t$getChild("tail2");
 		final TailsModelPart tail3 = tail2.t$getChild("tail3");
-		setRotationRadians(tailBase, rad(-40) + xAngleOffset * 2,                                  Mth.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail1,    rad(-8)  + xAngleOffset * 2,                                  Mth.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail2,    rad(10)  - xAngleOffset / 4,                                  Mth.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail3,    rad(20)  + (xAngleOffset < 0 ? xAngleOffset : -xAngleOffset), Mth.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tailBase, rad(-40) + xAngleOffset * 2,                                  TailsMath.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail1,    rad(-8)  + xAngleOffset * 2,                                  TailsMath.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail2,    rad(10)  - xAngleOffset / 4,                                  TailsMath.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
+		setRotationRadians(tail3,    rad(20)  + (xAngleOffset < 0 ? xAngleOffset : -xAngleOffset), TailsMath.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 
 		final TailsModelPart tailSubBase = model.t$getChild("tailSubBase");
 		final TailsModelPart tailSub1 = tailSubBase.t$getChild("tailSub1");

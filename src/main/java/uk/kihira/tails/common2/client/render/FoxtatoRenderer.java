@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.FakeTailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsBufferSource;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
@@ -41,7 +40,7 @@ public final class FoxtatoRenderer {
 		parts.get(0).getRenderer().render(poseStack, fakeEntity, null, parts.get(0), buffers, x, y, z, partialTicks, packedLight, packedOverlay, 0xFF);
 
 		poseStack.t$translate(0, -0.7, -0.3F);
-		poseStack.t$rotateY(Mth.PI);
+		poseStack.t$rotateY(TailsMath.PI);
 
 		parts.get(1).getRenderer().render(poseStack, fakeEntity, null, parts.get(1), buffers, x, y, z, partialTicks, packedLight, packedOverlay, 0xFF);
 

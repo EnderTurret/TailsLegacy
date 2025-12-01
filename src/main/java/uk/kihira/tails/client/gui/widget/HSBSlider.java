@@ -20,10 +20,10 @@ import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.util.Mth;
 
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.common.Tails;
+import uk.kihira.tails.common2.TailsMath;
 
 /**
  * A specialized version of the {@link AbstractSliderButton} for {@code HSB} and {@code RGB} values.
@@ -79,7 +79,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	 * @param value New value
 	 */
 	public void setValue(double value) { // Copied from setSliderValue (private)
-		this.value = Mth.clamp(value, 0D, 1D);
+		this.value = TailsMath.clamp(value, 0D, 1D);
 
 		updateMessage();
 	}

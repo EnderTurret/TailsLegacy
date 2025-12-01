@@ -25,4 +25,7 @@ public interface TailsPlatform {
 	public TResourceLocation parseResourceLocation(String rl);
 
 	public UUID randomUUID();
+
+	public float lookupSin(float angle);
+	public float lookupCos(float angle);
 }

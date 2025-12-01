@@ -27,7 +27,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 
 import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.HSBSlider;
@@ -35,6 +34,7 @@ import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.client.gui.widget.SaturationSlider;
 import uk.kihira.tails.common2.JavaColor;
+import uk.kihira.tails.common2.TailsMath;
 
 @Internal
 public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSliderCallback {
@@ -203,9 +203,9 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 		if (source == red || source == green || source == blue)
 			newTint = new Color(
-					(int) Mth.clamp(red.getValue() * 255F, 0, 255),
-					(int) Mth.clamp(green.getValue() * 255F, 0, 255),
-					(int) Mth.clamp(blue.getValue() * 255F, 0, 255)).getRGB();
+					(int) TailsMath.clamp(red.getValue() * 255F, 0, 255),
+					(int) TailsMath.clamp(green.getValue() * 255F, 0, 255),
+					(int) TailsMath.clamp(blue.getValue() * 255F, 0, 255)).getRGB();
 
 		else {
 			final float[] hsbvals = {(float) hue.getValue(), (float) saturation.getValue(), (float) brightness.getValue()};

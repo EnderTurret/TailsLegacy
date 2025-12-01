@@ -13,8 +13,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.PartConfiguration;
@@ -61,14 +60,14 @@ final class FluffyTailModel extends PartModel {
 			switch (subtype) {
 				// Fox Tail; Twin Tails
 				case 0, 1 -> {
-					xAngleOffset = Mth.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
-					zAngleOffset = Mth.clamp(zAngleOffset, -0.5D, 0.5D);
+					xAngleOffset = TailsMath.clamp(xAngleOffset * 0.6D, -1D, 0.45D);
+					zAngleOffset = TailsMath.clamp(zAngleOffset, -0.5D, 0.5D);
 				}
 				// Nine tails
 				case 2 -> {
-					zAngleOffset = Mth.clamp(zAngleOffset * 0.5D, -1D, 0.5D);
-					xAngleOffset = Mth.clamp(xAngleOffset * 0.25D, -1D, 0.2D);
-					xAngleOffset += Mth.cos(timestep + xOffset) / 30F;
+					zAngleOffset = TailsMath.clamp(zAngleOffset * 0.5D, -1D, 0.5D);
+					xAngleOffset = TailsMath.clamp(xAngleOffset * 0.25D, -1D, 0.2D);
+					xAngleOffset += TailsMath.cos(timestep + xOffset) / 30F;
 				}
 			}
 			yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running
@@ -76,22 +75,22 @@ final class FluffyTailModel extends PartModel {
 
 		if (tailBase == null) return;
 
-		setRotationRadians(tailBase, xAngle + xAngleOffset, (-zAngleOffset / 2F + yAngle + Mth.cos(timestep + yOffset) / 8F) * yAngleMultiplier + yAngleOffset, -zAngleOffset / 8F);
+		setRotationRadians(tailBase, xAngle + xAngleOffset, (-zAngleOffset / 2F + yAngle + TailsMath.cos(timestep + yOffset) / 8F) * yAngleMultiplier + yAngleOffset, -zAngleOffset / 8F);
 
 		if (tail1 == null) tail1 = tailBase.t$getChild("tail1");
-		setRotationRadians(tail1, -0.2617993877991494 + xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + Mth.cos(timestep - 1 + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
+		setRotationRadians(tail1, -0.2617993877991494 + xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + TailsMath.cos(timestep - 1 + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
 
 		if (tail2 == null) tail2 = tail1.t$getChild("tail2");
-		setRotationRadians(tail2, -0.2617993877991494 + xAngleOffset / 2F, (-zAngleOffset / 2F + Mth.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
+		setRotationRadians(tail2, -0.2617993877991494 + xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
 
 		if (tail3 == null) tail3 = tail2.t$getChild("tail3");
-		setRotationRadians(tail3, -0.4363323129985824 + xAngleOffset / 2F, (-zAngleOffset / 2F + Mth.cos(timestep - 2 + yOffset) / 20F) * yAngleMultiplier, -zAngleOffset / 20F);
+		setRotationRadians(tail3, -0.4363323129985824 + xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 2 + yOffset) / 20F) * yAngleMultiplier, -zAngleOffset / 20F);
 
 		if (tail4 == null) tail4 = tail3.t$getChild("tail4");
-		setRotationRadians(tail4, 0.2617993877991494 - xAngleOffset / 2F, (-zAngleOffset / 2F + Mth.cos(timestep - 3 + yOffset) / 8F) * yAngleMultiplier, 0F);
+		setRotationRadians(tail4, 0.2617993877991494 - xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 3 + yOffset) / 8F) * yAngleMultiplier, 0F);
 
 		if (tail5 == null) tail5 = tail4.t$getChild("tail5");
-		setRotationRadians(tail5, 0.2617993877991494 - xAngleOffset / 2.5F, (-zAngleOffset / 2F + Mth.cos(timestep - 4 + yOffset) / 8F) * yAngleMultiplier, 0F);
+		setRotationRadians(tail5, 0.2617993877991494 - xAngleOffset / 2.5F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 4 + yOffset) / 8F) * yAngleMultiplier, 0F);
 	}
 
 	@Override
@@ -109,14 +108,14 @@ final class FluffyTailModel extends PartModel {
 		if ("one_tail".equals(ctx.info().getSubType().id())) {
 			setRotationAngles(0, timestep, 1, 1, 0, 0, ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
 			ctx.poseStack().t$push();
-			ctx.poseStack().t$rotateX(-20F * Mth.DEG_TO_RAD);
+			ctx.poseStack().t$rotateX(-20F * TailsMath.DEG_TO_RAD);
 			ctx.render(model);
 			ctx.poseStack().t$pop();
 		}
 		else if ("two_tails".equals(ctx.info().getSubType().id())) {
 			setRotationAngles(1, timestep, 1, 1, 0, rad(40), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
 			ctx.poseStack().t$push();
-			ctx.poseStack().t$rotateX(-20F * Mth.DEG_TO_RAD);
+			ctx.poseStack().t$rotateX(-20F * TailsMath.DEG_TO_RAD);
 			ctx.render(model);
 
 			setRotationAngles(1, timestep, 1.4F, 0, 0, rad(-40), ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
@@ -172,15 +171,15 @@ final class FluffyTailModel extends PartModel {
 		if ("one_tail".equals(_info.getSubTypeId()))
 			return List.of(base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
 				setRotationAngles(0, getAnimationTime(4000F, entity), 1F, 1F, 0, 0, partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
-				poseStack.t$rotateX(-20F * Mth.DEG_TO_RAD);
+				poseStack.t$rotateX(-20F * TailsMath.DEG_TO_RAD);
 			}));
 
 		if ("two_tails".equals(_info.getSubTypeId()))
 			return List.of(base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
 				setRotationAngles(1, getAnimationTime(4000F, entity), 1F, 1F, 0F, rad(40), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
-				poseStack.t$rotateX(-20F * Mth.DEG_TO_RAD);
+				poseStack.t$rotateX(-20F * TailsMath.DEG_TO_RAD);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				poseStack.t$rotateX(-20F * Mth.DEG_TO_RAD);
+				poseStack.t$rotateX(-20F * TailsMath.DEG_TO_RAD);
 				setRotationAngles(1, getAnimationTime(4000F, entity), 1.4F, 0F, 0F, rad(-40), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}));
 

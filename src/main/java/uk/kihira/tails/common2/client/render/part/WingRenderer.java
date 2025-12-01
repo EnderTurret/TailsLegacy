@@ -9,8 +9,7 @@
 
 package uk.kihira.tails.common2.client.render.part;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 import uk.kihira.tails.common2.client.model.PartModel;
 import uk.kihira.tails.common2.client.render.RenderContext;
@@ -28,27 +27,27 @@ public final class WingRenderer extends PartRenderer {
 	protected void doRender(RenderContext ctx) {
 		final boolean isFlying = ctx.entity().t$isFlying();
 		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, ctx.entity());
-		final float angle = Mth.sin(timestep) * (isFlying ? 24F : 4F);
+		final float angle = TailsMath.sin(timestep) * (isFlying ? 24F : 4F);
 		final boolean small = "small".equals(ctx.info().getSubType().id());
 		final float scale = small ? 1F : 2F;
 
 		ctx.poseStack().t$push();
 
 		ctx.poseStack().t$translate(0, -(scale * 8F) * PartModel.SCALE + (small ? 0.1F : 0), 0.1F);
-		ctx.poseStack().t$rotateY(Mth.HALF_PI);
-		ctx.poseStack().t$rotateZ(Mth.HALF_PI);
+		ctx.poseStack().t$rotateY(TailsMath.HALF_PI);
+		ctx.poseStack().t$rotateZ(TailsMath.HALF_PI);
 		ctx.poseStack().t$scale(scale, scale, scale);
 		ctx.poseStack().t$translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
 
 		if (ctx.entity().t$isCrouching()) {
-			ctx.poseStack().t$rotateZ(35 * Mth.DEG_TO_RAD);
+			ctx.poseStack().t$rotateZ(35 * TailsMath.DEG_TO_RAD);
 			ctx.poseStack().t$translate(0, -0.3, 0);
 		}
 
 		ctx.poseStack().t$push();
 
 		ctx.poseStack().t$translate(0F, 0F, 1F * PartModel.SCALE);
-		ctx.poseStack().t$rotateX((30F - angle) * Mth.DEG_TO_RAD);
+		ctx.poseStack().t$rotateX((30F - angle) * TailsMath.DEG_TO_RAD);
 
 		final TailsPoseStack p = ctx.poseStack();
 
@@ -64,7 +63,7 @@ public final class WingRenderer extends PartRenderer {
 		// TODO: Why is this here? It causes one of the wings to be off-center.
 		//ctx.poseStack().translate(0F, 0.3F * PartModel.SCALE, 0F);
 
-		ctx.poseStack().t$rotateX((-30F + angle) * Mth.DEG_TO_RAD);
+		ctx.poseStack().t$rotateX((-30F + angle) * TailsMath.DEG_TO_RAD);
 
 		ctx.buffer().t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
 		ctx.buffer().t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();

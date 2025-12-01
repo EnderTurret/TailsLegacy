@@ -11,8 +11,7 @@ package uk.kihira.tails.common2.client.part;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-import net.minecraft.util.Mth;
-
+import uk.kihira.tails.common2.TailsMath;
 import uk.kihira.tails.common2.client.duck.TailsPoseStack;
 
 public record Transformation(Vector3fc scale, Vector3fc offset, Vector3fc rotation) {
@@ -29,9 +28,9 @@ public record Transformation(Vector3fc scale, Vector3fc offset, Vector3fc rotati
 			pose.t$translate(offset.x(), offset.y(), offset.z());
 
 		if (!rotation.equals(ZERO_VECTOR)) {
-			pose.t$rotateX(rotation.x() * Mth.DEG_TO_RAD);
-			pose.t$rotateY(rotation.y() * Mth.DEG_TO_RAD);
-			pose.t$rotateZ(rotation.z() * Mth.DEG_TO_RAD);
+			pose.t$rotateX(rotation.x() * TailsMath.DEG_TO_RAD);
+			pose.t$rotateY(rotation.y() * TailsMath.DEG_TO_RAD);
+			pose.t$rotateZ(rotation.z() * TailsMath.DEG_TO_RAD);
 		}
 
 		if (!scale.equals(ZERO_VECTOR))

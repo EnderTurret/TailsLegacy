@@ -28,8 +28,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+
+import uk.kihira.tails.common2.TailsMath;
 
 /**
  * Various rendering-related utilities.
@@ -118,12 +119,12 @@ public final class RenderHelper {
 		entity.yHeadRotO = 0;
 		entity.setShiftKeyDown(false);
 
-		final Quaternionf pose = new Quaternionf().rotateZ(Mth.PI);
-		final Quaternionf cameraOrientation = new Quaternionf().rotateX(pitch * 20F * Mth.DEG_TO_RAD);
+		final Quaternionf pose = new Quaternionf().rotateZ(TailsMath.PI);
+		final Quaternionf cameraOrientation = new Quaternionf().rotateX(pitch * 20F * TailsMath.DEG_TO_RAD);
 		pose.mul(cameraOrientation);
 
-		pose.mul(new Quaternionf().rotateZ(Mth.PI));
-		pose.mul(new Quaternionf().rotateY(yaw * Mth.DEG_TO_RAD));
+		pose.mul(new Quaternionf().rotateZ(TailsMath.PI));
+		pose.mul(new Quaternionf().rotateY(yaw * TailsMath.DEG_TO_RAD));
 
 		gui.pose().pushPose();
 		gui.pose().translate(-100, 0, 0); // TODO: This shouldn't be necessary, but is.

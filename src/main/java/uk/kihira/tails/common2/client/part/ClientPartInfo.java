@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import uk.kihira.tails.client.PartRenderRegistry;
-import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.client.TextureHelper;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.part.PartRegistry.PartReference;
+import uk.kihira.tails.common2.client.render.PartRenderRegistry;
+import uk.kihira.tails.common2.client.render.part.PartRenderer;
 import uk.kihira.tails.common2.part.IPartInfo;
 import uk.kihira.tails.common2.part.ServerPartInfo;
 

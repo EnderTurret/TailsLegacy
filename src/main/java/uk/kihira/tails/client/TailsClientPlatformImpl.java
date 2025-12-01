@@ -7,14 +7,21 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 
+import net.neoforged.fml.ModLoader;
+
+import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.texture.TripleTintTexture;
+import uk.kihira.tails.common.ResourceManagerWrapperImpl;
 import uk.kihira.tails.common2.client.TailsClientPlatform;
+import uk.kihira.tails.common2.client.api.PartRendererRegistrar;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
 import uk.kihira.tails.common2.client.model.TailsCubeDefinition;
 import uk.kihira.tails.common2.client.model.TailsPartDefinition;
 import uk.kihira.tails.common2.client.part.Part;
+import uk.kihira.tails.common2.client.part.PartRegistry;
 import uk.kihira.tails.mixin.client.CubeDefinitionAccess;
 import uk.kihira.tails.mixin.client.PartDefinitionAccess;
 
@@ -66,5 +73,14 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		try {
 			Minecraft.getInstance().getTextureManager().release((ResourceLocation) (Object) id);
 		} catch (Exception ignored) {}
+	}
+
+	public static void reloadParts(ResourceManager manager) {
+		PartRegistry.MANAGER.reload(new ResourceManagerWrapperImpl(manager));
+	}
+
+	@Override
+	public void fireRegisterPartRenderersEvent(PartRendererRegistrar registrar) {
+		ModLoader.postEvent(new RegisterPartRenderersEvent(registrar));
 	}
 }

@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
-import uk.kihira.tails.client.PartRenderRegistry;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
+import uk.kihira.tails.common2.client.render.PartRenderRegistry;
 
 /**
  * Contains all of the parts read from the {@link PartLoadingManager}.
@@ -36,7 +36,7 @@ public final class PartRegistry {
 	private static final Map<TResourceLocation, Part> PART_REGISTRY = new TreeMap<>();
 	private static final Map<AttachmentPoint, List<Part>> BY_TYPE = new LinkedHashMap<>();
 
-	public static final PartLoadingManager MANAGER = TailsPlatform.get().createPartLoadingManager(PartRegistry::clear, PartRegistry::register);
+	public static final PartLoadingManager MANAGER = new PartLoadingManager(PartRegistry::clear, PartRegistry::register);
 
 	private static void clear() {
 		PART_REGISTRY.clear();

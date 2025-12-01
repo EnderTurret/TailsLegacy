@@ -36,7 +36,6 @@ import uk.kihira.tails.client.gui.EditorScreen;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.Spinner;
 import uk.kihira.tails.client.render.RenderStates;
-import uk.kihira.tails.client.render.part.PartRenderer;
 import uk.kihira.tails.common2.client.duck.TailsBuffer;
 import uk.kihira.tails.common2.client.duck.TailsBufferSource;
 import uk.kihira.tails.common2.client.duck.TailsEntity;
@@ -47,6 +46,7 @@ import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.Part;
 import uk.kihira.tails.common2.client.part.PartRegistry;
 import uk.kihira.tails.common2.client.part.RootAttachmentPoint;
+import uk.kihira.tails.common2.client.render.part.PartRenderer;
 import uk.kihira.tails.common2.part.ServerPartInfo;
 
 @Internal

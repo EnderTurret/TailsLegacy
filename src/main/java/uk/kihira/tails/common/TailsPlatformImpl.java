@@ -1,17 +1,9 @@
 package uk.kihira.tails.common;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
-
 import net.minecraft.resources.ResourceLocation;
 
-import uk.kihira.tails.client.part.PartLoadingManagerImpl;
 import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
-import uk.kihira.tails.common2.client.part.AttachmentPoint;
-import uk.kihira.tails.common2.client.part.Part;
-import uk.kihira.tails.common2.client.part.PartLoadingManager;
 
 public final class TailsPlatformImpl implements TailsPlatform {
 
@@ -26,11 +18,6 @@ public final class TailsPlatformImpl implements TailsPlatform {
 
 	@Override
 	public void logError(String msg) { Tails.LOGGER.error(msg); }
-
-	@Override
-	public PartLoadingManager createPartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<AttachmentPoint, List<TResourceLocation>>> onComplete) {
-		return new PartLoadingManagerImpl(clear, onComplete);
-	}
 
 	@Override
 	public TResourceLocation newResourceLocation(String path) {

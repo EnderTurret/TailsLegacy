@@ -56,14 +56,14 @@ import uk.kihira.tails.client.gui.panel.TintPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.client.render.FoxtatoRenderer;
-import uk.kihira.tails.client.render.helper.FakeEntityRenderHelper;
-import uk.kihira.tails.client.render.helper.PlayerRenderHelper;
-import uk.kihira.tails.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.client.render.layer.PartLayer;
 import uk.kihira.tails.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.ABGRColor;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common2.client.render.helper.FakeEntityRenderHelper;
+import uk.kihira.tails.common2.client.render.helper.PlayerRenderHelper;
+import uk.kihira.tails.common2.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.mixin.client.LivingEntityRendererAccess;
 
 /**
@@ -150,6 +150,7 @@ public final class ClientEventHandler {
 
 		@SubscribeEvent
 		static void addClientReloadListeners(RegisterClientReloadListenersEvent e) {
+			e.registerReloadListener((ResourceManagerReloadListener) TailsClientPlatformImpl::reloadParts);
 			e.registerReloadListener((ResourceManagerReloadListener) manager -> {
 				maybeDestroyCursor();
 				registerCursor(manager);

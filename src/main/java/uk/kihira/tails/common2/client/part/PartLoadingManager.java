@@ -31,12 +31,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
-import uk.kihira.tails.client.model.ModelSerializer;
 import uk.kihira.tails.client.part.LocalPartManager;
 import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
 import uk.kihira.tails.common2.client.duck.TailsModelPart;
+import uk.kihira.tails.common2.client.model.ModelSerializer;
 import uk.kihira.tails.common_gson.ResourceManagerWrapper;
 import uk.kihira.tails.common_gson.TailsGsonHelper;
 

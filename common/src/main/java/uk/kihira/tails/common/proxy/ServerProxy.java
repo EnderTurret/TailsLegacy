@@ -7,7 +7,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.neoforge.proxy;
+package uk.kihira.tails.common.proxy;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -21,7 +21,7 @@ import uk.kihira.tails.common.part.PlayerPartManager;
  * It's a server proxy alright.
  */
 @Internal
-public class ServerProxy implements IProxy {
+public final class ServerProxy implements IProxy {
 
 	private final IPlayerPartManager partManager = new PlayerPartManager();
 

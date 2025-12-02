@@ -7,7 +7,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.neoforge.proxy;
+package uk.kihira.tails.common.proxy;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -31,7 +31,7 @@ public interface IProxy {
 	@Internal
 	public static IProxy makeClientProxy() {
 		try {
-			return (IProxy) Class.forName("uk.kihira.tails.neoforge.proxy.client.ClientProxy").getDeclaredConstructor().newInstance();
+			return (IProxy) Class.forName("uk.kihira.tails.common.proxy.client.ClientProxy").getDeclaredConstructor().newInstance();
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}

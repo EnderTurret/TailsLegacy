@@ -7,7 +7,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.neoforge.proxy.client;
+package uk.kihira.tails.common.proxy.client;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import uk.kihira.tails.common.api.IPlayerPartManager;
 import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.common.client.part.LocalPartManager;
-import uk.kihira.tails.neoforge.proxy.IProxy;
+import uk.kihira.tails.common.proxy.IProxy;
 
 /**
  * <p>The client proxy, buried deep inside a random package so that the class loader will be unable to discover it.</p>

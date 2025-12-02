@@ -19,8 +19,8 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 
-import uk.kihira.tails.neoforge.proxy.IProxy;
-import uk.kihira.tails.neoforge.proxy.ServerProxy;
+import uk.kihira.tails.common.proxy.IProxy;
+import uk.kihira.tails.common.proxy.ServerProxy;
 
 /**
  * Look! It's the main mod file!

@@ -62,6 +62,7 @@ import uk.kihira.tails.common.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.panel.TintPanel;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
+import uk.kihira.tails.neoforge.client.platform.TailsClientPlatformImpl;
 import uk.kihira.tails.neoforge.client.render.BotaniaFoxtatoRenderer;
 import uk.kihira.tails.neoforge.client.render.layer.PartLayer;
 import uk.kihira.tails.neoforge.client.render.layer.TailsArrowLayer;

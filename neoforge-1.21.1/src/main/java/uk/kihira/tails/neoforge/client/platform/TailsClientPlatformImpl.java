@@ -1,4 +1,4 @@
-package uk.kihira.tails.neoforge.client;
+package uk.kihira.tails.neoforge.client.platform;
 
 import java.util.EnumSet;
 import java.util.UUID;
@@ -33,11 +33,12 @@ import uk.kihira.tails.common.client.model.TailsPartDefinition;
 import uk.kihira.tails.common.client.part.ClientPartsData;
 import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.common.client.part.PartRegistry;
+import uk.kihira.tails.neoforge.client.ClientLibraryManager;
 import uk.kihira.tails.neoforge.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.neoforge.client.texture.TripleTintTexture;
-import uk.kihira.tails.neoforge.common.ResourceManagerWrapperImpl;
 import uk.kihira.tails.neoforge.common.TailsConfig;
 import uk.kihira.tails.neoforge.common.network.C2SPlayerDataMessage;
+import uk.kihira.tails.neoforge.common.platform.ResourceManagerWrapperImpl;
 import uk.kihira.tails.neoforge.mixin.client.CubeDefinitionAccess;
 import uk.kihira.tails.neoforge.mixin.client.MinecraftAccess;
 import uk.kihira.tails.neoforge.mixin.client.PartDefinitionAccess;

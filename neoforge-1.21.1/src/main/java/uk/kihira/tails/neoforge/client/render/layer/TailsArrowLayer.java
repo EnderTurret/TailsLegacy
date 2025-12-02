@@ -31,7 +31,7 @@ import uk.kihira.tails.common.client.duck.TailsRandomSource;
 import uk.kihira.tails.common.client.model.PartConfiguration;
 import uk.kihira.tails.common.client.part.ClientPartsData;
 import uk.kihira.tails.common.client.render.layer.BaseArrowLayer;
-import uk.kihira.tails.neoforge.common.TailsRandomSourceImpl;
+import uk.kihira.tails.neoforge.common.platform.TailsRandomSourceImpl;
 
 /**
  * A specialized {@link ArrowLayer} for rendering arrows on Tails parts/accessories in addition to normal body parts.

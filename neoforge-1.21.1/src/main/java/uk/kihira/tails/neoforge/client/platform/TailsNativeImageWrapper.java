@@ -1,4 +1,4 @@
-package uk.kihira.tails.neoforge.client.texture;
+package uk.kihira.tails.neoforge.client.platform;
 
 import com.mojang.blaze3d.platform.NativeImage;
 

@@ -1,4 +1,4 @@
-package uk.kihira.tails.neoforge.common;
+package uk.kihira.tails.neoforge.common.platform;
 
 import net.minecraft.util.RandomSource;
 

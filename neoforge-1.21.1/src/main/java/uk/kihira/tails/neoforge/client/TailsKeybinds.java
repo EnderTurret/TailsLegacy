@@ -16,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
+import uk.kihira.tails.neoforge.client.platform.TailsClientPlatformImpl;
 import uk.kihira.tails.neoforge.common.Tails;
 
 public final class TailsKeybinds {

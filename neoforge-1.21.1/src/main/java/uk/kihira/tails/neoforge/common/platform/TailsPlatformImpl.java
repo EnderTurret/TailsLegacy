@@ -1,4 +1,4 @@
-package uk.kihira.tails.neoforge.common;
+package uk.kihira.tails.neoforge.common.platform;
 
 import java.util.UUID;
 
@@ -10,6 +10,7 @@ import net.minecraft.util.Mth;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.api.IPlayerPartManager;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
+import uk.kihira.tails.neoforge.common.Tails;
 
 public final class TailsPlatformImpl implements TailsPlatform {
 

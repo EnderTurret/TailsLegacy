@@ -1,4 +1,4 @@
-package uk.kihira.tails.neoforge.common;
+package uk.kihira.tails.neoforge.common.platform;
 
 import java.io.BufferedReader;
 import java.util.LinkedHashMap;
@@ -16,6 +16,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.gson.ResourceManagerWrapper;
+import uk.kihira.tails.neoforge.common.Tails;
 
 public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper {
 

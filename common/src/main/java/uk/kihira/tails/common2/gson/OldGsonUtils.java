@@ -28,7 +28,7 @@ public final class OldGsonUtils {
 			final JsonObject old = (JsonObject) input;
 			final JsonObject ret = new JsonObject();
 
-			for (Map.Entry<String, JsonElement> entry : ret.entrySet())
+			for (Map.Entry<String, JsonElement> entry : old.entrySet())
 				ret.add(entry.getKey(), deepCopy(entry.getValue()));
 
 			return (T) ret;

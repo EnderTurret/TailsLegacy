@@ -71,7 +71,7 @@ public class OldSaveTest {
 			if (!target.equals(res))
 				System.err.printf("Test %s failed:\n(Expected:)\n%s\n(Result:)\n%s\n\n\n", testName, target, res);
 			else
-				System.out.println("Test " + testName + " passed!");
+				System.out.println("Test " + testName + " passed!\n");
 		} catch (Exception e) {
 			System.err.println("Test " + testName + " failed:");
 			e.printStackTrace();

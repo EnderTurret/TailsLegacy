@@ -10,6 +10,7 @@ neoForge {
     mods {
         tails {
             sourceSet sourceSets.main
+            sourceSet project(':Tails.Common').sourceSets.main
         }
     }
 
@@ -21,10 +22,12 @@ neoForge {
     runs {
         client {
             client()
+            ideName = 'runTailsClientNeoForge1_21_1'
         }
 
         server {
             server()
+            ideName = 'runTailsServerNeoForge1_21_1'
         }
     }
 }

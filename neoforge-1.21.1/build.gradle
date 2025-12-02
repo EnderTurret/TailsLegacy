@@ -1,0 +1,30 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.120'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = "${loader_version}"
+
+    mods {
+        tails {
+            sourceSet sourceSets.main
+        }
+    }
+
+    parchment {
+        minecraftVersion = "${minecraft_version}"
+        mappingsVersion = "${mappings_version}"
+    }
+
+    runs {
+        client {
+            client()
+        }
+
+        server {
+            server()
+        }
+    }
+}

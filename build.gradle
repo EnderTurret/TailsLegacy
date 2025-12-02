@@ -1,91 +1,68 @@
-plugins {
-    id 'eclipse'
-    id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.107'
-}
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-java.withSourcesJar()
-
-repositories {
-    //maven { url 'https://maven.blamejared.com' }
-    //maven { url 'https://maven.theillusivec4.top' }
-}
-
 group = 'uk.kihira'
-version = '3.3.1+1.21.1'
 
-base {
-    archivesName = 'Tails'
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+    java.withSourcesJar()
+
+    group = 'uk.kihira'
+    version = "${mod_version}+${loader}"
+
+    base {
+        archivesName = 'Tails'
+    }
+
+    repositories {
+        //maven { url 'https://maven.blamejared.com' }
+        //maven { url 'https://maven.theillusivec4.top' }
+    }
+
+    tasks.named('jar', Jar).configure {
+        manifest {
+            attributes([
+                'Specification-Title': 'Tails',
+                'Specification-Vendor': 'Kihira',
+                'Specification-Version': '1',
+                'Implementation-Title': project.name,
+                'Implementation-Version': "${version}",
+                'Implementation-Vendor': 'EnderTurret'
+            ])
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    }
+
+    tasks.withType(AbstractArchiveTask).configureEach {
+        preserveFileTimestamps = false
+        reproducibleFileOrder = true
+    }
+
+    if (it != project(':Tails.Common')) {
+        tasks.named('compileJava', JavaCompile).configure {
+            source project(':Tails.Common').sourceSets.main.allSource
+        }
+
+        tasks.named('sourcesJar', Jar).configure {
+            from project(':Tails.Common').sourceSets.main.allJava
+        }
+
+        tasks.named('processResources', ProcessResources).configure {
+            from project(':Tails.Common').sourceSets.main.resources
+        }
+
+        dependencies {
+            implementation (project(':Tails.Common'))
+        }
+    }
 }
 
-dependencies {
+//dependencies {
     //compileOnly 'vazkii.botania:Botania:1.20.1-446-FORGE:api'
     //runtimeOnly 'vazkii.botania:Botania:1.20.1-446-FORGE'
     //runtimeOnly 'vazkii.patchouli:Patchouli:1.21-87-NEOFORGE'
     //runtimeOnly 'top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1'
-}
-
-neoForge {
-    version = '21.1.203'
-
-    mods {
-        tails {
-            sourceSet sourceSets.main
-        }
-    }
-
-    parchment {
-        // https://parchmentmc.org/docs/getting-started
-        // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/
-        minecraftVersion = '1.21.1'
-        mappingsVersion = '2024.11.17'
-    }
-
-    runs {
-        client {
-            client()
-            ideName = 'runTailsClient'
-        }
-
-        server {
-            server()
-            ideName = 'runTailsServer'
-        }
-    }
-}
-
-tasks.named('jar', Jar).configure {
-    manifest {
-        attributes([
-            'Specification-Title': 'Tails',
-            'Specification-Vendor': 'Kihira',
-            'Specification-Version': '1',
-            'Implementation-Title': project.name,
-            'Implementation-Version': "${version}",
-            'Implementation-Vendor': 'EnderTurret'
-        ])
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-tasks.withType(AbstractArchiveTask).configureEach {
-    preserveFileTimestamps = false
-    reproducibleFileOrder = true
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-
-            pom {
-                name = 'Tails'
-                description = 'For all your taily needs.'
-            }
-        }
-    }
-}
+//}

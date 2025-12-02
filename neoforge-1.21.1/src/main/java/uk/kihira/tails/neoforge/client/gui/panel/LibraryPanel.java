@@ -1,0 +1,167 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2019 Zoe Lee (Kihira)
+ * Copyright (c) 2020-2024 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
+package uk.kihira.tails.neoforge.client.gui.panel;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+
+import org.jetbrains.annotations.ApiStatus.Internal;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
+
+import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
+
+import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.client.TailsClientPlatform;
+import uk.kihira.tails.neoforge.client.gui.EditorScreen;
+import uk.kihira.tails.neoforge.client.gui.LibraryListEntry;
+import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
+import uk.kihira.tails.neoforge.client.gui.widget.ListWidget;
+import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
+
+@Internal
+public final class LibraryPanel extends Panel<EditorScreen> {
+
+	private static final LibrarySorter SORTER = new LibrarySorter();
+	private ListWidget<LibraryListEntry> list;
+	private EditBox searchField;
+	boolean libraryChanged = false;
+
+	public LibraryPanel(EditorScreen parent, int left, int top, int width, int height) {
+		super(parent, left, top, width, height);
+	}
+
+	public ListWidget<LibraryListEntry> getList() {
+		return list;
+	}
+
+	@Override
+	public void init() {
+		initList();
+
+		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
+			TailsClientPlatform.get().getLibraryManager().reload(true);
+			libraryChanged = false;
+			initList();
+		}));
+		addRenderableWidget(searchField = new RelativeTextBox(this, font, 5, bottom - top - 31, right - left - 10, 10, Component.empty()));
+	}
+
+	@Override
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.fillGradient(0, 0, right - left, bottom - top, -100, 0xCC000000, 0xCC000000);
+
+		list.render(gui, mouseX, mouseY, partialTick);
+
+		super.render(gui, mouseX, mouseY, partialTick);
+
+		gui.pose().pushPose();
+
+		gui.pose().translate(right - left - 16, bottom - top - 32, 30);
+		gui.pose().scale(0.75F, 0.75F, 0F);
+
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+		gui.blit(IconButton.ICONS_TEXTURE, 0, 0, 160, 0, 16, 16);
+
+		gui.pose().popPose();
+	}
+
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		final boolean handled = super.keyPressed(keyCode, scanCode, modifiers);
+
+		if (handled) {
+			final List<LibraryListEntry> newEntries = filterListEntries(searchField.getValue().toLowerCase(Locale.ROOT));
+			newEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
+			list.children().clear();
+			list.children().addAll(newEntries);
+		}
+
+		return handled;
+	}
+
+	public void initList() {
+		final List<LibraryListEntry> libraryEntries = new ArrayList<>();
+		for (LibraryEntryData data : TailsClientPlatform.get().getLibraryManager().libraryEntries)
+			libraryEntries.add(new LibraryListEntry(this, data));
+
+		// Add in new entry creation.
+		libraryEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
+
+		libraryEntries.sort(SORTER);
+
+		removeWidget(list);
+		addWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50, libraryEntries));
+	}
+
+	public void addSelectedEntry(LibraryListEntry entry) {
+		list.children().add(entry);
+		list.setSelected(entry);
+		parent.getLibraryInfoPanel().setEntry(entry);
+		libraryChanged = true;
+	}
+
+	public void removeEntry(LibraryListEntry entry) {
+		TailsClientPlatform.get().getLibraryManager().removeEntry(entry.data);
+		list.children().remove(entry);
+		libraryChanged = true;
+	}
+
+	public void save() {
+		if (libraryChanged) {
+			TailsClientPlatform.get().getLibraryManager().saveLibrary();
+			libraryChanged = false;
+		}
+	}
+
+	private List<LibraryListEntry> filterListEntries(String filter) {
+		final List<LibraryListEntry> filteredEntries = new ArrayList<>();
+
+		for (LibraryEntryData data : TailsClientPlatform.get().getLibraryManager().libraryEntries)
+			if (data.entryName.toLowerCase(Locale.ROOT).contains(filter))
+				filteredEntries.add(new LibraryListEntry(this, data));
+
+		return filteredEntries;
+	}
+
+	@Override
+	public void removed() {
+		save();
+		super.removed();
+	}
+
+	private static class LibrarySorter implements Comparator<LibraryListEntry> {
+
+		@Override
+		public int compare(LibraryListEntry entry1, LibraryListEntry entry2) {
+			if (entry1.equals(entry2))
+				return 0;
+
+			if (entry1 instanceof LibraryListEntry.NewLibraryListEntry)
+				return -1;
+			if (entry2 instanceof LibraryListEntry.NewLibraryListEntry)
+				return 1;
+
+			// Put favorites at the top.
+			if (entry1.data.favourite && !entry2.data.favourite)
+				return -1;
+			if (!entry1.data.favourite && entry2.data.favourite)
+				return 1;
+
+			return 0;
+		}
+	}
+}

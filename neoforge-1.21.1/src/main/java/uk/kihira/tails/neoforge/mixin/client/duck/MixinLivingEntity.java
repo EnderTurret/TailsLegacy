@@ -9,7 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 
-import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common.client.duck.TailsEntity;
 
 @Mixin(LivingEntity.class)
 @SuppressWarnings("cast")

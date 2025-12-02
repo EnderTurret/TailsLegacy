@@ -30,7 +30,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.common2.TailsMath;
+import uk.kihira.tails.common.TailsMath;
 
 /**
  * Various rendering-related utilities.

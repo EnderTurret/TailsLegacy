@@ -7,9 +7,9 @@ import com.google.gson.Gson;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-import uk.kihira.tails.common2.TailsPlatform;
-import uk.kihira.tails.common2.api.IPlayerPartManager;
-import uk.kihira.tails.common2.client.duck.TResourceLocation;
+import uk.kihira.tails.common.TailsPlatform;
+import uk.kihira.tails.common.api.IPlayerPartManager;
+import uk.kihira.tails.common.client.duck.TResourceLocation;
 
 public final class TailsPlatformImpl implements TailsPlatform {
 

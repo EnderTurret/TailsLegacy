@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import net.minecraft.resources.ResourceLocation;
 
-import uk.kihira.tails.common2.client.duck.TResourceLocation;
+import uk.kihira.tails.common.client.duck.TResourceLocation;
 
 @Mixin(ResourceLocation.class)
 public abstract class MixinResourceLocation implements TResourceLocation {

@@ -8,10 +8,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.common2.client.duck.TResourceLocation;
-import uk.kihira.tails.common2.client.duck.TailsBuffer;
-import uk.kihira.tails.common2.client.duck.TailsBufferSource;
-import uk.kihira.tails.common2.client.duck.TailsEntity;
+import uk.kihira.tails.common.client.duck.TResourceLocation;
+import uk.kihira.tails.common.client.duck.TailsBuffer;
+import uk.kihira.tails.common.client.duck.TailsBufferSource;
+import uk.kihira.tails.common.client.duck.TailsEntity;
 
 @Mixin(MultiBufferSource.class)
 @SuppressWarnings("cast")

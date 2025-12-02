@@ -25,11 +25,11 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
-import uk.kihira.tails.common2.LibraryEntryData;
-import uk.kihira.tails.common2.client.gui.TailsIcons;
-import uk.kihira.tails.common2.client.part.ClientPartInfo;
-import uk.kihira.tails.common2.client.part.ClientPartsData;
-import uk.kihira.tails.common2.client.part.LocalPartManager;
+import uk.kihira.tails.common.LibraryEntryData;
+import uk.kihira.tails.common.client.gui.TailsIcons;
+import uk.kihira.tails.common.client.part.ClientPartInfo;
+import uk.kihira.tails.common.client.part.ClientPartsData;
+import uk.kihira.tails.common.client.part.LocalPartManager;
 import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.LibraryListEntry;

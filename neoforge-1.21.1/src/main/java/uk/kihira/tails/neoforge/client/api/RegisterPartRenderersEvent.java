@@ -15,13 +15,13 @@ import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.fml.event.IModBusEvent;
 
-import uk.kihira.tails.common2.client.api.PartRendererRegistrar;
-import uk.kihira.tails.common2.client.duck.TResourceLocation;
-import uk.kihira.tails.common2.client.model.PartModel;
-import uk.kihira.tails.common2.client.part.Part;
-import uk.kihira.tails.common2.client.part.PartRegistry;
-import uk.kihira.tails.common2.client.render.PartRenderRegistry;
-import uk.kihira.tails.common2.client.render.part.PartRenderer;
+import uk.kihira.tails.common.client.api.PartRendererRegistrar;
+import uk.kihira.tails.common.client.duck.TResourceLocation;
+import uk.kihira.tails.common.client.model.PartModel;
+import uk.kihira.tails.common.client.part.Part;
+import uk.kihira.tails.common.client.part.PartRegistry;
+import uk.kihira.tails.common.client.render.PartRenderRegistry;
+import uk.kihira.tails.common.client.render.part.PartRenderer;
 
 /**
  * <p>An event fired when {@linkplain PartRenderer PartRenderers} are being registered.
@@ -68,11 +68,11 @@ public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
 	}
 
 	/**
-	 * {@link PartModel} version of {@link #register(uk.kihira.tails.common2.client.part.PartRegistry.PartReference, PartRenderer) register(PartReference, PartRenderer)}.
+	 * {@link PartModel} version of {@link #register(uk.kihira.tails.common.client.part.PartRegistry.PartReference, PartRenderer) register(PartReference, PartRenderer)}.
 	 * @param reference A reference to the part to link the renderer to.
 	 * @param model The part model.
 	 * @see #register(TResourceLocation, PartRenderer)
-	 * @see #register(uk.kihira.tails.common2.client.part.PartRegistry.PartReference, PartRenderer)
+	 * @see #register(uk.kihira.tails.common.client.part.PartRegistry.PartReference, PartRenderer)
 	 * @see PartRegistry#reference(TResourceLocation)
 	 */
 	public void register(PartRegistry.PartReference reference, PartModel model) {

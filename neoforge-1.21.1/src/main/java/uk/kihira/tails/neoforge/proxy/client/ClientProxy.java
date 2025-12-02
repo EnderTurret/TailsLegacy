@@ -13,9 +13,9 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.Gson;
 
-import uk.kihira.tails.common2.api.IPlayerPartManager;
-import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
-import uk.kihira.tails.common2.client.part.LocalPartManager;
+import uk.kihira.tails.common.api.IPlayerPartManager;
+import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common.client.part.LocalPartManager;
 import uk.kihira.tails.neoforge.proxy.IProxy;
 
 /**

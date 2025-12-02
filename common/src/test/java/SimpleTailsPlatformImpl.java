@@ -2,9 +2,9 @@ import java.util.UUID;
 
 import com.google.gson.Gson;
 
-import uk.kihira.tails.common2.TailsPlatform;
-import uk.kihira.tails.common2.api.IPlayerPartManager;
-import uk.kihira.tails.common2.client.duck.TResourceLocation;
+import uk.kihira.tails.common.TailsPlatform;
+import uk.kihira.tails.common.api.IPlayerPartManager;
+import uk.kihira.tails.common.client.duck.TResourceLocation;
 
 public final class SimpleTailsPlatformImpl implements TailsPlatform {
 

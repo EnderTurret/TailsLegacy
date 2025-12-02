@@ -17,10 +17,10 @@ import com.google.gson.Gson;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 
-import uk.kihira.tails.common2.LibraryEntryData;
-import uk.kihira.tails.common2.LibraryManager;
-import uk.kihira.tails.common2.client.part.LocalPartManager;
-import uk.kihira.tails.common2.gson.GsonLibraryManager;
+import uk.kihira.tails.common.LibraryEntryData;
+import uk.kihira.tails.common.LibraryManager;
+import uk.kihira.tails.common.client.part.LocalPartManager;
+import uk.kihira.tails.common.gson.GsonLibraryManager;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 
 /**

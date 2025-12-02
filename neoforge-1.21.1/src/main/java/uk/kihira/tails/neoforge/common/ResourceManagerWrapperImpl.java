@@ -14,8 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
-import uk.kihira.tails.common2.client.duck.TResourceLocation;
-import uk.kihira.tails.common2.gson.ResourceManagerWrapper;
+import uk.kihira.tails.common.client.duck.TResourceLocation;
+import uk.kihira.tails.common.gson.ResourceManagerWrapper;
 
 public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper {
 

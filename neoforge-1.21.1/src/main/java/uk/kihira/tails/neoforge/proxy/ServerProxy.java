@@ -13,9 +13,9 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.Gson;
 
-import uk.kihira.tails.common2.api.IPlayerPartManager;
-import uk.kihira.tails.common2.gson.TailsGsonHelper;
-import uk.kihira.tails.common2.part.PlayerPartManager;
+import uk.kihira.tails.common.api.IPlayerPartManager;
+import uk.kihira.tails.common.gson.TailsGsonHelper;
+import uk.kihira.tails.common.part.PlayerPartManager;
 
 /**
  * It's a server proxy alright.

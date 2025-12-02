@@ -23,8 +23,8 @@ import net.minecraft.resources.ResourceLocation;
 
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import uk.kihira.tails.common2.network.BasePlayerDataMapMessage;
-import uk.kihira.tails.common2.part.PartsData;
+import uk.kihira.tails.common.network.BasePlayerDataMapMessage;
+import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.neoforge.common.Tails;
 
 // S → C

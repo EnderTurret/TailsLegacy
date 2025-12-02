@@ -17,8 +17,8 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-import uk.kihira.tails.common2.TailsMath;
-import uk.kihira.tails.common2.client.gui.TailsIcons;
+import uk.kihira.tails.common.TailsMath;
+import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;

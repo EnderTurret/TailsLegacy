@@ -19,11 +19,11 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.common2.client.duck.TailsBufferSource;
-import uk.kihira.tails.common2.client.duck.TailsEntity;
-import uk.kihira.tails.common2.client.duck.TailsModelPart;
-import uk.kihira.tails.common2.client.duck.TailsPoseStack;
-import uk.kihira.tails.common2.client.render.layer.BasePartLayer;
+import uk.kihira.tails.common.client.duck.TailsBufferSource;
+import uk.kihira.tails.common.client.duck.TailsEntity;
+import uk.kihira.tails.common.client.duck.TailsModelPart;
+import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.render.layer.BasePartLayer;
 
 /**
  * A {@link RenderLayer} for Tails parts/accessories.

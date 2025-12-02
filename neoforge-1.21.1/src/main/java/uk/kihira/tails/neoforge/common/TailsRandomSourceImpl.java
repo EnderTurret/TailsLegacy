@@ -2,7 +2,7 @@ package uk.kihira.tails.neoforge.common;
 
 import net.minecraft.util.RandomSource;
 
-import uk.kihira.tails.common2.client.duck.TailsRandomSource;
+import uk.kihira.tails.common.client.duck.TailsRandomSource;
 
 public final class TailsRandomSourceImpl implements TailsRandomSource {
 

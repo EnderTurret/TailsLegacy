@@ -17,9 +17,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 
-import uk.kihira.tails.common2.client.duck.TailsBufferSource;
-import uk.kihira.tails.common2.client.duck.TailsPoseStack;
-import uk.kihira.tails.common2.client.render.FoxtatoRenderer;
+import uk.kihira.tails.common.client.duck.TailsBufferSource;
+import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.render.FoxtatoRenderer;
 
 /**
  * Handles rendering Tails accessories on tiny potatoes named "foxtato" (case-insensitive).

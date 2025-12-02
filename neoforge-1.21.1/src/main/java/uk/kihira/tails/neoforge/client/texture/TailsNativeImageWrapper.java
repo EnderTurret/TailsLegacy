@@ -2,9 +2,9 @@ package uk.kihira.tails.neoforge.client.texture;
 
 import com.mojang.blaze3d.platform.NativeImage;
 
-import uk.kihira.tails.common2.ABGRColor;
-import uk.kihira.tails.common2.JavaColor;
-import uk.kihira.tails.common2.client.duck.TailsImage;
+import uk.kihira.tails.common.ABGRColor;
+import uk.kihira.tails.common.JavaColor;
+import uk.kihira.tails.common.client.duck.TailsImage;
 
 public final class TailsNativeImageWrapper implements TailsImage {
 

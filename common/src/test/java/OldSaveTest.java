@@ -22,10 +22,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import uk.kihira.tails.common2.gson.PartsDataSerializer;
-import uk.kihira.tails.common2.gson.ServerPartInfoSerializer;
-import uk.kihira.tails.common2.part.IPartInfo;
-import uk.kihira.tails.common2.part.PartsData;
+import uk.kihira.tails.common.gson.PartsDataSerializer;
+import uk.kihira.tails.common.gson.ServerPartInfoSerializer;
+import uk.kihira.tails.common.part.IPartInfo;
+import uk.kihira.tails.common.part.PartsData;
 
 /**
  * Tests that ensure that old Tails data can be upgraded to newer versions without any problems.

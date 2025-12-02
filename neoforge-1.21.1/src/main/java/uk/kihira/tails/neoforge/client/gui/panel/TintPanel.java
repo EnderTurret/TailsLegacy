@@ -28,9 +28,9 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
-import uk.kihira.tails.common2.JavaColor;
-import uk.kihira.tails.common2.TailsMath;
-import uk.kihira.tails.common2.client.gui.TailsIcons;
+import uk.kihira.tails.common.JavaColor;
+import uk.kihira.tails.common.TailsMath;
+import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.widget.HSBSlider;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;

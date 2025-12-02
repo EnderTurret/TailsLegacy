@@ -21,7 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
-import uk.kihira.tails.common2.client.gui.TailsIcons;
+import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.neoforge.common.Tails;
 
 /**

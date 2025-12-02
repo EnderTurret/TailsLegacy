@@ -13,10 +13,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.util.RandomSource;
 
-import uk.kihira.tails.common2.client.duck.TailsBuffer;
-import uk.kihira.tails.common2.client.duck.TailsModelPart;
-import uk.kihira.tails.common2.client.duck.TailsPoseStack;
-import uk.kihira.tails.common2.client.duck.TailsRandomSource;
+import uk.kihira.tails.common.client.duck.TailsBuffer;
+import uk.kihira.tails.common.client.duck.TailsModelPart;
+import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.duck.TailsRandomSource;
 
 @Mixin(ModelPart.class)
 public class MixinModelPart implements TailsModelPart {

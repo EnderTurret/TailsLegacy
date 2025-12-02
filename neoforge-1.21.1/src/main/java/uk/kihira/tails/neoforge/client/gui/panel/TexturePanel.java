@@ -17,8 +17,8 @@ import net.minecraft.network.chat.Component;
 
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
-import uk.kihira.tails.common2.client.part.ClientPartInfo;
-import uk.kihira.tails.common2.client.part.Part;
+import uk.kihira.tails.common.client.part.ClientPartInfo;
+import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 
 @Internal

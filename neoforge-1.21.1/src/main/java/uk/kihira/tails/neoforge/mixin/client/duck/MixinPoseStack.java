@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import uk.kihira.tails.common2.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.duck.TailsPoseStack;
 
 @Mixin(PoseStack.class)
 public class MixinPoseStack implements TailsPoseStack {

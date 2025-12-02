@@ -26,8 +26,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
-import uk.kihira.tails.common2.client.TripleTintTextureHelper;
-import uk.kihira.tails.common2.client.part.Part;
+import uk.kihira.tails.common.client.TripleTintTextureHelper;
+import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.neoforge.common.Tails;
 
 /**

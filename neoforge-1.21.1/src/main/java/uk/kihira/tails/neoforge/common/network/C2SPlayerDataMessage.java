@@ -24,8 +24,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import uk.kihira.tails.common2.network.BaseC2SPlayerDataMessage;
-import uk.kihira.tails.common2.part.PartsData;
+import uk.kihira.tails.common.network.BaseC2SPlayerDataMessage;
+import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.neoforge.common.Tails;
 
 @Internal

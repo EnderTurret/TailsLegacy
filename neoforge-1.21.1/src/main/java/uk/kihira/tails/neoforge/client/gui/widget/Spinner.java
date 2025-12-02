@@ -25,7 +25,7 @@ import net.minecraft.network.chat.Component;
 
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
-import uk.kihira.tails.common2.client.gui.BaseSpinner;
+import uk.kihira.tails.common.client.gui.BaseSpinner;
 
 /**
  * A widget that allows cycling through values using two arrow buttons.

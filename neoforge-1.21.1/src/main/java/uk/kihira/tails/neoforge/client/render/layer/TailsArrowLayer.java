@@ -23,14 +23,14 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 
-import uk.kihira.tails.common2.client.duck.TailsBufferSource;
-import uk.kihira.tails.common2.client.duck.TailsEntity;
-import uk.kihira.tails.common2.client.duck.TailsModelPart;
-import uk.kihira.tails.common2.client.duck.TailsPoseStack;
-import uk.kihira.tails.common2.client.duck.TailsRandomSource;
-import uk.kihira.tails.common2.client.model.PartConfiguration;
-import uk.kihira.tails.common2.client.part.ClientPartsData;
-import uk.kihira.tails.common2.client.render.layer.BaseArrowLayer;
+import uk.kihira.tails.common.client.duck.TailsBufferSource;
+import uk.kihira.tails.common.client.duck.TailsEntity;
+import uk.kihira.tails.common.client.duck.TailsModelPart;
+import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.duck.TailsRandomSource;
+import uk.kihira.tails.common.client.model.PartConfiguration;
+import uk.kihira.tails.common.client.part.ClientPartsData;
+import uk.kihira.tails.common.client.render.layer.BaseArrowLayer;
 import uk.kihira.tails.neoforge.common.TailsRandomSourceImpl;
 
 /**

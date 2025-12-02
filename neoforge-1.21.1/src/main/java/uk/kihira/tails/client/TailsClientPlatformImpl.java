@@ -26,7 +26,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import uk.kihira.tails.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.client.texture.TripleTintTexture;
 import uk.kihira.tails.common.ResourceManagerWrapperImpl;
-import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common.TailsConfig;
 import uk.kihira.tails.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.common2.LibraryManager;
@@ -44,6 +43,8 @@ import uk.kihira.tails.mixin.client.MinecraftAccess;
 import uk.kihira.tails.mixin.client.PartDefinitionAccess;
 
 public final class TailsClientPlatformImpl implements TailsClientPlatform {
+
+	private final LibraryManager libraryManager = new ClientLibraryManager();
 
 	@Override
 	public TailsModelPart bake(TailsPartDefinition part, int textureWidth, int textureHeight) {
@@ -176,6 +177,6 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public LibraryManager getLibraryManager() {
-		return Tails.PROXY.getLibraryManager();
+		return libraryManager;
 	}
 }

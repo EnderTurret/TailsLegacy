@@ -29,8 +29,8 @@ import uk.kihira.tails.client.gui.LibraryListEntry;
 import uk.kihira.tails.client.gui.widget.IconButton;
 import uk.kihira.tails.client.gui.widget.ListWidget;
 import uk.kihira.tails.client.gui.widget.RelativeTextBox;
-import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.client.TailsClientPlatform;
 
 @Internal
 public final class LibraryPanel extends Panel<EditorScreen> {
@@ -53,7 +53,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 		initList();
 
 		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
-			Tails.PROXY.getLibraryManager().reload(true);
+			TailsClientPlatform.get().getLibraryManager().reload(true);
 			libraryChanged = false;
 			initList();
 		}));
@@ -95,7 +95,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 
 	public void initList() {
 		final List<LibraryListEntry> libraryEntries = new ArrayList<>();
-		for (LibraryEntryData data : Tails.PROXY.getLibraryManager().libraryEntries)
+		for (LibraryEntryData data : TailsClientPlatform.get().getLibraryManager().libraryEntries)
 			libraryEntries.add(new LibraryListEntry(this, data));
 
 		// Add in new entry creation.
@@ -115,14 +115,14 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 	}
 
 	public void removeEntry(LibraryListEntry entry) {
-		Tails.PROXY.getLibraryManager().removeEntry(entry.data);
+		TailsClientPlatform.get().getLibraryManager().removeEntry(entry.data);
 		list.children().remove(entry);
 		libraryChanged = true;
 	}
 
 	public void save() {
 		if (libraryChanged) {
-			Tails.PROXY.getLibraryManager().saveLibrary();
+			TailsClientPlatform.get().getLibraryManager().saveLibrary();
 			libraryChanged = false;
 		}
 	}
@@ -130,7 +130,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 	private List<LibraryListEntry> filterListEntries(String filter) {
 		final List<LibraryListEntry> filteredEntries = new ArrayList<>();
 
-		for (LibraryEntryData data : Tails.PROXY.getLibraryManager().libraryEntries)
+		for (LibraryEntryData data : TailsClientPlatform.get().getLibraryManager().libraryEntries)
 			if (data.entryName.toLowerCase(Locale.ROOT).contains(filter))
 				filteredEntries.add(new LibraryListEntry(this, data));
 

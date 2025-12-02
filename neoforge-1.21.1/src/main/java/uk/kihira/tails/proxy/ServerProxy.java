@@ -13,7 +13,6 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.Gson;
 
-import uk.kihira.tails.common2.LibraryManager;
 import uk.kihira.tails.common2.api.IPlayerPartManager;
 import uk.kihira.tails.common2.gson.TailsGsonHelper;
 import uk.kihira.tails.common2.part.PlayerPartManager;
@@ -25,11 +24,6 @@ import uk.kihira.tails.common2.part.PlayerPartManager;
 public class ServerProxy implements IProxy {
 
 	private final IPlayerPartManager partManager = new PlayerPartManager();
-
-	@Override
-	public LibraryManager getLibraryManager() {
-		throw new UnsupportedOperationException("No tails library available on server");
-	}
 
 	@Override
 	public IPlayerPartManager getPartManager() {

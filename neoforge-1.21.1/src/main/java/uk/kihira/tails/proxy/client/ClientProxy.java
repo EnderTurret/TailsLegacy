@@ -13,8 +13,6 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.Gson;
 
-import uk.kihira.tails.client.ClientLibraryManager;
-import uk.kihira.tails.common2.LibraryManager;
 import uk.kihira.tails.common2.api.IPlayerPartManager;
 import uk.kihira.tails.common2.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.common2.client.part.LocalPartManager;
@@ -28,13 +26,7 @@ import uk.kihira.tails.proxy.IProxy;
 @Internal
 public final class ClientProxy implements IProxy {
 
-	private final LibraryManager libraryManager = new ClientLibraryManager();
 	private final IPlayerPartManager partManager = new ClientPlayerPartManager();
-
-	@Override
-	public LibraryManager getLibraryManager() {
-		return libraryManager;
-	}
 
 	@Override
 	public IPlayerPartManager getPartManager() {

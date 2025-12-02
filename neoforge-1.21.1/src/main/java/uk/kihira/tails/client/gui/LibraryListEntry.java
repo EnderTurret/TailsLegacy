@@ -24,8 +24,8 @@ import net.minecraft.network.chat.Component;
 import uk.kihira.tails.client.RenderHelper;
 import uk.kihira.tails.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.client.gui.widget.IconButton;
-import uk.kihira.tails.common.Tails;
 import uk.kihira.tails.common2.LibraryEntryData;
+import uk.kihira.tails.common2.client.TailsClientPlatform;
 import uk.kihira.tails.common2.client.gui.TailsIcons;
 import uk.kihira.tails.common2.client.part.ClientPartInfo;
 import uk.kihira.tails.common2.client.part.ClientPartsData;
@@ -117,7 +117,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 					I18n.get("tails.gui.library.entry.default"),
 					panel.getParent().getPartsData());
 
-			Tails.PROXY.getLibraryManager().addEntry(data);
+			TailsClientPlatform.get().getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
 
 			return true;

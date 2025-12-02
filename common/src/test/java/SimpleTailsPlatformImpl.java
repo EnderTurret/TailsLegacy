@@ -1,5 +1,7 @@
 import java.util.UUID;
 
+import com.google.gson.Gson;
+
 import uk.kihira.tails.common2.TailsPlatform;
 import uk.kihira.tails.common2.api.IPlayerPartManager;
 import uk.kihira.tails.common2.client.duck.TResourceLocation;
@@ -67,6 +69,11 @@ public final class SimpleTailsPlatformImpl implements TailsPlatform {
 
 	@Override
 	public IPlayerPartManager getPartManager() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Gson getSidedGson() {
 		throw new UnsupportedOperationException();
 	}
 }

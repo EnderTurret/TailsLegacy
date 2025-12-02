@@ -14,8 +14,6 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.google.gson.reflect.TypeToken;
-
 import io.netty.buffer.ByteBuf;
 
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -26,13 +24,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.TailsNetworkManager;
-import uk.kihira.tails.common2.gson.TailsGsonHelper;
+import uk.kihira.tails.common2.network.BasePlayerDataMapMessage;
 import uk.kihira.tails.common2.part.PartsData;
 
 // S → C
 @Internal
-public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload {
+public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BasePlayerDataMapMessage {
 
 	public static final Type<PlayerDataMapMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "bulk_sync_to_client"));
 
@@ -44,31 +41,16 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements
 		return TYPE;
 	}
 
-	private static final TypeToken<Map<UUID, PartsData>> PART_DATA_MAP_TYPE = new TypeToken<>() {};
-
 	private static PlayerDataMapMessage decode(String tailInfoJson) {
-		if (TailsNetworkManager.DEBUG_NETWORK)
-			Tails.LOGGER.info("[PlayerDataMapMessage] Received {}", tailInfoJson);
-
-		Map<UUID, PartsData> partsDataMap = Map.of();
-
-		try {
-			partsDataMap = Tails.PROXY.getSidedGson().fromJson(tailInfoJson, PART_DATA_MAP_TYPE);
-		} catch (Exception e) {
-			Tails.LOGGER.error("Exception decoding player part data:\n{}", tailInfoJson, e);
-		}
-
-		return new PlayerDataMapMessage(partsDataMap);
+		return new PlayerDataMapMessage(BasePlayerDataMapMessage.decodeJson(tailInfoJson));
 	}
 
 	private static String encode(PlayerDataMapMessage msg) {
-		return TailsGsonHelper.SERVER_GSON.toJson(msg.partsDataMap);
+		return BasePlayerDataMapMessage.encodeJson(msg.partsDataMap);
 	}
 
 	@Internal
 	public static void handle(PlayerDataMapMessage message, IPayloadContext context) {
-		if (message.partsDataMap != null)
-			for (Map.Entry<UUID, PartsData> entry : message.partsDataMap.entrySet())
-				Tails.PROXY.getPartManager().set(entry.getKey(), entry.getValue());
+		BasePlayerDataMapMessage.handle(message.partsDataMap);
 	}
 }

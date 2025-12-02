@@ -13,8 +13,6 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.google.common.base.Strings;
-
 import io.netty.buffer.ByteBuf;
 
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -27,12 +25,11 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import uk.kihira.tails.common.Tails;
-import uk.kihira.tails.common.TailsNetworkManager;
-import uk.kihira.tails.common2.gson.TailsGsonHelper;
+import uk.kihira.tails.common2.network.BaseC2SPlayerDataMessage;
 import uk.kihira.tails.common2.part.PartsData;
 
 @Internal
-public record C2SPlayerDataMessage(PartsData partsData) implements CustomPacketPayload {
+public record C2SPlayerDataMessage(PartsData partsData) implements CustomPacketPayload, BaseC2SPlayerDataMessage {
 
 	public static final Type<C2SPlayerDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "sync_to_server"));
 
@@ -45,36 +42,24 @@ public record C2SPlayerDataMessage(PartsData partsData) implements CustomPacketP
 	}
 
 	private static C2SPlayerDataMessage decode(String tailInfoJson) {
-		if (TailsNetworkManager.DEBUG_NETWORK)
-			Tails.LOGGER.info("[C2SPlayerDataMessage] Received {}", tailInfoJson);
-
-		PartsData partsData = PartsData.EMPTY;
-
-		if (!Strings.isNullOrEmpty(tailInfoJson))
-			try {
-				partsData = TailsGsonHelper.SERVER_GSON.fromJson(tailInfoJson, PartsData.class);
-			} catch (Exception e) {
-				Tails.LOGGER.error("Exception decoding player part data:\n{}", tailInfoJson, e);
-			}
-
-		return new C2SPlayerDataMessage(partsData);
+		return new C2SPlayerDataMessage(BaseC2SPlayerDataMessage.decodeJson(tailInfoJson));
 	}
 
 	private static String encode(C2SPlayerDataMessage msg) {
-		return msg.partsData == null || msg.partsData.isEmpty() ? "" : Tails.PROXY.getSidedGson().toJson(msg.partsData);
+		return BaseC2SPlayerDataMessage.encodeJson(msg.partsData);
 	}
 
 	@Internal
 	public static void handle(C2SPlayerDataMessage message, IPayloadContext context) {
-		if (message.partsData != null) {
-			final ServerPlayer sender = (ServerPlayer) context.player();
-			final UUID uuid = sender.getUUID();
+		if (message.partsData == null) return;
 
-			Tails.PROXY.getPartManager().set(uuid, message.partsData);
+		final ServerPlayer sender = (ServerPlayer) context.player();
+		final UUID uuid = sender.getUUID();
 
-			// Tell other clients about the change.
-			// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
-			PacketDistributor.sendToAllPlayers(new S2CPlayerDataMessage(uuid, message.partsData));
-		}
+		Tails.PROXY.getPartManager().set(uuid, message.partsData);
+
+		// Tell other clients about the change.
+		// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
+		PacketDistributor.sendToAllPlayers(new S2CPlayerDataMessage(uuid, message.partsData));
 	}
 }

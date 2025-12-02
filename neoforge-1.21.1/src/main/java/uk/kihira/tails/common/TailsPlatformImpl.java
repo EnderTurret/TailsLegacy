@@ -2,6 +2,8 @@ package uk.kihira.tails.common;
 
 import java.util.UUID;
 
+import com.google.gson.Gson;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
@@ -57,5 +59,10 @@ public final class TailsPlatformImpl implements TailsPlatform {
 	@Override
 	public IPlayerPartManager getPartManager() {
 		return Tails.PROXY.getPartManager();
+	}
+
+	@Override
+	public Gson getSidedGson() {
+		return Tails.PROXY.getSidedGson();
 	}
 }

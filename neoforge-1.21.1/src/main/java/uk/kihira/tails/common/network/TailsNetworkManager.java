@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package uk.kihira.tails.common;
+package uk.kihira.tails.common.network;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -15,9 +15,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 
-import uk.kihira.tails.common.network.C2SPlayerDataMessage;
-import uk.kihira.tails.common.network.PlayerDataMapMessage;
-import uk.kihira.tails.common.network.S2CPlayerDataMessage;
+import uk.kihira.tails.common.Tails;
 
 /**
  * Manages the Tails network stuff, like the channel and packet registration.

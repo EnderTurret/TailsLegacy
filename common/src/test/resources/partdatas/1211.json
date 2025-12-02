@@ -1,0 +1,15 @@
+{
+  "parts": [
+    {
+      "id": "tails:tail/fluffy_tail",
+      "subType": "nine_tails",
+      "textureId": "standard",
+      "tints": [
+        16711680,
+        65280,
+        255
+      ]
+    }
+  ],
+  "version": 2
+}

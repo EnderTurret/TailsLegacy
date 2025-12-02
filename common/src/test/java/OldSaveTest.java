@@ -39,11 +39,12 @@ public class OldSaveTest {
 	private static final Format FORMAT_1_18 = format("18");
 	private static final Format FORMAT_1_19 = format("19");
 	private static final Format FORMAT_1_19_2 = format("19.2");
+	private static final Format FORMAT_1_21_1 = format("21.1");
 
 	private static final List<Format> FORMATS = new ArrayList<>();
 
 	static {
-		Collections.addAll(FORMATS, FORMAT_1_7, FORMAT_1_12, FORMAT_1_16, FORMAT_1_18, FORMAT_1_19, FORMAT_1_19_2);
+		Collections.addAll(FORMATS, FORMAT_1_7, FORMAT_1_12, FORMAT_1_16, FORMAT_1_18, FORMAT_1_19, FORMAT_1_19_2, FORMAT_1_21_1);
 	}
 
 	public static void main(String[] args) {
@@ -54,7 +55,7 @@ public class OldSaveTest {
 				.setPrettyPrinting()
 				.create();
 
-		final Format current = FORMAT_1_19_2;
+		final Format current = FORMATS.get(FORMATS.size() - 1);
 		final PartsData mostRecent = gson.fromJson(of(current.json), PartsData.class);
 
 		for (Format f : FORMATS)

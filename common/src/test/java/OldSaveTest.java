@@ -48,6 +48,8 @@ public class OldSaveTest {
 	}
 
 	public static void main(String[] args) {
+		System.setProperty("tails.testing", "true");
+
 		final Gson gson = new GsonBuilder()
 				.excludeFieldsWithoutExposeAnnotation()
 				.registerTypeAdapter(PartsData.class, new PartsDataSerializer())

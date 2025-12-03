@@ -16,8 +16,6 @@ import java.util.Locale;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
@@ -50,47 +48,30 @@ public final class LibraryPanel extends Panel {
 
 	@Override
 	public void init() {
+		addRenderableWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50, new ArrayList<>()));
 		initList();
 
-		addRenderableWidget(new ExtendedButton(3, bottom - top - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
+		addRenderableWidget(searchField = new RelativeTextBox(this, parent.font(), left + 4, bottom - 32, right - left - 8, 12, Component.empty()));
+		addRenderableWidget(new ExtendedButton(left + 3, bottom - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
 			TailsClientPlatform.get().getLibraryManager().reload(true);
 			libraryChanged = false;
 			initList();
 		}));
-		addRenderableWidget(searchField = new RelativeTextBox(this, font, 5, bottom - top - 31, right - left - 10, 10, Component.empty()));
+
+		searchField.setResponder(this::filterListEntries);
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		renderBackground(gui, mouseX, mouseY, partialTick);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
-		list.render(gui, mouseX, mouseY, partialTick);
-
-		super.render(gui, mouseX, mouseY, partialTick);
-
-		gui.pose().pushPose();
-
-		gui.pose().translate(right - left - 16, bottom - top - 32, 30);
-		gui.pose().scale(0.75F, 0.75F, 0F);
-
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-		gui.blit(IconButton.ICONS_TEXTURE, 0, 0, 160, 0, 16, 16);
-
-		gui.pose().popPose();
+		gui.blit(IconButton.ICONS_TEXTURE, right - 14, bottom - 30, 0, 240, 8, 8);
 	}
 
+	// TODO Remove
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		final boolean handled = super.keyPressed(keyCode, scanCode, modifiers);
-
-		if (handled) {
-			final List<LibraryListEntry> newEntries = filterListEntries(searchField.getValue().toLowerCase(Locale.ROOT));
-			newEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
-			list.children().clear();
-			list.children().addAll(newEntries);
-		}
-
-		return handled;
+		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
 	public void initList() {
@@ -103,8 +84,8 @@ public final class LibraryPanel extends Panel {
 
 		libraryEntries.sort(SORTER);
 
-		removeWidget(list);
-		addWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50, libraryEntries));
+		list.clearEntries();
+		for (LibraryListEntry entry : libraryEntries) list.addEntry(entry);
 	}
 
 	public void addSelectedEntry(LibraryListEntry entry) {
@@ -127,12 +108,22 @@ public final class LibraryPanel extends Panel {
 		}
 	}
 
+	// TODO Make void, merge with initList()
 	private List<LibraryListEntry> filterListEntries(String filter) {
+		filter = filter.toLowerCase(Locale.ENGLISH);
+
 		final List<LibraryListEntry> filteredEntries = new ArrayList<>();
 
 		for (LibraryEntryData data : TailsClientPlatform.get().getLibraryManager().libraryEntries)
-			if (data.entryName.toLowerCase(Locale.ROOT).contains(filter))
+			if (data.entryName.toLowerCase(Locale.ENGLISH).contains(filter))
 				filteredEntries.add(new LibraryListEntry(this, data));
+
+		filteredEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
+		filteredEntries.sort(SORTER);
+
+		// TODO Use replaceEntries()
+		list.clearEntries();
+		for (LibraryListEntry entry : filteredEntries) list.addEntry(entry);
 
 		return filteredEntries;
 	}
@@ -140,9 +131,9 @@ public final class LibraryPanel extends Panel {
 	@Override
 	public void removed() {
 		save();
-		super.removed();
 	}
 
+	// TODO Move into LibraryListEntry
 	private static class LibrarySorter implements Comparator<LibraryListEntry> {
 
 		@Override

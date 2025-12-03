@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import com.google.common.base.Strings;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
@@ -41,7 +40,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 	public void init() {
 		addRenderableWidget(new ExtendedButton(left + 3, top + 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString0));
 
-		inputField = new RelativeTextBox(this, font, left + 3, top + 41, right - left - 6, 15, Component.empty());
+		inputField = new RelativeTextBox(this, parent.font(), left + 3, top + 41, right - left - 6, 15, Component.empty());
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}
@@ -63,11 +62,5 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 		final Component text = Component.translatable(langKey, name == null ? new Object[0] : new Object[] { name })
 				.withStyle(error ? ChatFormatting.RED : ChatFormatting.GREEN);
 		ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, text);
-	}
-
-	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		renderBackground(gui, mouseX, mouseY, partialTick);
-		super.render(gui, mouseX, mouseY, partialTick);
 	}
 }

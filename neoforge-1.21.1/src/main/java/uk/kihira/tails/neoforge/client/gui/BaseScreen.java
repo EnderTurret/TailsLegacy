@@ -14,9 +14,11 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
@@ -32,6 +34,25 @@ public abstract class BaseScreen extends Screen {
 
 	@Override
 	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
+
+	@Override
+	public <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget) {
+		return super.addRenderableWidget(widget);
+	}
+
+	@Override
+	public <T extends GuiEventListener & NarratableEntry> T addWidget(T listener) {
+		return super.addWidget(listener);
+	}
+
+	@Override
+	public <T extends Renderable> T addRenderableOnly(T renderable) {
+		return super.addRenderableOnly(renderable);
+	}
+
+	public Font font() {
+		return font;
+	}
 
 	public void renderTooltips(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		for (Renderable btn : renderables)

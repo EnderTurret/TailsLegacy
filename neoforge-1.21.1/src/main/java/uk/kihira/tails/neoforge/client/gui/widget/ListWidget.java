@@ -45,6 +45,11 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	protected void renderListSeparators(GuiGraphics guiGraphics) {}
 
 	@Override
+	public boolean isMouseOver(double mouseX, double mouseY) {
+		return visible && super.isMouseOver(mouseX, mouseY);
+	}
+
+	@Override
 	public int getRowWidth() {
 		return width;
 	}
@@ -68,6 +73,16 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	@Override
 	public boolean isSelectedItem(int index) {
 		return super.isSelectedItem(index);
+	}
+
+	@Override
+	public void clearEntries() {
+		super.clearEntries();
+	}
+
+	@Override
+	public int addEntry(T entry) {
+		return super.addEntry(entry);
 	}
 
 	public int getItemHeight() {

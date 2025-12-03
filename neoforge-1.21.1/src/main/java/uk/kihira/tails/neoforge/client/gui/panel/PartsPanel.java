@@ -89,16 +89,27 @@ public final class PartsPanel extends Panel {
 		addRenderableWidget(attachment.left);
 		addRenderableWidget(attachment.right);
 
+		this.partList = new ListWidget<>(
+				108 + 6, bottom - top - listTop,
+				listTop,
+				55, new ArrayList<>()) {
+			@Override
+			public void onItemSelected(PartEntry item) {
+				onEntrySelected(item);
+			}
+		};
+		//this.partList.setRenderTopAndBottom(false);
+
+		addRenderableWidget(this.partList);
+
 		initPartList();
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		renderBackground(gui, mouseX, mouseY, partialTick);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
-		gui.drawCenteredString(font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
-
-		super.render(gui, mouseX, mouseY, partialTick);
+		gui.drawCenteredString(parent.font(), I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 	}
 
 	@Override
@@ -155,21 +166,12 @@ public final class PartsPanel extends Panel {
 			for (PartEntry entry : this.partList.children())
 				entry.partInfo.clearGlTexture();
 
-			removeWidget(this.partList);
+			this.partList.clearEntries();
 		}
 
-		this.partList = new ListWidget<>(
-				108 + 6, bottom - top - listTop,
-				listTop,
-				55, partList) {
-			@Override
-			public void onItemSelected(PartEntry item) {
-				onEntrySelected(item);
-			}
-		};
-		//this.partList.setRenderTopAndBottom(false);
+		for (PartEntry entry : partList)
+			this.partList.addEntry(entry);
 
-		addRenderableWidget(this.partList);
 		selectDefaultListEntry();
 	}
 
@@ -236,7 +238,7 @@ public final class PartsPanel extends Panel {
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(gui, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				RenderHelper.drawStringMultiLine(gui, font, I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
+				RenderHelper.drawStringMultiLine(gui, parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;
@@ -252,13 +254,13 @@ public final class PartsPanel extends Panel {
 						gui.pose().pushPose();
 						gui.pose().translate(5, x + 27, 0);
 						gui.pose().scale(0.6F, 0.6F, 1);
-						gui.drawString(font, I18n.get("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
-						gui.drawString(font, Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
+						gui.drawString(parent.font(), I18n.get("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
+						gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
 						gui.pose().popPose();
 					}
 				}
 			} else
-				gui.drawString(font, I18n.get("tails.gui.part.none"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				gui.drawString(parent.font(), I18n.get("tails.gui.part.none"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
 		}
 
 		@Override

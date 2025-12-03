@@ -29,10 +29,4 @@ public final class RelativeTextBox extends EditBox {
 		super(font, x, y, width, height, message);
 		this.parent = parent;
 	}
-
-	@Override
-	public void setFocused(boolean focused) {
-		super.setFocused(focused);
-		parent.getParent().setFocusedPanel(parent);
-	}
 }

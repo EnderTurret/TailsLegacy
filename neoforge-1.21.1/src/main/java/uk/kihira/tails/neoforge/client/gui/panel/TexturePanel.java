@@ -41,58 +41,42 @@ public final class TexturePanel extends Panel {
 	@Override
 	public void init() {
 		// Texture select
-		addRenderableWidget(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, Component.literal("<"), b -> cycleTexLeft()));
-		addRenderableWidget(rightBtn = new ExtendedButton(right - 20, texSelectY, 15, 15, Component.literal(">"), b -> cycleTexRight()));
 		addRenderableWidget(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, Component.literal("<"), b -> cycleVariantLeft()));
 		addRenderableWidget(variantRightBtn = new ExtendedButton(right - 20, variantSelectY, 15, 15, Component.literal(">"), b -> cycleVariantRight()));
+		addRenderableWidget(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, Component.literal("<"), b -> cycleTexLeft()));
+		addRenderableWidget(rightBtn = new ExtendedButton(right - 20, texSelectY, 15, 15, Component.literal(">"), b -> cycleTexRight()));
 
 		updateButtons();
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
+
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		renderBackground(gui, mouseX, mouseY, partialTick);
 		gui.fill(7, variantSelectY, right - 15, texSelectY + 15, -5, 0x55000000);
 
 		// Texture select
-		gui.drawCenteredString(font, I18n.get("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
+		gui.drawCenteredString(parent.font(), I18n.get("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
 
 		final Part part = partInfo.getPart();
 
-		final String texFormatted;
-		boolean texTranslated = true;
+		final Component texFormatted;
 
-		if (partInfo.isEmpty() || partInfo.getPartTexture() != null) {
-			final String texLangKey = partInfo.getTextureTranslationKey();
-			texFormatted = I18n.get(texLangKey);
-			texTranslated = !texLangKey.equals(texFormatted);
-		} else texFormatted = partInfo.getTextureId();
+		if (partInfo.isEmpty() || partInfo.getPartTexture() != null)
+			texFormatted = Component.translatable(partInfo.getTextureTranslationKey());
+		else texFormatted = Component.literal(partInfo.getTextureId());
 
-		final String variantFormatted;
-		boolean variantTranslated = true;
+		final Component variantFormatted;
 
-		if (partInfo.isEmpty() || partInfo.getSubType() != null) {
-			final String variantLangKey = partInfo.getSubTypeTranslationKey();
-			variantFormatted = I18n.get(variantLangKey);
-			variantTranslated = !variantLangKey.equals(variantFormatted);
-		} else
-			variantFormatted = partInfo.getSubTypeId();
+		if (partInfo.isEmpty() || partInfo.getSubType() != null)
+			variantFormatted = Component.translatable(partInfo.getSubTypeTranslationKey());
+		else
+			variantFormatted = Component.literal(partInfo.getSubTypeId());
 
-		super.render(gui, mouseX, mouseY, partialTick);
-
-		if (!texTranslated) {
-			gui.fill(25, texSelectY + 4, 25 + font.width(texFormatted), texSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
-			gui.drawString(font, texFormatted, 25, texSelectY + 4, 0xFF0000);
-		} else
-			gui.drawString(font, texFormatted, 25, texSelectY + 4, 0xFFFFFF);
-
-		if (!variantTranslated) {
-			gui.fill(25, variantSelectY + 4, 25 + font.width(variantFormatted), variantSelectY + 4 + font.lineHeight, 0xFFFFFFFF);
-			gui.drawString(font, variantFormatted, 25, variantSelectY + 4, 0xFF0000);
-		} else
-			gui.drawString(font, variantFormatted, 25, variantSelectY + 4, 0xFFFFFF);
+		gui.drawScrollingString(parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
+		gui.drawScrollingString(parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
 	}
 
 	private void cycleTexLeft() {

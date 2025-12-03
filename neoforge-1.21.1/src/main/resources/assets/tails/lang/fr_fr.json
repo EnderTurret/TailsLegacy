@@ -40,8 +40,7 @@
   "tails.gui.button.reset": "Reactualiser",
   "tails.gui.button.save": "Sauvegarder",
   "tails.gui.button.edit": "Editer",
-  "tails.gui.button.help.camera.0": "Cliquez et tirez dans la fenêtre",
-  "tails.gui.button.help.camera.1": "pour faire tourner votre personnage",
+  "tails.gui.button.help.camera": "Cliquez et tirez dans la fenêtre pour faire tourner votre personnage",
 
 
 

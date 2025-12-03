@@ -11,7 +11,6 @@ package uk.kihira.tails.neoforge.client.gui.panel;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
@@ -44,13 +43,14 @@ public final class ControlsPanel extends Panel {
 
 	private void switchMode(Button b) {
 		libraryMode = !libraryMode;
-		parent.getPartPanel().enabled = !libraryMode;
-		parent.getTexturePanel().enabled = !libraryMode;
-		parent.getTintPanel().enabled = !libraryMode;
 
-		parent.getLibraryInfoPanel().enabled = libraryMode;
-		parent.getLibraryPanel().enabled = libraryMode;
-		parent.getLibraryImportPanel().enabled = libraryMode;
+		parent.getPartPanel().setVisible(!libraryMode);
+		parent.getTexturePanel().setVisible(!libraryMode);
+		parent.getTintPanel().setVisible(!libraryMode);
+
+		parent.getLibraryInfoPanel().setVisible(libraryMode);
+		parent.getLibraryPanel().setVisible(libraryMode);
+		parent.getLibraryImportPanel().setVisible(libraryMode);
 
 		parent.getPartPanel().selectDefaultListEntry();
 		parent.getLibraryPanel().initList();
@@ -70,11 +70,5 @@ public final class ControlsPanel extends Panel {
 		parent.getLibraryInfoPanel().setEntry(null);
 		parent.getTintPanel().setEditingTint(0);
 		parent.setPartsInfo(partInfo);
-	}
-
-	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		renderBackground(gui, mouseX, mouseY, partialTick);
-		super.render(gui, mouseX, mouseY, partialTick);
 	}
 }

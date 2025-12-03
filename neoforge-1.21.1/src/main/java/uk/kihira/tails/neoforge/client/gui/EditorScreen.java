@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -99,27 +100,37 @@ public class EditorScreen extends LayeredScreen {
 
 	@Override
 	public void init() {
+		final boolean firstInit = tintPanel == null;
+
 		final int previewLeft = 110 + 4;
 		final int previewRight = width - previewLeft;
 		final int previewBottom = height - 30;
 		final int texSelectHeight = 50;
 
 		// Not an ideal solution but keeps everything from resetting on resize.
-		if (tintPanel == null) {
-			getLayer(0).add(previewPanel = new PreviewPanel(this, previewLeft, 0, previewRight - previewLeft, previewBottom));
-			getLayer(1).add(partsPanel = new PartsPanel(this, 0, 0, previewLeft, height - texSelectHeight));
-			getLayer(1).add(texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewLeft, 58));
-			getLayer(1).add(tintPanel = new TintPanel(this, previewRight, 0, width - previewRight, height));
-			getLayer(1).add(libraryPanel = new LibraryPanel(this, 0, 0, previewLeft, height));
-			getLayer(1).add(libraryImportPanel = new LibraryImportPanel(this, previewRight, height - 60, width - previewRight, 60));
-			getLayer(1).add(libraryInfoPanel = new LibraryInfoPanel(this, previewRight, 0, width - previewRight, height - 60));
-			getLayer(1).add(controlsPanel = new ControlsPanel(this, previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom));
+		if (firstInit) {
+			previewPanel = new PreviewPanel(this, previewLeft, 0, previewRight - previewLeft, previewBottom);
+			partsPanel = new PartsPanel(this, 0, 0, previewLeft, height - texSelectHeight);
+			texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewLeft, 58);
+			tintPanel = new TintPanel(this, previewRight, 0, width - previewRight, height);
+			libraryPanel = new LibraryPanel(this, 0, 0, previewLeft, height);
+			libraryImportPanel = new LibraryImportPanel(this, previewRight, height - 60, width - previewRight, 60);
+			libraryInfoPanel = new LibraryInfoPanel(this, previewRight, 0, width - previewRight, height - 60);
+			controlsPanel = new ControlsPanel(this, previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom);
 
-			libraryInfoPanel.enabled = false;
-			libraryImportPanel.enabled = false;
-			libraryPanel.enabled = false;
-		}
-		else {
+			previewPanel.init();
+			partsPanel.init();
+			texturePanel.init();
+			tintPanel.init();
+			libraryPanel.init();
+			libraryImportPanel.init();
+			libraryInfoPanel.init();
+			controlsPanel.init();
+
+			libraryInfoPanel.setVisible(false);
+			libraryImportPanel.setVisible(false);
+			libraryPanel.setVisible(false);
+		} else {
 			previewPanel.resize(previewLeft, 0, previewRight - previewLeft, previewBottom);
 			partsPanel.resize(0, 0, previewLeft, height - texSelectHeight);
 			texturePanel.resize(0, height - texSelectHeight, previewLeft, 58);
@@ -131,12 +142,43 @@ public class EditorScreen extends LayeredScreen {
 		}
 
 		super.init();
+
+		if (firstInit) {
+			addRenderableWidget(previewPanel);
+			addRenderableWidget(partsPanel);
+			addRenderableWidget(texturePanel);
+			addRenderableWidget(tintPanel);
+			addRenderableWidget(libraryPanel);
+			addRenderableWidget(libraryImportPanel);
+			addRenderableWidget(libraryInfoPanel);
+			addRenderableWidget(controlsPanel);
+		}
 	}
 
 	@Override
 	public void removed() {
 		setPartsData(originalPartsData);
 		super.removed();
+	}
+
+	@Override
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		previewPanel.renderBackground(gui, mouseX, mouseY, partialTick);
+		partsPanel.renderBackground(gui, mouseX, mouseY, partialTick);
+		texturePanel.renderBackground(gui, mouseX, mouseY, partialTick);
+		tintPanel.renderBackground(gui, mouseX, mouseY, partialTick);
+		libraryPanel.renderBackground(gui, mouseX, mouseY, partialTick);
+		libraryImportPanel.renderBackground(gui, mouseX, mouseY, partialTick);
+		libraryInfoPanel.renderBackground(gui, mouseX, mouseY, partialTick);
+		controlsPanel.renderBackground(gui, mouseX, mouseY, partialTick);
+
+		super.render(gui, mouseX, mouseY, partialTick);
+	}
+
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+		if (previewPanel.mouseDragged(mouseX, mouseY, button, dragX, dragY)) return true;
+		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
 
 	public void close() {

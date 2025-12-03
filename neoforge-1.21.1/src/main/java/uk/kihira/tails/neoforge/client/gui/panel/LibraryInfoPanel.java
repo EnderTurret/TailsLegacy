@@ -21,7 +21,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
@@ -54,19 +54,19 @@ public final class LibraryInfoPanel extends Panel {
 
 	@Override
 	public void init() {
-		textField = new RelativeTextBox(this, font, left + 6, top + 6, right - left - 12, 15, Component.empty());
+		textField = new RelativeTextBox(this, parent.font(), left + 6, top + 6, right - left - 12, 15, Component.empty());
 		textField.setMaxLength(16);
 		addWidget(textField);
 
 		addRenderableWidget(favButton = new IconButton.Toggle(left + 5, bottom - 20, TailsIcons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
-		}, Component.translatable("tails.gui.library.button.favorite")));
+		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.favorite")));
 
 		addRenderableWidget(deleteButton = new IconButton(left + 21, bottom - 20, TailsIcons.DELETE, b -> {
 			((IconButton) b).setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
-		}, Component.translatable("tails.gui.library.button.delete")));
+		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.delete")));
 
 		addRenderableWidget(new IconButton(left + 68, bottom - 20, TailsIcons.EXPORT, b -> {
 			final StringBuilder sb = new StringBuilder();
@@ -76,19 +76,23 @@ public final class LibraryInfoPanel extends Panel {
 			sb.append(LocalPartManager.GSON.toJson(libData.partsData));
 
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, Component.translatable("tails.gui.library.info.toast.export"));
-			GLFW.glfwSetClipboardString(minecraft.getWindow().getWindow(), sb.toString());
-		}, Component.translatable("tails.gui.library.button.share")));
+			GLFW.glfwSetClipboardString(parent.getMinecraft().getWindow().getWindow(), sb.toString());
+		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.share")));
 
 		setEntry(null);
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		renderBackground(gui, mouseX, mouseY, partialTick);
+	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderBackground(gui, mouseX, mouseY, partialTick);
+		gui.fillGradient(left + 3, top + 3, right - 3, bottom - 3, 0, 0xFF000000, 0xFF000000);
+	}
+
+	@Override
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-
-		gui.fillGradient(left + 3, top + 3, right - 3, bottom - 3, 0, 0xFF000000, 0xFF000000);
 
 		if (entry != null) {
 			textField.render(gui, mouseX, mouseY, partialTick);
@@ -99,19 +103,19 @@ public final class LibraryInfoPanel extends Panel {
 			final int yOffset = top;
 			for (ClientPartInfo partInfo : ((ClientPartsData) entry.data.partsData).getParts()) {
 				String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-				RenderHelper.drawStringMultiLine(gui, font, trans,
+				RenderHelper.drawStringMultiLine(gui, parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4),
 						0xFFFFFF);
 
 				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.get(partInfo.getPart().getTranslationKey() + ".subtype." + partInfo.getSubTypeId());
-				RenderHelper.drawStringMultiLine(gui, font, trans,
+				RenderHelper.drawStringMultiLine(gui, parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
 						0xFFFFFF);
 
 				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.get(partInfo.getPart().getTranslationKey() + ".texture." + partInfo.getTextureId());
-				RenderHelper.drawStringMultiLine(gui, font, trans,
+				RenderHelper.drawStringMultiLine(gui, parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
 						0xFFFFFF);
@@ -127,14 +131,12 @@ public final class LibraryInfoPanel extends Panel {
 				index++;
 			}
 
-			gui.drawString(font, I18n.get("tails.gui.library.info.created") + ":", left + 5, bottom - 59, 0xAAAAAA);
-			gui.drawString(font, entry.data.creatorName, right - 5 - font.width(entry.data.creatorName), bottom - 50, 0xAAAAAA);
-			gui.drawString(font, I18n.get("tails.gui.library.info.createdate") + ":", left + 5, bottom - 41, 0xAAAAAA);
+			gui.drawString(parent.font(), I18n.get("tails.gui.library.info.created") + ":", left + 5, bottom - 59, 0xAAAAAA);
+			gui.drawString(parent.font(), entry.data.creatorName, right - 5 - parent.font().width(entry.data.creatorName), bottom - 50, 0xAAAAAA);
+			gui.drawString(parent.font(), I18n.get("tails.gui.library.info.createdate") + ":", left + 5, bottom - 41, 0xAAAAAA);
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
-			gui.drawString(font, date, right - 5 - font.width(date), bottom - 32, 0xAAAAAA);
+			gui.drawString(parent.font(), date, right - 5 - parent.font().width(date), bottom - 32, 0xAAAAAA);
 		}
-
-		super.render(gui, mouseX, mouseY, partialTick);
 	}
 
 	@Override
@@ -173,9 +175,8 @@ public final class LibraryInfoPanel extends Panel {
 
 		textField.setVisible(visible);
 
-		for (Renderable renderable : renderables)
-			if (renderable instanceof AbstractWidget widget)
-				widget.visible = visible;
+		for (AbstractWidget widget : renderables)
+			widget.visible = visible;
 	}
 
 	@Nullable

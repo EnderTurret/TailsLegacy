@@ -15,6 +15,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.CameraType;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.common.TailsMath;
@@ -40,23 +41,23 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void init() {
-		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || minecraft.options.getCameraType() == CameraType.FIRST_PERSON;
+		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || parent.getMinecraft().options.getCameraType() == CameraType.FIRST_PERSON;
 		if (!doRender) return;
 
 		// Help
-		addRenderableWidget(new IconButton(right - 18, 4, TailsIcons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")) {
+		addRenderableWidget(new IconButton(right - 18, 4, TailsIcons.QUESTION, b -> {}) {
 			@Override
 			protected boolean isValidClickButton(int button) {
 				return false;
 			}
-		});
+		}).setTooltip(Tooltip.create(Component.translatable("tails.gui.button.help.camera")));
 
 		// Reset Camera
 		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, b -> {
 			yaw = 0;
 			pitch = 8F;
 			zoom = 1F;
-		}, Component.translatable("tails.gui.button.reset.camera")));
+		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.button.reset.camera")));
 	}
 
 	@Override
@@ -65,15 +66,15 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		if (!doRender) return;
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
-		renderBackground(gui, mouseX, mouseY, partialTick);
+		if (!doRender) return;
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderHelper.startGlScissor(left, top, width, height);
 
-		final int mcHeight = minecraft.getWindow().getGuiScaledHeight();
+		final int mcHeight = parent.getMinecraft().getWindow().getGuiScaledHeight();
 		final double factor = mcHeight / 4 * zoom;
 
 		// Player
@@ -85,34 +86,53 @@ public final class PreviewPanel extends Panel {
 				partialTick, parent.renderingEntity);
 
 		RenderHelper.endGlScissor();
-
-		super.render(gui, mouseX, mouseY, partialTick);
 	}
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+		if (!(mouseX >= left && mouseY >= top && mouseX < right && mouseY < bottom)) return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+
 		zoom += scrollY * .1;
 		zoom = TailsMath.clamp(zoom, 1F, 3F);
+
 		return true;
 	}
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		if (button == 0) {
-			// Yaw
-			if (prevMouseX != -1)
-				yaw += (mouseX - prevMouseX) * 1.5F;
-			// Pitch
-			if (prevMouseY != -1) {
-				pitch -= (mouseY - prevMouseY) * 0.05F;
-				pitch = TailsMath.clamp(pitch, 4.8F, 13F);
-			}
+		if (button != 0) return false;
 
+		boolean handled = false;
+
+		// Yaw
+		if (prevMouseX != -1) {
+			yaw += (mouseX - prevMouseX) * 1.5F;
+			handled = true;
+		}
+
+		// Pitch
+		if (prevMouseY != -1) {
+			pitch -= (mouseY - prevMouseY) * 0.05F;
+			pitch = TailsMath.clamp(pitch, 4.8F, 13F);
+			handled = true;
+		}
+
+		if (handled) {
 			prevMouseX = mouseX;
 			prevMouseY = mouseY;
-			return true;
 		}
-		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+
+		return handled;
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (prevMouseX == -1 && mouseX >= left && mouseY >= top && mouseX < right && mouseY < bottom) {
+			prevMouseX = mouseX;
+			prevMouseY = mouseY;
+		}
+
+		return super.mouseClicked(mouseX, mouseY, button);
 	}
 
 	@Override

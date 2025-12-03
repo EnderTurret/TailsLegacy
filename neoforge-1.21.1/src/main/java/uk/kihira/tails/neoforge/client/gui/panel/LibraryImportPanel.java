@@ -41,7 +41,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 	public void init() {
 		addRenderableWidget(new ExtendedButton(left + 3, top + 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString0));
 
-		inputField = new RelativeTextBox(this, font, left + 3, top + 41, right - left - 6, 15, null);
+		inputField = new RelativeTextBox(this, font, left + 3, top + 41, right - left - 6, 15, Component.empty());
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}

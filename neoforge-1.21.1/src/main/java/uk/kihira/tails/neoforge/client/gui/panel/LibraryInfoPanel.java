@@ -54,7 +54,7 @@ public final class LibraryInfoPanel extends Panel {
 
 	@Override
 	public void init() {
-		textField = new RelativeTextBox(this, font, left + 6, top + 6, right - left - 12, 15, null);
+		textField = new RelativeTextBox(this, font, left + 6, top + 6, right - left - 12, 15, Component.empty());
 		textField.setMaxLength(16);
 		addWidget(textField);
 

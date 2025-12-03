@@ -79,7 +79,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		}
 
 		// Tint edit pane
-		hexText = new RelativeTextBox(this, font, left + 30, editPaneTop + 20, 73, 10, null);
+		hexText = new RelativeTextBox(this, font, left + 30, editPaneTop + 20, 73, 10, Component.empty());
 		hexText.setMaxLength(6);
 		addRenderableWidget(hexText);
 

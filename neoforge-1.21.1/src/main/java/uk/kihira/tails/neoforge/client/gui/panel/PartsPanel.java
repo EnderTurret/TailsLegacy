@@ -94,8 +94,8 @@ public final class PartsPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fillGradient(0, 0, right - left, listTop, -100, 0xEA000000, 0xEA000000);
-		gui.fillGradient(0, listTop, right - left, bottom - top, -100, 0xFF000000, 0xFF000000);
+		gui.fillGradient(left, top, right, listTop, -100, 0xEA000000, 0xEA000000);
+		gui.fillGradient(left, listTop, right, bottom, -100, 0xFF000000, 0xFF000000);
 
 		gui.drawCenteredString(font, I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
 

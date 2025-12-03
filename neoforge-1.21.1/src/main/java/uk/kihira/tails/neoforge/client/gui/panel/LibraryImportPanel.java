@@ -39,9 +39,9 @@ public final class LibraryImportPanel extends Panel<EditorScreen> implements Bas
 
 	@Override
 	public void init() {
-		addRenderableWidget(new ExtendedButton(3, 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString0));
+		addRenderableWidget(new ExtendedButton(left + 3, top + 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString0));
 
-		inputField = new RelativeTextBox(this, font, 3, 41, right - left - 6, 15, null);
+		inputField = new RelativeTextBox(this, font, left + 3, top + 41, right - left - 6, 15, null);
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}
@@ -67,8 +67,7 @@ public final class LibraryImportPanel extends Panel<EditorScreen> implements Bas
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fillGradient(0, 0, right - left, bottom - top, 0xDE000000, 0xDE000000);
-
+		gui.fillGradient(left, top, right, bottom, 0xDE000000, 0xDE000000);
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
 }

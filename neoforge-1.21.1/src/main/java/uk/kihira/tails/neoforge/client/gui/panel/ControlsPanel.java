@@ -31,14 +31,14 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 	public void init() {
 		// Mode Switch
 		addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.mode.library"), this::switchMode)
-				.bounds(3, bottom - top - 25, 46, 20)
+				.bounds(left + 3, bottom - 25, 46, 20)
 				.build());
 		// Reset/Save
 		addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.reset"), this::reset)
-				.bounds((right - left) / 2 - 23, bottom - top - 25, 46, 20)
+				.bounds(left + (right - left) / 2 - 23, bottom - 25, 46, 20)
 				.build());
 		addRenderableWidget(Button.builder(Component.translatable("tails.gui.done"), b -> parent.close())
-				.bounds(right - left - 49, bottom - top - 25, 46, 20)
+				.bounds(right - 49, bottom - 25, 46, 20)
 				.build());
 	}
 
@@ -74,8 +74,7 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fill(0, 0, right - left, bottom - top, -400, 0xDD000000);
-
+		gui.fill(left, top, right, bottom, -400, 0xDD000000);
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
 }

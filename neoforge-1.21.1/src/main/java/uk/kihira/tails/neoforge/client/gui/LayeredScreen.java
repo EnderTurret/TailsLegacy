@@ -77,13 +77,8 @@ public abstract class LayeredScreen extends BaseScreen {
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
-					gui.pose().pushPose();
-					gui.pose().translate(panel.left, panel.top, 0);
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-
-					panel.render(gui, mouseX - panel.left, mouseY - panel.top, partialTick);
-
-					gui.pose().popPose();
+					panel.render(gui, mouseX, mouseY, partialTick);
 				}
 
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
@@ -93,25 +88,16 @@ public abstract class LayeredScreen extends BaseScreen {
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (panel.enabled) {
-					gui.pose().pushPose();
-					gui.pose().translate(panel.left, panel.top, 0);
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-
-					panel.renderTooltips(gui, mouseX - panel.left, mouseY - panel.top, partialTick);
-
-					gui.pose().popPose();
+					panel.renderTooltips(gui, mouseX, mouseY, partialTick);
 				}
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		final Panel<?> focused = (Panel<?>) getFocused();
-		if (focused != null && focused.mouseClicked(mouseX - focused.left, mouseY - focused.top, button))
-			return true;
-
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
-				if (focused != panel && shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseClicked(mouseX - panel.left, mouseY - panel.top, button))
+				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseClicked(mouseX, mouseY, button))
 					return true;
 
 		return super.mouseClicked(mouseX, mouseY, button);
@@ -119,13 +105,9 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-		final Panel<?> focused = (Panel<?>) getFocused();
-		if (focused != null && focused.mouseReleased(mouseX - focused.left, mouseY - focused.top, button))
-			return true;
-
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
-				if (focused != panel && shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseReleased(mouseX - panel.left, mouseY - panel.top, button))
+				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseReleased(mouseX, mouseY, button))
 					return true;
 
 		return super.mouseReleased(mouseX, mouseY, button);
@@ -133,13 +115,9 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		final Panel<?> focused = (Panel<?>) getFocused();
-		if (focused != null && focused.mouseDragged(mouseX - focused.left, mouseY - focused.top, button, dragX, dragY))
-			return true;
-
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
-				if (focused != panel && shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseDragged(mouseX - panel.left, mouseY - panel.top, button, dragX, dragY))
+				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseDragged(mouseX, mouseY, button, dragX, dragY))
 					return true;
 
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
@@ -150,20 +128,16 @@ public abstract class LayeredScreen extends BaseScreen {
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY))
-					panel.mouseMoved(mouseX - panel.left, mouseY - panel.top);
+					panel.mouseMoved(mouseX, mouseY);
 
 		super.mouseMoved(mouseX, mouseY);
 	}
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-		final Panel<?> focused = (Panel<?>) getFocused();
-		if (focused != null && focused.mouseScrolled(mouseX - focused.left, mouseY - focused.top, scrollX, scrollY))
-			return true;
-
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
-				if (focused != panel && shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseScrolled(mouseX - panel.left, mouseY - panel.top, scrollX, scrollY))
+				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseScrolled(mouseX, mouseY, scrollX, scrollY))
 					return true;
 
 		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
@@ -171,27 +145,20 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (keyCode != 258) {
-			final Panel<?> focused = (Panel<?>) getFocused();
-			if (focused != null && focused.keyPressed(keyCode, scanCode, modifiers)) return true;
-
+		if (keyCode != 258)
 			for (List<Panel<?>> layer : layers)
 				for (Panel<?> panel : layer)
-					if (focused != panel && panel.enabled && panel.keyPressed(keyCode, scanCode, modifiers))
+					if (panel.enabled && panel.keyPressed(keyCode, scanCode, modifiers))
 						return true;
-		}
 
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
 	@Override
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-		final Panel<?> focused = (Panel<?>) getFocused();
-		if (focused != null && focused.keyReleased(keyCode, scanCode, modifiers)) return true;
-
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
-				if (focused != panel && panel.enabled && panel.keyReleased(keyCode, scanCode, modifiers))
+				if (panel.enabled && panel.keyReleased(keyCode, scanCode, modifiers))
 					return true;
 
 		return super.keyReleased(keyCode, scanCode, modifiers);
@@ -199,12 +166,9 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean charTyped(char codePoint, int modifiers) {
-		final Panel<?> focused = (Panel<?>) getFocused();
-		if (focused != null && focused.charTyped(codePoint, modifiers)) return true;
-
 		for (List<Panel<?>> layer : layers)
 			for (Panel<?> panel : layer)
-				if (focused != panel && panel.enabled && panel.charTyped(codePoint, modifiers))
+				if (panel.enabled && panel.charTyped(codePoint, modifiers))
 					return true;
 
 		return super.charTyped(codePoint, modifiers);
@@ -219,60 +183,11 @@ public abstract class LayeredScreen extends BaseScreen {
 		super.removed();
 	}
 
-	/* TODO: Port this.
-	@Override
-	public boolean changeFocus(boolean forward) {
-		final GuiEventListener focused = getFocused();
-		final boolean hasFocused = focused != null;
-
-		if (hasFocused && focused.changeFocus(forward))
-			return true;
-
-		final List<Panel<?>> children = collapsePanels();
-		final int focusedIndex = children.indexOf(focused);
-		final int startIndex;
-
-		if (hasFocused && focusedIndex >= 0)
-			startIndex = focusedIndex + (forward ? 1 : 0);
-		else if (forward)
-			startIndex = 0;
-		else
-			startIndex = children.size();
-
-		final ListIterator<Panel<?>> it = children.listIterator(startIndex);
-		final BooleanSupplier hasNext = forward ? it::hasNext : it::hasPrevious;
-		final Supplier<Panel<?>> next = forward ? it::next : it::previous;
-
-		while (hasNext.getAsBoolean()) {
-			final Panel<?> listener = next.get();
-			if (listener.changeFocus(forward)) {
-				setFocused(listener);
-				return true;
-			}
-		}
-
-		setFocused(null);
-
-		return false;
-	}
-	*/
-
 	@Override
 	public void setFocused(GuiEventListener listener) {
 		if (listener != null && !(listener instanceof Panel))
 			throw new IllegalArgumentException("Can only focus panels!");
 		super.setFocused(listener);
-	}
-
-	private List<Panel<?>> collapsePanels() {
-		final List<Panel<?>> ret = new ArrayList<>();
-
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
-				if (panel.enabled)
-					ret.add(panel);
-
-		return ret;
 	}
 
 	private static boolean shouldRecieveMouse(Panel<?> panel, double mouseX, double mouseY) {

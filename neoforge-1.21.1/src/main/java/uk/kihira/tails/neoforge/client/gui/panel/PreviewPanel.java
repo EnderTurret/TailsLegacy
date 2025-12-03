@@ -34,8 +34,8 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 	private double prevMouseY = -1;
 	private boolean doRender;
 
-	public PreviewPanel(EditorScreen parent, int left, int top, int right, int bottom) {
-		super(parent, left, top, right, bottom);
+	public PreviewPanel(EditorScreen parent, int x, int y, int width, int height) {
+		super(parent, x, y, width, height);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		if (!doRender) return;
 
 		// Help
-		addRenderableWidget(new IconButton(right - left - 18, 4, TailsIcons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")) {
+		addRenderableWidget(new IconButton(right - 18, 4, TailsIcons.QUESTION, b -> {}, Component.translatable("tails.gui.button.help.camera.0"), Component.translatable("tails.gui.button.help.camera.1")) {
 			@Override
 			protected boolean isValidClickButton(int button) {
 				return false;
@@ -52,7 +52,7 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		});
 
 		// Reset Camera
-		addRenderableWidget(new IconButton(right - left - 18, 22, TailsIcons.UNDO, b -> {
+		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, b -> {
 			yaw = 0;
 			pitch = 8F;
 			zoom = 1F;
@@ -64,18 +64,19 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 		if (!doRender) return;
 
 		// Background
-		gui.fillGradient(0, 0, right - left, bottom - top, -900, 0xFF000000, 0xFF000000);
+		gui.fillGradient(left, top, right, bottom, -900, 0xFF000000, 0xFF000000);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderHelper.startGlScissor(left, top, width, height);
 
 		final int mcHeight = minecraft.getWindow().getGuiScaledHeight();
+		final double factor = mcHeight / 4 * zoom;
 
 		// Player
 		RenderHelper.drawEntity(gui,
 				left + width / 2,
-				top + height / 2 + (int) (mcHeight / 4 * zoom),
-				(int) (mcHeight / 4 * zoom),
+				top + height / 2 + (int) factor,
+				(int) factor,
 				yaw, pitch,
 				partialTick, parent.renderingEntity);
 

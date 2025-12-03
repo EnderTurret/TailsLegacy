@@ -54,21 +54,21 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void init() {
-		textField = new RelativeTextBox(this, font, 6, 6, right - left - 12, 15, null);
+		textField = new RelativeTextBox(this, font, left + 6, top + 6, right - left - 12, 15, null);
 		textField.setMaxLength(16);
 		addWidget(textField);
 
-		addRenderableWidget(favButton = new IconButton.Toggle(5, bottom - top - 20, TailsIcons.STAR, b -> {
+		addRenderableWidget(favButton = new IconButton.Toggle(left + 5, bottom - 20, TailsIcons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
 		}, Component.translatable("tails.gui.library.button.favorite")));
 
-		addRenderableWidget(deleteButton = new IconButton(21, bottom - top - 20, TailsIcons.DELETE, b -> {
+		addRenderableWidget(deleteButton = new IconButton(left + 21, bottom - 20, TailsIcons.DELETE, b -> {
 			((IconButton) b).setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
 		}, Component.translatable("tails.gui.library.button.delete")));
 
-		addRenderableWidget(new IconButton(68, bottom - top - 20, TailsIcons.EXPORT, b -> {
+		addRenderableWidget(new IconButton(left + 68, bottom - 20, TailsIcons.EXPORT, b -> {
 			final StringBuilder sb = new StringBuilder();
 			final LibraryEntryData libData = getEntry().data;
 			sb.append(libData.entryName).append(":");
@@ -84,19 +84,19 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fillGradient(0, 0, right - left, bottom - top, 0xCC000000, 0xCC000000);
+		gui.fillGradient(left, top, right, bottom, 0xCC000000, 0xCC000000);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
-		gui.fillGradient(3, 3, right - left - 3, bottom - top - 3, 0, 0xFF000000, 0xFF000000);
+		gui.fillGradient(left + 3, top + 3, right - 3, bottom - 3, 0, 0xFF000000, 0xFF000000);
 
 		if (entry != null) {
 			textField.render(gui, mouseX, mouseY, partialTick);
 
 			int index = 0;
 
-			final int xOffset = 0;
-			final int yOffset = 0;
+			final int xOffset = left;
+			final int yOffset = top;
 			for (ClientPartInfo partInfo : ((ClientPartsData) entry.data.partsData).getParts()) {
 				String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
 				RenderHelper.drawStringMultiLine(gui, font, trans,
@@ -127,11 +127,11 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 				index++;
 			}
 
-			gui.drawString(font, I18n.get("tails.gui.library.info.created") + ":", 5, bottom - top - 59, 0xAAAAAA);
-			gui.drawString(font, entry.data.creatorName, right - left - 5 - font.width(entry.data.creatorName), bottom - top - 50, 0xAAAAAA);
-			gui.drawString(font, I18n.get("tails.gui.library.info.createdate") + ":", 5, bottom - top - 41, 0xAAAAAA);
+			gui.drawString(font, I18n.get("tails.gui.library.info.created") + ":", left + 5, bottom - 59, 0xAAAAAA);
+			gui.drawString(font, entry.data.creatorName, right - 5 - font.width(entry.data.creatorName), bottom - 50, 0xAAAAAA);
+			gui.drawString(font, I18n.get("tails.gui.library.info.createdate") + ":", left + 5, bottom - 41, 0xAAAAAA);
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
-			gui.drawString(font, date, right - left - 5 - font.width(date), bottom - top - 32, 0xAAAAAA);
+			gui.drawString(font, date, right - 5 - font.width(date), bottom - 32, 0xAAAAAA);
 		}
 
 		super.render(gui, mouseX, mouseY, partialTick);

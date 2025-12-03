@@ -73,20 +73,20 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		for (int id = 1; id <= 3; id++) {
 			final int finalId = id;
 			addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.edit"), b -> handleTintButton(finalId))
-					.bounds(30, topOffset, 40, 20)
+					.bounds(left + 30, topOffset, 40, 20)
 					.build());
 			topOffset += 35;
 		}
 
 		// Tint edit pane
-		hexText = new RelativeTextBox(this, font, 30, editPaneTop + 20, 73, 10, null);
+		hexText = new RelativeTextBox(this, font, left + 30, editPaneTop + 20, 73, 10, null);
 		hexText.setMaxLength(6);
 		addRenderableWidget(hexText);
 
 		// RGB sliders
-		red = new SaturationSlider(5, editPaneTop + 70, 100, 10, this, Component.translatable("tails.gui.slider.red.tooltip"));
-		green = new SaturationSlider(5, editPaneTop + 80, 100, 10, this, Component.translatable("tails.gui.slider.green.tooltip"));
-		blue = new SaturationSlider(5, editPaneTop + 90, 100, 10, this, Component.translatable("tails.gui.slider.blue.tooltip"));
+		red = new SaturationSlider(left + 5, editPaneTop + 70, 100, 10, this, Component.translatable("tails.gui.slider.red.tooltip"));
+		green = new SaturationSlider(left + 5, editPaneTop + 80, 100, 10, this, Component.translatable("tails.gui.slider.green.tooltip"));
+		blue = new SaturationSlider(left + 5, editPaneTop + 90, 100, 10, this, Component.translatable("tails.gui.slider.blue.tooltip"));
 		red.setHue(0);
 		green.setHue(1F / 3F);
 		blue.setHue(2F / 3F);
@@ -96,16 +96,16 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		addRenderableWidget(blue);
 
 		// HSB sliders
-		hue = new HSBSlider(5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, Component.translatable("tails.gui.slider.hue.tooltip"));
-		saturation = new SaturationSlider(5, editPaneTop + 45, 100, 10, this, Component.translatable("tails.gui.slider.saturation.tooltip"));
-		brightness = new HSBSlider(5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, Component.translatable("tails.gui.slider.brightness.tooltip"));
+		hue = new HSBSlider(left + 5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE, Component.translatable("tails.gui.slider.hue.tooltip"));
+		saturation = new SaturationSlider(left + 5, editPaneTop + 45, 100, 10, this, Component.translatable("tails.gui.slider.saturation.tooltip"));
+		brightness = new HSBSlider(left + 5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS, Component.translatable("tails.gui.slider.brightness.tooltip"));
 
 		addRenderableWidget(hue);
 		addRenderableWidget(saturation);
 		addRenderableWidget(brightness);
 
 		// Reset/Save
-		addRenderableWidget(tintReset = new IconButton(right - left - 20, editPaneTop + 2, TailsIcons.UNDO, b -> {
+		addRenderableWidget(tintReset = new IconButton(right - 20, editPaneTop + 2, TailsIcons.UNDO, b -> {
 			final int newTint = parent.getOriginalPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
 			refreshTintPane(newTint, true);
 			tintReset.active = false;
@@ -113,7 +113,7 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 		tintReset.active = false;
 
 		// Color Picker
-		addRenderableWidget(colourPicker = new IconButton(right - left - 36, editPaneTop + 1, TailsIcons.EYEDROPPER, b -> setSelectingColour(true), Component.translatable("tails.gui.button.picker.0"), Component.translatable("tails.gui.button.picker.1")));
+		addRenderableWidget(colourPicker = new IconButton(right - 36, editPaneTop + 1, TailsIcons.EYEDROPPER, b -> setSelectingColour(true), Component.translatable("tails.gui.button.picker.0"), Component.translatable("tails.gui.button.picker.1")));
 		colourPicker.visible = false;
 
 		refreshTintPane(currentTint, true, true);
@@ -121,20 +121,20 @@ public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IH
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fillGradient(0, 0, right - left, bottom - top, -100, 0xCC000000, 0xCC000000);
+		gui.fillGradient(left, top, right, bottom, -100, 0xCC000000, 0xCC000000);
 
 		// Tints
-		int topOffset = 10;
+		int topOffset = top + 10;
 		for (int tint = 1; tint <= 3; tint++) {
 			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
-			gui.fillGradient(5, topOffset + 10, 25, topOffset + 30, colour, colour);
-			gui.drawString(font, I18n.get("tails.gui.tint", tint), 5, topOffset, 0xFFFFFF);
+			gui.fillGradient(left + 5, topOffset + 10, left + 25, topOffset + 30, colour, colour);
+			gui.drawString(font, I18n.get("tails.gui.tint", tint), left + 5, topOffset, 0xFFFFFF);
 			topOffset += 35;
 		}
 
 		// Editing tint pane
 		if (editingTint > 0) {
-			gui.hLine(0, width, editPaneTop, 0xFF000000);
+			gui.hLine(left, right, editPaneTop, 0xFF000000);
 			gui.drawString(font, I18n.get("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
 
 			gui.drawString(font, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);

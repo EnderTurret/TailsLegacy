@@ -24,8 +24,8 @@ import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 @Internal
 public final class TexturePanel extends Panel<EditorScreen> {
 
-	private final int variantSelectY = 17;
-	private final int texSelectY = variantSelectY + 15;
+	private final int variantSelectY;
+	private final int texSelectY;
 
 	private ExtendedButton variantLeftBtn;
 	private ExtendedButton variantRightBtn;
@@ -34,15 +34,17 @@ public final class TexturePanel extends Panel<EditorScreen> {
 
 	public TexturePanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
+		variantSelectY = top + 17;
+		texSelectY = variantSelectY + 15;
 	}
 
 	@Override
 	public void init() {
 		// Texture select
 		addRenderableWidget(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, Component.literal("<"), b -> cycleTexLeft()));
-		addRenderableWidget(rightBtn = new ExtendedButton(right - left - 20, texSelectY, 15, 15, Component.literal(">"), b -> cycleTexRight()));
+		addRenderableWidget(rightBtn = new ExtendedButton(right - 20, texSelectY, 15, 15, Component.literal(">"), b -> cycleTexRight()));
 		addRenderableWidget(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, Component.literal("<"), b -> cycleVariantLeft()));
-		addRenderableWidget(variantRightBtn = new ExtendedButton(right - left - 20, variantSelectY, 15, 15, Component.literal(">"), b -> cycleVariantRight()));
+		addRenderableWidget(variantRightBtn = new ExtendedButton(right - 20, variantSelectY, 15, 15, Component.literal(">"), b -> cycleVariantRight()));
 
 		updateButtons();
 	}
@@ -51,8 +53,8 @@ public final class TexturePanel extends Panel<EditorScreen> {
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		gui.fill(0, 0, right - left, bottom - top, -10, 0xCC000000);
-		gui.fill(7, variantSelectY, right - left - 15, texSelectY + 15, -5, 0x55000000);
+		gui.fill(left, top, right, bottom, -10, 0xCC000000);
+		gui.fill(7, variantSelectY, right - 15, texSelectY + 15, -5, 0x55000000);
 
 		// Texture select
 		gui.drawCenteredString(font, I18n.get("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);

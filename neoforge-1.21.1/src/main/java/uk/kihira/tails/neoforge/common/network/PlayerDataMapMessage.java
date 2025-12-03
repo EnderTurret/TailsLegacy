@@ -23,15 +23,15 @@ import net.minecraft.resources.ResourceLocation;
 
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.network.BasePlayerDataMapMessage;
 import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.neoforge.common.Tails;
 
 // S → C
 @Internal
 public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BasePlayerDataMapMessage {
 
-	public static final Type<PlayerDataMapMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "bulk_sync_to_client"));
+	public static final Type<PlayerDataMapMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "bulk_sync_to_client"));
 
 	public static final StreamCodec<ByteBuf, PlayerDataMapMessage> STREAM_CODEC = ByteBufCodecs.stringUtf8(Short.MAX_VALUE)
 			.map(PlayerDataMapMessage::decode, PlayerDataMapMessage::encode);

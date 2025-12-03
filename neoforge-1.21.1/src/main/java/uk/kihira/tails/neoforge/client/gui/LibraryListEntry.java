@@ -23,6 +23,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 import uk.kihira.tails.common.LibraryEntryData;
+import uk.kihira.tails.common.TailsLanguage;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
@@ -47,7 +48,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		return new LibraryListEntry(panel, null);
 	}
 
-	private static final Component CREATE = Component.translatable("tails.gui.library.create");
+	private static final Component CREATE = TailsComponents.CREATE_ENTRY;
 
 	@Override
 	public void render(GuiGraphics gui, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
@@ -103,7 +104,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			final LibraryEntryData data = new LibraryEntryData(
 					profile.getId(),
 					profile.getName(),
-					I18n.get("tails.gui.library.entry.default"),
+					I18n.get(TailsLanguage.DEFAULT_ENTRY_NAME),
 					panel.getParent().getPartsData());
 
 			TailsClientPlatform.get().getLibraryManager().addEntry(data);

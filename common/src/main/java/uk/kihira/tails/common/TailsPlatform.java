@@ -10,6 +10,8 @@ import uk.kihira.tails.common.client.duck.TResourceLocation;
 
 public interface TailsPlatform {
 
+	public static final String MOD_ID = "tails";
+
 	public static TailsPlatform get() {
 		if (TailsInternal.platform == null)
 			TailsInternal.platform = ServiceLoader.load(TailsPlatform.class)

@@ -18,8 +18,8 @@ import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.Part;
-import uk.kihira.tails.common.client.part.PartPath;
 import uk.kihira.tails.common.client.part.Part.SubType;
+import uk.kihira.tails.common.client.part.PartPath;
 import uk.kihira.tails.common.client.render.RenderContext;
 import uk.kihira.tails.common.client.render.part.PartRenderer;
 

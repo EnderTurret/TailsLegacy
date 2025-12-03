@@ -55,6 +55,6 @@
 
   "tails.gui.tint": "尾巴颜色 %s",
   "tails.gui.tint.edit": "编辑尾巴颜色 %s",
-  "tails.gui.hex": "施法",
+  "tails.gui.hex": "施法:",
   "tails.gui.texture": "材质"
 }

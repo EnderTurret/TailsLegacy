@@ -12,10 +12,10 @@ package uk.kihira.tails.neoforge.client.gui.panel;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
+import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 
 @Internal
 public final class ControlsPanel extends Panel {
@@ -29,14 +29,14 @@ public final class ControlsPanel extends Panel {
 	@Override
 	public void init() {
 		// Mode Switch
-		addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.mode.library"), this::switchMode)
+		addRenderableWidget(Button.builder(TailsComponents.LIBRARY_MODE, this::switchMode)
 				.bounds(left + 3, bottom - 25, 46, 20)
 				.build());
 		// Reset/Save
-		addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.reset"), this::reset)
+		addRenderableWidget(Button.builder(TailsComponents.RESET_BUTTON, this::reset)
 				.bounds(left + (right - left) / 2 - 23, bottom - 25, 46, 20)
 				.build());
-		addRenderableWidget(Button.builder(Component.translatable("tails.gui.done"), b -> parent.close())
+		addRenderableWidget(Button.builder(TailsComponents.DONE_BUTTON, b -> parent.close())
 				.bounds(right - 49, bottom - 25, 46, 20)
 				.build());
 	}
@@ -60,7 +60,7 @@ public final class ControlsPanel extends Panel {
 		if (!libraryMode)
 			parent.getLibraryPanel().save();
 
-		b.setMessage(libraryMode ? Component.translatable("tails.gui.button.mode.editor") : Component.translatable("tails.gui.button.mode.library"));
+		b.setMessage(libraryMode ? TailsComponents.EDITOR_MODE : TailsComponents.LIBRARY_MODE);
 	}
 
 	private void reset(Button b) {

@@ -20,14 +20,14 @@ import net.minecraft.resources.ResourceLocation;
 
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.network.BaseS2CPlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.neoforge.common.Tails;
 
 @Internal
 public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) implements CustomPacketPayload, BaseS2CPlayerDataMessage {
 
-	public static final Type<S2CPlayerDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "sync_to_client"));
+	public static final Type<S2CPlayerDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "sync_to_client"));
 
 	public static final StreamCodec<FriendlyByteBuf, S2CPlayerDataMessage> STREAM_CODEC = StreamCodec.of(S2CPlayerDataMessage::encode, S2CPlayerDataMessage::decode);
 

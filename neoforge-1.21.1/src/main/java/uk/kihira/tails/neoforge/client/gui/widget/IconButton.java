@@ -16,15 +16,15 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;
-import uk.kihira.tails.neoforge.common.Tails;
 
 /**
  * A button with an icon and a tooltip.
  */
 public class IconButton extends Button {
 
-	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "textures/gui/icons.png");
+	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/icons.png");
 
 	protected final TailsIcons icon;
 

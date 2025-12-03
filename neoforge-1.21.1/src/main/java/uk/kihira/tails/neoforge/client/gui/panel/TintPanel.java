@@ -10,16 +10,12 @@
 package uk.kihira.tails.neoforge.client.gui.panel;
 
 import java.awt.Color;
-import java.nio.ByteBuffer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 import com.google.common.base.Strings;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,10 +26,12 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.common.JavaColor;
+import uk.kihira.tails.common.TailsLanguage;
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
+import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 import uk.kihira.tails.neoforge.client.gui.widget.HSBSlider;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 import uk.kihira.tails.neoforge.client.gui.widget.SaturationSlider;
@@ -73,7 +71,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		int topOffset = 20;
 		for (int id = 1; id <= 3; id++) {
 			final int finalId = id;
-			addRenderableWidget(Button.builder(Component.translatable("tails.gui.button.edit"), b -> handleTintButton(finalId))
+			addRenderableWidget(Button.builder(TailsComponents.EDIT_TINT, b -> handleTintButton(finalId))
 					.bounds(left + 30, topOffset, 40, 20)
 					.build());
 			topOffset += 35;
@@ -86,26 +84,26 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		addRenderableWidget(hexText);
 
 		// HSB sliders
-		hue = new HSBSlider(left + 5, editPaneTop + 35, 100, 10, this, HSBSlider.HSBSliderType.HUE);
-		hue.setTooltip(Tooltip.create(Component.translatable("tails.gui.slider.hue.tooltip")));
-		saturation = new SaturationSlider(left + 5, editPaneTop + 45, 100, 10, this);
-		saturation.setTooltip(Tooltip.create(Component.translatable("tails.gui.slider.saturation.tooltip")));
-		brightness = new HSBSlider(left + 5, editPaneTop + 55, 100, 10, this, HSBSlider.HSBSliderType.BRIGHTNESS);
-		brightness.setTooltip(Tooltip.create(Component.translatable("tails.gui.slider.brightness.tooltip")));
+		hue = new HSBSlider(left + 5, editPaneTop + 35, this, HSBSlider.HSBSliderType.HUE);
+		hue.setTooltip(Tooltip.create(TailsComponents.HUE));
+		saturation = new SaturationSlider(left + 5, editPaneTop + 45, this);
+		saturation.setTooltip(Tooltip.create(TailsComponents.SATURATION));
+		brightness = new HSBSlider(left + 5, editPaneTop + 55, this, HSBSlider.HSBSliderType.BRIGHTNESS);
+		brightness.setTooltip(Tooltip.create(TailsComponents.BRIGHTNESS));
 
 		addRenderableWidget(hue);
 		addRenderableWidget(saturation);
 		addRenderableWidget(brightness);
 
 		// RGB sliders
-		red = new SaturationSlider(left + 5, editPaneTop + 70, 100, 10, this);
-		green = new SaturationSlider(left + 5, editPaneTop + 80, 100, 10, this);
-		blue = new SaturationSlider(left + 5, editPaneTop + 90, 100, 10, this);
-		red.setTooltip(Tooltip.create(Component.translatable("tails.gui.slider.red.tooltip")));
+		red = new SaturationSlider(left + 5, editPaneTop + 70, this);
+		green = new SaturationSlider(left + 5, editPaneTop + 80, this);
+		blue = new SaturationSlider(left + 5, editPaneTop + 90, this);
+		red.setTooltip(Tooltip.create(TailsComponents.RED));
 		red.setHue(0);
-		green.setTooltip(Tooltip.create(Component.translatable("tails.gui.slider.green.tooltip")));
+		green.setTooltip(Tooltip.create(TailsComponents.GREEN));
 		green.setHue(1F / 3F);
-		blue.setTooltip(Tooltip.create(Component.translatable("tails.gui.slider.blue.tooltip")));
+		blue.setTooltip(Tooltip.create(TailsComponents.BLUE));
 		blue.setHue(2F / 3F);
 
 		addRenderableWidget(red);
@@ -118,12 +116,12 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 			refreshTintPane(newTint, true);
 			tintReset.active = false;
 		}));
-		tintReset.setTooltip(Tooltip.create(Component.translatable("tails.gui.button.reset")));
+		tintReset.setTooltip(Tooltip.create(TailsComponents.RESET_TINT));
 		tintReset.active = false;
 
 		// Color Picker
 		addRenderableWidget(colourPicker = new IconButton(right - 36, editPaneTop + 1, TailsIcons.EYEDROPPER, b -> setSelectingColour(true)));
-		colourPicker.setTooltip(Tooltip.create(Component.translatable("tails.gui.button.picker.0").append(Component.literal("\n")).append(Component.translatable("tails.gui.button.picker.1"))));
+		colourPicker.setTooltip(Tooltip.create(TailsComponents.COLOR_PICKER));
 		colourPicker.visible = false;
 
 		refreshTintPane(currentTint, true, true);
@@ -138,16 +136,16 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		for (int tint = 1; tint <= 3; tint++) {
 			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
 			gui.fillGradient(left + 5, topOffset + 10, left + 25, topOffset + 30, colour, colour);
-			gui.drawString(parent.font(), I18n.get("tails.gui.tint", tint), left + 5, topOffset, 0xFFFFFF);
+			gui.drawString(parent.font(), I18n.get(TailsLanguage.TINT_LABEL, tint), left + 5, topOffset, 0xFFFFFF);
 			topOffset += 35;
 		}
 
 		// Editing tint pane
 		if (editingTint > 0) {
 			gui.hLine(left, right, editPaneTop, 0xFF000000);
-			gui.drawString(parent.font(), I18n.get("tails.gui.tint.edit", editingTint), left + 5, editPaneTop + 5, 0xFFFFFF);
+			gui.drawString(parent.font(), I18n.get(TailsLanguage.EDITING_TINT, editingTint), left + 5, editPaneTop + 5, 0xFFFFFF);
 
-			gui.drawString(parent.font(), I18n.get("tails.gui.hex") + ":", left + 5, editPaneTop + 21, 0xFFFFFF);
+			gui.drawString(parent.font(), TailsComponents.HEX, left + 5, editPaneTop + 21, 0xFFFFFF);
 		}
 	}
 

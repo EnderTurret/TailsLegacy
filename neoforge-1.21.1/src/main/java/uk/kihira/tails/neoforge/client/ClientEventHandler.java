@@ -31,7 +31,6 @@ import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -52,6 +51,7 @@ import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
 import uk.kihira.tails.common.ABGRColor;
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
@@ -60,13 +60,13 @@ import uk.kihira.tails.common.client.render.helper.FakeEntityRenderHelper;
 import uk.kihira.tails.common.client.render.helper.PlayerRenderHelper;
 import uk.kihira.tails.common.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
+import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 import uk.kihira.tails.neoforge.client.gui.panel.TintPanel;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 import uk.kihira.tails.neoforge.client.platform.TailsClientPlatformImpl;
 import uk.kihira.tails.neoforge.client.render.BotaniaFoxtatoRenderer;
 import uk.kihira.tails.neoforge.client.render.layer.PartLayer;
 import uk.kihira.tails.neoforge.client.render.layer.TailsArrowLayer;
-import uk.kihira.tails.neoforge.common.Tails;
 import uk.kihira.tails.neoforge.mixin.client.LivingEntityRendererAccess;
 
 /**
@@ -79,7 +79,7 @@ public final class ClientEventHandler {
 	 * Handles events on the Forge bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
 	static class Forge {
 
 		private static boolean sentPartInfoToServer = false;
@@ -91,7 +91,7 @@ public final class ClientEventHandler {
 		@SubscribeEvent
 		static void onScreenInitPost(ScreenEvent.Init.Post event) {
 			if (event.getScreen() instanceof PauseScreen)
-				event.addListener(Button.builder(Component.translatable("tails.gui.button.editor"),
+				event.addListener(Button.builder(TailsComponents.EDITOR_BUTTON,
 						b -> Minecraft.getInstance().setScreen(EditorScreen.openDefault()))
 						.bounds(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20)
 						.build());
@@ -137,7 +137,7 @@ public final class ClientEventHandler {
 	 * Handles events on the mod bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = Tails.MOD_ID, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
 	static class Mod {
 
 		@SubscribeEvent

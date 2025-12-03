@@ -55,6 +55,6 @@
 
   "tails.gui.tint": "Odstín %s",
   "tails.gui.tint.edit": "Úprava odstínu %s",
-  "tails.gui.hex": "Hex",
+  "tails.gui.hex": "Hex:",
   "tails.gui.texture": "Textura"
 }

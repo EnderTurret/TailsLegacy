@@ -24,6 +24,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.network.BaseC2SPlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.neoforge.common.Tails;
@@ -31,7 +32,7 @@ import uk.kihira.tails.neoforge.common.Tails;
 @Internal
 public record C2SPlayerDataMessage(PartsData partsData) implements CustomPacketPayload, BaseC2SPlayerDataMessage {
 
-	public static final Type<C2SPlayerDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "sync_to_server"));
+	public static final Type<C2SPlayerDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "sync_to_server"));
 
 	public static final StreamCodec<ByteBuf, C2SPlayerDataMessage> STREAM_CODEC = ByteBufCodecs.stringUtf8(Short.MAX_VALUE)
 			.map(C2SPlayerDataMessage::decode, C2SPlayerDataMessage::encode);

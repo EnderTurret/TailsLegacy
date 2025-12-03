@@ -19,25 +19,18 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.proxy.IProxy;
 import uk.kihira.tails.common.proxy.ServerProxy;
 
 /**
  * Look! It's the main mod file!
  */
-@Mod(Tails.MOD_ID)
+@Mod(TailsPlatform.MOD_ID)
 public final class Tails {
 
-	/**
-	 * It's <strike>a snow poff</strike> the mod id.
-	 */
-	public static final String MOD_ID = "tails";
-
-	/**
-	 * It's <strike>another snow poff</strike> the mod's logger.
-	 */
 	@Internal
-	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
 
 	@Internal
 	public static final IProxy PROXY;

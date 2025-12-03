@@ -12,14 +12,13 @@ package uk.kihira.tails.common.client;
 import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.Part;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Manages generation of {code TripleTintTextures} and also provides some texture-related utilities.

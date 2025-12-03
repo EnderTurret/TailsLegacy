@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.api.ITailsSyncService;
@@ -20,8 +21,6 @@ import uk.kihira.tails.common.client.part.ClientPartsData;
 import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.common.client.part.LocalPartManager;
 import uk.kihira.tails.common.part.PartsData;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Implementation of {@link ITailsAccess}.

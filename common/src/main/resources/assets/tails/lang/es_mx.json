@@ -55,6 +55,6 @@
 
   "tails.gui.tint": "Tinte %s",
   "tails.gui.tint.edit": "Editando Tinte %s",
-  "tails.gui.hex": "Hex",
+  "tails.gui.hex": "Hex:",
   "tails.gui.texture": "Textura"
 }

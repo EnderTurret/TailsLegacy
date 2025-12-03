@@ -45,6 +45,7 @@ import uk.kihira.tails.common.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.ServerPartInfo;
 import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
+import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 import uk.kihira.tails.neoforge.client.gui.widget.ListWidget;
 import uk.kihira.tails.neoforge.client.gui.widget.Spinner;
 import uk.kihira.tails.neoforge.client.render.RenderStates;
@@ -109,7 +110,7 @@ public final class PartsPanel extends Panel {
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
-		gui.drawCenteredString(parent.font(), I18n.get("tails.gui.partselect"), (right - left) / 2, 5, 0xFFFFFF);
+		gui.drawCenteredString(parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFF);
 	}
 
 	@Override
@@ -251,13 +252,13 @@ public final class PartsPanel extends Panel {
 						gui.pose().pushPose();
 						gui.pose().translate(5, x + 27, 0);
 						gui.pose().scale(0.6F, 0.6F, 1);
-						gui.drawString(parent.font(), I18n.get("tails.gui.createdby") + ":", 0, 0, 0xFFFFFF);
+						gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFF);
 						gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
 						gui.pose().popPose();
 					}
 				}
 			} else
-				gui.drawString(parent.font(), I18n.get("tails.gui.part.none"), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				gui.drawString(parent.font(), TailsComponents.EMPTY_PART, 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
 		}
 
 		@Override

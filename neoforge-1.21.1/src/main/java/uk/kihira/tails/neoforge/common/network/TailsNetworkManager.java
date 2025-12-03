@@ -15,14 +15,14 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.HandlerThread;
 
-import uk.kihira.tails.neoforge.common.Tails;
+import uk.kihira.tails.common.TailsPlatform;
 
 /**
  * Manages the Tails network stuff, like the channel and packet registration.
  * @author EnderTurret
  */
 @Internal
-@EventBusSubscriber(modid = Tails.MOD_ID)
+@EventBusSubscriber(modid = TailsPlatform.MOD_ID)
 public class TailsNetworkManager {
 
 	@SubscribeEvent

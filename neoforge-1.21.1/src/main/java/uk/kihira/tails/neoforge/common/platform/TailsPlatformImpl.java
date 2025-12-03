@@ -34,7 +34,7 @@ public final class TailsPlatformImpl implements TailsPlatform {
 
 	@Override
 	public TResourceLocation newResourceLocation(String path) {
-		return (TResourceLocation) (Object) ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, path);
+		return (TResourceLocation) (Object) ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, path);
 	}
 
 	@Override

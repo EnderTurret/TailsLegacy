@@ -16,12 +16,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
+import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 import uk.kihira.tails.neoforge.common.TailsConfig;
 
@@ -50,14 +50,14 @@ public final class PreviewPanel extends Panel {
 			protected boolean isValidClickButton(int button) {
 				return false;
 			}
-		}).setTooltip(Tooltip.create(Component.translatable("tails.gui.button.help.camera")));
+		}).setTooltip(Tooltip.create(TailsComponents.PREVIEW_HELP));
 
 		// Reset Camera
 		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, b -> {
 			yaw = 0;
 			pitch = 8F;
 			zoom = 1F;
-		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.button.reset.camera")));
+		})).setTooltip(Tooltip.create(TailsComponents.RESET_CAMERA));
 	}
 
 	@Override

@@ -30,6 +30,10 @@ public class SaturationSlider extends HSBSlider {
 		super(xPos, yPos, width, height, callback, HSBSlider.HSBSliderType.SATURATION);
 	}
 
+	public SaturationSlider(int xPos, int yPos, IHSBSliderCallback callback) {
+		this(xPos, yPos, 100, 10, callback);
+	}
+
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
 		gui.blitWithBorder(SLIDER_TEXTURE, getX(), getY(), 0, 10, width, height, 200, 20, 2, 3, 2, 2);

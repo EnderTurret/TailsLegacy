@@ -17,8 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.common.TailsMath;
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.neoforge.client.RenderHelper;
-import uk.kihira.tails.neoforge.common.Tails;
 
 /**
  * A specialized version of the {@link AbstractSliderButton} for {@code HSB} and {@code RGB} values.
@@ -26,7 +26,7 @@ import uk.kihira.tails.neoforge.common.Tails;
  */
 public class HSBSlider extends AbstractSliderButton {
 
-	protected static final ResourceLocation SLIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "textures/gui/controls/slider_hue.png");
+	protected static final ResourceLocation SLIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
@@ -37,18 +37,17 @@ public class HSBSlider extends AbstractSliderButton {
 		this.callback = callback;
 	}
 
+	public HSBSlider(int xPos, int yPos, IHSBSliderCallback callback, HSBSliderType type) {
+		this(xPos, yPos, 100, 10, callback, type);
+	}
+
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
 		gui.blitWithBorder(SLIDER_TEXTURE, getX(), getY(), 0, 10, width, height, 200, 20, 2, 3, 2, 2);
 
-		int srcY = 236;
-
-		if (type == HSBSliderType.BRIGHTNESS)
-			srcY -= 20;
-
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
-		RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, srcY, 256, 20, width - 2, height - 2);
+		RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, 236 - (type == HSBSliderType.BRIGHTNESS ? 20 : 0), 256, 20, width - 2, height - 2);
 
 		final int offset = isFocused() ? 5 : 0;
 

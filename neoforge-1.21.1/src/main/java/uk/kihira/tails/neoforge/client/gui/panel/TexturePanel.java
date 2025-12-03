@@ -12,7 +12,6 @@ package uk.kihira.tails.neoforge.client.gui.panel;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
@@ -20,6 +19,7 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
+import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 
 @Internal
 public final class TexturePanel extends Panel {
@@ -58,7 +58,7 @@ public final class TexturePanel extends Panel {
 		gui.fill(7, variantSelectY, right - 15, texSelectY + 15, -5, 0x55000000);
 
 		// Texture select
-		gui.drawCenteredString(parent.font(), I18n.get("tails.gui.texture"), right / 2, variantSelectY - 12, 0xFFFFFF);
+		gui.drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFF);
 
 		final Part part = partInfo.getPart();
 

@@ -31,6 +31,7 @@ import uk.kihira.tails.common.client.part.ClientPartsData;
 import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.LibraryListEntry;
+import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 import uk.kihira.tails.neoforge.client.toast.ToastManager;
 
@@ -61,20 +62,20 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 
 		addRenderableWidget(favButton = new IconButton.Toggle(left + 5, bottom - 20, TailsIcons.STAR, b -> {
 			entry.data.favourite = favButton.toggled;
-		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.favorite")));
+		})).setTooltip(Tooltip.create(TailsComponents.FAVORITE_BUTTON));
 
 		addRenderableWidget(deleteButton = new IconButton(left + 21, bottom - 20, TailsIcons.DELETE, b -> {
 			deleteButton.setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
-		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.delete")));
+		})).setTooltip(Tooltip.create(TailsComponents.DELETE_BUTTON));
 
 		addRenderableWidget(new IconButton(left + 68, bottom - 20, TailsIcons.EXPORT, b -> {
 			final String export = exportString(getEntry().data);
 
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, Component.translatable("tails.gui.library.info.toast.export"));
+			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, TailsComponents.EXPORTED_MESSAGE);
 			GLFW.glfwSetClipboardString(parent.getMinecraft().getWindow().getWindow(), export);
-		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.share")));
+		})).setTooltip(Tooltip.create(TailsComponents.SHARE_BUTTON));
 
 		setEntry(null);
 	}
@@ -126,9 +127,9 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 				index++;
 			}
 
-			gui.drawString(parent.font(), I18n.get("tails.gui.library.info.created") + ":", left + 5, bottom - 59, 0xAAAAAA);
+			gui.drawString(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATOR, left + 5, bottom - 59, 0xAAAAAA);
 			gui.drawString(parent.font(), entry.data.creatorName, right - 5 - parent.font().width(entry.data.creatorName), bottom - 50, 0xAAAAAA);
-			gui.drawString(parent.font(), I18n.get("tails.gui.library.info.createdate") + ":", left + 5, bottom - 41, 0xAAAAAA);
+			gui.drawString(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATION_DATE, left + 5, bottom - 41, 0xAAAAAA);
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
 			gui.drawString(parent.font(), date, right - 5 - parent.font().width(date), bottom - 32, 0xAAAAAA);
 		}

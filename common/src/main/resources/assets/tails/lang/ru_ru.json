@@ -55,6 +55,6 @@
 
   "tails.gui.tint": "Цвет %s",
   "tails.gui.tint.edit": "Настройка цвета %s",
-  "tails.gui.hex": "Hex",
+  "tails.gui.hex": "Hex:",
   "tails.gui.texture": "Текстура"
 }

@@ -19,13 +19,14 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEven
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.neoforge.common.network.PlayerDataMapMessage;
 
 /**
  * A server event handler, for handling events on the server.
  */
 @Internal
-@EventBusSubscriber(modid = Tails.MOD_ID)
+@EventBusSubscriber(modid = TailsPlatform.MOD_ID)
 public final class ServerEventHandler {
 
 	@SubscribeEvent

@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.common.LibraryEntryData;
+import uk.kihira.tails.common.TailsLanguage;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.part.ClientPartsData;
@@ -21,7 +22,7 @@ public interface BaseLibraryImportPanel {
 		final Matcher m = PATTERN.matcher(input);
 
 		if (!m.matches()) {
-			toast("tails.gui.library.import.toast.invalid", null, true);
+			toast(TailsLanguage.IMPORT_INVALID_MESSAGE, null, true);
 			return;
 		}
 
@@ -34,7 +35,7 @@ public interface BaseLibraryImportPanel {
 		try {
 			creatorId = UUID.fromString(rawCreatorId);
 		} catch (Exception e) {
-			toast("tails.gui.library.import.toast.invalid.uuid", null, true);
+			toast(TailsLanguage.IMPORT_INVALID_UUID_MESSAGE, null, true);
 			TailsPlatform.get().logError("Exception parsing import UUID \"{}\":", rawCreatorId, e);
 			return;
 		}
@@ -44,7 +45,7 @@ public interface BaseLibraryImportPanel {
 		try {
 			partData = (ClientPartsData) LocalPartManager.GSON.fromJson(json, PartsData.class);
 		} catch (Exception e) {
-			toast("tails.gui.library.import.toast.invalid.parts", null, true);
+			toast(TailsLanguage.IMPORT_INVALID_PARTS_MESSAGE, null, true);
 			TailsPlatform.get().logError("Exception parsing import part data:", e);
 			return;
 		}
@@ -54,7 +55,7 @@ public interface BaseLibraryImportPanel {
 
 		importPartsData(entry);
 
-		toast("tails.gui.library.import.toast.success", name, false);
+		toast(TailsLanguage.IMPORT_SUCCESS, name, false);
 	}
 
 	public void importPartsData(LibraryEntryData entry);

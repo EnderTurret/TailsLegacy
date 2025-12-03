@@ -63,8 +63,8 @@
   "tails.gui.library.create": "Maak nieuw onderdeel",
   "tails.gui.library.entry.default": "Nieuw onderdeel",
   "tails.gui.library.entry": "Bibliotheek onderdeel",
-  "tails.gui.library.info.created": "Gemaakt door",
-  "tails.gui.library.info.createdate": "Gemaakt op",
+  "tails.gui.library.info.created": "Gemaakt door:",
+  "tails.gui.library.info.createdate": "Gemaakt op:",
   "tails.gui.library.info.toast.export": "Bibliotheek onderdeel data gekopieerd naar clipboard!",
   "tails.gui.library.import.skin": "Importeer via skin",
   "tails.gui.library.import.toast.skin": "Data via de skin gelanden!",
@@ -75,7 +75,7 @@
 
   "tails.gui.tint": "Tint %s",
   "tails.gui.tint.edit": "Tint %s aan het bewerken",
-  "tails.gui.hex": "Hex",
+  "tails.gui.hex": "Hex:",
   "tails.gui.texture": "Textuur",
-  "tails.gui.createdby": "Gemaakt door"
+  "tails.gui.createdby": "Gemaakt door:"
 }

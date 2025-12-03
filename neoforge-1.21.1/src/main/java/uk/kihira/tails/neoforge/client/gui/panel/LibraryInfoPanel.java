@@ -34,7 +34,6 @@ import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.LibraryListEntry;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
-import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.neoforge.client.toast.ToastManager;
 
 @Internal
@@ -54,9 +53,9 @@ public final class LibraryInfoPanel extends Panel {
 
 	@Override
 	public void init() {
-		textField = new RelativeTextBox(this, parent.font(), left + 6, top + 6, right - left - 12, 15, Component.empty());
+		textField = new EditBox(parent.font(), left + 6, top + 6, right - left - 12, 15, Component.empty());
 		textField.setMaxLength(16);
-		addWidget(textField);
+		addRenderableWidget(textField);
 
 		addRenderableWidget(favButton = new IconButton.Toggle(left + 5, bottom - 20, TailsIcons.STAR, b -> {
 			entry.data.favourite = ((IconButton.Toggle) b).toggled;
@@ -95,8 +94,6 @@ public final class LibraryInfoPanel extends Panel {
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 		if (entry != null) {
-			textField.render(gui, mouseX, mouseY, partialTick);
-
 			int index = 0;
 
 			final int xOffset = left;
@@ -172,8 +169,6 @@ public final class LibraryInfoPanel extends Panel {
 			favButton.toggled = entry.data.favourite;
 			textField.setValue(entry.data.entryName);
 		}
-
-		textField.setVisible(visible);
 
 		for (AbstractWidget widget : renderables)
 			widget.visible = visible;

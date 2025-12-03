@@ -27,7 +27,6 @@ import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.LibraryListEntry;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 import uk.kihira.tails.neoforge.client.gui.widget.ListWidget;
-import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 
 @Internal
 public final class LibraryPanel extends Panel {
@@ -49,7 +48,7 @@ public final class LibraryPanel extends Panel {
 		addRenderableWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50, new ArrayList<>()));
 		initList("");
 
-		addRenderableWidget(searchField = new RelativeTextBox(this, parent.font(), left + 4, bottom - 32, right - left - 8, 12, Component.empty()));
+		addRenderableWidget(searchField = new EditBox(parent.font(), left + 4, bottom - 32, right - left - 8, 12, Component.empty()));
 		addRenderableWidget(new ExtendedButton(left + 3, bottom - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
 			TailsClientPlatform.get().getLibraryManager().reload(true);
 			libraryChanged = false;

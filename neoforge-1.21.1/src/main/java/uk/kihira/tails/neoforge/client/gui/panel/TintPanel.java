@@ -35,7 +35,6 @@ import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.widget.HSBSlider;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
-import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.neoforge.client.gui.widget.SaturationSlider;
 
 @Internal
@@ -80,7 +79,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		}
 
 		// Tint edit pane
-		hexText = new RelativeTextBox(this, parent.font(), left + 30, editPaneTop + 20, 73, 10, Component.empty());
+		hexText = new EditBox(parent.font(), left + 30, editPaneTop + 20, 73, 10, Component.empty());
 		hexText.setMaxLength(6);
 		addRenderableWidget(hexText);
 

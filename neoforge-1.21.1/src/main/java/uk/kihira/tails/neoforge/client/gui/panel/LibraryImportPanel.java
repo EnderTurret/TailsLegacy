@@ -24,7 +24,6 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.client.gui.panel.BaseLibraryImportPanel;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
-import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.neoforge.client.toast.ToastManager;
 
 @Internal
@@ -40,7 +39,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 	public void init() {
 		addRenderableWidget(new ExtendedButton(left + 3, top + 21, right - left - 6, 18, Component.translatable("tails.gui.library.import.string"), this::importFromString0));
 
-		inputField = new RelativeTextBox(this, parent.font(), left + 3, top + 41, right - left - 6, 15, Component.empty());
+		inputField = new EditBox(parent.font(), left + 3, top + 41, right - left - 6, 15, Component.empty());
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}

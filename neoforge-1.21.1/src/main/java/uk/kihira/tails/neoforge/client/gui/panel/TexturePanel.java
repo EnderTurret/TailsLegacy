@@ -22,7 +22,7 @@ import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 
 @Internal
-public final class TexturePanel extends Panel<EditorScreen> {
+public final class TexturePanel extends Panel {
 
 	private final int variantSelectY;
 	private final int texSelectY;

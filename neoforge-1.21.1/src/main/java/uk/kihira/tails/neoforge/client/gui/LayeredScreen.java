@@ -31,7 +31,7 @@ import uk.kihira.tails.neoforge.client.gui.panel.Panel;
 public abstract class LayeredScreen extends BaseScreen {
 
 	// 0 is bottom layer.
-	private final List<List<Panel<?>>> layers = new ArrayList<>();
+	private final List<List<Panel>> layers = new ArrayList<>();
 
 	@Internal
 	public LayeredScreen(int layerCount, Component title) {
@@ -41,12 +41,12 @@ public abstract class LayeredScreen extends BaseScreen {
 	}
 
 	@Internal
-	public List<Panel<?>> getLayer(int layer) {
+	public List<Panel> getLayer(int layer) {
 		return layers.get(layer);
 	}
 
-	public void setFocusedPanel(Panel<?> focus) {
-		final Panel<?> old = (Panel<?>) getFocused();
+	public void setFocusedPanel(Panel focus) {
+		final Panel old = (Panel) getFocused();
 		if (old == focus) return;
 
 		if (old != null)
@@ -59,23 +59,23 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	protected void init() {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				panel.init(minecraft, panel.width, panel.height);
 	}
 
 	@Override
 	public void resize(Minecraft mc, int width, int height) {
 		super.resize(mc, width, height);
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				panel.resize(mc, panel.width, panel.height);
 	}
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (panel.enabled) {
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 					panel.render(gui, mouseX, mouseY, partialTick);
@@ -85,8 +85,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 		super.render(gui, mouseX, mouseY, partialTick);
 
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (panel.enabled) {
 					RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 					panel.renderTooltips(gui, mouseX, mouseY, partialTick);
@@ -95,8 +95,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseClicked(mouseX, mouseY, button))
 					return true;
 
@@ -105,8 +105,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseReleased(mouseX, mouseY, button))
 					return true;
 
@@ -115,8 +115,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseDragged(mouseX, mouseY, button, dragX, dragY))
 					return true;
 
@@ -125,8 +125,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public void mouseMoved(double mouseX, double mouseY) {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY))
 					panel.mouseMoved(mouseX, mouseY);
 
@@ -135,8 +135,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (shouldRecieveMouse(panel, mouseX, mouseY) && panel.mouseScrolled(mouseX, mouseY, scrollX, scrollY))
 					return true;
 
@@ -146,8 +146,8 @@ public abstract class LayeredScreen extends BaseScreen {
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (keyCode != 258)
-			for (List<Panel<?>> layer : layers)
-				for (Panel<?> panel : layer)
+			for (List<Panel> layer : layers)
+				for (Panel panel : layer)
 					if (panel.enabled && panel.keyPressed(keyCode, scanCode, modifiers))
 						return true;
 
@@ -156,8 +156,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (panel.enabled && panel.keyReleased(keyCode, scanCode, modifiers))
 					return true;
 
@@ -166,8 +166,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public boolean charTyped(char codePoint, int modifiers) {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				if (panel.enabled && panel.charTyped(codePoint, modifiers))
 					return true;
 
@@ -176,8 +176,8 @@ public abstract class LayeredScreen extends BaseScreen {
 
 	@Override
 	public void removed() {
-		for (List<Panel<?>> layer : layers)
-			for (Panel<?> panel : layer)
+		for (List<Panel> layer : layers)
+			for (Panel panel : layer)
 				panel.removed();
 
 		super.removed();
@@ -190,7 +190,7 @@ public abstract class LayeredScreen extends BaseScreen {
 		super.setFocused(listener);
 	}
 
-	private static boolean shouldRecieveMouse(Panel<?> panel, double mouseX, double mouseY) {
+	private static boolean shouldRecieveMouse(Panel panel, double mouseX, double mouseY) {
 		return panel.enabled && (mouseX > panel.left && mouseX < panel.right && mouseY > panel.top && mouseY < panel.bottom || panel.alwaysReceiveMouse);
 	}
 }

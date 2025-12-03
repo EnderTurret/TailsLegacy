@@ -23,9 +23,9 @@ import uk.kihira.tails.neoforge.client.gui.panel.Panel;
  */
 public final class RelativeTextBox extends EditBox {
 
-	private final Panel<?> parent;
+	private final Panel parent;
 
-	public RelativeTextBox(Panel<?> parent, Font font, int x, int y, int width, int height, Component message) {
+	public RelativeTextBox(Panel parent, Font font, int x, int y, int width, int height, Component message) {
 		super(font, x, y, width, height, message);
 		this.parent = parent;
 	}

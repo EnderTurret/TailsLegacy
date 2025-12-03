@@ -38,7 +38,7 @@ import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.neoforge.client.toast.ToastManager;
 
 @Internal
-public final class LibraryInfoPanel extends Panel<EditorScreen> {
+public final class LibraryInfoPanel extends Panel {
 
 	private LibraryListEntry entry;
 

@@ -29,7 +29,7 @@ import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.neoforge.client.toast.ToastManager;
 
 @Internal
-public final class LibraryImportPanel extends Panel<EditorScreen> implements BaseLibraryImportPanel {
+public final class LibraryImportPanel extends Panel implements BaseLibraryImportPanel {
 
 	private EditBox inputField;
 

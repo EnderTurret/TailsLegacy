@@ -9,24 +9,22 @@
 
 package uk.kihira.tails.neoforge.client.gui.panel;
 
-import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.neoforge.client.gui.BaseScreen;
+import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.LayeredScreen;
 
 /**
  * A panel, for use in {@link LayeredScreen LayeredScreens}.
- *
- * @param <T> The parent screen type.
  */
 @Internal
-public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
+public abstract class Panel extends BaseScreen {
 
-	protected final T parent;
+	protected final EditorScreen parent;
 	public int left;
 	public int top;
 	public int right;
@@ -34,9 +32,8 @@ public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
 	public boolean alwaysReceiveMouse = false;
 	public boolean enabled = true;
 
-	public Panel(T parent, int x, int y, int width, int height) {
+	public Panel(EditorScreen parent, int x, int y, int width, int height) {
 		super(Component.empty());
-		Validate.isInstanceOf(LayeredScreen.class, parent);
 
 		this.parent = parent;
 		left = x;
@@ -66,7 +63,7 @@ public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
 		right = left + width;
 	}
 
-	public T getParent() {
+	public EditorScreen getParent() {
 		return parent;
 	}
 

@@ -50,7 +50,7 @@ import uk.kihira.tails.neoforge.client.gui.widget.Spinner;
 import uk.kihira.tails.neoforge.client.render.RenderStates;
 
 @Internal
-public final class PartsPanel extends Panel<EditorScreen> {
+public final class PartsPanel extends Panel {
 
 	private Spinner<RootAttachmentPoint> rootAttachment;
 	private Spinner<AttachmentPoint> attachment;

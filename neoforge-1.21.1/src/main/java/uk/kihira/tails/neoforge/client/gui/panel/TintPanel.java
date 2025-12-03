@@ -38,7 +38,7 @@ import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 import uk.kihira.tails.neoforge.client.gui.widget.SaturationSlider;
 
 @Internal
-public final class TintPanel extends Panel<EditorScreen> implements HSBSlider.IHSBSliderCallback {
+public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallback {
 
 	private int editingTint = 0;
 	private int currentTint = 0xFFFFFF;

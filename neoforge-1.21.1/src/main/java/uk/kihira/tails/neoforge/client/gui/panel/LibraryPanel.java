@@ -33,7 +33,7 @@ import uk.kihira.tails.neoforge.client.gui.widget.ListWidget;
 import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 
 @Internal
-public final class LibraryPanel extends Panel<EditorScreen> {
+public final class LibraryPanel extends Panel {
 
 	private static final LibrarySorter SORTER = new LibrarySorter();
 	private ListWidget<LibraryListEntry> list;

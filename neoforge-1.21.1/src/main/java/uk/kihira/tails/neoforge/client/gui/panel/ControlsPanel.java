@@ -19,7 +19,7 @@ import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 
 @Internal
-public final class ControlsPanel extends Panel<EditorScreen> {
+public final class ControlsPanel extends Panel {
 
 	private boolean libraryMode = false;
 

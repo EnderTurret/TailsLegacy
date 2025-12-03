@@ -25,7 +25,7 @@ import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 import uk.kihira.tails.neoforge.common.TailsConfig;
 
 @Internal
-public final class PreviewPanel extends Panel<EditorScreen> {
+public final class PreviewPanel extends Panel {
 
 	private float yaw = 0F;
 	private float pitch = 8F;

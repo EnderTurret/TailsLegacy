@@ -16,8 +16,10 @@ import java.nio.ByteBuffer;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryStack;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -150,13 +152,15 @@ public final class RenderHelper {
 		// coordinate system is upside-down compared to ours.
 		y = mc.getWindow().getHeight() - y;
 
+		mc.getMainRenderTarget().bindRead();
+		GlStateManager._glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, mc.getMainRenderTarget().frameBufferId);
+		GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT0);
+
+		RenderSystem.pixelStore(GL11.GL_PACK_ALIGNMENT, 1);
+		RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, 1);
+
 		try (MemoryStack stack = MemoryStack.stackPush()) {
 			final ByteBuffer pixelBuffer = stack.calloc(3);
-
-			GL11.glReadBuffer(GL11.GL_FRONT);
-
-			RenderSystem.pixelStore(GL11.GL_PACK_ALIGNMENT, 1);
-			RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, 1);
 
 			RenderSystem.readPixels((int) x, (int) y, 1, 1,
 					GL11.GL_RGB,

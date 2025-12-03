@@ -179,8 +179,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		if (selectingColour && mouseButton == 0) {
-			// Mouse coordinates are relative to the panel, so we need to resolve them to screen coordinates.
-			final int newTint = RenderHelper.getColourAtPoint(mouseX + left, mouseY + top);
+			final int newTint = RenderHelper.getColourAtPoint(mouseX, mouseY);
 
 			setSelectingColour(false);
 			refreshTintPane(newTint, true);

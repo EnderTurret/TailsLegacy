@@ -135,9 +135,9 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		// Editing tint pane
 		if (editingTint > 0) {
 			gui.hLine(left, right, editPaneTop, 0xFF000000);
-			gui.drawString(font, I18n.get("tails.gui.tint.edit", editingTint), 5, editPaneTop + 5, 0xFFFFFF);
+			gui.drawString(font, I18n.get("tails.gui.tint.edit", editingTint), left + 5, editPaneTop + 5, 0xFFFFFF);
 
-			gui.drawString(font, I18n.get("tails.gui.hex") + ":", 5, editPaneTop + 21, 0xFFFFFF);
+			gui.drawString(font, I18n.get("tails.gui.hex") + ":", left + 5, editPaneTop + 21, 0xFFFFFF);
 		}
 
 		super.render(gui, mouseX, mouseY, partialTick);

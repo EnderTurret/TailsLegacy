@@ -60,11 +60,15 @@ public final class PreviewPanel extends Panel<EditorScreen> {
 	}
 
 	@Override
+	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.fillGradient(left, top, right, bottom, -900, 0xDD000000, 0xDD000000);
+	}
+
+	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		if (!doRender) return;
 
-		// Background
-		gui.fillGradient(left, top, right, bottom, -900, 0xFF000000, 0xFF000000);
+		renderBackground(gui, mouseX, mouseY, partialTick);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderHelper.startGlScissor(left, top, width, height);

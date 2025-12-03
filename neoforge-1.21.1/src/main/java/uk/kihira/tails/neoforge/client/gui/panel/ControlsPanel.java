@@ -74,7 +74,7 @@ public final class ControlsPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fill(left, top, right, bottom, -400, 0xDD000000);
+		renderBackground(gui, mouseX, mouseY, partialTick);
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
 }

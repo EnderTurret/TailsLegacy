@@ -84,7 +84,7 @@ public final class LibraryInfoPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fillGradient(left, top, right, bottom, 0xCC000000, 0xCC000000);
+		renderBackground(gui, mouseX, mouseY, partialTick);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 

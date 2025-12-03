@@ -67,7 +67,7 @@ public final class LibraryImportPanel extends Panel<EditorScreen> implements Bas
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fillGradient(left, top, right, bottom, 0xDE000000, 0xDE000000);
+		renderBackground(gui, mouseX, mouseY, partialTick);
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
 }

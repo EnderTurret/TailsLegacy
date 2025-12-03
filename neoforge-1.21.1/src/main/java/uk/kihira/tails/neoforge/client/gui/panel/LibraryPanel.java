@@ -62,7 +62,7 @@ public final class LibraryPanel extends Panel<EditorScreen> {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		gui.fillGradient(left, top, right, bottom, -100, 0xCC000000, 0xCC000000);
+		renderBackground(gui, mouseX, mouseY, partialTick);
 
 		list.render(gui, mouseX, mouseY, partialTick);
 

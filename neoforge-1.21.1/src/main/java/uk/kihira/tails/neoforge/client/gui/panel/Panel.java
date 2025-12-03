@@ -12,6 +12,7 @@ package uk.kihira.tails.neoforge.client.gui.panel;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.neoforge.client.gui.BaseScreen;
@@ -67,5 +68,10 @@ public abstract class Panel<T extends LayeredScreen> extends BaseScreen {
 
 	public T getParent() {
 		return parent;
+	}
+
+	@Override
+	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.fill(left, top, right, bottom, -400, 0xCC000000);
 	}
 }

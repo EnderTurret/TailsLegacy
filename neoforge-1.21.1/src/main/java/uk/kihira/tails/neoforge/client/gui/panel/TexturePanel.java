@@ -53,7 +53,7 @@ public final class TexturePanel extends Panel<EditorScreen> {
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		gui.fill(left, top, right, bottom, -10, 0xCC000000);
+		renderBackground(gui, mouseX, mouseY, partialTick);
 		gui.fill(7, variantSelectY, right - 15, texSelectY + 15, -5, 0x55000000);
 
 		// Texture select

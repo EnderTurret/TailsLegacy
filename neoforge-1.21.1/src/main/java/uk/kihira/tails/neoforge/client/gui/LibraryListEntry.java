@@ -9,8 +9,6 @@
 
 package uk.kihira.tails.neoforge.client.gui;
 
-import java.util.Comparator;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.authlib.GameProfile;
@@ -22,6 +20,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.client.TailsClientPlatform;
@@ -33,7 +32,7 @@ import uk.kihira.tails.neoforge.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 
 @Internal
-public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry> {
+public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry> implements Comparable<LibraryListEntry> {
 
 	protected final LibraryPanel panel;
 	public final LibraryEntryData data;
@@ -44,17 +43,29 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		data = libraryEntryData;
 	}
 
+	public static LibraryListEntry makeNewEntryEntry(LibraryPanel panel) {
+		return new LibraryListEntry(panel, null);
+	}
+
+	private static final Component CREATE = Component.translatable("tails.gui.library.create");
+
 	@Override
 	public void render(GuiGraphics gui, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+		if (data == null) {
+			gui.drawString(Minecraft.getInstance().font, CREATE, rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
+			return;
+		}
+
 		if (panel.getList().getMaxScroll() > 0)
 			listWidth -= 6;
 
 		final ClientPartsData partsData = (ClientPartsData) data.partsData;
+		final Font font = panel.getParent().font();
 
-		final Font fontRenderer = Minecraft.getInstance().font;
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
-		gui.drawString(fontRenderer, (sel ? ChatFormatting.GREEN + "" + ChatFormatting.ITALIC : "") + data.entryName,
-				5, rowTop + 3, 0xFFFFFF);
+		final MutableComponent name = Component.literal(data.entryName);
+		if (sel) name.withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC);
+		gui.drawString(font, name, 5, rowTop + 3, 0xFFFFFF);
 
 		int index = 0;
 
@@ -62,8 +73,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 			if (index == 4) break;
 
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			RenderHelper.drawStringMultiLine(gui, fontRenderer, trans,
-					rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
+			RenderHelper.drawStringMultiLine(gui, font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
 
 			for (int i = 1; i < 4; i++)
 				gui.fill(listWidth - 1 - 8 * i, rowTop + 13 + index * 8,
@@ -74,14 +84,12 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		}
 
 		if (data.favourite) {
-			final TailsIcons icon = TailsIcons.STAR;
-
 			gui.pose().pushPose();
 
 			gui.pose().translate(rowLeft + listWidth - 16, rowTop, 0F);
 			gui.pose().scale(0.8F, 0.8F, 1F);
 
-			gui.blit(IconButton.ICONS_TEXTURE, 0, 0, 10, icon.u, icon.v + 32, 16, 16, 256, 256);
+			gui.blit(IconButton.ICONS_TEXTURE, 0, 0, 10, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
 
 			gui.pose().popPose();
 		}
@@ -89,33 +97,7 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		panel.getList().setSelected(this);
-		panel.getParent().getLibraryInfoPanel().setEntry(this);
-		panel.getParent().setPartsData(ClientPartsData.clone(data.partsData.deepCopy()));
-		panel.getParent().setPartsInfo(panel.getParent().getPartsData().getPartInfo(panel.getParent().getAttachmentPoint()));
-		return true;
-	}
-
-	@Override
-	public Component getNarration() {
-		return Component.empty();
-	}
-
-	@Internal
-	public static class NewLibraryListEntry extends LibraryListEntry {
-
-		@Internal
-		public NewLibraryListEntry(LibraryPanel panel) {
-			super(panel, null);
-		}
-
-		@Override
-		public void render(GuiGraphics gui, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
-			gui.drawString(Minecraft.getInstance().font, I18n.get("tails.gui.library.create"), rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
-		}
-
-		@Override
-		public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		if (data == null) {
 			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
 			final LibraryEntryData data = new LibraryEntryData(
@@ -126,33 +108,29 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 
 			TailsClientPlatform.get().getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
-
-			return true;
 		}
+
+		panel.getList().setSelected(this);
+		panel.getParent().getLibraryInfoPanel().setEntry(this);
+		panel.getParent().setPartsData(ClientPartsData.clone(data.partsData.deepCopy()));
+
+		return true;
 	}
 
-	@Internal
-	public static final class LibrarySorter implements Comparator<LibraryListEntry> {
+	@Override
+	public Component getNarration() {
+		return Component.empty();
+	}
 
-		public static final LibrarySorter INSTANCE = new LibrarySorter();
+	@Override
+	public int compareTo(LibraryListEntry o) {
+		if (data == null) return -1;
+		if (o.data == null) return 1;
 
-		@Override
-		public int compare(LibraryListEntry entry1, LibraryListEntry entry2) {
-			if (entry1.equals(entry2))
-				return 0;
+		// Put favorites at the top.
+		if (data.favourite && !o.data.favourite) return -1;
+		if (!data.favourite && o.data.favourite) return 1;
 
-			if (entry1 instanceof LibraryListEntry.NewLibraryListEntry)
-				return -1;
-			if (entry2 instanceof LibraryListEntry.NewLibraryListEntry)
-				return 1;
-
-			// Put favorites at the top.
-			if (entry1.data.favourite && !entry2.data.favourite)
-				return -1;
-			if (!entry1.data.favourite && entry2.data.favourite)
-				return 1;
-
-			return 0;
-		}
+		return Long.compare(data.creationDate, o.data.creationDate);
 	}
 }

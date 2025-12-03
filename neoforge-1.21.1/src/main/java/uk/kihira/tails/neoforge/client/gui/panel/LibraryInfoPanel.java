@@ -9,7 +9,6 @@
 
 package uk.kihira.tails.neoforge.client.gui.panel;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -25,11 +24,10 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
-import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.client.gui.TailsIcons;
+import uk.kihira.tails.common.client.gui.panel.BaseLibraryInfoPanel;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.ClientPartsData;
-import uk.kihira.tails.common.client.part.LocalPartManager;
 import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.LibraryListEntry;
@@ -37,15 +35,13 @@ import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 import uk.kihira.tails.neoforge.client.toast.ToastManager;
 
 @Internal
-public final class LibraryInfoPanel extends Panel {
+public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPanel {
 
 	private LibraryListEntry entry;
 
 	private EditBox textField;
 	private IconButton.Toggle favButton;
 	private IconButton deleteButton;
-
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/YY");
 
 	public LibraryInfoPanel(EditorScreen parent, int left, int top, int width, int height) {
 		super(parent, left, top, width, height);
@@ -54,28 +50,30 @@ public final class LibraryInfoPanel extends Panel {
 	@Override
 	public void init() {
 		textField = new EditBox(parent.font(), left + 6, top + 6, right - left - 12, 15, Component.empty());
-		textField.setMaxLength(16);
+		textField.setMaxLength(19);
 		addRenderableWidget(textField);
+		textField.setResponder(str -> {
+			if (entry != null) {
+				entry.data.entryName = str;
+				parent.getLibraryPanel().libraryChanged = true;
+			}
+		});
 
 		addRenderableWidget(favButton = new IconButton.Toggle(left + 5, bottom - 20, TailsIcons.STAR, b -> {
-			entry.data.favourite = ((IconButton.Toggle) b).toggled;
+			entry.data.favourite = favButton.toggled;
 		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.favorite")));
 
 		addRenderableWidget(deleteButton = new IconButton(left + 21, bottom - 20, TailsIcons.DELETE, b -> {
-			((IconButton) b).setHover(false);
+			deleteButton.setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
 		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.delete")));
 
 		addRenderableWidget(new IconButton(left + 68, bottom - 20, TailsIcons.EXPORT, b -> {
-			final StringBuilder sb = new StringBuilder();
-			final LibraryEntryData libData = getEntry().data;
-			sb.append(libData.entryName).append(":");
-			sb.append(libData.creatorUUID).append(":");
-			sb.append(LocalPartManager.GSON.toJson(libData.partsData));
+			final String export = exportString(getEntry().data);
 
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, Component.translatable("tails.gui.library.info.toast.export"));
-			GLFW.glfwSetClipboardString(parent.getMinecraft().getWindow().getWindow(), sb.toString());
+			GLFW.glfwSetClipboardString(parent.getMinecraft().getWindow().getWindow(), export);
 		})).setTooltip(Tooltip.create(Component.translatable("tails.gui.library.button.share")));
 
 		setEntry(null);
@@ -105,13 +103,13 @@ public final class LibraryInfoPanel extends Panel {
 						yOffset + 32 + 8 * (index * 4),
 						0xFFFFFF);
 
-				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.get(partInfo.getPart().getTranslationKey() + ".subtype." + partInfo.getSubTypeId());
+				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.get(partInfo.getSubTypeTranslationKey());
 				RenderHelper.drawStringMultiLine(gui, parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
 						0xFFFFFF);
 
-				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.get(partInfo.getPart().getTranslationKey() + ".texture." + partInfo.getTextureId());
+				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.get(partInfo.getTextureTranslationKey());
 				RenderHelper.drawStringMultiLine(gui, parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
@@ -134,30 +132,6 @@ public final class LibraryInfoPanel extends Panel {
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
 			gui.drawString(parent.font(), date, right - 5 - parent.font().width(date), bottom - 32, 0xAAAAAA);
 		}
-	}
-
-	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		final boolean handled = super.keyPressed(keyCode, scanCode, modifiers);
-
-		if (handled && entry != null) {
-			entry.data.entryName = textField.getValue();
-			parent.getLibraryPanel().libraryChanged = true;
-		}
-
-		return handled || textField.canConsumeInput();
-	}
-
-	@Override
-	public boolean charTyped(char codePoint, int modifiers) {
-		final boolean handled = super.charTyped(codePoint, modifiers);
-
-		if (handled && entry != null) {
-			entry.data.entryName = textField.getValue();
-			parent.getLibraryPanel().libraryChanged = true;
-		}
-
-		return handled;
 	}
 
 	public void setEntry(@Nullable LibraryListEntry entry) {

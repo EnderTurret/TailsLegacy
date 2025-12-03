@@ -11,9 +11,12 @@
 
 package uk.kihira.tails.neoforge.client;
 
+import java.nio.ByteBuffer;
+
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryStack;
 
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -133,5 +136,40 @@ public final class RenderHelper {
 		entity.setXRot(oldXRot);
 		entity.yHeadRot = oldYHeadRot;
 		entity.yHeadRotO = oldYHeadRotO;
+	}
+
+	public static int getColourAtPoint(double x, double y) {
+		final Minecraft mc = Minecraft.getInstance();
+
+		// We have to resolve these mouse coordinates back to window coordinates.
+		final double scale = mc.getWindow().getGuiScale();
+		x *= scale;
+		y *= scale;
+
+		// We also have to flip the y coordinate because OpenGL's
+		// coordinate system is upside-down compared to ours.
+		y = mc.getWindow().getHeight() - y;
+
+		try (MemoryStack stack = MemoryStack.stackPush()) {
+			final ByteBuffer pixelBuffer = stack.calloc(3);
+
+			GL11.glReadBuffer(GL11.GL_FRONT);
+
+			RenderSystem.pixelStore(GL11.GL_PACK_ALIGNMENT, 1);
+			RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, 1);
+
+			RenderSystem.readPixels((int) x, (int) y, 1, 1,
+					GL11.GL_RGB,
+					GL11.GL_UNSIGNED_BYTE,
+					pixelBuffer);
+
+			pixelBuffer.rewind();
+
+			final int r = pixelBuffer.get() & 0xFF;
+			final int g = pixelBuffer.get() & 0xFF;
+			final int b = pixelBuffer.get() & 0xFF;
+
+			return (r << 16) | (g << 8) | b;
+		}
 	}
 }

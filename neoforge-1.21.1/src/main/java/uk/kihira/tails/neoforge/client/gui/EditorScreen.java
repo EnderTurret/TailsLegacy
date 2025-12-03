@@ -209,6 +209,7 @@ public class EditorScreen extends BaseScreen {
 	public void setPartsData(ClientPartsData newPartsData) {
 		if (partsData == newPartsData) return;
 		partsData = newPartsData;
+		editingPartInfo = partsData.getPartInfo(attachment);
 		ClientPlayerPartManager.get().set(playerUUID, partsData);
 	}
 

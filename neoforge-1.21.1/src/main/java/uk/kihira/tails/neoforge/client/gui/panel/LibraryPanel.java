@@ -10,6 +10,7 @@
 package uk.kihira.tails.neoforge.client.gui.panel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -74,8 +75,8 @@ public final class LibraryPanel extends Panel {
 				libraryEntries.add(new LibraryListEntry(this, data));
 
 		// Add in new entry creation.
-		libraryEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this));
-		libraryEntries.sort(LibraryListEntry.LibrarySorter.INSTANCE);
+		libraryEntries.add(0, LibraryListEntry.makeNewEntryEntry(this));
+		Collections.sort(libraryEntries);
 
 		list.replaceEntries(libraryEntries);
 	}

@@ -32,6 +32,7 @@ import net.minecraft.network.chat.Component;
 import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.gui.TailsIcons;
+import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.widget.HSBSlider;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
@@ -81,6 +82,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		// Tint edit pane
 		hexText = new EditBox(parent.font(), left + 30, editPaneTop + 20, 73, 10, Component.empty());
 		hexText.setMaxLength(6);
+		hexText.setResponder(this::parseHex);
 		addRenderableWidget(hexText);
 
 		// HSB sliders
@@ -159,11 +161,6 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (hexText.keyPressed(keyCode, scanCode, modifiers)) {
-			parseHex();
-			return true;
-		}
-
 		if (keyCode == GLFW.GLFW_KEY_ESCAPE && selectingColour) {
 			setSelectingColour(false);
 			return true;
@@ -172,20 +169,10 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
-	@Override
-	public boolean charTyped(char codePoint, int modifiers) {
-		if (hexText.charTyped(codePoint, modifiers)) {
-			parseHex();
-			return true;
-		}
-
-		return super.charTyped(codePoint, modifiers);
-	}
-
-	private void parseHex() {
+	private void parseHex(String text) {
 		try {
-			if (!Strings.isNullOrEmpty(hexText.getValue()))
-				refreshTintPane(Integer.parseInt(hexText.getValue(), 16), false);
+			if (!Strings.isNullOrEmpty(text))
+				refreshTintPane(Integer.parseInt(text, 16), false);
 		} catch (NumberFormatException ignored) {}
 	}
 
@@ -193,7 +180,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		if (selectingColour && mouseButton == 0) {
 			// Mouse coordinates are relative to the panel, so we need to resolve them to screen coordinates.
-			final int newTint = getColourAtPoint(mouseX + left, mouseY + top);
+			final int newTint = RenderHelper.getColourAtPoint(mouseX + left, mouseY + top);
 
 			setSelectingColour(false);
 			refreshTintPane(newTint, true);
@@ -221,41 +208,6 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		}
 
 		refreshTintPane(newTint, true);
-	}
-
-	private static int getColourAtPoint(double x, double y) {
-		final Minecraft mc = Minecraft.getInstance();
-
-		// We have to resolve these mouse coordinates back to window coordinates.
-		final double scale = mc.getWindow().getGuiScale();
-		x *= scale;
-		y *= scale;
-
-		// We also have to flip the y coordinate because OpenGL's
-		// coordinate system is upside-down compared to ours.
-		y = mc.getWindow().getHeight() - y;
-
-		try (MemoryStack stack = MemoryStack.stackPush()) {
-			final ByteBuffer pixelBuffer = stack.calloc(3);
-
-			GL11.glReadBuffer(GL11.GL_FRONT);
-
-			RenderSystem.pixelStore(GL11.GL_PACK_ALIGNMENT, 1);
-			RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, 1);
-
-			RenderSystem.readPixels((int) x, (int) y, 1, 1,
-					GL11.GL_RGB,
-					GL11.GL_UNSIGNED_BYTE,
-					pixelBuffer);
-
-			pixelBuffer.rewind();
-
-			final int r = pixelBuffer.get() & 0xFF;
-			final int g = pixelBuffer.get() & 0xFF;
-			final int b = pixelBuffer.get() & 0xFF;
-
-			return (r << 16) | (g << 8) | b;
-		}
 	}
 
 	private void setSelectingColour(boolean selectingColour) {

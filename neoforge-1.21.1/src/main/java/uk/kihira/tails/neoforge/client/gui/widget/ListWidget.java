@@ -9,6 +9,7 @@
 
 package uk.kihira.tails.neoforge.client.gui.widget;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -76,13 +77,8 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	public void clearEntries() {
-		super.clearEntries();
-	}
-
-	@Override
-	public int addEntry(T entry) {
-		return super.addEntry(entry);
+	public void replaceEntries(Collection<T> entries) {
+		super.replaceEntries(entries);
 	}
 
 	public int getItemHeight() {

@@ -53,7 +53,7 @@ public final class ControlsPanel extends Panel {
 		parent.getLibraryImportPanel().setVisible(libraryMode);
 
 		parent.getPartPanel().selectDefaultListEntry();
-		parent.getLibraryPanel().initList();
+		parent.getLibraryPanel().initList("");
 		parent.getLibraryInfoPanel().setEntry(null);
 		parent.getTintPanel().setEditingTint(0);
 
@@ -66,7 +66,7 @@ public final class ControlsPanel extends Panel {
 	private void reset(Button b) {
 		final ClientPartInfo partInfo = parent.getOriginalPartInfo().clone();
 		parent.getPartPanel().selectDefaultListEntry();
-		parent.getLibraryPanel().initList();
+		parent.getLibraryPanel().initList("");
 		parent.getLibraryInfoPanel().setEntry(null);
 		parent.getTintPanel().setEditingTint(0);
 		parent.setPartsInfo(partInfo);

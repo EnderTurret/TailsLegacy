@@ -54,7 +54,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 	public void importPartsData(LibraryEntryData entry) {
 		inputField.setValue("");
 		parent.getLibraryPanel().libraryChanged = true;
-		parent.getLibraryPanel().initList();
+		parent.getLibraryPanel().initList("");
 	}
 
 	@Override

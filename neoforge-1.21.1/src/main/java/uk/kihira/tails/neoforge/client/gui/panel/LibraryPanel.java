@@ -10,7 +10,6 @@
 package uk.kihira.tails.neoforge.client.gui.panel;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,7 +32,6 @@ import uk.kihira.tails.neoforge.client.gui.widget.RelativeTextBox;
 @Internal
 public final class LibraryPanel extends Panel {
 
-	private static final LibrarySorter SORTER = new LibrarySorter();
 	private ListWidget<LibraryListEntry> list;
 	private EditBox searchField;
 	boolean libraryChanged = false;
@@ -49,16 +47,16 @@ public final class LibraryPanel extends Panel {
 	@Override
 	public void init() {
 		addRenderableWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50, new ArrayList<>()));
-		initList();
+		initList("");
 
 		addRenderableWidget(searchField = new RelativeTextBox(this, parent.font(), left + 4, bottom - 32, right - left - 8, 12, Component.empty()));
 		addRenderableWidget(new ExtendedButton(left + 3, bottom - 18, right - left - 6, 15, Component.translatable("tails.gui.button.reload_library"), b -> {
 			TailsClientPlatform.get().getLibraryManager().reload(true);
 			libraryChanged = false;
-			initList();
+			initList("");
 		}));
 
-		searchField.setResponder(this::filterListEntries);
+		searchField.setResponder(this::initList);
 	}
 
 	@Override
@@ -68,24 +66,19 @@ public final class LibraryPanel extends Panel {
 		gui.blit(IconButton.ICONS_TEXTURE, right - 14, bottom - 30, 0, 240, 8, 8);
 	}
 
-	// TODO Remove
-	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		return super.keyPressed(keyCode, scanCode, modifiers);
-	}
+	public void initList(String filter) {
+		filter = filter.toLowerCase(Locale.ENGLISH);
 
-	public void initList() {
 		final List<LibraryListEntry> libraryEntries = new ArrayList<>();
 		for (LibraryEntryData data : TailsClientPlatform.get().getLibraryManager().libraryEntries)
-			libraryEntries.add(new LibraryListEntry(this, data));
+			if (filter.isBlank() || data.entryName.toLowerCase(Locale.ENGLISH).contains(filter))
+				libraryEntries.add(new LibraryListEntry(this, data));
 
 		// Add in new entry creation.
-		libraryEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
+		libraryEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this));
+		libraryEntries.sort(LibraryListEntry.LibrarySorter.INSTANCE);
 
-		libraryEntries.sort(SORTER);
-
-		list.clearEntries();
-		for (LibraryListEntry entry : libraryEntries) list.addEntry(entry);
+		list.replaceEntries(libraryEntries);
 	}
 
 	public void addSelectedEntry(LibraryListEntry entry) {
@@ -108,51 +101,8 @@ public final class LibraryPanel extends Panel {
 		}
 	}
 
-	// TODO Make void, merge with initList()
-	private List<LibraryListEntry> filterListEntries(String filter) {
-		filter = filter.toLowerCase(Locale.ENGLISH);
-
-		final List<LibraryListEntry> filteredEntries = new ArrayList<>();
-
-		for (LibraryEntryData data : TailsClientPlatform.get().getLibraryManager().libraryEntries)
-			if (data.entryName.toLowerCase(Locale.ENGLISH).contains(filter))
-				filteredEntries.add(new LibraryListEntry(this, data));
-
-		filteredEntries.add(0, new LibraryListEntry.NewLibraryListEntry(this, null));
-		filteredEntries.sort(SORTER);
-
-		// TODO Use replaceEntries()
-		list.clearEntries();
-		for (LibraryListEntry entry : filteredEntries) list.addEntry(entry);
-
-		return filteredEntries;
-	}
-
 	@Override
 	public void removed() {
 		save();
-	}
-
-	// TODO Move into LibraryListEntry
-	private static class LibrarySorter implements Comparator<LibraryListEntry> {
-
-		@Override
-		public int compare(LibraryListEntry entry1, LibraryListEntry entry2) {
-			if (entry1.equals(entry2))
-				return 0;
-
-			if (entry1 instanceof LibraryListEntry.NewLibraryListEntry)
-				return -1;
-			if (entry2 instanceof LibraryListEntry.NewLibraryListEntry)
-				return 1;
-
-			// Put favorites at the top.
-			if (entry1.data.favourite && !entry2.data.favourite)
-				return -1;
-			if (!entry1.data.favourite && entry2.data.favourite)
-				return 1;
-
-			return 0;
-		}
 	}
 }

@@ -9,9 +9,6 @@
 
 package uk.kihira.tails.neoforge.client.gui;
 
-import java.util.List;
-import java.util.Objects;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.Font;
@@ -21,9 +18,8 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.FormattedCharSequence;
 
-import uk.kihira.tails.neoforge.client.gui.widget.ITooltip;
+import uk.kihira.tails.neoforge.client.gui.panel.Panel;
 
 @Internal
 public abstract class BaseScreen extends Screen {
@@ -34,6 +30,21 @@ public abstract class BaseScreen extends Screen {
 
 	@Override
 	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
+
+	@Override
+	public void removed() {
+		for (Renderable renderable : renderables)
+			if (renderable instanceof Panel panel)
+				panel.removed();
+
+		super.removed();
+	}
+
+	// ===== Visibility ======
+
+	public Font font() {
+		return font;
+	}
 
 	@Override
 	public <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget) {
@@ -48,21 +59,5 @@ public abstract class BaseScreen extends Screen {
 	@Override
 	public <T extends Renderable> T addRenderableOnly(T renderable) {
 		return super.addRenderableOnly(renderable);
-	}
-
-	public Font font() {
-		return font;
-	}
-
-	public void renderTooltips(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		for (Renderable btn : renderables)
-			if (btn instanceof ITooltip tooltip && btn instanceof GuiEventListener listener && listener.isMouseOver(mouseX, mouseY)) {
-				final List<FormattedCharSequence> tooltips = Objects.requireNonNull(tooltip.getTooltip(mouseX, mouseY));
-
-				if (!tooltips.isEmpty())
-					gui.renderTooltip(font, tooltips, mouseX, mouseY);
-
-				break;
-			}
 	}
 }

@@ -41,7 +41,7 @@ import uk.kihira.tails.neoforge.client.gui.panel.TintPanel;
  * The editor screen.
  */
 @Internal
-public class EditorScreen extends LayeredScreen {
+public class EditorScreen extends BaseScreen {
 
 	private RootAttachmentPoint rootAttachment;
 	private AttachmentPoint attachment;
@@ -66,7 +66,7 @@ public class EditorScreen extends LayeredScreen {
 	protected LibraryImportPanel libraryImportPanel;
 
 	public EditorScreen(ClientPartsData original, UUID uuid, LivingEntity renderingEntity, Consumer<EditorScreen> onSave) {
-		super(4, Component.empty());
+		super(Component.empty());
 		Objects.requireNonNull(original, "original");
 
 		this.onSave = Objects.requireNonNull(onSave, "onSave");

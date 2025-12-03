@@ -9,17 +9,12 @@
 
 package uk.kihira.tails.neoforge.client.gui.widget;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.neoforge.client.RenderHelper;
@@ -29,19 +24,17 @@ import uk.kihira.tails.neoforge.common.Tails;
  * A specialized version of the {@link AbstractSliderButton} for {@code HSB} and {@code RGB} values.
  * Also has tooltip support, as if it couldn't get any better.
  */
-public class HSBSlider extends AbstractSliderButton implements ITooltip {
+public class HSBSlider extends AbstractSliderButton {
 
 	protected static final ResourceLocation SLIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "textures/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
-	private List<FormattedCharSequence> tooltips;
 
-	public HSBSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type, Component... tooltips) {
+	public HSBSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
 		super(xPos, yPos, width, height, Component.empty(), 0);
 		this.type = type;
 		this.callback = callback;
-		this.tooltips = Arrays.stream(tooltips).map(Component::getVisualOrderText).collect(Collectors.toList());
 	}
 
 	@Override
@@ -91,11 +84,6 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	public void setValueWithCallback(double value) {
 		setValue(value);
 		applyValue();
-	}
-
-	@Override
-	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY) {
-		return tooltips;
 	}
 
 	@Override

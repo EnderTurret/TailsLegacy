@@ -126,12 +126,7 @@ public final class RenderHelper {
 		pose.mul(new Quaternionf().rotateZ(TailsMath.PI));
 		pose.mul(new Quaternionf().rotateY(yaw * TailsMath.DEG_TO_RAD));
 
-		gui.pose().pushPose();
-		gui.pose().translate(0, 0, 0); // TODO: This shouldn't be necessary, but is.
-
 		InventoryScreen.renderEntityInInventory(gui, x, y, scale, new Vector3f(), pose, cameraOrientation, entity);
-
-		gui.pose().popPose();
 
 		entity.yBodyRot = oldYBodyRot;
 		entity.setYRot(oldYRot);

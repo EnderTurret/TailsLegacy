@@ -165,12 +165,9 @@ public final class PartsPanel extends Panel {
 			// Dispose of textures in old part list.
 			for (PartEntry entry : this.partList.children())
 				entry.partInfo.clearGlTexture();
-
-			this.partList.clearEntries();
 		}
 
-		for (PartEntry entry : partList)
-			this.partList.addEntry(entry);
+		this.partList.replaceEntries(partList);
 
 		selectDefaultListEntry();
 	}

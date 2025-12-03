@@ -43,7 +43,7 @@ public final class ClientLibraryManager extends GsonLibraryManager {
 
 		if (screen instanceof EditorScreen editor) {
 			if (editor.getLibraryPanel() != null && editor.getLibraryInfoPanel() != null)
-				editor.getLibraryPanel().initList();
+				editor.getLibraryPanel().initList("");
 
 			editor.getLibraryInfoPanel().setEntry(null);
 		}

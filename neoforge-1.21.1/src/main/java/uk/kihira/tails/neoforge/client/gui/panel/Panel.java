@@ -23,10 +23,9 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
-import uk.kihira.tails.neoforge.client.gui.LayeredScreen;
 
 /**
- * A panel, for use in {@link LayeredScreen LayeredScreens}.
+ * A panel, for use in the {@link EditorScreen}.
  */
 @Internal
 public abstract class Panel extends AbstractWidget {

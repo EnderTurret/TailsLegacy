@@ -14,7 +14,6 @@ import java.awt.Color;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.neoforge.client.RenderHelper;
 
@@ -27,8 +26,8 @@ public class SaturationSlider extends HSBSlider {
 	private float hueValue = 0;
 	private float briValue = 0;
 
-	public SaturationSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, Component... tooltip) {
-		super(xPos, yPos, width, height, callback, HSBSlider.HSBSliderType.SATURATION, tooltip);
+	public SaturationSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback) {
+		super(xPos, yPos, width, height, callback, HSBSlider.HSBSliderType.SATURATION);
 	}
 
 	@Override

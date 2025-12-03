@@ -9,6 +9,8 @@
 
 package uk.kihira.tails.neoforge.client.gui;
 
+import java.util.Comparator;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.authlib.GameProfile;
@@ -94,12 +96,17 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		return true;
 	}
 
+	@Override
+	public Component getNarration() {
+		return Component.empty();
+	}
+
 	@Internal
 	public static class NewLibraryListEntry extends LibraryListEntry {
 
 		@Internal
-		public NewLibraryListEntry(LibraryPanel panel, LibraryEntryData libraryEntryData) {
-			super(panel, libraryEntryData);
+		public NewLibraryListEntry(LibraryPanel panel) {
+			super(panel, null);
 		}
 
 		@Override
@@ -124,8 +131,28 @@ public class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry
 		}
 	}
 
-	@Override
-	public Component getNarration() {
-		return Component.empty();
+	@Internal
+	public static final class LibrarySorter implements Comparator<LibraryListEntry> {
+
+		public static final LibrarySorter INSTANCE = new LibrarySorter();
+
+		@Override
+		public int compare(LibraryListEntry entry1, LibraryListEntry entry2) {
+			if (entry1.equals(entry2))
+				return 0;
+
+			if (entry1 instanceof LibraryListEntry.NewLibraryListEntry)
+				return -1;
+			if (entry2 instanceof LibraryListEntry.NewLibraryListEntry)
+				return 1;
+
+			// Put favorites at the top.
+			if (entry1.data.favourite && !entry2.data.favourite)
+				return -1;
+			if (!entry1.data.favourite && entry2.data.favourite)
+				return 1;
+
+			return 0;
+		}
 	}
 }

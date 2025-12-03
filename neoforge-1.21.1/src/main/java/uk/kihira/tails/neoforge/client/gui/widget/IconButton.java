@@ -9,17 +9,12 @@
 
 package uk.kihira.tails.neoforge.client.gui.widget;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.neoforge.common.Tails;
@@ -27,17 +22,15 @@ import uk.kihira.tails.neoforge.common.Tails;
 /**
  * A button with an icon and a tooltip.
  */
-public class IconButton extends Button implements ITooltip {
+public class IconButton extends Button {
 
 	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Tails.MOD_ID, "textures/gui/icons.png");
 
 	protected final TailsIcons icon;
-	private final List<FormattedCharSequence> tooltip;
 
-	public IconButton(int x, int y, TailsIcons icon, OnPress onPress, Component... tooltips) {
+	public IconButton(int x, int y, TailsIcons icon, OnPress onPress) {
 		super(x, y, 16 ,16, Component.empty(), onPress, DEFAULT_NARRATION);
 		this.icon = icon;
-		tooltip = Arrays.stream(tooltips).map(Component::getVisualOrderText).collect(Collectors.toList());
 	}
 
 	@Override
@@ -61,11 +54,6 @@ public class IconButton extends Button implements ITooltip {
 		isHovered = hover;
 	}
 
-	@Override
-	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY) {
-		return tooltip;
-	}
-
 	/**
 	 * A toggle-able variant of the normal everyday icon button.
 	 */
@@ -73,8 +61,8 @@ public class IconButton extends Button implements ITooltip {
 
 		public boolean toggled;
 
-		public Toggle(int x, int y, TailsIcons icon, OnPress onPress, Component... tooltips) {
-			super(x, y, icon, onPress, tooltips);
+		public Toggle(int x, int y, TailsIcons icon, OnPress onPress) {
+			super(x, y, icon, onPress);
 		}
 
 		@Override

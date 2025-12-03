@@ -26,10 +26,6 @@ import uk.kihira.tails.neoforge.client.gui.widget.ITooltip;
 @Internal
 public abstract class BaseScreen extends Screen {
 
-	private int prevMouseX;
-	private int prevMouseY;
-	private float mouseIdleTicks;
-
 	protected BaseScreen(Component title) {
 		super(title);
 	}
@@ -40,16 +36,11 @@ public abstract class BaseScreen extends Screen {
 	public void renderTooltips(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		for (Renderable btn : renderables)
 			if (btn instanceof ITooltip tooltip && btn instanceof GuiEventListener listener && listener.isMouseOver(mouseX, mouseY)) {
-				if (prevMouseX == mouseX && prevMouseY == mouseY) mouseIdleTicks += partialTick;
-				else if (mouseIdleTicks > 0f) mouseIdleTicks = 0f;
-
-				final List<FormattedCharSequence> tooltips = Objects.requireNonNull(tooltip.getTooltip(mouseX, mouseY, mouseIdleTicks));
+				final List<FormattedCharSequence> tooltips = Objects.requireNonNull(tooltip.getTooltip(mouseX, mouseY));
 
 				if (!tooltips.isEmpty())
 					gui.renderTooltip(font, tooltips, mouseX, mouseY);
 
-				prevMouseX = mouseX;
-				prevMouseY = mouseY;
 				break;
 			}
 	}

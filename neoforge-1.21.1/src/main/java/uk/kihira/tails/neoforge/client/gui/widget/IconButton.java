@@ -62,7 +62,7 @@ public class IconButton extends Button implements ITooltip {
 	}
 
 	@Override
-	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
+	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY) {
 		return tooltip;
 	}
 

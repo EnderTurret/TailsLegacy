@@ -24,9 +24,8 @@ public interface ITooltip {
 	 * Returns a tooltip to display.
 	 * @param mouseX The x position of the mouse cursor.
 	 * @param mouseY The y position of the mouse cursor.
-	 * @param mouseIdleTime
 	 * @return The tooltip.
 	 */
 	@NotNull
-	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY, float mouseIdleTime);
+	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY);
 }

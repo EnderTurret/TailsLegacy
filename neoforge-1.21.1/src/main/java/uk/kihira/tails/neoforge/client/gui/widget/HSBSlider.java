@@ -94,7 +94,7 @@ public class HSBSlider extends AbstractSliderButton implements ITooltip {
 	}
 
 	@Override
-	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY, float mouseIdleTime) {
+	public List<FormattedCharSequence> getTooltip(int mouseX, int mouseY) {
 		return tooltips;
 	}
 

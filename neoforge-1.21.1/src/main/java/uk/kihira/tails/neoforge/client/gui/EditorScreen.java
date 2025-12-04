@@ -9,6 +9,8 @@
 
 package uk.kihira.tails.neoforge.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -32,6 +34,7 @@ import uk.kihira.tails.neoforge.client.gui.panel.ControlsPanel;
 import uk.kihira.tails.neoforge.client.gui.panel.LibraryImportPanel;
 import uk.kihira.tails.neoforge.client.gui.panel.LibraryInfoPanel;
 import uk.kihira.tails.neoforge.client.gui.panel.LibraryPanel;
+import uk.kihira.tails.neoforge.client.gui.panel.Panel;
 import uk.kihira.tails.neoforge.client.gui.panel.PartsPanel;
 import uk.kihira.tails.neoforge.client.gui.panel.PreviewPanel;
 import uk.kihira.tails.neoforge.client.gui.panel.TexturePanel;
@@ -56,6 +59,7 @@ public class EditorScreen extends BaseScreen {
 
 	private final Consumer<EditorScreen> onSave;
 
+	protected final List<Panel> panels = new ArrayList<>();
 	protected TintPanel tintPanel;
 	protected PartsPanel partsPanel;
 	protected PreviewPanel previewPanel;
@@ -72,7 +76,7 @@ public class EditorScreen extends BaseScreen {
 		this.onSave = Objects.requireNonNull(onSave, "onSave");
 
 		// Default to Tail.
-		attachment = AttachmentPoints.get("body/tail");
+		attachment = Objects.requireNonNull(AttachmentPoints.get("body/tail"), "Attachment point body/tail not found!");
 		rootAttachment = attachment.root();
 		playerUUID = Objects.requireNonNull(uuid, "uuid");
 		isLocalPlayer = uuid.equals(TailsClientPlatform.get().getLocalUUID());
@@ -109,23 +113,16 @@ public class EditorScreen extends BaseScreen {
 
 		// Not an ideal solution but keeps everything from resetting on resize.
 		if (firstInit) {
-			previewPanel = new PreviewPanel(this, previewLeft, 0, previewRight - previewLeft, previewBottom);
-			partsPanel = new PartsPanel(this, 0, 0, previewLeft, height - texSelectHeight);
-			texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewLeft, 58);
-			tintPanel = new TintPanel(this, previewRight, 0, width - previewRight, height);
-			libraryPanel = new LibraryPanel(this, 0, 0, previewLeft, height);
-			libraryImportPanel = new LibraryImportPanel(this, previewRight, height - 60, width - previewRight, 60);
-			libraryInfoPanel = new LibraryInfoPanel(this, previewRight, 0, width - previewRight, height - 60);
-			controlsPanel = new ControlsPanel(this, previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom);
+			panels.add(previewPanel = new PreviewPanel(this, previewLeft, 0, previewRight - previewLeft, previewBottom));
+			panels.add(partsPanel = new PartsPanel(this, 0, 0, previewLeft, height - texSelectHeight));
+			panels.add(texturePanel = new TexturePanel(this, 0, height - texSelectHeight, previewLeft, 58));
+			panels.add(tintPanel = new TintPanel(this, previewRight, 0, width - previewRight, height));
+			panels.add(libraryPanel = new LibraryPanel(this, 0, 0, previewLeft, height));
+			panels.add(libraryImportPanel = new LibraryImportPanel(this, previewRight, height - 60, width - previewRight, 60));
+			panels.add(libraryInfoPanel = new LibraryInfoPanel(this, previewRight, 0, width - previewRight, height - 60));
+			panels.add(controlsPanel = new ControlsPanel(this, previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom));
 
-			previewPanel.init();
-			partsPanel.init();
-			texturePanel.init();
-			tintPanel.init();
-			libraryPanel.init();
-			libraryImportPanel.init();
-			libraryInfoPanel.init();
-			controlsPanel.init();
+			for (Panel panel : panels) panel.init();
 
 			libraryInfoPanel.setVisible(false);
 			libraryImportPanel.setVisible(false);
@@ -143,16 +140,9 @@ public class EditorScreen extends BaseScreen {
 
 		super.init();
 
-		if (firstInit) {
-			addRenderableWidget(previewPanel);
-			addRenderableWidget(partsPanel);
-			addRenderableWidget(texturePanel);
-			addRenderableWidget(tintPanel);
-			addRenderableWidget(libraryPanel);
-			addRenderableWidget(libraryImportPanel);
-			addRenderableWidget(libraryInfoPanel);
-			addRenderableWidget(controlsPanel);
-		}
+		if (firstInit)
+			for (Panel panel : panels)
+				addRenderableWidget(panel);
 	}
 
 	@Override
@@ -163,15 +153,7 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		previewPanel.renderBackground(gui, mouseX, mouseY, partialTick);
-		partsPanel.renderBackground(gui, mouseX, mouseY, partialTick);
-		texturePanel.renderBackground(gui, mouseX, mouseY, partialTick);
-		tintPanel.renderBackground(gui, mouseX, mouseY, partialTick);
-		libraryPanel.renderBackground(gui, mouseX, mouseY, partialTick);
-		libraryImportPanel.renderBackground(gui, mouseX, mouseY, partialTick);
-		libraryInfoPanel.renderBackground(gui, mouseX, mouseY, partialTick);
-		controlsPanel.renderBackground(gui, mouseX, mouseY, partialTick);
-
+		for (Panel panel : panels) panel.renderBackground(gui, mouseX, mouseY, partialTick);
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
 

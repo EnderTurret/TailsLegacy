@@ -13,6 +13,7 @@ package uk.kihira.tails.neoforge.client;
 
 import java.nio.ByteBuffer;
 
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -69,16 +70,17 @@ public final class RenderHelper {
 		RenderSystem.disableScissor();
 	}
 
-	public static void blitScaled(GuiGraphics gui, int x, int y, int blitOffset, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
-		final float f = 0.00390625F;
-		final float f1 = 0.00390625F;
-		final PoseStack.Pose e = gui.pose().last();
+	// Blits a texture 'scaled' to fit a larger/smaller area.
+	public static void blitScaled(GuiGraphics gui, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {
+		final Matrix4f pose = gui.pose().last().pose();
 		final Tesselator tess = Tesselator.getInstance();
 		final BufferBuilder renderer = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		renderer.addVertex(e.pose(), x + 0,			y + tarHeight,	blitOffset).setUv((u + 0) * f,			(v + srcHeight) * f1);
-		renderer.addVertex(e.pose(), x + tarWidth,	y + tarHeight,	blitOffset).setUv((u + srcWidth) * f,	(v + srcHeight) * f1);
-		renderer.addVertex(e.pose(), x + tarWidth,	y + 0,			blitOffset).setUv((u + srcWidth) * f,	(v + 0) * f1);
-		renderer.addVertex(e.pose(), x + 0,			y + 0,			blitOffset).setUv((u + 0) * f,			(v + 0) * f1);
+
+		renderer.addVertex(pose, x + 0,		y + height,	blitOffset).setUv((u + 0) / 256F,		(v + vHeight) / 256F);
+		renderer.addVertex(pose, x + width,	y + height,	blitOffset).setUv((u + uWidth) / 256F,	(v + vHeight) / 256F);
+		renderer.addVertex(pose, x + width,	y + 0,		blitOffset).setUv((u + uWidth) / 256F,	(v + 0) / 256F);
+		renderer.addVertex(pose, x + 0,		y + 0,		blitOffset).setUv((u + 0) / 256F,		(v + 0) / 256F);
+
 		BufferUploader.drawWithShader(renderer.buildOrThrow());
 	}
 

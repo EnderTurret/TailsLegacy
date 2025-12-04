@@ -1,7 +1,8 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Zoe Lee (Kihira)
+ * Copyright (c) 2014-2019 Zoe Lee (Kihira)
+ * Copyright (c) 2022-2025 EnderTurret
  *
  * See LICENSE for full License
  */

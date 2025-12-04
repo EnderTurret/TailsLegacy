@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2024 EnderTurret
+ * Copyright (c) 2024-2025 EnderTurret
  *
  * See LICENSE for full License
  */

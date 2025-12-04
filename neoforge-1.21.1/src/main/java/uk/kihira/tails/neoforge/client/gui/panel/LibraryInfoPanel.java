@@ -99,19 +99,19 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			final int yOffset = top;
 			for (ClientPartInfo partInfo : ((ClientPartsData) entry.data.partsData).getParts()) {
 				String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-				RenderHelper.drawStringMultiLine(gui, parent.font(), trans,
+				gui.drawString(parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4),
 						0xFFFFFF);
 
 				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.get(partInfo.getSubTypeTranslationKey());
-				RenderHelper.drawStringMultiLine(gui, parent.font(), trans,
+				gui.drawString(parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
 						0xFFFFFF);
 
 				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.get(partInfo.getTextureTranslationKey());
-				RenderHelper.drawStringMultiLine(gui, parent.font(), trans,
+				gui.drawString(parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
 						0xFFFFFF);

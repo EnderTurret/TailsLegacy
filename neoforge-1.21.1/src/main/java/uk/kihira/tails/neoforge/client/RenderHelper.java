@@ -69,23 +69,6 @@ public final class RenderHelper {
 		RenderSystem.disableScissor();
 	}
 
-	/**
-	 * Draws a string that respects new lines.
-	 * @param gui The {@link GuiGraphics}.
-	 * @param font The {@link Font} to use for drawing the text.
-	 * @param text The text to draw.
-	 * @param x The x position of the text.
-	 * @param y The y position of the text.
-	 * @param color The color of the text.
-	 */
-	public static void drawStringMultiLine(GuiGraphics gui, Font font, String text, int x, int y, int color) {
-		final String[] lines = text.split("\n");
-		for (int i = 0; i < lines.length; i++) {
-			final String line = lines[i];
-			gui.drawString(font, line, x, y + font.lineHeight * i, color);
-		}
-	}
-
 	public static void blitScaled(GuiGraphics gui, int x, int y, int blitOffset, int u, int v, int srcWidth, int srcHeight, int tarWidth, int tarHeight) {
 		final float f = 0.00390625F;
 		final float f1 = 0.00390625F;

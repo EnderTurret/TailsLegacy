@@ -236,7 +236,7 @@ public final class PartsPanel extends Panel {
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
 				renderPart(gui, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				RenderHelper.drawStringMultiLine(gui, parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
+				gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;

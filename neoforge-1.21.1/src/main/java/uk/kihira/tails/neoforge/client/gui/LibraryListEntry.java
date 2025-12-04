@@ -74,7 +74,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			if (index == 4) break;
 
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			RenderHelper.drawStringMultiLine(gui, font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
+			gui.drawString(font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
 
 			for (int i = 1; i < 4; i++)
 				gui.fill(listWidth - 1 - 8 * i, rowTop + 13 + index * 8,

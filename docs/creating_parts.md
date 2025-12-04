@@ -27,7 +27,11 @@ Part definitions have the following format:
   "defaultTints": ["0xff0000", "0x00ff00", "0x0000ff"], // Specifies the default tints of the part, which is shown in the part preview; optional
   "ordering": [ // Specifies the subtype ordering in the texture/variant panel; optional
     "standard" // Indicates that the subtype "standard" is the first subtype. Subtypes not listed here will be added to the end of the ordering in alphabetical order.
-  ]
+  ],
+  "allowArrows": false, // Specifies whether arrows should randomly render on this part; optional
+  "model": { ... }, // The part's model, see further down; optional
+  "render": { ... }, // The part's render transforms; optional
+  "preview": { ... } // The part's preview transforms; optional
 }
 ```
 
@@ -41,11 +45,13 @@ For example, the fluffy tail file from earlier has the following content:
     "two_tails",
     "three_tails",
     "nine_tails"
-  ]
+  ],
+  "allowArrows": true,
+  "model": { ... }
 }
 ```
 
-Specifying only an attachment is discouraged:
+Specifying no ordering is discouraged:
 
 ```json
 {
@@ -95,11 +101,12 @@ Our example tail part definition will look something like this:
   "attachment": "body/tail",
   "ordering": [
     "standard"
-  ]
+  ],
+  "allowArrows": true
 }
 ```
 
-This is the most common part definition, specifying only an attachment and ordering.
+This is the most common part definition, specifying only an attachment and ordering — and since this is a tail, allowing arrows to be stuck in it.
 The ordering of the part will be important later.
 
 This json file will go in the `example:parts` directory with the name `example_tail.json`.
@@ -131,11 +138,14 @@ Every part has at least one subtype, and (hopefully) vice versa.
 
 ### File format
 
-A subtype's file format is *very* simple:
+A subtype's file format is fairly simple:
 
 ```js
 {
-  "author": "<name of the creator of the subtype>" // optional
+  "author": "<name of the creator of the subtype>", // Optional
+  "pose": { ... }, // The transforms to apply to the part when this subtype is selected; optional
+  "hideParts": [], // The parts of the model to hide when using this subtype; optional
+  "showParts": [] // The parts of the model to show when using this subtype; optional
 }
 ```
 
@@ -157,8 +167,10 @@ Now, we can make a subtype for it.
 A part may have any number of subtypes, but we will only be making one subtype for our part.
 The subtype definition will look like this:
 
-```json
-{}
+```js
+{
+  "author": "EnderTurret" // replace this with your name when making your part
+}
 ```
 
 This file should be saved as `example:parts/subtypes/example_tail/standard.json`.
@@ -344,4 +356,5 @@ It may or may not be useful.
 
 Regardless of format, you can and should preview your texture in-game.
 Additionally, `F3 + T` forces a resource reload, which will also reload all of the parts.
+(You can also use Tails's keybind for reloading parts, but this won't reload the textures.)
 You can use that to aid in your development.

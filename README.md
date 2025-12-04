@@ -2,32 +2,30 @@
 
 A Minecraft mod that adds in a variety of tails, ears, wings, and other accessories.
 
-This is a fork of [the original project](https://github.com/kihira/Tails) that has been updated to newer versions of Minecraft and expanded with additional features. (This fork is based on the 1.12 branch — not the in-development rewrite.)
+This is a fork of [the original project](https://github.com/kihira/Tails) that has been updated to newer versions of Minecraft and expanded with additional features.
+(This fork is based on the 1.12 branch — not the in-development rewrite.)
 
 ## Differences
 
-There are several major differences in this fork (the mod has effectively been rewritten like five times now), but here are some of the main ones:
+There are several major differences in this fork (the mod has effectively been rewritten like six times now), but here are some of the important ones:
 
 * Updated for modern versions of Minecraft
 * Part types rewritten into attachment points
 * New tails, "ears," wing textures, etc
 * Data-driven part, "sub type", texture, and attachment point definitions
-* A better API for other mods
-* Numerous code improvements (partially subjective)
-* Better documentation (sometimes)
 
 For user-facing differences (the ones you're most likely to see first):
 
-* "Sub types" are now another set of buttons instead of selecting them in the part list
-	* Example: the nine tails sub type is now under the fluffy tail instead of shown separately
+* "Sub-types" are now another set of buttons instead of selecting them in the part list
+	* Example: the nine tails sub-type is now under the fluffy tail instead of shown separately
 * Part type selection is now two "spinners" for selecting attachment point
 * Exporting/importing from skin is completely gone
-* Server-side Tails libraries are gone
+* Server-side Tails libraries are gone (I'm not sure they ever even did anything?)
 * Importing library entries actually works now
 
 ### Data format
 
-To support all of these changes, the Tails data format has changed (a lot):
+To support all of these changes, the Tails data format has changed significantly:
 
 * Part "types", "sub types", and textures are now strings, instead of integers
 * Part scale is gone (this was never used)
@@ -97,6 +95,6 @@ Regardless of option, Tails will handle upgrading the data to the newer format, 
 ## Data-driven parts
 
 As mentioned earlier, Tails's part system is now completely data-driven.
-For most people, the only change will be that resource packs can now define their own parts/subtypes/textures.
+For most people, the only change will be that resource packs can now define their own parts/sub-types/textures.
 
-There is a guide to creating parts, subtypes, and textures [here](docs/creating_parts.md).
+There is a guide to creating parts, sub-types, and textures [here](docs/creating_parts.md).

@@ -36,8 +36,6 @@ public abstract class Panel extends AbstractWidget {
 	public int left, right;
 	public int top, bottom;
 
-	public boolean alwaysReceiveMouse = false;
-
 	public Panel(EditorScreen parent, int x, int y, int width, int height) {
 		super(x, y, width, height, Component.empty());
 
@@ -53,14 +51,6 @@ public abstract class Panel extends AbstractWidget {
 	protected <T extends AbstractWidget> T addRenderableWidget(T widget) {
 		renderables.add(widget);
 		return parent.addRenderableWidget(widget);
-	}
-
-	protected <T extends Renderable> T addRenderableOnly(T renderable) {
-		return parent.addRenderableOnly(renderable);
-	}
-
-	protected <T extends GuiEventListener & NarratableEntry> T addWidget(T listener) {
-		return parent.addWidget(listener);
 	}
 
 	@Override

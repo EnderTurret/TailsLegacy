@@ -37,8 +37,8 @@ public final class LibraryPanel extends Panel {
 	private EditBox searchField;
 	boolean libraryChanged = false;
 
-	public LibraryPanel(EditorScreen parent, int left, int top, int width, int height) {
-		super(parent, left, top, width, height);
+	public LibraryPanel(EditorScreen parent, int x, int y, int width, int height) {
+		super(parent, x, y, width, height);
 	}
 
 	public ListWidget<LibraryListEntry> getList() {

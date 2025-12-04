@@ -29,7 +29,7 @@ public class IconButton extends Button {
 	protected final TailsIcons icon;
 
 	public IconButton(int x, int y, TailsIcons icon, OnPress onPress) {
-		super(x, y, 16 ,16, Component.empty(), onPress, DEFAULT_NARRATION);
+		super(x, y, 16, 16, Component.empty(), onPress, DEFAULT_NARRATION);
 		this.icon = icon;
 	}
 

@@ -50,14 +50,4 @@ public abstract class BaseScreen extends Screen {
 	public <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget) {
 		return super.addRenderableWidget(widget);
 	}
-
-	@Override
-	public <T extends GuiEventListener & NarratableEntry> T addWidget(T listener) {
-		return super.addWidget(listener);
-	}
-
-	@Override
-	public <T extends Renderable> T addRenderableOnly(T renderable) {
-		return super.addRenderableOnly(renderable);
-	}
 }

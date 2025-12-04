@@ -43,7 +43,6 @@ import uk.kihira.tails.common.client.part.PartRegistry;
 import uk.kihira.tails.common.client.part.RootAttachmentPoint;
 import uk.kihira.tails.common.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.ServerPartInfo;
-import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 import uk.kihira.tails.neoforge.client.gui.widget.ListWidget;
@@ -61,10 +60,8 @@ public final class PartsPanel extends Panel {
 	private final TailsEntity fakeEntity;
 	private final int listTop = 32 + 15;
 
-	public PartsPanel(EditorScreen parent, int left, int top, int right, int bottom) {
-		super(parent, left, top, right, bottom);
-		alwaysReceiveMouse = true;
-
+	public PartsPanel(EditorScreen parent, int x, int y, int width, int height) {
+		super(parent, x, y, width, height);
 		fakeEntity = FakeTailsEntity.getInstance();
 	}
 

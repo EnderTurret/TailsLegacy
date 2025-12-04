@@ -202,19 +202,11 @@ public class EditorScreen extends BaseScreen {
 		setPartsInfo(newPartInfo, true);
 	}
 
-	public ClientPartInfo getEditingPartInfo() {
-		return editingPartInfo;
-	}
-
 	public void setPartsData(ClientPartsData newPartsData) {
 		if (partsData == newPartsData) return;
 		partsData = newPartsData;
 		editingPartInfo = partsData.getPartInfo(attachment);
 		ClientPlayerPartManager.get().set(playerUUID, partsData);
-	}
-
-	public ClientPartsData getPartsData() {
-		return partsData;
 	}
 
 	public void setRootAttachmentPoint(RootAttachmentPoint root) {
@@ -235,43 +227,17 @@ public class EditorScreen extends BaseScreen {
 		texturePanel.updateButtons();
 	}
 
-	public AttachmentPoint getAttachmentPoint() {
-		return attachment;
-	}
+	public ClientPartInfo getEditingPartInfo() { return editingPartInfo; }
+	public ClientPartsData getPartsData() { return partsData; }
+	public AttachmentPoint getAttachmentPoint() { return attachment; }
+	public ClientPartInfo getOriginalPartInfo() { return originalPartInfo; }
 
-	public ClientPartInfo getOriginalPartInfo() {
-		return originalPartInfo;
-	}
-
-	public TintPanel getTintPanel() {
-		return tintPanel;
-	}
-
-	public PartsPanel getPartPanel() {
-		return partsPanel;
-	}
-
-	public PreviewPanel getPreviewPanel() {
-		return previewPanel;
-	}
-
-	public TexturePanel getTexturePanel() {
-		return texturePanel;
-	}
-
-	public ControlsPanel getControlsPanel() {
-		return controlsPanel;
-	}
-
-	public LibraryPanel getLibraryPanel() {
-		return libraryPanel;
-	}
-
-	public LibraryInfoPanel getLibraryInfoPanel() {
-		return libraryInfoPanel;
-	}
-
-	public LibraryImportPanel getLibraryImportPanel() {
-		return libraryImportPanel;
-	}
+	public PreviewPanel getPreviewPanel() { return previewPanel; }
+	public PartsPanel getPartPanel() { return partsPanel; }
+	public TexturePanel getTexturePanel() { return texturePanel; }
+	public TintPanel getTintPanel() { return tintPanel; }
+	public LibraryPanel getLibraryPanel() { return libraryPanel; }
+	public LibraryImportPanel getLibraryImportPanel() { return libraryImportPanel; }
+	public LibraryInfoPanel getLibraryInfoPanel() { return libraryInfoPanel; }
+	public ControlsPanel getControlsPanel() { return controlsPanel; }
 }

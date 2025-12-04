@@ -32,8 +32,8 @@ public final class TexturePanel extends Panel {
 	private ExtendedButton leftBtn;
 	private ExtendedButton rightBtn;
 
-	public TexturePanel(EditorScreen parent, int left, int top, int width, int height) {
-		super(parent, left, top, width, height);
+	public TexturePanel(EditorScreen parent, int x, int y, int width, int height) {
+		super(parent, x, y, width, height);
 		variantSelectY = top + 17;
 		texSelectY = variantSelectY + 15;
 	}

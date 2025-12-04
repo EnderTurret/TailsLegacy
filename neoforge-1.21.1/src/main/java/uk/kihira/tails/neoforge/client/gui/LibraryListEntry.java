@@ -28,7 +28,6 @@ import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.ClientPartsData;
-import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 

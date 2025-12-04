@@ -59,9 +59,8 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	@Internal
 	public static long pickerCursorHandle = MemoryUtil.NULL;
 
-	public TintPanel(EditorScreen parent, int left, int top, int width, int height) {
-		super(parent, left, top, width, height);
-		alwaysReceiveMouse = true;
+	public TintPanel(EditorScreen parent, int x, int y, int width, int height) {
+		super(parent, x, y, width, height);
 	}
 
 	@Override

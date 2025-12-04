@@ -28,7 +28,6 @@ import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.gui.panel.BaseLibraryInfoPanel;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.ClientPartsData;
-import uk.kihira.tails.neoforge.client.RenderHelper;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.LibraryListEntry;
 import uk.kihira.tails.neoforge.client.gui.TailsComponents;
@@ -44,8 +43,8 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 	private IconButton.Toggle favButton;
 	private IconButton deleteButton;
 
-	public LibraryInfoPanel(EditorScreen parent, int left, int top, int width, int height) {
-		super(parent, left, top, width, height);
+	public LibraryInfoPanel(EditorScreen parent, int x, int y, int width, int height) {
+		super(parent, x, y, width, height);
 	}
 
 	@Override

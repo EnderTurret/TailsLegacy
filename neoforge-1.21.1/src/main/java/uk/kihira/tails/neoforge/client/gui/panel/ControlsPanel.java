@@ -22,8 +22,8 @@ public final class ControlsPanel extends Panel {
 
 	private boolean libraryMode = false;
 
-	public ControlsPanel(EditorScreen parent, int left, int top, int right, int bottom) {
-		super(parent, left, top, right, bottom);
+	public ControlsPanel(EditorScreen parent, int x, int y, int width, int height) {
+		super(parent, x, y, width, height);
 	}
 
 	@Override

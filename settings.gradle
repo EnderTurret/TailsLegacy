@@ -18,6 +18,7 @@ plugins {
 
 rootProject.name = 'Tails'
 
-include('common', 'neoforge-1.21.1')
+include('common', 'neoforge-1.21.1', 'neoforge-1.21.10')
 project(':common').name = 'Tails.Common'
 project(':neoforge-1.21.1').name = 'Tails.NeoForge.1.21.1'
+project(':neoforge-1.21.10').name = 'Tails.NeoForge.1.21.10'

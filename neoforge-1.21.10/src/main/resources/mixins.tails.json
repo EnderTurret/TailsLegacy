@@ -1,0 +1,19 @@
+{
+  "minVersion": "0.8",
+  "package": "uk.kihira.tails.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "duck.MixinResourceLocation"
+  ],
+  "client": [
+    "client.duck.MixinHumanoidRenderState",
+    "client.duck.MixinModelPart",
+    "client.duck.MixinMultiBufferSource",
+    "client.duck.MixinPoseStack",
+    "client.duck.MixinVertexConsumer",
+    "client.CubeDefinitionAccess",
+    "client.LivingEntityRendererAccess",
+    "client.PartDefinitionAccess",
+    "client.StuckInBodyLayerAccess"
+  ]
+}

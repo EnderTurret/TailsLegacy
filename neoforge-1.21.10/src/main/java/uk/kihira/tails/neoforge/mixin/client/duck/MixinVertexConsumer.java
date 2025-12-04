@@ -15,48 +15,49 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.duck.TailsVertexConsumer;
 
 @Mixin(VertexConsumer.class)
-public interface MixinVertexConsumer extends TailsBuffer {
+public interface MixinVertexConsumer extends TailsVertexConsumer {
 
 	@Override
-	public default TailsBuffer t$beginVertex(TailsPoseStack pose, float x, float y, float z) {
+	public default TailsVertexConsumer t$beginVertex(TailsPoseStack.Entry pose, float x, float y, float z) {
 		((VertexConsumer) this).addVertex(((PoseStack) pose).last(), x, y, z);
 		return this;
 	}
 
 	@Override
-	public default TailsBuffer t$color(int color) {
+	public default TailsVertexConsumer t$color(int color) {
 		((VertexConsumer) this).setColor(color);
 		return this;
 	}
 
 	@Override
-	public default TailsBuffer t$uv(float u, float v) {
+	public default TailsVertexConsumer t$uv(float u, float v) {
 		((VertexConsumer) this).setUv(u, v);
 		return this;
 	}
 
 	@Override
-	public default TailsBuffer t$overlay(int overlay) {
+	public default TailsVertexConsumer t$overlay(int overlay) {
 		((VertexConsumer) this).setOverlay(overlay);
 		return this;
 	}
 
 	@Override
-	public default TailsBuffer t$light(int light) {
+	public default TailsVertexConsumer t$light(int light) {
 		((VertexConsumer) this).setLight(light);
 		return this;
 	}
 
 	@Override
-	public default TailsBuffer t$normal(TailsPoseStack pose, float x, float y, float z) {
+	public default TailsVertexConsumer t$normal(TailsPoseStack.Entry pose, float x, float y, float z) {
 		((VertexConsumer) this).setNormal(((PoseStack) pose).last(), x, y, z);
 		return this;
 	}
 
 	@Override
-	public default TailsBuffer t$endVertex() {
+	public default TailsVertexConsumer t$endVertex() {
 		return this;
 	}
 }

@@ -46,6 +46,7 @@ import uk.kihira.tails.neoforge.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.neoforge.common.platform.ResourceManagerWrapperImpl;
 import uk.kihira.tails.neoforge.mixin.client.CubeDefinitionAccess;
 import uk.kihira.tails.neoforge.mixin.client.PartDefinitionAccess;
+import uk.kihira.tails.neoforge.mixin.client.TextureManagerAccess;
 
 public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
@@ -81,15 +82,16 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 				.collect(Collectors.toCollection(() -> EnumSet.noneOf(Direction.class))));
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public boolean hasTexture(TResourceLocation id) {
-		return Minecraft.getInstance().getTextureManager()
-				.getTexture((ResourceLocation) (Object) id) instanceof TripleTintTexture;
+		final TextureManagerAccess access = (TextureManagerAccess) Minecraft.getInstance().getTextureManager();
+		return access.tails$byPath().containsKey(id);
 	}
 
 	@Override
 	public void registerTripleTintTexture(TResourceLocation id, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints) {
-		Minecraft.getInstance().getTextureManager().register((ResourceLocation) (Object) id, new TripleTintTexture(
+		Minecraft.getInstance().getTextureManager().registerAndLoad((ResourceLocation) (Object) id, new TripleTintTexture(
 				(ResourceLocation) (Object) part.getId().t$withPath(texture.path()),
 				tints[0], tints[1], tints[2], texture.tintingStrategy()
 				));

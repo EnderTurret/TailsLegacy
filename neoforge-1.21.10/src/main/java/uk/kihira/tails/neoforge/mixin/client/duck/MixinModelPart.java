@@ -19,6 +19,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.util.RandomSource;
 
 import uk.kihira.tails.common.client.duck.TailsBuffer;
@@ -118,7 +119,7 @@ public class MixinModelPart implements TailsModelPart {
 
 	@Override
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color) {
-		((ModelPart) (Object) this).render((PoseStack) pose, (VertexConsumer) buffer, packedLight, packedOverlay, color);
+		buffer.t$submitModelPart(this, pose, packedLight, packedOverlay, color);
 	}
 
 	@Override

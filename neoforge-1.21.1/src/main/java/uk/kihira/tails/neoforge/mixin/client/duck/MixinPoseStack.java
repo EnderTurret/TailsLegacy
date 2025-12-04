@@ -57,4 +57,9 @@ public class MixinPoseStack implements TailsPoseStack {
 	public void t$scale(float x, float y, float z) {
 		((PoseStack) (Object) this).scale(x, y, z);
 	}
+
+	@Override
+	public Entry t$lastEntry() {
+		return (Entry) (Object) ((PoseStack) (Object) this).last();
+	}
 }

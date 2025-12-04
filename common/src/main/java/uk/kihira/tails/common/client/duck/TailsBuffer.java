@@ -8,13 +8,9 @@
 
 package uk.kihira.tails.common.client.duck;
 
-public interface TailsBuffer {
+import java.util.function.BiConsumer;
 
-	public TailsBuffer t$beginVertex(TailsPoseStack pose, float x, float y, float z);
-	public TailsBuffer t$color(int color);
-	public TailsBuffer t$uv(float u, float v);
-	public TailsBuffer t$overlay(int overlay);
-	public TailsBuffer t$light(int light);
-	public TailsBuffer t$normal(TailsPoseStack pose, float x, float y, float z);
-	public TailsBuffer t$endVertex();
+public interface TailsBuffer {
+	public void t$submitCustomGeometry(TailsPoseStack poseStack, BiConsumer<TailsPoseStack.Entry, TailsVertexConsumer> renderer);
+	public void t$submitModelPart(TailsModelPart part, TailsPoseStack poseStack, int packedLight, int packedOverlay, int color);
 }

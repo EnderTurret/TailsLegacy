@@ -31,47 +31,51 @@ public final class WingRenderer extends PartRenderer {
 		final boolean small = "small".equals(ctx.info().getSubType().id());
 		final float scale = small ? 1F : 2F;
 
-		ctx.poseStack().t$push();
+		final TailsPoseStack pose = ctx.poseStack();
 
-		ctx.poseStack().t$translate(0, -(scale * 8F) * PartModel.SCALE + (small ? 0.1F : 0), 0.1F);
-		ctx.poseStack().t$rotateY(TailsMath.HALF_PI);
-		ctx.poseStack().t$rotateZ(TailsMath.HALF_PI);
-		ctx.poseStack().t$scale(scale, scale, scale);
-		ctx.poseStack().t$translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
+		pose.t$push();
+
+		pose.t$translate(0, -(scale * 8F) * PartModel.SCALE + (small ? 0.1F : 0), 0.1F);
+		pose.t$rotateY(TailsMath.HALF_PI);
+		pose.t$rotateZ(TailsMath.HALF_PI);
+		pose.t$scale(scale, scale, scale);
+		pose.t$translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
 
 		if (ctx.entity().t$isCrouching()) {
-			ctx.poseStack().t$rotateZ(35 * TailsMath.DEG_TO_RAD);
-			ctx.poseStack().t$translate(0, -0.3, 0);
+			pose.t$rotateZ(35 * TailsMath.DEG_TO_RAD);
+			pose.t$translate(0, -0.3, 0);
 		}
 
-		ctx.poseStack().t$push();
+		pose.t$push();
 
-		ctx.poseStack().t$translate(0F, 0F, 1F * PartModel.SCALE);
-		ctx.poseStack().t$rotateX((30F - angle) * TailsMath.DEG_TO_RAD);
+		pose.t$translate(0F, 0F, 1F * PartModel.SCALE);
+		pose.t$rotateX((30F - angle) * TailsMath.DEG_TO_RAD);
 
-		final TailsPoseStack p = ctx.poseStack();
+		ctx.buffer().t$submitCustomGeometry(pose, (p, consumer) -> {
+			consumer.t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+			consumer.t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+			consumer.t$beginVertex(p, 1, 0, 0).t$color(ctx.color()).t$uv(1, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+			consumer.t$beginVertex(p, 0, 0, 0).t$color(ctx.color()).t$uv(0, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+		});
 
-		ctx.buffer().t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-		ctx.buffer().t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-		ctx.buffer().t$beginVertex(p, 1, 0, 0).t$color(ctx.color()).t$uv(1, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-		ctx.buffer().t$beginVertex(p, 0, 0, 0).t$color(ctx.color()).t$uv(0, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+		pose.t$pop();
 
-		ctx.poseStack().t$pop();
-
-		ctx.poseStack().t$push();
+		pose.t$push();
 
 		// TODO: Why is this here? It causes one of the wings to be off-center.
-		//ctx.poseStack().translate(0F, 0.3F * PartModel.SCALE, 0F);
+		//pose.translate(0F, 0.3F * PartModel.SCALE, 0F);
 
-		ctx.poseStack().t$rotateX((-30F + angle) * TailsMath.DEG_TO_RAD);
+		pose.t$rotateX((-30F + angle) * TailsMath.DEG_TO_RAD);
 
-		ctx.buffer().t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-		ctx.buffer().t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-		ctx.buffer().t$beginVertex(p, 1, 0, 0).t$color(ctx.color()).t$uv(1, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-		ctx.buffer().t$beginVertex(p, 0, 0, 0).t$color(ctx.color()).t$uv(0, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+		ctx.buffer().t$submitCustomGeometry(pose, (p, consumer) -> {
+			consumer.t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+			consumer.t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+			consumer.t$beginVertex(p, 1, 0, 0).t$color(ctx.color()).t$uv(1, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+			consumer.t$beginVertex(p, 0, 0, 0).t$color(ctx.color()).t$uv(0, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+		});
 
-		ctx.poseStack().t$pop();
+		pose.t$pop();
 
-		ctx.poseStack().t$pop();
+		pose.t$pop();
 	}
 }

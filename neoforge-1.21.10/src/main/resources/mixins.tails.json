@@ -8,12 +8,14 @@
   "client": [
     "client.duck.MixinHumanoidRenderState",
     "client.duck.MixinModelPart",
-    "client.duck.MixinMultiBufferSource",
+    "client.duck.MixinSubmitNodeStorage",
     "client.duck.MixinPoseStack",
+    "client.duck.MixinPoseStackPose",
     "client.duck.MixinVertexConsumer",
     "client.CubeDefinitionAccess",
     "client.LivingEntityRendererAccess",
     "client.PartDefinitionAccess",
-    "client.StuckInBodyLayerAccess"
+    "client.StuckInBodyLayerAccess",
+    "client.TextureManagerAccess"
   ]
 }

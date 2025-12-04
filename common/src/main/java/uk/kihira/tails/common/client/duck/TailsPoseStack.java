@@ -21,4 +21,8 @@ public interface TailsPoseStack {
 	public void t$rotateZ(float radians);
 
 	public void t$scale(float x, float y, float z);
+
+	public Entry t$lastEntry();
+
+	public interface Entry {}
 }

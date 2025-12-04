@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.duck.TailsPoseStack.Entry;
 
 @Mixin(PoseStack.class)
 public class MixinPoseStack implements TailsPoseStack {
@@ -56,5 +57,10 @@ public class MixinPoseStack implements TailsPoseStack {
 	@Override
 	public void t$scale(float x, float y, float z) {
 		((PoseStack) (Object) this).scale(x, y, z);
+	}
+
+	@Override
+	public Entry t$lastEntry() {
+		return (Entry) (Object) ((PoseStack) (Object) this).last();
 	}
 }

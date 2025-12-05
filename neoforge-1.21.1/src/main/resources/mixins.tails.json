@@ -10,6 +10,7 @@
     "client.duck.MixinModelPart",
     "client.duck.MixinMultiBufferSource",
     "client.duck.MixinPoseStack",
+    "client.duck.MixinPoseStackPose",
     "client.duck.MixinVertexConsumer",
     "client.CubeDefinitionAccess",
     "client.LivingEntityRendererAccess",

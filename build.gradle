@@ -19,6 +19,14 @@ subprojects {
         //maven { url 'https://maven.theillusivec4.top' }
     }
 
+    tasks.named('processResources', ProcessResources).configure {
+        doLast {
+            fileTree(dir: outputs.files.asPath, include: '**/*.json').each {
+                File file -> file.text = groovy.json.JsonOutput.toJson(new groovy.json.JsonSlurper().parse(file))
+            }
+        }
+    }
+
     tasks.named('jar', Jar).configure {
         manifest {
             attributes([

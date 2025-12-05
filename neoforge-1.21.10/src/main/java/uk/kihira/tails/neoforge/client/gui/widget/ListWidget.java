@@ -68,8 +68,8 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 		final int bottom = top + entry.getHeight();
 		if (maxScrollAmount() > 0)
 			right -= 6;
-		gui.fill(left, top - 2, right, bottom + 2, backgroundColor);
-		gui.fill(left + 1, top - 1, right - 1, bottom + 1, -16777216);
+		gui.fill(left, top, right, bottom, backgroundColor);
+		gui.fill(left + 1, top + 1, right - 1, bottom - 1, -16777216);
 	}
 
 	@Override

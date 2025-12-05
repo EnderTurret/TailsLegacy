@@ -68,7 +68,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
 		final MutableComponent name = Component.literal(data.entryName);
 		if (sel) name.withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC);
-		gui.drawString(font, name, getX() + 5, getY() + 3, 0xFFFFFFFF);
+		gui.drawString(font, name, getX() + 5, getContentY() + 3, 0xFFFFFFFF);
 
 		int index = 0;
 
@@ -76,11 +76,11 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			if (index == 4) break;
 
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			gui.drawString(font, trans, getX() + 7, getY() + 12 + 8 * index, 0xFFFFFFFF);
+			gui.drawString(font, trans, getX() + 7, getContentY() + 12 + 8 * index, 0xFFFFFFFF);
 
 			for (int i = 1; i < 4; i++)
-				gui.fill(width - 1 - 8 * i, getY() + 13 + index * 8,
-						width - 1 + 7 - 8 * i, getY() + 20 + index * 8,
+				gui.fill(width - 1 - 8 * i, getContentY() + 13 + index * 8,
+						width - 1 + 7 - 8 * i, getContentY() + 20 + index * 8,
 						0xFF000000 | partInfo.getTints()[i - 1]);
 
 			index++;
@@ -89,7 +89,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		if (data.favourite) {
 			gui.pose().pushMatrix();
 
-			gui.pose().translate(getX() + width - 14, getY());
+			gui.pose().translate(getX() + width - 14, getContentY());
 			gui.pose().scale(0.8F, 0.8F);
 
 			gui.blit(RenderPipelines.GUI_TEXTURED, IconButton.ICONS_TEXTURE, 0, 0, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);

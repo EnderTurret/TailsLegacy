@@ -107,20 +107,20 @@ public final class PreviewPanel extends Panel {
 
 		// Yaw
 		if (prevMouseX != -1) {
-			yaw += (mouseX - prevMouseX) * 1.5F;
+			yaw += (event.x() - prevMouseX) * 1.5F;
 			handled = true;
 		}
 
 		// Pitch
 		if (prevMouseY != -1) {
-			pitch -= (mouseY - prevMouseY) * 0.05F;
+			pitch -= (event.y() - prevMouseY) * 0.05F;
 			pitch = TailsMath.clamp(pitch, 4.8F, 13F);
 			handled = true;
 		}
 
 		if (handled) {
-			prevMouseX = mouseX;
-			prevMouseY = mouseY;
+			prevMouseX = event.x();
+			prevMouseY = event.y();
 		}
 
 		return handled;

@@ -129,6 +129,11 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 	}
 
 	@Override
+	public boolean isMouseOver(double mouseX, double mouseY) {
+		return false;
+	}
+
+	@Override
 	public void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 		narrationElementOutput.add(NarratedElementType.TITLE, getMessage());
 	}

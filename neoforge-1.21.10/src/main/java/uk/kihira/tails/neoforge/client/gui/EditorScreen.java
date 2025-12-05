@@ -159,6 +159,12 @@ public class EditorScreen extends BaseScreen {
 		return super.mouseDragged(event, mouseX, mouseY);
 	}
 
+	@Override
+	public boolean mouseReleased(MouseButtonEvent event) {
+		previewPanel.mouseReleased(event);
+		return super.mouseReleased(event);
+	}
+
 	public void close() {
 		onSave.accept(this);
 	}

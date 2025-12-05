@@ -108,6 +108,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 
 			TailsClientPlatform.get().getLibraryManager().addEntry(data);
 			panel.addSelectedEntry(new LibraryListEntry(panel, data));
+			return true;
 		}
 
 		panel.getList().setSelected(this);

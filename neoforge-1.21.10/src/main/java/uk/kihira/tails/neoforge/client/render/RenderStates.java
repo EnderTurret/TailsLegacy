@@ -8,12 +8,6 @@
 
 package uk.kihira.tails.neoforge.client.render;
 
-import org.joml.Vector3f;
-
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.entity.ClientAvatarEntity;
 import net.minecraft.client.entity.ClientAvatarState;
 import net.minecraft.client.renderer.RenderType;
@@ -40,23 +34,11 @@ import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
 @EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
 public final class RenderStates {
 
-	/**
-	 * Defines the first vector of the part preview diffuse lighting.
-	 * @see RenderSystem#setShaderLights(GpuBufferSlice)
-	 * @see Lighting
-	 */
-	public static final Vector3f PART_PREVIEW_DIFFUSE_LIGHTING_0 = new Vector3f(0, 0, 0);
-	/**
-	 * Defines the second vector of the part preview diffuse lighting.
-	 * @see RenderSystem#setShaderLights(GpuBufferSlice)
-	 * @see Lighting
-	 */
-	public static final Vector3f PART_PREVIEW_DIFFUSE_LIGHTING_1 = new Vector3f(0, 0, 1);
-
 	private RenderStates() {}
 
-	@SuppressWarnings("unchecked")
-	private static final Class<? extends EntityRenderer<Avatar, AvatarRenderState>> RENDERER_CLASS = (Class<? extends EntityRenderer<Avatar, AvatarRenderState>>) AvatarRenderer.class;
+	// The (Class) cast might seem redundant, but is necessary to satisfy javac.
+	@SuppressWarnings({ "unchecked", "cast" })
+	private static final Class<? extends EntityRenderer<Avatar, AvatarRenderState>> RENDERER_CLASS = (Class<? extends EntityRenderer<Avatar, AvatarRenderState>>) (Class) AvatarRenderer.class;
 
 	public static final ContextKey<TailsRenderData> RENDER_DATA = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "render_data"));
 

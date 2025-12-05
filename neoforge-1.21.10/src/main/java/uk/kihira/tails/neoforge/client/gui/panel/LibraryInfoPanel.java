@@ -97,19 +97,19 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 				gui.drawString(parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4),
-						0xFFFFFF);
+						0xFFFFFFFF);
 
 				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.get(partInfo.getSubTypeTranslationKey());
 				gui.drawString(parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
-						0xFFFFFF);
+						0xFFFFFFFF);
 
 				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.get(partInfo.getTextureTranslationKey());
 				gui.drawString(parent.font(), trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
-						0xFFFFFF);
+						0xFFFFFFFF);
 
 				for (int i = 1; i < 4; i++)
 					gui.fill(
@@ -122,11 +122,11 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 				index++;
 			}
 
-			gui.drawString(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATOR, left + 5, bottom - 59, 0xAAAAAA);
-			gui.drawString(parent.font(), entry.data.creatorName, right - 5 - parent.font().width(entry.data.creatorName), bottom - 50, 0xAAAAAA);
-			gui.drawString(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATION_DATE, left + 5, bottom - 41, 0xAAAAAA);
+			gui.drawString(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATOR, left + 5, bottom - 59, 0xFFAAAAAA);
+			gui.drawString(parent.font(), entry.data.creatorName, right - 5 - parent.font().width(entry.data.creatorName), bottom - 50, 0xFFAAAAAA);
+			gui.drawString(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATION_DATE, left + 5, bottom - 41, 0xFFAAAAAA);
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
-			gui.drawString(parent.font(), date, right - 5 - parent.font().width(date), bottom - 32, 0xAAAAAA);
+			gui.drawString(parent.font(), date, right - 5 - parent.font().width(date), bottom - 32, 0xFFAAAAAA);
 		}
 	}
 

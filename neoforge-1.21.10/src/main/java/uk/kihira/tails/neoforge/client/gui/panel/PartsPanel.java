@@ -85,7 +85,6 @@ public final class PartsPanel extends Panel {
 				onEntrySelected(item);
 			}
 		};
-		//this.partList.setRenderTopAndBottom(false);
 
 		addRenderableWidget(this.partList);
 
@@ -155,6 +154,7 @@ public final class PartsPanel extends Panel {
 		}
 
 		this.partList.replaceEntries(partList);
+		this.partList.setScrollAmount(0);
 
 		selectDefaultListEntry();
 	}

@@ -4,6 +4,10 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    testCompileOnly.extendsFrom compileOnly
+}
+
 dependencies {
     compileOnly 'org.jetbrains:annotations:24.0.1'
     compileOnly 'com.google.code.gson:gson:2.2.4'

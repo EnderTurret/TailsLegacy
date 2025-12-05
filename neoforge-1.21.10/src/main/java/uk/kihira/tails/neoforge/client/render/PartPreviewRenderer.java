@@ -33,9 +33,7 @@ public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRen
 
 	@Override
 	protected void renderToTexture(PartPreviewRenderState renderState, PoseStack poseStack) {
-		// TODO
-		//RenderSystem.setShaderLights(RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_0, RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_1);
-		Minecraft.getInstance().gameRenderer.getLighting().setupFor(Lighting.Entry.LEVEL);
+		Minecraft.getInstance().gameRenderer.getLighting().setupFor(Lighting.Entry.ENTITY_IN_UI);
 
 		poseStack.pushPose();
 		poseStack.mulPose(Axis.YP.rotationDegrees(180));

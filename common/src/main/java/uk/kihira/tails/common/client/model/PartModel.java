@@ -11,6 +11,8 @@ package uk.kihira.tails.common.client.model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
@@ -34,6 +36,8 @@ public abstract class PartModel {
 
 	public static final float SCALE = 0.0625F;
 
+	private final Map<TailsModelPart, Boolean> partVisibilities = new ConcurrentHashMap<>();
+
 	/**
 	 * Renders the part model.
 	 * @param ctx All the fun rendering objects.
@@ -42,25 +46,13 @@ public abstract class PartModel {
 		final Part part = ctx.info().getPart();
 		final SubType subType = ctx.info().getSubType();
 
-		final int len = subType.hideParts().size() + subType.showParts().size();
-		final TailsModelPart[] changedParts = len == 0 ? null : new TailsModelPart[len];
-		final boolean[] partStates = len == 0 ? null : new boolean[changedParts.length];
+		for (Map.Entry<TailsModelPart, Boolean> entry : partVisibilities.entrySet())
+			entry.getKey().t$setVisible(entry.getValue());
 
-		if (len != 0) {
-			int pos = 0;
-			for (PartPath path : subType.hideParts()) {
-				changedParts[pos] = path.traverse(ctx.getModel());
-				partStates[pos] = changedParts[pos].t$isVisible();
-				changedParts[pos].t$setVisible(false);
-				pos++;
-			}
-			for (PartPath path : subType.showParts()) {
-				changedParts[pos] = path.traverse(ctx.getModel());
-				partStates[pos] = changedParts[pos].t$isVisible();
-				changedParts[pos].t$setVisible(true);
-				pos++;
-			}
-		}
+		for (PartPath path : subType.hideParts())
+			setPartVisible(path.traverse(ctx.getModel()), false);
+		for (PartPath path : subType.showParts())
+			setPartVisible(path.traverse(ctx.getModel()), true);
 
 		final boolean transformed = !part.getRenderTransforms().isEmpty() || !subType.renderTransforms().isEmpty();
 		if (transformed) {
@@ -77,9 +69,11 @@ public abstract class PartModel {
 
 		if (transformed)
 			ctx.poseStack().t$pop();
+	}
 
-		for (int i = 0; i < len; i++)
-			changedParts[i].t$setVisible(partStates[i]);
+	private void setPartVisible(TailsModelPart part, boolean visible) {
+		partVisibilities.putIfAbsent(part, part.t$isVisible());
+		part.t$setVisible(visible);
 	}
 
 	/**

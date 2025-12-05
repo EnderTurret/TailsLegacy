@@ -61,8 +61,11 @@ public abstract class Panel extends AbstractWidget {
 		top = y;
 		right = x + newWidth;
 		bottom = y + newHeight;
-		width = newWidth;
-		height = newHeight;
+
+		setX(x);
+		setY(y);
+		setWidth(newWidth);
+		setHeight(newHeight);
 	}
 
 	@Override

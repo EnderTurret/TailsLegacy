@@ -122,12 +122,6 @@ public class EditorScreen extends BaseScreen {
 			panels.add(libraryImportPanel = new LibraryImportPanel(this, previewRight, height - 60, width - previewRight, 60));
 			panels.add(libraryInfoPanel = new LibraryInfoPanel(this, previewRight, 0, width - previewRight, height - 60));
 			panels.add(controlsPanel = new ControlsPanel(this, previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom));
-
-			for (Panel panel : panels) panel.init();
-
-			libraryInfoPanel.setVisible(false);
-			libraryImportPanel.setVisible(false);
-			libraryPanel.setVisible(false);
 		} else {
 			previewPanel.resize(previewLeft, 0, previewRight - previewLeft, previewBottom);
 			partsPanel.resize(0, 0, previewLeft, height - texSelectHeight);
@@ -139,11 +133,12 @@ public class EditorScreen extends BaseScreen {
 			controlsPanel.resize(previewLeft, previewBottom, previewRight - previewLeft, height - previewBottom);
 		}
 
+		for (Panel panel : panels) panel.init();
+
 		super.init();
 
-		if (firstInit)
-			for (Panel panel : panels)
-				addRenderableWidget(panel);
+		for (Panel panel : panels)
+			addRenderableWidget(panel);
 	}
 
 	@Override

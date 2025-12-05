@@ -4,6 +4,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
+    apply plugin: 'maven-publish'
 
     java.withSourcesJar()
 
@@ -49,6 +50,27 @@ subprojects {
         reproducibleFileOrder = true
     }
 
+    configurations {
+        localImplementation
+        compileClasspath.extendsFrom localImplementation
+        runtimeClasspath.extendsFrom localImplementation
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = "Tails-${loader}"
+                version = "${mod_version}"
+
+                from components.java
+
+                pom {
+                    description = 'For all your taily needs.'
+                }
+            }
+        }
+    }
+
     if (it != project(':Tails.Common')) {
         tasks.named('compileJava', JavaCompile).configure {
             source project(':Tails.Common').sourceSets.main.allSource
@@ -63,7 +85,7 @@ subprojects {
         }
 
         dependencies {
-            implementation (project(':Tails.Common'))
+            localImplementation (project(':Tails.Common'))
         }
     }
 }

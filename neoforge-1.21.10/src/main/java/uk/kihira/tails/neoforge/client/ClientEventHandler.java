@@ -49,6 +49,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterPictureInPictureRenderersEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -67,6 +68,8 @@ import uk.kihira.tails.neoforge.client.gui.panel.TintPanel;
 import uk.kihira.tails.neoforge.client.gui.widget.IconButton;
 import uk.kihira.tails.neoforge.client.platform.TailsClientPlatformImpl;
 import uk.kihira.tails.neoforge.client.render.BotaniaFoxtatoRenderer;
+import uk.kihira.tails.neoforge.client.render.PartPreviewRenderState;
+import uk.kihira.tails.neoforge.client.render.PartPreviewRenderer;
 import uk.kihira.tails.neoforge.client.render.layer.PartLayer;
 import uk.kihira.tails.neoforge.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.neoforge.mixin.client.LivingEntityRendererAccess;
@@ -247,6 +250,11 @@ public final class ClientEventHandler {
 		@SubscribeEvent
 		static void registerKeys(RegisterKeyMappingsEvent e) {
 			TailsKeybinds.registerKeys(e);
+		}
+
+		@SubscribeEvent
+		static void registerPiPs(RegisterPictureInPictureRenderersEvent e) {
+			e.register(PartPreviewRenderState.class, PartPreviewRenderer::new);
 		}
 	}
 }

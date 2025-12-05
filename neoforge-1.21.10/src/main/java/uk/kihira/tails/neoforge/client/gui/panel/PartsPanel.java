@@ -13,28 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import org.joml.Matrix3x2f;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.common.client.duck.FakeTailsEntity;
-import uk.kihira.tails.common.client.duck.TailsBuffer;
-import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsEntity;
-import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.part.AttachmentPoint;
 import uk.kihira.tails.common.client.part.AttachmentPoints;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
@@ -47,6 +36,7 @@ import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 import uk.kihira.tails.neoforge.client.gui.widget.ListWidget;
 import uk.kihira.tails.neoforge.client.gui.widget.Spinner;
+import uk.kihira.tails.neoforge.client.render.PartPreviewRenderState;
 
 @Internal
 public final class PartsPanel extends Panel {
@@ -191,28 +181,13 @@ public final class PartsPanel extends Panel {
 
 		gui.pose().pushMatrix();
 		gui.pose().translate(x, y);
-		gui.pose().scale(-scale, scale);
-
-		// TODO
-		//RenderSystem.setShaderLights(RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_0, RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_1);
-
-		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
-		final RenderType renderType = RenderType.entityCutoutNoCull((ResourceLocation) (Object) partInfo.getTexture());
-		final VertexConsumer consumer = impl.getBuffer(renderType);
 
-		renderer.render(
-				(TailsPoseStack) gui.pose(),
-				fakeEntity,
-				null, partInfo,
-				(TailsBufferSource) impl, (TailsBuffer) consumer,
-				0, 0, 0, partialTick,
-				LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
-
-		impl.endBatch();
-
-		parent.getMinecraft().gameRenderer.getLighting().setupFor(Lighting.Entry.ITEMS_3D);
+		gui.submitPictureInPictureRenderState(new PartPreviewRenderState(
+				fakeEntity, partInfo, partialTick, new Matrix3x2f(gui.pose()),
+				-50, -100, 50, 100,
+				gui.peekScissorStack()));
 
 		gui.pose().popMatrix();
 	}

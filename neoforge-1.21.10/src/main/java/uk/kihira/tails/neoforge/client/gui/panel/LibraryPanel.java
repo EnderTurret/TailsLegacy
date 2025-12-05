@@ -48,7 +48,7 @@ public final class LibraryPanel extends Panel {
 
 	@Override
 	public void init() {
-		addRenderableWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50, new ArrayList<>()));
+		addRenderableWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50));
 		initList("");
 
 		addRenderableWidget(searchField = new EditBox(parent.font(), left + 4, bottom - 32, right - left - 8, 12, Component.empty()));

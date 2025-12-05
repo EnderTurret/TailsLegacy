@@ -9,6 +9,7 @@
 
 package uk.kihira.tails.neoforge.client.gui.widget;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,6 +27,10 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	public ListWidget(int width, int height, int top, int slotHeight, List<T> entries) {
 		super(Minecraft.getInstance(), width, height, top, slotHeight);
 		replaceEntries(entries);
+	}
+
+	public ListWidget(int width, int height, int top, int slotHeight) {
+		this(width, height, top, slotHeight, new ArrayList<>());
 	}
 
 	public void onItemSelected(T item) {}

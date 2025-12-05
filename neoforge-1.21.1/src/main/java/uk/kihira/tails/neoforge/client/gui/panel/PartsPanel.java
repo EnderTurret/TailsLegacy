@@ -90,7 +90,7 @@ public final class PartsPanel extends Panel {
 		this.partList = new ListWidget<>(
 				108 + 6, bottom - top - listTop,
 				listTop,
-				55, new ArrayList<>()) {
+				55) {
 			@Override
 			public void onItemSelected(PartEntry item) {
 				onEntrySelected(item);

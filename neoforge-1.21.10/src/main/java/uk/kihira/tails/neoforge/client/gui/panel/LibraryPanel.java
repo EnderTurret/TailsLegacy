@@ -84,7 +84,7 @@ public final class LibraryPanel extends Panel {
 	}
 
 	public void addSelectedEntry(LibraryListEntry entry) {
-		list.children().add(entry);
+		list.addEntry(entry);
 		list.setSelected(entry);
 		parent.getLibraryInfoPanel().setEntry(entry);
 		libraryChanged = true;
@@ -92,7 +92,7 @@ public final class LibraryPanel extends Panel {
 
 	public void removeEntry(LibraryListEntry entry) {
 		TailsClientPlatform.get().getLibraryManager().removeEntry(entry.data);
-		list.children().remove(entry);
+		list.removeEntry(entry);
 		libraryChanged = true;
 	}
 

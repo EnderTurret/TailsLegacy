@@ -77,6 +77,16 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 		super.replaceEntries(entries);
 	}
 
+	@Override
+	public int addEntry(T entry) {
+		return super.addEntry(entry);
+	}
+
+	@Override
+	public void removeEntry(T entry) {
+		super.removeEntry(entry);
+	}
+
 	public int getItemHeight() {
 		return defaultEntryHeight;
 	}

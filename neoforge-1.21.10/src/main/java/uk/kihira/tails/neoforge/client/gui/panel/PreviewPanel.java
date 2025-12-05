@@ -71,7 +71,7 @@ public final class PreviewPanel extends Panel {
 
 		if (!doRender) return;
 
-		RenderHelper.startGlScissor(gui, left, top, width, height);
+		//RenderHelper.startGlScissor(gui, left, top, width, height);
 
 		final int mcHeight = parent.getMinecraft().getWindow().getGuiScaledHeight();
 		final double factor = mcHeight / 4 * zoom;
@@ -79,14 +79,14 @@ public final class PreviewPanel extends Panel {
 		// Player
 		RenderHelper.drawEntity(gui,
 				left,
-				top + (int) factor,
+				top,
 				left + width,
 				top + height,
 				(int) factor,
 				yaw, pitch,
 				partialTick, parent.renderingEntity);
 
-		RenderHelper.endGlScissor(gui);
+		//RenderHelper.endGlScissor(gui);
 	}
 
 	@Override

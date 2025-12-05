@@ -77,17 +77,17 @@ public final class RenderHelper {
 		final GpuTextureView tex = Minecraft.getInstance().getTextureManager().getTexture(texture).getTextureView();
 
 		gui.submitGuiElementRenderState(new BlitRenderState(
-				RenderPipelines.CUTOUT,
+				RenderPipelines.GUI_TEXTURED,
 				TextureSetup.singleTexture(tex),
 				new Matrix3x2f(gui.pose()),
 				x,
 				y,
 				x + width,
 				y + height,
-				u,
-				v,
-				u + uWidth,
-				v + vHeight,
+				u / 256F,
+				(u + uWidth) / 256F,
+				v / 256F,
+				(v + vHeight) / 256F,
 				color,
 				gui.peekScissorStack()
 				));
@@ -127,7 +127,8 @@ public final class RenderHelper {
 		pose.mul(new Quaternionf().rotateZ(TailsMath.PI));
 		pose.mul(new Quaternionf().rotateY(yaw * TailsMath.DEG_TO_RAD));
 
-		InventoryScreen.renderEntityInInventory(gui, x1, y1, x2, y2, scale, new Vector3f(), pose, cameraOrientation, entity);
+		InventoryScreen.renderEntityInInventory(gui, x1, y1, x2, y2, scale,
+				new Vector3f(0, entity.getBbHeight() / 2F, 0), pose, cameraOrientation, entity);
 
 		entity.yBodyRot = oldYBodyRot;
 		entity.setYRot(oldYRot);

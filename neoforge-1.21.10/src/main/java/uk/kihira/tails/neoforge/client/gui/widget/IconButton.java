@@ -37,7 +37,7 @@ public class IconButton extends Button {
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		final int textureOffset = getYImage();
 
-		gui.blit(RenderPipelines.CUTOUT, ICONS_TEXTURE, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16, 256, 256);
+		gui.blit(RenderPipelines.GUI_TEXTURED, ICONS_TEXTURE, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16, 256, 256);
 	}
 
 	protected int getYImage() {

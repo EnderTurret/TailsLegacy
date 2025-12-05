@@ -65,7 +65,7 @@ public final class LibraryPanel extends Panel {
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
-		gui.blit(RenderPipelines.CUTOUT, IconButton.ICONS_TEXTURE, right - 14, bottom - 30, 0, 240, 8, 8, 256, 256);
+		gui.blit(RenderPipelines.GUI_TEXTURED, IconButton.ICONS_TEXTURE, right - 14, bottom - 30, 0, 240, 8, 8, 256, 256);
 	}
 
 	public void initList(String filter) {

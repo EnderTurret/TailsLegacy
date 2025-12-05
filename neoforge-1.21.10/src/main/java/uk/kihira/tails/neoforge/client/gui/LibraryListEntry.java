@@ -92,7 +92,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			gui.pose().translate(getX() + width - 16, getY());
 			gui.pose().scale(0.8F, 0.8F);
 
-			gui.blit(RenderPipelines.CUTOUT, IconButton.ICONS_TEXTURE, 0, 0, 10, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
+			gui.blit(RenderPipelines.GUI_TEXTURED, IconButton.ICONS_TEXTURE, 0, 0, 10, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
 
 			gui.pose().popMatrix();
 		}

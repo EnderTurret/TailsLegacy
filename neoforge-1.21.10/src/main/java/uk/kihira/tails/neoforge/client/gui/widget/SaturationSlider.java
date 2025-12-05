@@ -35,24 +35,24 @@ public class SaturationSlider extends HSBSlider {
 
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
-		gui.blitSprite(RenderPipelines.CUTOUT, VANILLA_SLIDER_SPRITE, getX(), getY(), width, height);
+		gui.blitSprite(RenderPipelines.GUI_TEXTURED, VANILLA_SLIDER_SPRITE, getX(), getY(), width, height);
 
 		{
 			final Color hueColour = Color.getHSBColor(hueValue, 1, 1);
-			RenderHelper.blitScaled(gui, SLIDER_TEXTURE, getX() + 1, getY() + 1, 0, 0, 176, 256, 20, width - 2, height - 2, 0xFF000000 | hueColour.getRGB());
+			RenderHelper.blitScaled(gui, SLIDER_TEXTURE, getX() + 1, getY() + 1, 0,
+					0, 176, 256, 20, width - 2, height - 2, 0xFF000000 | hueColour.getRGB());
 		}
-
-		final int srcY = 236 - 40;
 
 		{
 			final Color hueColour = Color.getHSBColor(0, 0, briValue);
-			RenderHelper.blitScaled(gui, SLIDER_TEXTURE, getX() + 1, getY() + 1, 0, 0, srcY, 231, 20, width - 2, height - 2, 0xFF000000 | hueColour.getRGB());
+			RenderHelper.blitScaled(gui, SLIDER_TEXTURE, getX() + 1, getY() + 1, 0,
+					0, 196, 231, 20, width - 2, height - 2, 0xFF000000 | hueColour.getRGB());
 		}
 
 		final int offset = isFocused() ? 5 : 0;
 
-		gui.blit(RenderPipelines.CUTOUT, SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4, 256, 256);
-		gui.blit(RenderPipelines.CUTOUT, SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4, 256, 256);
+		gui.blit(RenderPipelines.GUI_TEXTURED, SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4, 256, 256);
+		gui.blit(RenderPipelines.GUI_TEXTURED, SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4, 256, 256);
 	}
 
 	/**

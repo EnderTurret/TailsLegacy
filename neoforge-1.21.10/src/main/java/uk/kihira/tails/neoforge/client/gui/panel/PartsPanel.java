@@ -106,7 +106,7 @@ public final class PartsPanel extends Panel {
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
-		gui.drawCenteredString(parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFF);
+		gui.drawCenteredString(parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFFFF);
 	}
 
 	@Override
@@ -229,8 +229,8 @@ public final class PartsPanel extends Panel {
 		public void renderContent(GuiGraphics gui, int mouseX, int mouseY, boolean isHovering, float partialTick) {
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.getSelected() == this;
-				renderPart(gui, right - 25 - 2, getX() - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, getX() + 17, 0xFFFFFF);
+				renderPart(gui, right - 25 - 2, getY() - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+				gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), getX() + 5, getY() + 17, 0xFFFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;
@@ -244,21 +244,20 @@ public final class PartsPanel extends Panel {
 					if (author != null) {
 						// Yeah its not nice but eh, works.
 						gui.pose().pushMatrix();
-						gui.pose().translate(5, getX() + 27);
+						gui.pose().translate(getX() + 5, getY() + 27);
 						gui.pose().scale(0.6F, 0.6F);
-						gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFF);
-						gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
+						gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
+						gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
 						gui.pose().popMatrix();
 					}
 				}
 			} else
-				gui.drawString(parent.font(), TailsComponents.EMPTY_PART, 5, getX() + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				gui.drawString(parent.font(), TailsComponents.EMPTY_PART, getX() + 5, getY() + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
 		}
 
 		@Override
 		public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
 			partList.setSelected(this);
-			//onEntrySelected(partList.children().indexOf(this), this);
 			return true;
 		}
 

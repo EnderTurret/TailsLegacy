@@ -36,6 +36,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
+import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.TailsMath;
 
 /**
@@ -164,7 +165,7 @@ public final class RenderHelper {
 			}
 
 			buffer.close();
-			action.accept(pixel);
+			action.accept(JavaColor.fromABGR(pixel, false));
 		}, 0, (int) x, (int) y, 1, 1);
 	}
 }

@@ -215,6 +215,10 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().handle(), cursor);
 	}
 
+	public boolean isSelectingColour() {
+		return selectingColour;
+	}
+
 	@Override
 	public void setVisible(boolean value) {
 		super.setVisible(value);

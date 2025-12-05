@@ -166,6 +166,12 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	@Override
+	public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
+		if (tintPanel.isSelectingColour()) return tintPanel.mouseClicked(event, isDoubleClick);
+		return super.mouseClicked(event, isDoubleClick);
+	}
+
+	@Override
 	public boolean mouseReleased(MouseButtonEvent event) {
 		previewPanel.mouseReleased(event);
 		return super.mouseReleased(event);

@@ -10,7 +10,6 @@ package uk.kihira.tails.neoforge.client.render;
 
 import org.joml.Vector3f;
 
-import com.google.common.reflect.TypeToken;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;

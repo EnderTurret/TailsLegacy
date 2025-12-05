@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.entity.layers.StuckInBodyLayer;
 
 @Mixin(StuckInBodyLayer.class)

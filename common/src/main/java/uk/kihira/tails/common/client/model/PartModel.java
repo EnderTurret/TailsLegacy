@@ -144,7 +144,7 @@ public abstract class PartModel {
 
 	public static float getAnimationTime(double cycleTime, TailsEntity entity) {
 		// Returns between 0-360 in radians depending on far in the "cycle" we are.
-		return (float) ((entity.hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2 * Math.PI);
+		return (float) ((entity.t$uuid().hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2 * Math.PI);
 	}
 
 	protected static double[] getMotionAngles(TailsEntity player, float partialTick) {

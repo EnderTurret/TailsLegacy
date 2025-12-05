@@ -152,8 +152,12 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		for (Panel panel : panels) panel.renderBackground(gui, mouseX, mouseY, partialTick);
+	}
+
+	@Override
+	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
 

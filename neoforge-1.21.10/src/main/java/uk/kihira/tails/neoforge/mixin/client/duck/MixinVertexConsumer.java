@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.duck.TailsVertexConsumer;
 
@@ -22,7 +21,7 @@ public interface MixinVertexConsumer extends TailsVertexConsumer {
 
 	@Override
 	public default TailsVertexConsumer t$beginVertex(TailsPoseStack.Entry pose, float x, float y, float z) {
-		((VertexConsumer) this).addVertex(((PoseStack) pose).last(), x, y, z);
+		((VertexConsumer) this).addVertex((PoseStack.Pose) (Object) pose, x, y, z);
 		return this;
 	}
 
@@ -52,7 +51,7 @@ public interface MixinVertexConsumer extends TailsVertexConsumer {
 
 	@Override
 	public default TailsVertexConsumer t$normal(TailsPoseStack.Entry pose, float x, float y, float z) {
-		((VertexConsumer) this).setNormal(((PoseStack) pose).last(), x, y, z);
+		((VertexConsumer) this).setNormal((PoseStack.Pose) (Object) pose, x, y, z);
 		return this;
 	}
 

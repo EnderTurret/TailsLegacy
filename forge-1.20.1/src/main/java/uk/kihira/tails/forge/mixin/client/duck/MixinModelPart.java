@@ -21,6 +21,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.util.RandomSource;
 
+import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
@@ -118,7 +119,8 @@ public class MixinModelPart implements TailsModelPart {
 
 	@Override
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color) {
-		((ModelPart) (Object) this).render((PoseStack) pose, (VertexConsumer) buffer, packedLight, packedOverlay, color);
+		((ModelPart) (Object) this).render((PoseStack) pose, (VertexConsumer) buffer, packedLight, packedOverlay,
+				JavaColor.red(color) / 255F, JavaColor.green(color) / 255F, JavaColor.blue(color) / 255F, JavaColor.alpha(color) / 255F);
 	}
 
 	@Override

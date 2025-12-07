@@ -24,9 +24,13 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
  */
 public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSelectionList<T> {
 
+	public boolean visible = true;
+
 	public ListWidget(int width, int height, int top, int slotHeight, List<T> entries) {
-		super(Minecraft.getInstance(), width, height, top, slotHeight);
+		super(Minecraft.getInstance(), width, height, top, top + height, slotHeight);
 		replaceEntries(entries);
+		setRenderTopAndBottom(false);
+		setRenderBackground(false);
 	}
 
 	public ListWidget(int width, int height, int top, int slotHeight) {
@@ -45,10 +49,13 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	protected void renderListBackground(GuiGraphics gui) {}
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		if (visible)
+			super.render(guiGraphics, mouseX, mouseY, partialTick);
+	}
 
 	@Override
-	protected void renderListSeparators(GuiGraphics guiGraphics) {}
+	protected void renderBackground(GuiGraphics gui) {}
 
 	@Override
 	public boolean isMouseOver(double mouseX, double mouseY) {
@@ -67,8 +74,8 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 
 	@Override
 	protected void renderSelection(GuiGraphics gui, int top, int width, int height, int outerColor, int innerColor) {
-		final int left = getX() + (this.width - width) / 2;
-		int right = getX() + (this.width + width) / 2;
+		final int left = x0 + (this.width - width) / 2;
+		int right = x0 + (this.width + width) / 2;
 		if (getMaxScroll() > 0)
 			right -= 6;
 		gui.fill(left, top - 2, right, top + height + 2, outerColor);

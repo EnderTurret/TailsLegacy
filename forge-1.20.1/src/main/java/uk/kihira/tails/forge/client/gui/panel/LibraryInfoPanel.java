@@ -18,7 +18,6 @@ import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.language.I18n;
@@ -80,9 +79,9 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderBackground(gui, mouseX, mouseY, partialTick);
-		gui.fillGradient(left + 3, top + 3, right - 3, bottom - 3, 0, 0xFF000000, 0xFF000000);
+	public void renderBackground(GuiGraphics gui) {
+		super.renderBackground(gui);
+		gui.fill(left + 3, top + 3, right - 3, bottom - 3, 0, 0xFF000000);
 	}
 
 	@Override
@@ -144,8 +143,7 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			textField.setValue(entry.data.entryName);
 		}
 
-		for (AbstractWidget widget : renderables)
-			widget.visible = visible;
+		setChildrenVisible(visible);
 	}
 
 	@Nullable

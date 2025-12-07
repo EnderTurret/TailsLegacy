@@ -19,15 +19,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 import uk.kihira.tails.common.TailsPlatform;
 
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TailsPlatform.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class ToastManager {
 
 	public static final ToastManager INSTANCE = new ToastManager();
@@ -54,7 +55,9 @@ public final class ToastManager {
 	}
 
 	@SubscribeEvent
-	static void onClientTickPost(ClientTickEvent.Post event) {
+	static void onClientTickPost(ClientTickEvent event) {
+		if (event.phase != TickEvent.Phase.END) return;
+
 		final Iterator<Toast> toasts = INSTANCE.toasts.iterator();
 		while (toasts.hasNext()) {
 			final Toast toast = toasts.next();

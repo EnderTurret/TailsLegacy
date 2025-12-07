@@ -15,7 +15,6 @@ import java.nio.ByteBuffer;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryStack;
@@ -24,7 +23,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -72,18 +70,20 @@ public final class RenderHelper {
 	public static void blitScaled(GuiGraphics gui, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {
 		final Matrix4f pose = gui.pose().last().pose();
 		final Tesselator tess = Tesselator.getInstance();
-		final BufferBuilder renderer = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		final BufferBuilder renderer = tess.getBuilder();
 
-		renderer.addVertex(pose, x + 0,		y + height,	blitOffset).setUv((u + 0) / 256F,		(v + vHeight) / 256F);
-		renderer.addVertex(pose, x + width,	y + height,	blitOffset).setUv((u + uWidth) / 256F,	(v + vHeight) / 256F);
-		renderer.addVertex(pose, x + width,	y + 0,		blitOffset).setUv((u + uWidth) / 256F,	(v + 0) / 256F);
-		renderer.addVertex(pose, x + 0,		y + 0,		blitOffset).setUv((u + 0) / 256F,		(v + 0) / 256F);
+		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-		BufferUploader.drawWithShader(renderer.buildOrThrow());
+		renderer.vertex(pose, x + 0,		y + height,	blitOffset).uv((u + 0) / 256F,		(v + vHeight) / 256F);
+		renderer.vertex(pose, x + width,	y + height,	blitOffset).uv((u + uWidth) / 256F,	(v + vHeight) / 256F);
+		renderer.vertex(pose, x + width,	y + 0,		blitOffset).uv((u + uWidth) / 256F,	(v + 0) / 256F);
+		renderer.vertex(pose, x + 0,		y + 0,		blitOffset).uv((u + 0) / 256F,		(v + 0) / 256F);
+
+		tess.end();
 	}
 
 	/**
-	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(GuiGraphics, float, float, float, Vector3f, Quaternionf, Quaternionf, LivingEntity) inventory screen}.
+	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(GuiGraphics, int, int, int, Quaternionf, Quaternionf, LivingEntity) inventory screen}.
 	 * @param gui The {@link GuiGraphics}.
 	 * @param x The x coordinate of the entity.
 	 * @param y The y coordinate of the entity.
@@ -114,7 +114,7 @@ public final class RenderHelper {
 		pose.mul(new Quaternionf().rotateZ(TailsMath.PI));
 		pose.mul(new Quaternionf().rotateY(yaw * TailsMath.DEG_TO_RAD));
 
-		InventoryScreen.renderEntityInInventory(gui, x, y, scale, new Vector3f(), pose, cameraOrientation, entity);
+		InventoryScreen.renderEntityInInventory(gui, x, y, scale, pose, cameraOrientation, entity);
 
 		entity.yBodyRot = oldYBodyRot;
 		entity.setYRot(oldYRot);

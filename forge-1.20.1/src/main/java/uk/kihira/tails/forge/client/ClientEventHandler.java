@@ -30,25 +30,25 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Player;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.ScreenEvent;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import uk.kihira.tails.common.ABGRColor;
 import uk.kihira.tails.common.TailsPlatform;
@@ -79,7 +79,7 @@ public final class ClientEventHandler {
 	 * Handles events on the Forge bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 	static class Forge {
 
 		private static boolean sentPartInfoToServer = false;
@@ -114,7 +114,9 @@ public final class ClientEventHandler {
 		}
 
 		@SubscribeEvent
-		static void onClientTick(ClientTickEvent.Pre e) {
+		static void onClientTick(ClientTickEvent e) {
+			if (e.phase != TickEvent.Phase.START) return;
+
 			if (clearAllPartInfo) {
 				ClientPlayerPartManager.get().clear();
 				clearAllPartInfo = false;
@@ -137,7 +139,7 @@ public final class ClientEventHandler {
 	 * Handles events on the mod bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 	static class Mod {
 
 		@SubscribeEvent
@@ -218,13 +220,13 @@ public final class ClientEventHandler {
 		}
 
 		private static void registerFoxtato() {
-			NeoForge.EVENT_BUS.register(BotaniaFoxtatoRenderer.class);
+			MinecraftForge.EVENT_BUS.register(BotaniaFoxtatoRenderer.class);
 		}
 
 		@SubscribeEvent
 		static void addLayers(EntityRenderersEvent.AddLayers e) {
 			final Minecraft mc = Minecraft.getInstance();
-			final Map<PlayerSkin.Model, EntityRenderer<? extends Player>> skinMap = mc.getEntityRenderDispatcher().getSkinMap();
+			final Map<String, EntityRenderer<? extends Player>> skinMap = mc.getEntityRenderDispatcher().getSkinMap();
 
 			for (EntityRenderer<? extends Player> renderer : skinMap.values()) {
 				final PlayerRenderer renderer2 = (PlayerRenderer) renderer;

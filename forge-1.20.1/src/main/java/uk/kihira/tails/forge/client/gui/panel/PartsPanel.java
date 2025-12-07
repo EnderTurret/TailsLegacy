@@ -200,7 +200,7 @@ public final class PartsPanel extends Panel {
 		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
-		final RenderType renderType = RenderStates.getPartPreview((ResourceLocation) (Object) partInfo.getTexture());
+		final RenderType renderType = RenderStates.getPartPreview((ResourceLocation) partInfo.getTexture());
 		final VertexConsumer consumer = impl.getBuffer(renderType);
 
 		renderer.render(

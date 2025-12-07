@@ -16,6 +16,9 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 
@@ -28,7 +31,7 @@ import uk.kihira.tails.forge.client.gui.EditorScreen;
 public abstract class Panel extends AbstractWidget {
 
 	protected final EditorScreen parent;
-	protected final List<AbstractWidget> renderables = new ArrayList<>();
+	protected final List<Renderable> renderables = new ArrayList<>();
 
 	public int left, right;
 	public int top, bottom;
@@ -45,7 +48,7 @@ public abstract class Panel extends AbstractWidget {
 
 	public abstract void init();
 
-	protected <T extends AbstractWidget> T addRenderableWidget(T widget) {
+	protected <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget) {
 		renderables.add(widget);
 		return parent.addRenderableWidget(widget);
 	}
@@ -78,8 +81,13 @@ public abstract class Panel extends AbstractWidget {
 
 	public void setVisible(boolean value) {
 		visible = value;
-		for (AbstractWidget widget : renderables)
-			widget.visible = value;
+		setChildrenVisible(value);
+	}
+
+	protected void setChildrenVisible(boolean value) {
+		for (Renderable renderable : renderables)
+			if (renderable instanceof AbstractWidget widget)
+				widget.visible = value;
 	}
 
 	public EditorScreen getParent() {
@@ -89,7 +97,7 @@ public abstract class Panel extends AbstractWidget {
 	@Override
 	protected void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
 
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void renderBackground(GuiGraphics gui) {
 		gui.fill(left, top, right, bottom, -400, 0xCC000000);
 	}
 

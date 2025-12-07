@@ -26,6 +26,9 @@ import net.minecraft.server.Services;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.players.GameProfileCache;
 
+import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.fml.ModLoader;
+
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.api.PartRendererRegistrar;
@@ -108,7 +111,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public void fireRegisterPartRenderersEvent(PartRendererRegistrar registrar) {
-		ModLoader.postEvent(new RegisterPartRenderersEvent(registrar));
+		ModLoader.get().postEvent(new RegisterPartRenderersEvent(registrar));
 	}
 
 	private static Services services;
@@ -136,15 +139,16 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		}
 
 		// Option C - "Just query it lol"
-		final ProfileResult result = mc.getMinecraftSessionService().fetchProfile(uuid, false);
-		username = result.profile().getName();
+		GameProfile profile = new GameProfile(uuid, null);
+		profile = mc.getMinecraftSessionService().fillProfileProperties(profile, false);
+		username = profile.getName();
 
 		// Surprisingly, we actually got a username. Let's inform the caches, shall we?
 		if (username != null) {
 			// Unfortunately, it looks like Forge's username cache is and I quote "too good for manipulation."
 			// So instead we are only able to let our little profile cache know.
 			if (services != null)
-				services.profileCache().add(result.profile());
+				services.profileCache().add(profile);
 
 			return username;
 		}

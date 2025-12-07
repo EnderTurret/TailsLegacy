@@ -17,6 +17,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
 
+import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
@@ -32,42 +33,43 @@ public interface MixinVertexConsumer extends TailsBuffer, TailsVertexConsumer {
 
 	@Override
 	public default void t$submitModelPart(TailsModelPart part, TailsPoseStack poseStack, int packedLight, int packedOverlay, int color) {
-		((ModelPart) (Object) part).render((PoseStack) poseStack, (VertexConsumer) this, packedLight, packedOverlay, color);
+		((ModelPart) (Object) part).render((PoseStack) poseStack, (VertexConsumer) this, packedLight, packedOverlay,
+				JavaColor.red(color) / 255F, JavaColor.green(color) / 255F, JavaColor.blue(color) / 255F, JavaColor.alpha(color) / 255F);
 	}
 
 	@Override
 	public default TailsVertexConsumer t$beginVertex(TailsPoseStack.Entry pose, float x, float y, float z) {
-		((VertexConsumer) this).addVertex(((PoseStack.Pose) (Object) pose), x, y, z);
+		((VertexConsumer) this).vertex(((PoseStack.Pose) (Object) pose).pose(), x, y, z);
 		return this;
 	}
 
 	@Override
 	public default TailsVertexConsumer t$color(int color) {
-		((VertexConsumer) this).setColor(color);
+		((VertexConsumer) this).color(color);
 		return this;
 	}
 
 	@Override
 	public default TailsVertexConsumer t$uv(float u, float v) {
-		((VertexConsumer) this).setUv(u, v);
+		((VertexConsumer) this).uv(u, v);
 		return this;
 	}
 
 	@Override
 	public default TailsVertexConsumer t$overlay(int overlay) {
-		((VertexConsumer) this).setOverlay(overlay);
+		((VertexConsumer) this).overlayCoords(overlay);
 		return this;
 	}
 
 	@Override
 	public default TailsVertexConsumer t$light(int light) {
-		((VertexConsumer) this).setLight(light);
+		((VertexConsumer) this).uv2(light);
 		return this;
 	}
 
 	@Override
 	public default TailsVertexConsumer t$normal(TailsPoseStack.Entry pose, float x, float y, float z) {
-		((VertexConsumer) this).setNormal(((PoseStack.Pose) (Object) pose), x, y, z);
+		((VertexConsumer) this).normal(((PoseStack.Pose) (Object) pose).normal(), x, y, z);
 		return this;
 	}
 

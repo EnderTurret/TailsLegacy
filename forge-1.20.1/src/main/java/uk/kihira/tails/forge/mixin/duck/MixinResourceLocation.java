@@ -29,16 +29,16 @@ public abstract class MixinResourceLocation implements TResourceLocation {
 
 	@Override
 	public TResourceLocation t$withPath(String path) {
-		return (TResourceLocation) (Object) ((ResourceLocation) (Object) this).withPath(path);
+		return (TResourceLocation) ((ResourceLocation) (Object) this).withPath(path);
 	}
 
 	@Override
 	public int t$compareTo(TResourceLocation other) {
-		return ((ResourceLocation) (Object) this).compareTo((ResourceLocation) (Object) other);
+		return ((ResourceLocation) (Object) this).compareTo((ResourceLocation) other);
 	}
 
 	@Override
 	public int t$compareNamespaced(TResourceLocation other) {
-		return ((ResourceLocation) (Object) this).compareNamespaced((ResourceLocation) (Object) other);
+		return ((ResourceLocation) (Object) this).compareNamespaced((ResourceLocation) other);
 	}
 }

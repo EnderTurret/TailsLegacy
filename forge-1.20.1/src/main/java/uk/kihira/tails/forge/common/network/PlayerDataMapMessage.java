@@ -15,14 +15,10 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import io.netty.buffer.ByteBuf;
-
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 
 import net.minecraftforge.network.NetworkEvent;
 
-import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.network.BasePlayerDataMapMessage;
 import uk.kihira.tails.common.part.PartsData;
 

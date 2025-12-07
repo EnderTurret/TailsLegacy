@@ -10,10 +10,10 @@ package uk.kihira.tails.forge.client.api;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.neoforged.bus.api.Event;
-import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.fml.event.IModBusEvent;
+import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.event.IModBusEvent;
 
 import uk.kihira.tails.common.client.api.PartRendererRegistrar;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
@@ -27,7 +27,7 @@ import uk.kihira.tails.common.client.render.part.PartRenderer;
  * <p>An event fired when {@linkplain PartRenderer PartRenderers} are being registered.
  * Use this event to link part renderers to {@linkplain Part Parts}.</p>
  *
- * <p>This event is not {@linkplain ICancellableEvent cancellable}, and does not have a result.</p>
+ * <p>This event is not {@linkplain Cancelable cancelable}, and does not have a result.</p>
  *
  * <p>This event is fired on the {@linkplain IModBusEvent mod-specific event bus},
  * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>

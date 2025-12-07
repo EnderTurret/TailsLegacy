@@ -29,7 +29,7 @@ public abstract class BaseScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
+	public void renderBackground(GuiGraphics gui) {}
 
 	@Override
 	public void removed() {

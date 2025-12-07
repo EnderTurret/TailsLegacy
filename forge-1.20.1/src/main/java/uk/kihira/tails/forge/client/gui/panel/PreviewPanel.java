@@ -61,7 +61,7 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void renderBackground(GuiGraphics gui) {
 		gui.fillGradient(left, top, right, bottom, -900, 0xDD000000, 0xDD000000);
 	}
 
@@ -89,10 +89,10 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-		if (!(mouseX >= left && mouseY >= top && mouseX < right && mouseY < bottom)) return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+		if (!(mouseX >= left && mouseY >= top && mouseX < right && mouseY < bottom)) return super.mouseScrolled(mouseX, mouseY, delta);
 
-		zoom += scrollY * .1;
+		zoom += delta * .1;
 		zoom = TailsMath.clamp(zoom, 1F, 3F);
 
 		return true;

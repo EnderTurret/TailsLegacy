@@ -11,9 +11,9 @@ package uk.kihira.tails.forge.common;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.neoforged.neoforge.common.ModConfigSpec;
-import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
-import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
 /**
  * The Tails config, for all your configuration needs.
@@ -23,12 +23,12 @@ import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
 @Internal
 public final class TailsConfig {
 
-	static final ModConfigSpec CLIENT_SPEC;
+	static final ForgeConfigSpec CLIENT_SPEC;
 	@Internal
 	public static final TailsConfig CLIENT_INSTANCE;
 
 	static {
-		final Pair<TailsConfig, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(TailsConfig::new);
+		final Pair<TailsConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(TailsConfig::new);
 		CLIENT_SPEC = pair.getRight();
 		CLIENT_INSTANCE = pair.getLeft();
 	}
@@ -38,7 +38,7 @@ public final class TailsConfig {
 	@Internal
 	public final BooleanValue hidePreviewInThirdPerson;
 
-	private TailsConfig(ModConfigSpec.Builder builder) {
+	private TailsConfig(ForgeConfigSpec.Builder builder) {
 		builder.push("client");
 
 		hidePreviewInThirdPerson = builder
@@ -51,11 +51,11 @@ public final class TailsConfig {
 	}
 
 	/**
-	 * Returns the internal {@link ModConfigSpec}.
+	 * Returns the internal {@link ForgeConfigSpec}.
 	 * @return The config.
 	 */
 	@Internal
-	public static ModConfigSpec getConfig() {
+	public static ForgeConfigSpec getConfig() {
 		return CLIENT_SPEC;
 	}
 }

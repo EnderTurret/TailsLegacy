@@ -36,7 +36,7 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 
 	@Override
 	public JsonElement getJson(TResourceLocation path) {
-		final ResourceLocation rl = (ResourceLocation) (Object) path;
+		final ResourceLocation rl = (ResourceLocation) path;
 		return readJson(rl, manager.getResource(rl).get());
 	}
 
@@ -47,7 +47,7 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 		final Map<TResourceLocation, JsonElement> ret = new LinkedHashMap<>();
 
 		for (var entry : map.entrySet())
-			ret.put((TResourceLocation) (Object) entry.getKey(), readJson(entry.getKey(), entry.getValue()));
+			ret.put((TResourceLocation) entry.getKey(), readJson(entry.getKey(), entry.getValue()));
 
 		return ret;
 	}

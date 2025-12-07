@@ -214,6 +214,21 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), cursor);
 	}
 
+	public boolean isSelectingColour() {
+		return selectingColour;
+	}
+
+	@Override
+	public void setVisible(boolean value) {
+		super.setVisible(value);
+
+		final boolean visible = editingTint > 0;
+
+		red.visible = green.visible = blue.visible =
+				hue.visible = saturation.visible = brightness.visible =
+				tintReset.visible = colourPicker.visible = hexText.visible = visible;
+	}
+
 	public void refreshTintPane(int newTint, boolean changeText) {
 		refreshTintPane(newTint, changeText, false);
 	}

@@ -39,6 +39,14 @@ public final class ControlsPanel extends Panel {
 		addRenderableWidget(Button.builder(TailsComponents.DONE_BUTTON, b -> parent.close())
 				.bounds(right - 49, bottom - 25, 46, 20)
 				.build());
+
+		parent.getPartPanel().setVisible(!libraryMode);
+		parent.getTexturePanel().setVisible(!libraryMode);
+		parent.getTintPanel().setVisible(!libraryMode);
+
+		parent.getLibraryInfoPanel().setVisible(libraryMode);
+		parent.getLibraryPanel().setVisible(libraryMode);
+		parent.getLibraryImportPanel().setVisible(libraryMode);
 	}
 
 	private void switchMode(Button b) {

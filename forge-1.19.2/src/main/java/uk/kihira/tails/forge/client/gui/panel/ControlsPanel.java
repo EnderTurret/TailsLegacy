@@ -35,6 +35,14 @@ public final class ControlsPanel extends Panel {
 		// Reset/Save
 		addRenderableWidget(new ExtendedButton(left + (right - left) / 2 - 23, bottom - 25, 46, 20, TailsComponents.RESET_BUTTON, this::reset));
 		addRenderableWidget(new ExtendedButton(right - 49, bottom - 25, 46, 20, TailsComponents.DONE_BUTTON, b -> parent.close()));
+
+		parent.getPartPanel().setVisible(!libraryMode);
+		parent.getTexturePanel().setVisible(!libraryMode);
+		parent.getTintPanel().setVisible(!libraryMode);
+
+		parent.getLibraryInfoPanel().setVisible(libraryMode);
+		parent.getLibraryPanel().setVisible(libraryMode);
+		parent.getLibraryImportPanel().setVisible(libraryMode);
 	}
 
 	private void switchMode(Button b) {

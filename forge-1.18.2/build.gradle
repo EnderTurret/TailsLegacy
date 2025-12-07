@@ -1,0 +1,55 @@
+plugins {
+    id 'net.neoforged.moddev.legacyforge' version '2.0.120'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+dependencies {
+    compileOnly "vazkii.botania:Botania:${minecraft_version}-435:api"
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    modImplementation "net.enderturret:VariableSkins-${minecraft_version}-forge:${variableskins_version}"
+    modImplementation "maven.modrinth:modernfix:Vlkqd178" // 5.18.0+mc1.18.2
+}
+
+mixin {
+    add sourceSets.main, 'tails.refmap.json'
+    config 'mixins.tails.json'
+}
+
+tasks.named('jar', Jar).configure {
+    manifest.attributes([
+        'MixinConfigs': 'mixins.tails.json'
+    ])
+}
+
+legacyForge {
+    version = "${minecraft_version}-${loader_version}"
+
+    mods {
+        tails {
+            sourceSet sourceSets.main
+            sourceSet project(':Tails.Common').sourceSets.main
+        }
+    }
+
+    parchment {
+        minecraftVersion = "${minecraft_version}"
+        mappingsVersion = "${mappings_version}"
+    }
+
+    runs {
+        client {
+            client()
+            ideName = 'runTailsClientForge1_18_2'
+            if (rootProject.findProperty('minecraft_username') != null) {
+                programArguments.addAll('--uuid', rootProject.findProperty('minecraft_uuid'), '--username', rootProject.findProperty('minecraft_username'))
+            }
+        }
+
+        server {
+            server()
+            ideName = 'runTailsServerForge1_18_2'
+        }
+    }
+}

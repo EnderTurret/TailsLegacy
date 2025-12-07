@@ -1,0 +1,12 @@
+package uk.kihira.tails.forge.mixin.client.duck;
+
+import org.spongepowered.asm.mixin.Mixin;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import uk.kihira.tails.common.client.duck.TailsPoseStack;
+
+@Mixin(PoseStack.Pose.class)
+public class MixinPoseStackPose implements TailsPoseStack.Entry {
+
+}

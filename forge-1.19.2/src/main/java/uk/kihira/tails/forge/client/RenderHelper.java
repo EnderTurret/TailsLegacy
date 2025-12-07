@@ -54,21 +54,23 @@ public final class RenderHelper {
 	/**
 	 * Begins a {@linkplain GL11#glScissor(int, int, int, int) gl scissor} using the given <em>GUI</em> coordinates.
 	 * These coordinates are converted automatically to <em>screen</em> coordinates for the scissor.
-	 * @param x The coordinate of the left side of the scissor.
-	 * @param y The coordinate of the top side of the scissor.
-	 * @param width The width of the scissor.
-	 * @param height The height of the scissor.
+	 * @param x0 The coordinate of the left side of the scissor.
+	 * @param y0 The coordinate of the top side of the scissor.
+	 * @param x1 The coordinate of the right side of the scissor.
+	 * @param y1 The coordinate of the bottom side of the scissor.
 	 */
-	public static void startGlScissor(int x, int y, int width, int height) {
+	public static void startGlScissor(int x0, int y0, int x1, int y1) {
 		final Window mc = Minecraft.getInstance().getWindow();
 
-		final double scaleW = (double)mc.getScreenWidth() / mc.getGuiScaledWidth();
-		final double scaleH = (double)mc.getScreenHeight() / mc.getGuiScaledHeight();
+		final double scaleW = mc.getGuiScale();
+		final double scaleH = mc.getGuiScale();
+		final int screenHeight = mc.getHeight();
 
-		RenderSystem.enableScissor((int)Math.floor(x * scaleW),
-				(int) Math.floor(mc.getScreenHeight() - (y + height) * scaleH),
-				(int) Math.floor((x + width) * scaleW) - (int) Math.floor(x * scaleW),
-				(int) Math.floor(mc.getScreenHeight() - y * scaleH) - (int) Math.floor(mc.getScreenHeight() - (y + height) * scaleH)); // Starts from lower left corner (minecraft starts from upper left)
+		RenderSystem.enableScissor(
+				(int) (x0 * scaleW),
+				(int) (screenHeight - y1 * scaleH),
+				(int) Math.max(0, (x1 - x0) * scaleW),
+				(int) Math.max(0, (y1 - y0) * scaleH)); // Starts from lower left corner (minecraft starts from upper left)
 	}
 
 	/**

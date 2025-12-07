@@ -18,6 +18,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 
+import uk.kihira.tails.forge.client.RenderHelper;
+
 /**
  * A version of {@link ObjectSelectionList} that improves upon some things.
  *
@@ -51,8 +53,13 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 
 	@Override
 	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		if (visible)
+		if (visible) {
+			RenderHelper.startGlScissor(x0, y0, x1, y1);
+
 			super.render(poseStack, mouseX, mouseY, partialTick);
+
+			RenderHelper.endGlScissor();
+		}
 	}
 
 	@Override

@@ -75,6 +75,7 @@ public interface MixinVertexConsumer extends TailsBuffer, TailsVertexConsumer {
 
 	@Override
 	public default TailsVertexConsumer t$endVertex() {
+		((VertexConsumer) this).endVertex();
 		return this;
 	}
 }

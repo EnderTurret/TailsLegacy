@@ -14,7 +14,6 @@
     "client.duck.MixinVertexConsumer",
     "client.CubeDefinitionAccess",
     "client.LivingEntityRendererAccess",
-    "client.MinecraftAccess",
     "client.MixinCubeDefinition",
     "client.MixinModelPartCube",
     "client.PartDefinitionAccess"

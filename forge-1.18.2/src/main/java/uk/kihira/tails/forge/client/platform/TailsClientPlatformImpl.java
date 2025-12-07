@@ -57,7 +57,6 @@ import uk.kihira.tails.forge.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 import uk.kihira.tails.forge.common.platform.ResourceManagerWrapperImpl;
 import uk.kihira.tails.forge.mixin.client.CubeDefinitionAccess;
-import uk.kihira.tails.forge.mixin.client.MinecraftAccess;
 import uk.kihira.tails.forge.mixin.client.PartDefinitionAccess;
 
 public final class TailsClientPlatformImpl implements TailsClientPlatform {
@@ -158,7 +157,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		if (username != null) return username;
 
 		// Option B - The user cache (some assembly required)
-		if (gameProfileCache == null && mc instanceof MinecraftAccess access) {
+		if (gameProfileCache == null) {
 			gameProfileCache = new GameProfileCache(
 					new YggdrasilAuthenticationService(mc.getProxy()).createProfileRepository(),
 					new File(mc.gameDirectory, MinecraftServer.USERID_CACHE_FILE.getName()));

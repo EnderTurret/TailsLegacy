@@ -16,8 +16,30 @@ subprojects {
     }
 
     repositories {
-        //maven { url 'https://maven.blamejared.com' }
-        //maven { url 'https://maven.theillusivec4.top' }
+        maven {
+            url = 'https://maven.blamejared.com'
+            content {
+                includeGroup 'vazkii.botania'
+                includeGroup 'vazkii.patchouli'
+            }
+        }
+        maven {
+            url = 'https://maven.theillusivec4.top'
+            content {
+                includeGroup 'top.theillusivec4.curios'
+            }
+        }
+        maven {
+            url = 'https://api.modrinth.com/maven'
+            content {
+                includeGroup 'maven.modrinth'
+            }
+        }
+        mavenLocal {
+            content {
+                includeGroup 'net.enderturret'
+            }
+        }
     }
 
     tasks.named('processResources', ProcessResources).configure {

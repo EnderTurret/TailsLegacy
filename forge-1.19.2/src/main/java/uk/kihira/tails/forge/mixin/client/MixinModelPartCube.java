@@ -1,8 +1,6 @@
 package uk.kihira.tails.forge.mixin.client;
 
 import java.util.Collection;
-import java.util.EnumSet;
-import java.util.Set;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

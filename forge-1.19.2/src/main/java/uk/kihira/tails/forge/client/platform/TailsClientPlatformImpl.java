@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.mojang.authlib.GameProfile;
 

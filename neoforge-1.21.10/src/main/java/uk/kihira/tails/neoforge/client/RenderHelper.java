@@ -17,11 +17,9 @@ import java.util.function.IntConsumer;
 import org.joml.Matrix3x2f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTexture;
@@ -43,35 +41,6 @@ import uk.kihira.tails.common.TailsMath;
  * Various rendering-related utilities.
  */
 public final class RenderHelper {
-
-	/**
-	 * Begins a {@linkplain GL11#glScissor(int, int, int, int) gl scissor} using the given <em>GUI</em> coordinates.
-	 * These coordinates are converted automatically to <em>screen</em> coordinates for the scissor.
-	 * @param gui The {@code GuiGraphics}.
-	 * @param x The coordinate of the left side of the scissor.
-	 * @param y The coordinate of the top side of the scissor.
-	 * @param width The width of the scissor.
-	 * @param height The height of the scissor.
-	 */
-	public static void startGlScissor(GuiGraphics gui, int x, int y, int width, int height) {
-		final Window mc = Minecraft.getInstance().getWindow();
-
-		final double scaleW = (double)mc.getScreenWidth() / mc.getGuiScaledWidth();
-		final double scaleH = (double)mc.getScreenHeight() / mc.getGuiScaledHeight();
-
-		gui.enableScissor((int)Math.floor(x * scaleW),
-				(int) Math.floor(mc.getScreenHeight() - (y + height) * scaleH),
-				(int) Math.floor((x + width) * scaleW) - (int) Math.floor(x * scaleW),
-				(int) Math.floor(mc.getScreenHeight() - y * scaleH) - (int) Math.floor(mc.getScreenHeight() - (y + height) * scaleH)); // Starts from lower left corner (minecraft starts from upper left)
-	}
-
-	/**
-	 * Ends a {@linkplain GL11#glScissor(int, int, int, int) gl scissor}.
-	 * @param gui The {@code GuiGraphics}.
-	 */
-	public static void endGlScissor(GuiGraphics gui) {
-		gui.disableScissor();
-	}
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
 	public static void blitScaled(GuiGraphics gui, ResourceLocation texture, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height, int color) {

@@ -21,7 +21,6 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryStack;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -40,33 +39,6 @@ import uk.kihira.tails.common.TailsMath;
  * Various rendering-related utilities.
  */
 public final class RenderHelper {
-
-	/**
-	 * Begins a {@linkplain GL11#glScissor(int, int, int, int) gl scissor} using the given <em>GUI</em> coordinates.
-	 * These coordinates are converted automatically to <em>screen</em> coordinates for the scissor.
-	 * @param x The coordinate of the left side of the scissor.
-	 * @param y The coordinate of the top side of the scissor.
-	 * @param width The width of the scissor.
-	 * @param height The height of the scissor.
-	 */
-	public static void startGlScissor(int x, int y, int width, int height) {
-		final Window mc = Minecraft.getInstance().getWindow();
-
-		final double scaleW = (double)mc.getScreenWidth() / mc.getGuiScaledWidth();
-		final double scaleH = (double)mc.getScreenHeight() / mc.getGuiScaledHeight();
-
-		RenderSystem.enableScissor((int)Math.floor(x * scaleW),
-				(int) Math.floor(mc.getScreenHeight() - (y + height) * scaleH),
-				(int) Math.floor((x + width) * scaleW) - (int) Math.floor(x * scaleW),
-				(int) Math.floor(mc.getScreenHeight() - y * scaleH) - (int) Math.floor(mc.getScreenHeight() - (y + height) * scaleH)); // Starts from lower left corner (minecraft starts from upper left)
-	}
-
-	/**
-	 * Ends a {@linkplain GL11#glScissor(int, int, int, int) gl scissor}.
-	 */
-	public static void endGlScissor() {
-		RenderSystem.disableScissor();
-	}
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
 	public static void blitScaled(GuiGraphics gui, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {

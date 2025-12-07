@@ -56,7 +56,7 @@ public final class TexturePanel extends Panel {
 
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		gui.fill(7, variantSelectY, right - 15, texSelectY + 15, -5, 0x55000000);
+		gui.fill(20, variantSelectY, right - 20, texSelectY + 15, -5, 0x55000000);
 
 		// Texture select
 		gui.drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFF);

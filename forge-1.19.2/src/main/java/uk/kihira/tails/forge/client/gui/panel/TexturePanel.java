@@ -57,7 +57,7 @@ public final class TexturePanel extends Panel {
 
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		fillGradient(poseStack, 7, variantSelectY, right - 15, texSelectY + 15, 0x55000000, 0x55000000, -5);
+		fillGradient(poseStack, 20, variantSelectY, right - 20, texSelectY + 15, 0x55000000, 0x55000000, -5);
 
 		// Texture select
 		drawCenteredString(poseStack, parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFF);

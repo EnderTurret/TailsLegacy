@@ -17,9 +17,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+
 import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.render.FoxtatoRenderer;
+import vazkii.botania.api.item.TinyPotatoRenderEvent;
 
 /**
  * Handles rendering Tails accessories on tiny potatoes named "foxtato" (case-insensitive).
@@ -37,11 +40,9 @@ public final class BotaniaFoxtatoRenderer {
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 	}
 
-	/*
 	@SubscribeEvent
 	public static void onPotatoRender(TinyPotatoRenderEvent e) {
 		if (e.name.getString().equalsIgnoreCase("foxtato"))
 			render(e.ms, e.buffers, e.tile.getBlockPos(), e.partTicks, e.light, e.overlay);
 	}
-	*/
 }

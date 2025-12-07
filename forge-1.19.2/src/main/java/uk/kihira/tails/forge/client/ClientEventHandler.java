@@ -24,7 +24,6 @@ import org.lwjgl.system.MemoryUtil;
 import com.mojang.blaze3d.platform.NativeImage;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
@@ -42,6 +41,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
@@ -91,10 +91,8 @@ public final class ClientEventHandler {
 		@SubscribeEvent
 		static void onScreenInitPost(ScreenEvent.Init.Post event) {
 			if (event.getScreen() instanceof PauseScreen)
-				event.addListener(Button.builder(TailsComponents.EDITOR_BUTTON,
-						b -> Minecraft.getInstance().setScreen(EditorScreen.openDefault()))
-						.bounds(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20)
-						.build());
+				event.addListener(new ExtendedButton(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, TailsComponents.EDITOR_BUTTON,
+						b -> Minecraft.getInstance().setScreen(EditorScreen.openDefault())));
 		}
 
 		/*
@@ -237,7 +235,7 @@ public final class ClientEventHandler {
 					// If other mods do this exact same thing, let them take precedence.
 					// If it's just an ArrowLayer mixin, then sucks for them.
 					if (layers.get(i).getClass() == ArrowLayer.class) {
-						layers.set(i, new TailsArrowLayer<>(e.getContext(), renderer2));
+						layers.set(i, new TailsArrowLayer<>(Minecraft.getInstance().getEntityRenderDispatcher(), renderer2));
 						break;
 					}
 			}

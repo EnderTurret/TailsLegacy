@@ -12,10 +12,9 @@ package uk.kihira.tails.forge.client.gui.panel;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.CameraType;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Tooltip;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.gui.TailsIcons;
@@ -50,24 +49,24 @@ public final class PreviewPanel extends Panel {
 			protected boolean isValidClickButton(int button) {
 				return false;
 			}
-		}).setTooltip(Tooltip.create(TailsComponents.PREVIEW_HELP));
+		}).setTooltip(parent, TailsComponents.PREVIEW_HELP);
 
 		// Reset Camera
 		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, b -> {
 			yaw = 0;
 			pitch = 8F;
 			zoom = 1F;
-		})).setTooltip(Tooltip.create(TailsComponents.RESET_CAMERA));
+		})).setTooltip(parent, TailsComponents.RESET_CAMERA);
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui) {
-		gui.fill(left, top, right, bottom, -900, 0xDD000000);
+	public void renderBackground(PoseStack poseStack) {
+		fillGradient(poseStack, left, top, right, bottom, 0xDD000000, 0xDD000000, -900);
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
 		if (!doRender) return;
 
@@ -78,7 +77,7 @@ public final class PreviewPanel extends Panel {
 		final double factor = mcHeight / 4 * zoom;
 
 		// Player
-		RenderHelper.drawEntity(gui,
+		RenderHelper.drawEntity(
 				left + width / 2,
 				top + height / 2 + (int) factor,
 				(int) factor,

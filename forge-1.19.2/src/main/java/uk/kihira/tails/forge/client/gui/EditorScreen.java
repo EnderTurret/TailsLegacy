@@ -17,8 +17,9 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -152,16 +153,16 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui) {
+	public void renderBackground(PoseStack poseStack) {
 		for (Panel panel : panels)
 			if (panel.visible)
-				panel.renderBackground(gui);
+				panel.renderBackground(poseStack);
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		renderBackground(gui);
-		super.render(gui, mouseX, mouseY, partialTick);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		renderBackground(poseStack);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 
 	@Override

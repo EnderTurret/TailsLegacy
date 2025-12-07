@@ -16,11 +16,11 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -104,10 +104,10 @@ public final class PartsPanel extends Panel {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
-		gui.drawCenteredString(parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFF);
+		drawCenteredString(poseStack, parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFF);
 	}
 
 	@Override
@@ -185,14 +185,14 @@ public final class PartsPanel extends Panel {
 			}
 	}
 
-	private void renderPart(GuiGraphics gui, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
+	private void renderPart(PoseStack poseStack, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
 		if (partInfo.isEmpty() || partInfo.isInvalid()) return;
 
 		final PartRenderer renderer = partInfo.getRenderer();
 
-		gui.pose().pushPose();
-		gui.pose().translate(x, y, z);
-		gui.pose().scale(-scale, scale, 1F);
+		poseStack.pushPose();
+		poseStack.translate(x, y, z);
+		poseStack.scale(-scale, scale, 1F);
 
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		RenderSystem.setShaderLights(RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_0, RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_1);
@@ -204,7 +204,7 @@ public final class PartsPanel extends Panel {
 		final VertexConsumer consumer = impl.getBuffer(renderType);
 
 		renderer.render(
-				(TailsPoseStack) gui.pose(),
+				(TailsPoseStack) poseStack,
 				fakeEntity,
 				null, partInfo,
 				(TailsBufferSource) impl, (TailsBuffer) consumer,
@@ -215,7 +215,7 @@ public final class PartsPanel extends Panel {
 
 		Lighting.setupFor3DItems();
 
-		gui.pose().popPose();
+		poseStack.popPose();
 	}
 
 	class PartEntry extends ObjectSelectionList.Entry<PartEntry> {
@@ -227,13 +227,13 @@ public final class PartsPanel extends Panel {
 		}
 
 		@Override
-		public void render(GuiGraphics gui, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+		public void render(PoseStack poseStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelectedItem(slotIndex);
-				renderPart(gui, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
+				renderPart(poseStack, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+				drawString(poseStack, parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;
@@ -246,16 +246,16 @@ public final class PartsPanel extends Panel {
 
 					if (author != null) {
 						// Yeah its not nice but eh, works.
-						gui.pose().pushPose();
-						gui.pose().translate(5, x + 27, 0);
-						gui.pose().scale(0.6F, 0.6F, 1);
-						gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFF);
-						gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
-						gui.pose().popPose();
+						poseStack.pushPose();
+						poseStack.translate(5, x + 27, 0);
+						poseStack.scale(0.6F, 0.6F, 1);
+						drawString(poseStack, parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFF);
+						drawString(poseStack, parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
+						poseStack.popPose();
 					}
 				}
 			} else
-				gui.drawString(parent.font(), TailsComponents.EMPTY_PART, 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				drawString(poseStack, parent.font(), TailsComponents.EMPTY_PART, 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
 		}
 
 		@Override

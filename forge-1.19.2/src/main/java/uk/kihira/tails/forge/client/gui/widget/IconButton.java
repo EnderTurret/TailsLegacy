@@ -9,10 +9,13 @@
 
 package uk.kihira.tails.forge.client.gui.widget;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.function.Consumer;
 
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -22,24 +25,46 @@ import uk.kihira.tails.common.client.gui.TailsIcons;
 /**
  * A button with an icon and a tooltip.
  */
-public class IconButton extends Button {
+public class IconButton extends Button implements Button.OnTooltip {
 
 	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/icons.png");
 
 	protected final TailsIcons icon;
 
+	protected Screen tooltipScreen;
+	protected Component tooltip;
+
 	public IconButton(int x, int y, TailsIcons icon, OnPress onPress) {
-		super(x, y, 16, 16, Component.empty(), onPress, DEFAULT_NARRATION);
+		super(x, y, 16, 16, Component.empty(), onPress);
 		this.icon = icon;
 	}
 
+	public IconButton setTooltip(Screen screen, Component value) {
+		tooltipScreen = screen;
+		tooltip = value;
+		return this;
+	}
+
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void onTooltip(Button button, PoseStack poseStack, int mouseX, int mouseY) {
+		if (tooltip != null)
+			tooltipScreen.renderTooltip(poseStack, tooltip, mouseX, mouseY);
+	}
+
+	@Override
+	public void narrateTooltip(Consumer<Component> contents) {
+		if (tooltip != null)
+			contents.accept(tooltip);
+	}
+
+	@Override
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 		final int textureOffset = getYImage();
 
-		gui.blit(ICONS_TEXTURE, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16);
+		RenderSystem.setShaderTexture(0, ICONS_TEXTURE);
+		blit(poseStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
 	}
 
 	protected int getYImage() {

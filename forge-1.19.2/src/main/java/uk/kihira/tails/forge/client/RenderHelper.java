@@ -13,27 +13,33 @@ package uk.kihira.tails.forge.client;
 
 import java.nio.ByteBuffer;
 
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryStack;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -73,8 +79,8 @@ public final class RenderHelper {
 	}
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
-	public static void blitScaled(GuiGraphics gui, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {
-		final Matrix4f pose = gui.pose().last().pose();
+	public static void blitScaled(PoseStack poseStack, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {
+		final Matrix4f pose = poseStack.last().pose();
 		final Tesselator tess = Tesselator.getInstance();
 		final BufferBuilder renderer = tess.getBuilder();
 
@@ -91,8 +97,7 @@ public final class RenderHelper {
 	}
 
 	/**
-	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(GuiGraphics, int, int, int, Quaternionf, Quaternionf, LivingEntity) inventory screen}.
-	 * @param gui The {@link GuiGraphics}.
+	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventoryRaw(int, int, int, float, float, LivingEntity) inventory screen}.
 	 * @param x The x coordinate of the entity.
 	 * @param y The y coordinate of the entity.
 	 * @param scale The scale to render the entity at.
@@ -101,7 +106,10 @@ public final class RenderHelper {
 	 * @param partialTick The partial tick.
 	 * @param entity The entity to render.
 	 */
-	public static void drawEntity(GuiGraphics gui, int x, int y, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
+	@SuppressWarnings("deprecation")
+	public static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
+		final PoseStack poseStack = RenderSystem.getModelViewStack();
+
 		final float oldYBodyRot = entity.yBodyRot;
 		final float oldYRot = entity.getYRot();
 		final float oldXRot = entity.getXRot();
@@ -115,14 +123,38 @@ public final class RenderHelper {
 		entity.yHeadRotO = 0;
 		entity.setShiftKeyDown(false);
 
-		final Quaternionf pose = new Quaternionf().rotateZ(TailsMath.PI);
-		final Quaternionf cameraOrientation = new Quaternionf().rotateX(pitch * 20F * TailsMath.DEG_TO_RAD);
+		final PoseStack entityPose = new PoseStack();
+		entityPose.translate(0, 0, 1000);
+		entityPose.scale(scale, scale, scale);
+
+		final Quaternion pose = Vector3f.ZP.rotation(TailsMath.PI);
+		final Quaternion cameraOrientation = Vector3f.XP.rotationDegrees(pitch * 20F);
 		pose.mul(cameraOrientation);
 
-		pose.mul(new Quaternionf().rotateZ(TailsMath.PI));
-		pose.mul(new Quaternionf().rotateY(yaw * TailsMath.DEG_TO_RAD));
+		pose.mul(Vector3f.ZP.rotation(TailsMath.PI));
+		pose.mul(Vector3f.YP.rotationDegrees(yaw));
 
-		InventoryScreen.renderEntityInInventory(gui, x, y, scale, pose, cameraOrientation, entity);
+		Lighting.setupForEntityInInventory();
+
+		final EntityRenderDispatcher rendererManager = Minecraft.getInstance().getEntityRenderDispatcher();
+		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
+
+		cameraOrientation.conj();
+
+		rendererManager.overrideCameraOrientation(cameraOrientation);
+		rendererManager.setRenderShadow(false);
+
+		RenderSystem.runAsFancy(() -> {
+			rendererManager.render(entity, 0, 0, 0, 0F, 1F, entityPose, impl, LightTexture.FULL_BRIGHT);
+		});
+
+		impl.endBatch();
+
+		rendererManager.setRenderShadow(true);
+
+		poseStack.popPose();
+		RenderSystem.applyModelViewMatrix();
+		Lighting.setupFor3DItems();
 
 		entity.yBodyRot = oldYBodyRot;
 		entity.setYRot(oldYRot);
@@ -168,18 +200,16 @@ public final class RenderHelper {
 		}
 	}
 
-	public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color) {
+	public static void drawScrollingString(PoseStack poseStack, Font font, Component text, int minX, int maxX, int y, int color) {
 		final int maxWidth = maxX - minX;
 		final int textWidth = font.width(text.getVisualOrderText());
 		if (textWidth <= maxWidth)
-			return gui.drawString(font, text, minX, y, color);
-		else {
-			drawCenteredScrollingString(gui, font, text, (minX + maxX) / 2, minX, y, maxX, y + font.lineHeight, color);
-			return maxWidth;
-		}
+			GuiComponent.drawString(poseStack, font, text, minX, y, color);
+		else
+			drawCenteredScrollingString(poseStack, font, text, (minX + maxX) / 2, minX, y, maxX, y + font.lineHeight, color);
 	}
 
-	public static void drawCenteredScrollingString(GuiGraphics gui, Font font, Component text, int centerX, int minX, int minY, int maxX, int maxY, int color) {
+	public static void drawCenteredScrollingString(PoseStack poseStack, Font font, Component text, int centerX, int minX, int minY, int maxX, int maxY, int color) {
 		final int textWidth = font.width(text);
 		final int y = (minY + maxY - 9) / 2 + 1;
 		final int width = maxX - minX;
@@ -191,14 +221,14 @@ public final class RenderHelper {
 			final double scrollProgress = Math.sin((Math.PI / 2) * Math.cos((Math.PI * 2) * time / d1)) / 2.0 + 0.5;
 			final double scroll = Mth.lerp(scrollProgress, 0, delta);
 
-			gui.enableScissor(minX, minY, maxX, maxY);
-			gui.drawString(font, text, minX - (int)scroll, y, color);
-			gui.disableScissor();
+			startGlScissor(minX, minY, maxX, maxY);
+			GuiComponent.drawString(poseStack, font, text, minX - (int)scroll, y, color);
+			endGlScissor();
 
 			return;
 		}
 
 		final int x = Mth.clamp(centerX, minX + textWidth / 2, maxX - textWidth / 2);
-		gui.drawCenteredString(font, text, x, y, color);
+		GuiComponent.drawCenteredString(poseStack, font, text, x, y, color);
 	}
 }

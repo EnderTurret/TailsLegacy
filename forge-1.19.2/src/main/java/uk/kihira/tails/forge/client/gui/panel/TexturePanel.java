@@ -11,7 +11,8 @@ package uk.kihira.tails.forge.client.gui.panel;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.network.chat.Component;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
@@ -51,15 +52,15 @@ public final class TexturePanel extends Panel {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		gui.fill(7, variantSelectY, right - 15, texSelectY + 15, -5, 0x55000000);
+		fillGradient(poseStack, 7, variantSelectY, right - 15, texSelectY + 15, 0x55000000, 0x55000000, -5);
 
 		// Texture select
-		gui.drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFF);
+		drawCenteredString(poseStack, parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFF);
 
 		final Part part = partInfo.getPart();
 
@@ -76,8 +77,8 @@ public final class TexturePanel extends Panel {
 		else
 			variantFormatted = Component.literal(partInfo.getSubTypeId());
 
-		RenderHelper.drawScrollingString(gui, parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
-		RenderHelper.drawScrollingString(gui, parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(poseStack, parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(poseStack, parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
 	}
 
 	private void cycleTexLeft() {

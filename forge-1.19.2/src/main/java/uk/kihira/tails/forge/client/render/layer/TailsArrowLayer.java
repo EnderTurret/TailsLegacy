@@ -16,6 +16,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
@@ -47,6 +48,10 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 	@Internal
 	public TailsArrowLayer(EntityRendererProvider.Context context, LivingEntityRenderer<T, M> renderer) {
 		super(context, renderer);
+	}
+
+	public TailsArrowLayer(EntityRenderDispatcher dispatcher, LivingEntityRenderer<T, M> renderer) {
+		this(new EntityRendererProvider.Context(dispatcher, null, null, null, null, null, null), renderer);
 	}
 
 	@Override

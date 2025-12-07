@@ -16,7 +16,9 @@ import java.util.Locale;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
@@ -61,10 +63,11 @@ public final class LibraryPanel extends Panel {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
-		gui.blit(IconButton.ICONS_TEXTURE, right - 14, bottom - 30, 0, 240, 8, 8);
+		RenderSystem.setShaderTexture(0, IconButton.ICONS_TEXTURE);
+		blit(poseStack, right - 14, bottom - 30, 0, 240, 8, 8);
 	}
 
 	public void initList(String filter) {

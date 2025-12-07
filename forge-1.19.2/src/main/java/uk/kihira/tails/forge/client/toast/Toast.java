@@ -13,10 +13,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.util.FormattedCharSequence;
 
 public final class Toast {
@@ -38,7 +39,7 @@ public final class Toast {
 		height = this.message.size() * Minecraft.getInstance().font.lineHeight + 7;
 	}
 
-	public void drawToast(GuiGraphics gui, int mouseX, int mouseY) {
+	public void drawToast(PoseStack poseStack, int mouseX, int mouseY) {
 		if (time > 0) {
 			mouseOver = mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height;
 			int opacity = mouseOver ? 255 : (int) (time * 256F / 10F);
@@ -47,37 +48,37 @@ public final class Toast {
 
 			if (opacity > 0) {
 				final Font font = Minecraft.getInstance().font;
-				gui.pose().pushPose();
+				poseStack.pushPose();
 				RenderSystem.enableBlend();
 				RenderSystem.defaultBlendFunc();
-				drawBackdrop(gui, xPos, yPos, width, height);
+				drawBackdrop(poseStack, xPos, yPos, width, height);
 				final int colour = 0xFFFFFF | opacity << 24;
 				for (int i = 0; i < message.size(); i++) {
 					final FormattedCharSequence s = message.get(i);
-					gui.drawString(font, s, xPos + width / 2 - font.width(s) / 2, yPos + 4 + font.lineHeight * i, colour, true);
+					GuiComponent.drawString(poseStack, font, s, xPos + width / 2 - font.width(s) / 2, yPos + 4 + font.lineHeight * i, colour);
 				}
 				RenderSystem.disableBlend();
 				RenderSystem.setShaderColor(0F, 0F, 0F, 1F);
-				gui.pose().popPose();
+				poseStack.popPose();
 			}
 		}
 	}
 
-	private void drawBackdrop(GuiGraphics gui, int x, int y, int width, int height) {
+	private void drawBackdrop(PoseStack poseStack, int x, int y, int width, int height) {
 		int opacity = mouseOver ? 255 : (int) (time * 256F / 25F);
 		if (opacity > 255) opacity = 255;
 
 		// Black back
 		int colour = opacity << 24;
-		gui.fill(x + 1, y, x + width - 1, y + height, colour);
-		gui.fill(x, y + 1, x + 1, y + height - 1, colour);
-		gui.fill(x + width - 1, y + 1, x + width, y + height - 1, colour);
+		GuiComponent.fill(poseStack, x + 1, y, x + width - 1, y + height, colour);
+		GuiComponent.fill(poseStack, x, y + 1, x + 1, y + height - 1, colour);
+		GuiComponent.fill(poseStack, x + width - 1, y + 1, x + width, y + height - 1, colour);
 
 		// Border
 		colour = 0x28025c | opacity << 24;
-		gui.fill(x + 1, y + 1, x + width - 1, y + 2, colour);
-		gui.fill(x + 1, y + height - 1, x + width - 1, y + height - 2, colour);
-		gui.fill(x + 1, y + 1, x + 2, y + height - 1, colour);
-		gui.fill(x + width - 1, y + 1, x + width - 2, y + height - 1, colour);
+		GuiComponent.fill(poseStack, x + 1, y + 1, x + width - 1, y + 2, colour);
+		GuiComponent.fill(poseStack, x + 1, y + height - 1, x + width - 1, y + height - 2, colour);
+		GuiComponent.fill(poseStack, x + 1, y + 1, x + 2, y + height - 1, colour);
+		GuiComponent.fill(poseStack, x + width - 1, y + 1, x + width - 2, y + height - 1, colour);
 	}
 }

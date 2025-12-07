@@ -13,19 +13,20 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.network.chat.Component;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.common.client.gui.BaseSpinner;
+import uk.kihira.tails.forge.client.RenderHelper;
 
 /**
  * A widget that allows cycling through values using two arrow buttons.
@@ -50,7 +51,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new ExtendedButton(getX(), y, 15, 15, Component.literal("<"), b -> previous());
+		left = new ExtendedButton(x, y, 15, 15, Component.literal("<"), b -> previous());
 		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), b -> next());
 
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
@@ -60,9 +61,9 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 
 		final int off = getWidth() / 2;
 
-		setX(centerX - off);
-		left.setX(getX());
-		right.setX(getX() + getWidth() - right.getWidth());
+		x = centerX - off;
+		left.x = x;
+		right.x = x + getWidth() - right.getWidth();
 	}
 
 	public Spinner(NavigableSet<T> values, int x, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
@@ -100,26 +101,26 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 	}
 
 	@Override
-	public ComponentPath nextFocusPath(FocusNavigationEvent event) {
-		return null;
+	public boolean changeFocus(boolean focus) {
+		return false;
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		final Font font = Minecraft.getInstance().font;
 		final Component message = getMessage();
 		final int width = font.width(message);
 
-		int left = getX();
+		int left = x;
 		left += getWidth() / 2;
 		left -= width / 2;
 
-		final int y = getY() + (getHeight() - font.lineHeight) / 2;
+		final int y = this.y + (getHeight() - font.lineHeight) / 2;
 
-		if (width > getX() + getWidth())
-			AbstractWidget.renderScrollingString(gui, font, message, getX() + 15, y, getX() + getWidth(), y + font.lineHeight, 0xFFFFFFFF);
+		if (width > x + getWidth())
+			RenderHelper.drawScrollingString(poseStack, font, message, x + 15, x + getWidth(), y, 0xFFFFFFFF);
 		else
-			gui.drawString(font, message, left, y, 0xFFFFFFFF);
+			GuiComponent.drawString(poseStack, font, message, left, y, 0xFFFFFFFF);
 	}
 
 	@Override
@@ -128,7 +129,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 	}
 
 	@Override
-	public void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+	public void updateNarration(NarrationElementOutput narrationElementOutput) {
 		narrationElementOutput.add(NarratedElementType.TITLE, getMessage());
 	}
 }

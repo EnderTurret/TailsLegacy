@@ -14,9 +14,10 @@ import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -32,7 +33,7 @@ import uk.kihira.tails.forge.client.gui.widget.ListWidget;
 public abstract class Panel extends AbstractWidget {
 
 	protected final EditorScreen parent;
-	protected final List<Renderable> renderables = new ArrayList<>();
+	protected final List<Widget> renderables = new ArrayList<>();
 
 	public int left, right;
 	public int top, bottom;
@@ -49,7 +50,7 @@ public abstract class Panel extends AbstractWidget {
 
 	public abstract void init();
 
-	protected <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget) {
+	protected <T extends GuiEventListener & Widget & NarratableEntry> T addRenderableWidget(T widget) {
 		renderables.add(widget);
 		return parent.addRenderableWidget(widget);
 	}
@@ -86,7 +87,7 @@ public abstract class Panel extends AbstractWidget {
 	}
 
 	protected void setChildrenVisible(boolean value) {
-		for (Renderable renderable : renderables)
+		for (Widget renderable : renderables)
 			if (renderable instanceof AbstractWidget widget)
 				widget.visible = value;
 			else if (renderable instanceof ListWidget<?> widget)
@@ -98,12 +99,12 @@ public abstract class Panel extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {}
 
-	public void renderBackground(GuiGraphics gui) {
-		gui.fill(left, top, right, bottom, -400, 0xCC000000);
+	public void renderBackground(PoseStack poseStack) {
+		fillGradient(poseStack, left, top, right, bottom, 0xCC000000, 0xCC000000, -400);
 	}
 
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {}
+	public void updateNarration(NarrationElementOutput narrationElementOutput) {}
 }

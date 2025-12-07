@@ -13,6 +13,8 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.components.Button;
 
+import net.minecraftforge.client.gui.widget.ExtendedButton;
+
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
@@ -29,16 +31,10 @@ public final class ControlsPanel extends Panel {
 	@Override
 	public void init() {
 		// Mode Switch
-		addRenderableWidget(Button.builder(TailsComponents.LIBRARY_MODE, this::switchMode)
-				.bounds(left + 3, bottom - 25, 46, 20)
-				.build());
+		addRenderableWidget(new ExtendedButton(left + 3, bottom - 25, 46, 20, TailsComponents.LIBRARY_MODE, this::switchMode));
 		// Reset/Save
-		addRenderableWidget(Button.builder(TailsComponents.RESET_BUTTON, this::reset)
-				.bounds(left + (right - left) / 2 - 23, bottom - 25, 46, 20)
-				.build());
-		addRenderableWidget(Button.builder(TailsComponents.DONE_BUTTON, b -> parent.close())
-				.bounds(right - 49, bottom - 25, 46, 20)
-				.build());
+		addRenderableWidget(new ExtendedButton(left + (right - left) / 2 - 23, bottom - 25, 46, 20, TailsComponents.RESET_BUTTON, this::reset));
+		addRenderableWidget(new ExtendedButton(right - 49, bottom - 25, 46, 20, TailsComponents.DONE_BUTTON, b -> parent.close()));
 	}
 
 	private void switchMode(Button b) {

@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 
 /**
@@ -49,13 +50,13 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		if (visible)
-			super.render(guiGraphics, mouseX, mouseY, partialTick);
+			super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 
 	@Override
-	protected void renderBackground(GuiGraphics gui) {}
+	protected void renderBackground(PoseStack poseStack) {}
 
 	@Override
 	public boolean isMouseOver(double mouseX, double mouseY) {
@@ -73,13 +74,13 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	protected void renderSelection(GuiGraphics gui, int top, int width, int height, int outerColor, int innerColor) {
+	protected void renderSelection(PoseStack poseStack, int top, int width, int height, int outerColor, int innerColor) {
 		final int left = x0 + (this.width - width) / 2;
 		int right = x0 + (this.width + width) / 2;
 		if (getMaxScroll() > 0)
 			right -= 6;
-		gui.fill(left, top - 2, right, top + height + 2, outerColor);
-		gui.fill(left + 1, top - 1, right - 1, top + height + 1, innerColor);
+		fill(poseStack, left, top - 2, right, top + height + 2, outerColor);
+		fill(poseStack, left + 1, top - 1, right - 1, top + height + 1, innerColor);
 	}
 
 	// Exposes isSelectedItem(), don't remove this.

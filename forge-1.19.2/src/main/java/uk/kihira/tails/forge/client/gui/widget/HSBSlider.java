@@ -10,11 +10,14 @@
 package uk.kihira.tails.forge.client.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+
+import net.minecraftforge.client.gui.ScreenUtils;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.TailsPlatform;
@@ -31,6 +34,9 @@ public class HSBSlider extends AbstractSliderButton {
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
 
+	protected Screen tooltipScreen;
+	protected Component tooltip;
+
 	public HSBSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
 		super(xPos, yPos, width, height, Component.empty(), 0);
 		this.type = type;
@@ -41,21 +47,33 @@ public class HSBSlider extends AbstractSliderButton {
 		this(xPos, yPos, 100, 10, callback, type);
 	}
 
+	public HSBSlider setTooltip(Screen screen, Component value) {
+		tooltipScreen = screen;
+		tooltip = value;
+		return this;
+	}
+
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
-		gui.blitWithBorder(SLIDER_TEXTURE, getX(), getY(), 0, 10, width, height, 200, 20, 2, 3, 2, 2);
+	public void renderToolTip(PoseStack poseStack, int mouseX, int mouseY) {
+		if (tooltip != null)
+			tooltipScreen.renderTooltip(poseStack, tooltip, mouseX, mouseY);
+	}
+
+	@Override
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partial) {
+		ScreenUtils.blitWithBorder(poseStack, SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
-		RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, 236 - (type == HSBSliderType.BRIGHTNESS ? 20 : 0), 256, 20, width - 2, height - 2);
+		RenderHelper.blitScaled(poseStack, x + 1, y + 1, 0, 0, 236 - (type == HSBSliderType.BRIGHTNESS ? 20 : 0), 256, 20, width - 2, height - 2);
 
 		final int offset = isFocused() ? 5 : 0;
 
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 
-		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4);
-		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4);
+		blit(poseStack, x + (int)(value * (width - 3) - 2), y, 0, offset, 7, 4);
+		blit(poseStack, x + (int)(value * (width - 3) - 2), y + height - 4, 7, offset, 7, 4);
 	}
 
 	public HSBSliderType getType() {

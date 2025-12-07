@@ -12,11 +12,13 @@ package uk.kihira.tails.forge.client.gui;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -50,9 +52,9 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 	private static final Component CREATE = TailsComponents.CREATE_ENTRY;
 
 	@Override
-	public void render(GuiGraphics gui, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		if (data == null) {
-			gui.drawString(Minecraft.getInstance().font, CREATE, rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
+			GuiComponent.drawString(poseStack, Minecraft.getInstance().font, CREATE, rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
 			return;
 		}
 
@@ -65,7 +67,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
 		final MutableComponent name = Component.literal(data.entryName);
 		if (sel) name.withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC);
-		gui.drawString(font, name, 5, rowTop + 3, 0xFFFFFF);
+		GuiComponent.drawString(poseStack, font, name, 5, rowTop + 3, 0xFFFFFF);
 
 		int index = 0;
 
@@ -73,10 +75,10 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			if (index == 4) break;
 
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			gui.drawString(font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
+			GuiComponent.drawString(poseStack, font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
 
 			for (int i = 1; i < 4; i++)
-				gui.fill(listWidth - 1 - 8 * i, rowTop + 13 + index * 8,
+				GuiComponent.fill(poseStack, listWidth - 1 - 8 * i, rowTop + 13 + index * 8,
 						listWidth - 1 + 7 - 8 * i, rowTop + 20 + index * 8,
 						0xFF000000 | partInfo.getTints()[i - 1]);
 
@@ -84,14 +86,15 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		}
 
 		if (data.favourite) {
-			gui.pose().pushPose();
+			poseStack.pushPose();
 
-			gui.pose().translate(rowLeft + listWidth - 16, rowTop, 0F);
-			gui.pose().scale(0.8F, 0.8F, 1F);
+			poseStack.translate(rowLeft + listWidth - 16, rowTop, 0F);
+			poseStack.scale(0.8F, 0.8F, 1F);
 
-			gui.blit(IconButton.ICONS_TEXTURE, 0, 0, 10, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
+			RenderSystem.setShaderTexture(0, IconButton.ICONS_TEXTURE);
+			GuiComponent.blit(poseStack, 0, 0, 10, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
 
-			gui.pose().popPose();
+			poseStack.popPose();
 		}
 	}
 

@@ -11,9 +11,10 @@ package uk.kihira.tails.forge.client.gui;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -29,11 +30,11 @@ public abstract class BaseScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui) {}
+	public void renderBackground(PoseStack poseStack) {}
 
 	@Override
 	public void removed() {
-		for (Renderable renderable : renderables)
+		for (Widget renderable : renderables)
 			if (renderable instanceof Panel panel)
 				panel.removed();
 
@@ -47,7 +48,7 @@ public abstract class BaseScreen extends Screen {
 	}
 
 	@Override
-	public <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget) {
+	public <T extends GuiEventListener & Widget & NarratableEntry> T addRenderableWidget(T widget) {
 		return super.addRenderableWidget(widget);
 	}
 }

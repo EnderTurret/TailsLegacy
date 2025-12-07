@@ -16,14 +16,14 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryUtil;
 
 import com.google.common.base.Strings;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+
+import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.TailsLanguage;
@@ -70,9 +70,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		int topOffset = 20;
 		for (int id = 1; id <= 3; id++) {
 			final int finalId = id;
-			addRenderableWidget(Button.builder(TailsComponents.EDIT_TINT, b -> handleTintButton(finalId))
-					.bounds(left + 30, topOffset, 40, 20)
-					.build());
+			addRenderableWidget(new ExtendedButton(left + 30, topOffset, 40, 20, TailsComponents.EDIT_TINT, b -> handleTintButton(finalId)));
 			topOffset += 35;
 		}
 
@@ -84,11 +82,11 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 		// HSB sliders
 		hue = new HSBSlider(left + 5, editPaneTop + 35, this, HSBSlider.HSBSliderType.HUE);
-		hue.setTooltip(Tooltip.create(TailsComponents.HUE));
+		hue.setTooltip(parent, TailsComponents.HUE);
 		saturation = new SaturationSlider(left + 5, editPaneTop + 45, this);
-		saturation.setTooltip(Tooltip.create(TailsComponents.SATURATION));
+		saturation.setTooltip(parent, TailsComponents.SATURATION);
 		brightness = new HSBSlider(left + 5, editPaneTop + 55, this, HSBSlider.HSBSliderType.BRIGHTNESS);
-		brightness.setTooltip(Tooltip.create(TailsComponents.BRIGHTNESS));
+		brightness.setTooltip(parent, TailsComponents.BRIGHTNESS);
 
 		addRenderableWidget(hue);
 		addRenderableWidget(saturation);
@@ -98,11 +96,11 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		red = new SaturationSlider(left + 5, editPaneTop + 70, this);
 		green = new SaturationSlider(left + 5, editPaneTop + 80, this);
 		blue = new SaturationSlider(left + 5, editPaneTop + 90, this);
-		red.setTooltip(Tooltip.create(TailsComponents.RED));
+		red.setTooltip(parent, TailsComponents.RED);
 		red.setHue(0);
-		green.setTooltip(Tooltip.create(TailsComponents.GREEN));
+		green.setTooltip(parent, TailsComponents.GREEN);
 		green.setHue(1F / 3F);
-		blue.setTooltip(Tooltip.create(TailsComponents.BLUE));
+		blue.setTooltip(parent, TailsComponents.BLUE);
 		blue.setHue(2F / 3F);
 
 		addRenderableWidget(red);
@@ -115,36 +113,36 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 			refreshTintPane(newTint, true);
 			tintReset.active = false;
 		}));
-		tintReset.setTooltip(Tooltip.create(TailsComponents.RESET_TINT));
+		tintReset.setTooltip(parent, TailsComponents.RESET_TINT);
 		tintReset.active = false;
 
 		// Color Picker
 		addRenderableWidget(colourPicker = new IconButton(right - 36, editPaneTop + 1, TailsIcons.EYEDROPPER, b -> setSelectingColour(true)));
-		colourPicker.setTooltip(Tooltip.create(TailsComponents.COLOR_PICKER));
+		colourPicker.setTooltip(parent, TailsComponents.COLOR_PICKER);
 		colourPicker.visible = false;
 
 		refreshTintPane(currentTint, true, true);
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.render(poseStack, mouseX, mouseY, partialTick);
 
 		// Tints
 		int topOffset = top + 10;
 		for (int tint = 1; tint <= 3; tint++) {
 			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
-			gui.fillGradient(left + 5, topOffset + 10, left + 25, topOffset + 30, colour, colour);
-			gui.drawString(parent.font(), I18n.get(TailsLanguage.TINT_LABEL, tint), left + 5, topOffset, 0xFFFFFF);
+			fill(poseStack, left + 5, topOffset + 10, left + 25, topOffset + 30, colour);
+			drawString(poseStack, parent.font(), I18n.get(TailsLanguage.TINT_LABEL, tint), left + 5, topOffset, 0xFFFFFF);
 			topOffset += 35;
 		}
 
 		// Editing tint pane
 		if (editingTint > 0) {
-			gui.hLine(left, right, editPaneTop, 0xFF000000);
-			gui.drawString(parent.font(), I18n.get(TailsLanguage.EDITING_TINT, editingTint), left + 5, editPaneTop + 5, 0xFFFFFF);
+			hLine(poseStack, left, right, editPaneTop, 0xFF000000);
+			drawString(poseStack, parent.font(), I18n.get(TailsLanguage.EDITING_TINT, editingTint), left + 5, editPaneTop + 5, 0xFFFFFF);
 
-			gui.drawString(parent.font(), TailsComponents.HEX, left + 5, editPaneTop + 21, 0xFFFFFF);
+			drawString(poseStack, parent.font(), TailsComponents.HEX, left + 5, editPaneTop + 21, 0xFFFFFF);
 		}
 	}
 

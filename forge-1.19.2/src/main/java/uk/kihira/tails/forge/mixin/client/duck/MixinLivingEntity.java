@@ -115,12 +115,12 @@ public class MixinLivingEntity implements TailsEntity {
 
 	@Override
 	public float t$limbSwing() {
-		return ((LivingEntity) (Object) this).walkAnimation.position();
+		return ((LivingEntity) (Object) this).animationPosition;
 	}
 
 	@Override
 	public float t$limbSwingAmount() {
-		return ((LivingEntity) (Object) this).walkAnimation.speed();
+		return ((LivingEntity) (Object) this).animationSpeed;
 	}
 
 	@Override

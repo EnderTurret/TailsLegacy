@@ -58,7 +58,7 @@ public class IconButton extends Button implements Button.OnTooltip {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 		final int textureOffset = getYImage();

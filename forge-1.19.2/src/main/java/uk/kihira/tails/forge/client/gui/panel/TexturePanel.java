@@ -52,8 +52,8 @@ public final class TexturePanel extends Panel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.render(poseStack, mouseX, mouseY, partialTick);
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.renderButton(poseStack, mouseX, mouseY, partialTick);
 
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 

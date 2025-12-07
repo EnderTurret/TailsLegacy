@@ -125,8 +125,8 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.render(poseStack, mouseX, mouseY, partialTick);
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.renderButton(poseStack, mouseX, mouseY, partialTick);
 
 		// Tints
 		int topOffset = top + 10;

@@ -84,8 +84,8 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.render(poseStack, mouseX, mouseY, partialTick);
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.renderButton(poseStack, mouseX, mouseY, partialTick);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 

@@ -60,7 +60,7 @@ public class HSBSlider extends AbstractSliderButton {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partial) {
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partial) {
 		ScreenUtils.blitWithBorder(poseStack, SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);

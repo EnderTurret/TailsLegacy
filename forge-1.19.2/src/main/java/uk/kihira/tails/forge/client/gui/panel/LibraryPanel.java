@@ -63,8 +63,8 @@ public final class LibraryPanel extends Panel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.render(poseStack, mouseX, mouseY, partialTick);
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.renderButton(poseStack, mouseX, mouseY, partialTick);
 
 		RenderSystem.setShaderTexture(0, IconButton.ICONS_TEXTURE);
 		blit(poseStack, right - 14, bottom - 30, 0, 240, 8, 8);

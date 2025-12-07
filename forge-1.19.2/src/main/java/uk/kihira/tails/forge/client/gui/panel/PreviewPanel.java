@@ -65,8 +65,8 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.render(poseStack, mouseX, mouseY, partialTick);
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.renderButton(poseStack, mouseX, mouseY, partialTick);
 
 		if (!doRender) return;
 

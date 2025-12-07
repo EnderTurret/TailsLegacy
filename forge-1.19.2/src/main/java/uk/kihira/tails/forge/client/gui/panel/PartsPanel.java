@@ -96,7 +96,6 @@ public final class PartsPanel extends Panel {
 				onEntrySelected(item);
 			}
 		};
-		//this.partList.setRenderTopAndBottom(false);
 
 		addRenderableWidget(this.partList);
 
@@ -104,8 +103,8 @@ public final class PartsPanel extends Panel {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.render(poseStack, mouseX, mouseY, partialTick);
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		super.renderButton(poseStack, mouseX, mouseY, partialTick);
 
 		drawCenteredString(poseStack, parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFF);
 	}

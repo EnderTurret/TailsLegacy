@@ -106,7 +106,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		final Font font = Minecraft.getInstance().font;
 		final Component message = getMessage();
 		final int width = font.width(message);

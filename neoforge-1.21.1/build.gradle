@@ -23,6 +23,9 @@ neoForge {
         client {
             client()
             ideName = 'runTailsClientNeoForge1_21_1'
+            if (rootProject.findProperty('minecraft_username') != null) {
+                programArguments.addAll('--uuid', rootProject.findProperty('minecraft_uuid'), '--username', rootProject.findProperty('minecraft_username'))
+            }
         }
 
         server {

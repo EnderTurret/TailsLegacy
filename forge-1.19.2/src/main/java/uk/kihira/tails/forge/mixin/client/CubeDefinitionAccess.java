@@ -29,8 +29,7 @@ public interface CubeDefinitionAccess {
 			float originX, float originY, float originZ,
 			float dimensionX, float dimensionY, float dimensionZ,
 			CubeDeformation grow, boolean mirror,
-			float texScaleU, float texScaleV,
-			Set<Direction> visibleFaces) {
+			float texScaleU, float texScaleV) {
 		return null;
 	}
 }

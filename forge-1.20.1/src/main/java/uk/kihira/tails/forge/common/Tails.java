@@ -13,15 +13,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.loading.FMLEnvironment;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.proxy.IProxy;
 import uk.kihira.tails.common.proxy.ServerProxy;
+import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 
 /**
  * Look! It's the main mod file!
@@ -42,8 +43,10 @@ public final class Tails {
 			PROXY = new ServerProxy();
 	}
 
+	@SuppressWarnings("removal")
 	@Internal
-	public Tails(ModContainer mc) {
-		mc.registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
+	public Tails() {
+		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
+		TailsNetworkManager.get();
 	}
 }

@@ -10,46 +10,37 @@
 package uk.kihira.tails.forge.common.network;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraftforge.network.NetworkEvent;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.network.BaseS2CPlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
 
 @Internal
-public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) implements CustomPacketPayload, BaseS2CPlayerDataMessage {
+public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) implements BaseS2CPlayerDataMessage {
 
-	public static final Type<S2CPlayerDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "sync_to_client"));
-
-	public static final StreamCodec<FriendlyByteBuf, S2CPlayerDataMessage> STREAM_CODEC = StreamCodec.of(S2CPlayerDataMessage::encode, S2CPlayerDataMessage::decode);
-
-	@Override
-	public Type<S2CPlayerDataMessage> type() {
-		return TYPE;
-	}
-
-	private static S2CPlayerDataMessage decode(FriendlyByteBuf buf) {
+	public static S2CPlayerDataMessage decode(FriendlyByteBuf buf) {
 		final UUID uuid = buf.readUUID();
 		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
 
 		return new S2CPlayerDataMessage(uuid, BaseS2CPlayerDataMessage.decodeJson(uuid, tailInfoJson));
 	}
 
-	private static void encode(FriendlyByteBuf buf, S2CPlayerDataMessage msg) {
-		buf.writeUUID(msg.uuid);
-		buf.writeUtf(BaseS2CPlayerDataMessage.encodeJson(msg.partsData), Short.MAX_VALUE);
+	public void encode(FriendlyByteBuf buf) {
+		buf.writeUUID(uuid);
+		buf.writeUtf(BaseS2CPlayerDataMessage.encodeJson(partsData), Short.MAX_VALUE);
 	}
 
 	@Internal
-	public static void handle(S2CPlayerDataMessage message, IPayloadContext context) {
+	public static void handle(S2CPlayerDataMessage message, Supplier<NetworkEvent.Context> context) {
 		BaseS2CPlayerDataMessage.handle(message.uuid, message.partsData);
+		context.get().setPacketHandled(true);
 	}
 }

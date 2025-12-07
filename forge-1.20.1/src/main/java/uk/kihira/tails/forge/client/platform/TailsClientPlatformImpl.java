@@ -13,7 +13,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.yggdrasil.ProfileResult;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.PartPose;
@@ -26,10 +25,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.Services;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.players.GameProfileCache;
-
-import net.neoforged.fml.ModLoader;
-import net.neoforged.neoforge.common.UsernameCache;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.client.TailsClientPlatform;
@@ -46,6 +41,7 @@ import uk.kihira.tails.forge.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.forge.client.texture.TripleTintTexture;
 import uk.kihira.tails.forge.common.TailsConfig;
 import uk.kihira.tails.forge.common.network.C2SPlayerDataMessage;
+import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 import uk.kihira.tails.forge.common.platform.ResourceManagerWrapperImpl;
 import uk.kihira.tails.forge.mixin.client.CubeDefinitionAccess;
 import uk.kihira.tails.forge.mixin.client.MinecraftAccess;
@@ -88,13 +84,13 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public boolean hasTexture(TResourceLocation id) {
 		return Minecraft.getInstance().getTextureManager()
-				.getTexture((ResourceLocation) (Object) id, MissingTextureAtlasSprite.getTexture()) != MissingTextureAtlasSprite.getTexture();
+				.getTexture((ResourceLocation) id, MissingTextureAtlasSprite.getTexture()) != MissingTextureAtlasSprite.getTexture();
 	}
 
 	@Override
 	public void registerTripleTintTexture(TResourceLocation id, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints) {
-		Minecraft.getInstance().getTextureManager().register((ResourceLocation) (Object) id, new TripleTintTexture(
-				(ResourceLocation) (Object) part.getId().t$withPath(texture.path()),
+		Minecraft.getInstance().getTextureManager().register((ResourceLocation) id, new TripleTintTexture(
+				(ResourceLocation) part.getId().t$withPath(texture.path()),
 				tints[0], tints[1], tints[2], texture.tintingStrategy()
 				));
 	}
@@ -102,7 +98,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public void releaseTexture(TResourceLocation id) {
 		try {
-			Minecraft.getInstance().getTextureManager().release((ResourceLocation) (Object) id);
+			Minecraft.getInstance().getTextureManager().release((ResourceLocation) id);
 		} catch (Exception ignored) {}
 	}
 
@@ -181,7 +177,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public void syncLocalToServer(ClientPartsData partsData) {
 		if (Minecraft.getInstance().level != null)
-			PacketDistributor.sendToServer(new C2SPlayerDataMessage(partsData));
+			TailsNetworkManager.get().sendToServer(new C2SPlayerDataMessage(partsData));
 	}
 
 	@Override

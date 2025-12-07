@@ -13,27 +13,28 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.server.level.ServerPlayer;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.network.PacketDistributor;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.forge.common.network.PlayerDataMapMessage;
+import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 
 /**
  * A server event handler, for handling events on the server.
  */
 @Internal
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID)
+@EventBusSubscriber(modid = TailsPlatform.MOD_ID, bus = EventBusSubscriber.Bus.FORGE)
 public final class ServerEventHandler {
 
 	@SubscribeEvent
 	static void onPlayerLogin(PlayerLoggedInEvent event) {
 		final ServerPlayer player = (ServerPlayer) event.getEntity();
 		// Send current known tails to uk.kihira.tails.client
-		PacketDistributor.sendToPlayer(player, new PlayerDataMapMessage(Tails.PROXY.getPartManager().getData()));
+		TailsNetworkManager.get().send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.PROXY.getPartManager().getData()));
 	}
 
 	@SubscribeEvent

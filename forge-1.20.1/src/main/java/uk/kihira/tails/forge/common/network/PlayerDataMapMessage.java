@@ -11,17 +11,16 @@ package uk.kihira.tails.forge.common.network;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.netty.buffer.ByteBuf;
 
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraftforge.network.NetworkEvent;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.network.BasePlayerDataMapMessage;
@@ -29,28 +28,19 @@ import uk.kihira.tails.common.part.PartsData;
 
 // S → C
 @Internal
-public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BasePlayerDataMapMessage {
+public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements BasePlayerDataMapMessage {
 
-	public static final Type<PlayerDataMapMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "bulk_sync_to_client"));
-
-	public static final StreamCodec<ByteBuf, PlayerDataMapMessage> STREAM_CODEC = ByteBufCodecs.stringUtf8(Short.MAX_VALUE)
-			.map(PlayerDataMapMessage::decode, PlayerDataMapMessage::encode);
-
-	@Override
-	public Type<PlayerDataMapMessage> type() {
-		return TYPE;
+	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
+		return new PlayerDataMapMessage(BasePlayerDataMapMessage.decodeJson(buf.readUtf(Short.MAX_VALUE)));
 	}
 
-	private static PlayerDataMapMessage decode(String tailInfoJson) {
-		return new PlayerDataMapMessage(BasePlayerDataMapMessage.decodeJson(tailInfoJson));
-	}
-
-	private static String encode(PlayerDataMapMessage msg) {
-		return BasePlayerDataMapMessage.encodeJson(msg.partsDataMap);
+	public void encode(FriendlyByteBuf buf) {
+		buf.writeUtf(BasePlayerDataMapMessage.encodeJson(partsDataMap), Short.MAX_VALUE);
 	}
 
 	@Internal
-	public static void handle(PlayerDataMapMessage message, IPayloadContext context) {
+	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> context) {
 		BasePlayerDataMapMessage.handle(message.partsDataMap);
+		context.get().setPacketHandled(true);
 	}
 }

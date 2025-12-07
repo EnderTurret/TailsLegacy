@@ -8,12 +8,15 @@
 
 package uk.kihira.tails.forge.common.network;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.registration.HandlerThread;
+import net.minecraft.resources.ResourceLocation;
+
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 import uk.kihira.tails.common.TailsPlatform;
 
@@ -22,14 +25,21 @@ import uk.kihira.tails.common.TailsPlatform;
  * @author EnderTurret
  */
 @Internal
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID)
 public class TailsNetworkManager {
 
-	@SubscribeEvent
-	static void registerPackets(RegisterPayloadHandlersEvent e) {
-		e.registrar("1").executesOn(HandlerThread.NETWORK).optional()
-		.playToServer(C2SPlayerDataMessage.TYPE, C2SPlayerDataMessage.STREAM_CODEC, C2SPlayerDataMessage::handle)
-		.playToClient(S2CPlayerDataMessage.TYPE, S2CPlayerDataMessage.STREAM_CODEC, S2CPlayerDataMessage::handle)
-		.playToClient(PlayerDataMapMessage.TYPE, PlayerDataMapMessage.STREAM_CODEC, PlayerDataMapMessage::handle);
+	private static final String VERSION = "1";
+
+	private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+			ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "sync"), () -> VERSION,
+			NetworkRegistry.acceptMissingOr(VERSION), NetworkRegistry.acceptMissingOr(VERSION));
+
+	static {
+		CHANNEL.registerMessage(0, C2SPlayerDataMessage.class, C2SPlayerDataMessage::encode, C2SPlayerDataMessage::decode, C2SPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+		CHANNEL.registerMessage(1, S2CPlayerDataMessage.class, S2CPlayerDataMessage::encode, S2CPlayerDataMessage::decode, S2CPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		CHANNEL.registerMessage(2, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+	}
+
+	public static SimpleChannel get() {
+		return CHANNEL;
 	}
 }

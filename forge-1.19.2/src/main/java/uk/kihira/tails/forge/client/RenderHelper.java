@@ -123,6 +123,12 @@ public final class RenderHelper {
 		entity.yHeadRotO = 0;
 		entity.setShiftKeyDown(false);
 
+		poseStack.pushPose();
+		poseStack.translate(x, y, 1050);
+		poseStack.scale(1, 1, -1);
+
+		RenderSystem.applyModelViewMatrix();
+
 		final PoseStack entityPose = new PoseStack();
 		entityPose.translate(0, 0, 1000);
 		entityPose.scale(scale, scale, scale);
@@ -131,8 +137,9 @@ public final class RenderHelper {
 		final Quaternion cameraOrientation = Vector3f.XP.rotationDegrees(pitch * 20F);
 		pose.mul(cameraOrientation);
 
-		pose.mul(Vector3f.ZP.rotation(TailsMath.PI));
-		pose.mul(Vector3f.YP.rotationDegrees(yaw));
+		entityPose.mulPose(pose);
+		entityPose.mulPose(Vector3f.ZP.rotation(Mth.PI));
+		entityPose.mulPose(Vector3f.YP.rotationDegrees(yaw));
 
 		Lighting.setupForEntityInInventory();
 

@@ -8,7 +8,7 @@ dependencies {
     compileOnly "vazkii.botania:Botania:${minecraft_version}-450-FORGE:api"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    modRuntimeOnly "net.enderturret:VariableSkins-${minecraft_version}-forge:${variableskins_version}"
+    modImplementation "net.enderturret:VariableSkins-${minecraft_version}-forge:${variableskins_version}"
 }
 
 mixin {

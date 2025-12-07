@@ -23,6 +23,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -32,6 +33,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -76,14 +78,16 @@ public final class RenderHelper {
 		final Tesselator tess = Tesselator.getInstance();
 		final BufferBuilder renderer = tess.getBuilder();
 
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+
 		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-		renderer.vertex(pose, x + 0,		y + height,	blitOffset).uv((u + 0) / 256F,		(v + vHeight) / 256F);
-		renderer.vertex(pose, x + width,	y + height,	blitOffset).uv((u + uWidth) / 256F,	(v + vHeight) / 256F);
-		renderer.vertex(pose, x + width,	y + 0,		blitOffset).uv((u + uWidth) / 256F,	(v + 0) / 256F);
-		renderer.vertex(pose, x + 0,		y + 0,		blitOffset).uv((u + 0) / 256F,		(v + 0) / 256F);
+		renderer.vertex(pose, x + 0,		y + height,	blitOffset).uv((u + 0) / 256F,		(v + vHeight) / 256F).endVertex();
+		renderer.vertex(pose, x + width,	y + height,	blitOffset).uv((u + uWidth) / 256F,	(v + vHeight) / 256F).endVertex();
+		renderer.vertex(pose, x + width,	y + 0,		blitOffset).uv((u + uWidth) / 256F,	(v + 0) / 256F).endVertex();
+		renderer.vertex(pose, x + 0,		y + 0,		blitOffset).uv((u + 0) / 256F,		(v + 0) / 256F).endVertex();
 
-		tess.end();
+		BufferUploader.drawWithShader(renderer.end());
 	}
 
 	/**

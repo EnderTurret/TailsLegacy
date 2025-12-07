@@ -40,7 +40,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 	public void init() {
 		addRenderableWidget(new ExtendedButton(left + 3, top + 21, right - left - 6, 18, TailsComponents.IMPORT_STRING, this::importFromString0));
 
-		inputField = new EditBox(parent.font(), left + 3, top + 41, right - left - 6, 15, Component.empty());
+		inputField = new EditBox(parent.font(), left + 4, top + 42, right - left - 8, 13, Component.empty());
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}

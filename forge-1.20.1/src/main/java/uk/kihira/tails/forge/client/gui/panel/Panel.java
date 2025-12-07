@@ -23,6 +23,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.forge.client.gui.EditorScreen;
+import uk.kihira.tails.forge.client.gui.widget.ListWidget;
 
 /**
  * A panel, for use in the {@link EditorScreen}.
@@ -87,6 +88,8 @@ public abstract class Panel extends AbstractWidget {
 	protected void setChildrenVisible(boolean value) {
 		for (Renderable renderable : renderables)
 			if (renderable instanceof AbstractWidget widget)
+				widget.visible = value;
+			else if (renderable instanceof ListWidget<?> widget)
 				widget.visible = value;
 	}
 

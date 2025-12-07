@@ -39,7 +39,7 @@ Also includes translations by:
     displayTest="IGNORE_SERVER_VERSION"
 
 [[dependencies.tails]]
-    modId="neoforge"
+    modId="forge"
     mandatory=true
     versionRange="[47,48)"
     ordering="NONE"

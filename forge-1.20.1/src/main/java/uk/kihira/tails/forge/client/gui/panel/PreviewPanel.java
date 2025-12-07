@@ -62,7 +62,7 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void renderBackground(GuiGraphics gui) {
-		gui.fillGradient(left, top, right, bottom, -900, 0xDD000000, 0xDD000000);
+		gui.fill(left, top, right, bottom, -900, 0xDD000000);
 	}
 
 	@Override

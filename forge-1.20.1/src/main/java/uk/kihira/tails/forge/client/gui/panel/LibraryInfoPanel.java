@@ -48,7 +48,7 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 
 	@Override
 	public void init() {
-		textField = new EditBox(parent.font(), left + 6, top + 6, right - left - 12, 15, Component.empty());
+		textField = new EditBox(parent.font(), left + 7, top + 7, right - left - 14, 13, Component.empty());
 		textField.setMaxLength(19);
 		addRenderableWidget(textField);
 		textField.setResponder(str -> {

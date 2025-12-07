@@ -160,6 +160,7 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		renderBackground(gui);
 		super.render(gui, mouseX, mouseY, partialTick);
 	}
 

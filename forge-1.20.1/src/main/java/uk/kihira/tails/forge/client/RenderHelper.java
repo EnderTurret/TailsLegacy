@@ -27,9 +27,13 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.common.TailsMath;
@@ -158,5 +162,39 @@ public final class RenderHelper {
 
 			return (r << 16) | (g << 8) | b;
 		}
+	}
+
+	public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color) {
+		final int maxWidth = maxX - minX;
+		final int textWidth = font.width(text.getVisualOrderText());
+		if (textWidth <= maxWidth)
+			return gui.drawString(font, text, minX, y, color);
+		else {
+			drawCenteredScrollingString(gui, font, text, (minX + maxX) / 2, minX, y, maxX, y + font.lineHeight, color);
+			return maxWidth;
+		}
+	}
+
+	public static void drawCenteredScrollingString(GuiGraphics gui, Font font, Component text, int centerX, int minX, int minY, int maxX, int maxY, int color) {
+		final int textWidth = font.width(text);
+		final int y = (minY + maxY - 9) / 2 + 1;
+		final int width = maxX - minX;
+
+		if (textWidth > width) {
+			final int delta = textWidth - width;
+			final double time = Util.getMillis() / 1000.0;
+			final double d1 = Math.max(delta * 0.5, 3.0);
+			final double scrollProgress = Math.sin((Math.PI / 2) * Math.cos((Math.PI * 2) * time / d1)) / 2.0 + 0.5;
+			final double scroll = Mth.lerp(scrollProgress, 0, delta);
+
+			gui.enableScissor(minX, minY, maxX, maxY);
+			gui.drawString(font, text, minX - (int)scroll, y, color);
+			gui.disableScissor();
+
+			return;
+		}
+
+		final int x = Mth.clamp(centerX, minX + textWidth / 2, maxX - textWidth / 2);
+		gui.drawCenteredString(font, text, x, y, color);
 	}
 }

@@ -18,6 +18,7 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.Part;
+import uk.kihira.tails.forge.client.RenderHelper;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
 
@@ -75,8 +76,8 @@ public final class TexturePanel extends Panel {
 		else
 			variantFormatted = Component.literal(partInfo.getSubTypeId());
 
-		gui.drawScrollingString(parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
-		gui.drawScrollingString(parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(gui, parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(gui, parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
 	}
 
 	private void cycleTexLeft() {

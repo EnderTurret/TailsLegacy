@@ -99,7 +99,7 @@ public abstract class Panel extends AbstractWidget {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {}
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {}
 
 	public void renderBackground(PoseStack poseStack) {
 		fillGradient(poseStack, left, top, right, bottom, 0xCC000000, 0xCC000000, -400);

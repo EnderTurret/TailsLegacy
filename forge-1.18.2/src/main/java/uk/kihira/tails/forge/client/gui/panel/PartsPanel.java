@@ -28,6 +28,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.common.client.duck.FakeTailsEntity;
@@ -249,7 +250,7 @@ public final class PartsPanel extends Panel {
 						poseStack.translate(5, x + 27, 0);
 						poseStack.scale(0.6F, 0.6F, 1);
 						drawString(poseStack, parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFF);
-						drawString(poseStack, parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
+						drawString(poseStack, parent.font(), new TextComponent(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFF);
 						poseStack.popPose();
 					}
 				}
@@ -266,7 +267,7 @@ public final class PartsPanel extends Panel {
 
 		@Override
 		public Component getNarration() {
-			return Component.empty();
+			return TextComponent.EMPTY;
 		}
 	}
 }

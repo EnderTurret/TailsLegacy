@@ -14,6 +14,8 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
@@ -43,10 +45,10 @@ public final class TexturePanel extends Panel {
 	@Override
 	public void init() {
 		// Texture select
-		addRenderableWidget(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, Component.literal("<"), b -> cycleVariantLeft()));
-		addRenderableWidget(variantRightBtn = new ExtendedButton(right - 20, variantSelectY, 15, 15, Component.literal(">"), b -> cycleVariantRight()));
-		addRenderableWidget(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, Component.literal("<"), b -> cycleTexLeft()));
-		addRenderableWidget(rightBtn = new ExtendedButton(right - 20, texSelectY, 15, 15, Component.literal(">"), b -> cycleTexRight()));
+		addRenderableWidget(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, new TextComponent("<"), b -> cycleVariantLeft()));
+		addRenderableWidget(variantRightBtn = new ExtendedButton(right - 20, variantSelectY, 15, 15, new TextComponent(">"), b -> cycleVariantRight()));
+		addRenderableWidget(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, new TextComponent("<"), b -> cycleTexLeft()));
+		addRenderableWidget(rightBtn = new ExtendedButton(right - 20, texSelectY, 15, 15, new TextComponent(">"), b -> cycleTexRight()));
 
 		updateButtons();
 	}
@@ -67,15 +69,15 @@ public final class TexturePanel extends Panel {
 		final Component texFormatted;
 
 		if (partInfo.isEmpty() || partInfo.getPartTexture() != null)
-			texFormatted = Component.translatable(partInfo.getTextureTranslationKey());
-		else texFormatted = Component.literal(partInfo.getTextureId());
+			texFormatted = new TranslatableComponent(partInfo.getTextureTranslationKey());
+		else texFormatted = new TextComponent(partInfo.getTextureId());
 
 		final Component variantFormatted;
 
 		if (partInfo.isEmpty() || partInfo.getSubType() != null)
-			variantFormatted = Component.translatable(partInfo.getSubTypeTranslationKey());
+			variantFormatted = new TranslatableComponent(partInfo.getSubTypeTranslationKey());
 		else
-			variantFormatted = Component.literal(partInfo.getSubTypeId());
+			variantFormatted = new TextComponent(partInfo.getSubTypeId());
 
 		RenderHelper.drawScrollingString(poseStack, parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
 		RenderHelper.drawScrollingString(poseStack, parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFF);

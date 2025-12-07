@@ -67,7 +67,7 @@ public final class ToastManager {
 	}
 
 	@SubscribeEvent
-	static void onDrawScreenPost(ScreenEvent.Render.Post event) {
+	static void onDrawScreenPost(ScreenEvent.DrawScreenEvent.Post event) {
 		final ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
 		profiler.push("toastNotification");
 

@@ -21,6 +21,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
@@ -52,7 +53,7 @@ public final class LibraryPanel extends Panel {
 		addRenderableWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50));
 		initList("");
 
-		addRenderableWidget(searchField = new EditBox(parent.font(), left + 5, bottom - 31, right - left - 10, 10, Component.empty()));
+		addRenderableWidget(searchField = new EditBox(parent.font(), left + 5, bottom - 31, right - left - 10, 10, TextComponent.EMPTY));
 		addRenderableWidget(new ExtendedButton(left + 3, bottom - 18, right - left - 6, 15, TailsComponents.RELOAD_LIBRARY, b -> {
 			TailsClientPlatform.get().getLibraryManager().reload(true);
 			libraryChanged = false;

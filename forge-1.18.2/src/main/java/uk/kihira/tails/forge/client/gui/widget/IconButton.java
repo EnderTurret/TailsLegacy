@@ -17,6 +17,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 import uk.kihira.tails.common.TailsPlatform;
@@ -35,7 +36,7 @@ public class IconButton extends Button implements Button.OnTooltip {
 	protected Component tooltip;
 
 	public IconButton(int x, int y, TailsIcons icon, OnPress onPress) {
-		super(x, y, 16, 16, Component.empty(), onPress);
+		super(x, y, 16, 16, TextComponent.EMPTY, onPress);
 		this.icon = icon;
 	}
 

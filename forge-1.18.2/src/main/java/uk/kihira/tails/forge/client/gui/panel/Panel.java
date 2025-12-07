@@ -22,6 +22,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.widget.ListWidget;
@@ -39,7 +40,7 @@ public abstract class Panel extends AbstractWidget {
 	public int top, bottom;
 
 	public Panel(EditorScreen parent, int x, int y, int width, int height) {
-		super(x, y, width, height, Component.empty());
+		super(x, y, width, height, TextComponent.EMPTY);
 
 		this.parent = parent;
 		left = x;

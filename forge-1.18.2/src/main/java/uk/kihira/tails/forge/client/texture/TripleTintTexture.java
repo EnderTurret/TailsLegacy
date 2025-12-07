@@ -56,16 +56,18 @@ public final class TripleTintTexture extends AbstractTexture {
 	public void load(ResourceManager manager) throws IOException {
 		releaseId();
 
-		final Optional<Resource> optional = manager.getResource(textureLocation);
+		final Resource resource;
 
-		if (!optional.isPresent()) {
-			Tails.LOGGER.error("Using missing texture: unable to find {}.", textureLocation);
+		try {
+			resource = manager.getResource(textureLocation);
+		} catch (IOException e) {
+			Tails.LOGGER.error("Using missing texture: unable to find {}.", textureLocation, e);
 			prepareAndUpload(null);
 			return;
 		}
 
 		final NativeImage texture;
-		try (InputStream is = optional.get().open()) {
+		try (InputStream is = resource.getInputStream()) {
 			texture = NativeImage.read(Format.RGBA, is);
 		} catch (IOException e) {
 			Tails.LOGGER.error("Using missing texture: failed to load {}.", textureLocation, e);

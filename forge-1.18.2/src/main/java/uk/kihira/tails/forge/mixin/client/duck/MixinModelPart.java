@@ -9,30 +9,40 @@
 package uk.kihira.tails.forge.mixin.client.duck;
 
 import java.util.Map;
+import java.util.Random;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.util.RandomSource;
 
 import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.duck.TailsRandomSource;
+import uk.kihira.tails.forge.client.render.ModelPartExtensions;
 
 @Mixin(ModelPart.class)
-public class MixinModelPart implements TailsModelPart {
+public class MixinModelPart implements TailsModelPart, ModelPartExtensions {
 
 	@Shadow
 	@Final
 	private Map<String, ModelPart> children;
+
+	@Unique
+	private PartPose tails$initialPose;
+
+	@Override
+	public void tails$storeInitialPose() {
+		tails$initialPose = ((ModelPart) (Object) this).storePose();
+	}
 
 	@Override
 	public boolean t$isVisible() {
@@ -76,23 +86,23 @@ public class MixinModelPart implements TailsModelPart {
 
 	@Override
 	public boolean t$hasInitialPose() {
-		final PartPose pose = ((ModelPart) (Object) this).getInitialPose();
-		return !(pose.x == 0 && pose.y == 0 && pose.z == 0 && pose.xRot == 0 && pose.yRot == 0 && pose.zRot == 0);
+		final PartPose pose = tails$initialPose;
+		return pose != null && !(pose.x == 0 && pose.y == 0 && pose.z == 0 && pose.xRot == 0 && pose.yRot == 0 && pose.zRot == 0);
 	}
 
 	@Override
 	public float t$getInitialXRot() {
-		return ((ModelPart) (Object) this).getInitialPose().xRot;
+		return tails$initialPose.xRot;
 	}
 
 	@Override
 	public float t$getInitialYRot() {
-		return ((ModelPart) (Object) this).getInitialPose().yRot;
+		return tails$initialPose.yRot;
 	}
 
 	@Override
 	public float t$getInitialZRot() {
-		return ((ModelPart) (Object) this).getInitialPose().zRot;
+		return tails$initialPose.zRot;
 	}
 
 	@Override
@@ -113,7 +123,7 @@ public class MixinModelPart implements TailsModelPart {
 
 	@Override
 	public CubePose t$getRandomCube(TailsRandomSource random) {
-		final ModelPart.Cube cube = ((ModelPart) (Object) this).getRandomCube((RandomSource) random.t$unwrap());
+		final ModelPart.Cube cube = ((ModelPart) (Object) this).getRandomCube((Random) random.t$unwrap());
 		return new CubePose(cube.minX, cube.minY, cube.minZ, cube.maxX, cube.maxY, cube.maxZ);
 	}
 

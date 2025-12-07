@@ -11,6 +11,7 @@ package uk.kihira.tails.forge.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,6 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import net.minecraftforge.common.MinecraftForge;
@@ -89,7 +89,7 @@ public final class ClientEventHandler {
 		 * Tails Editor Button
 		 */
 		@SubscribeEvent
-		static void onScreenInitPost(ScreenEvent.Init.Post event) {
+		static void onScreenInitPost(ScreenEvent.InitScreenEvent.Post event) {
 			if (event.getScreen() instanceof PauseScreen)
 				event.addListener(new ExtendedButton(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, TailsComponents.EDITOR_BUTTON,
 						b -> Minecraft.getInstance().setScreen(EditorScreen.openDefault())));
@@ -99,13 +99,13 @@ public final class ClientEventHandler {
 		 * Tails Syncing
 		 */
 		@SubscribeEvent
-		static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
+		static void onConnectToServer(ClientPlayerNetworkEvent.LoggedInEvent event) {
 			// Add local player texture to map.
 			ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), LocalPartManager.getLocalPartsData());
 		}
 
 		@SubscribeEvent
-		static void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
+		static void onDisconnect(ClientPlayerNetworkEvent.LoggedOutEvent e) {
 			// TODO: Do we need to defer these?
 			sentPartInfoToServer = false;
 			clearAllPartInfo = true;
@@ -128,7 +128,7 @@ public final class ClientEventHandler {
 		}
 
 		@SubscribeEvent
-		static void onKeyPressed(InputEvent.Key e) {
+		static void onKeyPressed(InputEvent.KeyInputEvent e) {
 			TailsKeybinds.onKeyPressed(e);
 		}
 	}
@@ -143,6 +143,7 @@ public final class ClientEventHandler {
 		@SubscribeEvent
 		static void clientSetup(FMLClientSetupEvent e) {
 			e.enqueueWork(() -> {
+				TailsKeybinds.registerKeys();
 				RenderHelperManager.registerRenderHelper(new PlayerRenderHelper());
 				RenderHelperManager.registerRenderHelper(new FakeEntityRenderHelper());
 			});
@@ -166,14 +167,17 @@ public final class ClientEventHandler {
 		}
 
 		private static void registerCursor(ResourceManager manager) {
-			final Resource resource = manager.getResource(IconButton.ICONS_TEXTURE).orElse(null);
+			final Resource resource;
 
-			if (resource == null)
-				throw new IllegalStateException("Could not find icon textures!");
+			try {
+				resource = manager.getResource(IconButton.ICONS_TEXTURE);
+			} catch (IOException e) {
+				throw new UncheckedIOException(e);
+			}
 
 			final NativeImage iconImg;
 
-			try (InputStream is = resource.open()) {
+			try (InputStream is = resource.getInputStream()) {
 				iconImg = NativeImage.read(NativeImage.Format.RGBA, is);
 			} catch (IOException e) {
 				throw new IllegalStateException("Failed to read icon texture:", e);
@@ -239,11 +243,6 @@ public final class ClientEventHandler {
 						break;
 					}
 			}
-		}
-
-		@SubscribeEvent
-		static void registerKeys(RegisterKeyMappingsEvent e) {
-			TailsKeybinds.registerKeys(e);
 		}
 	}
 }

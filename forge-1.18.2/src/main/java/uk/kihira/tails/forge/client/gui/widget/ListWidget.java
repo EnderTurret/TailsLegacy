@@ -80,16 +80,6 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 		return getRowRight() - 8;
 	}
 
-	@Override
-	protected void renderSelection(PoseStack poseStack, int top, int width, int height, int outerColor, int innerColor) {
-		final int left = x0 + (this.width - width) / 2;
-		int right = x0 + (this.width + width) / 2;
-		if (getMaxScroll() > 0)
-			right -= 6;
-		fill(poseStack, left, top - 2, right, top + height + 2, outerColor);
-		fill(poseStack, left + 1, top - 1, right - 1, top + height + 1, innerColor);
-	}
-
 	// Exposes isSelectedItem(), don't remove this.
 	@Override
 	public boolean isSelectedItem(int index) {

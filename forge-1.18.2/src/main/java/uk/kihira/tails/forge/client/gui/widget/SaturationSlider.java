@@ -14,7 +14,7 @@ import java.awt.Color;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraftforge.client.gui.ScreenUtils;
+import net.minecraftforge.client.gui.GuiUtils;
 
 import uk.kihira.tails.forge.client.RenderHelper;
 
@@ -37,7 +37,7 @@ public class SaturationSlider extends HSBSlider {
 
 	@Override
 	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partial) {
-		ScreenUtils.blitWithBorder(poseStack, SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
+		GuiUtils.drawContinuousTexturedBox(poseStack, SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
 
 		RenderSystem.enableBlend();

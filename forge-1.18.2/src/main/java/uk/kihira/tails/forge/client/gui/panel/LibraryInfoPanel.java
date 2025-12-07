@@ -21,6 +21,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.gui.panel.BaseLibraryInfoPanel;
@@ -47,7 +48,7 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 
 	@Override
 	public void init() {
-		textField = new EditBox(parent.font(), left + 7, top + 7, right - left - 14, 13, Component.empty());
+		textField = new EditBox(parent.font(), left + 7, top + 7, right - left - 14, 13, TextComponent.EMPTY);
 		textField.setMaxLength(19);
 		addRenderableWidget(textField);
 		textField.setResponder(str -> {

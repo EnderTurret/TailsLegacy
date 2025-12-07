@@ -8,14 +8,20 @@
 
 package uk.kihira.tails.forge.client.platform;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDefinition;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -23,7 +29,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.Services;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.players.GameProfileCache;
 
@@ -44,6 +50,7 @@ import uk.kihira.tails.common.client.part.PartRegistry;
 import uk.kihira.tails.forge.client.ClientLibraryManager;
 import uk.kihira.tails.forge.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.forge.client.render.ModelPartCubeExtensions;
+import uk.kihira.tails.forge.client.render.ModelPartExtensions;
 import uk.kihira.tails.forge.client.texture.TripleTintTexture;
 import uk.kihira.tails.forge.common.TailsConfig;
 import uk.kihira.tails.forge.common.network.C2SPlayerDataMessage;
@@ -57,9 +64,21 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	private final LibraryManager libraryManager = new ClientLibraryManager();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public TailsModelPart bake(TailsPartDefinition part, int textureWidth, int textureHeight) {
-		return (TailsModelPart) (Object) makePartDefinition(part).bake(textureWidth, textureHeight);
+		final ModelPart ret = makePartDefinition(part).bake(textureWidth, textureHeight);
+
+		final List<ModelPart> queue = new ArrayList<>();
+		queue.add(ret);
+
+		while (!queue.isEmpty()) {
+			final ModelPart next = queue.remove(0);
+			((ModelPartExtensions) (Object) next).tails$storeInitialPose();
+			queue.addAll((Collection) ((TailsModelPart) (Object) next).t$getChildren().values());
+		}
+
+		return (TailsModelPart) (Object) ret;
 	}
 
 	private static PartDefinition makePartDefinition(TailsPartDefinition part) {
@@ -126,7 +145,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		ModLoader.get().postEvent(new RegisterPartRenderersEvent(registrar));
 	}
 
-	private static Services services;
+	private static GameProfileCache gameProfileCache;
 
 	@Override
 	public String fetchUsername(UUID uuid) {
@@ -139,14 +158,16 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		if (username != null) return username;
 
 		// Option B - The user cache (some assembly required)
-		if (services == null && mc instanceof MinecraftAccess access) {
-			services = Services.create(access.tails$authenticationService(), mc.gameDirectory);
-			services.profileCache().setExecutor(mc);
+		if (gameProfileCache == null && mc instanceof MinecraftAccess access) {
+			gameProfileCache = new GameProfileCache(
+					new YggdrasilAuthenticationService(mc.getProxy()).createProfileRepository(),
+					new File(mc.gameDirectory, MinecraftServer.USERID_CACHE_FILE.getName()));
+			gameProfileCache.setExecutor(mc);
 			GameProfileCache.setUsesAuthentication(false);
 		}
 
-		if (services != null) {
-			username = services.profileCache().get(uuid).map(GameProfile::getName).orElse(null);
+		if (gameProfileCache != null) {
+			username = gameProfileCache.get(uuid).map(GameProfile::getName).orElse(null);
 			if (username != null) return username;
 		}
 
@@ -159,8 +180,8 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		if (username != null) {
 			// Unfortunately, it looks like Forge's username cache is and I quote "too good for manipulation."
 			// So instead we are only able to let our little profile cache know.
-			if (services != null)
-				services.profileCache().add(profile);
+			if (gameProfileCache != null)
+				gameProfileCache.add(profile);
 
 			return username;
 		}
@@ -176,7 +197,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		if (mc.player != null && mc.player.getUniqueID() != null)
 			return mc.player.getUniqueID();
 		*/
-		return mc.player != null ? mc.player.getUUID() : mc.getUser().getProfileId();
+		return mc.player != null ? mc.player.getUUID() : mc.getUser().getGameProfile().getId();
 	}
 
 	@Override

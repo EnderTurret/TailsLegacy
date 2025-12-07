@@ -22,6 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
@@ -75,7 +76,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		}
 
 		// Tint edit pane
-		hexText = new EditBox(parent.font(), left + 31, editPaneTop + 21, 71, 8, Component.empty());
+		hexText = new EditBox(parent.font(), left + 31, editPaneTop + 21, 71, 8, TextComponent.EMPTY);
 		hexText.setMaxLength(6);
 		hexText.setResponder(this::parseHex);
 		addRenderableWidget(hexText);

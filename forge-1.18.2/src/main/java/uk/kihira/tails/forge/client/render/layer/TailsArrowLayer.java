@@ -9,6 +9,7 @@
 package uk.kihira.tails.forge.client.render.layer;
 
 import java.util.List;
+import java.util.Random;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -21,7 +22,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.common.client.duck.TailsBufferSource;
@@ -32,7 +32,6 @@ import uk.kihira.tails.common.client.duck.TailsRandomSource;
 import uk.kihira.tails.common.client.model.PartConfiguration;
 import uk.kihira.tails.common.client.part.ClientPartsData;
 import uk.kihira.tails.common.client.render.layer.BaseArrowLayer;
-import uk.kihira.tails.forge.common.platform.TailsRandomSourceImpl;
 
 /**
  * A specialized {@link ArrowLayer} for rendering arrows on Tails parts/accessories in addition to normal body parts.
@@ -51,7 +50,7 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 	}
 
 	public TailsArrowLayer(EntityRenderDispatcher dispatcher, LivingEntityRenderer<T, M> renderer) {
-		this(new EntityRendererProvider.Context(dispatcher, null, null, null, null, null, null), renderer);
+		this(new EntityRendererProvider.Context(dispatcher, null, null, null, null), renderer);
 	}
 
 	@Override
@@ -69,13 +68,13 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 		final int stuck = numStuck(entity);
 		if (stuck <= 0) return;
 
-		final RandomSource rand = RandomSource.create(entity.getId());
+		final Random rand = new Random(entity.getId());
 
 		renderArrows(
 				(TailsEntity) entity,
 				(TailsPoseStack) poseStack,
 				(TailsBufferSource) buffer,
-				new TailsRandomSourceImpl(rand),
+				new TailsRandomSource.Java(rand),
 				stuck, partialTick, packedLight, OverlayTexture.NO_OVERLAY);
 	}
 
@@ -103,7 +102,7 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 
 		@Override
 		public TailsModelPart randomPart(TailsRandomSource rand) {
-			return (TailsModelPart) (Object) model.getRandomModelPart((RandomSource) rand.t$unwrap());
+			return (TailsModelPart) (Object) model.getRandomModelPart((Random) rand.t$unwrap());
 		}
 	}
 }

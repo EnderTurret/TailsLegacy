@@ -9,6 +9,9 @@
 package uk.kihira.tails.forge.common.platform;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -36,18 +39,19 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 
 	@Override
 	public JsonElement getJson(TResourceLocation path) {
-		final ResourceLocation rl = (ResourceLocation) path;
-		return readJson(rl, manager.getResource(rl).get());
+		return readJson((ResourceLocation) path);
 	}
 
 	@Override
 	public Map<TResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<TResourceLocation> filter) {
-		@SuppressWarnings("unchecked")
-		final Map<ResourceLocation, Resource> map = manager.listResources(prefix, (Predicate) filter);
+		final Collection<ResourceLocation> resources = manager.listResources(prefix, str -> {
+			final ResourceLocation rl = ResourceLocation.tryParse(str);
+			return rl != null && filter.test((TResourceLocation) rl);
+		});
 		final Map<TResourceLocation, JsonElement> ret = new LinkedHashMap<>();
 
-		for (var entry : map.entrySet())
-			ret.put((TResourceLocation) entry.getKey(), readJson(entry.getKey(), entry.getValue()));
+		for (ResourceLocation rl : resources)
+			ret.put((TResourceLocation) rl, readJson(rl));
 
 		return ret;
 	}
@@ -59,8 +63,9 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 	 * @return The parsed json, or {@code null} if an error occurred.
 	 */
 	@Nullable
-	private static JsonElement readJson(ResourceLocation location, Resource resource) {
-		try (BufferedReader br = resource.openAsReader()) {
+	private JsonElement readJson(ResourceLocation location) {
+		try (InputStream is = manager.getResource(location).getInputStream(); InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr)) {
 			return JsonParser.parseReader(br);
 		} catch (Exception e) {
 			// The stack trace might be increasingly large, so try not to log it.

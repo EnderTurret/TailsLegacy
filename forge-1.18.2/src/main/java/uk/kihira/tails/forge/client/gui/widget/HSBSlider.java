@@ -15,9 +15,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
-import net.minecraftforge.client.gui.ScreenUtils;
+import net.minecraftforge.client.gui.GuiUtils;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.TailsPlatform;
@@ -38,7 +39,7 @@ public class HSBSlider extends AbstractSliderButton {
 	protected Component tooltip;
 
 	public HSBSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
-		super(xPos, yPos, width, height, Component.empty(), 0);
+		super(xPos, yPos, width, height, TextComponent.EMPTY, 0);
 		this.type = type;
 		this.callback = callback;
 	}
@@ -61,7 +62,7 @@ public class HSBSlider extends AbstractSliderButton {
 
 	@Override
 	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partial) {
-		ScreenUtils.blitWithBorder(poseStack, SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
+		GuiUtils.drawContinuousTexturedBox(poseStack, SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);

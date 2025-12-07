@@ -43,7 +43,6 @@ public final class Tails {
 			PROXY = new ServerProxy();
 	}
 
-	@SuppressWarnings("removal")
 	@Internal
 	public Tails() {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);

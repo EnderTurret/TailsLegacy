@@ -18,6 +18,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
@@ -40,7 +42,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 	public void init() {
 		addRenderableWidget(new ExtendedButton(left + 3, top + 21, right - left - 6, 18, TailsComponents.IMPORT_STRING, this::importFromString0));
 
-		inputField = new EditBox(parent.font(), left + 4, top + 42, right - left - 8, 13, Component.empty());
+		inputField = new EditBox(parent.font(), left + 4, top + 42, right - left - 8, 13, TextComponent.EMPTY);
 		inputField.setMaxLength(5000);
 		addRenderableWidget(inputField);
 	}
@@ -59,7 +61,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 
 	@Override
 	public void toast(String langKey, @Nullable String name, boolean error) {
-		final Component text = Component.translatable(langKey, name == null ? new Object[0] : new Object[] { name })
+		final Component text = new TranslatableComponent(langKey, name == null ? new Object[0] : new Object[] { name })
 				.withStyle(error ? ChatFormatting.RED : ChatFormatting.GREEN);
 		ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, text);
 	}

@@ -21,6 +21,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.common.client.TailsClientPlatform;
@@ -71,7 +72,7 @@ public class EditorScreen extends BaseScreen {
 	protected LibraryImportPanel libraryImportPanel;
 
 	public EditorScreen(ClientPartsData original, UUID uuid, LivingEntity renderingEntity, Consumer<EditorScreen> onSave) {
-		super(Component.empty());
+		super(TextComponent.EMPTY);
 		Objects.requireNonNull(original, "original");
 
 		this.onSave = Objects.requireNonNull(onSave, "onSave");

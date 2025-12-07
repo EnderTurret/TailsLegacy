@@ -23,6 +23,7 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.TailsLanguage;
@@ -65,7 +66,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		final Font font = panel.getParent().font();
 
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
-		final MutableComponent name = Component.literal(data.entryName);
+		final MutableComponent name = new TextComponent(data.entryName);
 		if (sel) name.withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC);
 		GuiComponent.drawString(poseStack, font, name, 5, rowTop + 3, 0xFFFFFF);
 
@@ -123,7 +124,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 
 	@Override
 	public Component getNarration() {
-		return Component.empty();
+		return TextComponent.EMPTY;
 	}
 
 	@Override

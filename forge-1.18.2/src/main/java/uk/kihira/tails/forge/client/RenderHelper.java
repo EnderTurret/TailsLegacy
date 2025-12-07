@@ -95,11 +95,12 @@ public final class RenderHelper {
 		renderer.vertex(pose, x + width,	y + 0,		blitOffset).uv((u + uWidth) / 256F,	(v + 0) / 256F).endVertex();
 		renderer.vertex(pose, x + 0,		y + 0,		blitOffset).uv((u + 0) / 256F,		(v + 0) / 256F).endVertex();
 
-		BufferUploader.drawWithShader(renderer.end());
+		renderer.end();
+		BufferUploader.end(renderer);
 	}
 
 	/**
-	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventoryRaw(int, int, int, float, float, LivingEntity) inventory screen}.
+	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(int, int, int, float, float, LivingEntity) inventory screen}.
 	 * @param x The x coordinate of the entity.
 	 * @param y The y coordinate of the entity.
 	 * @param scale The scale to render the entity at.

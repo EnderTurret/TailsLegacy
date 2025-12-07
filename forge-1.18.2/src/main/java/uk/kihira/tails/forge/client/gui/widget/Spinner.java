@@ -22,6 +22,8 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
@@ -47,12 +49,12 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 	private final Listener<T> listener;
 
 	public Spinner(NavigableSet<T> values, @Nullable T initialSelection, int centerX, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
-		super(centerX, y, width, 0, Component.empty());
+		super(centerX, y, width, 0, TextComponent.EMPTY);
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new ExtendedButton(x, y, 15, 15, Component.literal("<"), b -> previous());
-		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), b -> next());
+		left = new ExtendedButton(x, y, 15, 15, new TextComponent("<"), b -> previous());
+		right = new ExtendedButton(0, y, 15, 15, new TextComponent(">"), b -> next());
 
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
 
@@ -95,7 +97,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 
 	private T select(T value, boolean runCallback) {
 		selected = Objects.requireNonNull(value);
-		setMessage(Component.translatable(stringifier.stringify(value)));
+		setMessage(new TranslatableComponent(stringifier.stringify(value)));
 		if (runCallback) listener.onSelected(value);
 		return value;
 	}

@@ -1,0 +1,20 @@
+{
+  "minVersion": "0.8",
+  "package": "uk.kihira.tails.forge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "duck.MixinResourceLocation"
+  ],
+  "client": [
+    "client.duck.MixinLivingEntity",
+    "client.duck.MixinModelPart",
+    "client.duck.MixinMultiBufferSource",
+    "client.duck.MixinPoseStack",
+    "client.duck.MixinPoseStackPose",
+    "client.duck.MixinVertexConsumer",
+    "client.CubeDefinitionAccess",
+    "client.LivingEntityRendererAccess",
+    "client.MinecraftAccess",
+    "client.PartDefinitionAccess"
+  ]
+}

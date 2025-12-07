@@ -8,7 +8,9 @@
 
 package uk.kihira.tails.forge.client.platform;
 
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,7 @@ import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.ModLoader;
 
 import uk.kihira.tails.common.LibraryManager;
+import uk.kihira.tails.common.TailsDirection;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.api.PartRendererRegistrar;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
@@ -41,6 +44,7 @@ import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.common.client.part.PartRegistry;
 import uk.kihira.tails.forge.client.ClientLibraryManager;
 import uk.kihira.tails.forge.client.api.RegisterPartRenderersEvent;
+import uk.kihira.tails.forge.client.render.ModelPartCubeExtensions;
 import uk.kihira.tails.forge.client.texture.TripleTintTexture;
 import uk.kihira.tails.forge.common.TailsConfig;
 import uk.kihira.tails.forge.common.network.C2SPlayerDataMessage;
@@ -74,14 +78,23 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	}
 
 	private static CubeDefinition makeCubeDefinition(TailsCubeDefinition cube) {
-		return CubeDefinitionAccess.tails$new(null,
+		final CubeDefinition ret = CubeDefinitionAccess.tails$new(null,
 				cube.u, cube.v,
 				cube.x, cube.y, cube.z,
 				cube.sizeX, cube.sizeY, cube.sizeZ,
 				new CubeDeformation(cube.growX, cube.growY, cube.growZ),
-				cube.mirror, 1, 1, cube.visibleFaces.stream()
-				.map(dir -> Direction.values()[dir.ordinal()])
-				.collect(Collectors.toCollection(() -> EnumSet.noneOf(Direction.class))));
+				cube.mirror, 1, 1);
+
+		if (!cube.visibleFaces.containsAll(Arrays.asList(TailsDirection.values()))) {
+			final ModelPartCubeExtensions ext = (ModelPartCubeExtensions) (Object) ret;
+			final Set<Direction> hidden = EnumSet.allOf(Direction.class);
+			for (TailsDirection direction : cube.visibleFaces)
+				hidden.remove(Direction.values()[direction.ordinal()]);
+
+			ext.tails$setHiddenFaces(hidden);
+		}
+
+		return ret;
 	}
 
 	@Override

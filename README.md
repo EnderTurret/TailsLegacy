@@ -53,7 +53,7 @@ general {
 }
 ```
 
-Forge hasn't supported this esoteric config format since, so this is what the config looks like now:
+Forge hasn't supported this config format since, so this is what the config looks like now:
 
 ```toml
 [client]

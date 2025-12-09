@@ -43,7 +43,7 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void init() {
-		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || parent.mc.gameSettings.thirdPersonView == 0;
+		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson() || parent.mc.gameSettings.thirdPersonView == 0;
 		if (!doRender) return;
 
 		// Help

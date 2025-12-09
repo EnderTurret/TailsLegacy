@@ -42,14 +42,13 @@ public final class Tails {
 
 	@Internal
 	public Tails() {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
 		TailsNetworkManager.get();
 	}
 
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent e) {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
-			ClientEventHandler.onPreInit();
+			ClientEventHandler.onPreInit(e);
 	}
 
 	@EventHandler

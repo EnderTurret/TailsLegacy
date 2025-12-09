@@ -209,13 +209,13 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public String getConfigParts() {
-		return TailsConfig.CLIENT_INSTANCE.localPlayerData.get();
+		return TailsConfig.CLIENT_INSTANCE.localPlayerData();
 	}
 
 	@Override
 	public void setConfigParts(String json) {
-		TailsConfig.CLIENT_INSTANCE.localPlayerData.set(json);
-		TailsConfig.getConfig().save();
+		TailsConfig.CLIENT_INSTANCE.setLocalPlayerData(json);
+		TailsConfig.CLIENT_INSTANCE.save();
 	}
 
 	@Override

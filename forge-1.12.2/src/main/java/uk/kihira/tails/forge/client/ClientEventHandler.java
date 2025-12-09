@@ -38,6 +38,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -61,6 +62,7 @@ import uk.kihira.tails.forge.client.platform.TailsClientPlatformImpl;
 import uk.kihira.tails.forge.client.render.BotaniaFoxtatoRenderer;
 import uk.kihira.tails.forge.client.render.layer.PartLayer;
 import uk.kihira.tails.forge.client.render.layer.TailsArrowLayer;
+import uk.kihira.tails.forge.common.TailsConfig;
 import uk.kihira.tails.forge.mixin.client.LivingEntityRendererAccess;
 
 /**
@@ -70,7 +72,9 @@ import uk.kihira.tails.forge.mixin.client.LivingEntityRendererAccess;
 @EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Side.CLIENT)
 public final class ClientEventHandler {
 
-	public static void onPreInit() {
+	public static void onPreInit(FMLPreInitializationEvent e) {
+		TailsConfig.CLIENT_INSTANCE.load(e.getSuggestedConfigurationFile());
+
 		TailsKeybinds.registerKeys();
 		RenderHelperManager.registerRenderHelper(new PlayerRenderHelper());
 		RenderHelperManager.registerRenderHelper(new FakeEntityRenderHelper());

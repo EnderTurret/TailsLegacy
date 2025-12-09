@@ -23,7 +23,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 
 import uk.kihira.tails.common.JavaColor;
-import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;

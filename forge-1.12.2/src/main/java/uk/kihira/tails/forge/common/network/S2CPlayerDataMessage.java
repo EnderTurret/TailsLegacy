@@ -10,7 +10,6 @@
 package uk.kihira.tails.forge.common.network;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 

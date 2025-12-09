@@ -9,8 +9,6 @@
 
 package uk.kihira.tails.forge.client.gui.widget;
 
-import java.util.function.Consumer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

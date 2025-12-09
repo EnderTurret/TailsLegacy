@@ -10,8 +10,6 @@ package uk.kihira.tails.forge.client.platform;
 
 import java.awt.image.BufferedImage;
 
-import uk.kihira.tails.common.ABGRColor;
-import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.client.duck.TailsImage;
 
 public final class TailsBufferedImageWrapper implements TailsImage {

@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 

@@ -9,7 +9,6 @@
 
 package uk.kihira.tails.forge.client.gui.panel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +16,9 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 
 import uk.kihira.tails.forge.client.gui.BaseScreen;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
-import uk.kihira.tails.forge.client.gui.widget.ListWidget;
 
 /**
  * A panel, for use in the {@link EditorScreen}.

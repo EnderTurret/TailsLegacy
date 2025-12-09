@@ -3,8 +3,8 @@ package uk.kihira.tails.forge.client.gui.widget;
 import java.util.function.Consumer;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.GuiPageButtonList.GuiResponder;
+import net.minecraft.client.gui.GuiTextField;
 
 public class SimpleGuiTextField extends GuiTextField {
 

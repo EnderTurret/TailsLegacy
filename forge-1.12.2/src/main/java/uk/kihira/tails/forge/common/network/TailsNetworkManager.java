@@ -8,8 +8,6 @@
 
 package uk.kihira.tails.forge.common.network;
 
-import java.util.Optional;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;

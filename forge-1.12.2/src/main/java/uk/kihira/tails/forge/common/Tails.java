@@ -24,7 +24,6 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.proxy.IProxy;
-import uk.kihira.tails.common.proxy.ServerProxy;
 import uk.kihira.tails.forge.client.ClientEventHandler;
 import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 
@@ -55,11 +54,11 @@ public final class Tails {
 
 	@EventHandler
 	public void onInit(FMLInitializationEvent e) {
-		
+
 	}
 
 	@EventHandler
 	public void onPostInit(FMLPostInitializationEvent e) {
-		
+
 	}
 }

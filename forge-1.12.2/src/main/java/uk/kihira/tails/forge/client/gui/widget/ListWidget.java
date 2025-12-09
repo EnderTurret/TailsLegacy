@@ -10,15 +10,11 @@
 package uk.kihira.tails.forge.client.gui.widget;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.Tessellator;
-
-import uk.kihira.tails.forge.client.RenderHelper;
 
 /**
  * A version of {@link GuiListExtended} that improves upon some things.

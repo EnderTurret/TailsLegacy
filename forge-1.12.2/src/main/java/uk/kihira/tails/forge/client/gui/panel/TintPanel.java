@@ -18,9 +18,7 @@ import org.lwjgl.input.Mouse;
 
 import com.google.common.base.Strings;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 
 import net.minecraftforge.fml.client.config.GuiButtonExt;

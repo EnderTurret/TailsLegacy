@@ -12,8 +12,6 @@ package uk.kihira.tails.forge.client;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +45,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import uk.kihira.tails.common.ABGRColor;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;

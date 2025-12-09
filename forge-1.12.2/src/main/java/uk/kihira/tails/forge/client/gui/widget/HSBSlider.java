@@ -9,16 +9,15 @@
 
 package uk.kihira.tails.forge.client.gui.widget;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiPageButtonList.GuiResponder;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiSlider;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.fml.client.config.GuiUtils;
 
-import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.forge.client.RenderHelper;
 

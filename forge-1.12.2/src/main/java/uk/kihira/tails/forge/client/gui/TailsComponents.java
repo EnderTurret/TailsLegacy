@@ -9,7 +9,6 @@
 package uk.kihira.tails.forge.client.gui;
 
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentBase;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 

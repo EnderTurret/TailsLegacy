@@ -16,7 +16,6 @@ import java.util.List;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;

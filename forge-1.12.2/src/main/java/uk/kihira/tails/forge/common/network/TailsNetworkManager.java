@@ -12,11 +12,9 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.resources.ResourceLocation;
-
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 import uk.kihira.tails.common.TailsPlatform;
 
@@ -29,17 +27,15 @@ public class TailsNetworkManager {
 
 	private static final String VERSION = "1";
 
-	private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-			ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "sync"), () -> VERSION,
-			NetworkRegistry.acceptMissingOr(VERSION), NetworkRegistry.acceptMissingOr(VERSION));
+	private static final SimpleNetworkWrapper CHANNEL = NetworkRegistry.INSTANCE.newSimpleChannel(TailsPlatform.MOD_ID);
 
 	static {
-		CHANNEL.registerMessage(0, C2SPlayerDataMessage.class, C2SPlayerDataMessage::encode, C2SPlayerDataMessage::decode, C2SPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
-		CHANNEL.registerMessage(1, S2CPlayerDataMessage.class, S2CPlayerDataMessage::encode, S2CPlayerDataMessage::decode, S2CPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-		CHANNEL.registerMessage(2, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		CHANNEL.registerMessage(new C2SPlayerDataMessage.Handler(), C2SPlayerDataMessage.class, 0, Side.SERVER);
+		CHANNEL.registerMessage(new S2CPlayerDataMessage.Handler(), S2CPlayerDataMessage.class, 1, Side.CLIENT);
+		CHANNEL.registerMessage(new PlayerDataMapMessage.Handler(), PlayerDataMapMessage.class, 2, Side.CLIENT);
 	}
 
-	public static SimpleChannel get() {
+	public static SimpleNetworkWrapper get() {
 		return CHANNEL;
 	}
 }

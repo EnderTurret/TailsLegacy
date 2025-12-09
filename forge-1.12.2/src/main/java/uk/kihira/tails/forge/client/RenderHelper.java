@@ -15,34 +15,12 @@ import java.nio.ByteBuffer;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.system.MemoryStack;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
-
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.MathHelper;
 
 import uk.kihira.tails.common.TailsMath;
 
@@ -60,13 +38,14 @@ public final class RenderHelper {
 	 * @param y1 The coordinate of the bottom side of the scissor.
 	 */
 	public static void startGlScissor(int x0, int y0, int x1, int y1) {
-		final Window mc = Minecraft.getInstance().getWindow();
+		final Window mc = Minecraft.getMinecraft().getWindow();
 
 		final double scaleW = mc.getGuiScale();
 		final double scaleH = mc.getGuiScale();
 		final int screenHeight = mc.getHeight();
 
-		RenderSystem.enableScissor(
+		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		GL11.glScissor(
 				(int) (x0 * scaleW),
 				(int) (screenHeight - y1 * scaleH),
 				(int) Math.max(0, (x1 - x0) * scaleW),
@@ -77,11 +56,16 @@ public final class RenderHelper {
 	 * Ends a {@linkplain GL11#glScissor(int, int, int, int) gl scissor}.
 	 */
 	public static void endGlScissor() {
-		RenderSystem.disableScissor();
+		GL11.glDisable(GL11.GL_SCISSOR_TEST);
+	}
+
+	public static void enableDefaultBlend() {
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 	}
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
-	public static void blitScaled(PoseStack poseStack, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {
+	public static void blitScaled(int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {
 		final Matrix4f pose = poseStack.last().pose();
 		final Tesselator tess = Tesselator.getInstance();
 		final BufferBuilder renderer = tess.getBuilder();
@@ -100,7 +84,7 @@ public final class RenderHelper {
 	}
 
 	/**
-	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(int, int, int, float, float, LivingEntity) inventory screen}.
+	 * Renders the given entity like in the inventory screen.
 	 * @param x The x coordinate of the entity.
 	 * @param y The y coordinate of the entity.
 	 * @param scale The scale to render the entity at.
@@ -110,9 +94,7 @@ public final class RenderHelper {
 	 * @param entity The entity to render.
 	 */
 	@SuppressWarnings("deprecation")
-	public static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
-		final PoseStack poseStack = RenderSystem.getModelViewStack();
-
+	public static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTick, EntityLivingBase entity) {
 		final float oldYBodyRot = entity.yBodyRot;
 		final float oldYRot = entity.getYRot();
 		final float oldXRot = entity.getXRot();
@@ -210,17 +192,17 @@ public final class RenderHelper {
 		}
 	}
 
-	public static void drawScrollingString(PoseStack poseStack, Font font, Component text, int minX, int maxX, int y, int color) {
+	public static void drawScrollingString(FontRenderer font, String text, int minX, int maxX, int y, int color) {
 		final int maxWidth = maxX - minX;
-		final int textWidth = font.width(text.getVisualOrderText());
+		final int textWidth = font.getStringWidth(text);
 		if (textWidth <= maxWidth)
-			GuiComponent.drawString(poseStack, font, text, minX, y, color);
+			font.drawString(text, minX, y, color);
 		else
-			drawCenteredScrollingString(poseStack, font, text, (minX + maxX) / 2, minX, y, maxX, y + font.lineHeight, color);
+			drawCenteredScrollingString(font, text, (minX + maxX) / 2, minX, y, maxX, y + font.FONT_HEIGHT, color);
 	}
 
-	public static void drawCenteredScrollingString(PoseStack poseStack, Font font, Component text, int centerX, int minX, int minY, int maxX, int maxY, int color) {
-		final int textWidth = font.width(text);
+	public static void drawCenteredScrollingString(FontRenderer font, String text, int centerX, int minX, int minY, int maxX, int maxY, int color) {
+		final int textWidth = font.getStringWidth(text);
 		final int y = (minY + maxY - 9) / 2 + 1;
 		final int width = maxX - minX;
 
@@ -229,16 +211,16 @@ public final class RenderHelper {
 			final double time = Util.getMillis() / 1000.0;
 			final double d1 = Math.max(delta * 0.5, 3.0);
 			final double scrollProgress = Math.sin((Math.PI / 2) * Math.cos((Math.PI * 2) * time / d1)) / 2.0 + 0.5;
-			final double scroll = Mth.lerp(scrollProgress, 0, delta);
+			final double scroll = MathHelper.clampedLerp(scrollProgress, 0, delta);
 
 			startGlScissor(minX, minY, maxX, maxY);
-			GuiComponent.drawString(poseStack, font, text, minX - (int)scroll, y, color);
+			font.drawString(text, minX - (int)scroll, y, color);
 			endGlScissor();
 
 			return;
 		}
 
-		final int x = Mth.clamp(centerX, minX + textWidth / 2, maxX - textWidth / 2);
-		GuiComponent.drawCenteredString(poseStack, font, text, x, y, color);
+		final int x = MathHelper.clamp(centerX, minX + textWidth / 2, maxX - textWidth / 2);
+		font.drawString(text, x - textWidth / 2, y, color);
 	}
 }

@@ -14,21 +14,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 import uk.kihira.tails.common.TailsPlatform;
 
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Side.CLIENT)
 public final class ToastManager {
 
 	public static final ToastManager INSTANCE = new ToastManager();
@@ -37,21 +35,20 @@ public final class ToastManager {
 
 	private ToastManager() {}
 
-	public void createToast(int x, int y, Component text) {
-		final Font fontRenderer = Minecraft.getInstance().font;
-		final FormattedCharSequence processor = text.getVisualOrderText();
-		final int stringWidth = fontRenderer.width(processor);
-		toasts.add(new Toast(x, y, stringWidth + 10,  stringWidth * 3, processor));
+	public void createToast(int x, int y, String text) {
+		final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+		final int stringWidth = fontRenderer.getStringWidth(text);
+		toasts.add(new Toast(x, y, stringWidth + 10,  stringWidth * 3, text));
 	}
 
-	public void createCenteredToast(int x, int y, int maxWidth, Component text) {
-		final Font fontRenderer = Minecraft.getInstance().font;
-		final int stringWidth = fontRenderer.width(text);
+	public void createCenteredToast(int x, int y, int maxWidth, String text) {
+		final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+		final int stringWidth = fontRenderer.getStringWidth(text);
 		if (stringWidth > maxWidth) {
-			final List<FormattedCharSequence> strings = fontRenderer.split(text, maxWidth);
-			toasts.add(new Toast(x - maxWidth / 2 - 5, y, maxWidth + 10, text.getString().length() * 3, strings.toArray(new FormattedCharSequence[strings.size()])));
+			final List<String> strings = fontRenderer.listFormattedStringToWidth(text, maxWidth);
+			toasts.add(new Toast(x - maxWidth / 2 - 5, y, maxWidth + 10, text.length() * 3, strings.toArray(new String[strings.size()])));
 		} else
-			toasts.add(new Toast(x - stringWidth / 2 - 5, y, stringWidth + 10, text.getString().length() * 3, text.getVisualOrderText()));
+			toasts.add(new Toast(x - stringWidth / 2 - 5, y, stringWidth + 10, text.length() * 3, text));
 	}
 
 	@SubscribeEvent
@@ -67,18 +64,13 @@ public final class ToastManager {
 	}
 
 	@SubscribeEvent
-	static void onDrawScreenPost(ScreenEvent.DrawScreenEvent.Post event) {
-		final ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
-		profiler.push("toastNotification");
-
-		event.getPoseStack().pushPose();
-		event.getPoseStack().translate(0, 0, 300);
+	static void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(0, 0, 300);
 
 		for (Toast toast : INSTANCE.toasts)
-			toast.drawToast(event.getPoseStack(), event.getMouseX(), event.getMouseY());
+			toast.drawToast(event.getMouseX(), event.getMouseY());
 
-		event.getPoseStack().popPose();
-
-		profiler.pop();
+		GlStateManager.popMatrix();
 	}
 }

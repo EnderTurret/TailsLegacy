@@ -15,28 +15,45 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.network.FriendlyByteBuf;
+import io.netty.buffer.ByteBuf;
 
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import uk.kihira.tails.common.network.BasePlayerDataMapMessage;
 import uk.kihira.tails.common.part.PartsData;
 
 // S → C
 @Internal
-public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements BasePlayerDataMapMessage {
+public final class PlayerDataMapMessage implements BasePlayerDataMapMessage, IMessage {
 
-	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
-		return new PlayerDataMapMessage(BasePlayerDataMapMessage.decodeJson(buf.readUtf(Short.MAX_VALUE)));
+	private Map<UUID, PartsData> partsDataMap;
+
+	public PlayerDataMapMessage() {}
+
+	public PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
+		this.partsDataMap = partsDataMap;
 	}
 
-	public void encode(FriendlyByteBuf buf) {
-		buf.writeUtf(BasePlayerDataMapMessage.encodeJson(partsDataMap), Short.MAX_VALUE);
+	@Override
+	public void fromBytes(ByteBuf buf) {
+		partsDataMap = BasePlayerDataMapMessage.decodeJson(ByteBufUtils.readUTF8String(buf));
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf) {
+		ByteBufUtils.writeUTF8String(buf, BasePlayerDataMapMessage.encodeJson(partsDataMap));
 	}
 
 	@Internal
-	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> context) {
-		BasePlayerDataMapMessage.handle(message.partsDataMap);
-		context.get().setPacketHandled(true);
+	public static final class Handler implements IMessageHandler<PlayerDataMapMessage, IMessage> {
+
+		@Override
+		public IMessage onMessage(PlayerDataMapMessage message, MessageContext context) {
+			BasePlayerDataMapMessage.handle(message.partsDataMap);
+			return null;
+		}
 	}
 }

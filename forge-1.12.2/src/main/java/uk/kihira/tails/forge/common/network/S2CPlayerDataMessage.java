@@ -14,31 +14,51 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.network.FriendlyByteBuf;
+import io.netty.buffer.ByteBuf;
 
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import uk.kihira.tails.common.network.BaseS2CPlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
 
 @Internal
-public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) implements BaseS2CPlayerDataMessage {
+public final class S2CPlayerDataMessage implements BaseS2CPlayerDataMessage, IMessage {
 
-	public static S2CPlayerDataMessage decode(FriendlyByteBuf buf) {
-		final UUID uuid = buf.readUUID();
-		final String tailInfoJson = buf.readUtf(Short.MAX_VALUE);
+	private UUID uuid;
+	private PartsData partsData;
 
-		return new S2CPlayerDataMessage(uuid, BaseS2CPlayerDataMessage.decodeJson(uuid, tailInfoJson));
+	public S2CPlayerDataMessage() {}
+
+	public S2CPlayerDataMessage(UUID uuid, PartsData partsData) {
+		this.uuid = uuid;
+		this.partsData = partsData;
 	}
 
-	public void encode(FriendlyByteBuf buf) {
-		buf.writeUUID(uuid);
-		buf.writeUtf(BaseS2CPlayerDataMessage.encodeJson(partsData), Short.MAX_VALUE);
+	@Override
+	public void fromBytes(ByteBuf buf) {
+		uuid = new UUID(buf.readLong(), buf.readLong());
+		final String tailInfoJson = ByteBufUtils.readUTF8String(buf);
+
+		partsData = BaseS2CPlayerDataMessage.decodeJson(uuid, tailInfoJson);
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf) {
+		buf.writeLong(uuid.getMostSignificantBits());
+		buf.writeLong(uuid.getLeastSignificantBits());
+		ByteBufUtils.writeUTF8String(buf, BaseS2CPlayerDataMessage.encodeJson(partsData));
 	}
 
 	@Internal
-	public static void handle(S2CPlayerDataMessage message, Supplier<NetworkEvent.Context> context) {
-		BaseS2CPlayerDataMessage.handle(message.uuid, message.partsData);
-		context.get().setPacketHandled(true);
+	public static final class Handler implements IMessageHandler<S2CPlayerDataMessage, IMessage> {
+
+		@Override
+		public IMessage onMessage(S2CPlayerDataMessage message, MessageContext context) {
+			BaseS2CPlayerDataMessage.handle(message.uuid, message.partsData);
+			return null;
+		}
 	}
 }

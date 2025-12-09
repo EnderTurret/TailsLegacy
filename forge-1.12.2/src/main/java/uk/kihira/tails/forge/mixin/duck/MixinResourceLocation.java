@@ -10,7 +10,7 @@ package uk.kihira.tails.forge.mixin.duck;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ResourceLocation;
 
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 
@@ -29,7 +29,8 @@ public abstract class MixinResourceLocation implements TResourceLocation {
 
 	@Override
 	public TResourceLocation t$withPath(String path) {
-		return (TResourceLocation) ((ResourceLocation) (Object) this).withPath(path);
+		final ResourceLocation rl = (ResourceLocation) (Object) this;
+		return (TResourceLocation) new ResourceLocation(rl.getNamespace(), path);
 	}
 
 	@Override
@@ -39,6 +40,6 @@ public abstract class MixinResourceLocation implements TResourceLocation {
 
 	@Override
 	public int t$compareNamespaced(TResourceLocation other) {
-		return ((ResourceLocation) (Object) this).compareNamespaced((ResourceLocation) other);
+		return ((ResourceLocation) (Object) this).compareTo((ResourceLocation) other);
 	}
 }

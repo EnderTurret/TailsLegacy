@@ -14,40 +14,56 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
+import io.netty.buffer.ByteBuf;
 
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.PacketDistributor;
+import net.minecraft.entity.player.EntityPlayerMP;
+
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import uk.kihira.tails.common.network.BaseC2SPlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.forge.common.Tails;
 
-@Internal
-public record C2SPlayerDataMessage(PartsData partsData) implements BaseC2SPlayerDataMessage {
+public final class C2SPlayerDataMessage implements BaseC2SPlayerDataMessage, IMessage {
 
-	public static C2SPlayerDataMessage decode(FriendlyByteBuf buf) {
-		return new C2SPlayerDataMessage(BaseC2SPlayerDataMessage.decodeJson(buf.readUtf(Short.MAX_VALUE)));
+	private PartsData partsData;
+
+	public C2SPlayerDataMessage() {}
+
+	public C2SPlayerDataMessage(PartsData partsData) {
+		this.partsData = partsData;
 	}
 
-	public void encode(FriendlyByteBuf buf) {
-		buf.writeUtf(BaseC2SPlayerDataMessage.encodeJson(partsData), Short.MAX_VALUE);
+	@Override
+	public void fromBytes(ByteBuf buf) {
+		partsData = BaseC2SPlayerDataMessage.decodeJson(ByteBufUtils.readUTF8String(buf));
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf) {
+		ByteBufUtils.writeUTF8String(buf, BaseC2SPlayerDataMessage.encodeJson(partsData));
 	}
 
 	@Internal
-	public static void handle(C2SPlayerDataMessage message, Supplier<NetworkEvent.Context> context) {
-		if (message.partsData == null) return;
+	public static final class Handler implements IMessageHandler<C2SPlayerDataMessage, IMessage> {
 
-		final ServerPlayer sender = context.get().getSender();
-		final UUID uuid = sender.getUUID();
+		@Override
+		public IMessage onMessage(C2SPlayerDataMessage message, MessageContext context) {
+			if (message.partsData == null) return null;
 
-		Tails.PROXY.getPartManager().set(uuid, message.partsData);
+			final EntityPlayerMP sender = context.getServerHandler().player;
+			final UUID uuid = sender.getUniqueID();
 
-		// Tell other clients about the change.
-		// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
-		TailsNetworkManager.get().send(PacketDistributor.ALL.noArg(), new S2CPlayerDataMessage(uuid, message.partsData));
+			Tails.PROXY.getPartManager().set(uuid, message.partsData);
 
-		context.get().setPacketHandled(true);
+			// Tell other clients about the change.
+			// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
+			TailsNetworkManager.get().sendToAll(new S2CPlayerDataMessage(uuid, message.partsData));
+
+			return null;
+		}
 	}
 }

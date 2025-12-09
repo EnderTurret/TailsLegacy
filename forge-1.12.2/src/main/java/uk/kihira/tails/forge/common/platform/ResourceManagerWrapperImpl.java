@@ -21,8 +21,8 @@ import org.jetbrains.annotations.Nullable;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.util.ResourceLocation;
 
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.gson.ResourceManagerWrapper;
@@ -30,9 +30,9 @@ import uk.kihira.tails.forge.common.Tails;
 
 public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper {
 
-	public final ResourceManager manager;
+	public final IResourceManager manager;
 
-	public ResourceManagerWrapperImpl(ResourceManager manager) {
+	public ResourceManagerWrapperImpl(IResourceManager manager) {
 		this.manager = manager;
 	}
 
@@ -65,7 +65,7 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 	private JsonElement readJson(ResourceLocation location) {
 		try (InputStream is = manager.getResource(location).getInputStream(); InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr)) {
-			return JsonParser.parseReader(br);
+			return new JsonParser().parse(br);
 		} catch (Exception e) {
 			// The stack trace might be increasingly large, so try not to log it.
 			Tails.LOGGER.warn("Failed to read json file {}:\n{}", location, e.toString());

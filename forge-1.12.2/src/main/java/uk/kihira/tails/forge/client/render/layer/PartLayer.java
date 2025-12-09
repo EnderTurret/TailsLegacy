@@ -11,13 +11,9 @@ package uk.kihira.tails.forge.client.render.layer;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.entity.EntityLivingBase;
 
 import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsEntity;
@@ -26,38 +22,41 @@ import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.render.layer.BasePartLayer;
 
 /**
- * A {@link RenderLayer} for Tails parts/accessories.
+ * A {@link LayerRenderer} for Tails parts/accessories.
  * @param <T> The entity type.
- * @param <M> The model type.
  */
-public class PartLayer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> implements BasePartLayer {
+public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, BasePartLayer {
 
-	/**
-	 * @param renderer The renderer.
-	 */
-	public PartLayer(LivingEntityRenderer<T, M> renderer) {
-		super(renderer);
+	protected final ModelBiped parentModel;
+
+	public PartLayer(ModelBiped parentModel) {
+		this.parentModel = parentModel;
 	}
 
 	@Override
 	@Nullable
 	public TailsModelPart attachmentPart(String attachmentRoot) {
-		return switch (attachmentRoot) {
-			case "head" -> (TailsModelPart) (Object) getParentModel().head;
-			case "body" -> (TailsModelPart) (Object) getParentModel().body;
-			default -> null;
-		};
+		switch (attachmentRoot) {
+			case "head": return (TailsModelPart) parentModel.bipedHead;
+			case "body": return (TailsModelPart) parentModel.bipedBody;
+			default: return null;
+		}
 	}
 
 	@Override
-	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void doRenderLayer(T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		renderParts(
 				(TailsEntity) entity,
 				(TailsPoseStack) poseStack,
 				(TailsBufferSource) buffer,
 				partialTick,
-				packedLight,
-				LivingEntityRenderer.getOverlayCoords(entity, 0F)
+				1,
+				1
 				);
+	}
+
+	@Override
+	public boolean shouldCombineTextures() {
+		return false;
 	}
 }

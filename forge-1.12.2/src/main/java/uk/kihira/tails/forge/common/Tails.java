@@ -13,11 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.common.SidedProxy;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.proxy.IProxy;
@@ -27,21 +24,15 @@ import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 /**
  * Look! It's the main mod file!
  */
-@Mod(TailsPlatform.MOD_ID)
+@Mod(modid = TailsPlatform.MOD_ID, name = "Tails Legacy", acceptedMinecraftVersions = "[1.12,1.13)", acceptableRemoteVersions = "*")
 public final class Tails {
 
 	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
 
 	@Internal
-	public static final IProxy PROXY;
-
-	static {
-		if (FMLEnvironment.dist == Dist.CLIENT)
-			PROXY = IProxy.makeClientProxy();
-		else
-			PROXY = new ServerProxy();
-	}
+	@SidedProxy(modId = TailsPlatform.MOD_ID, clientSide = "uk.kihira.tails.common.proxy.client.ClientProxy", serverSide = "uk.kihira.tails.common.proxy.ServerProxy")
+	public static IProxy PROXY;
 
 	@Internal
 	public Tails() {

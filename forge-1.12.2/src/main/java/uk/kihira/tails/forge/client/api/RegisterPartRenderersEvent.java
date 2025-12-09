@@ -10,10 +10,9 @@ package uk.kihira.tails.forge.client.api;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraftforge.eventbus.api.Cancelable;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.event.IModBusEvent;
+import net.minecraftforge.fml.common.eventhandler.Cancelable;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.relauncher.Side;
 
 import uk.kihira.tails.common.client.api.PartRendererRegistrar;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
@@ -29,15 +28,14 @@ import uk.kihira.tails.common.client.render.part.PartRenderer;
  *
  * <p>This event is not {@linkplain Cancelable cancelable}, and does not have a result.</p>
  *
- * <p>This event is fired on the {@linkplain IModBusEvent mod-specific event bus},
- * only on the {@linkplain LogicalSide#CLIENT logical client}.</p>
+ * <p>This event is fired on the {@linkplain Side#CLIENT logical client}.</p>
  *
  * @author EnderTurret
  * @see PartRenderer
  * @see PartRegistry
  * @see PartRenderRegistry
  */
-public class RegisterPartRenderersEvent extends Event implements IModBusEvent {
+public class RegisterPartRenderersEvent extends Event {
 
 	private final PartRendererRegistrar registrar;
 

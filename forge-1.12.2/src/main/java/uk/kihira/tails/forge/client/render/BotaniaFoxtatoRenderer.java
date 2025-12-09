@@ -11,13 +11,10 @@ package uk.kihira.tails.forge.client.render;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.BlockPos;
 
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.BlockPos;
-
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
@@ -32,17 +29,17 @@ public final class BotaniaFoxtatoRenderer {
 
 	private static FoxtatoRenderer renderer;
 
-	public static void render(PoseStack poseStack, MultiBufferSource buffers, BlockPos pos, float partialTicks, int packedLight, int packedOverlay) {
+	public static void render(BlockPos pos, float partialTick) {
 		if (renderer == null) renderer = new FoxtatoRenderer();
 
-		renderer.render((TailsPoseStack) poseStack, (TailsBufferSource) buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay);
+		renderer.render((TailsPoseStack) poseStack, (TailsBufferSource) buffers, pos.getX(), pos.getY(), pos.getZ(), partialTick, 1, 1);
 
-		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+		GlStateManager.color(1F, 1F, 1F, 1F);
 	}
 
 	@SubscribeEvent
 	public static void onPotatoRender(TinyPotatoRenderEvent e) {
-		if (e.name.getString().equalsIgnoreCase("foxtato"))
-			render(e.ms, e.buffers, e.tile.getBlockPos(), e.partTicks, e.light, e.overlay);
+		if (e.name.equalsIgnoreCase("foxtato"))
+			render(e.tile.getPos(), e.partTicks);
 	}
 }

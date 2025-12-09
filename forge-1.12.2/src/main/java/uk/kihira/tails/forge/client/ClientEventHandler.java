@@ -9,6 +9,7 @@
 
 package uk.kihira.tails.forge.client;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -17,38 +18,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWImage;
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
-
-import com.mojang.blaze3d.platform.NativeImage;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.PauseScreen;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.layers.ArrowLayer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.client.resources.IResourceManager;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.client.gui.widget.ExtendedButton;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 import uk.kihira.tails.common.ABGRColor;
 import uk.kihira.tails.common.TailsPlatform;
@@ -79,7 +66,7 @@ public final class ClientEventHandler {
 	 * Handles events on the Forge bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, bus = EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Side.CLIENT)
 	static class Forge {
 
 		private static boolean sentPartInfoToServer = false;
@@ -89,9 +76,9 @@ public final class ClientEventHandler {
 		 * Tails Editor Button
 		 */
 		@SubscribeEvent
-		static void onScreenInitPost(ScreenEvent.InitScreenEvent.Post event) {
-			if (event.getScreen() instanceof PauseScreen)
-				event.addListener(new ExtendedButton(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20, TailsComponents.EDITOR_BUTTON,
+		static void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
+			if (event.getGui() instanceof GuiIngameMenu)
+				event.addListener(new GuiButtonExt(event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20, TailsComponents.EDITOR_BUTTON,
 						b -> Minecraft.getInstance().setScreen(EditorScreen.openDefault())));
 		}
 
@@ -99,13 +86,13 @@ public final class ClientEventHandler {
 		 * Tails Syncing
 		 */
 		@SubscribeEvent
-		static void onConnectToServer(ClientPlayerNetworkEvent.LoggedInEvent event) {
+		static void onConnectToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
 			// Add local player texture to map.
 			ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), LocalPartManager.getLocalPartsData());
 		}
 
 		@SubscribeEvent
-		static void onDisconnect(ClientPlayerNetworkEvent.LoggedOutEvent e) {
+		static void onDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent e) {
 			// TODO: Do we need to defer these?
 			sentPartInfoToServer = false;
 			clearAllPartInfo = true;
@@ -120,7 +107,7 @@ public final class ClientEventHandler {
 				clearAllPartInfo = false;
 			}
 			// World can't be null if we want to send a packet it seems.
-			else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
+			else if (!sentPartInfoToServer && Minecraft.getMinecraft().world != null) {
 				LocalPartManager.syncToServer();
 
 				sentPartInfoToServer = true;
@@ -137,7 +124,7 @@ public final class ClientEventHandler {
 	 * Handles events on the mod bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Side.CLIENT)
 	static class Mod {
 
 		@SubscribeEvent
@@ -148,7 +135,7 @@ public final class ClientEventHandler {
 				RenderHelperManager.registerRenderHelper(new FakeEntityRenderHelper());
 			});
 
-			if (ModList.get().isLoaded("botania"))
+			if (Loader.isModLoaded("botania"))
 				registerFoxtato(); // Try to avoid class loading it if Botania isn't present.
 		}
 
@@ -166,19 +153,11 @@ public final class ClientEventHandler {
 				GLFW.glfwDestroyCursor(TintPanel.pickerCursorHandle);
 		}
 
-		private static void registerCursor(ResourceManager manager) {
-			final Resource resource;
+		private static void registerCursor(IResourceManager manager) {
+			final BufferedImage iconImg;
 
-			try {
-				resource = manager.getResource(IconButton.ICONS_TEXTURE);
-			} catch (IOException e) {
-				throw new UncheckedIOException(e);
-			}
-
-			final NativeImage iconImg;
-
-			try (InputStream is = resource.getInputStream()) {
-				iconImg = NativeImage.read(NativeImage.Format.RGBA, is);
+			try (IResource resource = manager.getResource(IconButton.ICONS_TEXTURE); InputStream is = resource.getInputStream()) {
+				iconImg = TextureUtil.readBufferedImage(is);
 			} catch (IOException e) {
 				throw new IllegalStateException("Failed to read icon texture:", e);
 			}

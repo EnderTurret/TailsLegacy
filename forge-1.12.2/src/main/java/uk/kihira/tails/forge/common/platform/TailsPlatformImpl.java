@@ -12,8 +12,8 @@ import java.util.UUID;
 
 import com.google.gson.Gson;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.api.IPlayerPartManager;
@@ -42,27 +42,27 @@ public final class TailsPlatformImpl implements TailsPlatform {
 
 	@Override
 	public TResourceLocation newResourceLocation(String path) {
-		return (TResourceLocation) ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, path);
+		return (TResourceLocation) new ResourceLocation(TailsPlatform.MOD_ID, path);
 	}
 
 	@Override
 	public TResourceLocation parseResourceLocation(String rl) {
-		return (TResourceLocation) ResourceLocation.parse(rl);
+		return (TResourceLocation) new ResourceLocation(rl);
 	}
 
 	@Override
 	public UUID randomUUID() {
-		return Mth.createInsecureUUID();
+		return MathHelper.getRandomUUID();
 	}
 
 	@Override
 	public float lookupSin(float angle) {
-		return Mth.sin(angle);
+		return MathHelper.sin(angle);
 	}
 
 	@Override
 	public float lookupCos(float angle) {
-		return Mth.cos(angle);
+		return MathHelper.cos(angle);
 	}
 
 	@Override

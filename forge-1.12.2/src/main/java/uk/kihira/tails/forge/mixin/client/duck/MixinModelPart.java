@@ -8,6 +8,8 @@
 
 package uk.kihira.tails.forge.mixin.client.duck;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -16,125 +18,136 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.ModelBox;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 
 import uk.kihira.tails.common.JavaColor;
+import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.duck.TailsRandomSource;
 import uk.kihira.tails.forge.client.render.ModelPartExtensions;
 
-@Mixin(ModelPart.class)
+@Mixin(ModelRenderer.class)
 public class MixinModelPart implements TailsModelPart, ModelPartExtensions {
 
 	@Shadow
 	@Final
-	private Map<String, ModelPart> children;
+	private List<ModelRenderer> childModels;
 
 	@Unique
-	private PartPose tails$initialPose;
+	private Map<String, ModelRenderer> tails$children;
+
+	@Unique
+	private float[] tails$initialPose;
 
 	@Override
 	public void tails$storeInitialPose() {
-		tails$initialPose = ((ModelPart) (Object) this).storePose();
+		final ModelRenderer self = (ModelRenderer) (Object) this;
+		tails$initialPose = new float[] { self.offsetX, self.offsetY, self.offsetZ, self.rotateAngleX, self.rotateAngleY, self.rotateAngleZ };
 	}
 
 	@Override
 	public boolean t$isVisible() {
-		return ((ModelPart) (Object) this).visible;
+		return ((ModelRenderer) (Object) this).showModel;
 	}
 
 	@Override
 	public void t$setVisible(boolean value) {
-		((ModelPart) (Object) this).visible = value;
+		((ModelRenderer) (Object) this).showModel = value;
 	}
 
 	@Override
 	public float t$getXRot() {
-		return ((ModelPart) (Object) this).xRot;
+		return ((ModelRenderer) (Object) this).rotateAngleX;
 	}
 
 	@Override
 	public void t$setXRot(float value) {
-		((ModelPart) (Object) this).xRot = value;
+		((ModelRenderer) (Object) this).rotateAngleX = value;
 	}
 
 	@Override
 	public float t$getYRot() {
-		return ((ModelPart) (Object) this).yRot;
+		return ((ModelRenderer) (Object) this).rotateAngleY;
 	}
 
 	@Override
 	public void t$setYRot(float value) {
-		((ModelPart) (Object) this).yRot = value;
+		((ModelRenderer) (Object) this).rotateAngleY = value;
 	}
 
 	@Override
 	public float t$getZRot() {
-		return ((ModelPart) (Object) this).zRot;
+		return ((ModelRenderer) (Object) this).rotateAngleZ;
 	}
 
 	@Override
 	public void t$setZRot(float value) {
-		((ModelPart) (Object) this).zRot = value;
+		((ModelRenderer) (Object) this).rotateAngleZ = value;
 	}
 
 	@Override
 	public boolean t$hasInitialPose() {
-		final PartPose pose = tails$initialPose;
-		return pose != null && !(pose.x == 0 && pose.y == 0 && pose.z == 0 && pose.xRot == 0 && pose.yRot == 0 && pose.zRot == 0);
+		final float[] pose = tails$initialPose;
+		return pose != null && !(pose[0] == 0 && pose[1] == 0 && pose[2] == 0 && pose[3] == 0 && pose[4] == 0 && pose[5] == 0);
 	}
 
 	@Override
 	public float t$getInitialXRot() {
-		return tails$initialPose.xRot;
+		return tails$initialPose[3];
 	}
 
 	@Override
 	public float t$getInitialYRot() {
-		return tails$initialPose.yRot;
+		return tails$initialPose[4];
 	}
 
 	@Override
 	public float t$getInitialZRot() {
-		return tails$initialPose.zRot;
+		return tails$initialPose[5];
 	}
 
 	@Override
 	public boolean t$isEmpty() {
-		return ((ModelPart) (Object) this).isEmpty();
+		final ModelRenderer self = (ModelRenderer) (Object) this;
+		return self.cubeList.isEmpty() && self.childModels.isEmpty();
 	}
 
 	@Override
 	public TailsModelPart t$getChild(String name) {
-		return (TailsModelPart) (Object) ((ModelPart) (Object) this).getChild(name);
+		return t$getChildren().get(name);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, TailsModelPart> t$getChildren() {
-		return (Map) children;
+		if (tails$children == null) {
+			tails$children = new HashMap<>();
+			for (ModelRenderer renderer : childModels) tails$children.put(renderer.boxName, renderer);
+		}
+
+		return (Map) tails$children;
 	}
 
 	@Override
 	public CubePose t$getRandomCube(TailsRandomSource random) {
-		final ModelPart.Cube cube = ((ModelPart) (Object) this).getRandomCube((Random) random.t$unwrap());
-		return new CubePose(cube.minX, cube.minY, cube.minZ, cube.maxX, cube.maxY, cube.maxZ);
+		final ModelRenderer self = (ModelRenderer) (Object) this;
+		final ModelBox cube = self.cubeList.get(((Random) random.t$unwrap()).nextInt(self.cubeList.size()));
+		return new CubePose(cube.posX1, cube.posY1, cube.posZ1, cube.posX2, cube.posY2, cube.posZ2);
 	}
 
 	@Override
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color) {
-		((ModelPart) (Object) this).render((PoseStack) pose, (VertexConsumer) buffer, packedLight, packedOverlay,
-				JavaColor.red(color) / 255F, JavaColor.green(color) / 255F, JavaColor.blue(color) / 255F, JavaColor.alpha(color) / 255F);
+		GlStateManager.color(JavaColor.red(color) / 255F, JavaColor.green(color) / 255F, JavaColor.blue(color) / 255F, JavaColor.alpha(color) / 255F);
+		((ModelRenderer) (Object) this).render(1);
+		GlStateManager.color(1, 1, 1, 1);
 	}
 
 	@Override
 	public void t$translateAndRotate(TailsPoseStack poseStack) {
-		((ModelPart) (Object) this).translateAndRotate((PoseStack) poseStack);
+		((ModelRenderer) (Object) this).postRender(0.0625F);
 	}
 }

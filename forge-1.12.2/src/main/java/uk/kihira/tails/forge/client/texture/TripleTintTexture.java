@@ -9,21 +9,18 @@
 
 package uk.kihira.tails.forge.client.texture;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.blaze3d.platform.NativeImage.Format;
-import com.mojang.blaze3d.platform.TextureUtil;
-
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.util.ResourceLocation;
 
 import uk.kihira.tails.common.client.TripleTintTextureHelper;
 import uk.kihira.tails.common.client.part.Part;
@@ -52,22 +49,12 @@ public final class TripleTintTexture extends AbstractTexture {
 	}
 
 	@Override
-	public void load(ResourceManager manager) throws IOException {
-		releaseId();
+	public void loadTexture(IResourceManager manager) throws IOException {
+		deleteGlTexture();
 
-		final Resource resource;
-
-		try {
-			resource = manager.getResource(textureLocation);
-		} catch (IOException e) {
-			Tails.LOGGER.error("Using missing texture: unable to find {}.", textureLocation, e);
-			prepareAndUpload(null);
-			return;
-		}
-
-		final NativeImage texture;
-		try (InputStream is = resource.getInputStream()) {
-			texture = NativeImage.read(Format.RGBA, is);
+		final BufferedImage texture;
+		try (IResource resource = manager.getResource(textureLocation); InputStream is = resource.getInputStream()) {
+			texture = TextureUtil.readBufferedImage(is);
 		} catch (IOException e) {
 			Tails.LOGGER.error("Using missing texture: failed to load {}.", textureLocation, e);
 			prepareAndUpload(null);
@@ -78,15 +65,12 @@ public final class TripleTintTexture extends AbstractTexture {
 		prepareAndUpload(texture);
 	}
 
-	private void prepareAndUpload(@Nullable NativeImage texture) {
-		if (texture == null) texture = clone(MissingTextureAtlasSprite.getTexture().getPixels());
-		TextureUtil.prepareImage(getId(), texture.getWidth(), texture.getHeight());
-		texture.upload(0, 0, 0, true);
-	}
+	private void prepareAndUpload(@Nullable BufferedImage texture) {
+		if (texture == null) {
+			texture = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+			texture.setRGB(0, 0, texture.getWidth(), texture.getHeight(), TextureUtil.MISSING_TEXTURE_DATA, 0, texture.getWidth());
+		}
 
-	private static NativeImage clone(NativeImage src) {
-		final NativeImage ret = new NativeImage(src.format(), src.getWidth(), src.getHeight(), false);
-		ret.copyFrom(src);
-		return ret;
+		TextureUtil.uploadTextureImage(getGlTextureId(), texture);
 	}
 }

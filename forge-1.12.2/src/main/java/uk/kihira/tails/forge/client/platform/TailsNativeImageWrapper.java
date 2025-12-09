@@ -8,7 +8,7 @@
 
 package uk.kihira.tails.forge.client.platform;
 
-import com.mojang.blaze3d.platform.NativeImage;
+import java.awt.image.BufferedImage;
 
 import uk.kihira.tails.common.ABGRColor;
 import uk.kihira.tails.common.JavaColor;
@@ -16,9 +16,9 @@ import uk.kihira.tails.common.client.duck.TailsImage;
 
 public final class TailsNativeImageWrapper implements TailsImage {
 
-	private final NativeImage image;
+	private final BufferedImage image;
 
-	public TailsNativeImageWrapper(NativeImage image) {
+	public TailsNativeImageWrapper(BufferedImage image) {
 		this.image = image;
 	}
 
@@ -34,11 +34,11 @@ public final class TailsNativeImageWrapper implements TailsImage {
 
 	@Override
 	public int getRGBA(int x, int y) {
-		return JavaColor.fromABGR(image.getPixelRGBA(x, y), false);
+		return image.getRGB(x, y);
 	}
 
 	@Override
 	public void putRGBA(int x, int y, int pixel) {
-		image.setPixelRGBA(x, y, ABGRColor.fromARGB(pixel, false));
+		image.setRGB(x, y, pixel);
 	}
 }

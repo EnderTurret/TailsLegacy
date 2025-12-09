@@ -15,7 +15,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import com.google.gson.Gson;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.GuiScreen;
 
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.LibraryManager;
@@ -39,7 +39,7 @@ public final class ClientLibraryManager extends GsonLibraryManager {
 	public void addEntries(List<? extends LibraryEntryData> entries) {
 		super.addEntries(entries);
 
-		final Screen screen = Minecraft.getInstance().screen;
+		final GuiScreen screen = Minecraft.getMinecraft().currentScreen;
 
 		if (screen instanceof EditorScreen editor) {
 			if (editor.getLibraryPanel() != null && editor.getLibraryInfoPanel() != null)

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -32,6 +33,8 @@ import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraftforge.client.resource.IResourceType;
+import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.UsernameCache;
 
@@ -140,8 +143,9 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		} catch (Exception ignored) {}
 	}
 
-	public static void reloadParts(IResourceManager manager) {
-		PartRegistry.MANAGER.reload(new ResourceManagerWrapperImpl(manager));
+	public static void reloadParts(IResourceManager manager, Predicate<IResourceType> predicate) {
+		if (predicate == null || predicate.test(VanillaResourceType.TEXTURES))
+			PartRegistry.MANAGER.reload(new ResourceManagerWrapperImpl(manager));
 	}
 
 	@Override

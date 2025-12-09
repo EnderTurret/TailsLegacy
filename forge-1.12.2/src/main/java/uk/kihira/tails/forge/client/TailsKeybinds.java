@@ -29,7 +29,7 @@ public final class TailsKeybinds {
 	static void onKeyPressed(InputEvent.KeyInputEvent e) {
 		if (RELOAD_PARTS.isPressed()) {
 			Tails.LOGGER.info("Reloading all parts!");
-			TailsClientPlatformImpl.reloadParts(Minecraft.getMinecraft().getResourceManager());
+			TailsClientPlatformImpl.reloadParts(Minecraft.getMinecraft().getResourceManager(), null);
 		}
 	}
 }

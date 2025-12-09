@@ -12,11 +12,6 @@ import java.util.function.BiConsumer;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import net.minecraft.client.model.geom.ModelPart;
-
 import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsModelPart;

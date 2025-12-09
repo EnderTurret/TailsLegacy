@@ -12,6 +12,9 @@ package uk.kihira.tails.forge.client.gui.panel;
 import java.awt.Color;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Cursor;
+import org.lwjgl.input.Mouse;
 
 import com.google.common.base.Strings;
 
@@ -68,7 +71,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	private int editPaneTop;
 
 	@Internal
-	public static long pickerCursorHandle = MemoryUtil.NULL;
+	public static Cursor pickerCursorHandle;
 
 	public TintPanel(EditorScreen parent, int x, int y, int width, int height) {
 		super(parent, x, y, width, height);
@@ -213,7 +216,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 	@Override
 	public void onValueChangeHSBSlider(int sourceId, double sliderValue) {
-		int newTint;
+		int newTint = 0;
 		HSBSlider source = null;
 
 		switch (sourceId) {
@@ -245,9 +248,13 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	private void setSelectingColour(boolean selectingColour) {
 		this.selectingColour = selectingColour;
 
-		final long cursor = selectingColour ? pickerCursorHandle : MemoryUtil.NULL;
+		final Cursor cursor = selectingColour ? pickerCursorHandle : null;
 
-		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), cursor);
+		try {
+			Mouse.setNativeCursor(cursor);
+		} catch (LWJGLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public boolean isSelectingColour() {

@@ -12,6 +12,7 @@ package uk.kihira.tails.forge.client.render.layer;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 
@@ -28,18 +29,18 @@ import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
  */
 public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, BasePartLayer {
 
-	protected final ModelBiped parentModel;
+	protected final RenderPlayer renderer;
 
-	public PartLayer(ModelBiped parentModel) {
-		this.parentModel = parentModel;
+	public PartLayer(RenderPlayer renderer) {
+		this.renderer = renderer;
 	}
 
 	@Override
 	@Nullable
 	public TailsModelPart attachmentPart(String attachmentRoot) {
 		switch (attachmentRoot) {
-			case "head": return (TailsModelPart) parentModel.bipedHead;
-			case "body": return (TailsModelPart) parentModel.bipedBody;
+			case "head": return (TailsModelPart) renderer.getMainModel().bipedHead;
+			case "body": return (TailsModelPart) renderer.getMainModel().bipedBody;
 			default: return null;
 		}
 	}

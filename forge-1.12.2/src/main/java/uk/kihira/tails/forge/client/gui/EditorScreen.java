@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.EntityLivingBase;
 
 import uk.kihira.tails.common.client.TailsClientPlatform;
@@ -137,6 +138,18 @@ public class EditorScreen extends BaseScreen {
 
 		for (Panel panel : panels)
 			addRenderableWidget(panel);
+	}
+
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException {
+		if (button.id >= 800) tintPanel.actionPerformed(button);
+		else if (button.id >= 700) texturePanel.actionPerformed(button);
+		else if (button.id >= 600) previewPanel.actionPerformed(button);
+		else if (button.id >= 500) partsPanel.actionPerformed(button);
+		else if (button.id >= 400) libraryPanel.actionPerformed(button);
+		else if (button.id >= 300) libraryInfoPanel.actionPerformed(button);
+		else if (button.id >= 200) libraryImportPanel.actionPerformed(button);
+		else if (button.id >= 100) controlsPanel.actionPerformed(button);
 	}
 
 	@Override

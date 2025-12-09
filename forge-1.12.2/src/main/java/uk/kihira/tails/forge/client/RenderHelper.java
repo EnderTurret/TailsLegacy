@@ -13,12 +13,19 @@ package uk.kihira.tails.forge.client;
 
 import java.nio.ByteBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
@@ -38,11 +45,12 @@ public final class RenderHelper {
 	 * @param y1 The coordinate of the bottom side of the scissor.
 	 */
 	public static void startGlScissor(int x0, int y0, int x1, int y1) {
-		final Window mc = Minecraft.getMinecraft().getWindow();
+		final Minecraft mc = Minecraft.getMinecraft();
+		final ScaledResolution res = new ScaledResolution(mc);
 
-		final double scaleW = mc.getGuiScale();
-		final double scaleH = mc.getGuiScale();
-		final int screenHeight = mc.getHeight();
+		final double scaleW = mc.displayWidth / res.getScaledWidth_double();
+		final double scaleH = mc.displayHeight / res.getScaledHeight_double();
+		final int screenHeight = mc.displayHeight;
 
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		GL11.glScissor(
@@ -66,21 +74,17 @@ public final class RenderHelper {
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
 	public static void blitScaled(int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {
-		final Matrix4f pose = poseStack.last().pose();
-		final Tesselator tess = Tesselator.getInstance();
-		final BufferBuilder renderer = tess.getBuilder();
+		final Tessellator tess = Tessellator.getInstance();
+		final BufferBuilder renderer = tess.getBuffer();
 
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-		renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		renderer.pos(x + 0,		y + height,	blitOffset).tex((u + 0) / 256F,		(v + vHeight) / 256F).endVertex();
+		renderer.pos(x + width,	y + height,	blitOffset).tex((u + uWidth) / 256F,	(v + vHeight) / 256F).endVertex();
+		renderer.pos(x + width,	y + 0,		blitOffset).tex((u + uWidth) / 256F,	(v + 0) / 256F).endVertex();
+		renderer.pos(x + 0,		y + 0,		blitOffset).tex((u + 0) / 256F,		(v + 0) / 256F).endVertex();
 
-		renderer.vertex(pose, x + 0,		y + height,	blitOffset).uv((u + 0) / 256F,		(v + vHeight) / 256F).endVertex();
-		renderer.vertex(pose, x + width,	y + height,	blitOffset).uv((u + uWidth) / 256F,	(v + vHeight) / 256F).endVertex();
-		renderer.vertex(pose, x + width,	y + 0,		blitOffset).uv((u + uWidth) / 256F,	(v + 0) / 256F).endVertex();
-		renderer.vertex(pose, x + 0,		y + 0,		blitOffset).uv((u + 0) / 256F,		(v + 0) / 256F).endVertex();
-
-		renderer.end();
-		BufferUploader.end(renderer);
+		tess.draw();
 	}
 
 	/**
@@ -93,103 +97,90 @@ public final class RenderHelper {
 	 * @param partialTick The partial tick.
 	 * @param entity The entity to render.
 	 */
-	@SuppressWarnings("deprecation")
 	public static void drawEntity(int x, int y, int scale, float yaw, float pitch, float partialTick, EntityLivingBase entity) {
-		final float oldYBodyRot = entity.yBodyRot;
-		final float oldYRot = entity.getYRot();
-		final float oldXRot = entity.getXRot();
-		final float oldYHeadRot = entity.yHeadRot;
-		final float oldYHeadRotO = entity.yHeadRotO;
+		final float oldYBodyRot = entity.renderYawOffset;
+		final float oldYRot = entity.rotationPitch;
+		final float oldXRot = entity.rotationYaw;
+		final float oldYHeadRot = entity.rotationYawHead;
+		final float oldYHeadRotO = entity.prevRotationYawHead;
 
-		entity.yBodyRot = 0;
-		entity.setYRot(0);
-		entity.setXRot(0);
-		entity.yHeadRot = 0;
-		entity.yHeadRotO = 0;
-		entity.setShiftKeyDown(false);
+		entity.renderYawOffset = 0;
+		entity.rotationPitch = 0;
+		entity.rotationYaw = 0;
+		entity.rotationYawHead = 0;
+		entity.prevRotationYawHead = 0;
+		entity.setSneaking(false);
 
-		poseStack.pushPose();
-		poseStack.translate(x, y, 1050);
-		poseStack.scale(1, 1, -1);
+		GlStateManager.color(1, 1, 1, 1);
+		GlStateManager.enableColorMaterial();
+		GlStateManager.enableDepth();
+		GlStateManager.pushMatrix();
 
-		RenderSystem.applyModelViewMatrix();
+		GlStateManager.translate(x, y, 100);
+		GlStateManager.scale(-scale, scale, scale);
 
-		final PoseStack entityPose = new PoseStack();
-		entityPose.translate(0, 0, 1000);
-		entityPose.scale(scale, scale, scale);
+		GlStateManager.rotate(180F, 0, 0, 1);
+		GlStateManager.rotate(pitch * 20F, 1, 0, 0);
 
-		final Quaternion pose = Vector3f.ZP.rotation(TailsMath.PI);
-		final Quaternion cameraOrientation = Vector3f.XP.rotationDegrees(pitch * 20F);
-		pose.mul(cameraOrientation);
+		GlStateManager.rotate(180F, 0, 0, 1);
+		GlStateManager.rotate(180 + yaw, 0, 1, 0);
 
-		entityPose.mulPose(pose);
-		entityPose.mulPose(Vector3f.ZP.rotation(Mth.PI));
-		entityPose.mulPose(Vector3f.YP.rotationDegrees(yaw));
+		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 
-		Lighting.setupForEntityInInventory();
+		final RenderManager rendererManager = Minecraft.getMinecraft().getRenderManager();
 
-		final EntityRenderDispatcher rendererManager = Minecraft.getInstance().getEntityRenderDispatcher();
-		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
-
-		cameraOrientation.conj();
-
-		rendererManager.overrideCameraOrientation(cameraOrientation);
+		rendererManager.setPlayerViewY(180F);
 		rendererManager.setRenderShadow(false);
 
-		RenderSystem.runAsFancy(() -> {
-			rendererManager.render(entity, 0, 0, 0, 0F, 1F, entityPose, impl, LightTexture.FULL_BRIGHT);
-		});
-
-		impl.endBatch();
+		rendererManager.renderEntity(entity, 0, 0, 0, 0F, 1F, false);
 
 		rendererManager.setRenderShadow(true);
 
-		poseStack.popPose();
-		RenderSystem.applyModelViewMatrix();
-		Lighting.setupFor3DItems();
+		GlStateManager.popMatrix();
+		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+		GlStateManager.disableTexture2D();
+		GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
-		entity.yBodyRot = oldYBodyRot;
-		entity.setYRot(oldYRot);
-		entity.setXRot(oldXRot);
-		entity.yHeadRot = oldYHeadRot;
-		entity.yHeadRotO = oldYHeadRotO;
+		entity.renderYawOffset = oldYBodyRot;
+		entity.rotationPitch = oldYRot;
+		entity.rotationYaw = oldXRot;
+		entity.rotationYawHead = oldYHeadRot;
+		entity.prevRotationYawHead = oldYHeadRotO;
 	}
 
+	private static ByteBuffer pixelBuffer;
+
 	public static int getColourAtPoint(double x, double y) {
-		final Minecraft mc = Minecraft.getInstance();
+		final Minecraft mc = Minecraft.getMinecraft();
 
 		// We have to resolve these mouse coordinates back to window coordinates.
-		final double scale = mc.getWindow().getGuiScale();
+		final double scale = new ScaledResolution(mc).getScaleFactor();
 		x *= scale;
 		y *= scale;
 
 		// We also have to flip the y coordinate because OpenGL's
 		// coordinate system is upside-down compared to ours.
-		y = mc.getWindow().getHeight() - y;
+		y = mc.displayHeight - y;
 
-		mc.getMainRenderTarget().bindRead();
-		GlStateManager._glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, mc.getMainRenderTarget().frameBufferId);
-		GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT0);
+		GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
+		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
 
-		RenderSystem.pixelStore(GL11.GL_PACK_ALIGNMENT, 1);
-		RenderSystem.pixelStore(GL11.GL_UNPACK_ALIGNMENT, 1);
+		if (pixelBuffer == null) pixelBuffer = BufferUtils.createByteBuffer(3);
 
-		try (MemoryStack stack = MemoryStack.stackPush()) {
-			final ByteBuffer pixelBuffer = stack.calloc(3);
+		GL11.glReadPixels((int) x, (int) y, 1, 1,
+				GL11.GL_RGB,
+				GL11.GL_UNSIGNED_BYTE,
+				pixelBuffer);
 
-			RenderSystem.readPixels((int) x, (int) y, 1, 1,
-					GL11.GL_RGB,
-					GL11.GL_UNSIGNED_BYTE,
-					pixelBuffer);
+		pixelBuffer.rewind();
 
-			pixelBuffer.rewind();
+		final int r = pixelBuffer.get() & 0xFF;
+		final int g = pixelBuffer.get() & 0xFF;
+		final int b = pixelBuffer.get() & 0xFF;
 
-			final int r = pixelBuffer.get() & 0xFF;
-			final int g = pixelBuffer.get() & 0xFF;
-			final int b = pixelBuffer.get() & 0xFF;
-
-			return (r << 16) | (g << 8) | b;
-		}
+		return (r << 16) | (g << 8) | b;
 	}
 
 	public static void drawScrollingString(FontRenderer font, String text, int minX, int maxX, int y, int color) {
@@ -208,7 +199,7 @@ public final class RenderHelper {
 
 		if (textWidth > width) {
 			final int delta = textWidth - width;
-			final double time = Util.getMillis() / 1000.0;
+			final double time = System.currentTimeMillis() / 1000.0;
 			final double d1 = Math.max(delta * 0.5, 3.0);
 			final double scrollProgress = Math.sin((Math.PI / 2) * Math.cos((Math.PI * 2) * time / d1)) / 2.0 + 0.5;
 			final double scroll = MathHelper.clampedLerp(scrollProgress, 0, delta);

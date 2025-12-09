@@ -11,10 +11,6 @@ package uk.kihira.tails.forge.mixin.client.duck;
 import org.spongepowered.asm.mixin.Mixin;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.client.duck.TailsBuffer;

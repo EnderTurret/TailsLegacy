@@ -9,20 +9,17 @@
 
 package uk.kihira.tails.forge.client.gui.panel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Widget;
-import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.network.chat.TextComponent;
-
+import uk.kihira.tails.forge.client.gui.BaseScreen;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.widget.ListWidget;
 
@@ -30,17 +27,16 @@ import uk.kihira.tails.forge.client.gui.widget.ListWidget;
  * A panel, for use in the {@link EditorScreen}.
  */
 @Internal
-public abstract class Panel extends AbstractWidget {
+public abstract class Panel extends Gui {
 
 	protected final EditorScreen parent;
-	protected final List<Widget> renderables = new ArrayList<>();
+	protected final List<Object> renderables = new ArrayList<>();
 
 	public int left, right;
 	public int top, bottom;
+	public boolean visible = true;
 
 	public Panel(EditorScreen parent, int x, int y, int width, int height) {
-		super(x, y, width, height, TextComponent.EMPTY);
-
 		this.parent = parent;
 		left = x;
 		top = y;
@@ -50,13 +46,10 @@ public abstract class Panel extends AbstractWidget {
 
 	public abstract void init();
 
-	protected <T extends GuiEventListener & Widget & NarratableEntry> T addRenderableWidget(T widget) {
+	protected <T> T addRenderableWidget(T widget) {
 		renderables.add(widget);
 		return parent.addRenderableWidget(widget);
 	}
-
-	@Override
-	protected boolean isValidClickButton(int button) { return false; }
 
 	public void removed() {}
 
@@ -65,20 +58,6 @@ public abstract class Panel extends AbstractWidget {
 		top = y;
 		right = x + newWidth;
 		bottom = y + newHeight;
-		width = newWidth;
-		height = newHeight;
-	}
-
-	@Override
-	public void setWidth(int width) {
-		this.width = width;
-		right = left + width;
-	}
-
-	@Override
-	public void setHeight(int height) {
-		this.height = height;
-		bottom = top + height;
 	}
 
 	public void setVisible(boolean value) {
@@ -87,24 +66,26 @@ public abstract class Panel extends AbstractWidget {
 	}
 
 	protected void setChildrenVisible(boolean value) {
-		for (Widget renderable : renderables)
-			if (renderable instanceof AbstractWidget widget)
-				widget.visible = value;
-			else if (renderable instanceof ListWidget<?> widget)
-				widget.visible = value;
+		for (Object renderable : renderables)
+			BaseScreen.setGuiComponentVisible(renderable, value);
 	}
 
 	public EditorScreen getParent() {
 		return parent;
 	}
 
-	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {}
+	public void render(int mouseX, int mouseY, float partialTick) {}
 
-	public void renderBackground(PoseStack poseStack) {
-		fillGradient(poseStack, left, top, right, bottom, 0xCC000000, 0xCC000000, -400);
+	public void renderBackground() {
+		final float oldZ = zLevel;
+		zLevel = -400;
+		drawGradientRect(left, top, right, bottom, 0xCC000000, 0xCC000000);
+		zLevel = oldZ;
 	}
 
-	@Override
-	public void updateNarration(NarrationElementOutput narrationElementOutput) {}
+	public void actionPerformed(GuiButton button) {}
+	public boolean keyTyped(char typedChar, int keyCode) { return false; }
+	public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) { return false; }
+	public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {}
+	public void mouseReleased(int mouseX, int mouseY, int state) {}
 }

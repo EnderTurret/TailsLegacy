@@ -12,18 +12,16 @@ package uk.kihira.tails.forge.client.gui;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.ObjectSelectionList;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextComponentBase;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.TailsLanguage;
@@ -35,7 +33,7 @@ import uk.kihira.tails.forge.client.gui.panel.LibraryPanel;
 import uk.kihira.tails.forge.client.gui.widget.IconButton;
 
 @Internal
-public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryListEntry> implements Comparable<LibraryListEntry> {
+public final class LibraryListEntry implements GuiListExtended.IGuiListEntry, Comparable<LibraryListEntry> {
 
 	protected final LibraryPanel panel;
 	public final LibraryEntryData data;
@@ -50,12 +48,10 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		return new LibraryListEntry(panel, null);
 	}
 
-	private static final Component CREATE = TailsComponents.CREATE_ENTRY;
-
 	@Override
-	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		if (data == null) {
-			GuiComponent.drawString(poseStack, Minecraft.getInstance().font, CREATE, rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
+			Minecraft.getMinecraft().fontRenderer.drawString(TailsComponents.CREATE_ENTRY.getFormattedText(), x + 3, y + slotHeight / 2 - 4, 0xFFFFFF);
 			return;
 		}
 
@@ -63,51 +59,49 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			listWidth -= 6;
 
 		final ClientPartsData partsData = (ClientPartsData) data.partsData;
-		final Font font = panel.getParent().font();
+		final FontRenderer font = panel.getParent().font();
 
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
-		final MutableComponent name = new TextComponent(data.entryName);
-		if (sel) name.withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC);
-		GuiComponent.drawString(poseStack, font, name, 5, rowTop + 3, 0xFFFFFF);
+		font.drawString((sel ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName, 5, y + 3, 0xFFFFFF);
 
 		int index = 0;
 
 		for (ClientPartInfo partInfo : partsData.getParts()) {
 			if (index == 4) break;
 
-			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			GuiComponent.drawString(poseStack, font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
+			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.format(partInfo.getPart().getTranslationKey());
+			font.drawString(trans, x + 5, y + 12 + 8 * index, 0xFFFFFF);
 
 			for (int i = 1; i < 4; i++)
-				GuiComponent.fill(poseStack, listWidth - 1 - 8 * i, rowTop + 13 + index * 8,
-						listWidth - 1 + 7 - 8 * i, rowTop + 20 + index * 8,
+				Gui.drawRect(listWidth - 1 - 8 * i, y + 13 + index * 8,
+						listWidth - 1 + 7 - 8 * i, y + 20 + index * 8,
 						0xFF000000 | partInfo.getTints()[i - 1]);
 
 			index++;
 		}
 
 		if (data.favourite) {
-			poseStack.pushPose();
+			GlStateManager.pushMatrix();
 
-			poseStack.translate(rowLeft + listWidth - 16, rowTop, 0F);
-			poseStack.scale(0.8F, 0.8F, 1F);
+			GlStateManager.translate(x + listWidth - 16, y, 10F);
+			GlStateManager.scale(0.8F, 0.8F, 1F);
 
-			RenderSystem.setShaderTexture(0, IconButton.ICONS_TEXTURE);
-			GuiComponent.blit(poseStack, 0, 0, 10, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
+			panel.getParent().mc.getTextureManager().bindTexture(IconButton.ICONS_TEXTURE);
+			Gui.drawModalRectWithCustomSizedTexture(0, 0, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
 
-			poseStack.popPose();
+			GlStateManager.popMatrix();
 		}
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+	public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY) {
 		if (data == null) {
 			// Create entry and add to library.
-			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
+			final GameProfile profile = Minecraft.getMinecraft().player.getGameProfile();
 			final LibraryEntryData data = new LibraryEntryData(
 					profile.getId(),
 					profile.getName(),
-					I18n.get(TailsLanguage.DEFAULT_ENTRY_NAME),
+					I18n.format(TailsLanguage.DEFAULT_ENTRY_NAME),
 					panel.getParent().getPartsData());
 
 			TailsClientPlatform.get().getLibraryManager().addEntry(data);
@@ -123,9 +117,10 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 	}
 
 	@Override
-	public Component getNarration() {
-		return TextComponent.EMPTY;
-	}
+	public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {}
+
+	@Override
+	public void updatePosition(int slotIndex, int x, int y, float partialTick) {}
 
 	@Override
 	public int compareTo(LibraryListEntry o) {

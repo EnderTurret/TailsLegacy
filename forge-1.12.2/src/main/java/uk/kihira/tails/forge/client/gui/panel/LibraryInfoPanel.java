@@ -13,14 +13,12 @@ import java.util.Date;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.gui.panel.BaseLibraryInfoPanel;
@@ -30,14 +28,20 @@ import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.LibraryListEntry;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
 import uk.kihira.tails.forge.client.gui.widget.IconButton;
+import uk.kihira.tails.forge.client.gui.widget.SimpleGuiTextField;
 import uk.kihira.tails.forge.client.toast.ToastManager;
 
 @Internal
 public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPanel {
 
+	public static final int NAME_FIELD = 300;
+	public static final int FAVORITE = 301;
+	public static final int DELETE = 302;
+	public static final int EXPORT = 303;
+
 	private LibraryListEntry entry;
 
-	private EditBox textField;
+	private SimpleGuiTextField textField;
 	private IconButton.Toggle favButton;
 	private IconButton deleteButton;
 
@@ -47,47 +51,60 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 
 	@Override
 	public void init() {
-		textField = new EditBox(parent.font(), left + 7, top + 7, right - left - 14, 13, TextComponent.EMPTY);
-		textField.setMaxLength(19);
+		textField = new SimpleGuiTextField(NAME_FIELD, parent.font(), left + 7, top + 7, right - left - 14, 13);
+		textField.setMaxStringLength(19);
 		addRenderableWidget(textField);
-		textField.setResponder(str -> {
+		textField.setGuiResponder(str -> {
 			if (entry != null) {
 				entry.data.entryName = str;
 				parent.getLibraryPanel().libraryChanged = true;
 			}
 		});
 
-		addRenderableWidget(favButton = new IconButton.Toggle(left + 5, bottom - 20, TailsIcons.STAR, b -> {
-			entry.data.favourite = favButton.toggled;
-		})).setTooltip(parent, TailsComponents.FAVORITE_BUTTON);
+		addRenderableWidget(favButton = new IconButton.Toggle(FAVORITE, left + 5, bottom - 20, TailsIcons.STAR))
+		.setTooltip(parent, TailsComponents.FAVORITE_BUTTON.getFormattedText());
 
-		addRenderableWidget(deleteButton = new IconButton(left + 21, bottom - 20, TailsIcons.DELETE, b -> {
-			deleteButton.setHover(false);
-			parent.getLibraryPanel().removeEntry(entry);
-			setEntry(null);
-		})).setTooltip(parent, TailsComponents.DELETE_BUTTON);
+		addRenderableWidget(deleteButton = new IconButton(DELETE, left + 21, bottom - 20, TailsIcons.DELETE))
+		.setTooltip(parent, TailsComponents.DELETE_BUTTON.getFormattedText());
 
-		addRenderableWidget(new IconButton(left + 68, bottom - 20, TailsIcons.EXPORT, b -> {
-			final String export = exportString(getEntry().data);
-
-			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, TailsComponents.EXPORTED_MESSAGE);
-			GLFW.glfwSetClipboardString(parent.getMinecraft().getWindow().getWindow(), export);
-		})).setTooltip(parent, TailsComponents.SHARE_BUTTON);
+		addRenderableWidget(new IconButton(EXPORT, left + 68, bottom - 20, TailsIcons.EXPORT))
+		.setTooltip(parent, TailsComponents.SHARE_BUTTON.getFormattedText());
 
 		setEntry(null);
 	}
 
 	@Override
-	public void renderBackground(PoseStack poseStack) {
-		super.renderBackground(poseStack);
-		fill(poseStack, left + 3, top + 3, right - 3, bottom - 3, 0xFF000000);
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
+			case FAVORITE:
+				favButton.onPress();
+				entry.data.favourite = favButton.toggled;
+				break;
+			case DELETE:
+				deleteButton.setHover(false);
+				parent.getLibraryPanel().removeEntry(entry);
+				setEntry(null);
+				break;
+			case EXPORT:
+				final String export = exportString(getEntry().data);
+
+				ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, TailsComponents.EXPORTED_MESSAGE.getFormattedText());
+				GuiScreen.setClipboardString(export);
+				break;
+		}
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.renderButton(poseStack, mouseX, mouseY, partialTick);
+	public void renderBackground() {
+		super.renderBackground();
+		drawRect(left + 3, top + 3, right - 3, bottom - 3, 0xFF000000);
+	}
 
-		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+	@Override
+	public void render(int mouseX, int mouseY, float partialTick) {
+		super.render(mouseX, mouseY, partialTick);
+
+		GlStateManager.color(1F, 1F, 1F, 1F);
 
 		if (entry != null) {
 			int index = 0;
@@ -95,26 +112,26 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			final int xOffset = left;
 			final int yOffset = top;
 			for (ClientPartInfo partInfo : ((ClientPartsData) entry.data.partsData).getParts()) {
-				String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-				drawString(poseStack, parent.font(), trans,
+				String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.format(partInfo.getPart().getTranslationKey());
+				parent.font().drawString(trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4),
 						0xFFFFFF);
 
-				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.get(partInfo.getSubTypeTranslationKey());
-				drawString(poseStack, parent.font(), trans,
+				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.format(partInfo.getSubTypeTranslationKey());
+				parent.font().drawString(trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
 						0xFFFFFF);
 
-				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.get(partInfo.getTextureTranslationKey());
-				drawString(poseStack, parent.font(), trans,
+				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.format(partInfo.getTextureTranslationKey());
+				parent.font().drawString(trans,
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
 						0xFFFFFF);
 
 				for (int i = 1; i < 4; i++)
-					fill(poseStack,
+					drawRect(
 							xOffset + (right - left) - 4 - 8 * i,
 							yOffset + 32 + (index * 4 + 3) * 8,
 							xOffset + (right - left) - 4 + 7 - 8 * i,
@@ -124,11 +141,11 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 				index++;
 			}
 
-			drawString(poseStack, parent.font(), TailsComponents.LIBRARY_ENTRY_CREATOR, left + 5, bottom - 59, 0xAAAAAA);
-			drawString(poseStack, parent.font(), entry.data.creatorName, right - 5 - parent.font().width(entry.data.creatorName), bottom - 50, 0xAAAAAA);
-			drawString(poseStack, parent.font(), TailsComponents.LIBRARY_ENTRY_CREATION_DATE, left + 5, bottom - 41, 0xAAAAAA);
+			parent.font().drawString(TailsComponents.LIBRARY_ENTRY_CREATOR.getFormattedText(), left + 5, bottom - 59, 0xAAAAAA);
+			parent.font().drawString(entry.data.creatorName, right - 5 - parent.font().getStringWidth(entry.data.creatorName), bottom - 50, 0xAAAAAA);
+			parent.font().drawString(TailsComponents.LIBRARY_ENTRY_CREATION_DATE.getFormattedText(), left + 5, bottom - 41, 0xAAAAAA);
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
-			drawString(poseStack, parent.font(), date, right - 5 - parent.font().width(date), bottom - 32, 0xAAAAAA);
+			parent.font().drawString(date, right - 5 - parent.font().getStringWidth(date), bottom - 32, 0xAAAAAA);
 		}
 	}
 
@@ -139,7 +156,7 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 
 		if (visible) {
 			favButton.toggled = entry.data.favourite;
-			textField.setValue(entry.data.entryName);
+			textField.setText(entry.data.entryName);
 		}
 
 		setChildrenVisible(visible);

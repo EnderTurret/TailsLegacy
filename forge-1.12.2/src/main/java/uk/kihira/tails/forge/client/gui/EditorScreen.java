@@ -9,6 +9,7 @@
 
 package uk.kihira.tails.forge.client.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,11 +18,8 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.entity.EntityLivingBase;
 
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.part.AttachmentPoint;
@@ -56,7 +54,7 @@ public class EditorScreen extends BaseScreen {
 
 	private final UUID playerUUID;
 	public final boolean isLocalPlayer;
-	public final LivingEntity renderingEntity;
+	public final EntityLivingBase renderingEntity;
 
 	private final Consumer<EditorScreen> onSave;
 
@@ -70,8 +68,8 @@ public class EditorScreen extends BaseScreen {
 	protected LibraryInfoPanel libraryInfoPanel;
 	protected LibraryImportPanel libraryImportPanel;
 
-	public EditorScreen(ClientPartsData original, UUID uuid, LivingEntity renderingEntity, Consumer<EditorScreen> onSave) {
-		super(TextComponent.EMPTY);
+	public EditorScreen(ClientPartsData original, UUID uuid, EntityLivingBase renderingEntity, Consumer<EditorScreen> onSave) {
+		super();
 		Objects.requireNonNull(original, "original");
 
 		this.onSave = Objects.requireNonNull(onSave, "onSave");
@@ -95,16 +93,16 @@ public class EditorScreen extends BaseScreen {
 		return new EditorScreen(
 				LocalPartManager.getOrCreateLocalPartsData(),
 				TailsClientPlatform.get().getLocalUUID(),
-				Minecraft.getInstance().player,
+				Minecraft.getMinecraft().player,
 				screen -> {
 					// Update part info, set local and send it to the server.
 					LocalPartManager.setLocalPartsDataFromEditorAndSync(screen.getPartsData());
-					screen.minecraft.popGuiLayer();
+					screen.mc.displayGuiScreen(null);
 				});
 	}
 
 	@Override
-	public void init() {
+	public void initGui() {
 		final boolean firstInit = tintPanel == null;
 
 		final int previewLeft = 110 + 4;
@@ -135,41 +133,38 @@ public class EditorScreen extends BaseScreen {
 
 		for (Panel panel : panels) panel.init();
 
-		super.init();
+		super.initGui();
 
 		for (Panel panel : panels)
 			addRenderableWidget(panel);
 	}
 
 	@Override
-	public void removed() {
+	public void onGuiClosed() {
 		setPartsData(originalPartsData);
-		super.removed();
+		super.onGuiClosed();
 	}
 
 	@Override
-	public void renderBackground(PoseStack poseStack) {
+	public void drawDefaultBackground() {
 		for (Panel panel : panels)
 			if (panel.visible)
-				panel.renderBackground(poseStack);
+				panel.renderBackground();
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		renderBackground(poseStack);
-		super.render(poseStack, mouseX, mouseY, partialTick);
+	public void drawScreen(int mouseX, int mouseY, float partialTick) {
+		drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTick);
 	}
 
 	@Override
-	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		if (previewPanel.mouseDragged(mouseX, mouseY, button, dragX, dragY)) return true;
-		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
-	}
-
-	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		if (tintPanel.isSelectingColour()) return tintPanel.mouseClicked(mouseX, mouseY, button);
-		return super.mouseClicked(mouseX, mouseY, button);
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		if (tintPanel.isSelectingColour()) {
+			tintPanel.mouseClicked(mouseX, mouseY, mouseButton);
+			return;
+		}
+		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	public void close() {

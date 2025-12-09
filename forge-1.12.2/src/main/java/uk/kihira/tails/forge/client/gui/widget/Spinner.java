@@ -13,19 +13,12 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.narration.NarratedElementType;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.I18n;
 
-import net.minecraftforge.client.gui.widget.ExtendedButton;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import uk.kihira.tails.common.client.gui.BaseSpinner;
 import uk.kihira.tails.forge.client.RenderHelper;
@@ -37,10 +30,10 @@ import uk.kihira.tails.forge.client.RenderHelper;
  *
  * @param <T> The type of the elements the spinner cycles through.
  */
-public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
+public class Spinner<T> extends GuiButton implements BaseSpinner<T> {
 
-	public final ExtendedButton left;
-	public final ExtendedButton right;
+	public final GuiButtonExt left;
+	public final GuiButtonExt right;
 
 	private NavigableSet<T> values;
 	private T selected;
@@ -48,28 +41,28 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 	private final Stringifier<T> stringifier;
 	private final Listener<T> listener;
 
-	public Spinner(NavigableSet<T> values, @Nullable T initialSelection, int centerX, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
-		super(centerX, y, width, 0, TextComponent.EMPTY);
+	public Spinner(int id, NavigableSet<T> values, @Nullable T initialSelection, int centerX, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
+		super(id, centerX, y, width, 0, "");
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new ExtendedButton(x, y, 15, 15, new TextComponent("<"), b -> previous());
-		right = new ExtendedButton(0, y, 15, 15, new TextComponent(">"), b -> next());
+		left = new GuiButtonExt(id + 1, x, y, 15, 15, "<");
+		right = new GuiButtonExt(id + 2, 0, y, 15, 15, ">");
 
-		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
+		height = Math.max(left.height, Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT);
 
 		setValues(Objects.requireNonNull(values));
 		select(initialSelection, false);
 
-		final int off = getWidth() / 2;
+		final int off = width / 2;
 
 		x = centerX - off;
 		left.x = x;
-		right.x = x + getWidth() - right.getWidth();
+		right.x = x + this.width - right.width;
 	}
 
-	public Spinner(NavigableSet<T> values, int x, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
-		this(values, null, x, y, width, stringifier, listener);
+	public Spinner(int id, NavigableSet<T> values, int x, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
+		this(id, values, null, x, y, width, stringifier, listener);
 	}
 
 	@Override
@@ -97,41 +90,31 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 
 	private T select(T value, boolean runCallback) {
 		selected = Objects.requireNonNull(value);
-		setMessage(new TranslatableComponent(stringifier.stringify(value)));
+		displayString = I18n.format(stringifier.stringify(value));
 		if (runCallback) listener.onSelected(value);
 		return value;
 	}
 
 	@Override
-	public boolean changeFocus(boolean focus) {
-		return false;
-	}
-
-	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		final Font font = Minecraft.getInstance().font;
-		final Component message = getMessage();
-		final int width = font.width(message);
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTick) {
+		final FontRenderer font = mc.fontRenderer;
+		final String message = displayString;
+		final int width = font.getStringWidth(message);
 
 		int left = x;
-		left += getWidth() / 2;
+		left += this.width / 2;
 		left -= width / 2;
 
-		final int y = this.y + (getHeight() - font.lineHeight) / 2;
+		final int y = this.y + (height - font.FONT_HEIGHT) / 2;
 
-		if (width > x + getWidth())
-			RenderHelper.drawScrollingString(poseStack, font, message, x + 15, x + getWidth(), y, 0xFFFFFFFF);
+		if (width > x + this.width)
+			RenderHelper.drawScrollingString(font, message, x + 15, x + this.width, y, 0xFFFFFFFF);
 		else
-			GuiComponent.drawString(poseStack, font, message, left, y, 0xFFFFFFFF);
+			font.drawString(message, left, y, 0xFFFFFFFF);
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
 		return false;
-	}
-
-	@Override
-	public void updateNarration(NarrationElementOutput narrationElementOutput) {
-		narrationElementOutput.add(NarratedElementType.TITLE, getMessage());
 	}
 }

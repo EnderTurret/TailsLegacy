@@ -13,27 +13,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.renderer.Tessellator;
 
 import uk.kihira.tails.forge.client.RenderHelper;
 
 /**
- * A version of {@link ObjectSelectionList} that improves upon some things.
+ * A version of {@link GuiListExtended} that improves upon some things.
  *
  * @param <T> The list type.
  */
-public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSelectionList<T> {
+public class ListWidget<T extends GuiListExtended.IGuiListEntry> extends SimpleGuiList<T> {
 
 	public boolean visible = true;
 
 	public ListWidget(int width, int height, int top, int slotHeight, List<T> entries) {
-		super(Minecraft.getInstance(), width, height, top, top + height, slotHeight);
+		super(Minecraft.getMinecraft(), width, height, top, top + height, slotHeight);
 		replaceEntries(entries);
-		setRenderTopAndBottom(false);
-		setRenderBackground(false);
 	}
 
 	public ListWidget(int width, int height, int top, int slotHeight) {
@@ -52,46 +50,43 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		if (visible) {
-			RenderHelper.startGlScissor(x0, y0, x1, y1);
-
-			super.render(poseStack, mouseX, mouseY, partialTick);
-
-			RenderHelper.endGlScissor();
-		}
+	public void drawScreen(int mouseX, int mouseY, float partialTick) {
+		if (visible)
+			super.drawScreen(mouseX, mouseY, partialTick);
 	}
 
 	@Override
-	protected void renderBackground(PoseStack poseStack) {}
+	protected void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {}
 
 	@Override
-	public boolean isMouseOver(double mouseX, double mouseY) {
-		return visible && super.isMouseOver(mouseX, mouseY);
+	protected void drawContainerBackground(Tessellator tessellator) {}
+
+	@Override
+	public void handleMouseInput() {
+		if (visible) super.handleMouseInput();
 	}
 
 	@Override
-	public int getRowWidth() {
+	public boolean mouseClicked(int mouseX, int mouseY, int mouseEvent) {
+		return visible && super.mouseClicked(mouseX, mouseY, mouseEvent);
+	}
+
+	@Override
+	public boolean mouseReleased(int x, int y, int mouseEvent) {
+		return visible && super.mouseReleased(x, y, mouseEvent);
+	}
+
+	@Override
+	public int getListWidth() {
 		return width;
 	}
 
 	@Override
-	protected int getScrollbarPosition() {
-		return getRowRight() - 8;
-	}
-
-	// Exposes isSelectedItem(), don't remove this.
-	@Override
-	public boolean isSelectedItem(int index) {
-		return super.isSelectedItem(index);
-	}
-
-	@Override
-	public void replaceEntries(Collection<T> entries) {
-		super.replaceEntries(entries);
+	protected int getScrollBarX() {
+		return right - 8;
 	}
 
 	public int getItemHeight() {
-		return itemHeight;
+		return slotHeight;
 	}
 }

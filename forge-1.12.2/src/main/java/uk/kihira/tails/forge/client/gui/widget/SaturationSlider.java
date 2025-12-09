@@ -11,10 +11,10 @@ package uk.kihira.tails.forge.client.gui.widget;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 
-import net.minecraftforge.client.gui.GuiUtils;
+import net.minecraftforge.fml.client.config.GuiUtils;
 
 import uk.kihira.tails.forge.client.RenderHelper;
 
@@ -27,29 +27,28 @@ public class SaturationSlider extends HSBSlider {
 	private float hueValue = 0;
 	private float briValue = 0;
 
-	public SaturationSlider(int xPos, int yPos, int width, int height, IHSBSliderCallback callback) {
-		super(xPos, yPos, width, height, callback, HSBSlider.HSBSliderType.SATURATION);
+	public SaturationSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback) {
+		super(id, xPos, yPos, width, height, callback, HSBSlider.HSBSliderType.SATURATION);
 	}
 
-	public SaturationSlider(int xPos, int yPos, IHSBSliderCallback callback) {
-		this(xPos, yPos, 100, 10, callback);
+	public SaturationSlider(int id, int xPos, int yPos, IHSBSliderCallback callback) {
+		this(id, xPos, yPos, 100, 10, callback);
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partial) {
-		GuiUtils.drawContinuousTexturedBox(poseStack, SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
-		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
+		mc.getTextureManager().bindTexture(SLIDER_TEXTURE);
 
-		RenderSystem.enableBlend();
-		RenderSystem.defaultBlendFunc();
+		RenderHelper.enableDefaultBlend();
 
 		{
 			final Color hueColour = Color.getHSBColor(hueValue, 1, 1);
 			final float red = hueColour.getRed() / 255F;
 			final float green = hueColour.getGreen() / 255F;
 			final float blue = hueColour.getBlue() / 255F;
-			RenderSystem.setShaderColor(red, green, blue, 1F);
-			RenderHelper.blitScaled(poseStack, x + 1, y + 1, 0, 0, 176, 256, 20, width - 2, height - 2);
+			GlStateManager.color(red, green, blue, 1F);
+			RenderHelper.blitScaled(x + 1, y + 1, 0, 0, 176, 256, 20, width - 2, height - 2);
 		}
 
 		final int srcY = 236 - 40;
@@ -59,16 +58,16 @@ public class SaturationSlider extends HSBSlider {
 			final float red = hueColour.getRed() / 255F;
 			final float green = hueColour.getGreen() / 255F;
 			final float blue = hueColour.getBlue() / 255F;
-			RenderSystem.setShaderColor(red, green, blue, 1F);
-			RenderHelper.blitScaled(poseStack, x + 1, y + 1, 0, 0, srcY, 231, 20, width - 2, height - 2);
+			GlStateManager.color(red, green, blue, 1F);
+			RenderHelper.blitScaled(x + 1, y + 1, 0, 0, srcY, 231, 20, width - 2, height - 2);
 		}
 
-		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+		GlStateManager.color(1F, 1F, 1F, 1F);
 
-		final int offset = isFocused() ? 5 : 0;
+		final int offset = 0;//isFocused() ? 5 : 0;
 
-		blit(poseStack, x + (int)(value * (width - 3) - 2), y, 0, offset, 7, 4);
-		blit(poseStack, x + (int)(value * (width - 3) - 2), y + height - 4, 7, offset, 7, 4);
+		drawTexturedModalRect(x + (int)(getSliderPosition() * (width - 3) - 2), y, 0, offset, 7, 4);
+		drawTexturedModalRect(x + (int)(getSliderPosition() * (width - 3) - 2), y + height - 4, 7, offset, 7, 4);
 	}
 
 	/**

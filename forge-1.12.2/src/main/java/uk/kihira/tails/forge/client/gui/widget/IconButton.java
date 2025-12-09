@@ -11,14 +11,11 @@ package uk.kihira.tails.forge.client.gui.widget;
 
 import java.util.function.Consumer;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;
@@ -26,58 +23,50 @@ import uk.kihira.tails.common.client.gui.TailsIcons;
 /**
  * A button with an icon and a tooltip.
  */
-public class IconButton extends Button implements Button.OnTooltip {
+public class IconButton extends GuiButton {
 
-	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/icons.png");
+	public static final ResourceLocation ICONS_TEXTURE = new ResourceLocation(TailsPlatform.MOD_ID, "textures/gui/icons.png");
 
 	protected final TailsIcons icon;
 
-	protected Screen tooltipScreen;
-	protected Component tooltip;
+	protected GuiScreen tooltipScreen;
+	protected String tooltip;
 
-	public IconButton(int x, int y, TailsIcons icon, OnPress onPress) {
-		super(x, y, 16, 16, TextComponent.EMPTY, onPress);
+	public IconButton(int id, int x, int y, TailsIcons icon) {
+		super(id, x, y, 16, 16, "");
 		this.icon = icon;
 	}
 
-	public IconButton setTooltip(Screen screen, Component value) {
+	public IconButton setTooltip(GuiScreen screen, String value) {
 		tooltipScreen = screen;
 		tooltip = value;
 		return this;
 	}
 
-	@Override
-	public void onTooltip(Button button, PoseStack poseStack, int mouseX, int mouseY) {
+	// TODO Tooltips
+	public void onTooltip(int mouseX, int mouseY) {
 		if (tooltip != null)
-			tooltipScreen.renderTooltip(poseStack, tooltip, mouseX, mouseY);
+			tooltipScreen.drawHoveringText(tooltip, mouseX, mouseY);
 	}
 
 	@Override
-	public void narrateTooltip(Consumer<Component> contents) {
-		if (tooltip != null)
-			contents.accept(tooltip);
-	}
-
-	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		GlStateManager.color(1F, 1F, 1F, 1F);
 
 		final int textureOffset = getYImage();
 
-		RenderSystem.setShaderTexture(0, ICONS_TEXTURE);
-		blit(poseStack, x, y, icon.u, icon.v + textureOffset * 16, 16, 16);
+		mc.getTextureManager().bindTexture(ICONS_TEXTURE);
+		drawModalRectWithCustomSizedTexture(x, y, icon.u, icon.v + textureOffset * 16, 16, 16, 256, 256);
 	}
 
 	protected int getYImage() {
-		if (!active)
-			return 0;
-		if (isHoveredOrFocused())
-			return 2;
+		if (!enabled) return 0;
+		if (hovered) return 2;
 		return 1;
 	}
 
 	public void setHover(boolean hover) {
-		isHovered = hover;
+		hovered = hover;
 	}
 
 	/**
@@ -87,8 +76,8 @@ public class IconButton extends Button implements Button.OnTooltip {
 
 		public boolean toggled;
 
-		public Toggle(int x, int y, TailsIcons icon, OnPress onPress) {
-			super(x, y, icon, onPress);
+		public Toggle(int id, int x, int y, TailsIcons icon) {
+			super(id, x, y, icon);
 		}
 
 		@Override
@@ -96,10 +85,8 @@ public class IconButton extends Button implements Button.OnTooltip {
 			return toggled ? 2 : super.getYImage();
 		}
 
-		@Override
 		public void onPress() {
 			toggled = !toggled;
-			super.onPress();
 		}
 	}
 }

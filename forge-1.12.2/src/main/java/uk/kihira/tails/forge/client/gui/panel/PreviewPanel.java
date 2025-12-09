@@ -11,10 +11,10 @@ package uk.kihira.tails.forge.client.gui.panel;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.CameraType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.gui.TailsIcons;
@@ -26,6 +26,9 @@ import uk.kihira.tails.forge.common.TailsConfig;
 
 @Internal
 public final class PreviewPanel extends Panel {
+
+	public static final int HELP = 600;
+	public static final int RESET_CAMERA = 601;
 
 	private float yaw = 0F;
 	private float pitch = 8F;
@@ -40,46 +43,59 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void init() {
-		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || parent.getMinecraft().options.getCameraType() == CameraType.FIRST_PERSON;
+		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || parent.mc.gameSettings.thirdPersonView == 0;
 		if (!doRender) return;
 
 		// Help
-		addRenderableWidget(new IconButton(right - 18, 4, TailsIcons.QUESTION, b -> {}) {
+		addRenderableWidget(new IconButton(HELP, right - 18, 4, TailsIcons.QUESTION) {
 			@Override
-			protected boolean isValidClickButton(int button) {
+			public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
 				return false;
 			}
-		}).setTooltip(parent, TailsComponents.PREVIEW_HELP);
+		}).setTooltip(parent, TailsComponents.PREVIEW_HELP.getFormattedText());
 
 		// Reset Camera
-		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, b -> {
-			yaw = 0;
-			pitch = 8F;
-			zoom = 1F;
-		})).setTooltip(parent, TailsComponents.RESET_CAMERA);
+		addRenderableWidget(new IconButton(RESET_CAMERA, right - 18, 22, TailsIcons.UNDO))
+		.setTooltip(parent, TailsComponents.RESET_CAMERA.getFormattedText());
 	}
 
 	@Override
-	public void renderBackground(PoseStack poseStack) {
-		fillGradient(poseStack, left, top, right, bottom, 0xDD000000, 0xDD000000, -900);
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
+			case HELP:
+				break;
+			case RESET_CAMERA:
+				yaw = 0;
+				pitch = 8F;
+				zoom = 1F;
+				break;
+		}
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.renderButton(poseStack, mouseX, mouseY, partialTick);
+	public void renderBackground() {
+		final float oldZ = zLevel;
+		zLevel = -900;
+		drawGradientRect(left, top, right, bottom, 0xDD000000, 0xDD000000);
+		zLevel = oldZ;
+	}
+
+	@Override
+	public void render(int mouseX, int mouseY, float partialTick) {
+		super.render(mouseX, mouseY, partialTick);
 
 		if (!doRender) return;
 
-		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-		RenderHelper.startGlScissor(left, top, left + width, top + height);
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		RenderHelper.startGlScissor(left, top, right, bottom);
 
-		final int mcHeight = parent.getMinecraft().getWindow().getGuiScaledHeight();
+		final int mcHeight = new ScaledResolution(parent.mc).getScaledHeight();
 		final double factor = mcHeight / 4 * zoom;
 
 		// Player
 		RenderHelper.drawEntity(
-				left + width / 2,
-				top + height / 2 + (int) factor,
+				left + (right - left) / 2,
+				top + (bottom - top) / 2 + (int) factor,
 				(int) factor,
 				yaw, pitch,
 				partialTick, parent.renderingEntity);
@@ -98,8 +114,8 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-		if (button != 0) return false;
+	public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+		if (clickedMouseButton != 0) return;
 
 		boolean handled = false;
 
@@ -120,24 +136,22 @@ public final class PreviewPanel extends Panel {
 			prevMouseX = mouseX;
 			prevMouseY = mouseY;
 		}
-
-		return handled;
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+	public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		if (prevMouseX == -1 && mouseX >= left && mouseY >= top && mouseX < right && mouseY < bottom) {
 			prevMouseX = mouseX;
 			prevMouseY = mouseY;
 		}
 
-		return super.mouseClicked(mouseX, mouseY, button);
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
+	public void mouseReleased(int mouseX, int mouseY, int state) {
 		prevMouseX = -1;
 		prevMouseY = -1;
-		return super.mouseReleased(mouseX, mouseY, mouseButton);
+		super.mouseReleased(mouseX, mouseY, state);
 	}
 }

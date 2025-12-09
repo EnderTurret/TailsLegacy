@@ -11,9 +11,9 @@ package uk.kihira.tails.forge.client.gui.panel;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.GuiButton;
 
-import net.minecraftforge.client.gui.widget.ExtendedButton;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
@@ -22,7 +22,13 @@ import uk.kihira.tails.forge.client.gui.TailsComponents;
 @Internal
 public final class ControlsPanel extends Panel {
 
+	public static final int MODE_SWITCH = 100;
+	public static final int RESET = 101;
+	public static final int SAVE = 102;
+
 	private boolean libraryMode = false;
+
+	private GuiButton modeSwitch;
 
 	public ControlsPanel(EditorScreen parent, int x, int y, int width, int height) {
 		super(parent, x, y, width, height);
@@ -31,10 +37,10 @@ public final class ControlsPanel extends Panel {
 	@Override
 	public void init() {
 		// Mode Switch
-		addRenderableWidget(new ExtendedButton(left + 3, bottom - 25, 46, 20, TailsComponents.LIBRARY_MODE, this::switchMode));
+		modeSwitch = addRenderableWidget(new GuiButtonExt(MODE_SWITCH, left + 3, bottom - 25, 46, 20, TailsComponents.LIBRARY_MODE.getFormattedText()));
 		// Reset/Save
-		addRenderableWidget(new ExtendedButton(left + (right - left) / 2 - 23, bottom - 25, 46, 20, TailsComponents.RESET_BUTTON, this::reset));
-		addRenderableWidget(new ExtendedButton(right - 49, bottom - 25, 46, 20, TailsComponents.DONE_BUTTON, b -> parent.close()));
+		addRenderableWidget(new GuiButtonExt(RESET, left + (right - left) / 2 - 23, bottom - 25, 46, 20, TailsComponents.RESET_BUTTON.getFormattedText()));
+		addRenderableWidget(new GuiButtonExt(SAVE, right - 49, bottom - 25, 46, 20, TailsComponents.DONE_BUTTON.getFormattedText()));
 
 		parent.getPartPanel().setVisible(!libraryMode);
 		parent.getTexturePanel().setVisible(!libraryMode);
@@ -45,7 +51,19 @@ public final class ControlsPanel extends Panel {
 		parent.getLibraryImportPanel().setVisible(libraryMode);
 	}
 
-	private void switchMode(Button b) {
+	@Override
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
+			case MODE_SWITCH:
+				switchMode(); break;
+			case RESET:
+				reset(); break;
+			case SAVE:
+				parent.close(); break;
+		}
+	}
+
+	private void switchMode() {
 		libraryMode = !libraryMode;
 
 		parent.getPartPanel().setVisible(!libraryMode);
@@ -64,10 +82,10 @@ public final class ControlsPanel extends Panel {
 		if (!libraryMode)
 			parent.getLibraryPanel().save();
 
-		b.setMessage(libraryMode ? TailsComponents.EDITOR_MODE : TailsComponents.LIBRARY_MODE);
+		modeSwitch.displayString = (libraryMode ? TailsComponents.EDITOR_MODE : TailsComponents.LIBRARY_MODE).getFormattedText();
 	}
 
-	private void reset(Button b) {
+	private void reset() {
 		final ClientPartInfo partInfo = parent.getOriginalPartInfo().clone();
 		parent.getPartPanel().selectDefaultListEntry();
 		parent.getLibraryPanel().initList("");

@@ -14,15 +14,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.TextComponent;
-
-import net.minecraftforge.client.gui.widget.ExtendedButton;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.client.TailsClientPlatform;
@@ -31,12 +29,17 @@ import uk.kihira.tails.forge.client.gui.LibraryListEntry;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
 import uk.kihira.tails.forge.client.gui.widget.IconButton;
 import uk.kihira.tails.forge.client.gui.widget.ListWidget;
+import uk.kihira.tails.forge.client.gui.widget.SimpleGuiTextField;
 
 @Internal
 public final class LibraryPanel extends Panel {
 
+	public static final int LIST = 400;
+	public static final int SEARCH_FIELD = 401;
+	public static final int RELOAD = 402;
+
 	private ListWidget<LibraryListEntry> list;
-	private EditBox searchField;
+	private SimpleGuiTextField searchField;
 	boolean libraryChanged = false;
 
 	public LibraryPanel(EditorScreen parent, int x, int y, int width, int height) {
@@ -52,22 +55,29 @@ public final class LibraryPanel extends Panel {
 		addRenderableWidget(list = new ListWidget<>(right - left, bottom - top - 34, 0, 50));
 		initList("");
 
-		addRenderableWidget(searchField = new EditBox(parent.font(), left + 5, bottom - 31, right - left - 10, 10, TextComponent.EMPTY));
-		addRenderableWidget(new ExtendedButton(left + 3, bottom - 18, right - left - 6, 15, TailsComponents.RELOAD_LIBRARY, b -> {
-			TailsClientPlatform.get().getLibraryManager().reload(true);
-			libraryChanged = false;
-			initList("");
-		}));
+		addRenderableWidget(searchField = new SimpleGuiTextField(SEARCH_FIELD, parent.font(), left + 5, bottom - 31, right - left - 10, 10));
+		addRenderableWidget(new GuiButtonExt(RELOAD, left + 3, bottom - 18, right - left - 6, 15, TailsComponents.RELOAD_LIBRARY.getFormattedText()));
 
-		searchField.setResponder(this::initList);
+		searchField.setGuiResponder(this::initList);
 	}
 
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.renderButton(poseStack, mouseX, mouseY, partialTick);
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
+			case RELOAD:
+				TailsClientPlatform.get().getLibraryManager().reload(true);
+				libraryChanged = false;
+				initList("");
+				break;
+		}
+	}
 
-		RenderSystem.setShaderTexture(0, IconButton.ICONS_TEXTURE);
-		blit(poseStack, right - 14, bottom - 30, 0, 240, 8, 8);
+	@Override
+	public void render(int mouseX, int mouseY, float partialTick) {
+		super.render(mouseX, mouseY, partialTick);
+
+		parent.mc.getTextureManager().bindTexture(IconButton.ICONS_TEXTURE);
+		drawTexturedModalRect(right - 14, bottom - 30, 0, 240, 8, 8);
 	}
 
 	public void initList(String filter) {
@@ -75,7 +85,7 @@ public final class LibraryPanel extends Panel {
 
 		final List<LibraryListEntry> libraryEntries = new ArrayList<>();
 		for (LibraryEntryData data : TailsClientPlatform.get().getLibraryManager().libraryEntries)
-			if (filter.isBlank() || data.entryName.toLowerCase(Locale.ENGLISH).contains(filter))
+			if (StringUtils.isBlank(filter) || data.entryName.toLowerCase(Locale.ENGLISH).contains(filter))
 				libraryEntries.add(new LibraryListEntry(this, data));
 
 		// Add in new entry creation.
@@ -86,7 +96,7 @@ public final class LibraryPanel extends Panel {
 	}
 
 	public void addSelectedEntry(LibraryListEntry entry) {
-		list.children().add(entry);
+		list.addEntry(entry);
 		list.setSelected(entry);
 		parent.getLibraryInfoPanel().setEntry(entry);
 		libraryChanged = true;
@@ -94,7 +104,7 @@ public final class LibraryPanel extends Panel {
 
 	public void removeEntry(LibraryListEntry entry) {
 		TailsClientPlatform.get().getLibraryManager().removeEntry(entry.data);
-		list.children().remove(entry);
+		list.removeEntry(entry);
 		libraryChanged = true;
 	}
 

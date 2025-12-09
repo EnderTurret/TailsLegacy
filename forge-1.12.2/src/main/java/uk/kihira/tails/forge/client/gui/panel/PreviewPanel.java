@@ -104,10 +104,10 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		if (!(mouseX >= left && mouseY >= top && mouseX < right && mouseY < bottom)) return super.mouseScrolled(mouseX, mouseY, delta);
+	public boolean mouseScrolled(int mouseX, int mouseY, int direction) {
+		if (!(mouseX >= left && mouseY >= top && mouseX < right && mouseY < bottom)) return super.mouseScrolled(mouseX, mouseY, direction);
 
-		zoom += delta * .1;
+		zoom += direction * .1;
 		zoom = TailsMath.clamp(zoom, 1F, 3F);
 
 		return true;

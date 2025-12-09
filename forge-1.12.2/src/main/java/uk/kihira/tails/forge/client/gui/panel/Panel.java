@@ -82,6 +82,7 @@ public abstract class Panel extends Gui {
 
 	public void actionPerformed(GuiButton button) {}
 	public boolean keyTyped(char typedChar, int keyCode) { return false; }
+	public boolean mouseScrolled(int mouseX, int mouseY, int direction) { return false; }
 	public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) { return false; }
 	public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {}
 	public void mouseReleased(int mouseX, int mouseY, int state) {}

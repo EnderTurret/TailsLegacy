@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -61,8 +62,13 @@ public abstract class BaseScreen extends GuiScreen {
 			throw new IllegalArgumentException("Unhandled component type " + component);
 	}
 
+	private int lastMouseX, lastMouseY;
+
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
+		lastMouseX = mouseX;
+		lastMouseY = mouseY;
+
 		super.drawScreen(mouseX, mouseY, partialTick);
 
 		for (Object component : renderables)
@@ -122,6 +128,15 @@ public abstract class BaseScreen extends GuiScreen {
 
 	@Override
 	public void handleMouseInput() throws IOException {
+		int scrollAmount = Mouse.getEventDWheel();
+		if (scrollAmount > 0) scrollAmount = 1;
+		else if (scrollAmount < 0) scrollAmount = -1;
+
+		if (scrollAmount != 0)
+			for (Object component : renderables)
+				if (component instanceof Panel)
+					((Panel) component).mouseScrolled(lastMouseX, lastMouseY, scrollAmount);
+
 		for (Object component : renderables)
 			if (component instanceof ListWidget)
 				((ListWidget) component).handleMouseInput();

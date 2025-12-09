@@ -1,0 +1,122 @@
+package uk.kihira.tails.forge.client.platform;
+
+import java.util.function.BiConsumer;
+
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
+
+import uk.kihira.tails.common.JavaColor;
+import uk.kihira.tails.common.client.duck.TResourceLocation;
+import uk.kihira.tails.common.client.duck.TailsBuffer;
+import uk.kihira.tails.common.client.duck.TailsBufferSource;
+import uk.kihira.tails.common.client.duck.TailsEntity;
+import uk.kihira.tails.common.client.duck.TailsModelPart;
+import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.duck.TailsPoseStack.Entry;
+import uk.kihira.tails.common.client.duck.TailsVertexConsumer;
+
+public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBuffer, TailsVertexConsumer {
+
+	private static TailsTessellatorWrapper instance;
+
+	private final Tessellator tessellator = Tessellator.getInstance();
+	private final BufferBuilder buffer = tessellator.getBuffer();
+
+	private boolean renderingTransparent;
+
+	public static TailsTessellatorWrapper get() {
+		if (instance == null) instance = new TailsTessellatorWrapper();
+		return instance;
+	}
+
+	@Override
+	public TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
+		final ResourceLocation tex = (ResourceLocation) texture;
+		boolean visible = true, visibleToPlayer = false;
+
+		if (!entity.t$isPreview() && entity.t$unwrap() instanceof EntityLivingBase) {
+			final EntityLivingBase living = (EntityLivingBase) entity.t$unwrap();
+			visible = !living.isInvisible();
+			renderingTransparent = !visible && !living.isInvisibleToPlayer(Minecraft.getMinecraft().player);
+		}
+
+		if (!visible && !visibleToPlayer) return null;
+
+		Minecraft.getMinecraft().getTextureManager().bindTexture(tex);
+
+		return this;
+	}
+
+	@Override
+	public void t$submitCustomGeometry(TailsPoseStack poseStack, BiConsumer<Entry, TailsVertexConsumer> renderer) {
+		if (renderingTransparent)
+			GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
+
+		renderer.accept(poseStack.t$lastEntry(), this);
+
+		tessellator.draw();
+		if (renderingTransparent)
+			GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+	}
+
+	@Override
+	public void t$submitModelPart(TailsModelPart part, TailsPoseStack poseStack, int packedLight, int packedOverlay, int color) {
+		if (renderingTransparent)
+			GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+
+		((ModelRenderer) part).render(0.0625F);
+
+		if (renderingTransparent)
+			GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+	}
+
+	@Override
+	public TailsVertexConsumer t$beginVertex(Entry pose, float x, float y, float z) {
+		buffer.pos(x, y, z);
+		return this;
+	}
+
+	@Override
+	public TailsVertexConsumer t$color(int color) {
+		buffer.color(JavaColor.red(color), JavaColor.green(color), JavaColor.blue(color), JavaColor.alpha(color));
+		return this;
+	}
+
+	@Override
+	public TailsVertexConsumer t$uv(float u, float v) {
+		buffer.tex(u, v);
+		return this;
+	}
+
+	@Override
+	public TailsVertexConsumer t$overlay(int overlay) {
+		return this;
+	}
+
+	@Override
+	public TailsVertexConsumer t$light(int light) {
+		//buffer.lightmap(light >> 16 & 65535, light & 65535);
+		return this;
+	}
+
+	@Override
+	public TailsVertexConsumer t$normal(Entry pose, float x, float y, float z) {
+		buffer.normal(x, y, z);
+		return this;
+	}
+
+	@Override
+	public TailsVertexConsumer t$endVertex() {
+		buffer.endVertex();
+		return this;
+	}
+}

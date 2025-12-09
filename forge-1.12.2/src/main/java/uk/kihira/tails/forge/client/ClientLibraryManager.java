@@ -41,7 +41,9 @@ public final class ClientLibraryManager extends GsonLibraryManager {
 
 		final GuiScreen screen = Minecraft.getMinecraft().currentScreen;
 
-		if (screen instanceof EditorScreen editor) {
+		if (screen instanceof EditorScreen) {
+			final EditorScreen editor = (EditorScreen) screen;
+
 			if (editor.getLibraryPanel() != null && editor.getLibraryInfoPanel() != null)
 				editor.getLibraryPanel().initList("");
 

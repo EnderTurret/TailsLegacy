@@ -9,7 +9,6 @@
 package uk.kihira.tails.forge.client.render.layer;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -33,6 +32,7 @@ import uk.kihira.tails.common.client.model.PartConfiguration;
 import uk.kihira.tails.common.client.part.ClientPartsData;
 import uk.kihira.tails.common.client.render.layer.BaseArrowLayer;
 import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
+import uk.kihira.tails.forge.client.platform.TailsTessellatorWrapper;
 
 /**
  * A specialized {@link LayerArrow} for rendering arrows on Tails parts/accessories in addition to normal body parts.
@@ -70,7 +70,7 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 		renderArrows(
 				(TailsEntity) entity,
 				TailsPoseStackImpl.INSTANCE,
-				(TailsBufferSource) buffer,
+				TailsTessellatorWrapper.get(),
 				new TailsRandomSource.Java(rand),
 				stuck, partialTick, 1, 1);
 

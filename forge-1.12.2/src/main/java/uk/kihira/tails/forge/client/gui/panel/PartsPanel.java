@@ -14,17 +14,13 @@ import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 
 import uk.kihira.tails.common.client.duck.FakeTailsEntity;
-import uk.kihira.tails.common.client.duck.TailsBuffer;
-import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsEntity;
-import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.part.AttachmentPoint;
 import uk.kihira.tails.common.client.part.AttachmentPoints;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
@@ -38,6 +34,7 @@ import uk.kihira.tails.forge.client.gui.TailsComponents;
 import uk.kihira.tails.forge.client.gui.widget.ListWidget;
 import uk.kihira.tails.forge.client.gui.widget.Spinner;
 import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
+import uk.kihira.tails.forge.client.platform.TailsTessellatorWrapper;
 
 @Internal
 public final class PartsPanel extends Panel {
@@ -199,7 +196,7 @@ public final class PartsPanel extends Panel {
 				TailsPoseStackImpl.INSTANCE,
 				fakeEntity,
 				null, partInfo,
-				(TailsBufferSource) impl, (TailsBuffer) consumer,
+				TailsTessellatorWrapper.get(), TailsTessellatorWrapper.get(),
 				0, 0, 0, partialTick,
 				1, 1, 0xFF);
 

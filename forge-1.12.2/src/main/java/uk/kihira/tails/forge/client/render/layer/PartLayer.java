@@ -11,17 +11,15 @@ package uk.kihira.tails.forge.client.render.layer;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 
-import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
-import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.render.layer.BasePartLayer;
 import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
+import uk.kihira.tails.forge.client.platform.TailsTessellatorWrapper;
 
 /**
  * A {@link LayerRenderer} for Tails parts/accessories.
@@ -50,7 +48,7 @@ public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, 
 		renderParts(
 				(TailsEntity) entity,
 				TailsPoseStackImpl.INSTANCE,
-				(TailsBufferSource) buffer,
+				TailsTessellatorWrapper.get(),
 				partialTick,
 				1,
 				1

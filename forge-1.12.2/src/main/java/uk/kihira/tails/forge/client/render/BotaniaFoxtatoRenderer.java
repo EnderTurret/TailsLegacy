@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.render.FoxtatoRenderer;
+import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
 import vazkii.botania.api.item.TinyPotatoRenderEvent;
 
 /**
@@ -32,7 +33,7 @@ public final class BotaniaFoxtatoRenderer {
 	public static void render(BlockPos pos, float partialTick) {
 		if (renderer == null) renderer = new FoxtatoRenderer();
 
-		renderer.render((TailsPoseStack) poseStack, (TailsBufferSource) buffers, pos.getX(), pos.getY(), pos.getZ(), partialTick, 1, 1);
+		renderer.render(TailsPoseStackImpl.INSTANCE, (TailsBufferSource) buffers, pos.getX(), pos.getY(), pos.getZ(), partialTick, 1, 1);
 
 		GlStateManager.color(1F, 1F, 1F, 1F);
 	}

@@ -24,7 +24,7 @@ import net.minecraft.util.ResourceLocation;
 
 import uk.kihira.tails.common.client.TripleTintTextureHelper;
 import uk.kihira.tails.common.client.part.Part;
-import uk.kihira.tails.forge.client.platform.TailsNativeImageWrapper;
+import uk.kihira.tails.forge.client.platform.TailsBufferedImageWrapper;
 import uk.kihira.tails.forge.common.Tails;
 
 /**
@@ -61,7 +61,7 @@ public final class TripleTintTexture extends AbstractTexture {
 			return;
 		}
 
-		TripleTintTextureHelper.colorise(new TailsNativeImageWrapper(texture), strategy, tint1, tint2, tint3);
+		TripleTintTextureHelper.colorise(new TailsBufferedImageWrapper(texture), strategy, tint1, tint2, tint3);
 		prepareAndUpload(texture);
 	}
 

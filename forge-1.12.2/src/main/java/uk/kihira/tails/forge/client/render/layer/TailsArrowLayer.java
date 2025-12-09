@@ -32,6 +32,7 @@ import uk.kihira.tails.common.client.duck.TailsRandomSource;
 import uk.kihira.tails.common.client.model.PartConfiguration;
 import uk.kihira.tails.common.client.part.ClientPartsData;
 import uk.kihira.tails.common.client.render.layer.BaseArrowLayer;
+import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
 
 /**
  * A specialized {@link LayerArrow} for rendering arrows on Tails parts/accessories in addition to normal body parts.
@@ -68,7 +69,7 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 
 		renderArrows(
 				(TailsEntity) entity,
-				(TailsPoseStack) poseStack,
+				TailsPoseStackImpl.INSTANCE,
 				(TailsBufferSource) buffer,
 				new TailsRandomSource.Java(rand),
 				stuck, partialTick, 1, 1);

@@ -14,11 +14,11 @@ import uk.kihira.tails.common.ABGRColor;
 import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.client.duck.TailsImage;
 
-public final class TailsNativeImageWrapper implements TailsImage {
+public final class TailsBufferedImageWrapper implements TailsImage {
 
 	private final BufferedImage image;
 
-	public TailsNativeImageWrapper(BufferedImage image) {
+	public TailsBufferedImageWrapper(BufferedImage image) {
 		this.image = image;
 	}
 

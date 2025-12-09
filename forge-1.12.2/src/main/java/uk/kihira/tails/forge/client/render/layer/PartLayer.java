@@ -20,6 +20,7 @@ import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.render.layer.BasePartLayer;
+import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
 
 /**
  * A {@link LayerRenderer} for Tails parts/accessories.
@@ -47,7 +48,7 @@ public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, 
 	public void doRenderLayer(T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		renderParts(
 				(TailsEntity) entity,
-				(TailsPoseStack) poseStack,
+				TailsPoseStackImpl.INSTANCE,
 				(TailsBufferSource) buffer,
 				partialTick,
 				1,

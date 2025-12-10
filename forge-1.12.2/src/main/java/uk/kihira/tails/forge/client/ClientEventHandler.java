@@ -10,6 +10,7 @@
 package uk.kihira.tails.forge.client;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
@@ -73,7 +74,7 @@ import uk.kihira.tails.forge.mixin.client.RenderLivingBaseAccess;
 public final class ClientEventHandler {
 
 	public static void onPreInit(FMLPreInitializationEvent e) {
-		TailsConfig.CLIENT_INSTANCE.load(e.getSuggestedConfigurationFile());
+		TailsConfig.CLIENT_INSTANCE.load(new File(e.getModConfigurationDirectory(), "Tails.cfg"));
 
 		TailsKeybinds.registerKeys();
 		RenderHelperManager.registerRenderHelper(new PlayerRenderHelper());

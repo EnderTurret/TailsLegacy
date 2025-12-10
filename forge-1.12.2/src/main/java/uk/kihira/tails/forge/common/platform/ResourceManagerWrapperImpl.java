@@ -12,8 +12,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
@@ -43,11 +43,9 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 
 	@Override
 	public Map<TResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<TResourceLocation> filter) {
-		final Collection<ResourceLocation> resources = manager.listResources(prefix, str -> {
-			final ResourceLocation rl = ResourceLocation.tryParse(str);
-			return rl != null && filter.test((TResourceLocation) rl);
-		});
-		final Map<TResourceLocation, JsonElement> ret = new LinkedHashMap<>();
+		@SuppressWarnings("unchecked")
+		final Collection<ResourceLocation> resources = ((ResourceManagerExtensions) manager).tails$listResources(prefix, (Predicate) filter);
+		final Map<TResourceLocation, JsonElement> ret = new TreeMap<>();
 
 		for (ResourceLocation rl : resources)
 			ret.put((TResourceLocation) rl, readJson(rl));

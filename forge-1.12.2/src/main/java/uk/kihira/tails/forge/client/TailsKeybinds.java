@@ -20,7 +20,7 @@ import uk.kihira.tails.forge.common.Tails;
 
 public final class TailsKeybinds {
 
-	public static final KeyBinding RELOAD_PARTS = new KeyBinding(TailsLanguage.RELOAD_PARTS_KEY, -1, TailsLanguage.KEY_CATEGORY);
+	public static final KeyBinding RELOAD_PARTS = new KeyBinding(TailsLanguage.RELOAD_PARTS_KEY, 0, TailsLanguage.KEY_CATEGORY);
 
 	static void registerKeys() {
 		ClientRegistry.registerKeyBinding(RELOAD_PARTS);

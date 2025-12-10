@@ -14,7 +14,7 @@ public class SimpleGuiList<E extends GuiListExtended.IGuiListEntry> extends GuiL
 
 	protected final List<E> entries = new ArrayList<>();
 	protected Consumer<E> selectionListener;
-	protected int selection;
+	protected int selection = -1;
 
 	public SimpleGuiList(Minecraft mc, int width, int height, int left, int top, int slotHeight) {
 		super(mc, width, height, top, top + height, slotHeight);

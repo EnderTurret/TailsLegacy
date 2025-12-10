@@ -28,6 +28,8 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
+import uk.kihira.tails.common.TailsMath;
+
 /**
  * Various rendering-related utilities.
  */
@@ -196,10 +198,10 @@ public final class RenderHelper {
 
 		if (textWidth > width) {
 			final int delta = textWidth - width;
-			final double time = System.currentTimeMillis() / 1000.0;
+			final double time = System.nanoTime() / 1e9D;
 			final double d1 = Math.max(delta * 0.5, 3.0);
 			final double scrollProgress = Math.sin((Math.PI / 2) * Math.cos((Math.PI * 2) * time / d1)) / 2.0 + 0.5;
-			final double scroll = MathHelper.clampedLerp(scrollProgress, 0, delta);
+			final double scroll = TailsMath.lerp(scrollProgress, 0, delta);
 
 			startGlScissor(minX, minY, maxX, maxY);
 			font.drawString(text, minX - (int)scroll, y, color);

@@ -48,6 +48,7 @@ public abstract class BaseScreen extends GuiScreen {
 
 	public <T> T addRenderableWidget(T widget) {
 		renderables.add(widget);
+		if (widget instanceof GuiButton) buttonList.add((GuiButton) widget);
 		return widget;
 	}
 
@@ -74,8 +75,6 @@ public abstract class BaseScreen extends GuiScreen {
 		for (Object component : renderables)
 			if (component instanceof Panel && ((Panel) component).visible)
 				((Panel) component).render(mouseX, mouseY, partialTick);
-			else if (component instanceof GuiButton)
-				((GuiButton) component).drawButton(mc, mouseX, mouseY, partialTick);
 			else if (component instanceof GuiTextField)
 				((GuiTextField) component).drawTextBox();
 			else if (component instanceof GuiSlot)

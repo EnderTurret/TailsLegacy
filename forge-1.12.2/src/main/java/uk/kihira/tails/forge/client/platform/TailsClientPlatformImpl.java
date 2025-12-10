@@ -92,9 +92,9 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 		ret.textureWidth = dummyModel.textureWidth;
 		ret.textureHeight = dummyModel.textureHeight;
-		ret.offsetX = part.xOffset;
-		ret.offsetY = part.yOffset;
-		ret.offsetZ = part.zOffset;
+		ret.offsetX = part.xOffset * 0.0625F;
+		ret.offsetY = part.yOffset * 0.0625F;
+		ret.offsetZ = part.zOffset * 0.0625F;
 		ret.rotateAngleX = part.xRot;
 		ret.rotateAngleY = part.yRot;
 		ret.rotateAngleZ = part.zRot;

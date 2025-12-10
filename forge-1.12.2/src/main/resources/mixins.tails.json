@@ -2,6 +2,7 @@
   "minVersion": "0.8",
   "package": "uk.kihira.tails.forge.mixin",
   "compatibilityLevel": "JAVA_17",
+  "target": "@env(DEFAULT)",
   "mixins": [
     "duck.MixinResourceLocation"
   ],

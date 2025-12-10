@@ -61,8 +61,18 @@ public final class TripleTintTexture extends AbstractTexture {
 			return;
 		}
 
-		TripleTintTextureHelper.colorise(new TailsBufferedImageWrapper(texture), strategy, tint1, tint2, tint3);
-		prepareAndUpload(texture);
+		// Textures might not be in ARGB format, so we need to copy them to an image with the correct format.
+		// Examples: paletted and grayscale textures (frequently emitted by PNG optimization programs)
+		final BufferedImage normalTexture = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+		normalTexture.setRGB(
+				0, 0, texture.getWidth(), texture.getHeight(),
+				texture.getRGB(0, 0, texture.getWidth(), texture.getHeight(), null, 0, texture.getWidth()),
+				0, texture.getWidth());
+		// ---------------------------------------------------------------------------------------------------
+
+		TripleTintTextureHelper.colorise(new TailsBufferedImageWrapper(normalTexture), strategy, tint1, tint2, tint3);
+		prepareAndUpload(normalTexture);
 	}
 
 	private void prepareAndUpload(@Nullable BufferedImage texture) {

@@ -26,7 +26,7 @@ public class ListWidget<T extends GuiListExtended.IGuiListEntry> extends SimpleG
 	public boolean visible = true;
 
 	public ListWidget(int width, int height, int top, int slotHeight, List<T> entries) {
-		super(Minecraft.getMinecraft(), width, height, top, top + height, slotHeight);
+		super(Minecraft.getMinecraft(), width, height, 0, top, slotHeight);
 		replaceEntries(entries);
 	}
 

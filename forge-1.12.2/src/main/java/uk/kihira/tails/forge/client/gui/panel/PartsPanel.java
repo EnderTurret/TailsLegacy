@@ -17,6 +17,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 import uk.kihira.tails.common.client.duck.FakeTailsEntity;
@@ -191,6 +192,8 @@ public final class PartsPanel extends Panel {
 		GlStateManager.disableLighting();
 
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
+
+		parent.mc.getTextureManager().bindTexture((ResourceLocation) partInfo.getTexture());
 
 		renderer.render(
 				TailsPoseStackImpl.INSTANCE,

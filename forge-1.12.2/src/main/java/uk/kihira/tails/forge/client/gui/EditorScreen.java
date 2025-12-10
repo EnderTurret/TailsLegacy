@@ -104,6 +104,8 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void initGui() {
+		super.initGui();
+
 		final boolean firstInit = tintPanel == null;
 
 		final int previewLeft = 110 + 4;
@@ -133,8 +135,6 @@ public class EditorScreen extends BaseScreen {
 		}
 
 		for (Panel panel : panels) panel.init();
-
-		super.initGui();
 
 		for (Panel panel : panels)
 			addRenderableWidget(panel);

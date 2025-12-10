@@ -82,6 +82,12 @@ public abstract class BaseScreen extends GuiScreen {
 	}
 
 	@Override
+	public void initGui() {
+		renderables.clear();
+		super.initGui();
+	}
+
+	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		for (Object component : renderables)
 			if (component instanceof Panel && ((Panel) component).visible)

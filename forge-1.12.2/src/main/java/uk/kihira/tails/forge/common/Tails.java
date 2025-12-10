@@ -58,6 +58,7 @@ public final class Tails {
 
 	@EventHandler
 	public void onPostInit(FMLPostInitializationEvent e) {
-
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+			ClientEventHandler.onPostInit();
 	}
 }

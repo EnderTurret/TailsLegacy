@@ -61,6 +61,8 @@ public class HSBSlider extends GuiSlider {
 
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		if (!visible) return;
+
 		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 
 		GlStateManager.color(1F, 1F, 1F, 1F);

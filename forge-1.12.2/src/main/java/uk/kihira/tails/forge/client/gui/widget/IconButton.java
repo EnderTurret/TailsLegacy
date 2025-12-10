@@ -49,6 +49,8 @@ public class IconButton extends GuiButton {
 
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		if (!visible) return;
+
 		GlStateManager.color(1F, 1F, 1F, 1F);
 
 		final int textureOffset = getYImage();

@@ -72,7 +72,7 @@ public abstract class BaseScreen extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, partialTick);
 
 		for (Object component : renderables)
-			if (component instanceof Panel)
+			if (component instanceof Panel && ((Panel) component).visible)
 				((Panel) component).render(mouseX, mouseY, partialTick);
 			else if (component instanceof GuiButton)
 				((GuiButton) component).drawButton(mc, mouseX, mouseY, partialTick);
@@ -85,7 +85,7 @@ public abstract class BaseScreen extends GuiScreen {
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		for (Object component : renderables)
-			if (component instanceof Panel)
+			if (component instanceof Panel && ((Panel) component).visible)
 				((Panel) component).keyTyped(typedChar, keyCode);
 			else if (component instanceof GuiTextField)
 				((GuiTextField) component).textboxKeyTyped(typedChar, keyCode);
@@ -96,7 +96,7 @@ public abstract class BaseScreen extends GuiScreen {
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		for (Object component : renderables)
-			if (component instanceof Panel)
+			if (component instanceof Panel && ((Panel) component).visible)
 				((Panel) component).mouseClicked(mouseX, mouseY, mouseButton);
 			else if (component instanceof ListWidget)
 				((ListWidget) component).mouseClicked(mouseX, mouseY, mouseButton);
@@ -109,7 +109,7 @@ public abstract class BaseScreen extends GuiScreen {
 	@Override
 	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
 		for (Object component : renderables)
-			if (component instanceof Panel)
+			if (component instanceof Panel && ((Panel) component).visible)
 				((Panel) component).mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
 
 		super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
@@ -118,7 +118,7 @@ public abstract class BaseScreen extends GuiScreen {
 	@Override
 	protected void mouseReleased(int mouseX, int mouseY, int state) {
 		for (Object component : renderables)
-			if (component instanceof Panel)
+			if (component instanceof Panel && ((Panel) component).visible)
 				((Panel) component).mouseReleased(mouseX, mouseY, state);
 			else if (component instanceof ListWidget)
 				((ListWidget) component).mouseReleased(mouseX, mouseY, state);
@@ -134,7 +134,7 @@ public abstract class BaseScreen extends GuiScreen {
 
 		if (scrollAmount != 0)
 			for (Object component : renderables)
-				if (component instanceof Panel)
+				if (component instanceof Panel && ((Panel) component).visible)
 					((Panel) component).mouseScrolled(lastMouseX, lastMouseY, scrollAmount);
 
 		for (Object component : renderables)

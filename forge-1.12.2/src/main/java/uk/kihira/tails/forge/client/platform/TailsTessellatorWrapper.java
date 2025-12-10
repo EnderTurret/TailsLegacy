@@ -73,7 +73,11 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 		if (renderingTransparent)
 			GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
 
+		GlStateManager.color(JavaColor.red(color), JavaColor.green(color), JavaColor.blue(color), JavaColor.alpha(color));
+
 		((ModelRenderer) part).render(0.0625F);
+
+		GlStateManager.color(1, 1, 1, 1);
 
 		if (renderingTransparent)
 			GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);

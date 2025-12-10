@@ -149,7 +149,7 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 	@Override
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color) {
 		GlStateManager.color(JavaColor.red(color) / 255F, JavaColor.green(color) / 255F, JavaColor.blue(color) / 255F, JavaColor.alpha(color) / 255F);
-		((ModelRenderer) (Object) this).render(1);
+		((ModelRenderer) (Object) this).render(0.0625F);
 		GlStateManager.color(1, 1, 1, 1);
 	}
 

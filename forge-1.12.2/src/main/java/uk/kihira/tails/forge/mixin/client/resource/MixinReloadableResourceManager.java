@@ -14,6 +14,7 @@ import net.minecraft.client.resources.FallbackResourceManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
 
+import uk.kihira.tails.forge.common.Tails;
 import uk.kihira.tails.forge.common.platform.ResourceManagerExtensions;
 
 @Mixin(SimpleReloadableResourceManager.class)
@@ -27,8 +28,12 @@ public abstract class MixinReloadableResourceManager implements ResourceManagerE
 	public Collection<ResourceLocation> tails$listResources(String prefix, Predicate<ResourceLocation> filter) {
 		final Set<ResourceLocation> ret = new HashSet<>();
 
-		for (FallbackResourceManager manager : domainResourceManagers.values())
-			ret.addAll(((ResourceManagerExtensions) manager).tails$listResources(prefix, filter));
+		for (FallbackResourceManager manager : domainResourceManagers.values()) {
+			if (manager instanceof ResourceManagerExtensions)
+				ret.addAll(((ResourceManagerExtensions) manager).tails$listResources(prefix, filter));
+			else
+				Tails.LOGGER.warn("Unknown resource manager type: {}", manager.getClass().getName());
+		}
 
 		return ret;
 	}

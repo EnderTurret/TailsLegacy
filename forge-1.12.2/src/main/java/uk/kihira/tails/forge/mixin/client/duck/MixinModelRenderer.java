@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.forge.mixin.client.duck;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,8 +125,15 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 	@SuppressWarnings("unchecked")
 	public Map<String, TailsModelPart> t$getChildren() {
 		if (tails$children == null) {
-			tails$children = new HashMap<>();
-			for (ModelRenderer renderer : childModels) tails$children.put(renderer.boxName, renderer);
+			if (childModels == null || childModels.isEmpty())
+				tails$children = Collections.emptyMap();
+			else {
+				tails$children = new HashMap<>();
+				for (ModelRenderer renderer : childModels) {
+					if (renderer.boxName == null) throw new IllegalArgumentException("ModelRenderer " + renderer + " has no name");
+					tails$children.put(renderer.boxName, renderer);
+				}
+			}
 		}
 
 		return (Map) tails$children;

@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "uk.kihira.tails.forge.mixin",
   "refmap": "tails.refmap.json",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "mixins": [
     "duck.MixinResourceLocation"
@@ -11,6 +11,10 @@
   "client": [
     "client.duck.MixinEntityLivingBase",
     "client.duck.MixinModelRenderer",
+    "client.resource.MixinFallbackResourceManager",
+    "client.resource.MixinFileResourcePack",
+    "client.resource.MixinFolderResourcePack",
+    "client.resource.MixinReloadableResourceManager",
     "client.MixinModelBox",
     "client.RenderLivingBaseAccess"
   ]

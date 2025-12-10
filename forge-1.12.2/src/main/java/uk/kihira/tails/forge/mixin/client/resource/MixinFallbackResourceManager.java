@@ -41,9 +41,11 @@ public abstract class MixinFallbackResourceManager implements ResourceManagerExt
 		final Set<ResourceLocation> ret = new HashSet<>();
 
 		for (IResourcePack resourcePack : resourcePacks)
-			if (resourcePack instanceof ResourceManagerExtensions)
-				ret.addAll(((ResourceManagerExtensions) resourcePack).tails$listResources(prefix, filter));
-			else if (TAILS$IGNORED_CLASSES.add(resourcePack.getClass()))
+			if (resourcePack instanceof ResourceManagerExtensions) {
+				final Collection<ResourceLocation> collection = ((ResourceManagerExtensions) resourcePack).tails$listResources(prefix, filter);
+				if (collection == null) throw new IllegalArgumentException("Resource pack " + resourcePack + " returned null for tails$listResources");
+				ret.addAll(collection);
+			} else if (TAILS$IGNORED_CLASSES.add(resourcePack.getClass()))
 				Tails.LOGGER.warn("IResourcePack implementation " + resourcePack.getClass().getName() + " does not support Tails extensions; Tails data will not be loaded from it");
 
 		return ret;

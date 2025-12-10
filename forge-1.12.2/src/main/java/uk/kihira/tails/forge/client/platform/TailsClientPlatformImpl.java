@@ -25,6 +25,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.resources.IResourceManager;
@@ -66,7 +67,11 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@SuppressWarnings("unchecked")
 	@Override
 	public TailsModelPart bake(TailsPartDefinition part, int textureWidth, int textureHeight) {
-		final ModelRenderer ret = makePartDefinition(null, part, textureWidth, textureHeight);
+		final ModelBase dummyModel = new ModelBase() {};
+		dummyModel.isChild = false;
+		dummyModel.textureWidth = textureWidth;
+		dummyModel.textureHeight = textureHeight;
+		final ModelRenderer ret = makePartDefinition(null, part, dummyModel);
 
 		final List<ModelRenderer> queue = new ArrayList<>();
 		queue.add(ret);
@@ -77,14 +82,16 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 			queue.addAll((Collection) ((TailsModelPart) next).t$getChildren().values());
 		}
 
+		dummyModel.boxList.clear();
+
 		return (TailsModelPart) ret;
 	}
 
-	private static ModelRenderer makePartDefinition(@Nullable String name, TailsPartDefinition part, int textureWidth, int textureHeight) {
-		final ModelRenderer ret = new ModelRenderer(null, name);
+	private static ModelRenderer makePartDefinition(@Nullable String name, TailsPartDefinition part, ModelBase dummyModel) {
+		final ModelRenderer ret = new ModelRenderer(dummyModel, name);
 
-		ret.textureWidth = textureWidth;
-		ret.textureHeight = textureHeight;
+		ret.textureWidth = dummyModel.textureWidth;
+		ret.textureHeight = dummyModel.textureHeight;
 		ret.offsetX = part.xOffset;
 		ret.offsetY = part.yOffset;
 		ret.offsetZ = part.zOffset;
@@ -96,8 +103,10 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 			ret.cubeList.add(makeCubeDefinition(ret, cube));
 
 		// Recursion :concern:
-		for (Map.Entry<String, TailsPartDefinition> entry : part.children.entrySet())
-			ret.childModels.add(makePartDefinition(entry.getKey(), entry.getValue(), textureWidth, textureHeight));
+		for (Map.Entry<String, TailsPartDefinition> entry : part.children.entrySet()) {
+			if (ret.childModels == null) ret.childModels = new ArrayList<>();
+			ret.childModels.add(makePartDefinition(entry.getKey(), entry.getValue(), dummyModel));
+		}
 
 		return ret;
 	}

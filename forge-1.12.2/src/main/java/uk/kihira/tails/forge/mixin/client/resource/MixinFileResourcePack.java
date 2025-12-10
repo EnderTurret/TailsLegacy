@@ -28,6 +28,8 @@ public abstract class MixinFileResourcePack implements ResourceManagerExtensions
 	public Collection<ResourceLocation> tails$listResources(String prefix, Predicate<ResourceLocation> filter) {
 		final Set<ResourceLocation> ret = new HashSet<>();
 
+		//Tails.LOGGER.info("    PREFIX {}", prefix);
+
 		try {
 			final ZipFile zip = getResourcePackZipFile();
 
@@ -45,7 +47,9 @@ public abstract class MixinFileResourcePack implements ResourceManagerExtensions
 					final String namespace = name.substring(0, idx);
 					final String path = name.substring(idx + 1);
 
-					Tails.LOGGER.info("[File] {} ==> {}:{}", name, namespace, path);
+					if (!path.startsWith(prefix)) continue;
+
+					//Tails.LOGGER.info("[File] {} ==> {}:{}", name, namespace, path);
 
 					final ResourceLocation rl = new ResourceLocation(namespace, path);
 					if (filter.test(rl))
@@ -56,7 +60,7 @@ public abstract class MixinFileResourcePack implements ResourceManagerExtensions
 			e.printStackTrace();
 		}
 
-		return null;
+		return ret;
 	}
 
 	@Shadow

@@ -200,8 +200,6 @@ public final class PartsPanel extends Panel {
 				0, 0, 0, partialTick,
 				1, 1, 0xFF);
 
-		GlStateManager.enableLighting();
-
 		GlStateManager.popMatrix();
 	}
 

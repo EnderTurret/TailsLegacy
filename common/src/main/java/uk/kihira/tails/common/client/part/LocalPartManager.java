@@ -61,6 +61,11 @@ public final class LocalPartManager {
 				setLocalPartsData(new ClientPartsData());
 			else
 				localPartsData = (ClientPartsData) GSON.fromJson(localPlayerOutfit, PartsData.class);
+
+			// Check if the data was upgraded, and write it back to the config if so.
+			final String json = GSON.toJson(localPartsData);
+			if (!json.equals(localPlayerOutfit))
+				TailsClientPlatform.get().setConfigParts(json);
 		} catch (Exception e) {
 			TailsPlatform.get().logError("Failed to load local player data! Invalid data has been removed.", e);
 		}

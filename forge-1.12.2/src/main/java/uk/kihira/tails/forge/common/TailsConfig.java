@@ -45,6 +45,9 @@ public final class TailsConfig {
 		localPlayerData = config.getString("Local Player Data", Configuration.CATEGORY_GENERAL, "",
 				"The local player's customization data. Editing this manually is discouraged.");
 
+		// Just in case it's present.
+		config.getCategory(Configuration.CATEGORY_GENERAL).remove("Enable Library");
+
 		if (config.hasChanged())
 			config.save();
 	}
@@ -63,5 +66,6 @@ public final class TailsConfig {
 
 	public void setLocalPlayerData(String value) {
 		localPlayerData = value;
+		config.getCategory(Configuration.CATEGORY_GENERAL).get("Local Player Data").set(value);
 	}
 }

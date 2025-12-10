@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 
 @Mixin(RenderLivingBase.class)
-public interface LivingEntityRendererAccess {
+public interface RenderLivingBaseAccess {
 
 	@Accessor("layerRenderers")
 	public List<LayerRenderer<?>> tails$layers();

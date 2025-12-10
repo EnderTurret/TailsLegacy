@@ -63,7 +63,7 @@ import uk.kihira.tails.forge.client.render.BotaniaFoxtatoRenderer;
 import uk.kihira.tails.forge.client.render.layer.PartLayer;
 import uk.kihira.tails.forge.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.forge.common.TailsConfig;
-import uk.kihira.tails.forge.mixin.client.LivingEntityRendererAccess;
+import uk.kihira.tails.forge.mixin.client.RenderLivingBaseAccess;
 
 /**
  * Handles a variety of increasingly-exciting events.
@@ -100,7 +100,7 @@ public final class ClientEventHandler {
 		for (RenderPlayer renderer : skinMap.values()) {
 			renderer.addLayer(new PartLayer<>(renderer));
 
-			final List<LayerRenderer<?>> layers = ((LivingEntityRendererAccess) renderer).tails$layers();
+			final List<LayerRenderer<?>> layers = ((RenderLivingBaseAccess) renderer).tails$layers();
 			for (int i = 0; i < layers.size(); i++)
 				// If other mods do this exact same thing, let them take precedence.
 				// If it's just an ArrowLayer mixin, then sucks for them.

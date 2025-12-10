@@ -30,7 +30,7 @@ import uk.kihira.tails.common.client.duck.TailsRandomSource;
 import uk.kihira.tails.forge.client.render.ModelPartExtensions;
 
 @Mixin(ModelRenderer.class)
-public class MixinModelPart implements TailsModelPart, ModelPartExtensions {
+public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 
 	@Shadow
 	@Final

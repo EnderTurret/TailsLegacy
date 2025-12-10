@@ -20,7 +20,7 @@ import uk.kihira.tails.common.client.duck.TailsEntity;
 
 @Mixin(EntityLivingBase.class)
 @SuppressWarnings("cast")
-public class MixinLivingEntity implements TailsEntity {
+public class MixinEntityLivingBase implements TailsEntity {
 
 	@Override
 	public double t$x() {

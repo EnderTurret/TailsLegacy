@@ -9,16 +9,9 @@
     "duck.MixinResourceLocation"
   ],
   "client": [
-    "client.duck.MixinLivingEntity",
-    "client.duck.MixinModelPart",
-    "client.duck.MixinMultiBufferSource",
-    "client.duck.MixinPoseStack",
-    "client.duck.MixinPoseStackPose",
-    "client.duck.MixinVertexConsumer",
-    "client.CubeDefinitionAccess",
-    "client.LivingEntityRendererAccess",
-    "client.MixinCubeDefinition",
-    "client.MixinModelPartCube",
-    "client.PartDefinitionAccess"
+    "client.duck.MixinEntityLivingBase",
+    "client.duck.MixinModelRenderer",
+    "client.MixinModelBox",
+    "client.RenderLivingBaseAccess"
   ]
 }

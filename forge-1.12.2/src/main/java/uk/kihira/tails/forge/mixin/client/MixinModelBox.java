@@ -14,7 +14,7 @@ import net.minecraft.util.EnumFacing;
 import uk.kihira.tails.forge.client.render.ModelPartCubeExtensions;
 
 @Mixin(ModelBox.class)
-public abstract class MixinModelPartCube implements ModelPartCubeExtensions {
+public abstract class MixinModelBox implements ModelPartCubeExtensions {
 
 	@Shadow
 	@Final

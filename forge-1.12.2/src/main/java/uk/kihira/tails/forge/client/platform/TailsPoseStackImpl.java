@@ -2,6 +2,7 @@ package uk.kihira.tails.forge.client.platform;
 
 import net.minecraft.client.renderer.GlStateManager;
 
+import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 
 public final class TailsPoseStackImpl implements TailsPoseStack, TailsPoseStack.Entry {
@@ -32,17 +33,17 @@ public final class TailsPoseStackImpl implements TailsPoseStack, TailsPoseStack.
 
 	@Override
 	public void t$rotateX(float radians) {
-		GlStateManager.rotate(radians, 1, 0, 0);
+		GlStateManager.rotate(radians * TailsMath.RAD_TO_DEG, 1, 0, 0);
 	}
 
 	@Override
 	public void t$rotateY(float radians) {
-		GlStateManager.rotate(radians, 0, 1, 0);
+		GlStateManager.rotate(radians * TailsMath.RAD_TO_DEG, 0, 1, 0);
 	}
 
 	@Override
 	public void t$rotateZ(float radians) {
-		GlStateManager.rotate(radians, 0, 0, 1);
+		GlStateManager.rotate(radians * TailsMath.RAD_TO_DEG, 0, 0, 1);
 	}
 
 	@Override

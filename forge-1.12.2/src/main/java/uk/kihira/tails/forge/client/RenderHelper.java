@@ -117,7 +117,7 @@ public final class RenderHelper {
 		GlStateManager.scale(-scale, scale, scale);
 
 		GlStateManager.rotate(180F, 0, 0, 1);
-		GlStateManager.rotate(pitch * 20F, 1, 0, 0);
+		GlStateManager.rotate(pitch * -20F, 1, 0, 0);
 
 		GlStateManager.rotate(180F, 0, 0, 1);
 		GlStateManager.rotate(180 + yaw, 0, 1, 0);

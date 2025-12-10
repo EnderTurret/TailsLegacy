@@ -11,9 +11,11 @@ package uk.kihira.tails.forge.client.render.layer;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
@@ -45,6 +47,15 @@ public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, 
 
 	@Override
 	public void doRenderLayer(T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		// Vanilla does a translate() call instead of posing the ModelRenderers here,
+		// so we need to copy that here.
+		// TODO: Should we grab the matrix when the ModelRenderers are rendered and use those instead? (Might be more mod compatible.)
+		final boolean crouching = entity instanceof EntityPlayer && entity.isSneaking();
+		if (crouching) {
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(0, 0.2F, 0);
+		}
+
 		renderParts(
 				(TailsEntity) entity,
 				TailsPoseStackImpl.INSTANCE,
@@ -53,6 +64,9 @@ public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, 
 				1,
 				1
 				);
+
+		if (crouching)
+			GlStateManager.popMatrix();
 	}
 
 	@Override

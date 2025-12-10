@@ -57,7 +57,7 @@ processResources {
 
 tasks.named('jar', Jar).configure {
     manifest.attributes([
-        'FMLCorePlugin': 'net.enderturret.variableskins.forge.asm.VariableSkinsPlugin',
+        'FMLCorePlugin': 'net.enderturret.tails.forge.asm.TailsPlugin',
         'FMLCorePluginContainsFMLMod': true
     ])
 }

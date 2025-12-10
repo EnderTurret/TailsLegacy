@@ -217,8 +217,8 @@ public final class PartsPanel extends Panel {
 
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelected(slotIndex);
-				renderPart(right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFF);
+				renderPart(right - 25 - 2, y - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+				drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, y + 17, 0xFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;
@@ -232,7 +232,7 @@ public final class PartsPanel extends Panel {
 					if (author != null) {
 						// Yeah its not nice but eh, works.
 						GlStateManager.pushMatrix();
-						GlStateManager.translate(5, x + 27, 0);
+						GlStateManager.translate(5, y + 27, 0);
 						GlStateManager.scale(0.6F, 0.6F, 1);
 						parent.font().drawString(TailsComponents.PART_CREDIT.getFormattedText(), 0, 0, 0xFFFFFF);
 						parent.font().drawString(TextFormatting.AQUA + author, 0, 10, 0xFFFFFF);
@@ -240,7 +240,7 @@ public final class PartsPanel extends Panel {
 					}
 				}
 			} else
-				parent.font().drawString(TailsComponents.EMPTY_PART.getFormattedText(), 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				parent.font().drawString(TailsComponents.EMPTY_PART.getFormattedText(), 5, y + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
 		}
 
 		@Override

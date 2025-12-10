@@ -79,7 +79,7 @@ public class ListWidget<T extends GuiListExtended.IGuiListEntry> extends SimpleG
 
 	@Override
 	protected int getScrollBarX() {
-		return right - 8;
+		return right - 6;
 	}
 
 	public int getItemHeight() {

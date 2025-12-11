@@ -28,6 +28,7 @@ public class ListWidget<T extends GuiListExtended.IGuiListEntry> extends SimpleG
 	public ListWidget(int width, int height, int top, int slotHeight, List<T> entries) {
 		super(Minecraft.getMinecraft(), width, height, 0, top, slotHeight);
 		replaceEntries(entries);
+		selectionListener = item -> { if (item != null) onItemSelected(item); };
 	}
 
 	public ListWidget(int width, int height, int top, int slotHeight) {
@@ -35,15 +36,6 @@ public class ListWidget<T extends GuiListExtended.IGuiListEntry> extends SimpleG
 	}
 
 	public void onItemSelected(T item) {}
-
-	@Override
-	public void setSelected(T selected) {
-		final boolean changed = getSelected() != selected;
-
-		super.setSelected(selected);
-
-		if (changed) onItemSelected(selected);
-	}
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {

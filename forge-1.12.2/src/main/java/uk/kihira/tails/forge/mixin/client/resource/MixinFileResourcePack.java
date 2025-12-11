@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
@@ -13,12 +12,9 @@ import java.util.zip.ZipFile;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.resources.FileResourcePack;
 import net.minecraft.util.ResourceLocation;
 
-import uk.kihira.tails.forge.common.Tails;
 import uk.kihira.tails.forge.common.platform.ResourceManagerExtensions;
 
 @Mixin(FileResourcePack.class)
@@ -27,8 +23,6 @@ public abstract class MixinFileResourcePack implements ResourceManagerExtensions
 	@Override
 	public Collection<ResourceLocation> tails$listResources(String prefix, Predicate<ResourceLocation> filter) {
 		final Set<ResourceLocation> ret = new HashSet<>();
-
-		//Tails.LOGGER.info("    PREFIX {}", prefix);
 
 		try {
 			final ZipFile zip = getResourcePackZipFile();
@@ -48,8 +42,6 @@ public abstract class MixinFileResourcePack implements ResourceManagerExtensions
 					final String path = name.substring(idx + 1);
 
 					if (!path.startsWith(prefix)) continue;
-
-					//Tails.LOGGER.info("[File] {} ==> {}:{}", name, namespace, path);
 
 					final ResourceLocation rl = new ResourceLocation(namespace, path);
 					if (filter.test(rl))

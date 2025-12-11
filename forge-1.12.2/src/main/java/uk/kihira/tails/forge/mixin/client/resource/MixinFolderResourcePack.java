@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -40,7 +39,6 @@ public abstract class MixinFolderResourcePack extends AbstractResourcePack imple
 						.filter(Files::isRegularFile)
 						.map(path -> {
 							final String relative = domainPath.relativize(path.toAbsolutePath()).toString();
-							Tails.LOGGER.info("[Folder] {} ==> {}:{}", path.toAbsolutePath(), domain, relative);
 							return new ResourceLocation(domain, relative);
 						})
 						.filter(filter)

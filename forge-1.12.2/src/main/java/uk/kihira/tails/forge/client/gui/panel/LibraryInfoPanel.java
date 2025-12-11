@@ -17,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
 
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.gui.panel.BaseLibraryInfoPanel;
@@ -111,20 +110,17 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			final int xOffset = left;
 			final int yOffset = top;
 			for (ClientPartInfo partInfo : ((ClientPartsData) entry.data.partsData).getParts()) {
-				String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.format(partInfo.getPart().getTranslationKey());
-				parent.font().drawString(trans,
+				parent.font().drawString(TailsComponents.getPartName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4),
 						0xFFFFFF);
 
-				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.format(partInfo.getSubTypeTranslationKey());
-				parent.font().drawString(trans,
+				parent.font().drawString(TailsComponents.getSubTypeName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
 						0xFFFFFF);
 
-				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.format(partInfo.getTextureTranslationKey());
-				parent.font().drawString(trans,
+				parent.font().drawString(TailsComponents.getTextureName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
 						0xFFFFFF);

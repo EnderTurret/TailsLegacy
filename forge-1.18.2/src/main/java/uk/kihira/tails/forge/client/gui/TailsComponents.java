@@ -8,11 +8,13 @@
 
 package uk.kihira.tails.forge.client.gui;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 
 import uk.kihira.tails.common.TailsLanguage;
+import uk.kihira.tails.common.client.part.ClientPartInfo;
 
 public final class TailsComponents {
 
@@ -76,4 +78,29 @@ public final class TailsComponents {
 	// Miscellaneous
 
 	public static final Component EDITOR_BUTTON = new TranslatableComponent(TailsLanguage.EDITOR_BUTTON);
+
+	public static String getPartName(ClientPartInfo partInfo) {
+		if (!partInfo.isEmpty() && partInfo.getPart() == null) return partInfo.getPartId().toString();
+		return I18n.get(partInfo.getPart().getTranslationKey());
+	}
+
+	public static String getSubTypeName(ClientPartInfo partInfo) {
+		if (!partInfo.isEmpty() && partInfo.getSubType() == null) return partInfo.getSubTypeId();
+
+		final String key = partInfo.getSubTypeTranslationKey();
+		if (I18n.exists(key)) return I18n.get(key);
+
+		final String fallback = partInfo.getFallbackSubTypeTranslationKey();
+		return fallback != null ? I18n.get(fallback) : key;
+	}
+
+	public static String getTextureName(ClientPartInfo partInfo) {
+		if (!partInfo.isEmpty() && partInfo.getTexture() == null) return partInfo.getTextureId();
+
+		final String key = partInfo.getTextureTranslationKey();
+		if (I18n.exists(key)) return I18n.get(key);
+
+		final String fallback = partInfo.getFallbackTextureTranslationKey();
+		return fallback != null ? I18n.get(fallback) : key;
+	}
 }

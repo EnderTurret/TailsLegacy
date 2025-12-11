@@ -12,12 +12,10 @@ package uk.kihira.tails.forge.client.gui.panel;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.resources.I18n;
 
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import uk.kihira.tails.common.client.part.ClientPartInfo;
-import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.forge.client.RenderHelper;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
@@ -84,23 +82,8 @@ public final class TexturePanel extends Panel {
 		// Texture select
 		drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT.getFormattedText(), right / 2, variantSelectY - 12, 0xFFFFFF);
 
-		final Part part = partInfo.getPart();
-
-		final String texFormatted;
-
-		if (partInfo.isEmpty() || partInfo.getPartTexture() != null)
-			texFormatted = I18n.format(partInfo.getTextureTranslationKey());
-		else texFormatted = partInfo.getTextureId();
-
-		final String variantFormatted;
-
-		if (partInfo.isEmpty() || partInfo.getSubType() != null)
-			variantFormatted = I18n.format(partInfo.getSubTypeTranslationKey());
-		else
-			variantFormatted = partInfo.getSubTypeId();
-
-		RenderHelper.drawScrollingString(parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
-		RenderHelper.drawScrollingString(parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(parent.font(), TailsComponents.getSubTypeName(partInfo), left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(parent.font(), TailsComponents.getTextureName(partInfo), left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
 	}
 
 	private void cycleTexLeft() {

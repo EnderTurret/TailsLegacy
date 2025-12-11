@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.util.Comparator;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.common.OldJavaUtils;
 import uk.kihira.tails.common.TailsPlatform;
@@ -78,9 +79,23 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 		return getPartId().t$getNamespace() + ".part." + getPartId().t$getPath() + ".subtype." + getSubTypeId();
 	}
 
+	@Nullable
+	public default String getFallbackSubTypeTranslationKey() {
+		final String id = getSubTypeId();
+		if ("default".equals(id) || "standard".equals(id)) return "tails.part.default";
+		return null;
+	}
+
 	public default String getTextureTranslationKey() {
 		if (isEmpty()) return "tails.texture.none";
 		return getPartId().t$getNamespace() + ".part." + getPartId().t$getPath() + ".texture." + getTextureId();
+	}
+
+	@Nullable
+	public default String getFallbackTextureTranslationKey() {
+		final String id = getTextureId();
+		if ("default".equals(id) || "standard".equals(id)) return "tails.part.default";
+		return null;
 	}
 
 	public static final Comparator<IPartInfo> COMPARATOR = Comparator.<IPartInfo>nullsFirst(

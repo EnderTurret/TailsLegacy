@@ -1,6 +1,7 @@
 tails.subtype.none=None
 tails.texture.none=None
 tails.gui.part.none=None
+tails.part.default=Default
 
 tails.attachment.body=Body
 tails.attachment.body/back=Back

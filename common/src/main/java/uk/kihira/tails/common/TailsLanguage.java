@@ -78,4 +78,6 @@ public final class TailsLanguage {
 	public static final String EDITOR_BUTTON = "tails.gui.button.editor";
 	public static final String KEY_CATEGORY = "key.category.tails";
 	public static final String RELOAD_PARTS_KEY = "key.tails.reload_parts";
+
+	public static final String TAILS_PART_DEFAULT = "tails.part.default";
 }

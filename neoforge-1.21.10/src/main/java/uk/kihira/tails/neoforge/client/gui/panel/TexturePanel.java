@@ -17,7 +17,6 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.common.client.part.ClientPartInfo;
-import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.TailsComponents;
 
@@ -61,23 +60,8 @@ public final class TexturePanel extends Panel {
 		// Texture select
 		gui.drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFFFF);
 
-		final Part part = partInfo.getPart();
-
-		final Component texFormatted;
-
-		if (partInfo.isEmpty() || partInfo.getPartTexture() != null)
-			texFormatted = Component.translatable(partInfo.getTextureTranslationKey());
-		else texFormatted = Component.literal(partInfo.getTextureId());
-
-		final Component variantFormatted;
-
-		if (partInfo.isEmpty() || partInfo.getSubType() != null)
-			variantFormatted = Component.translatable(partInfo.getSubTypeTranslationKey());
-		else
-			variantFormatted = Component.literal(partInfo.getSubTypeId());
-
-		gui.drawScrollingString(parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFFFF);
-		gui.drawScrollingString(parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFFFF);
+		gui.drawScrollingString(parent.font(), Component.literal(TailsComponents.getSubTypeName(partInfo)), left + 25, right - 25, variantSelectY + 4, 0xFFFFFFFF);
+		gui.drawScrollingString(parent.font(), Component.literal(TailsComponents.getTextureName(partInfo)), left + 25, right - 25, texSelectY + 4, 0xFFFFFFFF);
 	}
 
 	private void cycleTexLeft() {

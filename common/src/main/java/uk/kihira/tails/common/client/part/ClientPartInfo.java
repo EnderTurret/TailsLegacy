@@ -144,6 +144,18 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return getPart() == null || getSubType() == null || getPartTexture() == null;
 	}
 
+	public boolean isPartInvalid() {
+		return getPart() == null;
+	}
+
+	public boolean isSubTypeInvalid() {
+		return getSubType() == null;
+	}
+
+	public boolean isTextureInvalid() {
+		return getPartTexture() == null;
+	}
+
 	/**
 	 * Convenience method for {@link PartRenderRegistry#getRenderer(Part) PartRenderRegistry.getRenderer(getPart())}.
 	 * @return The {@link PartRenderer} registered for this part.

@@ -13,14 +13,11 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 
 import uk.kihira.tails.common.client.part.ClientPartInfo;
-import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.forge.client.RenderHelper;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
@@ -65,23 +62,8 @@ public final class TexturePanel extends Panel {
 		// Texture select
 		drawCenteredString(poseStack, parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFF);
 
-		final Part part = partInfo.getPart();
-
-		final Component texFormatted;
-
-		if (partInfo.isEmpty() || partInfo.getPartTexture() != null)
-			texFormatted = new TranslatableComponent(partInfo.getTextureTranslationKey());
-		else texFormatted = new TextComponent(partInfo.getTextureId());
-
-		final Component variantFormatted;
-
-		if (partInfo.isEmpty() || partInfo.getSubType() != null)
-			variantFormatted = new TranslatableComponent(partInfo.getSubTypeTranslationKey());
-		else
-			variantFormatted = new TextComponent(partInfo.getSubTypeId());
-
-		RenderHelper.drawScrollingString(poseStack, parent.font(), variantFormatted, left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
-		RenderHelper.drawScrollingString(poseStack, parent.font(), texFormatted, left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(poseStack, parent.font(), new TextComponent(TailsComponents.getSubTypeName(partInfo)), left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(poseStack, parent.font(), new TextComponent(TailsComponents.getTextureName(partInfo)), left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
 	}
 
 	private void cycleTexLeft() {

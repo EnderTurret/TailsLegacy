@@ -21,7 +21,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
 import uk.kihira.tails.common.client.gui.TailsIcons;
@@ -97,20 +96,17 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			final int xOffset = left;
 			final int yOffset = top;
 			for (ClientPartInfo partInfo : ((ClientPartsData) entry.data.partsData).getParts()) {
-				String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-				gui.drawString(parent.font(), trans,
+				gui.drawString(parent.font(), TailsComponents.getPartName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4),
 						0xFFFFFF);
 
-				trans = partInfo.getSubType() == null ? partInfo.getSubTypeId().toString() : I18n.get(partInfo.getSubTypeTranslationKey());
-				gui.drawString(parent.font(), trans,
+				gui.drawString(parent.font(), TailsComponents.getSubTypeName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
 						0xFFFFFF);
 
-				trans = partInfo.getPartTexture() == null ? partInfo.getTextureId().toString() : I18n.get(partInfo.getTextureTranslationKey());
-				gui.drawString(parent.font(), trans,
+				gui.drawString(parent.font(), TailsComponents.getTextureName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
 						0xFFFFFF);

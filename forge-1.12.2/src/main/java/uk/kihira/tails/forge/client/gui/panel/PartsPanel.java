@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -95,6 +96,20 @@ public final class PartsPanel extends Panel {
 		addRenderableWidget(this.partList);
 
 		initPartList();
+	}
+
+	@Override
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
+			case ROOT_ATTACHMENT_PREV:
+				rootAttachment.previous(); break;
+			case ROOT_ATTACHMENT_NEXT:
+				rootAttachment.next(); break;
+			case ATTACHMENT_PREV:
+				attachment.previous(); break;
+			case ATTACHMENT_NEXT:
+				attachment.next(); break;
+		}
 	}
 
 	@Override

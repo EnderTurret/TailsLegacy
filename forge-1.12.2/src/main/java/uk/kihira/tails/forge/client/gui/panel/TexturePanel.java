@@ -80,10 +80,10 @@ public final class TexturePanel extends Panel {
 		zLevel = oldZ;
 
 		// Texture select
-		drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT.getFormattedText(), right / 2, variantSelectY - 12, 0xFFFFFF);
+		drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT.getFormattedText(), right / 2, variantSelectY - 12, 0xFFFFFFFF);
 
-		RenderHelper.drawScrollingString(parent.font(), TailsComponents.getSubTypeName(partInfo), left + 25, right - 25, variantSelectY + 4, 0xFFFFFF);
-		RenderHelper.drawScrollingString(parent.font(), TailsComponents.getTextureName(partInfo), left + 25, right - 25, texSelectY + 4, 0xFFFFFF);
+		RenderHelper.drawScrollingString(parent.font(), TailsComponents.getSubTypeName(partInfo), left + 25, right - 25, variantSelectY + 4, 0xFFFFFFFF);
+		RenderHelper.drawScrollingString(parent.font(), TailsComponents.getTextureName(partInfo), left + 25, right - 25, texSelectY + 4, 0xFFFFFFFF);
 	}
 
 	private void cycleTexLeft() {

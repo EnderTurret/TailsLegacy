@@ -135,16 +135,16 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		for (int tint = 1; tint <= 3; tint++) {
 			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
 			gui.fillGradient(left + 5, topOffset + 10, left + 25, topOffset + 30, colour, colour);
-			gui.drawString(parent.font(), I18n.get(TailsLanguage.TINT_LABEL, tint), left + 5, topOffset, 0xFFFFFF);
+			gui.drawString(parent.font(), I18n.get(TailsLanguage.TINT_LABEL, tint), left + 5, topOffset, 0xFFFFFFFF);
 			topOffset += 35;
 		}
 
 		// Editing tint pane
 		if (editingTint > 0) {
 			gui.hLine(left, right, editPaneTop, 0xFF000000);
-			gui.drawString(parent.font(), I18n.get(TailsLanguage.EDITING_TINT, editingTint), left + 5, editPaneTop + 5, 0xFFFFFF);
+			gui.drawString(parent.font(), I18n.get(TailsLanguage.EDITING_TINT, editingTint), left + 5, editPaneTop + 5, 0xFFFFFFFF);
 
-			gui.drawString(parent.font(), TailsComponents.HEX, left + 5, editPaneTop + 21, 0xFFFFFF);
+			gui.drawString(parent.font(), TailsComponents.HEX, left + 5, editPaneTop + 21, 0xFFFFFFFF);
 		}
 	}
 

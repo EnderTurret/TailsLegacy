@@ -55,7 +55,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 	@Override
 	public void render(PoseStack poseStack, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		if (data == null) {
-			GuiComponent.drawString(poseStack, Minecraft.getInstance().font, CREATE, rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFF);
+			GuiComponent.drawString(poseStack, Minecraft.getInstance().font, CREATE, rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFFFF);
 			return;
 		}
 
@@ -68,7 +68,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
 		final MutableComponent name = new TextComponent(data.entryName);
 		if (sel) name.withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC);
-		GuiComponent.drawString(poseStack, font, name, 5, rowTop + 3, 0xFFFFFF);
+		GuiComponent.drawString(poseStack, font, name, 5, rowTop + 3, 0xFFFFFFFF);
 
 		int index = 0;
 
@@ -76,7 +76,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			if (index == 4) break;
 
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			GuiComponent.drawString(poseStack, font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFF);
+			GuiComponent.drawString(poseStack, font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFFFF);
 
 			for (int i = 1; i < 4; i++)
 				GuiComponent.fill(poseStack, listWidth - 1 - 8 * i, rowTop + 13 + index * 8,

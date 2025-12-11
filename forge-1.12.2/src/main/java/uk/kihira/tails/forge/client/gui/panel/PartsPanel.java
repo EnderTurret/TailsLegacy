@@ -116,7 +116,7 @@ public final class PartsPanel extends Panel {
 	public void render(int mouseX, int mouseY, float partialTick) {
 		super.render(mouseX, mouseY, partialTick);
 
-		drawCenteredString(parent.font(), TailsComponents.PART_SELECT.getFormattedText(), (right - left) / 2, 5, 0xFFFFFF);
+		drawCenteredString(parent.font(), TailsComponents.PART_SELECT.getFormattedText(), (right - left) / 2, 5, 0xFFFFFFFF);
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public final class PartsPanel extends Panel {
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelected(slotIndex);
 				renderPart(right - 25 - 2, y - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, y + 17, 0xFFFFFF);
+				drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, y + 17, 0xFFFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;
@@ -252,13 +252,13 @@ public final class PartsPanel extends Panel {
 						GlStateManager.pushMatrix();
 						GlStateManager.translate(5, y + 27, 0);
 						GlStateManager.scale(0.6F, 0.6F, 1);
-						parent.font().drawString(TailsComponents.PART_CREDIT.getFormattedText(), 0, 0, 0xFFFFFF);
-						parent.font().drawString(TextFormatting.AQUA + author, 0, 10, 0xFFFFFF);
+						parent.font().drawString(TailsComponents.PART_CREDIT.getFormattedText(), 0, 0, 0xFFFFFFFF);
+						parent.font().drawString(TextFormatting.AQUA + author, 0, 10, 0xFFFFFFFF);
 						GlStateManager.popMatrix();
 					}
 				}
 			} else
-				parent.font().drawString(TailsComponents.EMPTY_PART.getFormattedText(), 5, y + partList.getItemHeight() / 2 - 5, 0xFFFFFF);
+				parent.font().drawString(TailsComponents.EMPTY_PART.getFormattedText(), 5, y + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
 		}
 
 		@Override

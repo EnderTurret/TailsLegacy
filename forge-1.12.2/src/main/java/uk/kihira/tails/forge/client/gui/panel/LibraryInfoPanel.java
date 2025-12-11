@@ -113,17 +113,17 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 				parent.font().drawString(TailsComponents.getPartName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4),
-						0xFFFFFF);
+						0xFFFFFFFF);
 
 				parent.font().drawString(TailsComponents.getSubTypeName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
-						0xFFFFFF);
+						0xFFFFFFFF);
 
 				parent.font().drawString(TailsComponents.getTextureName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
-						0xFFFFFF);
+						0xFFFFFFFF);
 
 				for (int i = 1; i < 4; i++)
 					drawRect(
@@ -136,11 +136,11 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 				index++;
 			}
 
-			parent.font().drawString(TailsComponents.LIBRARY_ENTRY_CREATOR.getFormattedText(), left + 5, bottom - 59, 0xAAAAAA);
-			parent.font().drawString(entry.data.creatorName, right - 5 - parent.font().getStringWidth(entry.data.creatorName), bottom - 50, 0xAAAAAA);
-			parent.font().drawString(TailsComponents.LIBRARY_ENTRY_CREATION_DATE.getFormattedText(), left + 5, bottom - 41, 0xAAAAAA);
+			parent.font().drawString(TailsComponents.LIBRARY_ENTRY_CREATOR.getFormattedText(), left + 5, bottom - 59, 0xFFAAAAAA);
+			parent.font().drawString(entry.data.creatorName, right - 5 - parent.font().getStringWidth(entry.data.creatorName), bottom - 50, 0xFFAAAAAA);
+			parent.font().drawString(TailsComponents.LIBRARY_ENTRY_CREATION_DATE.getFormattedText(), left + 5, bottom - 41, 0xFFAAAAAA);
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
-			parent.font().drawString(date, right - 5 - parent.font().getStringWidth(date), bottom - 32, 0xAAAAAA);
+			parent.font().drawString(date, right - 5 - parent.font().getStringWidth(date), bottom - 32, 0xFFAAAAAA);
 		}
 	}
 

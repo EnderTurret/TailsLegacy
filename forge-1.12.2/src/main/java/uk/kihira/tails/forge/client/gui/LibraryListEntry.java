@@ -49,7 +49,7 @@ public final class LibraryListEntry implements GuiListExtended.IGuiListEntry, Co
 	@Override
 	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		if (data == null) {
-			Minecraft.getMinecraft().fontRenderer.drawString(TailsComponents.CREATE_ENTRY.getFormattedText(), x + 3, y + slotHeight / 2 - 4, 0xFFFFFF);
+			Minecraft.getMinecraft().fontRenderer.drawString(TailsComponents.CREATE_ENTRY.getFormattedText(), x + 3, y + slotHeight / 2 - 4, 0xFFFFFFFF);
 			return;
 		}
 
@@ -60,7 +60,7 @@ public final class LibraryListEntry implements GuiListExtended.IGuiListEntry, Co
 		final FontRenderer font = panel.getParent().font();
 
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
-		font.drawString((sel ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName, 5, y + 3, 0xFFFFFF);
+		font.drawString((sel ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName, 5, y + 3, 0xFFFFFFFF);
 
 		int index = 0;
 
@@ -68,7 +68,7 @@ public final class LibraryListEntry implements GuiListExtended.IGuiListEntry, Co
 			if (index == 4) break;
 
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.format(partInfo.getPart().getTranslationKey());
-			font.drawString(trans, x + 5, y + 12 + 8 * index, 0xFFFFFF);
+			font.drawString(trans, x + 5, y + 12 + 8 * index, 0xFFFFFFFF);
 
 			for (int i = 1; i < 4; i++)
 				Gui.drawRect(listWidth - 1 - 8 * i, y + 13 + index * 8,

@@ -97,6 +97,8 @@ public class Spinner<T> extends GuiButton implements BaseSpinner<T> {
 
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTick) {
+		if (!visible) return;
+
 		final FontRenderer font = mc.fontRenderer;
 		final String message = displayString;
 		final int width = font.getStringWidth(message);

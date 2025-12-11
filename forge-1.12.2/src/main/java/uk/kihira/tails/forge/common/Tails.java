@@ -23,22 +23,14 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import uk.kihira.tails.common.TailsPlatform;
-import uk.kihira.tails.common.proxy.IProxy;
 import uk.kihira.tails.forge.client.ClientEventHandler;
 import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 
-/**
- * Look! It's the main mod file!
- */
 @Mod(modid = TailsPlatform.MOD_ID, name = "Tails Legacy", acceptedMinecraftVersions = "[1.12,1.13)", acceptableRemoteVersions = "*")
 public final class Tails {
 
 	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
-
-	@Internal
-	@SidedProxy(modId = TailsPlatform.MOD_ID, clientSide = "uk.kihira.tails.common.proxy.client.ClientProxy", serverSide = "uk.kihira.tails.common.proxy.ServerProxy")
-	public static IProxy PROXY;
 
 	@Internal
 	public Tails() {

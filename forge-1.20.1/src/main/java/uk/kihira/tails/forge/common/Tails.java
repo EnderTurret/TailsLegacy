@@ -20,28 +20,13 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import uk.kihira.tails.common.TailsPlatform;
-import uk.kihira.tails.common.proxy.IProxy;
-import uk.kihira.tails.common.proxy.ServerProxy;
 import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 
-/**
- * Look! It's the main mod file!
- */
 @Mod(TailsPlatform.MOD_ID)
 public final class Tails {
 
 	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
-
-	@Internal
-	public static final IProxy PROXY;
-
-	static {
-		if (FMLEnvironment.dist == Dist.CLIENT)
-			PROXY = IProxy.makeClientProxy();
-		else
-			PROXY = new ServerProxy();
-	}
 
 	@SuppressWarnings("removal")
 	@Internal

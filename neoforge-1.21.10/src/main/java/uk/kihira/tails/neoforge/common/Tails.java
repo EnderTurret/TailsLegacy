@@ -20,27 +20,12 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 
 import uk.kihira.tails.common.TailsPlatform;
-import uk.kihira.tails.common.proxy.IProxy;
-import uk.kihira.tails.common.proxy.ServerProxy;
 
-/**
- * Look! It's the main mod file!
- */
 @Mod(TailsPlatform.MOD_ID)
 public final class Tails {
 
 	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
-
-	@Internal
-	public static final IProxy PROXY;
-
-	static {
-		if (FMLEnvironment.getDist() == Dist.CLIENT)
-			PROXY = IProxy.makeClientProxy();
-		else
-			PROXY = new ServerProxy();
-	}
 
 	@Internal
 	public Tails(ModContainer mc) {

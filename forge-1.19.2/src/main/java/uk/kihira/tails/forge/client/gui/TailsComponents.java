@@ -93,7 +93,7 @@ public final class TailsComponents {
 	}
 
 	public static String getTextureName(ClientPartInfo partInfo) {
-		if (!partInfo.isEmpty() && partInfo.getTexture() == null) return partInfo.getTextureId();
+		if (!partInfo.isEmpty() && partInfo.getPartTexture() == null) return partInfo.getTextureId();
 
 		final String key = partInfo.getTextureTranslationKey();
 		if (I18n.exists(key)) return I18n.get(key);

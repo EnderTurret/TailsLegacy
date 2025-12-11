@@ -26,8 +26,8 @@ import uk.kihira.tails.forge.client.gui.TailsComponents;
 @Internal
 public final class TexturePanel extends Panel {
 
-	private final int variantSelectY;
-	private final int texSelectY;
+	private int variantSelectY;
+	private int texSelectY;
 
 	private ExtendedButton variantLeftBtn;
 	private ExtendedButton variantRightBtn;
@@ -36,12 +36,13 @@ public final class TexturePanel extends Panel {
 
 	public TexturePanel(EditorScreen parent, int x, int y, int width, int height) {
 		super(parent, x, y, width, height);
-		variantSelectY = top + 17;
-		texSelectY = variantSelectY + 15;
 	}
 
 	@Override
 	public void init() {
+		variantSelectY = top + 17;
+		texSelectY = variantSelectY + 15;
+
 		// Texture select
 		addRenderableWidget(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, Component.literal("<"), b -> cycleVariantLeft()));
 		addRenderableWidget(variantRightBtn = new ExtendedButton(right - 20, variantSelectY, 15, 15, Component.literal(">"), b -> cycleVariantRight()));

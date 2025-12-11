@@ -60,6 +60,7 @@ public abstract class Panel extends AbstractWidget {
 	public void removed() {}
 
 	public void resize(int x, int y, int newWidth, int newHeight) {
+		renderables.clear();
 		left = x;
 		top = y;
 		right = x + newWidth;

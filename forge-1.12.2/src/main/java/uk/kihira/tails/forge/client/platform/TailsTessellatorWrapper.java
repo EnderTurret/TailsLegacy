@@ -89,15 +89,23 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 		return this;
 	}
 
+	private int lastColor;
+
 	@Override
 	public TailsVertexConsumer t$color(int color) {
-		buffer.color(JavaColor.red(color), JavaColor.green(color), JavaColor.blue(color), JavaColor.alpha(color));
+		// Older versions of Minecraft seem to be sensitive to the order of vertex data.
+		// We emit color before UV normally, but 1.12 expects UV then color.
+		// To fix this, we record the color and emit it after the UV below.
+		lastColor = color;
 		return this;
 	}
 
 	@Override
 	public TailsVertexConsumer t$uv(float u, float v) {
 		buffer.tex(u, v);
+
+		buffer.color(JavaColor.red(lastColor), JavaColor.green(lastColor), JavaColor.blue(lastColor), JavaColor.alpha(lastColor));
+
 		return this;
 	}
 

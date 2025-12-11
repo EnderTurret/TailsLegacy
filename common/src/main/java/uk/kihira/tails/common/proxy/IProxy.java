@@ -11,10 +11,6 @@ package uk.kihira.tails.common.proxy;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.google.gson.Gson;
-
-import uk.kihira.tails.common.api.IPlayerPartManager;
-
 /**
  * A proxy interface.
  * If your mod doesn't have one, is it really a mod?
@@ -36,14 +32,4 @@ public interface IProxy {
 			throw new IllegalStateException(e);
 		}
 	}
-
-	/**
-	 * @return The part manager.
-	 */
-	public IPlayerPartManager getPartManager();
-
-	/**
-	 * @return The sided {@link Gson} instance.
-	 */
-	public Gson getSidedGson();
 }

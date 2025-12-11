@@ -27,7 +27,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.network.BaseC2SPlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.neoforge.common.Tails;
+import uk.kihira.tails.common.part.ServerPlayerPartManager;
 
 @Internal
 public record C2SPlayerDataMessage(PartsData partsData) implements CustomPacketPayload, BaseC2SPlayerDataMessage {
@@ -57,7 +57,7 @@ public record C2SPlayerDataMessage(PartsData partsData) implements CustomPacketP
 		final ServerPlayer sender = (ServerPlayer) context.player();
 		final UUID uuid = sender.getUUID();
 
-		Tails.PROXY.getPartManager().set(uuid, message.partsData);
+		ServerPlayerPartManager.get().set(uuid, message.partsData);
 
 		// Tell other clients about the change.
 		// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).

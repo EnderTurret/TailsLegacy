@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.network.PacketDistributor;
 
 import uk.kihira.tails.common.TailsPlatform;
+import uk.kihira.tails.common.part.ServerPlayerPartManager;
 import uk.kihira.tails.forge.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 
@@ -34,12 +35,12 @@ public final class ServerEventHandler {
 	static void onPlayerLogin(PlayerLoggedInEvent event) {
 		final ServerPlayer player = (ServerPlayer) event.getEntity();
 		// Send current known tails to uk.kihira.tails.client
-		TailsNetworkManager.get().send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(Tails.PROXY.getPartManager().getData()));
+		TailsNetworkManager.get().send(PacketDistributor.PLAYER.with(() -> player), new PlayerDataMapMessage(ServerPlayerPartManager.get().getData()));
 	}
 
 	@SubscribeEvent
 	static void onPlayerLogout(PlayerLoggedOutEvent event) {
 		// Server doesn't save tails so we discard.
-		Tails.PROXY.getPartManager().remove(event.getEntity().getUUID());
+		ServerPlayerPartManager.get().remove(event.getEntity().getUUID());
 	}
 }

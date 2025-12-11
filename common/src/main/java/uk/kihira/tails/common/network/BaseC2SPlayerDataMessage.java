@@ -10,6 +10,7 @@ package uk.kihira.tails.common.network;
 
 import uk.kihira.tails.common.TailsInternal;
 import uk.kihira.tails.common.TailsPlatform;
+import uk.kihira.tails.common.client.TailsClientInternal;
 import uk.kihira.tails.common.gson.TailsGsonHelper;
 import uk.kihira.tails.common.part.PartsData;
 
@@ -32,6 +33,6 @@ public interface BaseC2SPlayerDataMessage {
 	}
 
 	public static String encodeJson(PartsData partsData) {
-		return partsData == null || partsData.isEmpty() ? "" : TailsPlatform.get().getSidedGson().toJson(partsData);
+		return partsData == null || partsData.isEmpty() ? "" : TailsClientInternal.getClientGson().toJson(partsData);
 	}
 }

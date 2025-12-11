@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 
 import uk.kihira.tails.common.TailsPlatform;
+import uk.kihira.tails.common.part.ServerPlayerPartManager;
 import uk.kihira.tails.forge.common.network.PlayerDataMapMessage;
 import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 
@@ -33,12 +34,12 @@ public final class ServerEventHandler {
 	static void onPlayerLogin(PlayerLoggedInEvent event) {
 		final EntityPlayerMP player = (EntityPlayerMP) event.player;
 		// Send current known tails to uk.kihira.tails.client
-		TailsNetworkManager.get().sendTo(new PlayerDataMapMessage(Tails.PROXY.getPartManager().getData()), player);
+		TailsNetworkManager.get().sendTo(new PlayerDataMapMessage(ServerPlayerPartManager.get().getData()), player);
 	}
 
 	@SubscribeEvent
 	static void onPlayerLogout(PlayerLoggedOutEvent event) {
 		// Server doesn't save tails so we discard.
-		Tails.PROXY.getPartManager().remove(event.player.getUniqueID());
+		ServerPlayerPartManager.get().remove(event.player.getUniqueID());
 	}
 }

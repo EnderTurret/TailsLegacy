@@ -11,11 +11,6 @@ package uk.kihira.tails.common.proxy.client;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import com.google.gson.Gson;
-
-import uk.kihira.tails.common.api.IPlayerPartManager;
-import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
-import uk.kihira.tails.common.client.part.LocalPartManager;
 import uk.kihira.tails.common.proxy.IProxy;
 
 /**
@@ -26,15 +21,4 @@ import uk.kihira.tails.common.proxy.IProxy;
 @Internal
 public final class ClientProxy implements IProxy {
 
-	private final IPlayerPartManager partManager = new ClientPlayerPartManager();
-
-	@Override
-	public IPlayerPartManager getPartManager() {
-		return partManager;
-	}
-
-	@Override
-	public Gson getSidedGson() {
-		return LocalPartManager.GSON;
-	}
 }

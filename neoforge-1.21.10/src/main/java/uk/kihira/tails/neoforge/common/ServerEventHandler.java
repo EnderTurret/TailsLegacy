@@ -20,6 +20,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEve
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import uk.kihira.tails.common.TailsPlatform;
+import uk.kihira.tails.common.part.ServerPlayerPartManager;
 import uk.kihira.tails.neoforge.common.network.PlayerDataMapMessage;
 
 /**
@@ -33,12 +34,12 @@ public final class ServerEventHandler {
 	static void onPlayerLogin(PlayerLoggedInEvent event) {
 		final ServerPlayer player = (ServerPlayer) event.getEntity();
 		// Send current known tails to uk.kihira.tails.client
-		PacketDistributor.sendToPlayer(player, new PlayerDataMapMessage(Tails.PROXY.getPartManager().getData()));
+		PacketDistributor.sendToPlayer(player, new PlayerDataMapMessage(ServerPlayerPartManager.get().getData()));
 	}
 
 	@SubscribeEvent
 	static void onPlayerLogout(PlayerLoggedOutEvent event) {
 		// Server doesn't save tails so we discard.
-		Tails.PROXY.getPartManager().remove(event.getEntity().getUUID());
+		ServerPlayerPartManager.get().remove(event.getEntity().getUUID());
 	}
 }

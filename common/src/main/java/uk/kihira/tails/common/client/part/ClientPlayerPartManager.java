@@ -16,7 +16,6 @@ import java.util.UUID;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
-import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.api.ITailsSyncService;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.PlayerPartManager;
@@ -37,13 +36,16 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 
 	private final Set<UUID> checked = new HashSet<>(0);
 
+	private static ClientPlayerPartManager partManager;
+
 	/**
 	 * Returns the {@link PlayerPartManager} used on the client.
 	 * This should be perfectly safe as calling this method should mean you're on the client anyway.
 	 * @return The client-side player part manager.
 	 */
 	public static ClientPlayerPartManager get() {
-		return (ClientPlayerPartManager) TailsPlatform.get().getPartManager();
+		if (partManager == null) partManager = new ClientPlayerPartManager();
+		return partManager;
 	}
 
 	@Override

@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import uk.kihira.tails.common.network.BaseC2SPlayerDataMessage;
 import uk.kihira.tails.common.part.PartsData;
-import uk.kihira.tails.forge.common.Tails;
+import uk.kihira.tails.common.part.ServerPlayerPartManager;
 
 public final class C2SPlayerDataMessage implements BaseC2SPlayerDataMessage, IMessage {
 
@@ -56,7 +56,7 @@ public final class C2SPlayerDataMessage implements BaseC2SPlayerDataMessage, IMe
 			final EntityPlayerMP sender = context.getServerHandler().player;
 			final UUID uuid = sender.getUniqueID();
 
-			Tails.PROXY.getPartManager().set(uuid, message.partsData);
+			ServerPlayerPartManager.get().set(uuid, message.partsData);
 
 			// Tell other clients about the change.
 			// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).

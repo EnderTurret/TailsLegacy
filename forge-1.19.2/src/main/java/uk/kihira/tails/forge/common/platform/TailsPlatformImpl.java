@@ -10,13 +10,10 @@ package uk.kihira.tails.forge.common.platform;
 
 import java.util.UUID;
 
-import com.google.gson.Gson;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 import uk.kihira.tails.common.TailsPlatform;
-import uk.kihira.tails.common.api.IPlayerPartManager;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.forge.common.Tails;
 
@@ -63,15 +60,5 @@ public final class TailsPlatformImpl implements TailsPlatform {
 	@Override
 	public float lookupCos(float angle) {
 		return Mth.cos(angle);
-	}
-
-	@Override
-	public IPlayerPartManager getPartManager() {
-		return Tails.PROXY.getPartManager();
-	}
-
-	@Override
-	public Gson getSidedGson() {
-		return Tails.PROXY.getSidedGson();
 	}
 }

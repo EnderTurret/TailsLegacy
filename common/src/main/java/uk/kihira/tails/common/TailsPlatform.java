@@ -11,9 +11,6 @@ package uk.kihira.tails.common;
 import java.util.ServiceLoader;
 import java.util.UUID;
 
-import com.google.gson.Gson;
-
-import uk.kihira.tails.common.api.IPlayerPartManager;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 
 public interface TailsPlatform {
@@ -42,7 +39,4 @@ public interface TailsPlatform {
 
 	public float lookupSin(float angle);
 	public float lookupCos(float angle);
-
-	public IPlayerPartManager getPartManager();
-	public Gson getSidedGson();
 }

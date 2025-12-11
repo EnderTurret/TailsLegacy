@@ -106,9 +106,9 @@ public final class TexturePanel extends Panel {
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
 		if (leftBtn != null && rightBtn != null)
-			leftBtn.enabled = rightBtn.enabled = !partInfo.isInvalid() && partInfo.getSubType().textures().size() > 1;
+			leftBtn.enabled = rightBtn.enabled = !partInfo.isPartInvalid() && !partInfo.isSubTypeInvalid() && partInfo.getSubType().textures().size() > 1;
 
 		if (variantLeftBtn != null && variantRightBtn != null)
-			variantLeftBtn.enabled = variantRightBtn.enabled = !partInfo.isInvalid() && partInfo.getPart().getSubTypes().size() > 1;
+			variantLeftBtn.enabled = variantRightBtn.enabled = !partInfo.isPartInvalid() && partInfo.getPart().getSubTypes().size() > 1;
 	}
 }

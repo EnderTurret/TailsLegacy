@@ -21,6 +21,7 @@ public class SimpleGuiList<E extends GuiListExtended.IGuiListEntry> extends GuiL
 		this.left = left;
 		right = left + width;
 		setHasListHeader(false, 0);
+		centerListVertically = false; // This doesn't seem to be used, but set it in case mods read it.
 	}
 
 	public List<E> getEntries() {

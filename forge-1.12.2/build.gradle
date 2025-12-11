@@ -37,6 +37,10 @@ minecraft {
     username.set(rootProject.findProperty('minecraft_username'))
     userUUID.set(rootProject.findProperty('minecraft_uuid'))
 
+    // JVM args for remote debugging via IDE
+    //extraRunJvmArguments.add('-Xdebug')
+    //extraRunJvmArguments.add('-Xrunjdwp:transport=dt_socket,address=8413,server=y,suspend=n')
+
     //extraRunJvmArguments.add('-Dmixin.debug.export=true')
 }
 

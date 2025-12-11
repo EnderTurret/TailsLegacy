@@ -1,0 +1,58 @@
+tails.gui.part.none=Kein Schweif
+
+
+tails.part.tail/dragon_tail=Echsenschweif
+tails.part.tail/fluffy_tail=Flauschiger Schweif
+tails.part.tail/raccoon_tail=Waschbärschweif
+tails.part.tail/devil_tail=Teufelsschweif
+tails.part.tail/cat_tail=Katzenschweif
+tails.part.tail/bird_tail=Vogelschweif
+
+
+tails.part.tail/fluffy_tail.texture.standard=Fuchs
+tails.part.tail/devil_tail.texture.standard=Teufel
+tails.part.tail/raccoon_tail.texture.standard=Waschbär
+tails.part.tail/dragon_tail.texture.standard=Katze
+tails.part.tail/dragon_tail.texture.striped=Gestreift
+tails.part.tail/cat_tail.texture.tiger=Tiger
+tails.part.tail/bird_tail.texture.standard=Vogel
+
+tails.part.ears/fox_ears=Fuchsohren
+tails.part.ears/cat_ears=katzenohren
+tails.part.ears/panda_ears=Pandaohren
+
+
+tails.part.ears/fox_ears.texture.standard=Fuchs
+tails.part.ears/cat_ears.texture.standard=Katze
+tails.part.ears/panda_ears.texture.standard=Panda
+
+tails.part.wings/big_wings=Große Flügel
+
+tails.part.wings/big_wings.texture.angel=Engelsflügel
+tails.part.wings/big_wings.texture.metal=Metallflügel
+
+
+
+
+
+tails.gui.button.editor=Schweif-Editor
+tails.gui.button.reset=Zurücksetzen
+tails.gui.button.save=Speichern
+tails.gui.button.edit=Editieren
+tails.gui.button.help.camera=Klicke und ziehe im Vorschau-Fenster um deinen Charakter zu drehen.
+tails.gui.button.reset.camera=Kamera zurücksetzen
+tails.gui.button.picker.0=Farbauswahl
+tails.gui.button.picker.1=Wähle einen Punkt am Bildschirm, um diese Farbe zu verwenden
+
+tails.gui.slider.red.tooltip=Rot
+tails.gui.slider.green.tooltip=Grün
+tails.gui.slider.blue.tooltip=Blau
+tails.gui.slider.hue.tooltip=Farbton
+tails.gui.slider.saturation.tooltip=Sättigung
+tails.gui.slider.brightness.tooltip=Helligkeit
+
+
+tails.gui.tint=Farbton %s
+tails.gui.tint.edit=Editiere Farbton %s
+tails.gui.hex=Hex:
+tails.gui.texture=Textur

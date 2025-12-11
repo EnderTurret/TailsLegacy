@@ -1,0 +1,101 @@
+plugins {
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+
+repositories {
+    maven {
+        name = 'gtnh'
+        url = 'https://nexus.gtnewhorizons.com/repository/public/'
+        content {
+            includeGroup 'io.github.legacymoddingmc'
+        }
+    }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    String mixin = modUtils.enableMixins("io.github.legacymoddingmc:unimixins:${unimixins_version}:dev", 'tails.refmap.json')
+    implementation (mixin)
+    annotationProcessor 'org.ow2.asm:asm-debug-all:5.0.4'
+    annotationProcessor 'com.google.guava:guava:24.1.1-jre'
+    annotationProcessor 'com.google.code.gson:gson:2.13.2'
+    annotationProcessor (mixin)
+
+    compileOnly 'org.jetbrains:annotations:24.0.1'
+
+    compileOnly rfg.deobf("vazkii.botania:Botania+r1.8:249:api")
+    implementation rfg.deobf("net.enderturret:VariableSkins-${minecraft_version}-forge:${variableskins_version}")
+}
+
+minecraft {
+    usesFml = true
+    usesForge = true
+
+    mcVersion.set("${minecraft_version}")
+
+    mcpMappingChannel.set("${mappings_channel}")
+    mcpMappingVersion.set("${mappings_version}")
+
+    username.set(rootProject.findProperty('minecraft_username'))
+    userUUID.set(rootProject.findProperty('minecraft_uuid'))
+
+    // JVM args for remote debugging via IDE
+    //extraRunJvmArguments.add('-Xdebug')
+    //extraRunJvmArguments.add('-Xrunjdwp:transport=dt_socket,address=8413,server=y,suspend=n')
+
+    //extraRunJvmArguments.add('-Dmixin.debug.export=true')
+}
+
+processResources {
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    inputs.property 'version', project.version
+
+    from (sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version
+    }
+
+    from (sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    manifest.attributes([
+        'FMLCorePlugin': 'uk.kihira.tails.forge.asm.TailsPlugin',
+        'FMLCorePluginContainsFMLMod': true,
+        'ForceLoadAsMod': true
+    ])
+}
+
+/*
+def atFile = file("${projectDir}/src/main/resources/META-INF/accesstransformer.cfg")
+tasks.deobfuscateMergedJarToSrg.accessTransformerFiles.from(atFile)
+tasks.srgifyBinpatchedJar.accessTransformerFiles.from(atFile)
+
+tasks.named('jar', Jar).configure {
+    manifest.attributes([
+        'FMLAT': 'accesstransformer.cfg'
+    ])
+}
+*/
+
+// From https://github.com/GTNewHorizons/RetroFuturaGradle/issues/31
+eclipse {
+    classpath {
+        // Ignore compiler warnings from decompiled and generated sources
+        file {
+            whenMerged({ classpath ->
+                classpath.entries.each { entry ->
+                    if (entry.kind == 'src' && entry.path.startsWith('build'))
+                        entry.entryAttributes['ignore_optional_problems'] = true
+                }
+            })
+        }
+    }
+}

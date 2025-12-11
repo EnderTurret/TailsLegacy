@@ -30,8 +30,8 @@ public final class TexturePanel extends Panel {
 	public static final int TEXTURE_LEFT = 702;
 	public static final int TEXTURE_RIGHT = 703;
 
-	private final int variantSelectY;
-	private final int texSelectY;
+	private int variantSelectY;
+	private int texSelectY;
 
 	private GuiButtonExt variantLeftBtn;
 	private GuiButtonExt variantRightBtn;
@@ -40,12 +40,13 @@ public final class TexturePanel extends Panel {
 
 	public TexturePanel(EditorScreen parent, int x, int y, int width, int height) {
 		super(parent, x, y, width, height);
-		variantSelectY = top + 17;
-		texSelectY = variantSelectY + 15;
 	}
 
 	@Override
 	public void init() {
+		variantSelectY = top + 17;
+		texSelectY = variantSelectY + 15;
+
 		// Texture select
 		addRenderableWidget(variantLeftBtn = new GuiButtonExt(VARIANT_LEFT, 5, variantSelectY, 15, 15, "<"));
 		addRenderableWidget(variantRightBtn = new GuiButtonExt(VARIANT_RIGHT, right - 20, variantSelectY, 15, 15, ">"));

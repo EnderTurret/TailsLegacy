@@ -17,6 +17,12 @@ repositories {
     }
 }
 
+configurations {
+    localImplementation
+    compileClasspath.extendsFrom localImplementation
+    runtimeClasspath.extendsFrom localImplementation
+}
+
 dependencies {
     String mixin = modUtils.enableMixins("io.github.legacymoddingmc:unimixins:${unimixins_version}:dev", 'tails.refmap.json')
     implementation (mixin)
@@ -28,7 +34,8 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:24.0.1'
 
     compileOnly rfg.deobf("vazkii.botania:Botania+r1.8:249:api")
-    implementation rfg.deobf("net.enderturret:VariableSkins-${minecraft_version}-forge:${variableskins_version}")
+    localImplementation rfg.deobf("net.enderturret:VariableSkins-${minecraft_version}-forge:${variableskins_version}")
+    localImplementation rfg.deobf("maven.modrinth:ears:1.4.7+forge-1.7")
 }
 
 minecraft {

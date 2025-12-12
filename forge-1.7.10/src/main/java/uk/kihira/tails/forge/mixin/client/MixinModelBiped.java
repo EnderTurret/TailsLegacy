@@ -22,11 +22,11 @@ import uk.kihira.tails.forge.client.render.layer.PartLayer;
 public abstract class MixinModelBiped {
 
 	@Inject(
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelRenderer;render(F)V"),
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelRenderer;render(F)V", shift = At.Shift.AFTER),
 			method = "render",
 			slice = @Slice(
-					from = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedHead:Lnet/minecraft/client/model/ModelRenderer;"),
-					to = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedBody:Lnet/minecraft/client/model/ModelRenderer;")
+					from = @At(value = "FIELD", ordinal = 1, opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedHead:Lnet/minecraft/client/model/ModelRenderer;"),
+					to = @At(value = "FIELD", ordinal = 1, opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedBody:Lnet/minecraft/client/model/ModelRenderer;")
 					))
 	private void tails$renderHeadParts(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale, CallbackInfo ci) {
 		if (!(entity instanceof EntityPlayer)) return;
@@ -38,11 +38,11 @@ public abstract class MixinModelBiped {
 	}
 
 	@Inject(
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelRenderer;render(F)V"),
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelRenderer;render(F)V", shift = At.Shift.AFTER),
 			method = "render",
 			slice = @Slice(
-					from = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedBody:Lnet/minecraft/client/model/ModelRenderer;"),
-					to = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedRightArm:Lnet/minecraft/client/model/ModelRenderer;")
+					from = @At(value = "FIELD", ordinal = 1, opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedBody:Lnet/minecraft/client/model/ModelRenderer;"),
+					to = @At(value = "FIELD", ordinal = 1, opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedRightArm:Lnet/minecraft/client/model/ModelRenderer;")
 					))
 	private void tails$renderBodyParts(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale, CallbackInfo ci) {
 		if (!(entity instanceof EntityPlayer)) return;

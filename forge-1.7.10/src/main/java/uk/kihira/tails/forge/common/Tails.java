@@ -27,7 +27,7 @@ import uk.kihira.tails.forge.client.ClientEventHandler;
 import uk.kihira.tails.forge.client.toast.ToastManager;
 import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 
-@Mod(modid = TailsPlatform.MOD_ID, name = "Tails Legacy", acceptedMinecraftVersions = "[1.12,1.13)", acceptableRemoteVersions = "*")
+@Mod(modid = TailsPlatform.MOD_ID, name = "Tails Legacy", acceptedMinecraftVersions = "[1.7.10,1.8)", acceptableRemoteVersions = "*")
 public final class Tails {
 
 	@Internal

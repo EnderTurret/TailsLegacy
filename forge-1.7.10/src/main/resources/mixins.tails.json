@@ -17,7 +17,6 @@
     "client.resource.MixinReloadableResourceManager",
     "client.MixinModelBiped",
     "client.MixinModelBox",
-    "client.MixinRendererLivingEntity",
-    "client.RenderLivingBaseAccess"
+    "client.MixinRendererLivingEntity"
   ]
 }

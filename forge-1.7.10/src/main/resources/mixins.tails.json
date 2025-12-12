@@ -13,6 +13,7 @@
     "client.resource.MixinFileResourcePack",
     "client.resource.MixinFolderResourcePack",
     "client.resource.MixinReloadableResourceManager",
+    "client.MixinGuiSlot",
     "client.MixinModelBiped",
     "client.MixinModelBox",
     "client.MixinRendererLivingEntity"

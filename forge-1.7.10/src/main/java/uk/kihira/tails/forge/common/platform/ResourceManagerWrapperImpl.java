@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Predicate;
@@ -45,7 +46,7 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 	public Map<TResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<TResourceLocation> filter) {
 		@SuppressWarnings("unchecked")
 		final Collection<ResourceLocation> resources = ((ResourceManagerExtensions) manager).tails$listResources(prefix, (Predicate) filter);
-		final Map<TResourceLocation, JsonElement> ret = new TreeMap<>();
+		final Map<TResourceLocation, JsonElement> ret = new TreeMap<>(TResourceLocation::t$compareTo);
 
 		for (ResourceLocation rl : resources)
 			ret.put((TResourceLocation) rl, readJson(rl));

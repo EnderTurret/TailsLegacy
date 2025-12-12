@@ -31,7 +31,7 @@ import uk.kihira.tails.common.client.render.PartRenderRegistry;
  */
 public final class PartRegistry {
 
-	private static final Map<TResourceLocation, Part> PART_REGISTRY = new TreeMap<>();
+	private static final Map<TResourceLocation, Part> PART_REGISTRY = new TreeMap<>(TResourceLocation::t$compareNamespaced);
 	private static final Map<AttachmentPoint, List<Part>> BY_TYPE = new LinkedHashMap<>();
 
 	public static final PartLoadingManager MANAGER = new PartLoadingManager(PartRegistry::clear, PartRegistry::register);

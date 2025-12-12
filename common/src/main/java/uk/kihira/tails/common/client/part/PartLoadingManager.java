@@ -158,7 +158,7 @@ public class PartLoadingManager {
 			else textures.add(pair);
 		}
 
-		final Map<TResourceLocation, List<String>> realOrderings = new TreeMap<>();
+		final Map<TResourceLocation, List<String>> realOrderings = new TreeMap<>(TResourceLocation::t$compareNamespaced);
 
 		for (ResourcePair pair : orderings) {
 			final JsonElement json = pair.json;

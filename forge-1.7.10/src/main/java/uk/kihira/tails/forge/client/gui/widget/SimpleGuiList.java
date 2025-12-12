@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
-import net.enderturret.variableskins.forge.client.RenderUtil;
+import uk.kihira.tails.forge.client.RenderHelper;
 
 public class SimpleGuiList<E extends GuiListExtended.IGuiListEntry> extends GuiListExtended {
 
@@ -80,12 +80,12 @@ public class SimpleGuiList<E extends GuiListExtended.IGuiListEntry> extends GuiL
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		RenderUtil.startGlScissor(left, top, right, bottom);
+		RenderHelper.startGlScissor(left, top, right, bottom);
 
 		try {
 			super.drawScreen(mouseX, mouseY, partialTicks);
 		} finally {
-			RenderUtil.endGlScissor();
+			RenderHelper.endGlScissor();
 		}
 	}
 }

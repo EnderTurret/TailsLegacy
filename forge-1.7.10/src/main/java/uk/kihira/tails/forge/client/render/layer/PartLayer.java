@@ -43,6 +43,8 @@ public class PartLayer {
 			GL11.glTranslatef(0, 0.2F, 0);
 		}
 
+		final int originalTextureId = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
+
 		final ClientPartsData partsData = ClientPlayerPartManager.get().get(entity.getUniqueID());
 		for (ClientPartInfo partInfo : partsData.getParts()) {
 			if (partInfo.isInvalid()) continue; // Skip unknown parts.
@@ -63,6 +65,8 @@ public class PartLayer {
 
 			GL11.glPopMatrix();
 		}
+
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, originalTextureId);
 
 		if (crouching)
 			GL11.glPopMatrix();

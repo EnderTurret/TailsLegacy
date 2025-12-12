@@ -121,6 +121,8 @@ public final class RenderHelper {
 		GL11.glRotatef(180F, 0, 0, 1);
 		GL11.glRotatef(180 + yaw, 0, 1, 0);
 
+		GL11.glTranslatef(0, entity.yOffset, 0);
+
 		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 
 		final RenderManager rendererManager = RenderManager.instance;

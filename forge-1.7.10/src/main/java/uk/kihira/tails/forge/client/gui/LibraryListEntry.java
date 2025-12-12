@@ -10,6 +10,7 @@
 package uk.kihira.tails.forge.client.gui;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.opengl.GL11;
 
 import com.mojang.authlib.GameProfile;
 
@@ -17,9 +18,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.EnumChatFormatting;
 
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.TailsLanguage;
@@ -47,20 +48,20 @@ public final class LibraryListEntry implements GuiListExtended.IGuiListEntry, Co
 	}
 
 	@Override
-	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, Tessellator tessellator, int mouseX, int mouseY, boolean isSelected) {
 		if (data == null) {
 			Minecraft.getMinecraft().fontRenderer.drawString(TailsComponents.CREATE_ENTRY.getFormattedText(), x + 3, y + slotHeight / 2 - 4, 0xFFFFFFFF);
 			return;
 		}
 
-		if (panel.getList().getMaxScroll() > 0)
+		if (panel.getList().func_148135_f() > 0)
 			listWidth -= 6;
 
 		final ClientPartsData partsData = (ClientPartsData) data.partsData;
 		final FontRenderer font = panel.getParent().font();
 
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
-		font.drawString((sel ? TextFormatting.GREEN + "" + TextFormatting.ITALIC : "") + data.entryName, 5, y + 3, 0xFFFFFFFF);
+		font.drawString((sel ? EnumChatFormatting.GREEN + "" + EnumChatFormatting.ITALIC : "") + data.entryName, 5, y + 3, 0xFFFFFFFF);
 
 		int index = 0;
 
@@ -79,15 +80,15 @@ public final class LibraryListEntry implements GuiListExtended.IGuiListEntry, Co
 		}
 
 		if (data.favourite) {
-			GlStateManager.pushMatrix();
+			GL11.glPushMatrix();
 
-			GlStateManager.translate(x + listWidth - 16, y, 10F);
-			GlStateManager.scale(0.8F, 0.8F, 1F);
+			GL11.glTranslatef(x + listWidth - 16, y, 10F);
+			GL11.glScalef(0.8F, 0.8F, 1F);
 
 			panel.getParent().mc.getTextureManager().bindTexture(IconButton.ICONS_TEXTURE);
-			Gui.drawModalRectWithCustomSizedTexture(0, 0, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
+			Gui.func_146110_a(0, 0, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
 
-			GlStateManager.popMatrix();
+			GL11.glPopMatrix();
 		}
 	}
 
@@ -95,7 +96,7 @@ public final class LibraryListEntry implements GuiListExtended.IGuiListEntry, Co
 	public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY) {
 		if (data == null) {
 			// Create entry and add to library.
-			final GameProfile profile = Minecraft.getMinecraft().player.getGameProfile();
+			final GameProfile profile = Minecraft.getMinecraft().thePlayer.getGameProfile();
 			final LibraryEntryData data = new LibraryEntryData(
 					profile.getId(),
 					profile.getName(),
@@ -116,9 +117,6 @@ public final class LibraryListEntry implements GuiListExtended.IGuiListEntry, Co
 
 	@Override
 	public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {}
-
-	@Override
-	public void updatePosition(int slotIndex, int x, int y, float partialTick) {}
 
 	@Override
 	public int compareTo(LibraryListEntry o) {

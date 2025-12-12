@@ -15,12 +15,13 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderLivingBase;
-import net.minecraft.client.renderer.entity.layers.LayerArrow;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.util.MathHelper;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsBufferSource;
@@ -42,18 +43,18 @@ import uk.kihira.tails.forge.client.platform.TailsTessellatorWrapper;
 @Internal
 public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer {
 
-	private final RenderLivingBase<?> renderer;
+	private final RendererLivingEntity renderer;
 
 	private Entity arrowEntity;
 
-	public TailsArrowLayer(RenderLivingBase<?> renderer) {
+	public TailsArrowLayer(RendererLivingEntity renderer) {
 		super(renderer);
 		this.renderer = renderer;
 	}
 
 	@Override
 	public PartConfiguration makeRootConfig(ClientPartsData data, TailsEntity entity) {
-		return new Player((ModelBiped) renderer.getMainModel());
+		return new Player(((RenderPlayer) renderer).modelBipedMain);
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 
 		RenderHelper.disableStandardItemLighting();
 
-		arrowEntity = new EntityTippedArrow(entity.world, entity.posX, entity.posY, entity.posZ);
+		arrowEntity = new EntityArrow(entity.worldObj, entity.posX, entity.posY, entity.posZ);
 
 		renderArrows(
 				(TailsEntity) entity,
@@ -79,10 +80,10 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 
 	@Override
 	public void renderStuckItem(TailsPoseStack poseStack, TailsBufferSource bufferSource, int packedLight, TailsEntity entity, float x, float y, float z, float partialTick) {
-		float f6 = MathHelper.sqrt(x * x + z * z);
+		float f6 = MathHelper.sqrt_float(x * x + z * z);
 		arrowEntity.prevRotationYaw = arrowEntity.rotationYaw = (float) (Math.atan2(x, z) * TailsMath.RAD_TO_DEG);
 		arrowEntity.prevRotationPitch = arrowEntity.rotationPitch = (float) (Math.atan2(y, f6) * TailsMath.RAD_TO_DEG);
-		renderer.getRenderManager().renderEntity(arrowEntity, 0, 0, 0, 0F, partialTick, false);
+		RenderManager.instance.renderEntityWithPosYaw(arrowEntity, 0, 0, 0, 0F, partialTick);
 	}
 
 	/**

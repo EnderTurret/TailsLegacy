@@ -11,13 +11,14 @@ package uk.kihira.tails.forge.asm;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
-import zone.rong.mixinbooter.IEarlyMixinLoader;
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.Name("Tails")
-@IFMLLoadingPlugin.MCVersion("1.12.2")
+@IFMLLoadingPlugin.MCVersion("1.7.10")
 @IFMLLoadingPlugin.SortingIndex(1000)
 public class TailsPlugin implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
@@ -37,7 +38,12 @@ public class TailsPlugin implements IFMLLoadingPlugin, IEarlyMixinLoader {
 	public String getAccessTransformerClass() { return null; }
 
 	@Override
-	public List<String> getMixinConfigs() {
-		return Collections.singletonList("mixins.tails.json");
+	public String getMixinConfig() {
+		return "mixins.tails.json";
+	}
+
+	@Override
+	public List<String> getMixins(Set<String> loadedCoreMods) {
+		return Collections.emptyList();
 	}
 }

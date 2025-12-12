@@ -17,6 +17,8 @@ import java.nio.IntBuffer;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -24,29 +26,25 @@ import org.lwjgl.input.Cursor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.entity.layers.LayerArrow;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
 
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
-import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
+import cpw.mods.fml.client.config.GuiButtonExt;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;
@@ -64,13 +62,11 @@ import uk.kihira.tails.forge.client.render.BotaniaFoxtatoRenderer;
 import uk.kihira.tails.forge.client.render.layer.PartLayer;
 import uk.kihira.tails.forge.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.forge.common.TailsConfig;
-import uk.kihira.tails.forge.mixin.client.RenderLivingBaseAccess;
 
 /**
  * Handles a variety of increasingly-exciting events.
  */
 @Internal
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Side.CLIENT)
 public final class ClientEventHandler {
 
 	public static void onPreInit(FMLPreInitializationEvent e) {
@@ -82,12 +78,10 @@ public final class ClientEventHandler {
 
 		final IReloadableResourceManager _manager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
 
-		_manager.registerReloadListener((ISelectiveResourceReloadListener) TailsClientPlatformImpl::reloadParts);
-		_manager.registerReloadListener((ISelectiveResourceReloadListener) (manager, predicate) -> {
-			if (predicate.test(VanillaResourceType.TEXTURES)) {
-				maybeDestroyCursor();
-				registerCursor(manager);
-			}
+		_manager.registerReloadListener((IResourceManagerReloadListener) TailsClientPlatformImpl::reloadParts);
+		_manager.registerReloadListener((IResourceManagerReloadListener) manager -> {
+			maybeDestroyCursor();
+			registerCursor(manager);
 		});
 
 		if (Loader.isModLoaded("botania"))
@@ -96,7 +90,7 @@ public final class ClientEventHandler {
 
 	public static void onPostInit() {
 		final Minecraft mc = Minecraft.getMinecraft();
-		final Map<String, RenderPlayer> skinMap = mc.getRenderManager().getSkinMap();
+		final Map<String, RenderPlayer> skinMap = RenderManager.instance.getSkinMap();
 
 		for (RenderPlayer renderer : skinMap.values()) {
 			renderer.addLayer(new PartLayer<>(renderer));
@@ -120,8 +114,11 @@ public final class ClientEventHandler {
 	private static void registerCursor(IResourceManager manager) {
 		final BufferedImage iconImg;
 
-		try (IResource resource = manager.getResource(IconButton.ICONS_TEXTURE); InputStream is = resource.getInputStream()) {
-			iconImg = TextureUtil.readBufferedImage(is);
+		try {
+			final IResource resource = manager.getResource(IconButton.ICONS_TEXTURE);
+			try (InputStream is = resource.getInputStream()) {
+				iconImg = ImageIO.read(is);
+			}
 		} catch (IOException e) {
 			throw new IllegalStateException("Failed to read icon texture:", e);
 		}
@@ -150,16 +147,17 @@ public final class ClientEventHandler {
 	/*
 	 * Tails Editor Button
 	 */
+	@SuppressWarnings("unchecked")
 	@SubscribeEvent
-	static void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
-		if (event.getGui() instanceof GuiIngameMenu)
-			event.getButtonList().add(new GuiButtonExt(EDITOR_ID, event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20,
+	public void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
+		if (event.gui instanceof GuiIngameMenu)
+			event.buttonList.add(new GuiButtonExt(EDITOR_ID, event.gui.width / 2 - 35, event.gui.height - 25, 70, 20,
 					TailsComponents.EDITOR_BUTTON.getFormattedText()));
 	}
 
 	@SubscribeEvent
-	static void onActionPerformed(GuiScreenEvent.ActionPerformedEvent.Pre e) {
-		if (e.getGui() instanceof GuiIngameMenu && e.getButton().id == EDITOR_ID) {
+	public void onActionPerformed(GuiScreenEvent.ActionPerformedEvent.Pre e) {
+		if (e.gui instanceof GuiIngameMenu && e.button.id == EDITOR_ID) {
 			Minecraft.getMinecraft().displayGuiScreen(EditorScreen.openDefault());
 			e.setCanceled(true);
 		}
@@ -169,20 +167,20 @@ public final class ClientEventHandler {
 	 * Tails Syncing
 	 */
 	@SubscribeEvent
-	static void onConnectToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+	public void onConnectToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
 		// Add local player texture to map.
 		ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), LocalPartManager.getLocalPartsData());
 	}
 
 	@SubscribeEvent
-	static void onDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent e) {
+	public void onDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent e) {
 		// TODO: Do we need to defer these?
 		sentPartInfoToServer = false;
 		clearAllPartInfo = true;
 	}
 
 	@SubscribeEvent
-	static void onClientTick(ClientTickEvent e) {
+	public void onClientTick(ClientTickEvent e) {
 		if (e.phase != TickEvent.Phase.START) return;
 
 		if (clearAllPartInfo) {
@@ -190,7 +188,7 @@ public final class ClientEventHandler {
 			clearAllPartInfo = false;
 		}
 		// World can't be null if we want to send a packet it seems.
-		else if (!sentPartInfoToServer && Minecraft.getMinecraft().world != null) {
+		else if (!sentPartInfoToServer && Minecraft.getMinecraft().theWorld != null) {
 			LocalPartManager.syncToServer();
 
 			sentPartInfoToServer = true;
@@ -198,7 +196,7 @@ public final class ClientEventHandler {
 	}
 
 	@SubscribeEvent
-	static void onKeyPressed(InputEvent.KeyInputEvent e) {
+	public void onKeyPressed(InputEvent.KeyInputEvent e) {
 		TailsKeybinds.onKeyPressed(e);
 	}
 }

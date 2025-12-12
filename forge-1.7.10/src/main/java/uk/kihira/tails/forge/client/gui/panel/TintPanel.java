@@ -21,8 +21,7 @@ import com.google.common.base.Strings;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 
-import net.minecraftforge.fml.client.config.GuiButtonExt;
-
+import cpw.mods.fml.client.config.GuiButtonExt;
 import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.TailsLanguage;
 import uk.kihira.tails.common.TailsMath;
@@ -222,9 +221,9 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 			case GREEN:
 			case BLUE:
 				newTint = JavaColor.pack(
-						(int) TailsMath.clamp(red.getSliderValue() * 255F, 0, 255),
-						(int) TailsMath.clamp(green.getSliderValue() * 255F, 0, 255),
-						(int) TailsMath.clamp(blue.getSliderValue() * 255F, 0, 255));
+						(int) TailsMath.clamp(red.getValue() * 255F, 0, 255),
+						(int) TailsMath.clamp(green.getValue() * 255F, 0, 255),
+						(int) TailsMath.clamp(blue.getValue() * 255F, 0, 255));
 				break;
 			case HUE:
 				source = hue; break;
@@ -235,7 +234,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		}
 
 		if (source != null) {
-			final float[] hsbvals = { hue.getSliderValue(), saturation.getSliderValue(), brightness.getSliderValue() };
+			final float[] hsbvals = { (float) hue.getValue(), (float) saturation.getValue(), (float) brightness.getValue() };
 			hsbvals[source.getType().ordinal()] = (float) sliderValue;
 			newTint = Color.getHSBColor(hsbvals[0], hsbvals[1], hsbvals[2]).getRGB();
 		}
@@ -293,18 +292,18 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 		// RGB Sliders
 		final int red = JavaColor.red(currentTint), green = JavaColor.green(currentTint), blue = JavaColor.blue(currentTint);
-		this.red.setSliderValue(red / 255F, false);
-		this.green.setSliderValue(green / 255F, false);
-		this.blue.setSliderValue(blue / 255F, false);
+		this.red.setValue(red / 255F);
+		this.green.setValue(green / 255F);
+		this.blue.setValue(blue / 255F);
 
 		// HSB Sliders
 		final float[] hsbvals = Color.RGBtoHSB(red, green, blue, null);
-		hue.setSliderValue(hsbvals[0], false);
-		saturation.setSliderValue(hsbvals[1], false);
-		brightness.setSliderValue(hsbvals[2], false);
+		hue.setValue(hsbvals[0]);
+		saturation.setValue(hsbvals[1]);
+		brightness.setValue(hsbvals[2]);
 		// The saturation slider needs to know the value of the other 2 sliders.
-		saturation.setHue(hue.getSliderValue());
-		saturation.setBrightness(brightness.getSliderValue());
+		saturation.setHue((float) hue.getValue());
+		saturation.setBrightness((float) brightness.getValue());
 
 		tintReset.enabled = true;
 

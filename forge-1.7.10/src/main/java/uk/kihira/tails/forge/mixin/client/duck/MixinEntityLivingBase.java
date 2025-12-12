@@ -74,32 +74,32 @@ public class MixinEntityLivingBase implements TailsEntity {
 
 	@Override
 	public double t$xCloak() {
-		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).chasingPosX : 0;
+		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).field_71094_bP : 0;
 	}
 
 	@Override
 	public double t$yCloak() {
-		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).chasingPosY : 0;
+		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).field_71095_bQ : 0;
 	}
 
 	@Override
 	public double t$zCloak() {
-		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).chasingPosZ : 0;
+		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).field_71085_bR : 0;
 	}
 
 	@Override
 	public double t$xCloakO() {
-		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).prevChasingPosX : 0;
+		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).field_71091_bM : 0;
 	}
 
 	@Override
 	public double t$yCloakO() {
-		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).prevChasingPosY : 0;
+		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).field_71096_bN : 0;
 	}
 
 	@Override
 	public double t$zCloakO() {
-		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).prevChasingPosZ : 0;
+		return ((Object) this) instanceof EntityPlayer ? ((EntityPlayer) (Object) this).field_71097_bO : 0;
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class MixinEntityLivingBase implements TailsEntity {
 
 	@Override
 	public boolean t$isPassenger() {
-		return ((EntityLivingBase) (Object) this).getRidingEntity() != null;
+		return ((EntityLivingBase) (Object) this).isRiding();
 	}
 
 	@Override
@@ -151,7 +151,7 @@ public class MixinEntityLivingBase implements TailsEntity {
 	@Override
 	public boolean t$isVisibleToPlayer() {
 		final EntityLivingBase self = (EntityLivingBase) (Object) this;
-		return self.isInvisible() && !self.isInvisibleToPlayer(Minecraft.getMinecraft().player);
+		return self.isInvisible() && !self.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
 	}
 
 	@Override

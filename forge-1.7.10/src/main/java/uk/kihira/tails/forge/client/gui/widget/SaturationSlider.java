@@ -11,11 +11,11 @@ package uk.kihira.tails.forge.client.gui.widget;
 
 import java.awt.Color;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 
-import net.minecraftforge.fml.client.config.GuiUtils;
-
+import cpw.mods.fml.client.config.GuiUtils;
 import uk.kihira.tails.forge.client.RenderHelper;
 
 /**
@@ -36,10 +36,10 @@ public class SaturationSlider extends HSBSlider {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!visible) return;
 
-		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
+		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, xPosition, yPosition, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 		mc.getTextureManager().bindTexture(SLIDER_TEXTURE);
 
 		RenderHelper.enableDefaultBlend();
@@ -49,8 +49,8 @@ public class SaturationSlider extends HSBSlider {
 			final float red = hueColour.getRed() / 255F;
 			final float green = hueColour.getGreen() / 255F;
 			final float blue = hueColour.getBlue() / 255F;
-			GlStateManager.color(red, green, blue, 1F);
-			RenderHelper.blitScaled(x + 1, y + 1, 0, 0, 176, 256, 20, width - 2, height - 2);
+			GL11.glColor4f(red, green, blue, 1F);
+			RenderHelper.blitScaled(xPosition + 1, yPosition + 1, 0, 0, 176, 256, 20, width - 2, height - 2);
 		}
 
 		final int srcY = 236 - 40;
@@ -60,16 +60,16 @@ public class SaturationSlider extends HSBSlider {
 			final float red = hueColour.getRed() / 255F;
 			final float green = hueColour.getGreen() / 255F;
 			final float blue = hueColour.getBlue() / 255F;
-			GlStateManager.color(red, green, blue, 1F);
-			RenderHelper.blitScaled(x + 1, y + 1, 0, 0, srcY, 231, 20, width - 2, height - 2);
+			GL11.glColor4f(red, green, blue, 1F);
+			RenderHelper.blitScaled(xPosition + 1, yPosition + 1, 0, 0, srcY, 231, 20, width - 2, height - 2);
 		}
 
-		GlStateManager.color(1F, 1F, 1F, 1F);
+		GL11.glColor4f(1F, 1F, 1F, 1F);
 
 		final int offset = 0;//isFocused() ? 5 : 0;
 
-		drawTexturedModalRect(x + (int)(getSliderPosition() * (width - 3) - 2), y, 0, offset, 7, 4);
-		drawTexturedModalRect(x + (int)(getSliderPosition() * (width - 3) - 2), y + height - 4, 7, offset, 7, 4);
+		drawTexturedModalRect(xPosition + (int)(sliderValue * (width - 3) - 2), yPosition, 0, offset, 7, 4);
+		drawTexturedModalRect(xPosition + (int)(sliderValue * (width - 3) - 2), yPosition + height - 4, 7, offset, 7, 4);
 	}
 
 	/**

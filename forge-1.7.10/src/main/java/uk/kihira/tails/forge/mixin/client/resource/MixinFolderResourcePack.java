@@ -40,7 +40,8 @@ public abstract class MixinFolderResourcePack extends AbstractResourcePack imple
 
 		final Set<ResourceLocation> ret = new HashSet<>();
 
-		for (String domain : getResourceDomains()) {
+		for (Object _domain : getResourceDomains()) {
+			final String domain = (String) _domain;
 			final Path domainPath = baseFile.resolve(domain);
 			try (Stream<Path> stream = Files.walk(domainPath.resolve(prefix))) {
 				ret.addAll(stream

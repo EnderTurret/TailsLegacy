@@ -13,10 +13,10 @@ import java.util.Date;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.gui.panel.BaseLibraryInfoPanel;
@@ -102,7 +102,7 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 	public void render(int mouseX, int mouseY, float partialTick) {
 		super.render(mouseX, mouseY, partialTick);
 
-		GlStateManager.color(1F, 1F, 1F, 1F);
+		GL11.glColor4f(1F, 1F, 1F, 1F);
 
 		if (entry != null) {
 			int index = 0;

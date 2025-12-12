@@ -9,7 +9,6 @@
 
 package uk.kihira.tails.forge.client.gui;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +45,10 @@ public abstract class BaseScreen extends GuiScreen {
 		super.onGuiClosed();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T addRenderableWidget(T widget) {
 		renderables.add(widget);
-		if (widget instanceof GuiButton) buttonList.add((GuiButton) widget);
+		if (widget instanceof GuiButton) buttonList.add(widget);
 		return widget;
 	}
 
@@ -88,7 +88,7 @@ public abstract class BaseScreen extends GuiScreen {
 	}
 
 	@Override
-	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+	protected void keyTyped(char typedChar, int keyCode) {
 		for (Object component : renderables)
 			if (component instanceof Panel && ((Panel) component).visible)
 				((Panel) component).keyTyped(typedChar, keyCode);
@@ -99,12 +99,12 @@ public abstract class BaseScreen extends GuiScreen {
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		for (Object component : renderables)
 			if (component instanceof Panel && ((Panel) component).visible)
 				((Panel) component).mouseClicked(mouseX, mouseY, mouseButton);
 			else if (component instanceof ListWidget)
-				((ListWidget) component).mouseClicked(mouseX, mouseY, mouseButton);
+				((ListWidget) component).func_148179_a(mouseX, mouseY, mouseButton);
 			else if (component instanceof GuiTextField)
 				((GuiTextField) component).mouseClicked(mouseX, mouseY, mouseButton);
 
@@ -121,18 +121,19 @@ public abstract class BaseScreen extends GuiScreen {
 	}
 
 	@Override
-	protected void mouseReleased(int mouseX, int mouseY, int state) {
-		for (Object component : renderables)
-			if (component instanceof Panel && ((Panel) component).visible)
-				((Panel) component).mouseReleased(mouseX, mouseY, state);
-			else if (component instanceof ListWidget)
-				((ListWidget) component).mouseReleased(mouseX, mouseY, state);
+	protected void mouseMovedOrUp(int mouseX, int mouseY, int state) {
+		if (state != -1)
+			for (Object component : renderables)
+				if (component instanceof Panel && ((Panel) component).visible)
+					((Panel) component).mouseReleased(mouseX, mouseY, state);
+				else if (component instanceof ListWidget)
+					((ListWidget) component).func_148181_b(mouseX, mouseY, state);
 
-		super.mouseReleased(mouseX, mouseY, state);
+		super.mouseMovedOrUp(mouseX, mouseY, state);
 	}
 
 	@Override
-	public void handleMouseInput() throws IOException {
+	public void handleMouseInput() {
 		int scrollAmount = Mouse.getEventDWheel();
 		if (scrollAmount > 0) scrollAmount = 1;
 		else if (scrollAmount < 0) scrollAmount = -1;
@@ -142,16 +143,17 @@ public abstract class BaseScreen extends GuiScreen {
 				if (component instanceof Panel && ((Panel) component).visible)
 					((Panel) component).mouseScrolled(lastMouseX, lastMouseY, scrollAmount);
 
-		for (Object component : renderables)
-			if (component instanceof ListWidget)
-				((ListWidget) component).handleMouseInput();
-
 		super.handleMouseInput();
 	}
 
 	// ===== Visibility ======
 
 	public FontRenderer font() {
-		return fontRenderer;
+		return fontRendererObj;
+	}
+
+	@Override
+	public void func_146283_a(List textLines, int x, int y) {
+		super.func_146283_a(textLines, x, y);
 	}
 }

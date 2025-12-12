@@ -15,18 +15,16 @@ import java.nio.ByteBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 
 import uk.kihira.tails.common.TailsMath;
 
@@ -45,7 +43,7 @@ public final class RenderHelper {
 	 */
 	public static void startGlScissor(int x0, int y0, int x1, int y1) {
 		final Minecraft mc = Minecraft.getMinecraft();
-		final ScaledResolution res = new ScaledResolution(mc);
+		final ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 
 		final double scaleW = mc.displayWidth / res.getScaledWidth_double();
 		final double scaleH = mc.displayHeight / res.getScaledHeight_double();
@@ -67,21 +65,20 @@ public final class RenderHelper {
 	}
 
 	public static void enableDefaultBlend() {
-		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 	}
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
 	public static void blitScaled(int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height) {
-		final Tessellator tess = Tessellator.getInstance();
-		final BufferBuilder renderer = tess.getBuffer();
+		final Tessellator tess = Tessellator.instance;
 
-		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		tess.startDrawingQuads();
 
-		renderer.pos(x + 0,		y + height,	blitOffset).tex((u + 0) / 256F,		(v + vHeight) / 256F).endVertex();
-		renderer.pos(x + width,	y + height,	blitOffset).tex((u + uWidth) / 256F,	(v + vHeight) / 256F).endVertex();
-		renderer.pos(x + width,	y + 0,		blitOffset).tex((u + uWidth) / 256F,	(v + 0) / 256F).endVertex();
-		renderer.pos(x + 0,		y + 0,		blitOffset).tex((u + 0) / 256F,		(v + 0) / 256F).endVertex();
+		tess.addVertexWithUV(x + 0,		y + height,	blitOffset, (u + 0) / 256F,			(v + vHeight) / 256F);
+		tess.addVertexWithUV(x + width,	y + height,	blitOffset, (u + uWidth) / 256F,	(v + vHeight) / 256F);
+		tess.addVertexWithUV(x + width,	y + 0,		blitOffset, (u + uWidth) / 256F,	(v + 0) / 256F);
+		tess.addVertexWithUV(x + 0,		y + 0,		blitOffset, (u + 0) / 256F,			(v + 0) / 256F);
 
 		tess.draw();
 	}
@@ -110,37 +107,34 @@ public final class RenderHelper {
 		entity.prevRotationYawHead = 0;
 		entity.setSneaking(false);
 
-		GlStateManager.color(1, 1, 1, 1);
-		GlStateManager.enableColorMaterial();
-		GlStateManager.enableDepth();
-		GlStateManager.pushMatrix();
+		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glPushMatrix();
 
-		GlStateManager.translate(x, y, 100);
-		GlStateManager.scale(-scale, scale, scale);
+		GL11.glTranslatef(x, y, 100);
+		GL11.glScalef(-scale, scale, scale);
 
-		GlStateManager.rotate(180F, 0, 0, 1);
-		GlStateManager.rotate(pitch * -20F, 1, 0, 0);
+		GL11.glRotatef(180F, 0, 0, 1);
+		GL11.glRotatef(pitch * -20F, 1, 0, 0);
 
-		GlStateManager.rotate(180F, 0, 0, 1);
-		GlStateManager.rotate(180 + yaw, 0, 1, 0);
+		GL11.glRotatef(180F, 0, 0, 1);
+		GL11.glRotatef(180 + yaw, 0, 1, 0);
 
 		net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 
-		final RenderManager rendererManager = Minecraft.getMinecraft().getRenderManager();
+		final RenderManager rendererManager = RenderManager.instance;
 
-		rendererManager.setPlayerViewY(180F);
-		rendererManager.setRenderShadow(false);
+		rendererManager.playerViewY = 180F;
 
-		rendererManager.renderEntity(entity, 0, 0, 0, 0F, 1F, false);
+		rendererManager.renderEntityWithPosYaw(entity, 0, 0, 0, 0F, 1F);
 
-		rendererManager.setRenderShadow(true);
-
-		GlStateManager.popMatrix();
+		GL11.glPopMatrix();
 		net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-		GlStateManager.disableTexture2D();
-		GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
 		entity.renderYawOffset = oldYBodyRot;
 		entity.rotationPitch = oldYRot;
@@ -155,7 +149,7 @@ public final class RenderHelper {
 		final Minecraft mc = Minecraft.getMinecraft();
 
 		// We have to resolve these mouse coordinates back to window coordinates.
-		final double scale = new ScaledResolution(mc).getScaleFactor();
+		final double scale = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight).getScaleFactor();
 		x *= scale;
 		y *= scale;
 
@@ -210,7 +204,7 @@ public final class RenderHelper {
 			return;
 		}
 
-		final int x = MathHelper.clamp(centerX, minX + textWidth / 2, maxX - textWidth / 2);
+		final int x = MathHelper.clamp_int(centerX, minX + textWidth / 2, maxX - textWidth / 2);
 		font.drawString(text, x - textWidth / 2, y, color);
 	}
 }

@@ -44,24 +44,16 @@ public class ListWidget<T extends GuiListExtended.IGuiListEntry> extends SimpleG
 	}
 
 	@Override
-	protected void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {}
-
-	@Override
 	protected void drawContainerBackground(Tessellator tessellator) {}
 
 	@Override
-	public void handleMouseInput() {
-		if (visible) super.handleMouseInput();
+	public boolean func_148179_a(int mouseX, int mouseY, int mouseEvent) {
+		return visible && super.func_148179_a(mouseX, mouseY, mouseEvent);
 	}
 
 	@Override
-	public boolean mouseClicked(int mouseX, int mouseY, int mouseEvent) {
-		return visible && super.mouseClicked(mouseX, mouseY, mouseEvent);
-	}
-
-	@Override
-	public boolean mouseReleased(int x, int y, int mouseEvent) {
-		return visible && super.mouseReleased(x, y, mouseEvent);
+	public boolean func_148181_b(int x, int y, int mouseEvent) {
+		return visible && super.func_148181_b(x, y, mouseEvent);
 	}
 
 	@Override

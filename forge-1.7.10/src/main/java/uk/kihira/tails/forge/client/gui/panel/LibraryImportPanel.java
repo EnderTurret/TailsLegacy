@@ -17,14 +17,14 @@ import com.google.common.base.Strings;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.EnumChatFormatting;
 
-import net.minecraftforge.fml.client.config.GuiButtonExt;
-
+import cpw.mods.fml.client.config.GuiButtonExt;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.client.gui.panel.BaseLibraryImportPanel;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
+import uk.kihira.tails.forge.client.gui.widget.SimpleGuiTextField;
 import uk.kihira.tails.forge.client.toast.ToastManager;
 
 @Internal
@@ -43,7 +43,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 	public void init() {
 		addRenderableWidget(new GuiButtonExt(IMPORT_STRING, left + 3, top + 21, right - left - 6, 18, TailsComponents.IMPORT_STRING.getFormattedText()));
 
-		inputField = new GuiTextField(INPUT_FIELD, parent.font(), left + 4, top + 42, right - left - 8, 13);
+		inputField = new SimpleGuiTextField(INPUT_FIELD, parent.font(), left + 4, top + 42, right - left - 8, 13);
 		inputField.setMaxStringLength(5000);
 		addRenderableWidget(inputField);
 	}
@@ -70,7 +70,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 
 	@Override
 	public void toast(String langKey, @Nullable String name, boolean error) {
-		final String text = (error ? TextFormatting.RED : TextFormatting.GREEN) + I18n.format(langKey, name == null ? new Object[0] : new Object[] { name });
+		final String text = (error ? EnumChatFormatting.RED : EnumChatFormatting.GREEN) + I18n.format(langKey, name == null ? new Object[0] : new Object[] { name });
 		ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, text);
 	}
 }

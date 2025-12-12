@@ -14,10 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 
@@ -35,8 +32,7 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 
 	private static TailsTessellatorWrapper instance;
 
-	private final Tessellator tessellator = Tessellator.getInstance();
-	private final BufferBuilder buffer = tessellator.getBuffer();
+	private final Tessellator tessellator = Tessellator.instance;
 
 	private boolean renderingTransparent;
 
@@ -53,7 +49,7 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 		if (!entity.t$isPreview() && entity.t$unwrap() instanceof EntityLivingBase) {
 			final EntityLivingBase living = (EntityLivingBase) entity.t$unwrap();
 			visible = !living.isInvisible();
-			renderingTransparent = !visible && !living.isInvisibleToPlayer(Minecraft.getMinecraft().player);
+			renderingTransparent = !visible && !living.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
 		}
 
 		if (!visible && !visibleToPlayer) return null;
@@ -66,54 +62,70 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 	@Override
 	public void t$submitCustomGeometry(TailsPoseStack poseStack, BiConsumer<Entry, TailsVertexConsumer> renderer) {
 		if (renderingTransparent)
-			GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
-		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+			enableTransparentModel();
+		tessellator.startDrawingQuads();
 
 		renderer.accept(poseStack.t$lastEntry(), this);
 
 		tessellator.draw();
 		if (renderingTransparent)
-			GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+			disableTransparentModel();
 	}
 
 	@Override
 	public void t$submitModelPart(TailsModelPart part, TailsPoseStack poseStack, int packedLight, int packedOverlay, int color) {
 		if (renderingTransparent)
-			GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+			enableTransparentModel();
 
-		GlStateManager.color(JavaColor.red(color), JavaColor.green(color), JavaColor.blue(color), JavaColor.alpha(color));
+		GL11.glColor4f(JavaColor.red(color), JavaColor.green(color), JavaColor.blue(color), JavaColor.alpha(color));
 
 		((ModelRenderer) part).render(0.0625F);
 
-		GlStateManager.color(1, 1, 1, 1);
+		GL11.glColor4f(1, 1, 1, 1);
 
 		if (renderingTransparent)
-			GlStateManager.disableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
+			disableTransparentModel();
 	}
+
+	private static void enableTransparentModel() {
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.15F);
+        GL11.glDepthMask(false);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
+	}
+
+	private static void disableTransparentModel() {
+		GL11.glDisable(GL11.GL_BLEND);
+        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+        GL11.glDepthMask(true);
+	}
+
+	private float x, y, z;
+	private float u, v;
+	private int color;
 
 	@Override
 	public TailsVertexConsumer t$beginVertex(Entry pose, float x, float y, float z) {
-		buffer.pos(x, y, z);
+		// Older versions of Minecraft seem to be sensitive to the order of vertex data.
+		// We emit position, color, UV normally, but 1.7 expects position last.
+		// To fix this, we record the values and emit it all in endVertex() below.
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		return this;
 	}
 
-	private int lastColor;
-
 	@Override
 	public TailsVertexConsumer t$color(int color) {
-		// Older versions of Minecraft seem to be sensitive to the order of vertex data.
-		// We emit color before UV normally, but 1.12 expects UV then color.
-		// To fix this, we record the color and emit it after the UV below.
-		lastColor = color;
+		this.color = color;
 		return this;
 	}
 
 	@Override
 	public TailsVertexConsumer t$uv(float u, float v) {
-		buffer.tex(u, v);
-
-		buffer.color(JavaColor.red(lastColor), JavaColor.green(lastColor), JavaColor.blue(lastColor), JavaColor.alpha(lastColor));
-
+		this.u = u;
+		this.v = v;
 		return this;
 	}
 
@@ -124,19 +136,18 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 
 	@Override
 	public TailsVertexConsumer t$light(int light) {
-		//buffer.lightmap(light >> 16 & 65535, light & 65535);
 		return this;
 	}
 
 	@Override
 	public TailsVertexConsumer t$normal(Entry pose, float x, float y, float z) {
-		//buffer.normal(x, y, z);
 		return this;
 	}
 
 	@Override
 	public TailsVertexConsumer t$endVertex() {
-		buffer.endVertex();
+		tessellator.setColorRGBA(JavaColor.red(color), JavaColor.green(color), JavaColor.blue(color), JavaColor.alpha(color));
+		tessellator.addVertexWithUV(x, y, z, u, v);
 		return this;
 	}
 }

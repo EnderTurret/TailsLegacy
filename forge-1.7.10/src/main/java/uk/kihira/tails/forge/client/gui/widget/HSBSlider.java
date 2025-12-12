@@ -9,17 +9,19 @@
 
 package uk.kihira.tails.forge.client.gui.widget;
 
+import java.util.Collections;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiPageButtonList.GuiResponder;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSlider;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-import net.minecraftforge.fml.client.config.GuiUtils;
-
+import cpw.mods.fml.client.config.GuiSlider;
+import cpw.mods.fml.client.config.GuiUtils;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.forge.client.RenderHelper;
+import uk.kihira.tails.forge.client.gui.BaseScreen;
 
 /**
  * A specialized version of the {@link GuiSlider} for {@code HSB} and {@code RGB} values.
@@ -32,22 +34,20 @@ public class HSBSlider extends GuiSlider {
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
 
-	protected GuiScreen tooltipScreen;
+	protected BaseScreen tooltipScreen;
 	protected String tooltip;
 
 	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
-		super(callback, id, xPos, yPos, "", 0, 1, 0, (a, b, c) -> "");
+		super(id, xPos, yPos, width, height, "", "", 0, 1, 0, false, false, callback);
 		this.type = type;
 		this.callback = callback;
-		this.width = width;
-		this.height = height;
 	}
 
 	public HSBSlider(int id, int xPos, int yPos, IHSBSliderCallback callback, HSBSliderType type) {
 		this(id, xPos, yPos, 100, 10, callback, type);
 	}
 
-	public HSBSlider setTooltip(GuiScreen screen, String value) {
+	public HSBSlider setTooltip(BaseScreen screen, String value) {
 		tooltipScreen = screen;
 		tooltip = value;
 		return this;
@@ -56,25 +56,25 @@ public class HSBSlider extends GuiSlider {
 	// TODO Tooltips
 	public void renderToolTip(int mouseX, int mouseY) {
 		if (tooltip != null)
-			tooltipScreen.drawHoveringText(tooltip, mouseX, mouseY);
+			tooltipScreen.func_146283_a(Collections.singletonList(tooltip), mouseX, mouseY);
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!visible) return;
 
-		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
+		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, xPosition, yPosition, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 
-		GlStateManager.color(1F, 1F, 1F, 1F);
+		GL11.glColor4f(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(SLIDER_TEXTURE);
-		RenderHelper.blitScaled(x + 1, y + 1, 0, 0, 236 - (type == HSBSliderType.BRIGHTNESS ? 20 : 0), 256, 20, width - 2, height - 2);
+		RenderHelper.blitScaled(xPosition + 1, yPosition + 1, 0, 0, 236 - (type == HSBSliderType.BRIGHTNESS ? 20 : 0), 256, 20, width - 2, height - 2);
 
 		final int offset = 0;//isFocused() ? 5 : 0;
 
 		RenderHelper.enableDefaultBlend();
 
-		drawTexturedModalRect(x + (int)(getSliderPosition() * (width - 3) - 2), y, 0, offset, 7, 4);
-		drawTexturedModalRect(x + (int)(getSliderPosition() * (width - 3) - 2), y + height - 4, 7, offset, 7, 4);
+		drawTexturedModalRect(xPosition + (int)(sliderValue * (width - 3) - 2), yPosition, 0, offset, 7, 4);
+		drawTexturedModalRect(xPosition + (int)(sliderValue * (width - 3) - 2), yPosition + height - 4, 7, offset, 7, 4);
 	}
 
 	private boolean disableRendering = false;
@@ -101,16 +101,12 @@ public class HSBSlider extends GuiSlider {
 		HUE, SATURATION, BRIGHTNESS
 	}
 
-	public static interface IHSBSliderCallback extends GuiResponder {
+	public static interface IHSBSliderCallback extends GuiSlider.ISlider {
 		public void onValueChangeHSBSlider(int sourceId, double sliderValue);
 
 		@Override
-		public default void setEntryValue(int id, boolean value) {}
-
-		@Override
-		public default void setEntryValue(int id, float value) { onValueChangeHSBSlider(id, value); }
-
-		@Override
-		public default void setEntryValue(int id, String value) {}
+		public default void onChangeSliderValue(GuiSlider slider) {
+			onValueChangeHSBSlider(slider.id, slider.getValue());
+		}
 	}
 }

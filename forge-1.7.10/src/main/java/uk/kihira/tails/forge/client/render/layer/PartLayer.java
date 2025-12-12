@@ -10,10 +10,9 @@
 package uk.kihira.tails.forge.client.render.layer;
 
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -39,8 +38,8 @@ public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, 
 	@Nullable
 	public TailsModelPart attachmentPart(String attachmentRoot) {
 		switch (attachmentRoot) {
-			case "head": return (TailsModelPart) renderer.getMainModel().bipedHead;
-			case "body": return (TailsModelPart) renderer.getMainModel().bipedBody;
+			case "head": return (TailsModelPart) renderer.modelBipedMain.bipedHead;
+			case "body": return (TailsModelPart) renderer.modelBipedMain.bipedBody;
 			default: return null;
 		}
 	}
@@ -52,8 +51,8 @@ public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, 
 		// TODO: Should we grab the matrix when the ModelRenderers are rendered and use those instead? (Might be more mod compatible.)
 		final boolean crouching = entity instanceof EntityPlayer && entity.isSneaking();
 		if (crouching) {
-			GlStateManager.pushMatrix();
-			GlStateManager.translate(0, 0.2F, 0);
+			GL11.glPushMatrix();
+			GL11.glTranslatef(0, 0.2F, 0);
 		}
 
 		renderParts(
@@ -66,7 +65,7 @@ public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, 
 				);
 
 		if (crouching)
-			GlStateManager.popMatrix();
+			GL11.glPopMatrix();
 	}
 
 	@Override

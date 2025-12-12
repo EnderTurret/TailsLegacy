@@ -12,10 +12,11 @@ package uk.kihira.tails.forge.client.toast;
 import java.util.Arrays;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 
 import uk.kihira.tails.forge.client.RenderHelper;
 
@@ -47,7 +48,7 @@ public final class Toast {
 
 			if (opacity > 0) {
 				final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-				GlStateManager.pushMatrix();
+				GL11.glPushMatrix();
 				RenderHelper.enableDefaultBlend();
 				drawBackdrop(xPos, yPos, width, height);
 				final int colour = 0xFFFFFF | opacity << 24;
@@ -55,9 +56,9 @@ public final class Toast {
 					final String s = message.get(i);
 					font.drawString(s, xPos + width / 2 - font.getStringWidth(s) / 2, yPos + 4 + font.FONT_HEIGHT * i, colour);
 				}
-				GlStateManager.disableBlend();
-				GlStateManager.color(0F, 0F, 0F, 1F);
-				GlStateManager.popMatrix();
+				GL11.glDisable(GL11.GL_BLEND);
+				GL11.glColor4f(0F, 0F, 0F, 1F);
+				GL11.glPopMatrix();
 			}
 		}
 	}

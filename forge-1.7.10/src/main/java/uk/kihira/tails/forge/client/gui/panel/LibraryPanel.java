@@ -19,8 +19,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiButton;
 
-import net.minecraftforge.fml.client.config.GuiButtonExt;
-
+import cpw.mods.fml.client.config.GuiButtonExt;
 import uk.kihira.tails.common.LibraryEntryData;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.forge.client.gui.EditorScreen;

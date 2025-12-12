@@ -8,10 +8,11 @@
 
 package uk.kihira.tails.forge.common.platform;
 
+import java.util.Random;
 import java.util.UUID;
 
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
@@ -47,9 +48,13 @@ public final class TailsPlatformImpl implements TailsPlatform {
 		return (TResourceLocation) new ResourceLocation(rl);
 	}
 
+	private static final Random UUID_RANDOM = new Random();
+
 	@Override
 	public UUID randomUUID() {
-		return MathHelper.getRandomUUID();
+		long i = UUID_RANDOM.nextLong() & -61441L | 16384L;
+		long j = UUID_RANDOM.nextLong() & 4611686018427387903L | Long.MIN_VALUE;
+		return new UUID(i, j);
 	}
 
 	@Override

@@ -10,10 +10,9 @@ package uk.kihira.tails.forge.common.network;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
-
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 import uk.kihira.tails.common.TailsPlatform;
 
 /**

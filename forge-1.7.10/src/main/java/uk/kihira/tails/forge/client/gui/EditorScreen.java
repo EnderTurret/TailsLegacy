@@ -9,7 +9,6 @@
 
 package uk.kihira.tails.forge.client.gui;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -69,6 +68,8 @@ public class EditorScreen extends BaseScreen {
 	protected LibraryInfoPanel libraryInfoPanel;
 	protected LibraryImportPanel libraryImportPanel;
 
+	public float lastPartialTick;
+
 	public EditorScreen(ClientPartsData original, UUID uuid, EntityLivingBase renderingEntity, Consumer<EditorScreen> onSave) {
 		super();
 		Objects.requireNonNull(original, "original");
@@ -94,7 +95,7 @@ public class EditorScreen extends BaseScreen {
 		return new EditorScreen(
 				LocalPartManager.getOrCreateLocalPartsData(),
 				TailsClientPlatform.get().getLocalUUID(),
-				Minecraft.getMinecraft().player,
+				Minecraft.getMinecraft().thePlayer,
 				screen -> {
 					// Update part info, set local and send it to the server.
 					LocalPartManager.setLocalPartsDataFromEditorAndSync(screen.getPartsData());
@@ -141,7 +142,7 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(GuiButton button) {
 		if (button.id >= 800) tintPanel.actionPerformed(button);
 		else if (button.id >= 700) texturePanel.actionPerformed(button);
 		else if (button.id >= 600) previewPanel.actionPerformed(button);
@@ -167,12 +168,14 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
+		lastPartialTick = partialTick;
+
 		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTick);
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		if (tintPanel.isSelectingColour()) {
 			tintPanel.mouseClicked(mouseX, mouseY, mouseButton);
 			return;

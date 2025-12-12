@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 
 import uk.kihira.tails.common.client.duck.FakeTailsEntity;
 import uk.kihira.tails.common.client.duck.TailsEntity;
@@ -194,17 +195,17 @@ public final class PartsPanel extends Panel {
 			}
 	}
 
-	private void renderPart(int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
+	private void renderPart(int x, int y, int z, int scale, ClientPartInfo partInfo) {
 		if (partInfo.isEmpty() || partInfo.isInvalid()) return;
 
 		final PartRenderer renderer = partInfo.getRenderer();
 
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y, z);
-		GlStateManager.scale(-scale, scale, 1F);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(x, y, z);
+		GL11.glScalef(-scale, scale, 1F);
 
-		GlStateManager.color(1, 1, 1, 1);
-		GlStateManager.disableLighting();
+		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glDisable(GL11.GL_LIGHTING);
 
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
 
@@ -215,10 +216,10 @@ public final class PartsPanel extends Panel {
 				fakeEntity,
 				null, partInfo,
 				TailsTessellatorWrapper.get(), TailsTessellatorWrapper.get(),
-				0, 0, 0, partialTick,
+				0, 0, 0, parent.lastPartialTick,
 				1, 1, 0xFF);
 
-		GlStateManager.popMatrix();
+		GL11.glPopMatrix();
 	}
 
 	class PartEntry implements GuiListExtended.IGuiListEntry {
@@ -230,12 +231,12 @@ public final class PartsPanel extends Panel {
 		}
 
 		@Override
-		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
-			GlStateManager.color(1, 1, 1, 1);
+		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, Tessellator tessellator, int mouseX, int mouseY, boolean isSelected) {
+			GL11.glColor4f(1, 1, 1, 1);
 
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.isSelected(slotIndex);
-				renderPart(right - 25 - 2, y - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+				renderPart(right - 25 - 2, y - 25, currentPart ? 10 : 1, 50, partInfo);
 				drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, y + 17, 0xFFFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
@@ -249,12 +250,12 @@ public final class PartsPanel extends Panel {
 
 					if (author != null) {
 						// Yeah its not nice but eh, works.
-						GlStateManager.pushMatrix();
-						GlStateManager.translate(5, y + 27, 0);
-						GlStateManager.scale(0.6F, 0.6F, 1);
+						GL11.glPushMatrix();
+						GL11.glTranslatef(5, y + 27, 0);
+						GL11.glScalef(0.6F, 0.6F, 1);
 						parent.font().drawString(TailsComponents.PART_CREDIT.getFormattedText(), 0, 0, 0xFFFFFFFF);
-						parent.font().drawString(TextFormatting.AQUA + author, 0, 10, 0xFFFFFFFF);
-						GlStateManager.popMatrix();
+						parent.font().drawString(EnumChatFormatting.AQUA + author, 0, 10, 0xFFFFFFFF);
+						GL11.glPopMatrix();
 					}
 				}
 			} else
@@ -270,8 +271,5 @@ public final class PartsPanel extends Panel {
 
 		@Override
 		public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {}
-
-		@Override
-		public void updatePosition(int slotIndex, int x, int y, float partialTick) {}
 	}
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,7 +22,6 @@ import org.spongepowered.asm.mixin.Unique;
 
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 
 import uk.kihira.tails.common.JavaColor;
 import uk.kihira.tails.common.client.duck.TailsBuffer;
@@ -142,15 +142,15 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 	@Override
 	public CubePose t$getRandomCube(TailsRandomSource random) {
 		final ModelRenderer self = (ModelRenderer) (Object) this;
-		final ModelBox cube = self.cubeList.get(((Random) random.t$unwrap()).nextInt(self.cubeList.size()));
+		final ModelBox cube = (ModelBox) self.cubeList.get(((Random) random.t$unwrap()).nextInt(self.cubeList.size()));
 		return new CubePose(cube.posX1, cube.posY1, cube.posZ1, cube.posX2, cube.posY2, cube.posZ2);
 	}
 
 	@Override
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color) {
-		GlStateManager.color(JavaColor.red(color) / 255F, JavaColor.green(color) / 255F, JavaColor.blue(color) / 255F, JavaColor.alpha(color) / 255F);
+		GL11.glColor4f(JavaColor.red(color) / 255F, JavaColor.green(color) / 255F, JavaColor.blue(color) / 255F, JavaColor.alpha(color) / 255F);
 		((ModelRenderer) (Object) this).render(0.0625F);
-		GlStateManager.color(1, 1, 1, 1);
+		GL11.glColor4f(1, 1, 1, 1);
 	}
 
 	@Override

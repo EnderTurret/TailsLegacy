@@ -34,8 +34,6 @@ import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
-import net.minecraftforge.client.resource.IResourceType;
-import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.UsernameCache;
 
@@ -87,6 +85,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		return (TailsModelPart) ret;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static ModelRenderer makePartDefinition(@Nullable String name, TailsPartDefinition part, ModelBase dummyModel) {
 		final ModelRenderer ret = new ModelRenderer(dummyModel, name);
 
@@ -112,12 +111,16 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	}
 
 	private static ModelBox makeCubeDefinition(ModelRenderer parent, TailsCubeDefinition cube) {
+		final boolean oldMirror = parent.mirror;
+		parent.mirror = cube.mirror;
+
 		final ModelBox ret = new ModelBox(parent,
 				(int) cube.u, (int) cube.v,
 				cube.x, cube.y, cube.z,
 				(int) cube.sizeX, (int) cube.sizeY, (int) cube.sizeZ,
-				cube.growX,
-				cube.mirror);
+				cube.growX);
+
+		parent.mirror = oldMirror;
 
 		if (!cube.visibleFaces.containsAll(Arrays.asList(TailsDirection.values()))) {
 			final ModelPartCubeExtensions ext = (ModelPartCubeExtensions) ret;
@@ -152,17 +155,14 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		} catch (Exception ignored) {}
 	}
 
-	public static void reloadParts(IResourceManager manager, Predicate<IResourceType> predicate) {
-		if (predicate == null || predicate.test(VanillaResourceType.TEXTURES))
-			PartRegistry.MANAGER.reload(new ResourceManagerWrapperImpl(manager));
+	public static void reloadParts(IResourceManager manager) {
+		PartRegistry.MANAGER.reload(new ResourceManagerWrapperImpl(manager));
 	}
 
 	@Override
 	public void fireRegisterPartRenderersEvent(PartRendererRegistrar registrar) {
 		MinecraftForge.EVENT_BUS.post(new RegisterPartRenderersEvent(registrar));
 	}
-
-	private static PlayerProfileCache gameProfileCache;
 
 	@Override
 	public String fetchUsername(UUID uuid) {
@@ -174,33 +174,12 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		String username = UsernameCache.getLastKnownUsername(uuid);
 		if (username != null) return username;
 
-		// Option B - The user cache (some assembly required)
-		if (gameProfileCache == null) {
-			gameProfileCache = new PlayerProfileCache(
-					new YggdrasilAuthenticationService(mc.getProxy(), UUID.randomUUID().toString()).createProfileRepository(),
-					new File(mc.gameDir, MinecraftServer.USER_CACHE_FILE.getName()));
-			PlayerProfileCache.setOnlineMode(false);
-		}
-
-		if (gameProfileCache != null) {
-			final GameProfile profile = gameProfileCache.getProfileByUUID(uuid);
-			if (profile != null) return profile.getName();
-		}
-
-		// Option C - "Just query it lol"
+		// Option B - "Just query it lol"
 		GameProfile profile = new GameProfile(uuid, null);
-		profile = mc.getSessionService().fillProfileProperties(profile, false);
+		profile = mc.func_152347_ac().fillProfileProperties(profile, false);
 		username = profile.getName();
 
-		// Surprisingly, we actually got a username. Let's inform the caches, shall we?
-		if (username != null) {
-			// Unfortunately, it looks like Forge's username cache is and I quote "too good for manipulation."
-			// So instead we are only able to let our little profile cache know.
-			if (gameProfileCache != null)
-				gameProfileCache.addEntry(profile);
-
-			return username;
-		}
+		if (username != null) return username;
 
 		// Option D - Just use the UUID
 		return uuid.toString();
@@ -213,7 +192,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		if (mc.player != null && mc.player.getUniqueID() != null)
 			return mc.player.getUniqueID();
 		*/
-		return mc.player != null ? mc.player.getUniqueID() : mc.getSession().getProfile().getId();
+		return mc.thePlayer != null ? mc.thePlayer.getUniqueID() : mc.getSession().func_148256_e().getId();
 	}
 
 	@Override
@@ -229,7 +208,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public void syncLocalToServer(ClientPartsData partsData) {
-		if (Minecraft.getMinecraft().world != null)
+		if (Minecraft.getMinecraft().theWorld != null)
 			TailsNetworkManager.get().sendToServer(new C2SPlayerDataMessage(partsData));
 	}
 

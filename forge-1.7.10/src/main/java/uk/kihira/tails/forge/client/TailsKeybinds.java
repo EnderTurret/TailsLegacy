@@ -11,9 +11,8 @@ package uk.kihira.tails.forge.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.gameevent.InputEvent;
 import uk.kihira.tails.common.TailsLanguage;
 import uk.kihira.tails.forge.client.platform.TailsClientPlatformImpl;
 import uk.kihira.tails.forge.common.Tails;
@@ -29,7 +28,7 @@ public final class TailsKeybinds {
 	static void onKeyPressed(InputEvent.KeyInputEvent e) {
 		if (RELOAD_PARTS.isPressed()) {
 			Tails.LOGGER.info("Reloading all parts!");
-			TailsClientPlatformImpl.reloadParts(Minecraft.getMinecraft().getResourceManager(), null);
+			TailsClientPlatformImpl.reloadParts(Minecraft.getMinecraft().getResourceManager());
 		}
 	}
 }

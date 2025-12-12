@@ -10,10 +10,9 @@ package uk.kihira.tails.forge.client.api;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraftforge.fml.common.eventhandler.Cancelable;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.relauncher.Side;
-
+import cpw.mods.fml.common.eventhandler.Cancelable;
+import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.relauncher.Side;
 import uk.kihira.tails.common.client.api.PartRendererRegistrar;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.client.model.PartModel;

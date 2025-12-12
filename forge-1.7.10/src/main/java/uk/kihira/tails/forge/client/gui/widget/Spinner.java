@@ -18,8 +18,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 
-import net.minecraftforge.fml.client.config.GuiButtonExt;
-
+import cpw.mods.fml.client.config.GuiButtonExt;
 import uk.kihira.tails.common.client.gui.BaseSpinner;
 import uk.kihira.tails.forge.client.RenderHelper;
 
@@ -46,7 +45,7 @@ public class Spinner<T> extends GuiButton implements BaseSpinner<T> {
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new GuiButtonExt(id + 1, x, y, 15, 15, "<");
+		left = new GuiButtonExt(id + 1, xPosition, y, 15, 15, "<");
 		right = new GuiButtonExt(id + 2, 0, y, 15, 15, ">");
 
 		height = Math.max(left.height, Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT);
@@ -56,9 +55,9 @@ public class Spinner<T> extends GuiButton implements BaseSpinner<T> {
 
 		final int off = width / 2;
 
-		x = centerX - off;
-		left.x = x;
-		right.x = x + this.width - right.width;
+		xPosition = centerX - off;
+		left.xPosition = xPosition;
+		right.xPosition = xPosition + this.width - right.width;
 	}
 
 	public Spinner(int id, NavigableSet<T> values, int x, int y, int width, Stringifier<T> stringifier, Listener<T> listener) {
@@ -96,21 +95,21 @@ public class Spinner<T> extends GuiButton implements BaseSpinner<T> {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTick) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!visible) return;
 
 		final FontRenderer font = mc.fontRenderer;
 		final String message = displayString;
 		final int width = font.getStringWidth(message);
 
-		int left = x;
+		int left = xPosition;
 		left += this.width / 2;
 		left -= width / 2;
 
-		final int y = this.y + (height - font.FONT_HEIGHT) / 2;
+		final int y = this.yPosition + (height - font.FONT_HEIGHT) / 2;
 
-		if (width > x + this.width)
-			RenderHelper.drawScrollingString(font, message, x + 15, x + this.width, y, 0xFFFFFFFF);
+		if (width > xPosition + this.width)
+			RenderHelper.drawScrollingString(font, message, xPosition + 15, xPosition + this.width, y, 0xFFFFFFFF);
 		else
 			font.drawString(message, left, y, 0xFFFFFFFF);
 	}

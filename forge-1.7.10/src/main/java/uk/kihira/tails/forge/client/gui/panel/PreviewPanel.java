@@ -10,11 +10,11 @@
 package uk.kihira.tails.forge.client.gui.panel;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.gui.TailsIcons;
@@ -86,10 +86,10 @@ public final class PreviewPanel extends Panel {
 
 		if (!doRender) return;
 
-		GlStateManager.color(1F, 1F, 1F, 1F);
+		GL11.glColor4f(1F, 1F, 1F, 1F);
 		RenderHelper.startGlScissor(left, top, right, bottom);
 
-		final int mcHeight = new ScaledResolution(parent.mc).getScaledHeight();
+		final int mcHeight = new ScaledResolution(parent.mc, parent.mc.displayWidth, parent.mc.displayHeight).getScaledHeight();
 		final double factor = mcHeight / 4 * zoom;
 
 		// Player

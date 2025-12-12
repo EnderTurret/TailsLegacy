@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.Unique;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.FallbackResourceManager;
 import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.client.resources.LegacyV2Adapter;
 import net.minecraft.util.ResourceLocation;
 
 import uk.kihira.tails.forge.common.Tails;
@@ -43,7 +42,6 @@ public abstract class MixinFallbackResourceManager implements ResourceManagerExt
 		if (TAILS$IGNORED_CLASSES == null) {
 			TAILS$IGNORED_CLASSES = new HashSet<>();
 			TAILS$IGNORED_CLASSES.add(DefaultResourcePack.class);
-			TAILS$IGNORED_CLASSES.add(LegacyV2Adapter.class);
 		}
 
 		final Set<ResourceLocation> ret = new HashSet<>();

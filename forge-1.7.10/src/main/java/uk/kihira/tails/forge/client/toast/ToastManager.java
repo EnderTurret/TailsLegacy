@@ -13,20 +13,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import uk.kihira.tails.common.TailsPlatform;
 
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Side.CLIENT)
 public final class ToastManager {
 
 	public static final ToastManager INSTANCE = new ToastManager();
@@ -45,6 +43,7 @@ public final class ToastManager {
 		final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 		final int stringWidth = fontRenderer.getStringWidth(text);
 		if (stringWidth > maxWidth) {
+			@SuppressWarnings("unchecked")
 			final List<String> strings = fontRenderer.listFormattedStringToWidth(text, maxWidth);
 			toasts.add(new Toast(x - maxWidth / 2 - 5, y, maxWidth + 10, text.length() * 3, strings.toArray(new String[strings.size()])));
 		} else
@@ -52,7 +51,7 @@ public final class ToastManager {
 	}
 
 	@SubscribeEvent
-	static void onClientTickPost(ClientTickEvent event) {
+	public void onClientTickPost(ClientTickEvent event) {
 		if (event.phase != TickEvent.Phase.END) return;
 
 		final Iterator<Toast> toasts = INSTANCE.toasts.iterator();
@@ -64,13 +63,13 @@ public final class ToastManager {
 	}
 
 	@SubscribeEvent
-	static void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(0, 0, 300);
+	public void onDrawScreenPost(GuiScreenEvent.DrawScreenEvent.Post event) {
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0, 0, 300);
 
 		for (Toast toast : INSTANCE.toasts)
-			toast.drawToast(event.getMouseX(), event.getMouseY());
+			toast.drawToast(event.mouseX, event.mouseY);
 
-		GlStateManager.popMatrix();
+		GL11.glPopMatrix();
 	}
 }

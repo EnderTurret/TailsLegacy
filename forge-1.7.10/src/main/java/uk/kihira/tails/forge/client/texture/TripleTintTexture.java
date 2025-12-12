@@ -13,6 +13,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.imageio.ImageIO;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,9 +54,10 @@ public final class TripleTintTexture extends AbstractTexture {
 	public void loadTexture(IResourceManager manager) throws IOException {
 		deleteGlTexture();
 
+		final IResource resource = manager.getResource(textureLocation);
 		final BufferedImage texture;
-		try (IResource resource = manager.getResource(textureLocation); InputStream is = resource.getInputStream()) {
-			texture = TextureUtil.readBufferedImage(is);
+		try (InputStream is = resource.getInputStream()) {
+			texture = ImageIO.read(is);
 		} catch (IOException e) {
 			Tails.LOGGER.error("Using missing texture: failed to load {}.", textureLocation, e);
 			prepareAndUpload(null);
@@ -78,7 +81,7 @@ public final class TripleTintTexture extends AbstractTexture {
 	private void prepareAndUpload(@Nullable BufferedImage texture) {
 		if (texture == null) {
 			texture = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
-			texture.setRGB(0, 0, texture.getWidth(), texture.getHeight(), TextureUtil.MISSING_TEXTURE_DATA, 0, texture.getWidth());
+			texture.setRGB(0, 0, texture.getWidth(), texture.getHeight(), TextureUtil.missingTextureData, 0, texture.getWidth());
 		}
 
 		TextureUtil.uploadTextureImage(getGlTextureId(), texture);

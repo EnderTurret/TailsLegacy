@@ -102,6 +102,7 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 	}
 
 	private float x, y, z;
+	private float nx, ny, nz;
 	private float u, v;
 	private int color;
 
@@ -141,12 +142,16 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 
 	@Override
 	public TailsVertexConsumer t$normal(Entry pose, float x, float y, float z) {
+		nx = x;
+		ny = y;
+		nz = z;
 		return this;
 	}
 
 	@Override
 	public TailsVertexConsumer t$endVertex() {
 		tessellator.setColorRGBA(JavaColor.red(color), JavaColor.green(color), JavaColor.blue(color), JavaColor.alpha(color));
+		tessellator.setNormal(nx, ny, nz);
 		tessellator.addVertexWithUV(x, y, z, u, v);
 		return this;
 	}

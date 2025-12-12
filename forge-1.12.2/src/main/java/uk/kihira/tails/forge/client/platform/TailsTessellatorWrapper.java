@@ -67,7 +67,7 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 	public void t$submitCustomGeometry(TailsPoseStack poseStack, BiConsumer<Entry, TailsVertexConsumer> renderer) {
 		if (renderingTransparent)
 			GlStateManager.enableBlendProfile(GlStateManager.Profile.TRANSPARENT_MODEL);
-		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
 
 		renderer.accept(poseStack.t$lastEntry(), this);
 
@@ -130,7 +130,7 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 
 	@Override
 	public TailsVertexConsumer t$normal(Entry pose, float x, float y, float z) {
-		//buffer.normal(x, y, z);
+		buffer.normal(x, y, z);
 		return this;
 	}
 

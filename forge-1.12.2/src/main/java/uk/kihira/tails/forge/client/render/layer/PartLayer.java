@@ -49,7 +49,6 @@ public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, 
 	public void doRenderLayer(T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		// Vanilla does a translate() call instead of posing the ModelRenderers here,
 		// so we need to copy that here.
-		// TODO: Should we grab the matrix when the ModelRenderers are rendered and use those instead? (Might be more mod compatible.)
 		final boolean crouching = entity instanceof EntityPlayer && entity.isSneaking();
 		if (crouching) {
 			GlStateManager.pushMatrix();

@@ -35,11 +35,13 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 import cpw.mods.fml.client.config.GuiButtonExt;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -69,6 +71,8 @@ import uk.kihira.tails.forge.common.TailsConfig;
 @Internal
 public final class ClientEventHandler {
 
+	public static final ThreadLocal<RenderPlayer> ACTIVE_PLAYER_RENDERER = ThreadLocal.withInitial(() -> null);
+
 	public static void onPreInit(FMLPreInitializationEvent e) {
 		TailsConfig.CLIENT_INSTANCE.load(new File(e.getModConfigurationDirectory(), "Tails.cfg"));
 
@@ -89,21 +93,6 @@ public final class ClientEventHandler {
 	}
 
 	public static void onPostInit() {
-		final Minecraft mc = Minecraft.getMinecraft();
-		final Map<String, RenderPlayer> skinMap = RenderManager.instance.getSkinMap();
-
-		for (RenderPlayer renderer : skinMap.values()) {
-			renderer.addLayer(new PartLayer<>(renderer));
-
-			final List<LayerRenderer<?>> layers = ((RenderLivingBaseAccess) renderer).tails$layers();
-			for (int i = 0; i < layers.size(); i++)
-				// If other mods do this exact same thing, let them take precedence.
-				// If it's just an ArrowLayer mixin, then sucks for them.
-				if (layers.get(i).getClass() == LayerArrow.class) {
-					layers.set(i, new TailsArrowLayer(renderer));
-					break;
-				}
-		}
 	}
 
 	private static void maybeDestroyCursor() {
@@ -198,5 +187,15 @@ public final class ClientEventHandler {
 	@SubscribeEvent
 	public void onKeyPressed(InputEvent.KeyInputEvent e) {
 		TailsKeybinds.onKeyPressed(e);
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onRenderPlayerPre(RenderPlayerEvent.Pre e) {
+		ACTIVE_PLAYER_RENDERER.set(e.renderer);
+	}
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void onRenderPlayerPost(RenderPlayerEvent.Post e) {
+		ACTIVE_PLAYER_RENDERER.set(null);
 	}
 }

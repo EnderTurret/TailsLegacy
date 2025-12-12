@@ -36,19 +36,18 @@ import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
 import uk.kihira.tails.forge.client.platform.TailsTessellatorWrapper;
 
 /**
- * A specialized {@link LayerArrow} for rendering arrows on Tails parts/accessories in addition to normal body parts.
+ * A specialized {@code LayerArrow} for rendering arrows on Tails parts/accessories in addition to normal body parts.
  *
  * @author EnderTurret
  */
 @Internal
-public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer {
+public final class TailsArrowLayer implements BaseArrowLayer {
 
 	private final RendererLivingEntity renderer;
 
 	private Entity arrowEntity;
 
 	public TailsArrowLayer(RendererLivingEntity renderer) {
-		super(renderer);
 		this.renderer = renderer;
 	}
 
@@ -57,8 +56,7 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 		return new Player(((RenderPlayer) renderer).modelBipedMain);
 	}
 
-	@Override
-	public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void doRenderLayer(EntityLivingBase entity, float partialTick) {
 		final int stuck = entity.getArrowCountInEntity();
 		if (stuck <= 0) return;
 

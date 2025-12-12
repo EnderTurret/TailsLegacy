@@ -9,67 +9,62 @@
 
 package uk.kihira.tails.forge.client.render.layer;
 
-import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.duck.TailsEntity;
-import uk.kihira.tails.common.client.duck.TailsModelPart;
-import uk.kihira.tails.common.client.render.layer.BasePartLayer;
+import uk.kihira.tails.common.client.part.ClientPartInfo;
+import uk.kihira.tails.common.client.part.ClientPartsData;
+import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common.client.part.Part;
+import uk.kihira.tails.common.client.render.part.PartRenderer;
 import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
 import uk.kihira.tails.forge.client.platform.TailsTessellatorWrapper;
 
 /**
- * A {@link LayerRenderer} for Tails parts/accessories.
- * @param <T> The entity type.
+ * A {@code LayerRenderer} for Tails parts/accessories.
  */
-public class PartLayer<T extends EntityLivingBase> implements LayerRenderer<T>, BasePartLayer {
+public class PartLayer {
 
-	protected final RenderPlayer renderer;
+	public static void doRenderLayer(EntityLivingBase entity, float partialTick, String rootAttachment, ModelRenderer parentPart) {
+		// Don't render a part if its root attachment isn't visible.
+		// Prevents head parts rendering in first person in Sleep Tight beds, for example.
+		if (!parentPart.showModel) return;
 
-	public PartLayer(RenderPlayer renderer) {
-		this.renderer = renderer;
-	}
-
-	@Override
-	@Nullable
-	public TailsModelPart attachmentPart(String attachmentRoot) {
-		switch (attachmentRoot) {
-			case "head": return (TailsModelPart) renderer.modelBipedMain.bipedHead;
-			case "body": return (TailsModelPart) renderer.modelBipedMain.bipedBody;
-			default: return null;
-		}
-	}
-
-	@Override
-	public void doRenderLayer(T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		// Vanilla does a translate() call instead of posing the ModelRenderers here,
 		// so we need to copy that here.
-		// TODO: Should we grab the matrix when the ModelRenderers are rendered and use those instead? (Might be more mod compatible.)
 		final boolean crouching = entity instanceof EntityPlayer && entity.isSneaking();
 		if (crouching) {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0, 0.2F, 0);
 		}
 
-		renderParts(
-				(TailsEntity) entity,
-				TailsPoseStackImpl.INSTANCE,
-				TailsTessellatorWrapper.get(),
-				partialTick,
-				1,
-				1
-				);
+		final ClientPartsData partsData = ClientPlayerPartManager.get().get(entity.getUniqueID());
+		for (ClientPartInfo partInfo : partsData.getParts()) {
+			if (partInfo.isInvalid()) continue; // Skip unknown parts.
+			if (!partInfo.getPart().getAttachment().root().id().equals(rootAttachment)) continue;
+
+			final Part part = partInfo.getPart();
+			final PartRenderer renderer = partInfo.getRenderer();
+
+			GL11.glPushMatrix();
+
+			parentPart.postRender(0.0625F);
+
+			try {
+				renderer.render(TailsPoseStackImpl.INSTANCE, (TailsEntity) entity, partsData, partInfo, TailsTessellatorWrapper.get(), 0, 0, 0, partialTick, 1, 1, 0xFF);
+			} catch (Exception e) {
+				TailsPlatform.get().logError("Exception rendering part {}: ", partInfo, e);
+			}
+
+			GL11.glPopMatrix();
+		}
 
 		if (crouching)
 			GL11.glPopMatrix();
-	}
-
-	@Override
-	public boolean shouldCombineTextures() {
-		return false;
 	}
 }

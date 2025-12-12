@@ -44,6 +44,6 @@ public class TailsPlugin implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
 	@Override
 	public List<String> getMixins(Set<String> loadedCoreMods) {
-		return Collections.emptyList();
+		return Collections.singletonList("duck.MixinResourceLocation");
 	}
 }

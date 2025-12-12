@@ -5,9 +5,7 @@
   "refmap": "tails.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
-  "mixins": [
-    "duck.MixinResourceLocation"
-  ],
+  "mixins": [],
   "client": [
     "client.duck.MixinEntityLivingBase",
     "client.duck.MixinModelRenderer",

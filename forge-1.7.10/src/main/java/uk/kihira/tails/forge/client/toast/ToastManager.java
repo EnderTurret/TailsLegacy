@@ -23,7 +23,6 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
-import uk.kihira.tails.common.TailsPlatform;
 
 public final class ToastManager {
 

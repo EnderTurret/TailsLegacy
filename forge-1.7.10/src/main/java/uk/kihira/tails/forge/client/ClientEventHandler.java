@@ -14,8 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
-import java.util.List;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -26,9 +24,7 @@ import org.lwjgl.input.Cursor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
@@ -47,7 +43,6 @@ import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
-import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;
 import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
@@ -61,8 +56,6 @@ import uk.kihira.tails.forge.client.gui.panel.TintPanel;
 import uk.kihira.tails.forge.client.gui.widget.IconButton;
 import uk.kihira.tails.forge.client.platform.TailsClientPlatformImpl;
 import uk.kihira.tails.forge.client.render.BotaniaFoxtatoRenderer;
-import uk.kihira.tails.forge.client.render.layer.PartLayer;
-import uk.kihira.tails.forge.client.render.layer.TailsArrowLayer;
 import uk.kihira.tails.forge.common.TailsConfig;
 
 /**

@@ -62,6 +62,7 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		if (!doRender) return;
 		gui.fill(left, top, right, bottom, 0xDD000000);
 	}
 

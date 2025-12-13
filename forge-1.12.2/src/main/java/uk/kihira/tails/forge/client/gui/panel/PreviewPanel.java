@@ -74,6 +74,7 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void renderBackground() {
+		if (!doRender) return;
 		final float oldZ = zLevel;
 		zLevel = -900;
 		drawGradientRect(left, top, right, bottom, 0xDD000000, 0xDD000000);

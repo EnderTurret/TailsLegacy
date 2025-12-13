@@ -61,6 +61,7 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void renderBackground(PoseStack poseStack) {
+		if (!doRender) return;
 		fillGradient(poseStack, left, top, right, bottom, 0xDD000000, 0xDD000000, -900);
 	}
 

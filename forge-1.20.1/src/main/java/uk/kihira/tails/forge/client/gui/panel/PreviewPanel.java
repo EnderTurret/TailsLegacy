@@ -62,6 +62,7 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void renderBackground(GuiGraphics gui) {
+		if (!doRender) return;
 		gui.fill(left, top, right, bottom, -900, 0xDD000000);
 	}
 

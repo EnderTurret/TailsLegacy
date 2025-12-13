@@ -35,14 +35,6 @@ public class PartLayer {
 		// Prevents head parts rendering in first person in Sleep Tight beds, for example.
 		if (!parentPart.showModel) return;
 
-		// Vanilla does a translate() call instead of posing the ModelRenderers here,
-		// so we need to copy that here.
-		final boolean crouching = entity instanceof EntityPlayer && entity.isSneaking();
-		if (crouching) {
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0, 0.2F, 0);
-		}
-
 		final int originalTextureId = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
 
 		final ClientPartsData partsData = ClientPlayerPartManager.get().get(entity.getUniqueID());
@@ -67,8 +59,5 @@ public class PartLayer {
 		}
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, originalTextureId);
-
-		if (crouching)
-			GL11.glPopMatrix();
 	}
 }

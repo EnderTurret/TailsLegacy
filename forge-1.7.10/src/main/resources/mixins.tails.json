@@ -16,6 +16,7 @@
     "client.MixinGuiSlot",
     "client.MixinModelBiped",
     "client.MixinModelBox",
-    "client.MixinRendererLivingEntity"
+    "client.MixinRendererLivingEntity",
+    "client.TextureManagerAccess"
   ]
 }

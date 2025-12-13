@@ -8,7 +8,6 @@
 
 package uk.kihira.tails.forge.client.platform;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,20 +16,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
@@ -53,10 +48,12 @@ import uk.kihira.tails.forge.client.api.RegisterPartRenderersEvent;
 import uk.kihira.tails.forge.client.render.ModelPartCubeExtensions;
 import uk.kihira.tails.forge.client.render.ModelPartExtensions;
 import uk.kihira.tails.forge.client.texture.TripleTintTexture;
+import uk.kihira.tails.forge.common.Tails;
 import uk.kihira.tails.forge.common.TailsConfig;
 import uk.kihira.tails.forge.common.network.C2SPlayerDataMessage;
 import uk.kihira.tails.forge.common.network.TailsNetworkManager;
 import uk.kihira.tails.forge.common.platform.ResourceManagerWrapperImpl;
+import uk.kihira.tails.forge.mixin.client.TextureManagerAccess;
 
 public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
@@ -152,7 +149,10 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	public void releaseTexture(TResourceLocation id) {
 		try {
 			Minecraft.getMinecraft().getTextureManager().deleteTexture((ResourceLocation) id);
-		} catch (Exception ignored) {}
+			((TextureManagerAccess) Minecraft.getMinecraft().getTextureManager()).tails$mapTextureObjects().remove(id);
+		} catch (Exception e) {
+			Tails.LOGGER.warn("Exception releasing {}:", e);
+		}
 	}
 
 	public static void reloadParts(IResourceManager manager) {

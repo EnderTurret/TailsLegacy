@@ -145,43 +145,6 @@ public final class ClientEventHandler {
 		}
 	}
 
-	/*
-	 * Tails Syncing
-	 */
-	@SubscribeEvent
-	public void onConnectToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
-		// Add local player texture to map.
-		ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), LocalPartManager.getLocalPartsData());
-	}
-
-	@SubscribeEvent
-	public void onDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent e) {
-		// TODO: Do we need to defer these?
-		sentPartInfoToServer = false;
-		clearAllPartInfo = true;
-	}
-
-	@SubscribeEvent
-	public void onClientTick(ClientTickEvent e) {
-		if (e.phase != TickEvent.Phase.START) return;
-
-		if (clearAllPartInfo) {
-			ClientPlayerPartManager.get().clear();
-			clearAllPartInfo = false;
-		}
-		// World can't be null if we want to send a packet it seems.
-		else if (!sentPartInfoToServer && Minecraft.getMinecraft().theWorld != null) {
-			LocalPartManager.syncToServer();
-
-			sentPartInfoToServer = true;
-		}
-	}
-
-	@SubscribeEvent
-	public void onKeyPressed(InputEvent.KeyInputEvent e) {
-		TailsKeybinds.onKeyPressed(e);
-	}
-
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onRenderPlayerPre(RenderPlayerEvent.Pre e) {
 		ACTIVE_PLAYER_RENDERER.set(e.renderer);
@@ -190,5 +153,45 @@ public final class ClientEventHandler {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onRenderPlayerPost(RenderPlayerEvent.Post e) {
 		ACTIVE_PLAYER_RENDERER.set(null);
+	}
+
+	public static final class CommonHandlerBus {
+
+		@SubscribeEvent
+		public void onClientTick(ClientTickEvent e) {
+			if (e.phase != TickEvent.Phase.START) return;
+
+			if (clearAllPartInfo) {
+				ClientPlayerPartManager.get().clear();
+				clearAllPartInfo = false;
+			}
+			// World can't be null if we want to send a packet it seems.
+			else if (!sentPartInfoToServer && Minecraft.getMinecraft().theWorld != null) {
+				LocalPartManager.syncToServer();
+
+				sentPartInfoToServer = true;
+			}
+		}
+
+		@SubscribeEvent
+		public void onKeyPressed(InputEvent.KeyInputEvent e) {
+			TailsKeybinds.onKeyPressed(e);
+		}
+
+		/*
+		 * Tails Syncing
+		 */
+		@SubscribeEvent
+		public void onConnectToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+			// Add local player texture to map.
+			ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), LocalPartManager.getLocalPartsData());
+		}
+
+		@SubscribeEvent
+		public void onDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent e) {
+			// TODO: Do we need to defer these?
+			sentPartInfoToServer = false;
+			clearAllPartInfo = true;
+		}
 	}
 }

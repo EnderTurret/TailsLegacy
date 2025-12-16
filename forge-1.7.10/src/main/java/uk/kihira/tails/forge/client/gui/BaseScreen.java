@@ -23,6 +23,7 @@ import net.minecraft.client.gui.GuiTextField;
 
 import uk.kihira.tails.forge.client.gui.panel.Panel;
 import uk.kihira.tails.forge.client.gui.widget.ListWidget;
+import uk.kihira.tails.forge.client.gui.widget.TooltipProvider;
 
 @Internal
 public abstract class BaseScreen extends GuiScreen {
@@ -79,6 +80,10 @@ public abstract class BaseScreen extends GuiScreen {
 				((GuiTextField) component).drawTextBox();
 			else if (component instanceof GuiSlot)
 				((GuiSlot) component).drawScreen(mouseX, mouseY, partialTick);
+
+		for (Object component : renderables)
+			if (component instanceof TooltipProvider && ((TooltipProvider) component).isHovered(mouseX, mouseY))
+				func_146283_a(((TooltipProvider) component).getTooltip(), mouseX, mouseY);
 	}
 
 	@Override

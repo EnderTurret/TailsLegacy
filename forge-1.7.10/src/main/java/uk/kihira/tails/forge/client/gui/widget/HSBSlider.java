@@ -9,7 +9,8 @@
 
 package uk.kihira.tails.forge.client.gui.widget;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
@@ -20,21 +21,19 @@ import cpw.mods.fml.client.config.GuiSlider;
 import cpw.mods.fml.client.config.GuiUtils;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.forge.client.RenderHelper;
-import uk.kihira.tails.forge.client.gui.BaseScreen;
 
 /**
  * A specialized version of the {@link GuiSlider} for {@code HSB} and {@code RGB} values.
  * Also has tooltip support, as if it couldn't get any better.
  */
-public class HSBSlider extends GuiSlider {
+public class HSBSlider extends GuiSlider implements TooltipProvider {
 
 	protected static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(TailsPlatform.MOD_ID, "textures/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
 
-	protected BaseScreen tooltipScreen;
-	protected String tooltip;
+	protected List<String> tooltip;
 
 	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
 		super(id, xPos, yPos, width, height, "", "", 0, 1, 0, false, false, callback);
@@ -46,21 +45,26 @@ public class HSBSlider extends GuiSlider {
 		this(id, xPos, yPos, 100, 10, callback, type);
 	}
 
-	public HSBSlider setTooltip(BaseScreen screen, String value) {
-		tooltipScreen = screen;
-		tooltip = value;
+	public HSBSlider setTooltip(String value) {
+		tooltip = Arrays.asList(value.split("\\n"));
 		return this;
 	}
 
-	// TODO Tooltips
-	public void renderToolTip(int mouseX, int mouseY) {
-		if (tooltip != null)
-			tooltipScreen.func_146283_a(Collections.singletonList(tooltip), mouseX, mouseY);
+	@Override
+	public boolean isHovered(int mouseX, int mouseY) {
+		return tooltip != null && field_146123_n;
+	}
+
+	@Override
+	public List<String> getTooltip() {
+		return tooltip;
 	}
 
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
 		if (!visible) return;
+
+		field_146123_n = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
 
 		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, xPosition, yPosition, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 

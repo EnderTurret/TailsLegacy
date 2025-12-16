@@ -52,11 +52,11 @@ public final class PreviewPanel extends Panel {
 			public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
 				return false;
 			}
-		}).setTooltip(parent, TailsComponents.PREVIEW_HELP.getFormattedText());
+		}).setTooltip(TailsComponents.PREVIEW_HELP.getFormattedText());
 
 		// Reset Camera
 		addRenderableWidget(new IconButton(RESET_CAMERA, right - 18, 22, TailsIcons.UNDO))
-		.setTooltip(parent, TailsComponents.RESET_CAMERA.getFormattedText());
+		.setTooltip(TailsComponents.RESET_CAMERA.getFormattedText());
 	}
 
 	@Override

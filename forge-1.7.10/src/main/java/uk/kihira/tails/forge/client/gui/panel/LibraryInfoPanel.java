@@ -60,13 +60,13 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 		});
 
 		addRenderableWidget(favButton = new IconButton.Toggle(FAVORITE, left + 5, bottom - 20, TailsIcons.STAR))
-		.setTooltip(parent, TailsComponents.FAVORITE_BUTTON.getFormattedText());
+		.setTooltip(TailsComponents.FAVORITE_BUTTON.getFormattedText());
 
 		addRenderableWidget(deleteButton = new IconButton(DELETE, left + 21, bottom - 20, TailsIcons.DELETE))
-		.setTooltip(parent, TailsComponents.DELETE_BUTTON.getFormattedText());
+		.setTooltip(TailsComponents.DELETE_BUTTON.getFormattedText());
 
 		addRenderableWidget(new IconButton(EXPORT, left + 68, bottom - 20, TailsIcons.EXPORT))
-		.setTooltip(parent, TailsComponents.SHARE_BUTTON.getFormattedText());
+		.setTooltip(TailsComponents.SHARE_BUTTON.getFormattedText());
 
 		setEntry(null);
 	}

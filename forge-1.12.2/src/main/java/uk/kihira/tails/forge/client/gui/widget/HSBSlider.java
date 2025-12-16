@@ -9,9 +9,11 @@
 
 package uk.kihira.tails.forge.client.gui.widget;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiPageButtonList.GuiResponder;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlider;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -25,15 +27,14 @@ import uk.kihira.tails.forge.client.RenderHelper;
  * A specialized version of the {@link GuiSlider} for {@code HSB} and {@code RGB} values.
  * Also has tooltip support, as if it couldn't get any better.
  */
-public class HSBSlider extends GuiSlider {
+public class HSBSlider extends GuiSlider implements TooltipProvider {
 
 	protected static final ResourceLocation SLIDER_TEXTURE = new ResourceLocation(TailsPlatform.MOD_ID, "textures/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
 
-	protected GuiScreen tooltipScreen;
-	protected String tooltip;
+	protected List<String> tooltip;
 
 	public HSBSlider(int id, int xPos, int yPos, int width, int height, IHSBSliderCallback callback, HSBSliderType type) {
 		super(callback, id, xPos, yPos, "", 0, 1, 0, (a, b, c) -> "");
@@ -47,21 +48,26 @@ public class HSBSlider extends GuiSlider {
 		this(id, xPos, yPos, 100, 10, callback, type);
 	}
 
-	public HSBSlider setTooltip(GuiScreen screen, String value) {
-		tooltipScreen = screen;
-		tooltip = value;
+	public HSBSlider setTooltip(String value) {
+		tooltip = Arrays.asList(value.split("\\n"));
 		return this;
 	}
 
-	// TODO Tooltips
-	public void renderToolTip(int mouseX, int mouseY) {
-		if (tooltip != null)
-			tooltipScreen.drawHoveringText(tooltip, mouseX, mouseY);
+	@Override
+	public boolean isHovered(int mouseX, int mouseY) {
+		return tooltip != null && isMouseOver();
+	}
+
+	@Override
+	public List<String> getTooltip() {
+		return tooltip;
 	}
 
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		if (!visible) return;
+
+		hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 
 		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 

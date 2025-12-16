@@ -13,7 +13,6 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.duck.TailsEntity;

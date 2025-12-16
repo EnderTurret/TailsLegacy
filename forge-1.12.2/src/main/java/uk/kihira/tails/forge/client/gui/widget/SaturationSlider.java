@@ -39,6 +39,8 @@ public class SaturationSlider extends HSBSlider {
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 		if (!visible) return;
 
+		hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+
 		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 		mc.getTextureManager().bindTexture(SLIDER_TEXTURE);
 

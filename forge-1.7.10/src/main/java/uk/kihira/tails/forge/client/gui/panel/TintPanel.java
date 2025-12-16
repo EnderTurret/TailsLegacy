@@ -93,11 +93,11 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 		// HSB sliders
 		hue = new HSBSlider(HUE, left + 5, editPaneTop + 35, this, HSBSlider.HSBSliderType.HUE);
-		hue.setTooltip(parent, TailsComponents.HUE.getFormattedText());
+		hue.setTooltip(TailsComponents.HUE.getFormattedText());
 		saturation = new SaturationSlider(SATURATION, left + 5, editPaneTop + 45, this);
-		saturation.setTooltip(parent, TailsComponents.SATURATION.getFormattedText());
+		saturation.setTooltip(TailsComponents.SATURATION.getFormattedText());
 		brightness = new HSBSlider(BRIGHTNESS, left + 5, editPaneTop + 55, this, HSBSlider.HSBSliderType.BRIGHTNESS);
-		brightness.setTooltip(parent, TailsComponents.BRIGHTNESS.getFormattedText());
+		brightness.setTooltip(TailsComponents.BRIGHTNESS.getFormattedText());
 
 		addRenderableWidget(hue);
 		addRenderableWidget(saturation);
@@ -107,11 +107,11 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		red = new SaturationSlider(RED, left + 5, editPaneTop + 70, this);
 		green = new SaturationSlider(GREEN, left + 5, editPaneTop + 80, this);
 		blue = new SaturationSlider(BLUE, left + 5, editPaneTop + 90, this);
-		red.setTooltip(parent, TailsComponents.RED.getFormattedText());
+		red.setTooltip(TailsComponents.RED.getFormattedText());
 		red.setHue(0);
-		green.setTooltip(parent, TailsComponents.GREEN.getFormattedText());
+		green.setTooltip(TailsComponents.GREEN.getFormattedText());
 		green.setHue(1F / 3F);
-		blue.setTooltip(parent, TailsComponents.BLUE.getFormattedText());
+		blue.setTooltip(TailsComponents.BLUE.getFormattedText());
 		blue.setHue(2F / 3F);
 
 		addRenderableWidget(red);
@@ -120,12 +120,12 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 		// Reset/Save
 		addRenderableWidget(tintReset = new IconButton(RESET_TINT, right - 20, editPaneTop + 2, TailsIcons.UNDO));
-		tintReset.setTooltip(parent, TailsComponents.RESET_TINT.getFormattedText());
+		tintReset.setTooltip(TailsComponents.RESET_TINT.getFormattedText());
 		tintReset.enabled = false;
 
 		// Color Picker
 		addRenderableWidget(colourPicker = new IconButton(COLOR_PICKER, right - 36, editPaneTop + 1, TailsIcons.EYEDROPPER));
-		colourPicker.setTooltip(parent, TailsComponents.COLOR_PICKER.getFormattedText());
+		colourPicker.setTooltip(TailsComponents.COLOR_PICKER.getFormattedText());
 		colourPicker.visible = false;
 
 		refreshTintPane(currentTint, true, true);

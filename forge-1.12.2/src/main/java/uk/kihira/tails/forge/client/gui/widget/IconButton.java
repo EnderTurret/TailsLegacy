@@ -9,9 +9,11 @@
 
 package uk.kihira.tails.forge.client.gui.widget;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,30 +23,32 @@ import uk.kihira.tails.common.client.gui.TailsIcons;
 /**
  * A button with an icon and a tooltip.
  */
-public class IconButton extends GuiButton {
+public class IconButton extends GuiButton implements TooltipProvider {
 
 	public static final ResourceLocation ICONS_TEXTURE = new ResourceLocation(TailsPlatform.MOD_ID, "textures/gui/icons.png");
 
 	protected final TailsIcons icon;
 
-	protected GuiScreen tooltipScreen;
-	protected String tooltip;
+	protected List<String> tooltip;
 
 	public IconButton(int id, int x, int y, TailsIcons icon) {
 		super(id, x, y, 16, 16, "");
 		this.icon = icon;
 	}
 
-	public IconButton setTooltip(GuiScreen screen, String value) {
-		tooltipScreen = screen;
-		tooltip = value;
+	public IconButton setTooltip(String value) {
+		tooltip = Arrays.asList(value.split("\\n"));
 		return this;
 	}
 
-	// TODO Tooltips
-	public void onTooltip(int mouseX, int mouseY) {
-		if (tooltip != null)
-			tooltipScreen.drawHoveringText(tooltip, mouseX, mouseY);
+	@Override
+	public boolean isHovered(int mouseX, int mouseY) {
+		return tooltip != null && isMouseOver();
+	}
+
+	@Override
+	public List<String> getTooltip() {
+		return tooltip;
 	}
 
 	@Override

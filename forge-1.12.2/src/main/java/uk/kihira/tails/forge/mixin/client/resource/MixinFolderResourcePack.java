@@ -42,7 +42,10 @@ public abstract class MixinFolderResourcePack extends AbstractResourcePack imple
 
 		for (String domain : getResourceDomains()) {
 			final Path domainPath = baseFile.resolve(domain);
-			try (Stream<Path> stream = Files.walk(domainPath.resolve(prefix))) {
+			final Path start = domainPath.resolve(prefix);
+			if (!Files.isDirectory(start)) continue;
+
+			try (Stream<Path> stream = Files.walk(start)) {
 				ret.addAll(stream
 						.filter(Files::isRegularFile)
 						.map(path -> {

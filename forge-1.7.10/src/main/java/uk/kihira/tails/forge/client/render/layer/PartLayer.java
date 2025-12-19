@@ -32,7 +32,7 @@ public class PartLayer {
 	public static void doRenderLayer(EntityLivingBase entity, float partialTick, String rootAttachment, ModelRenderer parentPart) {
 		// Don't render a part if its root attachment isn't visible.
 		// Prevents head parts rendering in first person in Sleep Tight beds, for example.
-		if (!parentPart.showModel) return;
+		if (!parentPart.showModel || parentPart.isHidden) return;
 
 		final int originalTextureId = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
 

@@ -51,7 +51,7 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 
 	@Override
 	public boolean t$isVisible() {
-		return ((ModelRenderer) (Object) this).showModel;
+		return ((ModelRenderer) (Object) this).showModel && !((ModelRenderer) (Object) this).isHidden;
 	}
 
 	@Override

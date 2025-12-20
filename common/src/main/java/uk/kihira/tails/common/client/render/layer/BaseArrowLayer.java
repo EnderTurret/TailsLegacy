@@ -15,6 +15,7 @@ import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.common.TailsMath;
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
@@ -69,7 +70,20 @@ public interface BaseArrowLayer {
 			final PartConfig config = configurations.get(pick);
 
 			final TailsModelPart part = config.config.randomPart(rand);
-			final TailsModelPart.CubePose cube = part.t$getRandomCube(rand);
+
+			final TailsModelPart.CubePose cube;
+			try {
+				cube = part.t$getRandomCube(rand);
+			} catch (IllegalArgumentException e) {
+				// The t$isEmpty() checks in PartConfiguration exclude empty parts,
+				// so if we get a "bound must be positive" error from the Random
+				// then we know that the platform implementation is broken.
+				if (e.getMessage().contains("bound must be positive"))
+					throw new AssertionError(String.format("Detected faulty platform implementation: part (%s from config %s) was unexpectably empty!", part, config));
+
+				TailsPlatform.get().logError("[BaseArrowLayer] Exception choosing cube:", e);
+				continue;
+			}
 
 			poseStack.t$push();
 
@@ -115,6 +129,14 @@ public interface BaseArrowLayer {
 			this.info = info;
 			this.renderer = renderer;
 			config.prime();
+		}
+
+		@Override
+		public String toString() {
+			if (renderer == null)
+				return "PartConfig[player]";
+
+			return "PartConfig[" + info.getPartId() + "." + info.getSubTypeId() + "." + info.getTextureId() + " (renderer " + renderer.getClass().getName() + ")]";
 		}
 	}
 }

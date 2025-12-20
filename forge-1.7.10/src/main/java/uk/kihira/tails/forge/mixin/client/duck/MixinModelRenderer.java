@@ -112,8 +112,7 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 
 	@Override
 	public boolean t$isEmpty() {
-		final ModelRenderer self = (ModelRenderer) (Object) this;
-		return self.cubeList.isEmpty() && self.childModels.isEmpty();
+		return ((ModelRenderer) (Object) this).cubeList.isEmpty();
 	}
 
 	@Override

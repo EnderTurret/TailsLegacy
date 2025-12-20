@@ -88,7 +88,10 @@ public class PartConfiguration {
 			allParents.put(part, parents.toArray(new TailsModelPart[0]));
 		}
 
-		return new PartConfiguration(Collections.unmodifiableList(new ArrayList<>(partsWithCubes)), Collections.unmodifiableMap(new HashMap<>(allParents)), Translator.EMPTY);
+		return new PartConfiguration(
+				Collections.unmodifiableList(new ArrayList<>(partsWithCubes)),
+				Collections.unmodifiableMap(new HashMap<>(allParents)),
+				Translator.EMPTY);
 	}
 
 	/**

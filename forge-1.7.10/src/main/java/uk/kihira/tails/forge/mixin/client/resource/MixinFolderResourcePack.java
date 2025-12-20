@@ -50,7 +50,7 @@ public abstract class MixinFolderResourcePack extends AbstractResourcePack imple
 				ret.addAll(stream
 						.filter(Files::isRegularFile)
 						.map(path -> {
-							final String relative = domainPath.relativize(path.toAbsolutePath()).toString();
+							final String relative = domainPath.relativize(path.toAbsolutePath()).toString().replace('\\', '/');
 							return new ResourceLocation(domain, relative);
 						})
 						.filter(filter)

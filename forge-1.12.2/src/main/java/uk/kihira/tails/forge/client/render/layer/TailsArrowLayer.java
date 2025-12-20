@@ -65,7 +65,13 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 
 		RenderHelper.disableStandardItemLighting();
 
-		arrowEntity = new EntityTippedArrow(entity.world, entity.posX, entity.posY, entity.posZ);
+		if (arrowEntity == null)
+			arrowEntity = new EntityTippedArrow(entity.world, entity.posX, entity.posY, entity.posZ);
+
+		arrowEntity.world = entity.world;
+		arrowEntity.prevPosX = arrowEntity.posX = entity.posX;
+		arrowEntity.prevPosY = arrowEntity.posY = entity.posY;
+		arrowEntity.prevPosZ = arrowEntity.posZ = entity.posZ;
 
 		renderArrows(
 				(TailsEntity) entity,
@@ -75,6 +81,8 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 				stuck, partialTick, 1, 1);
 
 		RenderHelper.enableStandardItemLighting();
+
+		arrowEntity.world = null;
 	}
 
 	@Override

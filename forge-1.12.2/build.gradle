@@ -50,12 +50,12 @@ processResources {
     inputs.property 'version', project.version
 
     from (sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+        include 'mcmod.info', 'version.properties'
         expand 'version': project.version
     }
 
     from (sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude 'mcmod.info', 'version.properties'
     }
 }
 

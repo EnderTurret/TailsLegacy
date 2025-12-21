@@ -30,7 +30,7 @@ public abstract class MixinModelBiped {
 		if (!(entity instanceof EntityPlayer)) return;
 
 		final RenderPlayer renderer = ClientEventHandler.ACTIVE_PLAYER_RENDERER.get();
-		if (renderer == null) return;
+		if (renderer == null || (ModelBiped) (Object) this != renderer.modelBipedMain) return;
 
 		PartLayer.doRenderLayer((EntityLivingBase) entity, ageInTicks - entity.ticksExisted, "head", ((ModelBiped) (Object) this).bipedHead);
 	}
@@ -46,7 +46,7 @@ public abstract class MixinModelBiped {
 		if (!(entity instanceof EntityPlayer)) return;
 
 		final RenderPlayer renderer = ClientEventHandler.ACTIVE_PLAYER_RENDERER.get();
-		if (renderer == null) return;
+		if (renderer == null || (ModelBiped) (Object) this != renderer.modelBipedMain) return;
 
 		PartLayer.doRenderLayer((EntityLivingBase) entity, ageInTicks - entity.ticksExisted, "body", ((ModelBiped) (Object) this).bipedBody);
 	}

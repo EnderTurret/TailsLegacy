@@ -47,12 +47,12 @@ final class BirdTailModel extends PartModel {
 		final TailsModelPart right0 = center.t$getChild("right0");
 		final TailsModelPart right1 = right0.t$getChild("right1");
 		final TailsModelPart right2 = right1.t$getChild("right2");
-		setRotationRadians(center, center.t$getInitialXRot() + xAngleOffset, -zAngleOffset, 0);
-		setRotationRadians(left0, left0.t$getInitialXRot(), left0.t$getInitialYRot(), left0.t$getInitialZRot() + xAngleOffset / 10);
-		setRotationRadians(left1, left1.t$getInitialXRot(), left1.t$getInitialYRot(), left1.t$getInitialZRot() + xAngleOffset / 10);
-		setRotationRadians(left2, left2.t$getInitialXRot(), left2.t$getInitialYRot(), left2.t$getInitialZRot() + xAngleOffset / 10);
-		setRotationRadians(right0, right0.t$getInitialXRot(), right0.t$getInitialYRot(), right0.t$getInitialZRot() + xAngleOffset / -10);
-		setRotationRadians(right1, right1.t$getInitialXRot(), right1.t$getInitialYRot(), right1.t$getInitialZRot() + xAngleOffset / -10);
-		setRotationRadians(right2, right2.t$getInitialXRot(), right2.t$getInitialYRot(), right2.t$getInitialZRot() + xAngleOffset / -10);
+		setOffsetRotationRadians(center, xAngleOffset, -zAngleOffset, 0);
+		setOffsetRotationRadians(left0, 0, 0, xAngleOffset / 10);
+		setOffsetRotationRadians(left1, 0, 0, xAngleOffset / 10);
+		setOffsetRotationRadians(left2, 0, 0, xAngleOffset / 10);
+		setOffsetRotationRadians(right0, 0, 0, xAngleOffset / -10);
+		setOffsetRotationRadians(right1, 0, 0, xAngleOffset / -10);
+		setOffsetRotationRadians(right2, 0, 0, xAngleOffset / -10);
 	}
 }

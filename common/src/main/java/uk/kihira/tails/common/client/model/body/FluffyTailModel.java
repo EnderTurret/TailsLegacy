@@ -84,12 +84,12 @@ final class FluffyTailModel extends PartModel {
 		if (tail4 == null) tail4 = tail3.t$getChild("tail4");
 		if (tail5 == null) tail5 = tail4.t$getChild("tail5");
 
-		setRotationRadians(tailBase, xAngle                + xAngleOffset,                      (yAngle + -zAngleOffset / 2F + TailsMath.cos(timestep + yOffset) / 8F)        * yAngleMultiplier + yAngleOffset, zAngleOffset / -8F);
-		setRotationRadians(tail1, tail1.t$getInitialXRot() + xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + TailsMath.cos(timestep - 1 + yOffset) / 8F)    * yAngleMultiplier,                zAngleOffset / -8F);
-		setRotationRadians(tail2, tail2.t$getInitialXRot() + xAngleOffset / 2F,                          (-zAngleOffset / 2F + TailsMath.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier,                zAngleOffset / -8F);
-		setRotationRadians(tail3, tail3.t$getInitialXRot() + xAngleOffset / 2F,                          (-zAngleOffset / 2F + TailsMath.cos(timestep - 2 + yOffset) / 20F)   * yAngleMultiplier,                zAngleOffset / -20F);
-		setRotationRadians(tail4, tail4.t$getInitialXRot() + xAngleOffset / -2F,                         (-zAngleOffset / 2F + TailsMath.cos(timestep - 3 + yOffset) / 8F)    * yAngleMultiplier,                0F);
-		setRotationRadians(tail5, tail5.t$getInitialXRot() + xAngleOffset / -2.5F,                       (-zAngleOffset / 2F + TailsMath.cos(timestep - 4 + yOffset) / 8F)    * yAngleMultiplier,                0F);
+		setRotationRadians(tailBase, xAngle + xAngleOffset,                      (yAngle + -zAngleOffset / 2F + TailsMath.cos(timestep + yOffset) / 8F)        * yAngleMultiplier + yAngleOffset, zAngleOffset / -8F);
+		setOffsetRotationRadians(tail1,       xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + TailsMath.cos(timestep - 1 + yOffset) / 8F)    * yAngleMultiplier,                zAngleOffset / -8F);
+		setOffsetRotationRadians(tail2,       xAngleOffset / 2F,                          (-zAngleOffset / 2F + TailsMath.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier,                zAngleOffset / -8F);
+		setOffsetRotationRadians(tail3,       xAngleOffset / 2F,                          (-zAngleOffset / 2F + TailsMath.cos(timestep - 2 + yOffset) / 20F)   * yAngleMultiplier,                zAngleOffset / -20F);
+		setOffsetRotationRadians(tail4,       xAngleOffset / -2F,                         (-zAngleOffset / 2F + TailsMath.cos(timestep - 3 + yOffset) / 8F)    * yAngleMultiplier,                0F);
+		setOffsetRotationRadians(tail5,       xAngleOffset / -2.5F,                       (-zAngleOffset / 2F + TailsMath.cos(timestep - 4 + yOffset) / 8F)    * yAngleMultiplier,                0F);
 	}
 
 	@Override

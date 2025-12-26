@@ -117,15 +117,10 @@ public abstract class PartModel {
 		model.t$setZRot((float) z);
 	}
 
-	/**
-	 * Sets the rotation on a model where the provided params are in degrees
-	 * @param model The model
-	 * @param x The x angle
-	 * @param y The y angle
-	 * @param z The z angle
-	 */
-	protected static void setRotationDegrees(TailsModelPart model, float x, float y, float z) {
-		setRotationRadians(model, rad(x), rad(y), rad(z));
+	protected static void setOffsetRotationRadians(TailsModelPart model, double x, double y, double z) {
+		model.t$setXRot(model.t$getInitialXRot() + (float) x);
+		model.t$setYRot(model.t$getInitialYRot() + (float) y);
+		model.t$setZRot(model.t$getInitialZRot() + (float) z);
 	}
 
 	protected static double rad(double degrees) {

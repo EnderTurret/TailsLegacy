@@ -38,10 +38,10 @@ final class ThickTailModel extends PartModel {
 		final TailsModelPart tail3 = tail2.t$getChild("tail3");
 		final TailsModelPart tail4 = tail3.t$getChild("tail4");
 
-		setRotationRadians(tailBase, tailBase.t$getInitialXRot() + xAngleOffset * 2, TailsMath.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail1,    tail1.t$getInitialXRot()    + xAngleOffset * 2, TailsMath.cos(timestep - 2) / 45 * yAngleMultiplier, 0);
-		setRotationRadians(tail2,    tail2.t$getInitialXRot()    + xAngleOffset / -4, TailsMath.cos(timestep - 3) / 45 * yAngleMultiplier, 0);
-		setRotationRadians(tail3,    tail3.t$getInitialXRot()    + xAngleOffset / -4, TailsMath.cos(timestep - 4) / 45 * yAngleMultiplier, 0);
-		setRotationRadians(tail4,    tail4.t$getInitialXRot()    + xAngleOffset / -4, TailsMath.cos(timestep - 5) / 45 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tailBase, xAngleOffset * 2,  TailsMath.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail1,    xAngleOffset * 2,  TailsMath.cos(timestep - 2) / 45 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail2,    xAngleOffset / -4, TailsMath.cos(timestep - 3) / 45 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail3,    xAngleOffset / -4, TailsMath.cos(timestep - 4) / 45 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail4,    xAngleOffset / -4, TailsMath.cos(timestep - 5) / 45 * yAngleMultiplier, 0);
 	}
 }

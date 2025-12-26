@@ -46,10 +46,10 @@ final class DragonTailModel extends PartModel {
 		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
 		final TailsModelPart tail2 = tail1.t$getChild("tail2");
 		final TailsModelPart tail3 = tail2.t$getChild("tail3");
-		setRotationRadians(tailBase, tailBase.t$getInitialXRot() + xAngleOffset * 2,                                  TailsMath.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail1,    tail1.t$getInitialXRot()    + xAngleOffset * 2,                                  TailsMath.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail2,    tail2.t$getInitialXRot()    - xAngleOffset / 4,                                  TailsMath.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
-		setRotationRadians(tail3,    tail3.t$getInitialXRot()    + (xAngleOffset < 0 ? xAngleOffset : -xAngleOffset), TailsMath.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tailBase, xAngleOffset * 2,                                  TailsMath.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail1,    xAngleOffset * 2,                                  TailsMath.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail2,    xAngleOffset / -4,                                 TailsMath.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail3,    (xAngleOffset < 0 ? xAngleOffset : -xAngleOffset), TailsMath.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 
 		final TailsModelPart tailSubBase = model.t$getChild("tailSubBase");
 		final TailsModelPart tailSub1 = tailSubBase.t$getChild("tailSub1");

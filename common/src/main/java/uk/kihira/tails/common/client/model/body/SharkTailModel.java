@@ -42,10 +42,10 @@ final class SharkTailModel extends PartModel {
 		final TailsModelPart tail2 = tail1.t$getChild("tail2");
 		final TailsModelPart tail3 = tail2.t$getChild("tail3");
 		final TailsModelPart finBase = tail3.t$getChild("finBase");
-		setRotationRadians(tailBase, tailBase.t$getInitialXRot() + xAngleOffset * 4,  TailsMath.cos(timestep - 1) / 5  * yAngleMultiplier, tailBase.t$getInitialZRot());
-		setRotationRadians(tail1,    tail1.t$getInitialXRot()    + xAngleOffset * 1,  TailsMath.cos(timestep - 2) / 5  * yAngleMultiplier, tail1.t$getInitialZRot());
-		setRotationRadians(tail2,    tail2.t$getInitialXRot()    + xAngleOffset * -2, TailsMath.cos(timestep - 3) / 5  * yAngleMultiplier, tail2.t$getInitialZRot());
-		setRotationRadians(tail3,    tail3.t$getInitialXRot()    + -xAngleOffset,     TailsMath.cos(timestep - 4) / 5  * yAngleMultiplier, tail3.t$getInitialZRot());
-		setRotationRadians(finBase,  finBase.t$getInitialXRot(),                      TailsMath.cos(timestep - 10) / 5 * yAngleMultiplier, finBase.t$getInitialZRot());
+		setOffsetRotationRadians(tailBase, xAngleOffset * 4,  TailsMath.cos(timestep - 1) / 5  * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail1,    xAngleOffset * 1,  TailsMath.cos(timestep - 2) / 5  * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail2,    xAngleOffset * -2, TailsMath.cos(timestep - 3) / 5  * yAngleMultiplier, 0);
+		setOffsetRotationRadians(tail3,    -xAngleOffset,     TailsMath.cos(timestep - 4) / 5  * yAngleMultiplier, 0);
+		setOffsetRotationRadians(finBase,  0,                 TailsMath.cos(timestep - 10) / 5 * yAngleMultiplier, 0);
 	}
 }

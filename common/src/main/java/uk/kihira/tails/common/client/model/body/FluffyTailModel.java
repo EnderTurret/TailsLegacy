@@ -78,21 +78,17 @@ final class FluffyTailModel extends PartModel {
 
 		if (tailBase == null) return;
 
-		setRotationRadians(tailBase, xAngle + xAngleOffset, (-zAngleOffset / 2F + yAngle + TailsMath.cos(timestep + yOffset) / 8F) * yAngleMultiplier + yAngleOffset, -zAngleOffset / 8F);
-
 		if (tail1 == null) tail1 = tailBase.t$getChild("tail1");
-		setRotationRadians(tail1, -0.2617993877991494 + xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + TailsMath.cos(timestep - 1 + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
-
 		if (tail2 == null) tail2 = tail1.t$getChild("tail2");
-		setRotationRadians(tail2, -0.2617993877991494 + xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
-
 		if (tail3 == null) tail3 = tail2.t$getChild("tail3");
-		setRotationRadians(tail3, -0.4363323129985824 + xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 2 + yOffset) / 20F) * yAngleMultiplier, -zAngleOffset / 20F);
-
 		if (tail4 == null) tail4 = tail3.t$getChild("tail4");
-		setRotationRadians(tail4, 0.2617993877991494 - xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 3 + yOffset) / 8F) * yAngleMultiplier, 0F);
-
 		if (tail5 == null) tail5 = tail4.t$getChild("tail5");
+
+		setRotationRadians(tailBase, xAngle + xAngleOffset, (-zAngleOffset / 2F + yAngle + TailsMath.cos(timestep + yOffset) / 8F) * yAngleMultiplier + yAngleOffset, -zAngleOffset / 8F);
+		setRotationRadians(tail1, -0.2617993877991494 + xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + TailsMath.cos(timestep - 1 + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
+		setRotationRadians(tail2, -0.2617993877991494 + xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier, -zAngleOffset / 8F);
+		setRotationRadians(tail3, -0.4363323129985824 + xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 2 + yOffset) / 20F) * yAngleMultiplier, -zAngleOffset / 20F);
+		setRotationRadians(tail4, 0.2617993877991494 - xAngleOffset / 2F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 3 + yOffset) / 8F) * yAngleMultiplier, 0F);
 		setRotationRadians(tail5, 0.2617993877991494 - xAngleOffset / 2.5F, (-zAngleOffset / 2F + TailsMath.cos(timestep - 4 + yOffset) / 8F) * yAngleMultiplier, 0F);
 	}
 
@@ -106,7 +102,7 @@ final class FluffyTailModel extends PartModel {
 		final TailsModelPart tail4 = tail3.t$getChild("tail4");
 		final TailsModelPart tail5 = tail4.t$getChild("tail5");
 
-		float timestep = getAnimationTime(4000F, ctx.entity());
+		float timestep = getAnimationTime(4000, ctx.entity());
 
 		if ("one_tail".equals(ctx.info().getSubType().id())) {
 			setRotationAngles(0, timestep, 1, 1, 0, 0, ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
@@ -136,7 +132,7 @@ final class FluffyTailModel extends PartModel {
 			ctx.render(model);
 		}
 		else if ("nine_tails".equals(ctx.info().getSubType().id())) {
-			timestep = getAnimationTime(6500F, ctx.entity());
+			timestep = getAnimationTime(6500, ctx.entity());
 
 			setRotationAngles(2, timestep, -1.5F, 2.5F, 0, 0, ctx.partialTick(), ctx.entity(), tailBase, tail1, tail2, tail3, tail4, tail5);
 			ctx.render(model);
@@ -173,47 +169,47 @@ final class FluffyTailModel extends PartModel {
 
 		if ("one_tail".equals(_info.getSubTypeId()))
 			return of(base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(0, getAnimationTime(4000F, entity), 1F, 1F, 0, 0, partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(0, getAnimationTime(4000, entity), 1F, 1F, 0, 0, partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 				poseStack.t$rotateX(-20F * TailsMath.DEG_TO_RAD);
 			}));
 
 		if ("two_tails".equals(_info.getSubTypeId()))
 			return of(base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(1, getAnimationTime(4000F, entity), 1F, 1F, 0F, rad(40), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(1, getAnimationTime(4000, entity), 1F, 1F, 0F, rad(40), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 				poseStack.t$rotateX(-20F * TailsMath.DEG_TO_RAD);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
 				poseStack.t$rotateX(-20F * TailsMath.DEG_TO_RAD);
-				setRotationAngles(1, getAnimationTime(4000F, entity), 1.4F, 0F, 0F, rad(-40), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(1, getAnimationTime(4000, entity), 1.4F, 0F, 0F, rad(-40), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}));
 
 		if ("three_tails".equals(_info.getSubTypeId()))
 			return of(base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(0, getAnimationTime(4000F, entity), -1.5F, 2.5F, 0, 0, partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(0, getAnimationTime(4000, entity), -1.5F, 2.5F, 0, 0, partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(0, getAnimationTime(4000F, entity), -1.3F, 1.6F, 0, rad(45), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(0, getAnimationTime(4000, entity), -1.3F, 1.6F, 0, rad(45), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(0, getAnimationTime(4000F, entity), -1.1F, 0.7F, 0, rad(-45), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(0, getAnimationTime(4000, entity), -1.1F, 0.7F, 0, rad(-45), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}));
 
 		if ("nine_tails".equals(_info.getSubTypeId()))
 			return of(base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(2, getAnimationTime(6500F, entity), -1.5F, 2.5F, 0, 0, partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -1.5F, 2.5F, 0, 0, partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(2, getAnimationTime(6500F, entity), -1.3F, 1.6F, 0, rad(30), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -1.3F, 1.6F, 0, rad(30), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 0.7F, 0, rad(-30), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -1.1F, 0.7F, 0, rad(-30), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(2, getAnimationTime(6500F, entity), -1.2F, 2.6F, rad(20), rad(-15), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -1.2F, 2.6F, rad(20), rad(-15), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> { // 4
-				setRotationAngles(2, getAnimationTime(6500F, entity), -0.9F, 1.1F, rad(20), rad(15), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -0.9F, 1.1F, rad(20), rad(15), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> { // 5
-				setRotationAngles(2, getAnimationTime(6500F, entity), -0.8F, 2F, rad(20), rad(45), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -0.8F, 2F, rad(20), rad(45), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(2, getAnimationTime(6500F, entity), -1.25F, 0.6F, rad(20), rad(-45), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -1.25F, 0.6F, rad(20), rad(-45), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> { // 7
-				setRotationAngles(2, getAnimationTime(6500F, entity), -1.4F, 0.9F, rad(45), rad(15), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -1.4F, 0.9F, rad(45), rad(15), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}), base.copy().withTranslator((info, poseStack, partialTick, entity) -> {
-				setRotationAngles(2, getAnimationTime(6500F, entity), -1.1F, 1.6F, rad(45), rad(-15), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
+				setRotationAngles(2, getAnimationTime(6500, entity), -1.1F, 1.6F, rad(45), rad(-15), partialTick, entity, info.getPart().getModel().t$getChild("tailBase"), null, null, null, null, null);
 			}));
 
 		return Collections.emptyList();

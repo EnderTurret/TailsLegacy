@@ -35,7 +35,7 @@ final class SharkTailModel extends PartModel {
 			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 		}
 
-		final float timestep = getAnimationTime(3000D, entity);
+		final float timestep = getAnimationTime(3000, entity);
 
 		final TailsModelPart tailBase = model.t$getChild("tailBase");
 		final TailsModelPart tail1 = tailBase.t$getChild("tail1");

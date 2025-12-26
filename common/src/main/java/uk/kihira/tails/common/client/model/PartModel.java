@@ -136,9 +136,12 @@ public abstract class PartModel {
 		return (float) Math.toRadians(degrees);
 	}
 
-	public static float getAnimationTime(double cycleTime, TailsEntity entity) {
-		// Returns between 0-360 in radians depending on far in the "cycle" we are.
-		return (float) ((entity.t$uuid().hashCode() + System.currentTimeMillis()) % cycleTime / cycleTime * 2 * Math.PI);
+	// Returns between 0-360 in radians depending on far in the "cycle" we are.
+	public static float getAnimationTime(int cycleTime, TailsEntity entity) {
+		final double dCycleTime = cycleTime;
+		// Note: it's tempting to refactor this to use floats (it elides the cast), but this breaks the math completely.
+		// Maybe modulus only works on ints and doubles, so it chooses the int version for floats?
+		return (float) ((entity.t$uuid().hashCode() + System.currentTimeMillis()) % dCycleTime / dCycleTime * 2 * Math.PI);
 	}
 
 	protected static double[] getMotionAngles(TailsEntity player, float partialTick) {

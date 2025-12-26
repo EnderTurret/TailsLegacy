@@ -55,11 +55,9 @@ final class DragonTailModel extends PartModel {
 		final TailsModelPart tailSub1 = tailSubBase.t$getChild("tailSub1");
 		final TailsModelPart tailSub2 = tailSub1.t$getChild("tailSub2");
 		final TailsModelPart tailSub3 = tailSub2.t$getChild("tailSub3");
-		if ("dragon_tail".equals(subType.id()) || "finned_dragon_tail".equals(subType.id())) {
-			setRotationRadians(tailSubBase, tailBase.t$getXRot(), tailBase.t$getYRot(), tailBase.t$getZRot());
-			setRotationRadians(tailSub1, tail1.t$getXRot(), tail1.t$getYRot(), tail1.t$getZRot());
-			setRotationRadians(tailSub2, tail2.t$getXRot(), tail2.t$getYRot(), tail2.t$getZRot());
-			setRotationRadians(tailSub3, tail3.t$getXRot(), tail3.t$getYRot(), tail3.t$getZRot());
-		}
+		setRotationRadians(tailSubBase, tailBase.t$getXRot(), tailBase.t$getYRot(), tailBase.t$getZRot());
+		setRotationRadians(tailSub1, tail1.t$getXRot(), tail1.t$getYRot(), tail1.t$getZRot());
+		setRotationRadians(tailSub2, tail2.t$getXRot(), tail2.t$getYRot(), tail2.t$getZRot());
+		setRotationRadians(tailSub3, tail3.t$getXRot(), tail3.t$getYRot(), tail3.t$getZRot());
 	}
 }

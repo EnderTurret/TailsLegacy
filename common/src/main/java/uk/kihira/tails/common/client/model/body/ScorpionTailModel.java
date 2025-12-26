@@ -12,6 +12,7 @@ import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.model.PartModel;
+import uk.kihira.tails.common.client.model.PartModelHelper;
 import uk.kihira.tails.common.client.part.Part;
 
 final class ScorpionTailModel extends PartModel {
@@ -24,18 +25,18 @@ final class ScorpionTailModel extends PartModel {
 			xAngleOffset = 0;
 			yAngleMultiplier = 0.25;
 		} else {
-			final double[] angles = getMotionAngles(entity, partialTick);
+			final double[] angles = PartModelHelper.getMotionAngles(entity, partialTick);
 
 			xAngleOffset = TailsMath.clamp(angles[0] / 8, -0.1, 0.1);
 			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 		}
 
-		final float timestep1 = getAnimationTime(16000, entity);
-		final float timestep2 = getAnimationTime(12000, entity);
+		final float timestep1 = PartModelHelper.getAnimationTime(16000, entity);
+		final float timestep2 = PartModelHelper.getAnimationTime(12000, entity);
 
 		final TailsModelPart tailBase = model.t$getChild("tailBase");
 
-		setOffsetRotationRadians(tailBase,
+		tailBase.t$setOffsetRotationRadians(
 				xAngleOffset * -2,
 				TailsMath.cos(timestep1 - 1) / 12 * yAngleMultiplier,
 				TailsMath.cos(timestep2 - 2) / 12 * yAngleMultiplier);

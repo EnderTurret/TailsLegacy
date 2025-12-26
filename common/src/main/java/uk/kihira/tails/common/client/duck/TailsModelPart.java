@@ -35,6 +35,22 @@ public interface TailsModelPart {
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color);
 	public void t$translateAndRotate(TailsPoseStack poseStack);
 
+	/**
+	 * Sets the rotation on a model where the provided params are in radians
+	 * @param x The x angle
+	 * @param y The y angle
+	 * @param z The z angle
+	 */
+	public default void t$setRotationRadians(double x, double y, double z) {
+		t$setXRot((float) x);
+		t$setYRot((float) y);
+		t$setZRot((float) z);
+	}
+
+	public default void t$setOffsetRotationRadians(double x, double y, double z) {
+		t$setRotationRadians(t$getInitialXRot() + x, t$getInitialYRot() + y, t$getInitialZRot() + z);
+	}
+
 	public static final class CubePose {
 
 		public final float minX, maxX;

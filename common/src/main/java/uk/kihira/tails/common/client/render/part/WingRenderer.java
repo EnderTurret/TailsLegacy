@@ -12,12 +12,15 @@ package uk.kihira.tails.common.client.render.part;
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.model.PartModel;
+import uk.kihira.tails.common.client.model.PartModelHelper;
 import uk.kihira.tails.common.client.render.RenderContext;
 
 /**
  * A specialized {@link PartRenderer} for wings.
  */
 public final class WingRenderer extends PartRenderer {
+
+	private static final float SCALE = 0.0625F;
 
 	public WingRenderer() {
 		super(null);
@@ -26,7 +29,7 @@ public final class WingRenderer extends PartRenderer {
 	@Override
 	protected void doRender(RenderContext ctx) {
 		final boolean isFlying = ctx.entity().t$isFlying();
-		final float timestep = PartModel.getAnimationTime(isFlying ? 500 : 6500, ctx.entity());
+		final float timestep = PartModelHelper.getAnimationTime(isFlying ? 500 : 6500, ctx.entity());
 		final float angle = TailsMath.sin(timestep) * (isFlying ? 24F : 4F);
 		final boolean small = "small".equals(ctx.info().getSubType().id());
 		final float scale = small ? 1F : 2F;
@@ -35,11 +38,11 @@ public final class WingRenderer extends PartRenderer {
 
 		pose.t$push();
 
-		pose.t$translate(0, -(scale * 8F) * PartModel.SCALE + (small ? 0.1F : 0), 0.1F);
+		pose.t$translate(0, -(scale * 8F) * SCALE + (small ? 0.1F : 0), 0.1F);
 		pose.t$rotateY(TailsMath.HALF_PI);
 		pose.t$rotateZ(TailsMath.HALF_PI);
 		pose.t$scale(scale, scale, scale);
-		pose.t$translate(0.1F, -0.4F * PartModel.SCALE, -0.025F);
+		pose.t$translate(0.1F, -0.4F * SCALE, -0.025F);
 
 		if (ctx.entity().t$isCrouching()) {
 			pose.t$rotateZ(35 * TailsMath.DEG_TO_RAD);
@@ -48,7 +51,7 @@ public final class WingRenderer extends PartRenderer {
 
 		pose.t$push();
 
-		pose.t$translate(0F, 0F, 1F * PartModel.SCALE);
+		pose.t$translate(0F, 0F, 1F * SCALE);
 		pose.t$rotateX((30F - angle) * TailsMath.DEG_TO_RAD);
 
 		ctx.buffer().t$submitCustomGeometry(pose, (p, consumer) -> {

@@ -13,6 +13,7 @@ import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.model.PartModel;
+import uk.kihira.tails.common.client.model.PartModelHelper;
 import uk.kihira.tails.common.client.part.Part;
 
 /**
@@ -23,14 +24,14 @@ final class BirdTailModel extends PartModel {
 
 	@Override
 	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {
-		final float timestep = getAnimationTime(8000, entity);
+		final float timestep = PartModelHelper.getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double zAngleOffset = 0;
 
 		if (entity.t$isPassenger())
-			xAngleOffset = rad(60);
+			xAngleOffset = PartModelHelper.rad(60);
 		else {
-			final double[] angles = getMotionAngles(entity, partialTick);
+			final double[] angles = PartModelHelper.getMotionAngles(entity, partialTick);
 			xAngleOffset = angles[0];
 			zAngleOffset = angles[2];
 
@@ -47,12 +48,12 @@ final class BirdTailModel extends PartModel {
 		final TailsModelPart right0 = center.t$getChild("right0");
 		final TailsModelPart right1 = right0.t$getChild("right1");
 		final TailsModelPart right2 = right1.t$getChild("right2");
-		setOffsetRotationRadians(center, xAngleOffset, -zAngleOffset, 0);
-		setOffsetRotationRadians(left0, 0, 0, xAngleOffset / 10);
-		setOffsetRotationRadians(left1, 0, 0, xAngleOffset / 10);
-		setOffsetRotationRadians(left2, 0, 0, xAngleOffset / 10);
-		setOffsetRotationRadians(right0, 0, 0, xAngleOffset / -10);
-		setOffsetRotationRadians(right1, 0, 0, xAngleOffset / -10);
-		setOffsetRotationRadians(right2, 0, 0, xAngleOffset / -10);
+		center.t$setOffsetRotationRadians(xAngleOffset, -zAngleOffset, 0);
+		left0.t$setOffsetRotationRadians(0, 0, xAngleOffset / 10);
+		left1.t$setOffsetRotationRadians(0, 0, xAngleOffset / 10);
+		left2.t$setOffsetRotationRadians(0, 0, xAngleOffset / 10);
+		right0.t$setOffsetRotationRadians(0, 0, xAngleOffset / -10);
+		right1.t$setOffsetRotationRadians(0, 0, xAngleOffset / -10);
+		right2.t$setOffsetRotationRadians(0, 0, xAngleOffset / -10);
 	}
 }

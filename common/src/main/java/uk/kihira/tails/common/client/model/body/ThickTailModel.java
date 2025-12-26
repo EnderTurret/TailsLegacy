@@ -40,8 +40,8 @@ final class ThickTailModel extends PartModel {
 
 		setRotationRadians(tailBase, tailBase.t$getInitialXRot() + xAngleOffset * 2, TailsMath.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
 		setRotationRadians(tail1,    tail1.t$getInitialXRot()    + xAngleOffset * 2, TailsMath.cos(timestep - 2) / 45 * yAngleMultiplier, 0);
-		setRotationRadians(tail2,    tail2.t$getInitialXRot()    - xAngleOffset / 4, TailsMath.cos(timestep - 3) / 45 * yAngleMultiplier, 0);
-		setRotationRadians(tail3,    tail3.t$getInitialXRot()    - xAngleOffset / 4, TailsMath.cos(timestep - 4) / 45 * yAngleMultiplier, 0);
-		setRotationRadians(tail4,    tail4.t$getInitialXRot()    - xAngleOffset / 4, TailsMath.cos(timestep - 5) / 45 * yAngleMultiplier, 0);
+		setRotationRadians(tail2,    tail2.t$getInitialXRot()    + xAngleOffset / -4, TailsMath.cos(timestep - 3) / 45 * yAngleMultiplier, 0);
+		setRotationRadians(tail3,    tail3.t$getInitialXRot()    + xAngleOffset / -4, TailsMath.cos(timestep - 4) / 45 * yAngleMultiplier, 0);
+		setRotationRadians(tail4,    tail4.t$getInitialXRot()    + xAngleOffset / -4, TailsMath.cos(timestep - 5) / 45 * yAngleMultiplier, 0);
 	}
 }

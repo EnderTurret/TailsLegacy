@@ -43,12 +43,12 @@ final class DevilTailModel extends PartModel {
 		final TailsModelPart tail4 = tail3.t$getChild("tail4");
 		final TailsModelPart tail5 = tail4.t$getChild("tail5");
 		final TailsModelPart tailTip = tail5.t$getChild("tailTip");
-		setRotationRadians(tailBase, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 1) / 8 * yAngleMultiplier, 0);
-		setRotationRadians(tail1, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 2) / 8 * yAngleMultiplier, 0);
-		setRotationRadians(tail2, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 3) / 8 * yAngleMultiplier, 0);
-		setRotationRadians(tail3, rad(20) - xAngleOffset * 2 + TailsMath.cos(xseed - 4) / 6 * yAngleMultiplier, TailsMath.cos(seed - 4) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 4) / 8 * yAngleMultiplier);
-		setRotationRadians(tail4, rad(50) - xAngleOffset * 3 + TailsMath.cos(xseed - 5) / 8 * yAngleMultiplier, TailsMath.cos(seed - 5) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 5) / 8 * yAngleMultiplier);
-		setRotationRadians(tail5, rad(50) - xAngleOffset * 4 + TailsMath.cos(xseed - 6) / 4  * yAngleMultiplier, TailsMath.cos(seed - 6) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 6) / 8 * yAngleMultiplier);
-		setRotationRadians(tailTip, rad(120) - xAngleOffset, 0, 0);
+		setRotationRadians(tailBase, tailBase.t$getInitialXRot() + xAngleOffset * 2,                                                    TailsMath.cos(seed - 1) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail1,    tail1.t$getInitialXRot()    + xAngleOffset * 2,                                                    TailsMath.cos(seed - 2) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail2,    tail2.t$getInitialXRot()    + xAngleOffset * 2,                                                    TailsMath.cos(seed - 3) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail3,    tail3.t$getInitialXRot()    + xAngleOffset * -2 + TailsMath.cos(xseed - 4) / 6 * yAngleMultiplier, TailsMath.cos(seed - 4) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 4) / 8 * yAngleMultiplier);
+		setRotationRadians(tail4,    tail4.t$getInitialXRot()    + xAngleOffset * -3 + TailsMath.cos(xseed - 5) / 8 * yAngleMultiplier, TailsMath.cos(seed - 5) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 5) / 8 * yAngleMultiplier);
+		setRotationRadians(tail5,    tail5.t$getInitialXRot()    + xAngleOffset * -4 + TailsMath.cos(xseed - 6) / 4 * yAngleMultiplier, TailsMath.cos(seed - 6) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 6) / 8 * yAngleMultiplier);
+		setRotationRadians(tailTip,  tailTip.t$getInitialXRot()  + -xAngleOffset, 0, 0);
 	}
 }

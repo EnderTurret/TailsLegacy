@@ -42,11 +42,11 @@ final class CatTailModel extends PartModel {
 		final TailsModelPart tail3 = tail2.t$getChild("tail3");
 		final TailsModelPart tail4 = tail3.t$getChild("tail4");
 		final TailsModelPart tail5 = tail4.t$getChild("tail5");
-		setRotationRadians(tailBase, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 1) / 8 * yAngleMultiplier, 0);
-		setRotationRadians(tail1, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 2) / 8 * yAngleMultiplier, 0);
-		setRotationRadians(tail2, rad(-30) + xAngleOffset * 2, TailsMath.cos(seed - 3) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 3) / 16);
-		setRotationRadians(tail3, rad(20) - xAngleOffset * 2 + TailsMath.cos(xseed - 4) / 8, TailsMath.cos(seed - 4) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 4) / 8);
-		setRotationRadians(tail4, rad(50) - xAngleOffset * 2.5 + TailsMath.cos(xseed - 5) / 10, TailsMath.cos(seed - 5) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 5) / 8);
-		setRotationRadians(tail5, rad(50) - xAngleOffset * 3 + TailsMath.cos(xseed - 6) / 10, TailsMath.cos(seed - 6) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 6) / 8);
+		setRotationRadians(tailBase, tailBase.t$getInitialXRot() + xAngleOffset * 2,                                    TailsMath.cos(seed - 1) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail1,    tail1.t$getInitialXRot()    + xAngleOffset * 2,                                    TailsMath.cos(seed - 2) / 8 * yAngleMultiplier, 0);
+		setRotationRadians(tail2,    tail2.t$getInitialXRot()    + xAngleOffset * 2,                                    TailsMath.cos(seed - 3) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 3) / 16);
+		setRotationRadians(tail3,    tail3.t$getInitialXRot()    + xAngleOffset * -2   + TailsMath.cos(xseed - 4) / 8,  TailsMath.cos(seed - 4) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 4) / 8);
+		setRotationRadians(tail4,    tail4.t$getInitialXRot()    + xAngleOffset * -2.5 + TailsMath.cos(xseed - 5) / 10, TailsMath.cos(seed - 5) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 5) / 8);
+		setRotationRadians(tail5,    tail5.t$getInitialXRot()    + xAngleOffset * -3   + TailsMath.cos(xseed - 6) / 10, TailsMath.cos(seed - 6) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 6) / 8);
 	}
 }

@@ -36,7 +36,7 @@ final class ScorpionTailModel extends PartModel {
 		final TailsModelPart tailBase = model.t$getChild("tailBase");
 
 		setRotationRadians(tailBase,
-				tailBase.t$getInitialXRot() - 0.15 - xAngleOffset * 2,
+				tailBase.t$getInitialXRot() + xAngleOffset * -2,
 				TailsMath.cos(timestep1 - 1) / 12 * yAngleMultiplier,
 				TailsMath.cos(timestep2 - 2) / 12 * yAngleMultiplier);
 	}

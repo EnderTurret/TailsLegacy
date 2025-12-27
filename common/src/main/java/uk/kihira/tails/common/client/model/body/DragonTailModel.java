@@ -24,6 +24,15 @@ final class DragonTailModel extends PartModel {
 
 	@Override
 	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {
+		final TailsModelPart tailBase = model.t$getChild("tailBase");
+		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
+		final TailsModelPart tail2 = tail1.t$getChild("tail2");
+		final TailsModelPart tail3 = tail2.t$getChild("tail3");
+		final TailsModelPart tailSubBase = model.t$getChild("tailSubBase");
+		final TailsModelPart tailSub1 = tailSubBase.t$getChild("tailSub1");
+		final TailsModelPart tailSub2 = tailSub1.t$getChild("tailSub2");
+		final TailsModelPart tailSub3 = tailSub2.t$getChild("tailSub3");
+
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.t$isPassenger()) {
@@ -38,24 +47,16 @@ final class DragonTailModel extends PartModel {
 			final double[] angles = PartModelHelper.getMotionAngles(entity, partialTick);
 
 			xAngleOffset = TailsMath.clamp(angles[0] / 5, -1, 0.45);
-			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
+			yAngleMultiplier = 1 + xAngleOffset * -2; // Used to suppress sway when running.
 		}
 
 		final float timestep = PartModelHelper.getAnimationTime(4000, entity);
 
-		final TailsModelPart tailBase = model.t$getChild("tailBase");
-		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
-		final TailsModelPart tail2 = tail1.t$getChild("tail2");
-		final TailsModelPart tail3 = tail2.t$getChild("tail3");
 		tailBase.t$setOffsetRotationRadians(xAngleOffset * 2,                                  TailsMath.cos(timestep - 1) / 5 * yAngleMultiplier, 0);
 		tail1.t$setOffsetRotationRadians   (xAngleOffset * 2,                                  TailsMath.cos(timestep - 2) / 5 * yAngleMultiplier, 0);
 		tail2.t$setOffsetRotationRadians   (xAngleOffset / -4,                                 TailsMath.cos(timestep - 3) / 5 * yAngleMultiplier, 0);
 		tail3.t$setOffsetRotationRadians   ((xAngleOffset < 0 ? xAngleOffset : -xAngleOffset), TailsMath.cos(timestep - 4) / 5 * yAngleMultiplier, 0);
 
-		final TailsModelPart tailSubBase = model.t$getChild("tailSubBase");
-		final TailsModelPart tailSub1 = tailSubBase.t$getChild("tailSub1");
-		final TailsModelPart tailSub2 = tailSub1.t$getChild("tailSub2");
-		final TailsModelPart tailSub3 = tailSub2.t$getChild("tailSub3");
 		tailSubBase.t$setRotationRadians(tailBase.t$getXRot(), tailBase.t$getYRot(), tailBase.t$getZRot());
 		tailSub1.t$setRotationRadians(tail1.t$getXRot(), tail1.t$getYRot(), tail1.t$getZRot());
 		tailSub2.t$setRotationRadians(tail2.t$getXRot(), tail2.t$getYRot(), tail2.t$getZRot());

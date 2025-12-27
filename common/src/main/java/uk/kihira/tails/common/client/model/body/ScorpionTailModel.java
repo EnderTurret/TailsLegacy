@@ -19,6 +19,8 @@ final class ScorpionTailModel extends PartModel {
 
 	@Override
 	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {
+		final TailsModelPart tailBase = model.t$getChild("tailBase");
+
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.t$isPassenger()) {
@@ -31,14 +33,13 @@ final class ScorpionTailModel extends PartModel {
 			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 		}
 
-		final float timestep1 = PartModelHelper.getAnimationTime(16000, entity);
-		final float timestep2 = PartModelHelper.getAnimationTime(12000, entity);
-
-		final TailsModelPart tailBase = model.t$getChild("tailBase");
+		final float yTimestep = PartModelHelper.getAnimationTime(16000, entity);
+		final float zTimestep = PartModelHelper.getAnimationTime(12000, entity);
 
 		tailBase.t$setOffsetRotationRadians(
 				xAngleOffset * -2,
-				TailsMath.cos(timestep1 - 1) / 12 * yAngleMultiplier,
-				TailsMath.cos(timestep2 - 2) / 12 * yAngleMultiplier);
+				TailsMath.cos(yTimestep - 1) / 12 * yAngleMultiplier,
+				TailsMath.cos(zTimestep - 2) / 12 * yAngleMultiplier
+				);
 	}
 }

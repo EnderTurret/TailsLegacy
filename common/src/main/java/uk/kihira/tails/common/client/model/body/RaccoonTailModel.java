@@ -47,8 +47,8 @@ final class RaccoonTailModel extends PartModel {
 		final TailsModelPart tailBase = model.t$getChild("tailBase");
 		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
 		final TailsModelPart tail2 = tail1.t$getChild("tail2");
-		tailBase.t$setOffsetRotationRadians(xAngleOffset, (-zAngleOffset + TailsMath.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
-		tail1.t$setOffsetRotationRadians   (xAngleOffset, (-zAngleOffset + TailsMath.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
-		tail2.t$setOffsetRotationRadians   (xAngleOffset, (-zAngleOffset + TailsMath.cos(timestep - 1) / 15 + yAngleOffset) * yAngleMultiplier, -zAngleOffset / 4);
+		tailBase.t$setOffsetRotationRadians(xAngleOffset, (TailsMath.cos(timestep - 1) / 15 + yAngleOffset - zAngleOffset) * yAngleMultiplier, zAngleOffset / -4);
+		tail1.t$setOffsetRotationRadians   (xAngleOffset, (TailsMath.cos(timestep - 1) / 15 + yAngleOffset - zAngleOffset) * yAngleMultiplier, zAngleOffset / -4);
+		tail2.t$setOffsetRotationRadians   (xAngleOffset, (TailsMath.cos(timestep - 1) / 15 + yAngleOffset - zAngleOffset) * yAngleMultiplier, zAngleOffset / -4);
 	}
 }

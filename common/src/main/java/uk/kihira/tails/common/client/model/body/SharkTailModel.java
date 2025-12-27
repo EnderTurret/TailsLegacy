@@ -24,6 +24,12 @@ final class SharkTailModel extends PartModel {
 
 	@Override
 	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {
+		final TailsModelPart tailBase = model.t$getChild("tailBase");
+		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
+		final TailsModelPart tail2 = tail1.t$getChild("tail2");
+		final TailsModelPart tail3 = tail2.t$getChild("tail3");
+		final TailsModelPart finBase = tail3.t$getChild("finBase");
+
 		double xAngleOffset = 0;
 		double yAngleMultiplier = 1; // Used to suppress sway when running.
 		if (entity.t$isPassenger()) {
@@ -38,15 +44,10 @@ final class SharkTailModel extends PartModel {
 
 		final float timestep = PartModelHelper.getAnimationTime(3000, entity);
 
-		final TailsModelPart tailBase = model.t$getChild("tailBase");
-		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
-		final TailsModelPart tail2 = tail1.t$getChild("tail2");
-		final TailsModelPart tail3 = tail2.t$getChild("tail3");
-		final TailsModelPart finBase = tail3.t$getChild("finBase");
 		tailBase.t$setOffsetRotationRadians(xAngleOffset * 4,  TailsMath.cos(timestep - 1) / 5  * yAngleMultiplier, 0);
 		tail1.t$setOffsetRotationRadians   (xAngleOffset * 1,  TailsMath.cos(timestep - 2) / 5  * yAngleMultiplier, 0);
 		tail2.t$setOffsetRotationRadians   (xAngleOffset * -2, TailsMath.cos(timestep - 3) / 5  * yAngleMultiplier, 0);
-		tail3.t$setOffsetRotationRadians   (-xAngleOffset,     TailsMath.cos(timestep - 4) / 5  * yAngleMultiplier, 0);
+		tail3.t$setOffsetRotationRadians   (xAngleOffset * -1, TailsMath.cos(timestep - 4) / 5  * yAngleMultiplier, 0);
 		finBase.t$setOffsetRotationRadians (0,                 TailsMath.cos(timestep - 10) / 5 * yAngleMultiplier, 0);
 	}
 }

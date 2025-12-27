@@ -23,6 +23,14 @@ final class DevilTailModel extends PartModel {
 
 	@Override
 	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {
+		final TailsModelPart tailBase = model.t$getChild("tailBase");
+		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
+		final TailsModelPart tail2 = tail1.t$getChild("tail2");
+		final TailsModelPart tail3 = tail2.t$getChild("tail3");
+		final TailsModelPart tail4 = tail3.t$getChild("tail4");
+		final TailsModelPart tail5 = tail4.t$getChild("tail5");
+		final TailsModelPart tailTip = tail5.t$getChild("tailTip");
+
 		final float seed = PartModelHelper.getAnimationTime(6000, entity);
 		final float xseed = PartModelHelper.getAnimationTime(12000, entity);
 		double xAngleOffset = 0;
@@ -37,19 +45,12 @@ final class DevilTailModel extends PartModel {
 			yAngleMultiplier = 1 - xAngleOffset * 2; // Used to suppress sway when running.
 		}
 
-		final TailsModelPart tailBase = model.t$getChild("tailBase");
-		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
-		final TailsModelPart tail2 = tail1.t$getChild("tail2");
-		final TailsModelPart tail3 = tail2.t$getChild("tail3");
-		final TailsModelPart tail4 = tail3.t$getChild("tail4");
-		final TailsModelPart tail5 = tail4.t$getChild("tail5");
-		final TailsModelPart tailTip = tail5.t$getChild("tailTip");
-		tailBase.t$setOffsetRotationRadians(xAngleOffset * 2,                                                    TailsMath.cos(seed - 1) / 8 * yAngleMultiplier, 0);
-		tail1.t$setOffsetRotationRadians   (xAngleOffset * 2,                                                    TailsMath.cos(seed - 2) / 8 * yAngleMultiplier, 0);
-		tail2.t$setOffsetRotationRadians   (xAngleOffset * 2,                                                    TailsMath.cos(seed - 3) / 8 * yAngleMultiplier, 0);
-		tail3.t$setOffsetRotationRadians   (xAngleOffset * -2 + TailsMath.cos(xseed - 4) / 6 * yAngleMultiplier, TailsMath.cos(seed - 4) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 4) / 8 * yAngleMultiplier);
-		tail4.t$setOffsetRotationRadians   (xAngleOffset * -3 + TailsMath.cos(xseed - 5) / 8 * yAngleMultiplier, TailsMath.cos(seed - 5) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 5) / 8 * yAngleMultiplier);
-		tail5.t$setOffsetRotationRadians   (xAngleOffset * -4 + TailsMath.cos(xseed - 6) / 4 * yAngleMultiplier, TailsMath.cos(seed - 6) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 6) / 8 * yAngleMultiplier);
-		tailTip.t$setOffsetRotationRadians (-xAngleOffset, 0, 0);
+		tailBase.t$setOffsetRotationRadians(                                                  xAngleOffset * 2,  TailsMath.cos(seed - 1) / 8 * yAngleMultiplier, 0);
+		tail1.t$setOffsetRotationRadians   (                                                  xAngleOffset * 2,  TailsMath.cos(seed - 2) / 8 * yAngleMultiplier, 0);
+		tail2.t$setOffsetRotationRadians   (                                                  xAngleOffset * 2,  TailsMath.cos(seed - 3) / 8 * yAngleMultiplier, 0);
+		tail3.t$setOffsetRotationRadians   (TailsMath.cos(xseed - 4) / 6 * yAngleMultiplier + xAngleOffset * -2, TailsMath.cos(seed - 4) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 4) / 8 * yAngleMultiplier);
+		tail4.t$setOffsetRotationRadians   (TailsMath.cos(xseed - 5) / 8 * yAngleMultiplier + xAngleOffset * -3, TailsMath.cos(seed - 5) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 5) / 8 * yAngleMultiplier);
+		tail5.t$setOffsetRotationRadians   (TailsMath.cos(xseed - 6) / 4 * yAngleMultiplier + xAngleOffset * -4, TailsMath.cos(seed - 6) / 8 * yAngleMultiplier, TailsMath.cos(xseed - 6) / 8 * yAngleMultiplier);
+		tailTip.t$setOffsetRotationRadians (                                                  xAngleOffset * -1, 0,                                              0);
 	}
 }

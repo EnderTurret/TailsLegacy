@@ -6,6 +6,8 @@
  * See LICENSE for full License
  */
 
+package test;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -1,3 +1,5 @@
+package test.platform;
+
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 
 public final class SimpleResourceLocation implements TResourceLocation {

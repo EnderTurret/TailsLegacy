@@ -1,3 +1,5 @@
+package test.platform;
+
 import java.util.UUID;
 
 import uk.kihira.tails.common.TailsPlatform;
@@ -56,11 +58,11 @@ public final class SimpleTailsPlatformImpl implements TailsPlatform {
 
 	@Override
 	public float lookupSin(float angle) {
-		throw new UnsupportedOperationException();
+		return (float) Math.sin(angle);
 	}
 
 	@Override
 	public float lookupCos(float angle) {
-		throw new UnsupportedOperationException();
+		return (float) Math.cos(angle);
 	}
 }

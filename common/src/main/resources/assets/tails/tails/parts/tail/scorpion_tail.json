@@ -112,6 +112,32 @@
       }
     }
   },
+  "animation": {
+    "type": "tails:default",
+    "duration": [0, 16000, 12000],
+    "poses": {
+      "sitting": { "offset": [0, 0, 0], "multiplier": [1, 0.25, 0.25] }
+    },
+    "motion": {
+      "x_offset": {
+        "multiplier": 0.125,
+        "range": [-0.1, 0.1]
+      },
+      "y_multiplier": {
+        "angle": 0,
+        "multiplier": -2,
+        "offset": 1
+      },
+      "z_multiplier": {
+        "angle": 0,
+        "multiplier": -2,
+        "offset": 1
+      }
+    },
+    "parts": {
+      "tailBase": { "x_offset_factor": -2, "y_step": 1, "y_factor": 0.0833333333333, "z_step": 2, "z_factor": 0.0833333333333 }
+    }
+  },
   "render": {
     "scale": [1.1, 1.1, 1.1],
     "rotation": [-10, 0, 0]

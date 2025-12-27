@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
+import uk.kihira.tails.common.client.model.animation.ModelAnimator;
 
 /**
  * The client-side representation of a part.
@@ -36,16 +37,18 @@ public final class Part {
 	protected final int[] defaultTints;
 	protected final boolean allowArrows;
 	protected final TailsModelPart model;
+	protected final ModelAnimator animation;
 	protected final Transformation renderTransforms;
 	protected final Transformation previewTransforms;
 
-	public Part(TResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, boolean allowArrows, TailsModelPart model, Transformation renderTransforms, Transformation previewTransforms) {
+	public Part(TResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, boolean allowArrows, TailsModelPart model, ModelAnimator animation, Transformation renderTransforms, Transformation previewTransforms) {
 		this.id = id;
 		this.attachment = attachment;
 		this.subTypes = Collections.unmodifiableList(new ArrayList<>(subTypes));
 		this.defaultTints = defaultTints == null ? DEFAULT_TINTS : defaultTints;
 		this.allowArrows = allowArrows;
 		this.model = model;
+		this.animation = animation;
 		this.renderTransforms = renderTransforms;
 		this.previewTransforms = previewTransforms;
 	}
@@ -72,6 +75,10 @@ public final class Part {
 
 	public TailsModelPart getModel() {
 		return model;
+	}
+
+	public ModelAnimator getAnimation() {
+		return animation;
 	}
 
 	public Transformation getRenderTransforms() {

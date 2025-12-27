@@ -59,5 +59,8 @@
         }
       }
     }
+  },
+  "animation": {
+    "type": "tails:raccoon_tail"
   }
 }

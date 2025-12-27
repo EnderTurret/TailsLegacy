@@ -35,6 +35,8 @@ import uk.kihira.tails.common.client.TailsVec3f;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.model.ModelSerializer;
+import uk.kihira.tails.common.client.model.animation.ModelAnimator;
+import uk.kihira.tails.common.client.model.animation.ModelAnimators;
 import uk.kihira.tails.common.gson.ResourceManagerWrapper;
 import uk.kihira.tails.common.gson.TailsGsonHelper;
 
@@ -288,12 +290,15 @@ public class PartLoadingManager {
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
+		final boolean allowArrows = TailsGsonHelper.getAsBoolean(json, "allowArrows", false);
 		final TailsModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(TailsGsonHelper.getAsJsonObject(json, "model")).bake() : null;
+		final ModelAnimator animation = json.has("animation") ? ModelAnimators.fromJson(model, TailsGsonHelper.getAsJsonObject(json, "animation")) : null;
+		final Transformation renderTransforms = json.has("render") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO;
+		final Transformation previewTransforms = json.has("preview") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO;
 
 		return new Part(realId, attachment, subs, tints,
-				TailsGsonHelper.getAsBoolean(json, "allowArrows", false), model,
-				json.has("render") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO,
-				json.has("preview") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO);
+				allowArrows, model, animation,
+				renderTransforms, previewTransforms);
 	}
 
 	private static Transformation readTransform(JsonObject obj) {

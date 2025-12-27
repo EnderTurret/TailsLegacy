@@ -96,5 +96,8 @@
         }
       }
     }
+  },
+  "animation": {
+    "type": "tails:fluffy_tail"
   }
 }

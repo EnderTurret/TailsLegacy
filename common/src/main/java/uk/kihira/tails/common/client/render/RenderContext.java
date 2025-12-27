@@ -15,6 +15,7 @@ import uk.kihira.tails.common.client.duck.TailsBufferSource;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.model.animation.ModelAnimator;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.ClientPartsData;
 
@@ -124,5 +125,9 @@ public final class RenderContext {
 
 	public TailsModelPart getModel() {
 		return info.getPart().getModel();
+	}
+
+	public ModelAnimator getAnimation() {
+		return info.getPart().getAnimation();
 	}
 }

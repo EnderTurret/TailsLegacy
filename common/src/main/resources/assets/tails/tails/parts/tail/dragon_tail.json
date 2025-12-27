@@ -188,5 +188,35 @@
         }
       }
     }
+  },
+  "animation": {
+    "type": "tails:default",
+    "duration": 4000,
+    "poses": {
+      "sitting": { "offset": [0.209439510239, 0, 0], "multiplier": [1, 0.25, 1] },
+      "swimming": { "offset": [-0.1, 0, 0] },
+      "sleeping": { "offset": [-0.1, 0, 0], "multiplier": [1, 0, 1] }
+    },
+    "motion": {
+      "x_offset": {
+        "multiplier": 0.2,
+        "range": [-1, 0.45]
+      },
+      "y_multiplier": {
+        "angle": 0,
+        "multiplier": -2,
+        "offset": 1
+      }
+    },
+    "parts": {
+      "tailBase":                   { "x_offset_factor": 2,     "y_step": 1, "y_factor": 0.2 },
+      "tailBase.tail1":             { "x_offset_factor": 2,     "y_step": 2, "y_factor": 0.2 },
+      "tailBase.tail1.tail2":       { "x_offset_factor": -0.25, "y_step": 3, "y_factor": 0.2 },
+      "tailBase.tail1.tail2.tail3": { "x_offset_factor": -1,    "y_step": 4, "y_factor": 0.2, "x_offset_absolute": true },
+      "tailSubBase": "tailBase",
+      "tailSubBase.tailSub1": "tailBase.tail1",
+      "tailSubBase.tailSub1.tailSub2": "tailBase.tail1.tail2",
+      "tailSubBase.tailSub1.tailSub2.tailSub3": "tailBase.tail1.tail2.tail3"
+    }
   }
 }

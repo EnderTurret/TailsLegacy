@@ -5,6 +5,8 @@ import uk.kihira.tails.common.client.duck.TailsEntity;
 
 public final class PartModelHelper {
 
+	private static final long TESTING_TIME = Long.parseLong(System.getProperty("tails.testing.time", "0"));
+
 	public static double rad(double degrees) {
 		return Math.toRadians(degrees);
 	}
@@ -16,12 +18,21 @@ public final class PartModelHelper {
 	// Returns between 0-360 in radians depending on far in the "cycle" we are.
 	public static float getAnimationTime(int cycleTime, TailsEntity entity) {
 		final double dCycleTime = cycleTime;
+
+		long time = TESTING_TIME;
+		if (TESTING_TIME == 0L)
+			time = System.currentTimeMillis();
+
 		// Note: it's tempting to refactor this to use floats (it elides the cast), but this breaks the math completely.
 		// Maybe modulus only works on ints and doubles, so it chooses the int version for floats?
-		return (float) ((entity.t$uuid().hashCode() + System.currentTimeMillis()) % dCycleTime / dCycleTime * 2 * Math.PI);
+		return (float) ((entity.t$uuid().hashCode() + time) % dCycleTime / dCycleTime * 2 * Math.PI);
 	}
 
 	public static double[] getMotionAngles(TailsEntity player, float partialTick) {
+		return getMotionAngles(player, partialTick, new double[3]);
+	}
+
+	public static double[] getMotionAngles(TailsEntity player, float partialTick, double[] array) {
 		// TODO: When falling a large distance, tails tend to move wildly up and down.
 		// This seems to be caused by yCloakO and yCloak being set to Y when the difference between them is greater than 10.
 		// See Player.moveCloak() for details.
@@ -44,11 +55,11 @@ public final class PartModelHelper {
 
 		if (forwardMotion < 0F) forwardMotion = 0F;
 
-		return new double[] {
-				rad(forwardMotion / 2.5 + xOffset + getTailBob(player, partialTick)),
-				rad(-sideMotion / 20),
-				rad(sideMotion / 2)
-		};
+		array[0] = rad(forwardMotion / 2.5 + xOffset + getTailBob(player, partialTick));
+		array[1] = rad(-sideMotion / 20);
+		array[2] = rad(sideMotion / 2);
+
+		return array;
 	}
 
 	protected static float getTailBob(TailsEntity player, float partialTick) {

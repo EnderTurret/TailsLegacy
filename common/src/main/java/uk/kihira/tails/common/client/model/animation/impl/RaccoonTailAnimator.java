@@ -1,28 +1,28 @@
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Zoe Lee (Kihira)
- * Copyright (c) 2020-2025 EnderTurret
- *
- * See LICENSE for full License
- */
+package uk.kihira.tails.common.client.model.animation.impl;
 
-package uk.kihira.tails.common.client.model.body;
+import com.google.gson.JsonObject;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
-import uk.kihira.tails.common.client.model.PartModel;
 import uk.kihira.tails.common.client.model.PartModelHelper;
-import uk.kihira.tails.common.client.part.Part;
+import uk.kihira.tails.common.client.model.animation.ModelAnimator;
+import uk.kihira.tails.common.client.part.Part.SubType;
 
-/**
- * The raccoon tail part model.
- */
-final class RaccoonTailModel extends PartModel {
+public final class RaccoonTailAnimator implements ModelAnimator {
+
+	private final TailsModelPart tailBase;
+	private final TailsModelPart tail1;
+	private final TailsModelPart tail2;
+
+	public RaccoonTailAnimator(TailsModelPart model, JsonObject ignored) {
+		tailBase = model.t$getChild("tailBase");
+		tail1 = tailBase.t$getChild("tail1");
+		tail2 = tail1.t$getChild("tail2");
+	}
 
 	@Override
-	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {
+	public void setupAnim(TailsEntity entity, TailsModelPart model, SubType subType, float partialTick) {
 		final float timestep = PartModelHelper.getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
@@ -44,9 +44,6 @@ final class RaccoonTailModel extends PartModel {
 			zAngleOffset = TailsMath.clamp(zAngleOffset * 0.5, -0.5, 0.5);
 		}
 
-		final TailsModelPart tailBase = model.t$getChild("tailBase");
-		final TailsModelPart tail1 = tailBase.t$getChild("tail1");
-		final TailsModelPart tail2 = tail1.t$getChild("tail2");
 		tailBase.t$setOffsetRotationRadians(xAngleOffset, (TailsMath.cos(timestep - 1) / 15 + yAngleOffset - zAngleOffset) * yAngleMultiplier, zAngleOffset / -4);
 		tail1.t$setOffsetRotationRadians   (xAngleOffset, (TailsMath.cos(timestep - 1) / 15 + yAngleOffset - zAngleOffset) * yAngleMultiplier, zAngleOffset / -4);
 		tail2.t$setOffsetRotationRadians   (xAngleOffset, (TailsMath.cos(timestep - 1) / 15 + yAngleOffset - zAngleOffset) * yAngleMultiplier, zAngleOffset / -4);

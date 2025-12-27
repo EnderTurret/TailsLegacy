@@ -18,6 +18,7 @@ import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
+import uk.kihira.tails.common.client.model.animation.ModelAnimator;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.common.client.part.Part.SubType;
@@ -43,6 +44,7 @@ public abstract class PartModel {
 	public void render(RenderContext ctx) {
 		final Part part = ctx.info().getPart();
 		final SubType subType = ctx.info().getSubType();
+		final ModelAnimator animation = part.getAnimation();
 
 		for (Map.Entry<TailsModelPart, Boolean> entry : partVisibilities.entrySet())
 			entry.getKey().t$setVisible(entry.getValue());
@@ -62,6 +64,9 @@ public abstract class PartModel {
 			if (!subType.renderTransforms().isEmpty())
 				subType.renderTransforms().apply(ctx.poseStack());
 		}
+
+		if (animation != null)
+			animation.setupAnim(ctx.entity(), part.getModel(), subType, ctx.partialTick());
 
 		ctx.render(part.getModel());
 

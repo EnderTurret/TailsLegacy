@@ -27,6 +27,7 @@ public final class DefaultModelAnimator implements ModelAnimator {
 	private Pose sittingPose;
 	private Pose swimmingPose;
 	private Pose sleepingPose;
+	private Pose crouchingPose;
 
 	private final MotionModifier xMotionOffset = new MotionModifier(0);
 	private final MotionModifier yMotionOffset = new MotionModifier(1);
@@ -59,6 +60,7 @@ public final class DefaultModelAnimator implements ModelAnimator {
 			if (poses.has("sitting")) ret.sittingPose = Pose.from(poses.getAsJsonObject("sitting"));
 			if (poses.has("swimming")) ret.swimmingPose = Pose.from(poses.getAsJsonObject("swimming"));
 			if (poses.has("sleeping")) ret.sleepingPose = Pose.from(poses.getAsJsonObject("sleeping"));
+			if (poses.has("crouching")) ret.crouchingPose = Pose.from(poses.getAsJsonObject("crouching"));
 		}
 
 		final JsonObject motion = obj.getAsJsonObject("motion");
@@ -111,6 +113,7 @@ public final class DefaultModelAnimator implements ModelAnimator {
 		if (entity.t$isPassenger()) activePose = sittingPose;
 		else if (entity.t$isSwimmingPose()) activePose = swimmingPose;
 		else if (entity.t$isSleepingPose()) activePose = sleepingPose;
+		else if (entity.t$isCrouching()) activePose = crouchingPose;
 
 		if (activePose != null) {
 			System.arraycopy(activePose.offset, 0, angleOffsets, 0, 3);

@@ -44,11 +44,6 @@ public final class WingRenderer extends PartRenderer {
 		pose.t$scale(scale, scale, scale);
 		pose.t$translate(0.1F, -0.4F * SCALE, -0.025F);
 
-		if (ctx.entity().t$isCrouching()) {
-			pose.t$rotateZ(35 * TailsMath.DEG_TO_RAD);
-			pose.t$translate(0, -0.3, 0);
-		}
-
 		pose.t$push();
 
 		pose.t$translate(0F, 0F, 1F * SCALE);
@@ -64,9 +59,6 @@ public final class WingRenderer extends PartRenderer {
 		pose.t$pop();
 
 		pose.t$push();
-
-		// TODO: Why is this here? It causes one of the wings to be off-center.
-		//pose.translate(0F, 0.3F * PartModel.SCALE, 0F);
 
 		pose.t$rotateX((-30F + angle) * TailsMath.DEG_TO_RAD);
 

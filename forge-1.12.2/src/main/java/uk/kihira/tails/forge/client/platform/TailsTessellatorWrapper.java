@@ -129,6 +129,12 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 	}
 
 	@Override
+	public TailsVertexConsumer t$normal(float x, float y, float z) {
+		buffer.normal(x, y, z);
+		return this;
+	}
+
+	@Override
 	public TailsVertexConsumer t$normal(Entry pose, float x, float y, float z) {
 		buffer.normal(x, y, z);
 		return this;

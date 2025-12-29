@@ -7,6 +7,7 @@ public interface TailsVertexConsumer {
 	public TailsVertexConsumer t$uv(float u, float v);
 	public TailsVertexConsumer t$overlay(int overlay);
 	public TailsVertexConsumer t$light(int light);
+	public TailsVertexConsumer t$normal(float x, float y, float z);
 	public TailsVertexConsumer t$normal(TailsPoseStack.Entry pose, float x, float y, float z);
 	public TailsVertexConsumer t$endVertex();
 }

@@ -50,6 +50,12 @@ public interface MixinVertexConsumer extends TailsVertexConsumer {
 	}
 
 	@Override
+	public default TailsVertexConsumer t$normal(float x, float y, float z) {
+		((VertexConsumer) this).setNormal(x, y, z);
+		return this;
+	}
+
+	@Override
 	public default TailsVertexConsumer t$normal(TailsPoseStack.Entry pose, float x, float y, float z) {
 		((VertexConsumer) this).setNormal((PoseStack.Pose) (Object) pose, x, y, z);
 		return this;

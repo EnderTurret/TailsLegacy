@@ -4,7 +4,14 @@
     "with_tip",
     "no_tip"
   ],
-  "allowArrows": true,
+  "allowArrows": [
+    "tailBase",
+    "tailBase.tail1",
+    "tailBase.tail1.tail2",
+    "tailBase.tail1.tail2.tail3",
+    "tailBase.tail1.tail2.tail3.tail4",
+    "tailBase.tail1.tail2.tail3.tail4.tail5"
+  ],
   "model": {
     "texture_size": [32, 32],
     "tailBase": {

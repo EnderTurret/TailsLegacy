@@ -5,7 +5,14 @@
     "dragon_tail",
     "finned_dragon_tail"
   ],
-  "allowArrows": true,
+  "allowArrows": [
+    "tailBase",
+    "tailBase.tail1",
+    "tailBase.tail1.tail2",
+    "tailBase.tail1.tail2.tail3",
+    "tailBase.tail1.tail2.tail3.fins.finR",
+    "tailBase.tail1.tail2.tail3.fins.finL"
+  ],
   "model": {
     "texture_size": [64, 32],
     "hidden_parts": [

@@ -4,7 +4,7 @@
     "with_stinger",
     "no_stinger"
   ],
-  "allowArrows": true,
+  "allowArrows": ["abdomen"],
   "model": {
     "texture_size": [32, 32],
     "abdomen": {

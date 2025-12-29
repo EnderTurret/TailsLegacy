@@ -65,9 +65,6 @@ public abstract class PartModel {
 				subType.renderTransforms().apply(ctx.poseStack());
 		}
 
-		if (animation != null)
-			animation.setupAnim(ctx.entity(), part.getModel(), subType, ctx.partialTick());
-
 		ctx.render(part.getModel());
 
 		if (transformed)
@@ -90,7 +87,9 @@ public abstract class PartModel {
 	 * @return A list of part configurations.
 	 */
 	public List<PartConfiguration> collectParts(ClientPartInfo info) {
-		return info.getPart().allowArrows() ? Collections.singletonList(PartConfiguration.derive(info.getPart().getModel())) : Collections.emptyList();
+		return info.getPart().allowArrows()
+				? Collections.singletonList(PartConfiguration.derive(info.getPart().getModel()))
+				: Collections.emptyList();
 	}
 
 	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {}

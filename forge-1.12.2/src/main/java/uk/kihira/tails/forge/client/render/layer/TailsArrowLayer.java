@@ -11,6 +11,7 @@ package uk.kihira.tails.forge.client.render.layer;
 import java.util.Collections;
 import java.util.Random;
 
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.opengl.GL11;
 
@@ -49,6 +50,15 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 	public TailsArrowLayer(RenderLivingBase<?> renderer) {
 		super(renderer);
 		this.renderer = renderer;
+	}
+
+	@Override
+	public @Nullable TailsModelPart attachmentPart(String attachmentRoot) {
+		switch (attachmentRoot) {
+			case "body": return (TailsModelPart) ((ModelBiped) renderer.getMainModel()).bipedBody;
+			case "head": return (TailsModelPart) ((ModelBiped) renderer.getMainModel()).bipedHead;
+			default: return null;
+		}
 	}
 
 	@Override

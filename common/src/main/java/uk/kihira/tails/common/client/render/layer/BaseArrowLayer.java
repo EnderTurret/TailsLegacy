@@ -40,6 +40,9 @@ public interface BaseArrowLayer {
 		return ClientPlayerPartManager.get().get(uuid);
 	}
 
+	@Nullable
+	public TailsModelPart attachmentPart(String attachmentRoot);
+
 	public PartConfiguration makeRootConfig(ClientPartsData data, TailsEntity entity);
 
 	public default List<PartConfig> getConfigurations(ClientPartsData data, TailsEntity entity) {
@@ -90,9 +93,16 @@ public interface BaseArrowLayer {
 			if (config.renderer != null) {
 				final RenderContext ctx = new RenderContext(poseStack, null, null, packedLight, packedOverlay, 0xFFFFFFFF, partialTick, entity, data, config.info);
 
-				RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
-
 				config.renderer.modelPart.setupAnim(entity, partialTick, config.info.getSubType(), config.info.getPart().getModel());
+				if (config.info.getPart().getAnimation() != null) {
+					config.info.getPart().getAnimation().setupAnim(entity, part, config.info.getSubType(), partialTick);
+				}
+
+				final TailsModelPart attachment = attachmentPart(config.info.getPart().getAttachment().root().id());
+				// Don't skip if null, since that'll skew the Random instance.
+				if (attachment != null) attachment.t$translateAndRotate(poseStack);
+
+				RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
 			}
 
 			config.config.translate(config.info, poseStack, partialTick, entity, part);

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -56,6 +57,15 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 	@Override
 	protected int numStuck(T entity) {
 		return super.numStuck(entity);
+	}
+
+	@Override
+	public @Nullable TailsModelPart attachmentPart(String attachmentRoot) {
+		return switch (attachmentRoot) {
+			case "head" -> (TailsModelPart) (Object) getParentModel().head;
+			case "body" -> (TailsModelPart) (Object) getParentModel().body;
+			default -> null;
+		};
 	}
 
 	@Override

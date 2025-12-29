@@ -57,6 +57,15 @@ public final class TailsArrowLayer<M extends PlayerModel> extends ArrowLayer<M> 
 	}
 
 	@Override
+	public @Nullable TailsModelPart attachmentPart(String attachmentRoot) {
+		return switch (attachmentRoot) {
+			case "head" -> (TailsModelPart) (Object) getParentModel().head;
+			case "body" -> (TailsModelPart) (Object) getParentModel().body;
+			default -> null;
+		};
+	}
+
+	@Override
 	public PartConfiguration makeRootConfig(ClientPartsData data, TailsEntity entity) {
 		return new Player(getParentModel());
 	}

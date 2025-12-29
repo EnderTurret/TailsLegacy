@@ -51,6 +51,8 @@ public class PartRenderer {
 			if (modelPart != null) {
 				modelPart.setupAnim(ctx.entity(), ctx.partialTick(), ctx.info().getSubType(), ctx.info().getPart().getModel());
 			}
+			if (ctx.info().getPart().getAnimation() != null)
+				ctx.info().getPart().getAnimation().setupAnim(ctx.entity(), ctx.info().getPart().getModel(), ctx.info().getSubType(), ctx.partialTick());
 
 			RenderHelperManager.applyRenderHelpers(ctx, this);
 		} catch (Exception e) {

@@ -10,6 +10,7 @@ package uk.kihira.tails.neoforge.client.render.layer;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -52,6 +53,15 @@ public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel
 	@Override
 	protected int numStuck(T entity) {
 		return super.numStuck(entity);
+	}
+
+	@Override
+	public @Nullable TailsModelPart attachmentPart(String attachmentRoot) {
+		return switch (attachmentRoot) {
+			case "head" -> (TailsModelPart) (Object) getParentModel().head;
+			case "body" -> (TailsModelPart) (Object) getParentModel().body;
+			default -> null;
+		};
 	}
 
 	@Override

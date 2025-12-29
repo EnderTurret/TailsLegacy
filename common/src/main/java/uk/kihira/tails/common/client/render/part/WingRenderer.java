@@ -50,10 +50,10 @@ public final class WingRenderer extends PartRenderer {
 		pose.t$rotateX((30F - angle) * TailsMath.DEG_TO_RAD);
 
 		ctx.buffer().t$submitCustomGeometry(pose, (p, consumer) -> {
-			consumer.t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-			consumer.t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-			consumer.t$beginVertex(p, 1, 0, 0).t$color(ctx.color()).t$uv(1, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-			consumer.t$beginVertex(p, 0, 0, 0).t$color(ctx.color()).t$uv(0, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+			consumer.t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(0, 0, 1).t$endVertex();
+			consumer.t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(0, 0, 1).t$endVertex();
+			consumer.t$beginVertex(p, 1, 0, 0).t$color(ctx.color()).t$uv(1, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(0, 0, 1).t$endVertex();
+			consumer.t$beginVertex(p, 0, 0, 0).t$color(ctx.color()).t$uv(0, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(0, 0, 1).t$endVertex();
 		});
 
 		pose.t$pop();
@@ -63,10 +63,10 @@ public final class WingRenderer extends PartRenderer {
 		pose.t$rotateX((-30F + angle) * TailsMath.DEG_TO_RAD);
 
 		ctx.buffer().t$submitCustomGeometry(pose, (p, consumer) -> {
-			consumer.t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-			consumer.t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-			consumer.t$beginVertex(p, 1, 0, 0).t$color(ctx.color()).t$uv(1, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
-			consumer.t$beginVertex(p, 0, 0, 0).t$color(ctx.color()).t$uv(0, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(p, 0, 0, 0).t$endVertex();
+			consumer.t$beginVertex(p, 0, 1, 0).t$color(ctx.color()).t$uv(0, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(0, 0, 1).t$endVertex();
+			consumer.t$beginVertex(p, 1, 1, 0).t$color(ctx.color()).t$uv(1, 0).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(0, 0, 1).t$endVertex();
+			consumer.t$beginVertex(p, 1, 0, 0).t$color(ctx.color()).t$uv(1, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(0, 0, 1).t$endVertex();
+			consumer.t$beginVertex(p, 0, 0, 0).t$color(ctx.color()).t$uv(0, 1).t$overlay(ctx.packedOverlay()).t$light(ctx.packedLight()).t$normal(0, 0, 1).t$endVertex();
 		});
 
 		pose.t$pop();

@@ -19,6 +19,7 @@ import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.duck.TailsRandomSource;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
+import uk.kihira.tails.common.client.part.ModelPredicate;
 
 /**
  * <p>Defines a "unique" configuration of a part.</p>
@@ -54,8 +55,7 @@ public class PartConfiguration {
 		this(parts, Translator.EMPTY);
 	}
 
-	// TODO: This automatically includes 'thin' cubes, which may be undesired behavior for most models.
-	public static PartConfiguration derive(TailsModelPart root) {
+	public static PartConfiguration derive(TailsModelPart root, ModelPredicate predicate) {
 		final List<TailsModelPart> queue = new ArrayList<>();
 		final Map<TailsModelPart, TailsModelPart> parentsByChildren = new HashMap<>();
 		queue.add(root);
@@ -65,7 +65,7 @@ public class PartConfiguration {
 		while (!queue.isEmpty()) {
 			final TailsModelPart part = queue.remove(0);
 
-			if (!part.t$isEmpty())
+			if (!part.t$isEmpty() && predicate.test(root, part))
 				partsWithCubes.add(part);
 
 			for (TailsModelPart child : part.t$getChildren().values()) {

@@ -102,7 +102,7 @@ final class FluffyTailModel extends PartModel {
 
 	@Override
 	public List<PartConfiguration> collectParts(ClientPartInfo _info) {
-		final PartConfiguration base = PartConfiguration.derive(_info.getPart().getModel());
+		final PartConfiguration base = PartConfiguration.derive(_info.getPart().getModel(), _info.getPart().allowArrows());
 
 		switch (_info.getSubTypeId()) {
 			case "one_tail":

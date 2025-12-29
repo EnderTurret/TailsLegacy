@@ -290,8 +290,8 @@ public class PartLoadingManager {
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
-		final boolean allowArrows = TailsGsonHelper.getAsBoolean(json, "allowArrows", false);
 		final TailsModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(TailsGsonHelper.getAsJsonObject(json, "model")).bake() : null;
+		final ModelPredicate allowArrows = readPredicate(json, "allowArrows", model);
 		final ModelAnimator animation = json.has("animation") ? ModelAnimators.fromJson(model, TailsGsonHelper.getAsJsonObject(json, "animation")) : null;
 		final Transformation renderTransforms = json.has("render") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO;
 		final Transformation previewTransforms = json.has("preview") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO;
@@ -299,6 +299,24 @@ public class PartLoadingManager {
 		return new Part(realId, attachment, subs, tints,
 				allowArrows, model, animation,
 				renderTransforms, previewTransforms);
+	}
+
+	private static ModelPredicate readPredicate(JsonObject obj, String key, TailsModelPart root) {
+		if (!obj.has(key)) return ModelPredicate.FALSE;
+		final JsonElement elem = obj.get(key);
+		if (elem.isJsonPrimitive()) return TailsGsonHelper.convertToBoolean(elem, key) ? ModelPredicate.TRUE : ModelPredicate.FALSE;
+
+		final JsonArray array = TailsGsonHelper.convertToJsonArray(elem, key);
+		final PartPath[] paths = new PartPath[array.size()];
+
+		for (int i = 0; i < paths.length; i++)
+			paths[i] = new PartPath(TailsGsonHelper.convertToString(array.get(i), key + "[" + i + "]"));
+
+		switch (paths.length) {
+			case 0: return ModelPredicate.FALSE;
+			case 1: return new ModelPredicate.SinglePath(root, paths[0]);
+			default: return new ModelPredicate.MultiPath(root, paths);
+		}
 	}
 
 	private static Transformation readTransform(JsonObject obj) {

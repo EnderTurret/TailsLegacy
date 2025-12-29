@@ -20,6 +20,7 @@ import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.model.animation.ModelAnimator;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
+import uk.kihira.tails.common.client.part.ModelPredicate;
 import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.common.client.part.Part.SubType;
 import uk.kihira.tails.common.client.part.PartPath;
@@ -87,8 +88,8 @@ public abstract class PartModel {
 	 * @return A list of part configurations.
 	 */
 	public List<PartConfiguration> collectParts(ClientPartInfo info) {
-		return info.getPart().allowArrows()
-				? Collections.singletonList(PartConfiguration.derive(info.getPart().getModel()))
+		return info.getPart().allowArrows() != ModelPredicate.FALSE
+				? Collections.singletonList(PartConfiguration.derive(info.getPart().getModel(), info.getPart().allowArrows()))
 				: Collections.emptyList();
 	}
 

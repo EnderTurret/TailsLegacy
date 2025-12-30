@@ -10,6 +10,7 @@ package uk.kihira.tails.forge.mixin.client.duck;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -51,7 +52,7 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 
 	@Override
 	public boolean t$isVisible() {
-		return ((ModelRenderer) (Object) this).showModel && !((ModelRenderer) (Object) this).isHidden;
+		return ((ModelRenderer) (Object) this).showModel;
 	}
 
 	@Override
@@ -127,7 +128,7 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 			if (childModels == null || childModels.isEmpty())
 				tails$children = Collections.emptyMap();
 			else {
-				tails$children = new HashMap<>();
+				tails$children = new LinkedHashMap<>();
 				for (ModelRenderer renderer : childModels) {
 					if (renderer.boxName == null) throw new IllegalArgumentException("ModelRenderer " + renderer + " has no name");
 					tails$children.put(renderer.boxName, renderer);
@@ -154,6 +155,8 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 
 	@Override
 	public void t$translateAndRotate(TailsPoseStack poseStack) {
-		((ModelRenderer) (Object) this).postRender(0.0625F);
+		final ModelRenderer part = (ModelRenderer) (Object) this;
+		GlStateManager.translate(part.offsetX, part.offsetY, part.offsetZ);
+		part.postRender(0.0625F);
 	}
 }

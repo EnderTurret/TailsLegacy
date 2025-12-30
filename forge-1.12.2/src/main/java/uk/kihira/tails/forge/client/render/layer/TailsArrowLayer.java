@@ -16,6 +16,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.layers.LayerArrow;
 import net.minecraft.entity.Entity;
@@ -73,7 +74,7 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 
 		final Random rand = new Random(entity.getEntityId());
 
-		GL11.glDisable(GL11.GL_LIGHTING);
+		GlStateManager.disableLighting();
 
 		if (arrowEntity == null)
 			arrowEntity = new EntityTippedArrow(entity.world, entity.posX, entity.posY, entity.posZ);
@@ -90,7 +91,7 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 				new TailsRandomSource.Java(rand),
 				stuck, partialTick, 1, 1);
 
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GlStateManager.enableLighting();
 
 		arrowEntity.world = null;
 	}

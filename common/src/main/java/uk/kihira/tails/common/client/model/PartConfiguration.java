@@ -11,6 +11,7 @@ package uk.kihira.tails.common.client.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +58,7 @@ public class PartConfiguration {
 
 	public static PartConfiguration derive(TailsModelPart root, ModelPredicate predicate) {
 		final List<TailsModelPart> queue = new ArrayList<>();
-		final Map<TailsModelPart, TailsModelPart> parentsByChildren = new HashMap<>();
+		final Map<TailsModelPart, TailsModelPart> parentsByChildren = new IdentityHashMap<>();
 		queue.add(root);
 
 		final List<TailsModelPart> partsWithCubes = new ArrayList<>();
@@ -74,7 +75,7 @@ public class PartConfiguration {
 			}
 		}
 
-		final Map<TailsModelPart, TailsModelPart[]> allParents = new HashMap<>();
+		final Map<TailsModelPart, TailsModelPart[]> allParents = new IdentityHashMap<>();
 
 		for (TailsModelPart part : partsWithCubes) {
 			final List<TailsModelPart> parents = new ArrayList<>();
@@ -90,7 +91,7 @@ public class PartConfiguration {
 
 		return new PartConfiguration(
 				Collections.unmodifiableList(new ArrayList<>(partsWithCubes)),
-				Collections.unmodifiableMap(new HashMap<>(allParents)),
+				Collections.unmodifiableMap(new IdentityHashMap<>(allParents)),
 				Translator.EMPTY);
 	}
 

@@ -62,6 +62,24 @@ public final class TailsGsonHelper {
 		throw new JsonSyntaxException("Missing " + memberName + ", expected to find a string");
 	}
 
+	public static float getAsFloat(JsonObject json, String memberName) {
+		if (json.has(memberName))
+			return convertToFloat(json.get(memberName), memberName);
+		throw new JsonSyntaxException("Missing " + memberName + ", expected to find a float");
+	}
+
+	public static double getAsDouble(JsonObject json, String memberName) {
+		if (json.has(memberName))
+			return convertToDouble(json.get(memberName), memberName);
+		throw new JsonSyntaxException("Missing " + memberName + ", expected to find a double");
+	}
+
+	public static int getAsInt(JsonObject json, String memberName) {
+		if (json.has(memberName))
+			return convertToInt(json.get(memberName), memberName);
+		throw new JsonSyntaxException("Missing " + memberName + ", expected to find an int");
+	}
+
 	public static long getAsLong(JsonObject json, String memberName) {
 		if (json.has(memberName))
 			return convertToLong(json.get(memberName), memberName);
@@ -100,16 +118,22 @@ public final class TailsGsonHelper {
 		throw new JsonSyntaxException("Expected " + memberName + " to be a float, was " + getType(json));
 	}
 
+	public static double convertToDouble(JsonElement json, String memberName) {
+		if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber())
+			return json.getAsDouble();
+		throw new JsonSyntaxException("Expected " + memberName + " to be a double, was " + getType(json));
+	}
+
 	public static int convertToInt(JsonElement json, String memberName) {
 		if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber())
 			return json.getAsInt();
-		throw new JsonSyntaxException("Expected " + memberName + " to be a Int, was " + getType(json));
+		throw new JsonSyntaxException("Expected " + memberName + " to be an int, was " + getType(json));
 	}
 
 	public static long convertToLong(JsonElement json, String memberName) {
 		if (json.isJsonPrimitive() && json.getAsJsonPrimitive().isNumber())
 			return json.getAsLong();
-		throw new JsonSyntaxException("Expected " + memberName + " to be a Long, was " + getType(json));
+		throw new JsonSyntaxException("Expected " + memberName + " to be a long, was " + getType(json));
 	}
 
 	public static String getType(@Nullable JsonElement json) {

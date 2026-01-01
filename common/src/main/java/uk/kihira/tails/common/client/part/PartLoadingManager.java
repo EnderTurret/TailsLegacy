@@ -320,10 +320,14 @@ public class PartLoadingManager {
 	}
 
 	private static Transformation readTransform(JsonObject obj) {
-		final TailsVec3f scale = obj.has("scale") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "scale"), "scale") : TailsVec3f.ZERO;
-		final TailsVec3f offset = obj.has("offset") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "offset"), "offset") : TailsVec3f.ZERO;
-		final TailsVec3f rotation = obj.has("rotation") ? readVector(TailsGsonHelper.getAsJsonArray(obj, "rotation"), "rotation") : TailsVec3f.ZERO;
+		final TailsVec3f scale = obj.has("scale") ? readVector(obj, "scale") : TailsVec3f.ZERO;
+		final TailsVec3f offset = obj.has("offset") ? readVector(obj, "offset") : TailsVec3f.ZERO;
+		final TailsVec3f rotation = obj.has("rotation") ? readVector(obj, "rotation") : TailsVec3f.ZERO;
 		return new Transformation(scale, offset, rotation);
+	}
+
+	private static TailsVec3f readVector(JsonObject parent, String name) {
+		return readVector(TailsGsonHelper.getAsJsonArray(parent, name), name);
 	}
 
 	private static TailsVec3f readVector(JsonArray array, String name) {

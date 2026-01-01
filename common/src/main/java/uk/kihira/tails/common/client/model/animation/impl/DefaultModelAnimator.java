@@ -222,7 +222,7 @@ public final class DefaultModelAnimator implements ModelAnimator {
 		}
 	}
 
-	private static final class PartCopy {
+	static final class PartCopy {
 
 		public final TailsModelPart from, to;
 

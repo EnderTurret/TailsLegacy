@@ -9,12 +9,15 @@
 
 package uk.kihira.tails.common.client.model.animation.impl;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.JsonObject;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.model.PartModelHelper;
+import uk.kihira.tails.common.client.model.animation.AnimatorStorage;
 import uk.kihira.tails.common.client.model.animation.ModelAnimator;
 import uk.kihira.tails.common.client.part.Part.SubType;
 
@@ -39,7 +42,7 @@ public final class BirdTailAnimator implements ModelAnimator {
 	}
 
 	@Override
-	public void setupAnim(TailsEntity entity, TailsModelPart model, SubType subType, float partialTick) {
+	public void setupAnim(@Nullable AnimatorStorage storage, TailsEntity entity, TailsModelPart model, SubType subType, float partialTick) {
 		final float timestep = PartModelHelper.getAnimationTime(8000, entity);
 		double xAngleOffset = 0;
 		double zAngleOffset = 0;

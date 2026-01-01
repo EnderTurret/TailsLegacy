@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -182,18 +183,23 @@ public final class ClientEventHandler {
 	}
 
 	@SubscribeEvent
+	@SuppressWarnings("unchecked")
 	static void onClientTick(ClientTickEvent e) {
-		if (e.phase != TickEvent.Phase.START) return;
+		if (e.phase == TickEvent.Phase.START) {
+			if (clearAllPartInfo) {
+				ClientPlayerPartManager.get().clear();
+				clearAllPartInfo = false;
+			}
+			// World can't be null if we want to send a packet it seems.
+			else if (!sentPartInfoToServer && Minecraft.getMinecraft().world != null) {
+				LocalPartManager.syncToServer();
 
-		if (clearAllPartInfo) {
-			ClientPlayerPartManager.get().clear();
-			clearAllPartInfo = false;
-		}
-		// World can't be null if we want to send a packet it seems.
-		else if (!sentPartInfoToServer && Minecraft.getMinecraft().world != null) {
-			LocalPartManager.syncToServer();
+				sentPartInfoToServer = true;
+			}
+		} else {
+			if (Minecraft.getMinecraft().world == null || Minecraft.getMinecraft().isGamePaused()) return;
 
-			sentPartInfoToServer = true;
+			ClientPlayerPartManager.get().tick((Collection) Minecraft.getMinecraft().world.playerEntities);
 		}
 	}
 

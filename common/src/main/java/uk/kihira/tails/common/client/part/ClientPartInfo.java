@@ -19,6 +19,8 @@ import org.jetbrains.annotations.Nullable;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.TextureHelper;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
+import uk.kihira.tails.common.client.duck.TailsEntity;
+import uk.kihira.tails.common.client.model.animation.AnimatorStorage;
 import uk.kihira.tails.common.client.part.PartRegistry.PartReference;
 import uk.kihira.tails.common.client.render.PartRenderRegistry;
 import uk.kihira.tails.common.client.render.part.PartRenderer;
@@ -38,7 +40,8 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	private final String subType;
 	private final String textureId;
 
-	private transient TResourceLocation texture;
+	private transient @Nullable TResourceLocation texture;
+	private transient @Nullable AnimatorStorage animatorStorage;
 
 	private ClientPartInfo(@Nullable IPartInfo delegate, @Nullable int[] tints, PartReference part, String subType, String textureId, @Nullable TResourceLocation texture, boolean empty) {
 		if (delegate == null && !empty) {
@@ -250,6 +253,22 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 			TextureHelper.release(texture);
 			texture = null;
 		}
+	}
+
+	public @Nullable AnimatorStorage getAnimatorStorage() {
+		return animatorStorage;
+	}
+
+	public void setAnimatorStorage(@Nullable AnimatorStorage storage) {
+		animatorStorage = storage;
+	}
+
+	public void tickAnimator(TailsEntity entity) {
+		if (isInvalid()) return;
+		final Part part = getPart();
+
+		if (part.getAnimation() != null && part.getAnimation().isTicking())
+			setAnimatorStorage(part.getAnimation().tick(getAnimatorStorage(), entity));
 	}
 
 	@Override

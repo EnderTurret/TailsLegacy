@@ -12,6 +12,7 @@ package uk.kihira.tails.forge.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -114,18 +115,23 @@ public final class ClientEventHandler {
 		}
 
 		@SubscribeEvent
-		static void onClientTick(ClientTickEvent e) {
-			if (e.phase != TickEvent.Phase.START) return;
+		@SuppressWarnings("unchecked")
+		static void onClientTickPre(ClientTickEvent e) {
+			if (e.phase == TickEvent.Phase.START) {
+				if (clearAllPartInfo) {
+					ClientPlayerPartManager.get().clear();
+					clearAllPartInfo = false;
+				}
+				// World can't be null if we want to send a packet it seems.
+				else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
+					LocalPartManager.syncToServer();
 
-			if (clearAllPartInfo) {
-				ClientPlayerPartManager.get().clear();
-				clearAllPartInfo = false;
-			}
-			// World can't be null if we want to send a packet it seems.
-			else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
-				LocalPartManager.syncToServer();
+					sentPartInfoToServer = true;
+				}
+			} else {
+				if (Minecraft.getInstance().level == null || Minecraft.getInstance().isPaused()) return;
 
-				sentPartInfoToServer = true;
+				ClientPlayerPartManager.get().tick((Collection) Minecraft.getInstance().level.players());
 			}
 		}
 

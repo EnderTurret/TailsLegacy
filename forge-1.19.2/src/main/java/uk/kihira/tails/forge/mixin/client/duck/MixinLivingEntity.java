@@ -161,11 +161,6 @@ public class MixinLivingEntity implements TailsEntity {
 	}
 
 	@Override
-	public boolean t$isPreview() {
-		return false;
-	}
-
-	@Override
 	public UUID t$uuid() {
 		return ((LivingEntity) (Object) this).getUUID();
 	}

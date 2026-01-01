@@ -17,6 +17,8 @@ import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.world.entity.Pose;
 
 import uk.kihira.tails.common.client.duck.TailsEntity;
+import uk.kihira.tails.common.client.model.animation.AnimatorStorage;
+import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.neoforge.client.render.RenderStates;
 
 @Mixin(HumanoidRenderState.class)
@@ -160,8 +162,8 @@ public class MixinHumanoidRenderState implements TailsEntity {
 	}
 
 	@Override
-	public boolean t$isPreview() {
-		return false;
+	public AnimatorStorage t$getAnimatorStorage(ClientPartInfo part) {
+		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).animatorStorage.get(part);
 	}
 
 	@Override

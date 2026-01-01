@@ -33,6 +33,7 @@ import uk.kihira.tails.common.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.ServerPartInfo;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
+import uk.kihira.tails.forge.client.gui.panel.PartsPanel.PartEntry;
 import uk.kihira.tails.forge.client.gui.widget.ListWidget;
 import uk.kihira.tails.forge.client.gui.widget.Spinner;
 import uk.kihira.tails.forge.client.platform.TailsPoseStackImpl;
@@ -219,6 +220,11 @@ public final class PartsPanel extends Panel {
 				1, 1, 0xFF);
 
 		GlStateManager.popMatrix();
+	}
+
+	public void tick() {
+		for (PartEntry entry : partList.getEntries())
+			entry.partInfo.tickAnimator(fakeEntity);
 	}
 
 	class PartEntry implements GuiListExtended.IGuiListEntry {

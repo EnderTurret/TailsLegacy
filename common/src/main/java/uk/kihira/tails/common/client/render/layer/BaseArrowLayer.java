@@ -95,7 +95,7 @@ public interface BaseArrowLayer {
 
 				config.renderer.modelPart.setupAnim(entity, partialTick, config.info.getSubType(), config.info.getPart().getModel());
 				if (config.info.getPart().getAnimation() != null) {
-					config.info.getPart().getAnimation().setupAnim(entity, part, config.info.getSubType(), partialTick);
+					config.info.getPart().getAnimation().setupAnim(entity.t$getAnimatorStorage(config.info), entity, part, config.info.getSubType(), partialTick);
 				}
 
 				final TailsModelPart attachment = attachmentPart(config.info.getPart().getAttachment().root().id());

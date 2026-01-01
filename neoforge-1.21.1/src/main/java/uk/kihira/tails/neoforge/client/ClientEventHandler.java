@@ -12,6 +12,7 @@ package uk.kihira.tails.neoforge.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -114,7 +115,7 @@ public final class ClientEventHandler {
 		}
 
 		@SubscribeEvent
-		static void onClientTick(ClientTickEvent.Pre e) {
+		static void onClientTickPre(ClientTickEvent.Pre e) {
 			if (clearAllPartInfo) {
 				ClientPlayerPartManager.get().clear();
 				clearAllPartInfo = false;
@@ -125,6 +126,14 @@ public final class ClientEventHandler {
 
 				sentPartInfoToServer = true;
 			}
+		}
+
+		@SuppressWarnings("unchecked")
+		@SubscribeEvent
+		static void onClientTickPost(ClientTickEvent.Post e) {
+			if (Minecraft.getInstance().level == null || Minecraft.getInstance().isPaused()) return;
+
+			ClientPlayerPartManager.get().tick((Collection) Minecraft.getInstance().level.players());
 		}
 
 		@SubscribeEvent

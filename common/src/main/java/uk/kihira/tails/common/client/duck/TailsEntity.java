@@ -10,6 +10,9 @@ package uk.kihira.tails.common.client.duck;
 
 import java.util.UUID;
 
+import uk.kihira.tails.common.client.model.animation.AnimatorStorage;
+import uk.kihira.tails.common.client.part.ClientPartInfo;
+
 public interface TailsEntity {
 
 	public double t$x();
@@ -46,7 +49,8 @@ public interface TailsEntity {
 	public boolean t$isVisibleToPlayer();
 
 	public boolean t$isPlayer();
-	public boolean t$isPreview();
+	public default boolean t$isPreview() { return false; }
+	public default AnimatorStorage t$getAnimatorStorage(ClientPartInfo part) { return part.getAnimatorStorage(); }
 	public UUID t$uuid();
 	public Object t$unwrap();
 }

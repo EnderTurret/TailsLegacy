@@ -8,15 +8,22 @@
 
 package uk.kihira.tails.common.client.part;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
+import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.api.ITailsSyncService;
+import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.PlayerPartManager;
 
@@ -46,6 +53,22 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	public static ClientPlayerPartManager get() {
 		if (partManager == null) partManager = new ClientPlayerPartManager();
 		return partManager;
+	}
+
+	private final Map<UUID, List<ClientPartInfo>> tickingParts = new ConcurrentHashMap<>(); // Make this concurrent in case Netty threads mess with it.
+
+	public void tick(Collection<TailsEntity> players) {
+		for (TailsEntity entity : players) {
+			final List<ClientPartInfo> tickables = tickingParts.get(entity.t$uuid());
+			if (tickables == null) continue;
+
+			for (ClientPartInfo part : tickables)
+				try {
+					part.setAnimatorStorage(part.getPart().getAnimation().tick(part.getAnimatorStorage(), entity));
+				} catch (Exception e) {
+					TailsPlatform.get().logError("Exception ticking animator:", e);
+				}
+		}
 	}
 
 	@Override
@@ -103,6 +126,7 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	@Override
 	public ClientPartsData remove(UUID uuid) {
 		checked.remove(uuid);
+		tickingParts.remove(uuid);
 		return release(super.remove(uuid));
 	}
 
@@ -112,12 +136,22 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 		if (!(data instanceof ClientPartsData))
 			data = ClientPartsData.clone(data);
 
+		final List<ClientPartInfo> tickables = ((ClientPartsData) data).getParts().stream()
+				.filter(cpi -> !cpi.isInvalid() && cpi.getPart().getAnimation() != null && cpi.getPart().getAnimation().isTicking())
+				.collect(Collectors.toList());
+
+		if (!tickables.isEmpty())
+			tickingParts.put(uuid, tickables);
+		else
+			tickingParts.remove(uuid);
+
 		return release(super.set(uuid, data));
 	}
 
 	@Override
 	public void clear() {
 		checked.clear();
+		tickingParts.clear();
 		getData().values().forEach(this::release);
 		super.clear();
 	}

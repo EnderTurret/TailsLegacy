@@ -34,6 +34,7 @@ import uk.kihira.tails.common.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.ServerPartInfo;
 import uk.kihira.tails.neoforge.client.gui.EditorScreen;
 import uk.kihira.tails.neoforge.client.gui.TailsComponents;
+import uk.kihira.tails.neoforge.client.gui.panel.PartsPanel.PartEntry;
 import uk.kihira.tails.neoforge.client.gui.widget.ListWidget;
 import uk.kihira.tails.neoforge.client.gui.widget.Spinner;
 import uk.kihira.tails.neoforge.client.render.PartPreviewRenderState;
@@ -190,6 +191,11 @@ public final class PartsPanel extends Panel {
 				gui.peekScissorStack()));
 
 		gui.pose().popMatrix();
+	}
+
+	public void tick() {
+		for (PartEntry entry : partList.children())
+			entry.partInfo.tickAnimator(fakeEntity);
 	}
 
 	class PartEntry extends ObjectSelectionList.Entry<PartEntry> {

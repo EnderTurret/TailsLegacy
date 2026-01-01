@@ -23,6 +23,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.EntityLivingBase;
 
 import uk.kihira.tails.common.client.TailsClientPlatform;
+import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.part.AttachmentPoint;
 import uk.kihira.tails.common.client.part.AttachmentPoints;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
@@ -178,6 +179,14 @@ public class EditorScreen extends BaseScreen {
 			return;
 		}
 		super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	@Override
+	public void updateScreen() {
+		for (ClientPartInfo part : getPartsData().getParts())
+			part.tickAnimator((TailsEntity) renderingEntity);
+
+		partsPanel.tick();
 	}
 
 	public void close() {

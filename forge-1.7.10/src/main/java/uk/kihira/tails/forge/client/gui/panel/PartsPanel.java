@@ -222,6 +222,11 @@ public final class PartsPanel extends Panel {
 		GL11.glPopMatrix();
 	}
 
+	public void tick() {
+		for (PartEntry entry : partList.getEntries())
+			entry.partInfo.tickAnimator(fakeEntity);
+	}
+
 	class PartEntry implements GuiListExtended.IGuiListEntry {
 
 		private final ClientPartInfo partInfo;

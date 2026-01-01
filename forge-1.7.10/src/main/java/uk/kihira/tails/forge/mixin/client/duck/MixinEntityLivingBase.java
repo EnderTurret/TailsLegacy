@@ -160,11 +160,6 @@ public class MixinEntityLivingBase implements TailsEntity {
 	}
 
 	@Override
-	public boolean t$isPreview() {
-		return false;
-	}
-
-	@Override
 	public UUID t$uuid() {
 		return ((EntityLivingBase) (Object) this).getUniqueID();
 	}

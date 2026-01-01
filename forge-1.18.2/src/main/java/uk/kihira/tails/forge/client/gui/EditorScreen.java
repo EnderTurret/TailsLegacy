@@ -24,6 +24,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.common.client.TailsClientPlatform;
+import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.part.AttachmentPoint;
 import uk.kihira.tails.common.client.part.AttachmentPoints;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
@@ -170,6 +171,14 @@ public class EditorScreen extends BaseScreen {
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (tintPanel.isSelectingColour()) return tintPanel.mouseClicked(mouseX, mouseY, button);
 		return super.mouseClicked(mouseX, mouseY, button);
+	}
+
+	@Override
+	public void tick() {
+		for (ClientPartInfo part : getPartsData().getParts())
+			part.tickAnimator((TailsEntity) renderingEntity);
+
+		partsPanel.tick();
 	}
 
 	public void close() {

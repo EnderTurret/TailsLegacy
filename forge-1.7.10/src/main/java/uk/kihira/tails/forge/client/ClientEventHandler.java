@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
+import java.util.Collection;
 
 import javax.imageio.ImageIO;
 
@@ -158,18 +159,23 @@ public final class ClientEventHandler {
 	public static final class CommonHandlerBus {
 
 		@SubscribeEvent
+		@SuppressWarnings("unchecked")
 		public void onClientTick(ClientTickEvent e) {
-			if (e.phase != TickEvent.Phase.START) return;
+			if (e.phase == TickEvent.Phase.START) {
+				if (clearAllPartInfo) {
+					ClientPlayerPartManager.get().clear();
+					clearAllPartInfo = false;
+				}
+				// World can't be null if we want to send a packet it seems.
+				else if (!sentPartInfoToServer && Minecraft.getMinecraft().theWorld != null) {
+					LocalPartManager.syncToServer();
 
-			if (clearAllPartInfo) {
-				ClientPlayerPartManager.get().clear();
-				clearAllPartInfo = false;
-			}
-			// World can't be null if we want to send a packet it seems.
-			else if (!sentPartInfoToServer && Minecraft.getMinecraft().theWorld != null) {
-				LocalPartManager.syncToServer();
+					sentPartInfoToServer = true;
+				}
+			} else {
+				if (Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().isGamePaused()) return;
 
-				sentPartInfoToServer = true;
+				ClientPlayerPartManager.get().tick(Minecraft.getMinecraft().theWorld.playerEntities);
 			}
 		}
 

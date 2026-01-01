@@ -8,16 +8,20 @@
 
 package uk.kihira.tails.common.client.model.animation;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.JsonObject;
 
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.part.Part;
-import uk.kihira.tails.common.client.part.Part.SubType;
 
 public interface ModelAnimator {
 
-	public void setupAnim(TailsEntity entity, TailsModelPart model, Part.SubType subType, float partialTick);
+	public default boolean isTicking() { return false; }
+	public default AnimatorStorage tick(@Nullable AnimatorStorage storage, TailsEntity entity) { return storage; }
+
+	public void setupAnim(@Nullable AnimatorStorage storage, TailsEntity entity, TailsModelPart model, Part.SubType subType, float partialTick);
 
 	public static interface Factory {
 		public ModelAnimator parse(TailsModelPart model, JsonObject obj);

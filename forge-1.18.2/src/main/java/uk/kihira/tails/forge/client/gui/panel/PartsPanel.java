@@ -46,6 +46,7 @@ import uk.kihira.tails.common.client.render.part.PartRenderer;
 import uk.kihira.tails.common.part.ServerPartInfo;
 import uk.kihira.tails.forge.client.gui.EditorScreen;
 import uk.kihira.tails.forge.client.gui.TailsComponents;
+import uk.kihira.tails.forge.client.gui.panel.PartsPanel.PartEntry;
 import uk.kihira.tails.forge.client.gui.widget.ListWidget;
 import uk.kihira.tails.forge.client.gui.widget.Spinner;
 import uk.kihira.tails.forge.client.render.RenderStates;
@@ -216,6 +217,11 @@ public final class PartsPanel extends Panel {
 		Lighting.setupFor3DItems();
 
 		poseStack.popPose();
+	}
+
+	public void tick() {
+		for (PartEntry entry : partList.children())
+			entry.partInfo.tickAnimator(fakeEntity);
 	}
 
 	class PartEntry extends ObjectSelectionList.Entry<PartEntry> {

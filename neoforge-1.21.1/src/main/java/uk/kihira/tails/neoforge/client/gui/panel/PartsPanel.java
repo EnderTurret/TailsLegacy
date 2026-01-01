@@ -218,6 +218,11 @@ public final class PartsPanel extends Panel {
 		gui.pose().popPose();
 	}
 
+	public void tick() {
+		for (PartEntry entry : partList.children())
+			entry.partInfo.tickAnimator(fakeEntity);
+	}
+
 	class PartEntry extends ObjectSelectionList.Entry<PartEntry> {
 
 		private final ClientPartInfo partInfo;

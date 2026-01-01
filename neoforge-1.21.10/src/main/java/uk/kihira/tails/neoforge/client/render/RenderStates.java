@@ -25,6 +25,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 
 import uk.kihira.tails.common.TailsPlatform;
+import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
 
 /**
@@ -51,6 +52,10 @@ public final class RenderStates {
 		final TailsRenderData data = new TailsRenderData();
 
 		data.partsData = ClientPlayerPartManager.get().get(entity.getUUID());
+		for (ClientPartInfo part : data.partsData.getParts())
+			if (part.getAnimatorStorage() != null)
+				data.animatorStorage.put(part, part.getAnimatorStorage().copy());
+
 		data.isFlying = entity instanceof Player player && player.getAbilities().flying && player.hasImpulse || entity.fallDistance > 1.5F;
 		data.uuid = entity.getUUID();
 

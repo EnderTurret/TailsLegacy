@@ -70,7 +70,7 @@ public final class AnimatorTest {
 
 	private static boolean compareAnimators(Map<String, SimpleTailsModelPart> parts, SimpleTailsModelPart model, ModelAnimator animator, PartModel oldModel, SimpleTailsEntity entity) {
 		for (SimpleTailsModelPart part : parts.values()) part.xRot = part.yRot = part.zRot = 0;
-		animator.setupAnim(entity, model, null, 0);
+		animator.setupAnim(null, entity, model, null, 0);
 
 		final Map<String, CubePose> newPoses = new LinkedHashMap<>();
 		for (Map.Entry<String, SimpleTailsModelPart> entry : parts.entrySet()) newPoses.put(entry.getKey(), entry.getValue().savePose());

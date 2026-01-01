@@ -14,6 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,6 +24,7 @@ import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.model.PartModelHelper;
+import uk.kihira.tails.common.client.model.animation.AnimatorStorage;
 import uk.kihira.tails.common.client.model.animation.ModelAnimator;
 import uk.kihira.tails.common.client.part.Part.SubType;
 import uk.kihira.tails.common.client.part.PartPath;
@@ -108,7 +111,7 @@ public final class DefaultModelAnimator implements ModelAnimator {
 	}
 
 	@Override
-	public void setupAnim(TailsEntity entity, TailsModelPart model, SubType subType, float partialTick) {
+	public void setupAnim(@Nullable AnimatorStorage storage, TailsEntity entity, TailsModelPart model, SubType subType, float partialTick) {
 		timesteps[0] = PartModelHelper.getAnimationTime(duration[0], entity);
 		if (sameDuration) // Optimize for the common case.
 			timesteps[2] = timesteps[1] = timesteps[0];

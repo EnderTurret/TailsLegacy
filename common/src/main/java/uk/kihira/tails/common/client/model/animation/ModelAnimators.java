@@ -20,6 +20,7 @@ import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.model.animation.impl.BirdTailAnimator;
+import uk.kihira.tails.common.client.model.animation.impl.CompositeModelAnimator;
 import uk.kihira.tails.common.client.model.animation.impl.DefaultModelAnimator;
 import uk.kihira.tails.common.client.model.animation.impl.FluffyTailAnimator;
 import uk.kihira.tails.common.client.model.animation.impl.RaccoonTailAnimator;
@@ -32,6 +33,8 @@ public final class ModelAnimators {
 	static {
 		registerBuiltin("none", (a, b) -> null);
 		registerBuiltin("default", DefaultModelAnimator::parse);
+		registerBuiltin("composite", CompositeModelAnimator::parse);
+
 		registerBuiltin("bird_tail", BirdTailAnimator::new);
 		registerBuiltin("fluffy_tail", FluffyTailAnimator::new);
 		registerBuiltin("raccoon_tail", RaccoonTailAnimator::new);

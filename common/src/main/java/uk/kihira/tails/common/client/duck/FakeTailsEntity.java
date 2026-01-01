@@ -65,6 +65,9 @@ public class FakeTailsEntity implements TailsEntity {
 	@Override public boolean t$isSpinAttackPose() { return false; }
 	@Override public boolean t$isFlying() { return false; }
 
+	@Override public boolean t$inLiquid() { return false; }
+	@Override public double t$getWaterLevel(int x, double y, int z) { return 0; }
+
 	@Override public boolean t$isVisibleToPlayer() { return false; }
 
 	@Override public boolean t$isPlayer() { return false; }

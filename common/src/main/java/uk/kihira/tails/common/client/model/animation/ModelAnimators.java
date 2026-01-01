@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
+import uk.kihira.tails.common.client.model.animation.impl.AuriaTailPhysicsAnimator;
 import uk.kihira.tails.common.client.model.animation.impl.BirdTailAnimator;
 import uk.kihira.tails.common.client.model.animation.impl.CompositeModelAnimator;
 import uk.kihira.tails.common.client.model.animation.impl.DefaultModelAnimator;
@@ -34,6 +35,7 @@ public final class ModelAnimators {
 		registerBuiltin("none", (a, b) -> null);
 		registerBuiltin("default", DefaultModelAnimator::parse);
 		registerBuiltin("composite", CompositeModelAnimator::parse);
+		registerBuiltin("auria_tail_physics", AuriaTailPhysicsAnimator::new);
 
 		registerBuiltin("bird_tail", BirdTailAnimator::new);
 		registerBuiltin("fluffy_tail", FluffyTailAnimator::new);

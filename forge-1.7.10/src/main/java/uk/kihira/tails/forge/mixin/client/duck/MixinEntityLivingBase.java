@@ -12,10 +12,15 @@ import java.util.UUID;
 
 import org.spongepowered.asm.mixin.Mixin;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
+import net.minecraftforge.fluids.IFluidBlock;
+
+import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 
 @Mixin(EntityLivingBase.class)
@@ -182,6 +187,31 @@ public class MixinEntityLivingBase implements TailsEntity {
 	public boolean t$isVisibleToPlayer() {
 		final EntityLivingBase self = (EntityLivingBase) (Object) this;
 		return self.isInvisible() && !self.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
+	}
+
+	@Override
+	public boolean t$inLiquid() {
+		final EntityLivingBase self = (EntityLivingBase) (Object) this;
+		final Block block = self.worldObj.getBlock((int) self.posX, (int) self.posY, (int) self.posZ);
+		return block instanceof BlockLiquid || block instanceof IFluidBlock;
+	}
+
+	@Override
+	public double t$getWaterLevel(int x, double y, int z) {
+		final EntityLivingBase self = (EntityLivingBase) (Object) this;
+		double ret = -1;
+
+		for (int i = -1; i <= 2; i++) {
+			final Block block = self.worldObj.getBlock(x, (int) (y + i), z);
+			if (block instanceof BlockLiquid || block instanceof IFluidBlock) {
+				final double height;
+				if (block instanceof IFluidBlock) height = (int) Math.abs(((IFluidBlock) block).getFilledPercentage(self.worldObj, x, (int) (y + i), z));
+				else height = 0.85 - BlockLiquid.getLiquidHeightPercent(self.worldObj.getBlockMetadata(x, (int) (y + i), z));
+				ret = i + height - y % 1;
+			}
+		}
+
+		return ret;
 	}
 
 	@Override

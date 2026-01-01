@@ -187,6 +187,16 @@ public class MixinHumanoidRenderState implements TailsEntity {
 	}
 
 	@Override
+	public boolean t$inLiquid() {
+		return ((HumanoidRenderState) (Object) this).isInWater;
+	}
+
+	@Override
+	public double t$getWaterLevel(int x, double y, int z) {
+		return ((HumanoidRenderState) (Object) this).isInWater ? 1 : -1;
+	}
+
+	@Override
 	public boolean t$isPlayer() {
 		return ((Object) this) instanceof AvatarRenderState;
 	}

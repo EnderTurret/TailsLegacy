@@ -54,6 +54,9 @@ public interface TailsEntity {
 
 	public boolean t$isVisibleToPlayer();
 
+	public boolean t$inLiquid();
+	public double t$getWaterLevel(int x, double y, int z);
+
 	public boolean t$isPlayer();
 	public default boolean t$isPreview() { return false; }
 	public default AnimatorStorage t$getAnimatorStorage(ClientPartInfo part) { return part.getAnimatorStorage(); }

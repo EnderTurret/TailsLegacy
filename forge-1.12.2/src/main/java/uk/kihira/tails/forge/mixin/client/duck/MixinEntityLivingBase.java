@@ -12,9 +12,15 @@ import java.util.UUID;
 
 import org.spongepowered.asm.mixin.Mixin;
 
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos.MutableBlockPos;
+
+import net.minecraftforge.fluids.BlockFluidBase;
+import net.minecraftforge.fluids.IFluidBlock;
 
 import uk.kihira.tails.common.client.duck.TailsEntity;
 
@@ -182,6 +188,34 @@ public class MixinEntityLivingBase implements TailsEntity {
 	public boolean t$isVisibleToPlayer() {
 		final EntityLivingBase self = (EntityLivingBase) (Object) this;
 		return self.isInvisible() && !self.isInvisibleToPlayer(Minecraft.getMinecraft().player);
+	}
+
+	@Override
+	public boolean t$inLiquid() {
+		final EntityLivingBase self = (EntityLivingBase) (Object) this;
+		final IBlockState state = self.getEntityWorld().getBlockState(self.getPosition());
+		return state.getBlock() instanceof BlockLiquid || state.getBlock() instanceof IFluidBlock;
+	}
+
+	@Override
+	public double t$getWaterLevel(int x, double y, int z) {
+		final EntityLivingBase self = (EntityLivingBase) (Object) this;
+		double ret = -1;
+
+		final MutableBlockPos pos = new MutableBlockPos(x, (int) y, z);
+		for (int i = -1; i <= 2; i++) {
+			pos.setPos(x, (int) (y + i), z);
+			final IBlockState state = self.getEntityWorld().getBlockState(pos);
+			if (state.getBlock() instanceof BlockLiquid || state.getBlock() instanceof IFluidBlock) {
+				final int level;
+				if (state.getProperties().containsKey(BlockLiquid.LEVEL)) level = state.getValue(BlockLiquid.LEVEL);
+				else level = 0;
+				final double height = 0.85 - level / 10D;
+				ret = i + height - y % 1;
+			}
+		}
+
+		return ret;
 	}
 
 	@Override

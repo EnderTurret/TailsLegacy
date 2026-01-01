@@ -7,6 +7,7 @@
   ],
   "client": [
     "client.duck.MixinHumanoidRenderState",
+    "client.duck.MixinLivingEntity",
     "client.duck.MixinModelPart",
     "client.duck.MixinSubmitNodeStorage",
     "client.duck.MixinPoseStack",

@@ -39,6 +39,8 @@ public class FakeTailsEntity implements TailsEntity {
 	@Override public double t$xCloak() { return 0; }
 	@Override public double t$yCloak() { return 0; }
 	@Override public double t$zCloak() { return 0; }
+	@Override public float t$xRot() { return 0; }
+	@Override public float t$yRot() { return 0; }
 	@Override public float t$yBodyRot() { return 0; }
 	@Override public float t$limbSwing() { return 0; }
 	@Override public float t$limbSwingAmount() { return 0; }
@@ -51,12 +53,16 @@ public class FakeTailsEntity implements TailsEntity {
 	@Override public double t$xCloakO() { return t$xCloak(); }
 	@Override public double t$yCloakO() { return t$yCloak(); }
 	@Override public double t$zCloakO() { return t$zCloak(); }
+	@Override public float t$xRotO() { return t$xRot(); }
+	@Override public float t$yRotO() { return t$yRot(); }
 	@Override public float t$yBodyRotO() { return t$yBodyRot(); }
 
 	@Override public boolean t$isPassenger() { return false; }
 	@Override public boolean t$isCrouching() { return false; }
 	@Override public boolean t$isSwimmingPose() { return false; }
 	@Override public boolean t$isSleepingPose() { return false; }
+	@Override public boolean t$isElytraFlyingPose() { return false; }
+	@Override public boolean t$isSpinAttackPose() { return false; }
 	@Override public boolean t$isFlying() { return false; }
 
 	@Override public boolean t$isVisibleToPlayer() { return false; }

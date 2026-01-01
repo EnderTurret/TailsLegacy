@@ -106,6 +106,26 @@ public class MixinHumanoidRenderState implements TailsEntity {
 	}
 
 	@Override
+	public float t$xRot() {
+		return ((HumanoidRenderState) (Object) this).xRot;
+	}
+
+	@Override
+	public float t$xRotO() {
+		return t$xRot();
+	}
+
+	@Override
+	public float t$yRot() {
+		return ((HumanoidRenderState) (Object) this).yRot;
+	}
+
+	@Override
+	public float t$yRotO() {
+		return t$yRot();
+	}
+
+	@Override
 	public float t$yBodyRot() {
 		return ((HumanoidRenderState) (Object) this).bodyRot;
 	}
@@ -143,6 +163,16 @@ public class MixinHumanoidRenderState implements TailsEntity {
 	@Override
 	public boolean t$isSleepingPose() {
 		return ((HumanoidRenderState) (Object) this).pose == Pose.SLEEPING;
+	}
+
+	@Override
+	public boolean t$isSpinAttackPose() {
+		return ((HumanoidRenderState) (Object) this).pose == Pose.SPIN_ATTACK;
+	}
+
+	@Override
+	public boolean t$isElytraFlyingPose() {
+		return ((HumanoidRenderState) (Object) this).pose == Pose.FALL_FLYING;
 	}
 
 	@Override

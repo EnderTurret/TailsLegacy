@@ -103,6 +103,26 @@ public class MixinEntityLivingBase implements TailsEntity {
 	}
 
 	@Override
+	public float t$xRot() {
+		return ((EntityLivingBase) (Object) this).rotationPitch;
+	}
+
+	@Override
+	public float t$xRotO() {
+		return ((EntityLivingBase) (Object) this).prevRotationPitch;
+	}
+
+	@Override
+	public float t$yRot() {
+		return ((EntityLivingBase) (Object) this).rotationYaw;
+	}
+
+	@Override
+	public float t$yRotO() {
+		return ((EntityLivingBase) (Object) this).prevRotationYaw;
+	}
+
+	@Override
 	public float t$yBodyRot() {
 		return ((EntityLivingBase) (Object) this).renderYawOffset;
 	}
@@ -140,6 +160,16 @@ public class MixinEntityLivingBase implements TailsEntity {
 	@Override
 	public boolean t$isSleepingPose() {
 		return ((EntityLivingBase) (Object) this).isPlayerSleeping();
+	}
+
+	@Override
+	public boolean t$isSpinAttackPose() {
+		return false;
+	}
+
+	@Override
+	public boolean t$isElytraFlyingPose() {
+		return false;
 	}
 
 	@Override

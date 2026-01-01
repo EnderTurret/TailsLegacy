@@ -34,6 +34,10 @@ public interface TailsEntity {
 	public double t$yCloakO();
 	public double t$zCloakO();
 
+	public float t$xRot();
+	public float t$xRotO();
+	public float t$yRot();
+	public float t$yRotO();
 	public float t$yBodyRot();
 	public float t$yBodyRotO();
 
@@ -44,6 +48,8 @@ public interface TailsEntity {
 	public boolean t$isCrouching();
 	public boolean t$isSwimmingPose();
 	public boolean t$isSleepingPose();
+	public boolean t$isElytraFlyingPose();
+	public boolean t$isSpinAttackPose();
 	public boolean t$isFlying();
 
 	public boolean t$isVisibleToPlayer();

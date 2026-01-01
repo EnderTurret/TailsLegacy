@@ -144,7 +144,10 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return {@code true} if the part is invalid.
 	 */
 	public boolean isInvalid() {
-		return getPart() == null || getSubType() == null || getPartTexture() == null;
+		final Part part = getPart();
+		if (part == null) return true;
+		final Part.SubType subType = part.getSubType(this.subType);
+		return subType == null || subType.getTexture(textureId) == null;
 	}
 
 	public boolean isPartInvalid() {

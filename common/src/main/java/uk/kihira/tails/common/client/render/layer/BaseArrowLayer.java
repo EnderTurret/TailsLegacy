@@ -88,6 +88,14 @@ public interface BaseArrowLayer {
 				continue;
 			}
 
+			float xOffset = rand.t$nextFloat();
+			float yOffset = rand.t$nextFloat();
+			float zOffset = rand.t$nextFloat();
+
+			// Don't render arrows on invisible parts — avoids arrows occluding your vision with first-person model mods, for example.
+			// We do this after the random calls so that we don't introduce differences in arrow positions.
+			if (!part.t$isVisible()) continue;
+
 			poseStack.t$push();
 
 			if (config.renderer != null) {
@@ -107,9 +115,6 @@ public interface BaseArrowLayer {
 
 			config.config.translate(config.info, poseStack, partialTick, entity, part);
 
-			float xOffset = rand.t$nextFloat();
-			float yOffset = rand.t$nextFloat();
-			float zOffset = rand.t$nextFloat();
 			final float x = TailsMath.lerp(xOffset, cube.minX, cube.maxX) / 16F;
 			final float y = TailsMath.lerp(yOffset, cube.minY, cube.maxY) / 16F;
 			final float z = TailsMath.lerp(zOffset, cube.minZ, cube.maxZ) / 16F;

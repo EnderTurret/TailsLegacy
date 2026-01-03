@@ -66,11 +66,11 @@ public class PartLoadingManager {
 	}
 
 	public void reload(ResourceManagerWrapper manager) {
-		clear.run();
-
 		final List<Part> parts = new ArrayList<>();
 
 		try {
+			clear.run();
+
 			parts.addAll(reloadParts(manager));
 		} catch (Exception e) {
 			TailsPlatform.get().logError("Critical part loading failure!", e);

@@ -56,6 +56,8 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	}
 
 	public static void releaseAnimatorStorages() {
+		if (partManager == null) return;
+
 		for (PartsData data : partManager.partsData.values())
 			if (data instanceof ClientPartsData)
 				for (ClientPartInfo cpi : ((ClientPartsData) data).getParts())

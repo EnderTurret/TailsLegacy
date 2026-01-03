@@ -40,6 +40,7 @@ public final class PartRegistry {
 		PART_REGISTRY.clear();
 		BY_TYPE.clear();
 		AttachmentPoints.clear();
+		ClientPlayerPartManager.releaseAnimatorStorages();
 	}
 
 	private static void register(List<Part> parts, Map<AttachmentPoint, List<TResourceLocation>> ordering) {

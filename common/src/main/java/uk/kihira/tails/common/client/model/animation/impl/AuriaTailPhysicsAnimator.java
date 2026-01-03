@@ -56,7 +56,7 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 
 	@Override
 	public AnimatorStorage tick(@Nullable AnimatorStorage storage, TailsEntity entity) {
-		if (storage == null) storage = new Storage();
+		if (!(storage instanceof Storage)) storage = new Storage();
 		final Storage store = (Storage) storage;
 
 		final double bodyRot = entity.t$yBodyRot();
@@ -135,7 +135,7 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 
 	@Override
 	public void setupAnim(@Nullable AnimatorStorage storage, TailsEntity entity, TailsModelPart model, SubType subType, float partialTick) {
-		if (storage == null) {
+		if (!(storage instanceof Storage)) {
 			for (TailsModelPart part : parts)
 				part.t$setRotationRadians(part.t$getInitialXRot(), part.t$getInitialYRot(), part.t$getInitialZRot());
 			return;

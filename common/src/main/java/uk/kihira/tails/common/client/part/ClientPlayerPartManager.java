@@ -55,6 +55,18 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 		return partManager;
 	}
 
+	public static void releaseAnimatorStorages() {
+		for (PartsData data : partManager.partsData.values())
+			if (data instanceof ClientPartsData)
+				for (ClientPartInfo cpi : ((ClientPartsData) data).getParts())
+					cpi.setAnimatorStorage(null);
+
+		// In case for whatever reason the local data isn't in the part manager:
+		if (LocalPartManager.getLocalPartsData() != null)
+			for (ClientPartInfo cpi : LocalPartManager.getLocalPartsData().getParts())
+				cpi.setAnimatorStorage(null);
+	}
+
 	private final Map<UUID, List<ClientPartInfo>> tickingParts = new ConcurrentHashMap<>(); // Make this concurrent in case Netty threads mess with it.
 
 	public void tick(Collection<TailsEntity> players) {

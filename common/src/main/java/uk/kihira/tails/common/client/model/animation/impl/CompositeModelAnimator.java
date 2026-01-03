@@ -54,7 +54,7 @@ public final class CompositeModelAnimator implements ModelAnimator {
 
 	@Override
 	public AnimatorStorage tick(@Nullable AnimatorStorage storage, TailsEntity entity) {
-		if (storage == null) storage = new Storage(animators.length);
+		if (!(storage instanceof Storage)) storage = new Storage(animators.length);
 		final Storage store = (Storage) storage;
 
 		for (int i = 0; i < animators.length; i++)
@@ -65,7 +65,7 @@ public final class CompositeModelAnimator implements ModelAnimator {
 
 	@Override
 	public void setupAnim(@Nullable AnimatorStorage storage, TailsEntity entity, TailsModelPart model, SubType subType, float partialTick) {
-		if (storage == null) {
+		if (!(storage instanceof Storage)) {
 			for (int i = 0; i < animators.length; i++)
 				animators[i].setupAnim(null, entity, model, subType, partialTick);
 			return;

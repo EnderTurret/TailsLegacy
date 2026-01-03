@@ -23,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.api.ITailsSyncService;
+import uk.kihira.tails.common.api.impl.SimpleLocalTailsSyncService;
+import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.part.PartsData;
 import uk.kihira.tails.common.part.PlayerPartManager;
@@ -51,7 +53,14 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	 * @return The client-side player part manager.
 	 */
 	public static ClientPlayerPartManager get() {
-		if (partManager == null) partManager = new ClientPlayerPartManager();
+		if (partManager == null) {
+			if (sync == null && Boolean.getBoolean("tails.local-sync.enabled")) {
+				TailsPlatform.get().logInfo("Enabling local sync service (as requested by 'tails.local-sync.enabled')...");
+				sync = SimpleLocalTailsSyncService.fromConfigDir(TailsClientPlatform.get().getConfigDir());
+			}
+
+			partManager = new ClientPlayerPartManager();
+		}
 		return partManager;
 	}
 

@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.neoforge.client.platform;
 
+import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.players.GameProfileCache;
 
 import net.neoforged.fml.ModLoader;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.UsernameCache;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -176,6 +178,11 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	public void setConfigParts(String json) {
 		TailsConfig.CLIENT_INSTANCE.localPlayerData.set(json);
 		TailsConfig.getConfig().save();
+	}
+
+	@Override
+	public Path getConfigDir() {
+		return FMLPaths.CONFIGDIR.get();
 	}
 
 	@Override

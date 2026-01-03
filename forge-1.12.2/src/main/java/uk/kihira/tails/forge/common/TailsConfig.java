@@ -25,6 +25,7 @@ public final class TailsConfig {
 	@Internal
 	public static final TailsConfig CLIENT_INSTANCE = new TailsConfig();
 
+	private File configDir;
 	private Configuration config;
 
 	private boolean hidePreviewInThirdPerson;
@@ -32,8 +33,9 @@ public final class TailsConfig {
 
 	private TailsConfig() {}
 
-	public void load(File file) {
-		config = new Configuration(file);
+	public void load(File configDir) {
+		this.configDir = configDir;
+		config = new Configuration(new File(configDir, "Tails.cfg"));
 
 		hidePreviewInThirdPerson = config.getBoolean("Hide Preview In Third Person", Configuration.CATEGORY_GENERAL, true,
 				"Whether to hide the preview in the editor screen when in third person mode.");
@@ -54,6 +56,10 @@ public final class TailsConfig {
 
 	public void save() {
 		config.save();
+	}
+
+	public File configDir() {
+		return configDir;
 	}
 
 	public boolean hidePreviewInThirdPerson() {

@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.common.client;
 
+import java.nio.file.Path;
 import java.util.ServiceLoader;
 import java.util.UUID;
 
@@ -42,6 +43,7 @@ public interface TailsClientPlatform {
 
 	public String getConfigParts();
 	public void setConfigParts(String json);
+	public Path getConfigDir();
 	public void syncLocalToServer(ClientPartsData partsData);
 
 	public LibraryManager getLibraryManager();

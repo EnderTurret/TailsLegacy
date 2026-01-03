@@ -10,6 +10,7 @@ package uk.kihira.tails.common.api;
 
 import java.util.UUID;
 
+import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
 import uk.kihira.tails.common.part.PartsData;
 
 /**
@@ -27,7 +28,13 @@ public interface ITailsSyncService {
 	public void upload(UUID uuid, PartsData data);
 
 	/**
+	 * <p>
 	 * Queries the sync service for part data for the given {@link UUID}.
+	 * If the sync service has no part data for the ID, this method returns {@link PartsData#EMPTY}.
+	 * </p>
+	 * <p>
+	 * The sync service need not cache the returned value, as this is handled by caller (the {@link ClientPlayerPartManager}).
+	 * </p>
 	 * @param uuid The {@link UUID} to query part data for.
 	 * @return The part data for the specified {@link UUID}, or {@link PartsData#EMPTY} if the sync service does not have any data for it.
 	 */

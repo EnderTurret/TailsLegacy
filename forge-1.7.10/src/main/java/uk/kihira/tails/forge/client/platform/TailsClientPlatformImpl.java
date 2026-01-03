@@ -8,6 +8,7 @@
 
 package uk.kihira.tails.forge.client.platform;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -204,6 +205,11 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	public void setConfigParts(String json) {
 		TailsConfig.CLIENT_INSTANCE.setLocalPlayerData(json);
 		TailsConfig.CLIENT_INSTANCE.save();
+	}
+
+	@Override
+	public Path getConfigDir() {
+		return TailsConfig.CLIENT_INSTANCE.configDir().toPath();
 	}
 
 	@Override

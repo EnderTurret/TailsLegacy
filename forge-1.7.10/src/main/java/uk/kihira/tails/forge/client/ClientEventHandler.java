@@ -68,7 +68,7 @@ public final class ClientEventHandler {
 	public static final ThreadLocal<RenderPlayer> ACTIVE_PLAYER_RENDERER = ThreadLocal.withInitial(() -> null);
 
 	public static void onPreInit(FMLPreInitializationEvent e) {
-		TailsConfig.CLIENT_INSTANCE.load(new File(e.getModConfigurationDirectory(), "Tails.cfg"));
+		TailsConfig.CLIENT_INSTANCE.load(e.getModConfigurationDirectory());
 
 		TailsKeybinds.registerKeys();
 		RenderHelperManager.registerRenderHelper(new PlayerRenderHelper());

@@ -1,0 +1,68 @@
+package uk.kihira.tails.common.api.impl;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.UUID;
+
+import uk.kihira.tails.common.TailsPlatform;
+import uk.kihira.tails.common.api.ITailsSyncService;
+import uk.kihira.tails.common.gson.TailsGsonHelper;
+import uk.kihira.tails.common.part.PartsData;
+
+/**
+ * An implementation of {@link ITailsSyncService} that uses a flat directory containing json files.
+ * This implementation is suitable for use among a small group of known people, as past that the setup gets unwieldy.
+ *
+ * @author EnderTurret
+ */
+public final class SimpleLocalTailsSyncService implements ITailsSyncService {
+
+	private static final boolean DEBUG = Boolean.getBoolean("tails.local-sync.debug");
+
+	private final Path dir;
+
+	public SimpleLocalTailsSyncService(Path dir) {
+		this.dir = dir;
+
+		if (!Files.exists(dir))
+			try {
+				Files.createDirectories(dir);
+			} catch (IOException e) {
+				TailsPlatform.get().logError("[Local Sync] Exception setting up sync directory at {}:", dir.toAbsolutePath(), e);
+			}
+	}
+
+	public static SimpleLocalTailsSyncService fromConfigDir(Path configDir) {
+		return new SimpleLocalTailsSyncService(configDir.resolve("tails-sync"));
+	}
+
+	@Override
+	public void upload(UUID uuid, PartsData data) {
+		final String json = TailsGsonHelper.SERVER_GSON.toJson(data);
+		final Path file = dir.resolve(uuid + ".json");
+
+		try (BufferedWriter bw = Files.newBufferedWriter(file)) {
+			bw.write(json);
+		} catch (Exception e) {
+			TailsPlatform.get().logError("[Local Sync] Exception writing part data for {}:", uuid, e);
+		}
+	}
+
+	@Override
+	public PartsData query(UUID uuid) {
+		final Path file = dir.resolve(uuid + ".json");
+		if (Files.isRegularFile(file))
+			try (BufferedReader br = Files.newBufferedReader(file)) {
+				return TailsGsonHelper.SERVER_GSON.fromJson(br, PartsData.class);
+			} catch (Exception e) {
+				TailsPlatform.get().logError("[Local Sync] Exception reading part data for {}:", uuid, e);
+			}
+
+		if (DEBUG) TailsPlatform.get().logInfo("[Local Sync] No part data found for {} ({}).", uuid, file.getFileName());
+
+		return PartsData.EMPTY;
+	}
+}

@@ -9,6 +9,7 @@
 package uk.kihira.tails.forge.client.platform;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +36,7 @@ import net.minecraft.server.players.GameProfileCache;
 
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.ModLoader;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.TailsDirection;
@@ -208,6 +210,11 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	public void setConfigParts(String json) {
 		TailsConfig.CLIENT_INSTANCE.localPlayerData.set(json);
 		TailsConfig.getConfig().save();
+	}
+
+	@Override
+	public Path getConfigDir() {
+		return FMLPaths.CONFIGDIR.get();
 	}
 
 	@Override

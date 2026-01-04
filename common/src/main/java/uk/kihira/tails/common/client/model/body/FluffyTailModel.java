@@ -15,10 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
-
 import uk.kihira.tails.common.TailsMath;
-import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.model.PartConfiguration;
 import uk.kihira.tails.common.client.model.PartModel;

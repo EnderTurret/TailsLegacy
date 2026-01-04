@@ -11,7 +11,6 @@ package uk.kihira.tails.common.client.render.part;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
-import uk.kihira.tails.common.client.model.PartModel;
 import uk.kihira.tails.common.client.model.PartModelHelper;
 import uk.kihira.tails.common.client.render.RenderContext;
 

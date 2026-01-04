@@ -9,8 +9,6 @@
 package uk.kihira.tails.common.client.model.animation.impl;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +26,6 @@ import uk.kihira.tails.common.client.model.animation.AnimatorStorage;
 import uk.kihira.tails.common.client.model.animation.ModelAnimator;
 import uk.kihira.tails.common.client.part.Part.SubType;
 import uk.kihira.tails.common.client.part.PartPath;
-import uk.kihira.tails.common.gson.TailsGsonHelper;
 
 public final class DefaultModelAnimator implements ModelAnimator {
 

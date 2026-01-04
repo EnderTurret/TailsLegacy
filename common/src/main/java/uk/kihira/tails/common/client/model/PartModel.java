@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.client.duck.TailsEntity;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;

@@ -162,10 +162,6 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public UUID getLocalUUID() {
 		final Minecraft mc = Minecraft.getInstance();
-		/*
-		if (mc.player != null && mc.player.getUniqueID() != null)
-			return mc.player.getUniqueID();
-		*/
 		return mc.player != null ? mc.player.getUUID() : mc.getUser().getProfileId();
 	}
 

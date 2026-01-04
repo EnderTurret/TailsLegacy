@@ -30,6 +30,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerProfileCache;
 import net.minecraft.util.EnumFacing;
@@ -210,11 +211,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public UUID getLocalUUID() {
 		final Minecraft mc = Minecraft.getMinecraft();
-		/*
-		if (mc.player != null && mc.player.getUniqueID() != null)
-			return mc.player.getUniqueID();
-		*/
-		return mc.player != null ? mc.player.getUniqueID() : mc.getSession().getProfile().getId();
+		return mc.player != null ? mc.player.getUniqueID() : EntityPlayer.getUUID(mc.getSession().getProfile());
 	}
 
 	@Override

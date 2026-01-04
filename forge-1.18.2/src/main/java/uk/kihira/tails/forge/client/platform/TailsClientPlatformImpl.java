@@ -33,6 +33,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.players.GameProfileCache;
+import net.minecraft.world.entity.player.Player;
 
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.ModLoader;
@@ -194,11 +195,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public UUID getLocalUUID() {
 		final Minecraft mc = Minecraft.getInstance();
-		/*
-		if (mc.player != null && mc.player.getUniqueID() != null)
-			return mc.player.getUniqueID();
-		*/
-		return mc.player != null ? mc.player.getUUID() : mc.getUser().getGameProfile().getId();
+		return mc.player != null ? mc.player.getUUID() : Player.createPlayerUUID(mc.getUser().getGameProfile());
 	}
 
 	@Override

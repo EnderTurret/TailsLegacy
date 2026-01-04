@@ -23,6 +23,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.Direction;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.Services;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -174,11 +175,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public UUID getLocalUUID() {
 		final Minecraft mc = Minecraft.getInstance();
-		/*
-		if (mc.player != null && mc.player.getUniqueID() != null)
-			return mc.player.getUniqueID();
-		*/
-		return mc.player != null ? mc.player.getUUID() : mc.getUser().getProfileId();
+		return mc.player != null ? mc.player.getUUID() : UUIDUtil.getOrCreatePlayerUUID(mc.getUser().getGameProfile());
 	}
 
 	@Override

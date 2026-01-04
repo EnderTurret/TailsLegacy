@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.api.ITailsSyncService;
+import uk.kihira.tails.common.client.TailsClientPlatform;
 import uk.kihira.tails.common.gson.TailsGsonHelper;
 import uk.kihira.tails.common.part.PartsData;
 
@@ -40,29 +42,36 @@ public final class SimpleLocalTailsSyncService implements ITailsSyncService {
 	}
 
 	@Override
-	public void upload(UUID uuid, PartsData data) {
-		final String json = TailsGsonHelper.SERVER_GSON.toJson(data);
-		final Path file = dir.resolve(uuid + ".json");
+	public CompletableFuture<Void> upload(UUID uuid, PartsData data) {
+		return CompletableFuture.runAsync(() -> {
+			final Path file = dir.resolve(uuid + ".json");
 
-		try (BufferedWriter bw = Files.newBufferedWriter(file)) {
-			bw.write(json);
-		} catch (Exception e) {
-			TailsPlatform.get().logError("[Local Sync] Exception writing part data for {}:", uuid, e);
-		}
+			if (DEBUG) TailsPlatform.get().logInfo("[Local Sync] Writing part data for {} ({}).", uuid, file.getFileName());
+
+			final String json = TailsGsonHelper.SERVER_GSON.toJson(data);
+
+			try (BufferedWriter bw = Files.newBufferedWriter(file)) {
+				bw.write(json);
+			} catch (Exception e) {
+				TailsPlatform.get().logError("[Local Sync] Exception writing part data for {}:", uuid, e);
+			}
+		}, TailsClientPlatform.getExecutor());
 	}
 
 	@Override
-	public PartsData query(UUID uuid) {
-		final Path file = dir.resolve(uuid + ".json");
-		if (Files.isRegularFile(file))
-			try (BufferedReader br = Files.newBufferedReader(file)) {
-				return TailsGsonHelper.SERVER_GSON.fromJson(br, PartsData.class);
-			} catch (Exception e) {
-				TailsPlatform.get().logError("[Local Sync] Exception reading part data for {}:", uuid, e);
-			}
+	public CompletableFuture<PartsData> query(UUID uuid) {
+		return CompletableFuture.supplyAsync(() -> {
+			final Path file = dir.resolve(uuid + ".json");
+			if (Files.isRegularFile(file))
+				try (BufferedReader br = Files.newBufferedReader(file)) {
+					return TailsGsonHelper.SERVER_GSON.fromJson(br, PartsData.class);
+				} catch (Exception e) {
+					TailsPlatform.get().logError("[Local Sync] Exception reading part data for {}:", uuid, e);
+				}
 
-		if (DEBUG) TailsPlatform.get().logInfo("[Local Sync] No part data found for {} ({}).", uuid, file.getFileName());
+			if (DEBUG) TailsPlatform.get().logInfo("[Local Sync] No part data found for {} ({}).", uuid, file.getFileName());
 
-		return PartsData.EMPTY;
+			return PartsData.EMPTY;
+		}, TailsClientPlatform.getExecutor());
 	}
 }

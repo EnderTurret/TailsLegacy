@@ -11,6 +11,8 @@ package uk.kihira.tails.common.client;
 import java.nio.file.Path;
 import java.util.ServiceLoader;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import uk.kihira.tails.common.LibraryManager;
 import uk.kihira.tails.common.client.api.PartRendererRegistrar;
@@ -28,6 +30,17 @@ public interface TailsClientPlatform {
 					.iterator().next();
 
 		return TailsClientInternal.platform;
+	}
+
+	public static ExecutorService getExecutor() {
+		if (TailsClientInternal.executor == null)
+			TailsClientInternal.executor = Executors.newFixedThreadPool(3, r -> {
+				final Thread t = new Thread(r, "Tails Executor " + TailsClientInternal.THREAD_COUNT.getAndIncrement());
+				t.setDaemon(true);
+				return t;
+			});
+
+		return TailsClientInternal.executor;
 	}
 
 	public TailsModelPart bake(TailsPartDefinition part, int textureWidth, int textureHeight);

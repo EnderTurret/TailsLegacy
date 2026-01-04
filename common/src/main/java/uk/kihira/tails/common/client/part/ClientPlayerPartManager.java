@@ -101,20 +101,17 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 
 	/**
 	 * If a sync service is defined, queries it for data on the given id.
-	 * Otherwise returns {@link PartsData#EMPTY}.
 	 * @param uuid The id to query data for.
-	 * @return The data.
 	 */
-	private ClientPartsData query(UUID uuid) {
-		if (sync != null && checked.add(uuid)) {
-			final ClientPartsData data = ClientPartsData.clone(Objects.requireNonNull(sync.query(uuid), "query() contract violated!"));
-			if (!data.isEmpty()) {
-				set(uuid, data);
-				return data;
-			}
-		}
-
-		return empty();
+	private void query(UUID uuid) {
+		if (sync != null && checked.add(uuid))
+			sync.query(uuid).thenAcceptAsync(data -> {
+				Objects.requireNonNull(data, "query() contract violated!");
+				if (!data.isEmpty()) set(uuid, ClientPartsData.clone(data));
+			}, TailsClientPlatform.getExecutor()).exceptionally(e -> {
+				TailsPlatform.get().logError("Exception querying sync service for {}:", uuid, e);
+				return null;
+			});
 	}
 
 	/**
@@ -132,10 +129,7 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 		final boolean has = super.has(uuid);
 
 		// If we don't have data for that id, try querying the sync service for it.
-		// If it resolves something, we can return true as we have now acquired the data.
-		// This might block the client thread, but I'm sure it'll be fine.
-		if (!has && !query(uuid).isEmpty())
-			return true;
+		if (!has) query(uuid);
 
 		return has;
 	}
@@ -143,7 +137,8 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	@Override
 	public ClientPartsData get(UUID uuid) {
 		final ClientPartsData ret = (ClientPartsData) super.get(uuid);
-		return ret.isEmpty() ? query(uuid) : ret;
+		if (ret.isEmpty()) query(uuid);
+		return ret;
 	}
 
 	@Override

@@ -10,6 +10,7 @@
 package uk.kihira.tails.common.client.part;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -116,7 +117,12 @@ public final class LocalPartManager {
 
 		TailsClientPlatform.get().syncLocalToServer(partsData);
 
-		if (ClientPlayerPartManager.sync != null)
-			ClientPlayerPartManager.sync.upload(TailsClientPlatform.get().getLocalUUID(), partsData);
+		if (ClientPlayerPartManager.sync != null) {
+			final UUID localId = TailsClientPlatform.get().getLocalUUID();
+			ClientPlayerPartManager.sync.upload(localId, partsData).exceptionally(e -> {
+				TailsPlatform.get().logError("Exception uploading data for {} to sync service:", localId, e);
+				return null;
+			});
+		}
 	}
 }

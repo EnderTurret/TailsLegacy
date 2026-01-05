@@ -97,18 +97,17 @@ public interface BaseArrowLayer {
 			// We do this after the random calls so that we don't introduce differences in arrow positions.
 			if (!part.t$isVisible()) continue;
 
+			final Part infoPart = config.info != null ? config.info.getPart() : null;
+			final TailsModelPart attachment = infoPart != null ? attachmentPart(infoPart.getAttachment().root().id()) : null;
+
+			// Skip unknown and invisible root attachments.
+			// (For the latter, see e.g. first-person model mods that hide the head.)
+			if (config.info != null && (attachment == null || !attachment.t$isVisible())) continue;
+
 			poseStack.t$push();
 
 			if (config.renderer != null) {
-				final Part infoPart = config.info.getPart();
 				final Part.SubType subType = config.info.getSubType();
-				final TailsModelPart attachment = attachmentPart(infoPart.getAttachment().root().id());
-
-				// Skip unknown attachments and invisible ones.
-				// (For the latter, see e.g. first-person model mods that hide the head.)
-				if (attachment == null || !attachment.t$isVisible()) continue;
-
-				final RenderContext ctx = new RenderContext(poseStack, null, null, packedLight, packedOverlay, 0xFFFFFFFF, partialTick, entity, data, config.info);
 
 				config.renderer.modelPart.setupAnim(entity, partialTick, subType, infoPart.getModel());
 				if (infoPart.getAnimation() != null)
@@ -116,6 +115,7 @@ public interface BaseArrowLayer {
 
 				attachment.t$translateAndRotate(poseStack);
 
+				final RenderContext ctx = new RenderContext(poseStack, null, null, packedLight, packedOverlay, 0xFFFFFFFF, partialTick, entity, data, config.info);
 				RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
 			}
 

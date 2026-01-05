@@ -187,6 +187,16 @@ public class MixinHumanoidRenderState implements TailsEntity {
 	}
 
 	@Override
+	public boolean t$isDead() {
+		return ((HumanoidRenderState) (Object) this).deathTime > 0;
+	}
+
+	@Override
+	public boolean t$isAddedToWorld() {
+		return true;
+	}
+
+	@Override
 	public boolean t$inLiquid() {
 		return ((HumanoidRenderState) (Object) this).isInWater;
 	}

@@ -191,6 +191,16 @@ public class MixinEntityLivingBase implements TailsEntity {
 	}
 
 	@Override
+	public boolean t$isDead() {
+		return ((EntityLivingBase) (Object) this).isDead;
+	}
+
+	@Override
+	public boolean t$isAddedToWorld() {
+		return ((EntityLivingBase) (Object) this).world != null && ((EntityLivingBase) (Object) this).isAddedToWorld();
+	}
+
+	@Override
 	public boolean t$inLiquid() {
 		final EntityLivingBase self = (EntityLivingBase) (Object) this;
 		final IBlockState state = self.getEntityWorld().getBlockState(self.getPosition());

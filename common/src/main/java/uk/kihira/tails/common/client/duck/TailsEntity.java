@@ -53,6 +53,8 @@ public interface TailsEntity {
 	public boolean t$isFlying();
 
 	public boolean t$isVisibleToPlayer();
+	public default boolean t$isDead() { return false; }
+	public default boolean t$isAddedToWorld() { return true; }
 
 	public boolean t$inLiquid();
 	public double t$getWaterLevel(int x, double y, int z);

@@ -82,6 +82,11 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 
 	public void tick(Collection<TailsEntity> players) {
 		for (TailsEntity entity : players) {
+			// On 1.7.10 (and possibly newer versions?), Minecraft will simply not remove dead players from the player list.
+			// This previously caused animator ticking to be called multiple times, since multiple copies of the player were in the list.
+			// We try to mitigate this by skipping players that are dead or not actually in the world.
+			if (!entity.t$isAddedToWorld() || entity.t$isDead()) continue;
+
 			final List<ClientPartInfo> tickables = tickingParts.get(entity.t$uuid());
 			if (tickables == null) continue;
 

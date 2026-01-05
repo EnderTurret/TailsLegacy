@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.layers.LayerArrow;
 import net.minecraft.entity.Entity;
@@ -74,8 +75,6 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 
 		final Random rand = new Random(entity.getEntityId());
 
-		GlStateManager.disableLighting();
-
 		if (arrowEntity == null)
 			arrowEntity = new EntityTippedArrow(entity.world, entity.posX, entity.posY, entity.posZ);
 
@@ -84,6 +83,8 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 		arrowEntity.prevPosY = arrowEntity.posY = entity.posY;
 		arrowEntity.prevPosZ = arrowEntity.posZ = entity.posZ;
 
+		RenderHelper.disableStandardItemLighting();
+
 		renderArrows(
 				(TailsEntity) entity,
 				TailsPoseStackImpl.INSTANCE,
@@ -91,7 +92,7 @@ public final class TailsArrowLayer extends LayerArrow implements BaseArrowLayer 
 				new TailsRandomSource.Java(rand),
 				stuck, partialTick, 1, 1);
 
-		GlStateManager.enableLighting();
+		RenderHelper.enableStandardItemLighting();
 
 		arrowEntity.world = null;
 	}

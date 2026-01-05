@@ -25,6 +25,7 @@ import uk.kihira.tails.common.client.model.PartConfiguration;
 import uk.kihira.tails.common.client.part.ClientPartInfo;
 import uk.kihira.tails.common.client.part.ClientPartsData;
 import uk.kihira.tails.common.client.part.ClientPlayerPartManager;
+import uk.kihira.tails.common.client.part.Part;
 import uk.kihira.tails.common.client.render.RenderContext;
 import uk.kihira.tails.common.client.render.helper.RenderHelperManager;
 import uk.kihira.tails.common.client.render.part.PartRenderer;
@@ -99,16 +100,21 @@ public interface BaseArrowLayer {
 			poseStack.t$push();
 
 			if (config.renderer != null) {
+				final Part infoPart = config.info.getPart();
+				final Part.SubType subType = config.info.getSubType();
+				final TailsModelPart attachment = attachmentPart(infoPart.getAttachment().root().id());
+
+				// Skip unknown attachments and invisible ones.
+				// (For the latter, see e.g. first-person model mods that hide the head.)
+				if (attachment == null || !attachment.t$isVisible()) continue;
+
 				final RenderContext ctx = new RenderContext(poseStack, null, null, packedLight, packedOverlay, 0xFFFFFFFF, partialTick, entity, data, config.info);
 
-				config.renderer.modelPart.setupAnim(entity, partialTick, config.info.getSubType(), config.info.getPart().getModel());
-				if (config.info.getPart().getAnimation() != null) {
-					config.info.getPart().getAnimation().setupAnim(entity.t$getAnimatorStorage(config.info), entity, part, config.info.getSubType(), partialTick);
-				}
+				config.renderer.modelPart.setupAnim(entity, partialTick, subType, infoPart.getModel());
+				if (infoPart.getAnimation() != null)
+					infoPart.getAnimation().setupAnim(entity.t$getAnimatorStorage(config.info), entity, part, subType, partialTick);
 
-				final TailsModelPart attachment = attachmentPart(config.info.getPart().getAttachment().root().id());
-				// Don't skip if null, since that'll skew the Random instance.
-				if (attachment != null) attachment.t$translateAndRotate(poseStack);
+				attachment.t$translateAndRotate(poseStack);
 
 				RenderHelperManager.applyRenderHelpers(ctx, config.renderer);
 			}

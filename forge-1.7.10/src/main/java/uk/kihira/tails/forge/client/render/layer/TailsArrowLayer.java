@@ -81,7 +81,8 @@ public final class TailsArrowLayer implements BaseArrowLayer {
 		arrowEntity.prevPosY = arrowEntity.posY = entity.posY;
 		arrowEntity.prevPosZ = arrowEntity.posZ = entity.posZ;
 
-		RenderHelper.disableStandardItemLighting();
+		final boolean isLightingEnabled = GL11.glIsEnabled(GL11.GL_LIGHTING);
+		if (isLightingEnabled) GL11.glDisable(GL11.GL_LIGHTING);
 
 		renderArrows(
 				(TailsEntity) entity,
@@ -90,7 +91,7 @@ public final class TailsArrowLayer implements BaseArrowLayer {
 				new TailsRandomSource.Java(rand),
 				stuck, partialTick, 1, 1);
 
-		RenderHelper.enableStandardItemLighting();
+		if (isLightingEnabled) GL11.glEnable(GL11.GL_LIGHTING);
 
 		arrowEntity.worldObj = null;
 	}

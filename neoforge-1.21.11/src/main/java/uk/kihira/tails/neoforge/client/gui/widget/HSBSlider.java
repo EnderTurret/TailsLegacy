@@ -68,19 +68,9 @@ public class HSBSlider extends AbstractSliderButton {
 	 * Sets the current slider value between 0-1F
 	 * @param value New value
 	 */
-	public void setValue(double value) { // Copied from setSliderValue (private)
+	public void setValueWithoutCallback(double value) {
 		this.value = TailsMath.clamp(value, 0D, 1D);
-
 		updateMessage();
-	}
-
-	/**
-	 * Sets the current slider value between 0-1F and calls the callback
-	 * @param value New value
-	 */
-	public void setValueWithCallback(double value) {
-		setValue(value);
-		applyValue();
 	}
 
 	@Override

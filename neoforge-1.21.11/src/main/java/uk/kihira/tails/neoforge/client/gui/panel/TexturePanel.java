@@ -60,8 +60,8 @@ public final class TexturePanel extends Panel {
 		// Texture select
 		gui.drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFFFF);
 
-		gui.drawScrollingString(parent.font(), Component.literal(TailsComponents.getSubTypeName(partInfo)), left + 25, right - 25, variantSelectY + 4, 0xFFFFFFFF);
-		gui.drawScrollingString(parent.font(), Component.literal(TailsComponents.getTextureName(partInfo)), left + 25, right - 25, texSelectY + 4, 0xFFFFFFFF);
+		gui.drawScrollingString(gui.textRenderer(), parent.font(), Component.literal(TailsComponents.getSubTypeName(partInfo)), left + 25, right - 25, variantSelectY + 4);
+		gui.drawScrollingString(gui.textRenderer(), parent.font(), Component.literal(TailsComponents.getTextureName(partInfo)), left + 25, right - 25, texSelectY + 4);
 	}
 
 	private void cycleTexLeft() {

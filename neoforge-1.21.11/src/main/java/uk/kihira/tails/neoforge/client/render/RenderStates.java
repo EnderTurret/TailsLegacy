@@ -51,7 +51,7 @@ public final class RenderStates {
 			if (part.getAnimatorStorage() != null)
 				data.animatorStorage.put(part, part.getAnimatorStorage().copy());
 
-		data.isFlying = entity instanceof Player player && player.getAbilities().flying && player.hasImpulse || entity.fallDistance > 1.5F;
+		data.isFlying = entity instanceof Player player && player.getAbilities().flying || entity.fallDistance > 1.5F;
 		data.uuid = entity.getUUID();
 
 		final ClientAvatarState avatarState = ((ClientAvatarEntity) entity).avatarState();

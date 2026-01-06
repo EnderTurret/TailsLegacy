@@ -251,15 +251,15 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 		// RGB Sliders
 		final int red = JavaColor.red(currentTint), green = JavaColor.green(currentTint), blue = JavaColor.blue(currentTint);
-		this.red.setValue(red / 255F);
-		this.green.setValue(green / 255F);
-		this.blue.setValue(blue / 255F);
+		this.red.setValueWithoutCallback(red / 255F);
+		this.green.setValueWithoutCallback(green / 255F);
+		this.blue.setValueWithoutCallback(blue / 255F);
 
 		// HSB Sliders
 		final float[] hsbvals = Color.RGBtoHSB(red, green, blue, null);
-		hue.setValue(hsbvals[0]);
-		saturation.setValue(hsbvals[1]);
-		brightness.setValue(hsbvals[2]);
+		hue.setValueWithoutCallback(hsbvals[0]);
+		saturation.setValueWithoutCallback(hsbvals[1]);
+		brightness.setValueWithoutCallback(hsbvals[2]);
 		// The saturation slider needs to know the value of the other 2 sliders.
 		saturation.setHue((float) hue.getValue());
 		saturation.setBrightness((float) brightness.getValue());

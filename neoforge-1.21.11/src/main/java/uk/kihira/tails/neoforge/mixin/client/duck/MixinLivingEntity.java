@@ -181,7 +181,7 @@ public class MixinLivingEntity implements TailsEntity {
 	@Override
 	public boolean t$isFlying() {
 		final LivingEntity self = (LivingEntity) (Object) this;
-		return ((Object) this) instanceof Player player && player.getAbilities().flying && self.hasImpulse || self.fallDistance > 1.5F;
+		return ((Object) this) instanceof Player player && player.getAbilities().flying || self.fallDistance > 1.5F;
 	}
 
 	@Override

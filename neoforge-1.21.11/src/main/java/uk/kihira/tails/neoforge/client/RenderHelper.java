@@ -31,6 +31,12 @@ import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.BlitRenderState;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -44,11 +50,11 @@ public final class RenderHelper {
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
 	public static void blitScaled(GuiGraphics gui, Identifier texture, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height, int color) {
-		final GpuTextureView tex = Minecraft.getInstance().getTextureManager().getTexture(texture).getTextureView();
+		final AbstractTexture tex = Minecraft.getInstance().getTextureManager().getTexture(texture);
 
 		gui.submitGuiElementRenderState(new BlitRenderState(
 				RenderPipelines.GUI_TEXTURED,
-				TextureSetup.singleTexture(tex),
+				TextureSetup.singleTexture(tex.getTextureView(), tex.getSampler()),
 				new Matrix3x2f(gui.pose()),
 				x,
 				y,
@@ -64,7 +70,7 @@ public final class RenderHelper {
 	}
 
 	/**
-	 * Renders the given entity like in the {@linkplain InventoryScreen#renderEntityInInventory(GuiGraphics, int, int, int, int, float, Vector3f, Quaternionf, Quaternionf, LivingEntity) inventory screen}.
+	 * Renders the given entity like in the {@linkplain InventoryScreen inventory screen}.
 	 * @param gui The {@link GuiGraphics}.
 	 * @param x1 The x coordinate of the entity.
 	 * @param y1 The y coordinate of the entity.
@@ -77,19 +83,6 @@ public final class RenderHelper {
 	 * @param entity The entity to render.
 	 */
 	public static void drawEntity(GuiGraphics gui, int x1, int y1, int x2, int y2, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
-		final float oldYBodyRot = entity.yBodyRot;
-		final float oldYRot = entity.getYRot();
-		final float oldXRot = entity.getXRot();
-		final float oldYHeadRot = entity.yHeadRot;
-		final float oldYHeadRotO = entity.yHeadRotO;
-
-		entity.yBodyRot = 0;
-		entity.setYRot(0);
-		entity.setXRot(0);
-		entity.yHeadRot = 0;
-		entity.yHeadRotO = 0;
-		entity.setShiftKeyDown(false);
-
 		final Quaternionf pose = new Quaternionf().rotateZ(TailsMath.PI);
 		final Quaternionf cameraOrientation = new Quaternionf().rotateX(pitch * 20F * TailsMath.DEG_TO_RAD);
 		pose.mul(cameraOrientation);
@@ -97,14 +90,27 @@ public final class RenderHelper {
 		pose.mul(new Quaternionf().rotateZ(TailsMath.PI));
 		pose.mul(new Quaternionf().rotateY(yaw * TailsMath.DEG_TO_RAD));
 
-		InventoryScreen.renderEntityInInventory(gui, x1, y1, x2, y2, scale,
-				new Vector3f(0, entity.getBbHeight() / 2F, 0), pose, cameraOrientation, entity);
+		final EntityRenderState renderState = extractRenderState(entity);
 
-		entity.yBodyRot = oldYBodyRot;
-		entity.setYRot(oldYRot);
-		entity.setXRot(oldXRot);
-		entity.yHeadRot = oldYHeadRot;
-		entity.yHeadRotO = oldYHeadRotO;
+		if (renderState instanceof LivingEntityRenderState living) {
+			living.xRot = living.yRot = 0;
+			living.bodyRot = 0;
+		}
+
+		if (renderState instanceof HumanoidRenderState humanoid)
+			humanoid.isCrouching = false;
+
+		gui.submitEntityRenderState(renderState, scale, new Vector3f(0, entity.getBbHeight() / 2F, 0), pose, cameraOrientation, x1, y1, x2, y2);
+	}
+
+	private static EntityRenderState extractRenderState(LivingEntity entity) {
+		final EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+		final EntityRenderer<? super LivingEntity, ?> renderer = dispatcher.getRenderer(entity);
+		final EntityRenderState renderState = renderer.createRenderState(entity, 1.0F);
+		renderState.lightCoords = 15728880;
+		renderState.shadowPieces.clear();
+		renderState.outlineColor = 0;
+		return renderState;
 	}
 
 	public static void getColourAtPoint(double x, double y, IntConsumer action) {

@@ -118,7 +118,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 		final int y = getY() + (getHeight() - font.lineHeight) / 2;
 
 		if (width > getX() + getWidth())
-			AbstractWidget.renderScrollingString(gui, font, message, getX() + 15, y, getX() + getWidth(), y + font.lineHeight, 0xFFFFFFFF);
+			gui.drawScrollingString(gui.textRenderer(), font, message, getX() + 15, getX() + getWidth(), y);
 		else
 			gui.drawString(font, message, left, y, 0xFFFFFFFF);
 	}

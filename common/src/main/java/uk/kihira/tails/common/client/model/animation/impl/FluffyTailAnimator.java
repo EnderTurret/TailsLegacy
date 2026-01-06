@@ -23,25 +23,27 @@ import uk.kihira.tails.common.client.part.Part.SubType;
 
 public final class FluffyTailAnimator implements ModelAnimator {
 
-	private final TailsModelPart tailBase;
-	private final TailsModelPart tail1;
-	private final TailsModelPart tail2;
-	private final TailsModelPart tail3;
-	private final TailsModelPart tail4;
-	private final TailsModelPart tail5;
+	private final TailsModelPart[] tailBase = new TailsModelPart[9];
+	private final TailsModelPart[] tail1 = new TailsModelPart[9];
+	private final TailsModelPart[] tail2 = new TailsModelPart[9];
+	private final TailsModelPart[] tail3 = new TailsModelPart[9];
+	private final TailsModelPart[] tail4 = new TailsModelPart[9];
+	private final TailsModelPart[] tail5 = new TailsModelPart[9];
 
 	public FluffyTailAnimator(TailsModelPart model, JsonObject ignored) {
-		tailBase = model.t$getChild("tailBase");
-		tail1 = tailBase.t$getChild("tail1");
-		tail2 = tail1.t$getChild("tail2");
-		tail3 = tail2.t$getChild("tail3");
-		tail4 = tail3.t$getChild("tail4");
-		tail5 = tail4.t$getChild("tail5");
+		for (int i = 0; i < 9; i++) {
+			tailBase[i] = model.t$getChild("tailBase" + (i + 1));
+			tail1[i] = tailBase[i].t$getChild("tail1");
+			tail2[i] = tail1[i].t$getChild("tail2");
+			tail3[i] = tail2[i].t$getChild("tail3");
+			tail4[i] = tail3[i].t$getChild("tail4");
+			tail5[i] = tail4[i].t$getChild("tail5");
+		}
 	}
 
 	@Override
 	public void setupAnim(@Nullable AnimatorStorage storage, TailsEntity entity, TailsModelPart model, SubType subType, float partialTick) {
-		setupAnim(entity, 0, partialTick, PartModelHelper.getAnimationTime(4000, entity), 1, 1, 0, 0);
+		setupAnim(entity, 1, 0, partialTick, PartModelHelper.getAnimationTime(4000, entity), 1, 1, 0, 0);
 	}
 
 	public void setupAnim(TailsEntity entity, int subtype, float partialTick, float yOffset, float xOffset, double xAngle, double yAngle) {
@@ -50,10 +52,10 @@ public final class FluffyTailAnimator implements ModelAnimator {
 			case 2: timestep = 6500; break;
 			default: timestep = 4000; break;
 		}
-		setupAnim(entity, subtype, partialTick, timestep, yOffset, xOffset, xAngle, yAngle);
+		setupAnim(entity, 1, subtype, partialTick, timestep, yOffset, xOffset, xAngle, yAngle);
 	}
 
-	public void setupAnim(TailsEntity entity, int subtype, float partialTick, float timestep, float yOffset, float xOffset, double xAngle, double yAngle) {
+	public void setupAnim(TailsEntity entity, int index, int subtype, float partialTick, float timestep, float yOffset, float xOffset, double xAngle, double yAngle) {
 		double xAngleOffset = 0;
 		double yAngleOffset = 0;
 		double zAngleOffset = 0;
@@ -99,11 +101,11 @@ public final class FluffyTailAnimator implements ModelAnimator {
 			yAngleMultiplier = 1 - xAngleOffset * 2F; // Used to suppress sway when running
 		}
 
-		tailBase.t$setRotationRadians(xAngle + xAngleOffset,                      (yAngle + -zAngleOffset / 2F + TailsMath.cos(timestep + yOffset) / 8F)        * yAngleMultiplier + yAngleOffset, zAngleOffset / -8F);
-		tail1.t$setOffsetRotationRadians(      xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + TailsMath.cos(timestep - 1 + yOffset) / 8F)    * yAngleMultiplier,                zAngleOffset / -8F);
-		tail2.t$setOffsetRotationRadians(      xAngleOffset / 2F,                          (-zAngleOffset / 2F + TailsMath.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier,                zAngleOffset / -8F);
-		tail3.t$setOffsetRotationRadians(      xAngleOffset / 2F,                          (-zAngleOffset / 2F + TailsMath.cos(timestep - 2 + yOffset) / 20F)   * yAngleMultiplier,                zAngleOffset / -20F);
-		tail4.t$setOffsetRotationRadians(      xAngleOffset / -2F,                         (-zAngleOffset / 2F + TailsMath.cos(timestep - 3 + yOffset) / 8F)    * yAngleMultiplier,                0F);
-		tail5.t$setOffsetRotationRadians(      xAngleOffset / -2.5F,                       (-zAngleOffset / 2F + TailsMath.cos(timestep - 4 + yOffset) / 8F)    * yAngleMultiplier,                0F);
+		tailBase[index - 1].t$setRotationRadians(xAngle + xAngleOffset,                      (yAngle + -zAngleOffset / 2F + TailsMath.cos(timestep + yOffset) / 8F)        * yAngleMultiplier + yAngleOffset, zAngleOffset / -8F);
+		tail1[index - 1].t$setOffsetRotationRadians(      xAngleOffset + Math.abs(zAngleOffset / 2F), (-zAngleOffset / 2F + TailsMath.cos(timestep - 1 + yOffset) / 8F)    * yAngleMultiplier,                zAngleOffset / -8F);
+		tail2[index - 1].t$setOffsetRotationRadians(      xAngleOffset / 2F,                          (-zAngleOffset / 2F + TailsMath.cos(timestep - 1.5F + yOffset) / 8F) * yAngleMultiplier,                zAngleOffset / -8F);
+		tail3[index - 1].t$setOffsetRotationRadians(      xAngleOffset / 2F,                          (-zAngleOffset / 2F + TailsMath.cos(timestep - 2 + yOffset) / 20F)   * yAngleMultiplier,                zAngleOffset / -20F);
+		tail4[index - 1].t$setOffsetRotationRadians(      xAngleOffset / -2F,                         (-zAngleOffset / 2F + TailsMath.cos(timestep - 3 + yOffset) / 8F)    * yAngleMultiplier,                0F);
+		tail5[index - 1].t$setOffsetRotationRadians(      xAngleOffset / -2.5F,                       (-zAngleOffset / 2F + TailsMath.cos(timestep - 4 + yOffset) / 8F)    * yAngleMultiplier,                0F);
 	}
 }

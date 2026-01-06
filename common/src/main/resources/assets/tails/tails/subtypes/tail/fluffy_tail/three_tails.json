@@ -1,1 +1,6 @@
-{}
+{
+  "showParts": [
+    "tailBase2",
+    "tailBase3"
+  ]
+}

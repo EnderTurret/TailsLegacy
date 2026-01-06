@@ -10,35 +10,35 @@ package uk.kihira.tails.neoforge.mixin.duck;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 
-@Mixin(ResourceLocation.class)
+@Mixin(Identifier.class)
 public abstract class MixinResourceLocation implements TResourceLocation {
 
 	@Override
 	public String t$getNamespace() {
-		return ((ResourceLocation) (Object) this).getNamespace();
+		return ((Identifier) (Object) this).getNamespace();
 	}
 
 	@Override
 	public String t$getPath() {
-		return ((ResourceLocation) (Object) this).getPath();
+		return ((Identifier) (Object) this).getPath();
 	}
 
 	@Override
 	public TResourceLocation t$withPath(String path) {
-		return (TResourceLocation) (Object) ((ResourceLocation) (Object) this).withPath(path);
+		return (TResourceLocation) (Object) ((Identifier) (Object) this).withPath(path);
 	}
 
 	@Override
 	public int t$compareTo(TResourceLocation other) {
-		return ((ResourceLocation) (Object) this).compareTo((ResourceLocation) (Object) other);
+		return ((Identifier) (Object) this).compareTo((Identifier) (Object) other);
 	}
 
 	@Override
 	public int t$compareNamespaced(TResourceLocation other) {
-		return ((ResourceLocation) (Object) this).compareNamespaced((ResourceLocation) (Object) other);
+		return ((Identifier) (Object) this).compareNamespaced((Identifier) (Object) other);
 	}
 }

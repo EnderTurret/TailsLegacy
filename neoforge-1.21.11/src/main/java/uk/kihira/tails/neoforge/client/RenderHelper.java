@@ -31,7 +31,7 @@ import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.BlitRenderState;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 import uk.kihira.tails.common.JavaColor;
@@ -43,7 +43,7 @@ import uk.kihira.tails.common.TailsMath;
 public final class RenderHelper {
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
-	public static void blitScaled(GuiGraphics gui, ResourceLocation texture, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height, int color) {
+	public static void blitScaled(GuiGraphics gui, Identifier texture, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height, int color) {
 		final GpuTextureView tex = Minecraft.getInstance().getTextureManager().getTexture(texture).getTextureView();
 
 		gui.submitGuiElementRenderState(new BlitRenderState(

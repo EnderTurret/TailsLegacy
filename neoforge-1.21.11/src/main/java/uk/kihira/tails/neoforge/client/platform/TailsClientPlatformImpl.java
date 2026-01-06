@@ -21,7 +21,7 @@ import net.minecraft.client.model.geom.builders.CubeDefinition;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.Services;
 import net.minecraft.server.packs.resources.ResourceManager;
 
@@ -93,8 +93,8 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public void registerTripleTintTexture(TResourceLocation id, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints) {
-		Minecraft.getInstance().getTextureManager().registerAndLoad((ResourceLocation) (Object) id, new TripleTintTexture(
-				(ResourceLocation) (Object) part.getId().t$withPath(texture.path()),
+		Minecraft.getInstance().getTextureManager().registerAndLoad((Identifier) (Object) id, new TripleTintTexture(
+				(Identifier) (Object) part.getId().t$withPath(texture.path()),
 				tints[0], tints[1], tints[2], texture.tintingStrategy()
 				));
 	}
@@ -102,7 +102,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public void releaseTexture(TResourceLocation id) {
 		try {
-			Minecraft.getInstance().getTextureManager().release((ResourceLocation) (Object) id);
+			Minecraft.getInstance().getTextureManager().release((Identifier) (Object) id);
 		} catch (Exception ignored) {}
 	}
 

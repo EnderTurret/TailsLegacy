@@ -14,7 +14,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import uk.kihira.tails.common.TailsPlatform;
 import uk.kihira.tails.common.client.gui.TailsIcons;
@@ -24,7 +24,7 @@ import uk.kihira.tails.common.client.gui.TailsIcons;
  */
 public class IconButton extends Button {
 
-	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/icons.png");
+	public static final Identifier ICONS_TEXTURE = Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/icons.png");
 
 	protected final TailsIcons icon;
 

@@ -13,7 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import uk.kihira.tails.common.TailsMath;
 import uk.kihira.tails.common.TailsPlatform;
@@ -25,8 +25,8 @@ import uk.kihira.tails.neoforge.client.RenderHelper;
  */
 public class HSBSlider extends AbstractSliderButton {
 
-	public static final ResourceLocation VANILLA_SLIDER_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider");
-	protected static final ResourceLocation SLIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/controls/slider_hue.png");
+	public static final Identifier VANILLA_SLIDER_SPRITE = Identifier.withDefaultNamespace("widget/slider");
+	protected static final Identifier SLIDER_TEXTURE = Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;

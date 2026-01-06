@@ -32,7 +32,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -167,8 +167,8 @@ public final class ClientEventHandler {
 
 		@SubscribeEvent
 		static void addClientReloadListeners(AddClientReloadListenersEvent e) {
-			e.addListener(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "parts"), (ResourceManagerReloadListener) TailsClientPlatformImpl::reloadParts);
-			e.addListener(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "cursors"), (ResourceManagerReloadListener) manager -> {
+			e.addListener(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "parts"), (ResourceManagerReloadListener) TailsClientPlatformImpl::reloadParts);
+			e.addListener(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "cursors"), (ResourceManagerReloadListener) manager -> {
 				maybeDestroyCursor();
 				registerCursor(manager);
 			});

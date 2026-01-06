@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
@@ -36,14 +36,14 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 
 	@Override
 	public JsonElement getJson(TResourceLocation path) {
-		final ResourceLocation rl = (ResourceLocation) (Object) path;
+		final Identifier rl = (Identifier) (Object) path;
 		return readJson(rl, manager.getResource(rl).get());
 	}
 
 	@Override
 	public Map<TResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<TResourceLocation> filter) {
 		@SuppressWarnings("unchecked")
-		final Map<ResourceLocation, Resource> map = manager.listResources(prefix, (Predicate) filter);
+		final Map<Identifier, Resource> map = manager.listResources(prefix, (Predicate) filter);
 		final Map<TResourceLocation, JsonElement> ret = new LinkedHashMap<>();
 
 		for (var entry : map.entrySet())
@@ -59,7 +59,7 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 	 * @return The parsed json, or {@code null} if an error occurred.
 	 */
 	@Nullable
-	private static JsonElement readJson(ResourceLocation location, Resource resource) {
+	private static JsonElement readJson(Identifier location, Resource resource) {
 		try (BufferedReader br = resource.openAsReader()) {
 			return JsonParser.parseReader(br);
 		} catch (Exception e) {

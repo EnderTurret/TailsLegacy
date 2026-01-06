@@ -22,7 +22,7 @@ import com.mojang.blaze3d.platform.NativeImage.Format;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.ReloadableTexture;
 import net.minecraft.client.renderer.texture.TextureContents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 
@@ -43,7 +43,7 @@ public final class TripleTintTexture extends ReloadableTexture {
 	private final Part.TintingStrategy strategy;
 
 	@Internal
-	public TripleTintTexture(ResourceLocation textureLocation, int tint1, int tint2, int tint3, Part.TintingStrategy strategy) {
+	public TripleTintTexture(Identifier textureLocation, int tint1, int tint2, int tint3, Part.TintingStrategy strategy) {
 		super(textureLocation);
 		this.tint1 = tint1;
 		this.tint2 = tint2;

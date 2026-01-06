@@ -1,0 +1,55 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+issueTrackerURL="https://github.com/EnderTurret/Tails/issues"
+
+[[mods]]
+    modId="tails"
+    displayName="Tails Legacy"
+    displayURL="https://github.com/EnderTurret/Tails"
+    description='''
+Adds a variety of accessories that can be colored in many ways.
+
+=== Credits ===
+
+Includes models and textures by:
+- Adeon
+- BluSunrize
+- Dracyoshi
+- DustSkys
+- ItsMeTea
+- PuffballFungus
+- TTFTCUTS
+- access_denied
+- carrotcodes
+- littlechippie
+
+Also includes translations by:
+- AegisLesha
+- BluSunrize
+- CallMeFoxie
+- Guro2
+- NekoiNemo
+- Xiretza
+- Zalthrion
+- iLexiconn
+'''
+    version="${file.jarVersion}"
+    authors="Kihira, EnderTurret"
+
+[[mixins]]
+    config="mixins.tails.json"
+
+[[dependencies.tails]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.11,21.12)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.tails]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21.11,1.21.12)"
+    ordering="NONE"
+    side="BOTH"

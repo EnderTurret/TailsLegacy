@@ -15,7 +15,7 @@ import net.minecraft.resources.Identifier;
 import uk.kihira.tails.common.client.duck.TResourceLocation;
 
 @Mixin(Identifier.class)
-public abstract class MixinResourceLocation implements TResourceLocation {
+public abstract class MixinIdentifier implements TResourceLocation {
 
 	@Override
 	public String t$getNamespace() {

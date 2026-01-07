@@ -8,11 +8,14 @@
 
 package uk.kihira.tails.neoforge.client.render;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeStorage;
 
@@ -34,6 +37,37 @@ public record PreparedSubmitNodeStorage(SubmitNodeStorage storage, RenderType ty
 
 	@Override
 	public void t$submitModelPart(TailsModelPart part, TailsPoseStack poseStack, int packedLight, int packedOverlay, int color) {
-		storage.submitModelPart((ModelPart) (Object) part, (PoseStack) poseStack, type, packedLight, packedOverlay, null, color, null);
+		final ModelPartRenderData data = new ModelPartRenderData();
+		data.part = (ModelPart) (Object) part;
+		data.packedLight = packedLight;
+		data.packedOverlay = packedOverlay;
+		data.color = color;
+
+		for (ModelPart p : data.part.getAllParts())
+			data.partStates.add(new ModelPartTransforms(p, new PartPose(p.x, p.y, p.z, p.xRot, p.yRot, p.zRot, p.xScale, p.yScale, p.zScale), p.visible));
+
+		storage.submitCustomGeometry((PoseStack) poseStack, type, (pose, consumer) -> {
+			final PoseStack stack = new PoseStack();
+			stack.last().mulPose(pose.pose());
+
+			for (ModelPartTransforms trans : data.partStates) {
+				trans.part.visible = trans.visible;
+				trans.part.loadPose(trans.pose);
+			}
+
+			data.part.render(stack, consumer, packedLight, packedOverlay);
+		});
 	}
+
+	private static final class ModelPartRenderData {
+
+		public ModelPart part;
+		public int packedLight;
+		public int packedOverlay;
+		public int color;
+
+		public final List<ModelPartTransforms> partStates = new ArrayList<>();
+	}
+
+	private static record ModelPartTransforms(ModelPart part, PartPose pose, boolean visible) {}
 }

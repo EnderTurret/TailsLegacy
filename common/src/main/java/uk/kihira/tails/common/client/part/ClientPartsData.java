@@ -17,9 +17,22 @@ import java.util.stream.Collectors;
 import uk.kihira.tails.common.part.IPartInfo;
 import uk.kihira.tails.common.part.PartsData;
 
-public final class ClientPartsData extends PartsData {
+public class ClientPartsData extends PartsData {
 
-	public static final ClientPartsData EMPTY = new ClientPartsData();
+	/**
+	 * The singleton empty {@link ClientPartsData}.
+	 */
+	public static final ClientPartsData EMPTY = new ClientPartsData() {
+		@Override public void addPartInfo(IPartInfo partInfo) {}
+		@Override public void setPartInfo(AttachmentPoint attachment, ClientPartInfo info) {}
+		@Override public ClientPartInfo getPartInfo(AttachmentPoint attachment) { return ClientPartInfo.empty(); }
+		@Override public Set<IPartInfo> getPartInfos() { return Collections.emptySet(); }
+		@Override public Set<ClientPartInfo> getParts() { return Collections.emptySet(); }
+		@Override public void clearTextures() {}
+		@Override public ClientPartsData deepCopy() { return this; }
+		@Override public String toString() { return "ClientPartsData#EMPTY"; }
+		@Override public boolean isEmpty() { return true; }
+	};
 
 	public ClientPartsData() {
 		super();
@@ -73,6 +86,7 @@ public final class ClientPartsData extends PartsData {
 	}
 
 	public static ClientPartsData clone(PartsData data) {
+		if (data.isEmpty()) return ClientPartsData.EMPTY;
 		return new ClientPartsData(data.getPartInfos());
 	}
 }

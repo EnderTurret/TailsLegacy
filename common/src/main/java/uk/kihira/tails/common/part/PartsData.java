@@ -24,14 +24,12 @@ public class PartsData {
 	 * The singleton empty {@link PartsData}.
 	 */
 	public static final PartsData EMPTY = new PartsData() {
-		@Override
-		public void addPartInfo(IPartInfo partInfo) {}
-		@Override
-		public void clearTextures() {}
-		@Override
-		public String toString() { return "PartsData#EMPTY"; }
-		@Override
-		public boolean isEmpty() { return true; }
+		@Override public void addPartInfo(IPartInfo partInfo) {}
+		@Override public Set<IPartInfo> getPartInfos() { return Collections.emptySet(); }
+		@Override public void clearTextures() {}
+		@Override public PartsData deepCopy() { return this; }
+		@Override public String toString() { return "PartsData#EMPTY"; }
+		@Override public boolean isEmpty() { return true; }
 	};
 
 	protected final Set<IPartInfo> parts = new TreeSet<>();

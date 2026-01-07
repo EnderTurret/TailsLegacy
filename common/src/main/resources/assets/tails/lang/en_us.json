@@ -187,5 +187,6 @@
   "tails.gui.saved": "Saved!",
 
   "key.category.tails": "Tails",
+  "key.category.tails.category": "Tails",
   "key.tails.reload_parts": "Reload All Parts"
 }

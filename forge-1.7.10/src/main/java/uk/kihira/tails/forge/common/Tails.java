@@ -42,7 +42,7 @@ public final class Tails {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 			FMLCommonHandler.instance().bus().register(new ClientEventHandler.CommonHandlerBus());
-			MinecraftForge.EVENT_BUS.register(ToastManager.INSTANCE);
+			FMLCommonHandler.instance().bus().register(ToastManager.INSTANCE);
 		}
 	}
 

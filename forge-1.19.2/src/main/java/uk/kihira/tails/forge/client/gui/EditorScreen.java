@@ -16,6 +16,8 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.system.MemoryUtil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -144,6 +146,8 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void removed() {
+		// Reset the cursor in case it somehow got stuck as the color picker.
+		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), MemoryUtil.NULL);
 		setPartsData(originalPartsData);
 		super.removed();
 	}
@@ -182,6 +186,8 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	public void close() {
+		// Reset the cursor in case it somehow got stuck as the color picker.
+		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), MemoryUtil.NULL);
 		onSave.accept(this);
 	}
 

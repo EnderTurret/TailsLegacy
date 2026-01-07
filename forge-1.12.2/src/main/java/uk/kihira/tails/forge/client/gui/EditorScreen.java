@@ -17,6 +17,8 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -155,6 +157,8 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void onGuiClosed() {
+		// Reset the cursor in case it somehow got stuck as the color picker.
+		try { Mouse.setNativeCursor(null); } catch (LWJGLException e) {}
 		setPartsData(originalPartsData);
 		super.onGuiClosed();
 	}
@@ -190,6 +194,8 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	public void close() {
+		// Reset the cursor in case it somehow got stuck as the color picker.
+		try { Mouse.setNativeCursor(null); } catch (LWJGLException e) {}
 		onSave.accept(this);
 	}
 

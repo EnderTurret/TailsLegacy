@@ -19,13 +19,13 @@ import com.mojang.blaze3d.textures.GpuTexture;
 @Mixin(GlCommandEncoder.class)
 public abstract class MixinGlCommandEncoder {
 
-	@ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/textures/GpuTexture;getWidth(I)I", ordinal = 0), method = "copyTextureToBuffer(Lcom/mojang/blaze3d/textures/GpuTexture;Lcom/mojang/blaze3d/buffers/GpuBuffer;ILjava/lang/Runnable;IIIII)V")
-	private int tails$fixWidthCheck(int original, GpuTexture texture, GpuBuffer buffer, int offset, Runnable task, int mipLevel, int x, int y, int width, int height) {
+	@ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/textures/GpuTexture;getWidth(I)I", ordinal = 0), method = "copyTextureToBuffer(Lcom/mojang/blaze3d/textures/GpuTexture;Lcom/mojang/blaze3d/buffers/GpuBuffer;JLjava/lang/Runnable;IIIII)V")
+	private int tails$fixWidthCheck(int original, GpuTexture texture, GpuBuffer buffer, long offset, Runnable task, int mipLevel, int x, int y, int width, int height) {
 		return width;
 	}
 
-	@ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/textures/GpuTexture;getHeight(I)I", ordinal = 0), method = "copyTextureToBuffer(Lcom/mojang/blaze3d/textures/GpuTexture;Lcom/mojang/blaze3d/buffers/GpuBuffer;ILjava/lang/Runnable;IIIII)V")
-	private int tails$fixHeightCheck(int original, GpuTexture texture, GpuBuffer buffer, int offset, Runnable task, int mipLevel, int x, int y, int width, int height) {
+	@ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/textures/GpuTexture;getHeight(I)I", ordinal = 0), method = "copyTextureToBuffer(Lcom/mojang/blaze3d/textures/GpuTexture;Lcom/mojang/blaze3d/buffers/GpuBuffer;JLjava/lang/Runnable;IIIII)V")
+	private int tails$fixHeightCheck(int original, GpuTexture texture, GpuBuffer buffer, long offset, Runnable task, int mipLevel, int x, int y, int width, int height) {
 		return height;
 	}
 }

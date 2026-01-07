@@ -159,7 +159,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public void syncLocalToServer(ClientPartsData partsData) {
-		if (Minecraft.getInstance().level != null)
+		if (Minecraft.getInstance().level != null && Minecraft.getInstance().getConnection().hasChannel(C2SPlayerDataMessage.TYPE))
 			ClientPacketDistributor.sendToServer(new C2SPlayerDataMessage(partsData));
 	}
 

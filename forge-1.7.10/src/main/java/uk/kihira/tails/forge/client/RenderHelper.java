@@ -163,6 +163,7 @@ public final class RenderHelper {
 		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
 
 		if (pixelBuffer == null) pixelBuffer = BufferUtils.createByteBuffer(3);
+		else pixelBuffer.clear();
 
 		GL11.glReadPixels((int) x, (int) y, 1, 1,
 				GL11.GL_RGB,

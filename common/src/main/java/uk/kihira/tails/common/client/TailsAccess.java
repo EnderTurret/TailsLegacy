@@ -43,18 +43,19 @@ public final class TailsAccess implements ITailsAccess {
 	}
 
 	@Override
-	public PartsData getLocalData() {
+	public ClientPartsData getLocalData() {
 		return LocalPartManager.getLocalPartsData();
 	}
 
 	@Override
-	public void setLocalData(PartsData data) {
-		if (!(data instanceof ClientPartsData))
-			data = ClientPartsData.clone(data);
+	public void setLocalData(ClientPartsData data, boolean syncToServer) {
+		if (getLocalData().equals(data)) return;
 
-		LocalPartManager.setLocalPartsData((ClientPartsData) data);
-		setPartData(data, TailsClientPlatform.get().getLocalUUID());
-		LocalPartManager.syncToServer();
+		data = data.deepCopy();
+
+		LocalPartManager.setLocalPartsData(data);
+		ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), data);
+		if (syncToServer) LocalPartManager.syncToServer();
 	}
 
 	@Override
@@ -63,13 +64,33 @@ public final class TailsAccess implements ITailsAccess {
 	}
 
 	@Override
-	public PartsData getPartData(UUID uuid) {
+	public @Nullable LibraryEntryData getLibraryEntryByName(String name) {
+		for (LibraryEntryData entry : getLibraryEntries())
+			if (entry.entryName.equals(name))
+				return entry;
+
+		return null;
+	}
+
+	@Override
+	public @Nullable LibraryEntryData getSelectedLibraryEntry() {
+		final PartsData parts = getLocalData();
+
+		for (LibraryEntryData entry : getLibraryEntries())
+			if (entry.partsData.equals(parts))
+				return entry;
+
+		return null;
+	}
+
+	@Override
+	public ClientPartsData getPartData(UUID uuid) {
 		return ClientPlayerPartManager.get().get(uuid);
 	}
 
 	@Override
-	public void setPartData(PartsData data, UUID uuid) {
-		ClientPlayerPartManager.get().set(uuid, data);
+	public void setPartData(UUID uuid, ClientPartsData data) {
+		ClientPlayerPartManager.get().set(uuid, data.deepCopy());
 	}
 
 	@Override

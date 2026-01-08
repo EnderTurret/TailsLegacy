@@ -68,6 +68,7 @@ public class HSBSlider extends GuiSlider implements TooltipProvider {
 		if (!visible) return;
 
 		hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+		mouseDragged(mc, mouseX, mouseY);
 
 		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, x, y, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 
@@ -75,7 +76,7 @@ public class HSBSlider extends GuiSlider implements TooltipProvider {
 		mc.getTextureManager().bindTexture(SLIDER_TEXTURE);
 		RenderHelper.blitScaled(x + 1, y + 1, 0, 0, 236 - (type == HSBSliderType.BRIGHTNESS ? 20 : 0), 256, 20, width - 2, height - 2);
 
-		final int offset = 0;//isFocused() ? 5 : 0;
+		final int offset = isMouseDown ? 5 : 0;
 
 		RenderHelper.enableDefaultBlend();
 

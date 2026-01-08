@@ -40,6 +40,7 @@ public class SaturationSlider extends HSBSlider {
 		if (!visible) return;
 
 		field_146123_n = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+		mouseDragged(mc, mouseX, mouseY);
 
 		GuiUtils.drawContinuousTexturedBox(SLIDER_TEXTURE, xPosition, yPosition, 0, 10, width, height, 200, 20, 2, 3, 2, 2, 0);
 		mc.getTextureManager().bindTexture(SLIDER_TEXTURE);
@@ -68,7 +69,7 @@ public class SaturationSlider extends HSBSlider {
 
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 
-		final int offset = 0;//isFocused() ? 5 : 0;
+		final int offset = dragging ? 5 : 0;
 
 		drawTexturedModalRect(xPosition + (int)(sliderValue * (width - 3) - 2), yPosition, 0, offset, 7, 4);
 		drawTexturedModalRect(xPosition + (int)(sliderValue * (width - 3) - 2), yPosition + height - 4, 7, offset, 7, 4);

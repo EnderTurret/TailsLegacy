@@ -10,11 +10,9 @@
 package uk.kihira.tails.forge.client;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
-import java.util.Collection;
 
 import javax.imageio.ImageIO;
 
@@ -66,6 +64,7 @@ import uk.kihira.tails.forge.common.TailsConfig;
 public final class ClientEventHandler {
 
 	public static final ThreadLocal<RenderPlayer> ACTIVE_PLAYER_RENDERER = ThreadLocal.withInitial(() -> null);
+	public static volatile float partialTick;
 
 	public static void onPreInit(FMLPreInitializationEvent e) {
 		TailsConfig.CLIENT_INSTANCE.load(e.getModConfigurationDirectory());
@@ -148,6 +147,7 @@ public final class ClientEventHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onRenderPlayerPre(RenderPlayerEvent.Pre e) {
+		partialTick = e.partialRenderTick;
 		ACTIVE_PLAYER_RENDERER.set(e.renderer);
 	}
 

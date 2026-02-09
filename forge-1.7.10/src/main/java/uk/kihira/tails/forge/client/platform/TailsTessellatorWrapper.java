@@ -27,6 +27,7 @@ import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.duck.TailsPoseStack.Entry;
 import uk.kihira.tails.common.client.duck.TailsVertexConsumer;
+import uk.kihira.tails.forge.client.ClientEventHandler;
 
 public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBuffer, TailsVertexConsumer {
 
@@ -77,11 +78,15 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 		if (renderingTransparent)
 			enableTransparentModel();
 
-		GL11.glColor4f(JavaColor.red(color), JavaColor.green(color), JavaColor.blue(color), JavaColor.alpha(color));
+		float[] oldColors = null;
+		if (color != 0xFFFFFFFF) {
+			oldColors = ClientEventHandler.captureCurrentColor();
+			GL11.glColor4f(JavaColor.red(color) / 255F * oldColors[0], JavaColor.green(color) / 255F * oldColors[1], JavaColor.blue(color) / 255F * oldColors[2], JavaColor.alpha(color) / 255F * oldColors[3]);
+		}
 
 		((ModelRenderer) part).render(0.0625F);
 
-		GL11.glColor4f(1, 1, 1, 1);
+		if (oldColors != null) GL11.glColor4f(oldColors[0], oldColors[1], oldColors[2], oldColors[3]);
 
 		if (renderingTransparent)
 			disableTransparentModel();

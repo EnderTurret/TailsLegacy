@@ -9,7 +9,6 @@
 package uk.kihira.tails.forge.mixin.client.duck;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +28,7 @@ import uk.kihira.tails.common.client.duck.TailsBuffer;
 import uk.kihira.tails.common.client.duck.TailsModelPart;
 import uk.kihira.tails.common.client.duck.TailsPoseStack;
 import uk.kihira.tails.common.client.duck.TailsRandomSource;
+import uk.kihira.tails.forge.client.ClientEventHandler;
 import uk.kihira.tails.forge.client.render.ModelPartExtensions;
 
 @Mixin(ModelRenderer.class)
@@ -148,9 +148,15 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 
 	@Override
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color) {
-		GL11.glColor4f(JavaColor.red(color) / 255F, JavaColor.green(color) / 255F, JavaColor.blue(color) / 255F, JavaColor.alpha(color) / 255F);
+		float[] oldColors = null;
+		if (color != 0xFFFFFFFF) {
+			oldColors = ClientEventHandler.captureCurrentColor();
+			GL11.glColor4f(JavaColor.red(color) / 255F * oldColors[0], JavaColor.green(color) / 255F * oldColors[1], JavaColor.blue(color) / 255F * oldColors[2], JavaColor.alpha(color) / 255F * oldColors[3]);
+		}
+
 		((ModelRenderer) (Object) this).render(0.0625F);
-		GL11.glColor4f(1, 1, 1, 1);
+
+		if (oldColors != null) GL11.glColor4f(oldColors[0], oldColors[1], oldColors[2], oldColors[3]);
 	}
 
 	@Override

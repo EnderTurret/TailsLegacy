@@ -12,6 +12,7 @@ package uk.kihira.tails.forge.client;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
+import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -65,6 +67,17 @@ public final class ClientEventHandler {
 
 	public static final ThreadLocal<RenderPlayer> ACTIVE_PLAYER_RENDERER = ThreadLocal.withInitial(() -> null);
 	public static volatile float partialTick;
+
+	private static final FloatBuffer CURRENT_COLOR_BUFFER = BufferUtils.createFloatBuffer(/* 4 */ 16);
+	private static final float[] CURRENT_COLOR_ARRAY = new float[4];
+
+	public static float[] captureCurrentColor() {
+		CURRENT_COLOR_BUFFER.clear();
+		GL11.glGetFloat(GL11.GL_CURRENT_COLOR, CURRENT_COLOR_BUFFER);
+		CURRENT_COLOR_BUFFER.rewind();
+		CURRENT_COLOR_BUFFER.get(CURRENT_COLOR_ARRAY);
+		return CURRENT_COLOR_ARRAY;
+	}
 
 	public static void onPreInit(FMLPreInitializationEvent e) {
 		TailsConfig.CLIENT_INSTANCE.load(e.getModConfigurationDirectory());

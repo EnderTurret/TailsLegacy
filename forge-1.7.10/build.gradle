@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
+    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.2'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
@@ -51,8 +51,8 @@ minecraft {
     userUUID.set(rootProject.findProperty('minecraft_uuid'))
 
     // JVM args for remote debugging via IDE
-    //extraRunJvmArguments.add('-Xdebug')
-    //extraRunJvmArguments.add('-Xrunjdwp:transport=dt_socket,address=8413,server=y,suspend=n')
+    extraRunJvmArguments.add('-Xdebug')
+    extraRunJvmArguments.add('-Xrunjdwp:transport=dt_socket,address=8413,server=y,suspend=n')
 
     //extraRunJvmArguments.add('-Dmixin.debug.export=true')
 }

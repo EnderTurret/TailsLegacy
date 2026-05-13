@@ -56,8 +56,19 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 
 	@Override
 	public AnimatorStorage tick(@Nullable AnimatorStorage storage, TailsEntity entity) {
-		if (!(storage instanceof Storage)) storage = new Storage();
+		boolean created = false;
+		if (!(storage instanceof Storage)) {
+			storage = new Storage();
+			created = true;
+		}
+
 		final Storage store = (Storage) storage;
+		store.currentConfig = base;
+		if (created) {
+			// Try to offset the wag cycle by a number derived from the owner's ID. (See PartModelHelper#getAnimationTime for similar logic.)
+			final double factor = Math.abs(entity.t$uuid().hashCode() % 100);
+			store.wagTime = store.wagTime.add(store.currentConfig.idleSpeed.scale(factor));
+		}
 
 		final double bodyRot = entity.t$yBodyRot();
 		TailsVec3d velocityRaw = new TailsVec3d(entity.t$x() - entity.t$xO(), entity.t$y() - entity.t$yO(), entity.t$z() - entity.t$zO());
@@ -67,7 +78,6 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 		double bodyPitch = 0;
 		double waterStrength = 0;
 		double baseWagWalkSpeed = 1;
-		store.currentConfig = base;
 
 		if (entity.t$isSwimmingPose()) {
 			bodyPitch = -90 - (entity.t$inLiquid() ? entity.t$xRot() : 0);

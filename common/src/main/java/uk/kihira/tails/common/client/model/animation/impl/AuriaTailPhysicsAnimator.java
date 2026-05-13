@@ -184,8 +184,22 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 		TailsVec4d[] oldRot;
 		TailsVec4d velocity = new TailsVec4d(0, 0, 0, 0);
 
+		/**
+		 * The 'wag' speed for the current tick.
+		 * This is computed from the {@link Config#idleSpeed} and {@link Config#walkSpeed} based on the player's motion.
+		 */
 		TailsVec3d wagSpeed = TailsVec3d.ZERO;
+
+		/**
+		 * The strength of the 'wag' animation for a given tick.
+		 * This modifies the {@link #wagTime} angles to be stronger or weaker.
+		 */
 		TailsVec3d wagStrength = TailsVec3d.ZERO, oldWagStrength = TailsVec3d.ZERO;
+
+		/**
+		 * The 'wag' angle for a given tick, computed from adding the {@link #wagSpeed} each tick.
+		 * The angle components are {@linkplain TailsMath#cos(float) cosined} so that they smoothly repeat.
+		 */
 		TailsVec3d wagTime = TailsVec3d.ZERO, oldWagTime = TailsVec3d.ZERO;
 
 		@Override
@@ -226,13 +240,46 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 		public double extraMovingStiff = 0.15;
 		public double movingStiffStrength = 20;
 
+		/**
+		 * <p>The speed of the 'wag' animation in each direction.</p>
+		 * <p>Used when not moving.</p>
+		 */
 		public TailsVec3d idleSpeed = new TailsVec3d(0, 0, 0);
+
+		/**
+		 * <p>The strength modifier of the 'wag' animation in each direction.
+		 * This is used to scale the resulting wag angle.</p>
+		 * <p>Used when not moving.</p>
+		 */
 		public TailsVec3d idleStrength = new TailsVec3d(0, 0, 0);
+
+		/**
+		 * <p>The speed of the 'wag' animation in each direction.</p>
+		 * <p>Used when moving.</p>
+		 */
 		public TailsVec3d walkSpeed = new TailsVec3d(0, 0.5, 0);
+
+		/**
+		 * <p>The strength modifier of the 'wag' animation in each direction.
+		 * This is used to scale the resulting wag angle.</p>
+		 * <p>Used when moving.</p>
+		 */
 		public TailsVec3d walkStrength = new TailsVec3d(0, 6, 0);
+
+		/**
+		 * Allows limiting the impact motion has on the 'wag' animation.
+		 * Higher values mean that less motion is needed to reach {@link #walkSpeed} versus {@link #idleSpeed}.
+		 */
 		public double walkLimit = 0.31;
 
+		/**
+		 * How much further in the 'wag' cycle each tail segment should be.
+		 */
 		public double tailOffset = 0.5;
+
+		/**
+		 * Determines how many segments the tail has for movement to propagate to the end of the tail.
+		 */
 		public int tailDelay = 6;
 
 		public Config(JsonObject cfg) {

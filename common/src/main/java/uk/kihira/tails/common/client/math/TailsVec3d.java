@@ -20,6 +20,8 @@ public final class TailsVec3d {
 	private final double z;
 
 	public static final TailsVec3d ZERO = new TailsVec3d(0, 0, 0);
+	public static final TailsVec3d ONE_X = new TailsVec3d(1, 0, 0);
+	public static final TailsVec3d ONE_Y = new TailsVec3d(0, 1, 0);
 
 	public TailsVec3d(double x, double y, double z) {
 		this.x = x;

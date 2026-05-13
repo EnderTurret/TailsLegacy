@@ -21,6 +21,7 @@ public final class TailsVec4d {
 	private final double w;
 
 	public static final TailsVec4d ZERO = new TailsVec4d(0, 0, 0, 1);
+	public static final TailsVec4d ONE_XYZW = new TailsVec4d(1);
 
 	public TailsVec4d(double x, double y, double z, double w) {
 		this.x = x;

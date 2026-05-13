@@ -72,7 +72,7 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 
 		final double bodyRot = entity.t$yBodyRot();
 		TailsVec3d velocityRaw = new TailsVec3d(entity.t$x() - entity.t$xO(), entity.t$y() - entity.t$yO(), entity.t$z() - entity.t$zO());
-		velocityRaw = velocityRaw.rotateAroundAxis(new TailsVec3d(0, 1, 0), bodyRot);
+		velocityRaw = velocityRaw.rotateAroundAxis(TailsVec3d.ONE_Y, bodyRot);
 		double bodyVelocity = (bodyRot - entity.t$yBodyRotO() + 180) % 360 - 180;
 
 		double bodyPitch = 0;
@@ -88,7 +88,7 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 			baseWagWalkSpeed = 0;
 		}
 
-		velocityRaw = velocityRaw.rotateAroundAxis(new TailsVec3d(1, 0, 0), bodyPitch);
+		velocityRaw = velocityRaw.rotateAroundAxis(TailsVec3d.ONE_X, bodyPitch);
 
 		// ------
 
@@ -124,7 +124,7 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 				);
 
 		final TailsVec4d stiffRaw = new TailsVec4d(TailsMath.lerp(inWater, store.currentConfig.stiff, store.currentConfig.waterStiff));
-		final TailsVec4d stiff = new TailsVec4d(1).add(
+		final TailsVec4d stiff = TailsVec4d.ONE_XYZW.add(
 				stiffRaw.lerp(
 						stiffRaw.add(store.currentConfig.extraMovingStiff).apply(v -> Math.min(v, 1)),
 						acceleration.scale(store.currentConfig.movingStiffStrength).apply(Math::abs).apply(v -> Math.min(v, 1))

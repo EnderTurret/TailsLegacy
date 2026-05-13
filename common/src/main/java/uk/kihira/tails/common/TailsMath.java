@@ -13,8 +13,11 @@ public final class TailsMath {
 	public static final float PI = (float) Math.PI;
     public static final float HALF_PI = (float) (Math.PI / 2);
     public static final float TWO_PI = (float) (Math.PI * 2);
-	public static final float DEG_TO_RAD = (float) (Math.PI / 180.0);
-	public static final float RAD_TO_DEG = 180.0F / (float)Math.PI;
+	public static final float DEG_TO_RAD = (float) (Math.PI / 180D);
+	public static final float RAD_TO_DEG = 180F / (float) Math.PI;
+
+	public static final double DEG_TO_RAD_D = Math.PI / 180D;
+	public static final double RAD_TO_DEG_D = 180D / Math.PI;
 
 	public static float wrapDegrees(float value) {
 		value = value % 360F;

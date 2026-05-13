@@ -161,14 +161,25 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 			final int key = (int) ((double) i / parts.length * store.tailDelay);
 			final TailsVec4d rot = store.oldRot[key].lerp(store.rot[key], partialTick);
 
-			final TailsVec3d initialRot = new TailsVec3d(parts[i].t$getInitialXRot(), parts[i].t$getInitialYRot(), parts[i].t$getInitialZRot());
-			TailsVec3d vec = new TailsVec3d(rot.x(), rot.y(), rot.z())
-					.scale(-1)
-					.add(initialRot.scale(180 / Math.PI).scale(rot.w()))
-					.add(wagTime.add(new TailsVec3d(-store.currentConfig.tailOffset * i)).apply(v -> TailsMath.cos((float) v)).multiply(wagStrength))
-					.scale(Math.PI / 180);
+			double x = -rot.x();
+			double y = -rot.y();
+			double z = -rot.z();
 
-			parts[i].t$setRotationRadians(vec.x(), vec.y(), vec.z());
+			x += parts[i].t$getInitialXRot() * TailsMath.RAD_TO_DEG_D * rot.w();
+			y += parts[i].t$getInitialYRot() * TailsMath.RAD_TO_DEG_D * rot.w();
+			z += parts[i].t$getInitialZRot() * TailsMath.RAD_TO_DEG_D * rot.w();
+
+			final double wagModifier = -store.currentConfig.tailOffset * i;
+			final TailsVec3d wagVec = wagTime.add(wagModifier).apply(v -> TailsMath.cos((float) v)).multiply(wagStrength);
+
+			x += wagVec.x();
+			y += wagVec.y();
+			z += wagVec.z();
+
+			parts[i].t$setRotationRadians(
+					x * TailsMath.DEG_TO_RAD_D,
+					y * TailsMath.DEG_TO_RAD_D,
+					z * TailsMath.DEG_TO_RAD_D);
 		}
 
 		for (PartCopy copy : copies)

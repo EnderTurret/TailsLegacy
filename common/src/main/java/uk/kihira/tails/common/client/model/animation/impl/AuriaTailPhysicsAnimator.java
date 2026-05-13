@@ -177,16 +177,16 @@ public final class AuriaTailPhysicsAnimator implements ModelAnimator {
 
 	public static final class Storage implements AnimatorStorage {
 
-		private Config currentConfig;
-		private float tailY;
-		private int tailDelay;
-		private TailsVec4d[] rot;
-		private TailsVec4d[] oldRot;
-		private TailsVec4d velocity = new TailsVec4d(0, 0, 0, 0);
+		Config currentConfig;
+		float tailY;
+		int tailDelay;
+		TailsVec4d[] rot;
+		TailsVec4d[] oldRot;
+		TailsVec4d velocity = new TailsVec4d(0, 0, 0, 0);
 
-		private TailsVec3d wagSpeed = TailsVec3d.ZERO;
-		private TailsVec3d wagStrength = TailsVec3d.ZERO, oldWagStrength = TailsVec3d.ZERO;
-		private TailsVec3d wagTime = TailsVec3d.ZERO, oldWagTime = TailsVec3d.ZERO;
+		TailsVec3d wagSpeed = TailsVec3d.ZERO;
+		TailsVec3d wagStrength = TailsVec3d.ZERO, oldWagStrength = TailsVec3d.ZERO;
+		TailsVec3d wagTime = TailsVec3d.ZERO, oldWagTime = TailsVec3d.ZERO;
 
 		@Override
 		public AnimatorStorage copy() {

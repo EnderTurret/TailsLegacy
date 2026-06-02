@@ -1,5 +1,7 @@
 package test.platform;
 
+import java.util.Objects;
+
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 
 public final class SimpleResourceLocation implements TResourceLocation {
@@ -50,5 +52,18 @@ public final class SimpleResourceLocation implements TResourceLocation {
 	@Override
 	public String toString() {
 		return namespace + ':' + path;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof SimpleResourceLocation)) return false;
+		final SimpleResourceLocation rl = (SimpleResourceLocation) obj;
+		return namespace.equals(rl.namespace) && path.equals(rl.path);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(namespace, path);
 	}
 }

@@ -23,6 +23,7 @@ import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.TailsClientPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.common.client.render.PartRenderRegistry;
+import net.enderturret.tailslegacy.common.part.Parts;
 
 /**
  * Contains all of the parts read from the {@link PartLoadingManager}.
@@ -33,21 +34,28 @@ public final class PartRegistry {
 
 	private static final Map<TResourceLocation, Part> PART_REGISTRY = new TreeMap<>(TResourceLocation::t$compareNamespaced);
 	private static final Map<AttachmentPoint, List<Part>> BY_TYPE = new LinkedHashMap<>();
+	private static final Map<TResourceLocation, TResourceLocation> REMAP = new LinkedHashMap<>();
 
 	public static final PartLoadingManager MANAGER = new PartLoadingManager(PartRegistry::clear, PartRegistry::register);
 
 	private static void clear() {
 		PART_REGISTRY.clear();
 		BY_TYPE.clear();
+		REMAP.clear();
 		AttachmentPoints.clear();
 		ClientPlayerPartManager.releaseAnimatorStorages();
 	}
 
-	private static void register(List<Part> parts, Map<AttachmentPoint, List<TResourceLocation>> ordering) {
+	private static void register(List<Part> parts, Map<AttachmentPoint, List<TResourceLocation>> ordering, Map<TResourceLocation, TResourceLocation> remap) {
 		TailsPlatform.get().logDebug("Registering {} parts.", parts.size());
+		TailsPlatform.get().logDebug("Registering {} part remaps.", remap.size());
 
 		for (Part part : parts)
 			PART_REGISTRY.put(part.getId(), part);
+
+		REMAP.putAll(remap);
+		Parts.REMAP.clear();
+		Parts.REMAP.putAll(REMAP);
 
 		for (Map.Entry<AttachmentPoint, List<TResourceLocation>> entry : ordering.entrySet()) {
 			final List<Part> ordered = entry.getValue().stream()
@@ -66,10 +74,12 @@ public final class PartRegistry {
 			if (!BY_TYPE.getOrDefault(part.getAttachment(), Collections.emptyList()).contains(part))
 				BY_TYPE.computeIfAbsent(part.getAttachment(), k -> new ArrayList<>()).add(part);
 
-		PartRenderRegistry.reload();
+		if (!Boolean.getBoolean("tailslegacy.testing")) {
+			PartRenderRegistry.reload();
 
-		LocalPartManager.reload();
-		TailsClientPlatform.get().getLibraryManager().reload(false);
+			LocalPartManager.reload();
+			TailsClientPlatform.get().getLibraryManager().reload(false);
+		}
 	}
 
 	public static final PartReference FLUFFY_TAIL = reference("tail/fluffy_tail");
@@ -84,10 +94,10 @@ public final class PartRegistry {
 	public static final PartReference SCORPION_TAIL = reference("tail/scorpion_tail");
 	public static final PartReference THICK_TAIL = reference("tail/thick_tail");
 
-	public static final PartReference FOX_EARS = reference("ears/fox_ears");
-	public static final PartReference BLAZE_CROWN = reference("ears/blaze_crown");
-	public static final PartReference ELF_EARS = reference("ears/elf_ears");
-	public static final PartReference ANTLERS = reference("ears/antlers");
+	public static final PartReference FOX_EARS = reference("head/fox_ears");
+	public static final PartReference BLAZE_CROWN = reference("head/blaze_crown");
+	public static final PartReference ELF_EARS = reference("head/elf_ears");
+	public static final PartReference ANTLERS = reference("head/antlers");
 
 	public static final PartReference BIG_WINGS = reference("wings/big_wings");
 

@@ -30,6 +30,7 @@ final class GsonParts {
 	 * This mode disables logging to avoid class loading FML internals, allowing one to test certain parts of Tails without MC running.
 	 */
 	static final boolean TESTING = Boolean.getBoolean("tailslegacy.testing");
+	static final boolean NO_LOG_IN_TESTING = Boolean.getBoolean("tailslegacy.testing.suppressLog");
 
 	/**
 	 * Updates the given json data to the newest part format, if necessary.
@@ -69,7 +70,7 @@ final class GsonParts {
 				obj.remove("typeid");
 				obj.addProperty("id", partId.toString());
 
-				if (!TESTING) TailsPlatform.get().logInfo("Remapped part ({}, {}) → {}", type, id, partId);
+				if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped part ({}, {}) → {}", type, id, partId);
 			}
 
 			if (obj.has("id")) {
@@ -84,7 +85,7 @@ final class GsonParts {
 
 					obj.addProperty("id", newPartId.toString());
 
-					if (!TESTING) TailsPlatform.get().logInfo("Remapped part id: {} → {}.", oldPartId, newPartId);
+					if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped part id: {} → {}.", oldPartId, newPartId);
 				}
 
 				if (obj.has("subType") && obj.has("textureId")) return elem;
@@ -102,7 +103,7 @@ final class GsonParts {
 					obj.remove("subid");
 					obj.addProperty("subType", subType);
 
-					if (!TESTING) TailsPlatform.get().logInfo("Remapped subtype {} → {}", subId, subType);
+					if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped subtype {} → {}", subId, subType);
 				}
 
 				// Convert old style textures to new ones.
@@ -118,7 +119,7 @@ final class GsonParts {
 					obj.remove("textureID");
 					obj.addProperty("textureId", texture);
 
-					if (!TESTING) TailsPlatform.get().logInfo("Remapped texture {} → {}", textureId, texture);
+					if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped texture {} → {}", textureId, texture);
 				}
 			}
 		}

@@ -8,7 +8,7 @@
 
 package net.enderturret.tailslegacy.common.part;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
@@ -43,12 +43,12 @@ public final class Parts {
 				}
 			case "ears":
 				switch (index) {
-					case 0: return id("ears/fox_ears");
-					case 1: return id("ears/cat_ears");
-					case 2: return id("ears/panda_ears");
-					case 3: return id("ears/small_cat_ears");
-					case 4: return id("ears/sea_pickle");
-					default: return id("ears/fox_ears");
+					case 0: return id("head/fox_ears");
+					case 1: return id("head/cat_ears");
+					case 2: return id("head/panda_ears");
+					case 3: return id("head/small_cat_ears");
+					case 4: return id("head/sea_pickle");
+					default: return id("head/fox_ears");
 				}
 			case "muzzle":
 				switch (index) {
@@ -62,34 +62,7 @@ public final class Parts {
 		}
 	}
 
-	private static final Map<String, String> REMAP = new HashMap<>();
-
-	static {
-		remapTailsToLegacy("fluffy_tail", "tail/fluffy_tail");
-		remapTailsToLegacy("dragon_tail", "tail/dragon_tail");
-		remapTailsToLegacy("raccoon_tail", "tail/raccoon_tail");
-		remapTailsToLegacy("devil_tail", "tail/devil_tail");
-		remapTailsToLegacy("cat_tail", "tail/cat_tail");
-		remapTailsToLegacy("bird_tail", "tail/bird_tail");
-		remapTailsToLegacy("shark_tail", "tail/shark_tail");
-		remapTailsToLegacy("bunny_tail", "tail/bunny_tail");
-		remapTailsToLegacy("fox_ears", "ears/fox_ears");
-		remapTailsToLegacy("cat_ears", "ears/cat_ears");
-		remapTailsToLegacy("panda_ears", "ears/panda_ears");
-		remapTailsToLegacy("small_cat_ears", "ears/small_cat_ears");
-		remapTailsToLegacy("sea_pickle", "ears/sea_pickle");
-		remapTailsToLegacy("standard_muzzle", "muzzle/standard_muzzle");
-		remapTailsToLegacy("slim_muzzle", "muzzle/slim_muzzle");
-		remapTailsToLegacy("thin_muzzle", "muzzle/thin_muzzle");
-		remapTailsToLegacy("big_wings", "wings/big_wings");
-
-		remapTailsToLegacy("ears/head_fin", "ears/small_head_frill");
-		remapTailsToLegacy("ears/side_fins", "ears/small_side_frills");
-	}
-
-	private static void remapTailsToLegacy(String from, String to) {
-		REMAP.put("tails:" + from, "tailslegacy:" + to);
-	}
+	public static final Map<TResourceLocation, TResourceLocation> REMAP = new LinkedHashMap<>();
 
 	/**
 	 * Remaps the given part id, if necessary.
@@ -97,11 +70,13 @@ public final class Parts {
 	 * @return The remapped id.
 	 */
 	public static TResourceLocation remapId(TResourceLocation id) {
-		if ("tails".equals(id.t$getNamespace()) || "tailslegacy".equals(id.t$getNamespace())) {
-			final String newPath = REMAP.get(id.t$getNamespace() + ':' + id.t$getPath());
-			if (newPath != null)
-				return id.t$withPath(newPath);
-		}
+		final TResourceLocation newId = REMAP.get(id);
+		if (newId != null) return newId;
+
+		// Try migrating parts with the `tails` namespace to the `tailslegacy` namespace.
+		if ("tails".equals(id.t$getNamespace()) && id.t$getPath().contains("/"))
+			// Double-wrap the remapping in case this now catches a new migration entry.
+			return remapId(TailsPlatform.get().newResourceLocation(id.t$getPath()));
 
 		return id;
 	}

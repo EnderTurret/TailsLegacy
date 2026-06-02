@@ -18,7 +18,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
@@ -49,18 +48,19 @@ import net.enderturret.tailslegacy.common.gson.TailsGsonHelper;
 public class PartLoadingManager {
 
 	private final Runnable clear;
-	private final BiConsumer<List<Part>, Map<AttachmentPoint, List<TResourceLocation>>> onComplete;
+	private final Listener onComplete;
 
 	/**
 	 * Whether to dump registry contents on (re)load.
 	 */
 	private static final boolean DEBUG_REGISTRIES = Boolean.getBoolean("tailslegacy.debugRegistries");
+	private static final boolean TESTING = Boolean.getBoolean("tailslegacy.testing");
 
 	/**
 	 * @param clear A callback to run when the manager is cleared.
 	 * @param onComplete A callback to run when the manager finished loading part data.
 	 */
-	public PartLoadingManager(Runnable clear, BiConsumer<List<Part>, Map<AttachmentPoint, List<TResourceLocation>>> onComplete) {
+	public PartLoadingManager(Runnable clear, Listener onComplete) {
 		this.clear = clear;
 		this.onComplete = onComplete;
 	}
@@ -84,7 +84,25 @@ public class PartLoadingManager {
 			TailsPlatform.get().logError("Failed to apply part ordering!", e);
 		}
 
-		onComplete.accept(parts, ordering);
+		final Map<TResourceLocation, TResourceLocation> remap = new LinkedHashMap<>();
+
+		try {
+			final JsonElement remapParts = manager.getJson(TailsPlatform.get().newResourceLocation("remap_parts.json"));
+			for (Map.Entry<String, JsonElement> entry : remapParts.getAsJsonObject().entrySet()) {
+				if (entry.getKey().equals("__comment")) continue;
+
+				final TResourceLocation from = TailsPlatform.get().parseResourceLocation(entry.getKey());
+				final TResourceLocation to = TailsPlatform.get().parseResourceLocation(entry.getValue().getAsString());
+
+				TResourceLocation old;
+				if ((old = remap.put(from, to)) != null)
+					TailsPlatform.get().logDebug("Replacing remap entry '{}' with '{}' -> '{}'", old, from, to);
+			}
+		} catch (Exception e) {
+			TailsPlatform.get().logError("Failed to load part remapping data!", e);
+		}
+
+		onComplete.onReloadComplete(parts, ordering, remap);
 	}
 
 	private static final Type ORDERING_TYPE = new TypeToken<Map<String, List<String>>>() {}.getType();
@@ -211,7 +229,7 @@ public class PartLoadingManager {
 			final NamedSubType subType = readSubType(pair.location, json.getAsJsonObject(), realTextures, realOrderings);
 
 			if (subType.subType.textures().isEmpty())
-				TailsPlatform.get().logError("Sub type {} is missing any texture definitions! Skipping!", pair.location);
+				TailsPlatform.get().logError("Sub type {} is missing any texture definitions! Skipping!", subType.id());
 			else
 				realSubTypes.add(subType);
 		}
@@ -235,7 +253,7 @@ public class PartLoadingManager {
 			}
 
 			if (part.getSubTypes().isEmpty())
-				TailsPlatform.get().logError("Part {} is missing any sub types! Skipping!", pair.location);
+				TailsPlatform.get().logError("Part {} is missing any sub types! Skipping!", part.getId());
 			else
 				realParts.add(part);
 		}
@@ -290,9 +308,9 @@ public class PartLoadingManager {
 
 		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
-		final TailsModelPart model = json.has("model") ? ModelSerializer.deserializeRoot(TailsGsonHelper.getAsJsonObject(json, "model")).bake() : null;
+		final TailsModelPart model = json.has("model") && !TESTING ? ModelSerializer.deserializeRoot(TailsGsonHelper.getAsJsonObject(json, "model")).bake() : null;
 		final ModelPredicate allowArrows = readPredicate(json, "allowArrows", model);
-		final ModelAnimator animation = json.has("animation") ? ModelAnimators.fromJson(model, TailsGsonHelper.getAsJsonObject(json, "animation")) : null;
+		final ModelAnimator animation = json.has("animation") && !TESTING ? ModelAnimators.fromJson(model, TailsGsonHelper.getAsJsonObject(json, "animation")) : null;
 		final Transformation renderTransforms = json.has("render") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "render")) : Transformation.ZERO;
 		final Transformation previewTransforms = json.has("preview") ? readTransform(TailsGsonHelper.getAsJsonObject(json, "preview")) : Transformation.ZERO;
 
@@ -302,7 +320,7 @@ public class PartLoadingManager {
 	}
 
 	private static ModelPredicate readPredicate(JsonObject obj, String key, TailsModelPart root) {
-		if (!obj.has(key)) return ModelPredicate.FALSE;
+		if (!obj.has(key) || TESTING) return ModelPredicate.FALSE;
 		final JsonElement elem = obj.get(key);
 		if (elem.isJsonPrimitive()) return TailsGsonHelper.convertToBoolean(elem, key) ? ModelPredicate.TRUE : ModelPredicate.FALSE;
 
@@ -525,5 +543,10 @@ public class PartLoadingManager {
 		public String toString() {
 			return location.toString();
 		}
+	}
+
+	@FunctionalInterface
+	static interface Listener {
+		public void onReloadComplete(List<Part> parts, Map<AttachmentPoint, List<TResourceLocation>> attachments, Map<TResourceLocation, TResourceLocation> remap);
 	}
 }

@@ -1,0 +1,27 @@
+{
+
+  "__comment": "Remaps part IDs from before they were data-driven (1.18->1.19).",
+
+  "tails:fluffy_tail": "tailslegacy:tail/fluffy_tail",
+  "tails:dragon_tail": "tailslegacy:tail/dragon_tail",
+  "tails:raccoon_tail": "tailslegacy:tail/raccoon_tail",
+  "tails:devil_tail": "tailslegacy:tail/devil_tail",
+  "tails:cat_tail": "tailslegacy:tail/cat_tail",
+  "tails:bird_tail": "tailslegacy:tail/bird_tail",
+  "tails:shark_tail": "tailslegacy:tail/shark_tail",
+  "tails:bunny_tail": "tailslegacy:tail/bunny_tail",
+  "tails:fox_ears": "tailslegacy:ears/fox_ears",
+  "tails:cat_ears": "tailslegacy:ears/cat_ears",
+  "tails:panda_ears": "tailslegacy:ears/panda_ears",
+  "tails:small_cat_ears": "tailslegacy:ears/small_cat_ears",
+  "tails:sea_pickle": "tailslegacy:ears/sea_pickle",
+  "tails:standard_muzzle": "tailslegacy:muzzle/standard_muzzle",
+  "tails:slim_muzzle": "tailslegacy:muzzle/slim_muzzle",
+  "tails:thin_muzzle": "tailslegacy:muzzle/thin_muzzle",
+  "tails:big_wings": "tailslegacy:wings/big_wings",
+
+  "__comment": "These parts were renamed when the larger versions were introduced.",
+
+  "tails:ears/head_fin": "tailslegacy:ears/small_head_frill",
+  "tails:ears/side_fins": "tailslegacy:ears/small_side_frills"
+}

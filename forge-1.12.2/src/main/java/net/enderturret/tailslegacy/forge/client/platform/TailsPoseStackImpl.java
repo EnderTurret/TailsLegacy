@@ -1,0 +1,66 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2025 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
+package net.enderturret.tailslegacy.forge.client.platform;
+
+import net.minecraft.client.renderer.GlStateManager;
+
+import net.enderturret.tailslegacy.common.TailsMath;
+import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
+
+public final class TailsPoseStackImpl implements TailsPoseStack, TailsPoseStack.Entry {
+
+	public static final TailsPoseStack INSTANCE = new TailsPoseStackImpl();
+
+	private TailsPoseStackImpl() {}
+
+	@Override
+	public void t$push() {
+		GlStateManager.pushMatrix();
+	}
+
+	@Override
+	public void t$pop() {
+		GlStateManager.popMatrix();
+	}
+
+	@Override
+	public void t$translate(double x, double y, double z) {
+		GlStateManager.translate(x, y, z);
+	}
+
+	@Override
+	public void t$translate(float x, float y, float z) {
+		GlStateManager.translate(x, y, z);
+	}
+
+	@Override
+	public void t$rotateX(float radians) {
+		GlStateManager.rotate(radians * TailsMath.RAD_TO_DEG, 1, 0, 0);
+	}
+
+	@Override
+	public void t$rotateY(float radians) {
+		GlStateManager.rotate(radians * TailsMath.RAD_TO_DEG, 0, 1, 0);
+	}
+
+	@Override
+	public void t$rotateZ(float radians) {
+		GlStateManager.rotate(radians * TailsMath.RAD_TO_DEG, 0, 0, 1);
+	}
+
+	@Override
+	public void t$scale(float x, float y, float z) {
+		GlStateManager.scale(x, y, z);
+	}
+
+	@Override
+	public Entry t$lastEntry() {
+		return this;
+	}
+}

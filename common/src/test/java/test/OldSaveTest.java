@@ -24,10 +24,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import uk.kihira.tails.common.gson.PartsDataSerializer;
-import uk.kihira.tails.common.gson.ServerPartInfoSerializer;
-import uk.kihira.tails.common.part.IPartInfo;
-import uk.kihira.tails.common.part.PartsData;
+import net.enderturret.tailslegacy.common.gson.PartsDataSerializer;
+import net.enderturret.tailslegacy.common.gson.ServerPartInfoSerializer;
+import net.enderturret.tailslegacy.common.part.IPartInfo;
+import net.enderturret.tailslegacy.common.part.PartsData;
 
 /**
  * Tests that ensure that old Tails data can be upgraded to newer versions without any problems.

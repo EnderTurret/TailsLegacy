@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.enderturret.tailslegacy.forge.mixin",
+  "refmap": "tailslegacy.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "duck.MixinResourceLocation"
+  ],
+  "client": [
+    "client.duck.MixinLivingEntity",
+    "client.duck.MixinModelPart",
+    "client.duck.MixinMultiBufferSource",
+    "client.duck.MixinPoseStack",
+    "client.duck.MixinPoseStackPose",
+    "client.duck.MixinVertexConsumer",
+    "client.CubeDefinitionAccess",
+    "client.LivingEntityRendererAccess",
+    "client.MixinCubeDefinition",
+    "client.MixinModelPartCube",
+    "client.PartDefinitionAccess"
+  ]
+}

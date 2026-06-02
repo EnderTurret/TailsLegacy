@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    String mixin = modUtils.enableMixins("zone.rong:mixinbooter:${mixinbooter_version}", 'tails.refmap.json')
+    String mixin = modUtils.enableMixins("zone.rong:mixinbooter:${mixinbooter_version}", 'tailslegacy.refmap.json')
     implementation (mixin)
     annotationProcessor 'org.ow2.asm:asm-debug-all:5.2'
     annotationProcessor 'com.google.guava:guava:32.1.2-jre'

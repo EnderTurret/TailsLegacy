@@ -13,13 +13,14 @@ import java.util.stream.Collectors;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import net.enderturret.tailslegacy.common.client.duck.TailsModelPart.CubePose;
+import net.enderturret.tailslegacy.common.client.model.PartModel;
+import net.enderturret.tailslegacy.common.client.model.PartModelHelper;
+import net.enderturret.tailslegacy.common.client.model.animation.ModelAnimator;
+import net.enderturret.tailslegacy.common.client.model.animation.impl.DefaultModelAnimator;
+
 import test.platform.SimpleTailsEntity;
 import test.platform.SimpleTailsModelPart;
-import uk.kihira.tails.common.client.duck.TailsModelPart.CubePose;
-import uk.kihira.tails.common.client.model.PartModel;
-import uk.kihira.tails.common.client.model.PartModelHelper;
-import uk.kihira.tails.common.client.model.animation.ModelAnimator;
-import uk.kihira.tails.common.client.model.animation.impl.DefaultModelAnimator;
 
 public final class AnimatorTest {
 

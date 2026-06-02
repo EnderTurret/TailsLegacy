@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.enderturret.tailslegacy.forge.mixin",
+  "refmap": "tailslegacy.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "mixins": [
+    "duck.MixinResourceLocation"
+  ],
+  "client": [
+    "client.duck.MixinEntityLivingBase",
+    "client.duck.MixinModelRenderer",
+    "client.resource.MixinFallbackResourceManager",
+    "client.resource.MixinFileResourcePack",
+    "client.resource.MixinFolderResourcePack",
+    "client.resource.MixinReloadableResourceManager",
+    "client.MixinModelBox",
+    "client.RenderLivingBaseAccess"
+  ]
+}

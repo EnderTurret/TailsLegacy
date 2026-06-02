@@ -1,0 +1,69 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2025 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
+package net.enderturret.tailslegacy.forge.common.platform;
+
+import java.util.Random;
+import java.util.UUID;
+
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+
+import net.enderturret.tailslegacy.common.TailsPlatform;
+import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
+import net.enderturret.tailslegacy.forge.common.Tails;
+
+public final class TailsPlatformImpl implements TailsPlatform {
+
+	@Override
+	public void logDebug(String msg, Object... args) { Tails.LOGGER.debug(msg, args); }
+
+	@Override
+	public void logInfo(String msg) { Tails.LOGGER.info(msg); }
+
+	@Override
+	public void logInfo(String msg, Object arg1) { Tails.LOGGER.info(msg, arg1); }
+
+	@Override
+	public void logInfo(String msg, Object arg1, Object arg2) { Tails.LOGGER.info(msg, arg1, arg2); }
+
+	@Override
+	public void logInfo(String msg, Object arg1, Object arg2, Object arg3) { Tails.LOGGER.info(msg, arg1, arg2, arg3); }
+
+	@Override
+	public void logError(String msg, Object... args) { Tails.LOGGER.error(msg, args); }
+
+	@Override
+	public TResourceLocation newResourceLocation(String path) {
+		return (TResourceLocation) new ResourceLocation(TailsPlatform.MOD_ID, path);
+	}
+
+	@Override
+	public TResourceLocation parseResourceLocation(String rl) {
+		return (TResourceLocation) new ResourceLocation(rl);
+	}
+
+	private static final Random UUID_RANDOM = new Random();
+
+	@Override
+	public UUID randomUUID() {
+		long i = UUID_RANDOM.nextLong() & -61441L | 16384L;
+		long j = UUID_RANDOM.nextLong() & 4611686018427387903L | Long.MIN_VALUE;
+		return new UUID(i, j);
+	}
+
+	@Override
+	public float lookupSin(float angle) {
+		return MathHelper.sin(angle);
+	}
+
+	@Override
+	public float lookupCos(float angle) {
+		return MathHelper.cos(angle);
+	}
+}

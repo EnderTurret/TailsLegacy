@@ -38,7 +38,7 @@ Also includes translations by:
     authors="Kihira, EnderTurret"
 
 [[mixins]]
-    config="mixins.tails.json"
+    config="mixins.tailslegacy.json"
 
 [[dependencies.tails]]
     modId="neoforge"

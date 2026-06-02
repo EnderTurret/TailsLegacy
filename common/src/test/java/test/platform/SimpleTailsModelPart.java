@@ -3,11 +3,11 @@ package test.platform;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import uk.kihira.tails.common.client.duck.TailsBuffer;
-import uk.kihira.tails.common.client.duck.TailsModelPart;
-import uk.kihira.tails.common.client.duck.TailsPoseStack;
-import uk.kihira.tails.common.client.duck.TailsRandomSource;
-import uk.kihira.tails.common.client.model.TailsPartDefinition;
+import net.enderturret.tailslegacy.common.client.duck.TailsBuffer;
+import net.enderturret.tailslegacy.common.client.duck.TailsModelPart;
+import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
+import net.enderturret.tailslegacy.common.client.duck.TailsRandomSource;
+import net.enderturret.tailslegacy.common.client.model.TailsPartDefinition;
 
 public final class SimpleTailsModelPart implements TailsModelPart {
 

@@ -12,13 +12,13 @@ dependencies {
 }
 
 mixin {
-    add sourceSets.main, 'tails.refmap.json'
-    config 'mixins.tails.json'
+    add sourceSets.main, 'tailslegacy.refmap.json'
+    config 'mixins.tailslegacy.json'
 }
 
 tasks.named('jar', Jar).configure {
     manifest.attributes([
-        'MixinConfigs': 'mixins.tails.json'
+        'MixinConfigs': 'mixins.tailslegacy.json'
     ])
 }
 

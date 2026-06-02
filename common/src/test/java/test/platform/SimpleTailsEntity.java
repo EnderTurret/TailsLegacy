@@ -2,8 +2,8 @@ package test.platform;
 
 import java.util.UUID;
 
-import uk.kihira.tails.common.client.duck.FakeTailsEntity;
-import uk.kihira.tails.common.client.duck.TailsEntity;
+import net.enderturret.tailslegacy.common.client.duck.FakeTailsEntity;
+import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 
 public final class SimpleTailsEntity extends FakeTailsEntity {
 

@@ -2,8 +2,8 @@ package test.platform;
 
 import java.util.UUID;
 
-import uk.kihira.tails.common.TailsPlatform;
-import uk.kihira.tails.common.client.duck.TResourceLocation;
+import net.enderturret.tailslegacy.common.TailsPlatform;
+import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 
 public final class SimpleTailsPlatformImpl implements TailsPlatform {
 

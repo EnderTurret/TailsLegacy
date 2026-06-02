@@ -1,0 +1,68 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2019 Zoe Lee (Kihira)
+ * Copyright (c) 2020-2025 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
+package net.enderturret.tailslegacy.forge.client.gui.panel;
+
+import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
+
+import com.google.common.base.Strings;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+
+import net.minecraftforge.client.gui.widget.ExtendedButton;
+
+import net.enderturret.tailslegacy.common.LibraryEntryData;
+import net.enderturret.tailslegacy.common.client.gui.panel.BaseLibraryImportPanel;
+import net.enderturret.tailslegacy.forge.client.gui.EditorScreen;
+import net.enderturret.tailslegacy.forge.client.gui.TailsComponents;
+import net.enderturret.tailslegacy.forge.client.toast.ToastManager;
+
+@Internal
+public final class LibraryImportPanel extends Panel implements BaseLibraryImportPanel {
+
+	private EditBox inputField;
+
+	public LibraryImportPanel(EditorScreen parent, int left, int top, int width, int height) {
+		super(parent, left, top, width, height);
+	}
+
+	@Override
+	public void init() {
+		addRenderableWidget(new ExtendedButton(left + 3, top + 21, right - left - 6, 18, TailsComponents.IMPORT_STRING, this::importFromString0));
+
+		inputField = new EditBox(parent.font(), left + 4, top + 42, right - left - 8, 13, TextComponent.EMPTY);
+		inputField.setMaxLength(5000);
+		addRenderableWidget(inputField);
+	}
+
+	private void importFromString0(Button b) {
+		final String input = inputField.getValue();
+		if (!Strings.isNullOrEmpty(input)) importFromString(input);
+	}
+
+	@Override
+	public void importPartsData(LibraryEntryData entry) {
+		inputField.setValue("");
+		parent.getLibraryPanel().libraryChanged = true;
+		parent.getLibraryPanel().initList("");
+	}
+
+	@Override
+	public void toast(String langKey, @Nullable String name, boolean error) {
+		final Component text = new TranslatableComponent(langKey, name == null ? new Object[0] : new Object[] { name })
+				.withStyle(error ? ChatFormatting.RED : ChatFormatting.GREEN);
+		ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height - 50, parent.width / 2, text);
+	}
+}

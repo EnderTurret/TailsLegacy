@@ -1,0 +1,23 @@
+{
+  "minVersion": "0.8",
+  "package": "net.enderturret.tailslegacy.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "duck.MixinResourceLocation"
+  ],
+  "client": [
+    "client.duck.MixinHumanoidRenderState",
+    "client.duck.MixinLivingEntity",
+    "client.duck.MixinModelPart",
+    "client.duck.MixinSubmitNodeStorage",
+    "client.duck.MixinPoseStack",
+    "client.duck.MixinPoseStackPose",
+    "client.duck.MixinVertexConsumer",
+    "client.CubeDefinitionAccess",
+    "client.LivingEntityRendererAccess",
+    "client.MixinGlCommandEncoder",
+    "client.PartDefinitionAccess",
+    "client.StuckInBodyLayerAccess",
+    "client.TextureManagerAccess"
+  ]
+}

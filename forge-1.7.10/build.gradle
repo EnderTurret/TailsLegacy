@@ -24,7 +24,7 @@ configurations {
 }
 
 dependencies {
-    String mixin = modUtils.enableMixins("io.github.legacymoddingmc:unimixins:${unimixins_version}:dev", 'tails.refmap.json')
+    String mixin = modUtils.enableMixins("io.github.legacymoddingmc:unimixins:${unimixins_version}:dev", 'tailslegacy.refmap.json')
     implementation (mixin)
     annotationProcessor 'org.ow2.asm:asm-debug-all:5.0.4'
     annotationProcessor 'com.google.guava:guava:24.1.1-jre'

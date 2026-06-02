@@ -35,18 +35,19 @@ import net.enderturret.tailslegacy.common.part.PartsData;
  */
 public class OldSaveTest {
 
-	private static final Format FORMAT_1_7 = format("7");
-	private static final Format FORMAT_1_12 = format("12");
-	private static final Format FORMAT_1_16 = format("16");
-	private static final Format FORMAT_1_18 = format("18");
-	private static final Format FORMAT_1_19 = format("19");
-	private static final Format FORMAT_1_19_2 = format("19.2");
-	private static final Format FORMAT_1_21_1 = format("21.1");
+	private static final Format FORMAT_1_7 = format("1.7");
+	private static final Format FORMAT_1_12 = format("1.12");
+	private static final Format FORMAT_1_16 = format("1.16");
+	private static final Format FORMAT_1_18 = format("1.18");
+	private static final Format FORMAT_1_19 = format("1.19");
+	private static final Format FORMAT_1_19_2 = format("1.19.2");
+	private static final Format FORMAT_1_21_1 = format("1.21.1");
+	private static final Format FORMAT_26_1 = format("26.1");
 
 	private static final List<Format> FORMATS = new ArrayList<>();
 
 	static {
-		Collections.addAll(FORMATS, FORMAT_1_7, FORMAT_1_12, FORMAT_1_16, FORMAT_1_18, FORMAT_1_19, FORMAT_1_19_2, FORMAT_1_21_1);
+		Collections.addAll(FORMATS, FORMAT_1_7, FORMAT_1_12, FORMAT_1_16, FORMAT_1_18, FORMAT_1_19, FORMAT_1_19_2, FORMAT_1_21_1, FORMAT_26_1);
 	}
 
 	public static void main(String[] args) {
@@ -87,7 +88,7 @@ public class OldSaveTest {
 	}
 
 	private static Format format(String major) {
-		return new Format("1." + major, readFile("/partdatas/1" + major.replace(".", "") + ".json"));
+		return new Format(major, readFile("/partdatas/" + major.replace(".", "_") + ".json"));
 	}
 
 	private static String readFile(String path) {

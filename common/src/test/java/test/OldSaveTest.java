@@ -24,10 +24,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import net.enderturret.tailslegacy.common.client.part.PartRegistry;
 import net.enderturret.tailslegacy.common.gson.PartsDataSerializer;
 import net.enderturret.tailslegacy.common.gson.ServerPartInfoSerializer;
 import net.enderturret.tailslegacy.common.part.IPartInfo;
 import net.enderturret.tailslegacy.common.part.PartsData;
+
+import test.platform.SimpleResourceManager;
 
 /**
  * Tests that ensure that old Tails data can be upgraded to newer versions without any problems.
@@ -52,6 +55,9 @@ public class OldSaveTest {
 
 	public static void main(String[] args) {
 		System.setProperty("tailslegacy.testing", "true");
+		System.setProperty("tailslegacy.testing.suppressLog", "true");
+
+		PartRegistry.MANAGER.reload(new SimpleResourceManager());
 
 		final Gson gson = new GsonBuilder()
 				.excludeFieldsWithoutExposeAnnotation()

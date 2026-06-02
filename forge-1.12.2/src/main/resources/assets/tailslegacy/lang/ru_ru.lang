@@ -17,14 +17,14 @@ tailslegacy.part.tail/dragon_tail.texture.striped=Полосатый
 tailslegacy.part.tail/cat_tail.texture.tiger=Тигр
 tailslegacy.part.tail/bird_tail.texture.standard=Птица
 
-tailslegacy.part.ears/fox_ears=Лисьи ушки
-tailslegacy.part.ears/cat_ears=Кошачьи ушки
-tailslegacy.part.ears/panda_ears=Ушки панды
+tailslegacy.part.head/fox_ears=Лисьи ушки
+tailslegacy.part.head/cat_ears=Кошачьи ушки
+tailslegacy.part.head/panda_ears=Ушки панды
 
 
-tailslegacy.part.ears/fox_ears.texture.standard=Лиса
-tailslegacy.part.ears/cat_ears.texture.standard=Кот
-tailslegacy.part.ears/panda_ears.texture.standard=Панда
+tailslegacy.part.head/fox_ears.texture.standard=Лиса
+tailslegacy.part.head/cat_ears.texture.standard=Кот
+tailslegacy.part.head/panda_ears.texture.standard=Панда
 
 tailslegacy.part.wings/big_wings=Большие крылья
 

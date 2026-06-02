@@ -18,14 +18,14 @@
   "tailslegacy.part.tail/cat_tail.texture.tiger": "Tigre",
   "tailslegacy.part.tail/bird_tail.texture.standard": "Oiseau",
 
-  "tailslegacy.part.ears/fox_ears": "Oreilles de Renard",
-  "tailslegacy.part.ears/cat_ears": "Oreilles de Chat",
-  "tailslegacy.part.ears/panda_ears": "Oreilles de Panda",
+  "tailslegacy.part.head/fox_ears": "Oreilles de Renard",
+  "tailslegacy.part.head/cat_ears": "Oreilles de Chat",
+  "tailslegacy.part.head/panda_ears": "Oreilles de Panda",
 
 
-  "tailslegacy.part.ears/fox_ears.texture.standard": "Renard",
-  "tailslegacy.part.ears/cat_ears.texture.standard": "Chat",
-  "tailslegacy.part.ears/panda_ears.texture.standard": "Panda",
+  "tailslegacy.part.head/fox_ears.texture.standard": "Renard",
+  "tailslegacy.part.head/cat_ears.texture.standard": "Chat",
+  "tailslegacy.part.head/panda_ears.texture.standard": "Panda",
 
   "tailslegacy.part.wings/big_wings": "Grandes Ailes",
 

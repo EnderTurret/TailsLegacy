@@ -18,14 +18,14 @@
   "tailslegacy.part.tail/cat_tail.texture.tiger": "Tiger",
   "tailslegacy.part.tail/bird_tail.texture.standard": "Vogel",
 
-  "tailslegacy.part.ears/fox_ears": "Fuchsohren",
-  "tailslegacy.part.ears/cat_ears": "katzenohren",
-  "tailslegacy.part.ears/panda_ears": "Pandaohren",
+  "tailslegacy.part.head/fox_ears": "Fuchsohren",
+  "tailslegacy.part.head/cat_ears": "katzenohren",
+  "tailslegacy.part.head/panda_ears": "Pandaohren",
 
 
-  "tailslegacy.part.ears/fox_ears.texture.standard": "Fuchs",
-  "tailslegacy.part.ears/cat_ears.texture.standard": "Katze",
-  "tailslegacy.part.ears/panda_ears.texture.standard": "Panda",
+  "tailslegacy.part.head/fox_ears.texture.standard": "Fuchs",
+  "tailslegacy.part.head/cat_ears.texture.standard": "Katze",
+  "tailslegacy.part.head/panda_ears.texture.standard": "Panda",
 
   "tailslegacy.part.wings/big_wings": "Große Flügel",
 

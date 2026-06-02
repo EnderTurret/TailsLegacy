@@ -18,14 +18,14 @@
   "tailslegacy.part.tail/cat_tail.texture.tiger": "Tygr",
   "tailslegacy.part.tail/bird_tail.texture.standard": "Pták",
 
-  "tailslegacy.part.ears/fox_ears": "Liščí uši",
-  "tailslegacy.part.ears/cat_ears": "Kočičí uši",
-  "tailslegacy.part.ears/panda_ears": "Pandí uši",
+  "tailslegacy.part.head/fox_ears": "Liščí uši",
+  "tailslegacy.part.head/cat_ears": "Kočičí uši",
+  "tailslegacy.part.head/panda_ears": "Pandí uši",
 
 
-  "tailslegacy.part.ears/fox_ears.texture.standard": "Liška",
-  "tailslegacy.part.ears/cat_ears.texture.standard": "Kočka",
-  "tailslegacy.part.ears/panda_ears.texture.standard": "Panda",
+  "tailslegacy.part.head/fox_ears.texture.standard": "Liška",
+  "tailslegacy.part.head/cat_ears.texture.standard": "Kočka",
+  "tailslegacy.part.head/panda_ears.texture.standard": "Panda",
 
   "tailslegacy.part.wings/big_wings": "Velké křídla",
 

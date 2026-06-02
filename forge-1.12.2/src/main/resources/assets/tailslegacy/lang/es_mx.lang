@@ -17,14 +17,14 @@ tailslegacy.part.tail/dragon_tail.texture.striped=Con Rayas
 tailslegacy.part.tail/cat_tail.texture.tiger=Tigre
 tailslegacy.part.tail/bird_tail.texture.standard=Ave
 
-tailslegacy.part.ears/fox_ears=Orejas de Zorro
-tailslegacy.part.ears/cat_ears=Orejas de Gato
-tailslegacy.part.ears/panda_ears=Orejas de Panda
+tailslegacy.part.head/fox_ears=Orejas de Zorro
+tailslegacy.part.head/cat_ears=Orejas de Gato
+tailslegacy.part.head/panda_ears=Orejas de Panda
 
 
-tailslegacy.part.ears/fox_ears.texture.standard=Zorro
-tailslegacy.part.ears/cat_ears.texture.standard=Gato
-tailslegacy.part.ears/panda_ears.texture.standard=Panda
+tailslegacy.part.head/fox_ears.texture.standard=Zorro
+tailslegacy.part.head/cat_ears.texture.standard=Gato
+tailslegacy.part.head/panda_ears.texture.standard=Panda
 
 tailslegacy.part.wings/big_wings=Alas Grandes
 

@@ -18,14 +18,14 @@
   "tailslegacy.part.tail/cat_tail.texture.tiger": "老虎",
   "tailslegacy.part.tail/bird_tail.texture.standard": "小鸟",
 
-  "tailslegacy.part.ears/fox_ears": "狐狸耳朵",
-  "tailslegacy.part.ears/cat_ears": "猫耳朵",
-  "tailslegacy.part.ears/panda_ears": "熊猫耳朵",
+  "tailslegacy.part.head/fox_ears": "狐狸耳朵",
+  "tailslegacy.part.head/cat_ears": "猫耳朵",
+  "tailslegacy.part.head/panda_ears": "熊猫耳朵",
 
 
-  "tailslegacy.part.ears/fox_ears.texture.standard": "狐狸",
-  "tailslegacy.part.ears/cat_ears.texture.standard": "猫咪",
-  "tailslegacy.part.ears/panda_ears.texture.standard": "熊猫",
+  "tailslegacy.part.head/fox_ears.texture.standard": "狐狸",
+  "tailslegacy.part.head/cat_ears.texture.standard": "猫咪",
+  "tailslegacy.part.head/panda_ears.texture.standard": "熊猫",
 
   "tailslegacy.part.wings/big_wings": "大型翅膀",
 

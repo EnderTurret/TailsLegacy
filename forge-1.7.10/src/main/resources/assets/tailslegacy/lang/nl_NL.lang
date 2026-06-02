@@ -17,14 +17,14 @@ tailslegacy.part.tail/dragon_tail.texture.striped=Gestreept
 tailslegacy.part.tail/cat_tail.texture.tiger=Tijger
 tailslegacy.part.tail/bird_tail.texture.standard=Vogel
 
-tailslegacy.part.ears/fox_ears=Vossenoren
-tailslegacy.part.ears/cat_ears=Kattenoren
-tailslegacy.part.ears/panda_ears=Pandaoren
+tailslegacy.part.head/fox_ears=Vossenoren
+tailslegacy.part.head/cat_ears=Kattenoren
+tailslegacy.part.head/panda_ears=Pandaoren
 
 
-tailslegacy.part.ears/fox_ears.texture.standard=Vos
-tailslegacy.part.ears/cat_ears.texture.standard=Kat
-tailslegacy.part.ears/panda_ears.texture.standard=Panda
+tailslegacy.part.head/fox_ears.texture.standard=Vos
+tailslegacy.part.head/cat_ears.texture.standard=Kat
+tailslegacy.part.head/panda_ears.texture.standard=Panda
 
 tailslegacy.part.wings/big_wings=Grote Vleugels
 

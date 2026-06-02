@@ -45,7 +45,7 @@ public class ServerPartInfoSerializer implements JsonSerializer<IPartInfo>, Json
 		final JsonObject obj = json.getAsJsonObject();
 
 		final String pId = TailsGsonHelper.getAsString(obj, "id");
-		if ("tails:empty".equals(pId)) return IPartInfo.empty();
+		if ("tailslegacy:empty".equals(pId) || "tails:empty".equals(pId)) return IPartInfo.empty();
 
 		final TResourceLocation partId = TailsPlatform.get().parseResourceLocation(pId);
 		final String subType = TailsGsonHelper.getAsString(obj, "subType");

@@ -1,0 +1,48 @@
+tailslegacy.gui.part.none=Pas de Queue
+
+
+tailslegacy.part.tail/dragon_tail=Queue de Lézard
+tailslegacy.part.tail/fluffy_tail=Queue Câline
+tailslegacy.part.tail/raccoon_tail=Queue de Raton-Laveur
+tailslegacy.part.tail/devil_tail=Queue de Diable
+tailslegacy.part.tail/cat_tail=Queue de Chat
+tailslegacy.part.tail/bird_tail=Queue d'Oiseau
+
+
+tailslegacy.part.tail/fluffy_tail.texture.standard=Renard
+tailslegacy.part.tail/devil_tail.texture.standard=Diable
+tailslegacy.part.tail/raccoon_tail.texture.standard=Raton-Laveur
+tailslegacy.part.tail/dragon_tail.texture.standard=Chat
+tailslegacy.part.tail/dragon_tail.texture.striped=Rayé
+tailslegacy.part.tail/cat_tail.texture.tiger=Tigre
+tailslegacy.part.tail/bird_tail.texture.standard=Oiseau
+
+tailslegacy.part.ears/fox_ears=Oreilles de Renard
+tailslegacy.part.ears/cat_ears=Oreilles de Chat
+tailslegacy.part.ears/panda_ears=Oreilles de Panda
+
+
+tailslegacy.part.ears/fox_ears.texture.standard=Renard
+tailslegacy.part.ears/cat_ears.texture.standard=Chat
+tailslegacy.part.ears/panda_ears.texture.standard=Panda
+
+tailslegacy.part.wings/big_wings=Grandes Ailes
+
+tailslegacy.part.wings/big_wings.texture.angel=Ailes d'Ange
+tailslegacy.part.wings/big_wings.texture.metal=Ailes d'Acier
+
+
+
+
+
+tailslegacy.gui.button.editor=Editeur de Queue
+tailslegacy.gui.button.reset=Reactualiser
+tailslegacy.gui.button.save=Sauvegarder
+tailslegacy.gui.button.edit=Editer
+tailslegacy.gui.button.help.camera=Cliquez et tirez dans la fenêtre pour faire tourner votre personnage
+
+
+
+tailslegacy.gui.tint=Teinte %s
+tailslegacy.gui.tint.edit=Editer la teinte %s
+tailslegacy.gui.hex=Hex:

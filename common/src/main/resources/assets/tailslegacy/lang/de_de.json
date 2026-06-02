@@ -1,0 +1,60 @@
+{
+  "tailslegacy.gui.part.none": "Kein Schweif",
+
+
+  "tailslegacy.part.tail/dragon_tail": "Echsenschweif",
+  "tailslegacy.part.tail/fluffy_tail": "Flauschiger Schweif",
+  "tailslegacy.part.tail/raccoon_tail": "Waschbärschweif",
+  "tailslegacy.part.tail/devil_tail": "Teufelsschweif",
+  "tailslegacy.part.tail/cat_tail": "Katzenschweif",
+  "tailslegacy.part.tail/bird_tail": "Vogelschweif",
+
+
+  "tailslegacy.part.tail/fluffy_tail.texture.standard": "Fuchs",
+  "tailslegacy.part.tail/devil_tail.texture.standard": "Teufel",
+  "tailslegacy.part.tail/raccoon_tail.texture.standard": "Waschbär",
+  "tailslegacy.part.tail/dragon_tail.texture.standard": "Katze",
+  "tailslegacy.part.tail/dragon_tail.texture.striped": "Gestreift",
+  "tailslegacy.part.tail/cat_tail.texture.tiger": "Tiger",
+  "tailslegacy.part.tail/bird_tail.texture.standard": "Vogel",
+
+  "tailslegacy.part.ears/fox_ears": "Fuchsohren",
+  "tailslegacy.part.ears/cat_ears": "katzenohren",
+  "tailslegacy.part.ears/panda_ears": "Pandaohren",
+
+
+  "tailslegacy.part.ears/fox_ears.texture.standard": "Fuchs",
+  "tailslegacy.part.ears/cat_ears.texture.standard": "Katze",
+  "tailslegacy.part.ears/panda_ears.texture.standard": "Panda",
+
+  "tailslegacy.part.wings/big_wings": "Große Flügel",
+
+  "tailslegacy.part.wings/big_wings.texture.angel": "Engelsflügel",
+  "tailslegacy.part.wings/big_wings.texture.metal": "Metallflügel",
+
+
+
+
+
+  "tailslegacy.gui.button.editor": "Schweif-Editor",
+  "tailslegacy.gui.button.reset": "Zurücksetzen",
+  "tailslegacy.gui.button.save": "Speichern",
+  "tailslegacy.gui.button.edit": "Editieren",
+  "tailslegacy.gui.button.help.camera": "Klicke und ziehe im Vorschau-Fenster um deinen Charakter zu drehen.",
+  "tailslegacy.gui.button.reset.camera": "Kamera zurücksetzen",
+  "tailslegacy.gui.button.picker.0": "Farbauswahl",
+  "tailslegacy.gui.button.picker.1": "Wähle einen Punkt am Bildschirm, um diese Farbe zu verwenden",
+
+  "tailslegacy.gui.slider.red.tooltip": "Rot",
+  "tailslegacy.gui.slider.green.tooltip": "Grün",
+  "tailslegacy.gui.slider.blue.tooltip": "Blau",
+  "tailslegacy.gui.slider.hue.tooltip": "Farbton",
+  "tailslegacy.gui.slider.saturation.tooltip": "Sättigung",
+  "tailslegacy.gui.slider.brightness.tooltip": "Helligkeit",
+
+
+  "tailslegacy.gui.tint": "Farbton %s",
+  "tailslegacy.gui.tint.edit": "Editiere Farbton %s",
+  "tailslegacy.gui.hex": "Hex:",
+  "tailslegacy.gui.texture": "Textur"
+}

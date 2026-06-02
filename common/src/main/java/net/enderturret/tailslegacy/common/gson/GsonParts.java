@@ -29,7 +29,7 @@ final class GsonParts {
 	 * Determines whether "testing mode" is enabled.
 	 * This mode disables logging to avoid class loading FML internals, allowing one to test certain parts of Tails without MC running.
 	 */
-	static final boolean TESTING = Boolean.getBoolean("tails.testing");
+	static final boolean TESTING = Boolean.getBoolean("tailslegacy.testing");
 
 	/**
 	 * Updates the given json data to the newest part format, if necessary.
@@ -51,7 +51,7 @@ final class GsonParts {
 				}
 
 				obj.entrySet().clear(); // Removes all mappings from the object.
-				obj.addProperty("id", "tails:empty");
+				obj.addProperty("id", "tailslegacy:empty");
 			}
 
 			// Convert old style parts to new ones.
@@ -140,7 +140,7 @@ final class GsonParts {
 			if (version == 0 && obj.has("partInfos"))
 				for (JsonElement part : obj.get("partInfos").getAsJsonArray()) {
 					part = update(part);
-					if (!"tails:empty".equals(part.getAsJsonObject().get("id").getAsString()))
+					if (!"tailslegacy:empty".equals(part.getAsJsonObject().get("id").getAsString()))
 						parts.add(part);
 				}
 
@@ -149,7 +149,7 @@ final class GsonParts {
 				for (Map.Entry<String, JsonElement> entry : obj.get("partInfoMap").getAsJsonObject().entrySet()) {
 					JsonElement part = entry.getValue();
 					part = update(part);
-					if (!"tails:empty".equals(part.getAsJsonObject().get("id").getAsString()))
+					if (!"tailslegacy:empty".equals(part.getAsJsonObject().get("id").getAsString()))
 						parts.add(part);
 				}
 			}

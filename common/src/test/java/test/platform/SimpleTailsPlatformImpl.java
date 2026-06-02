@@ -12,38 +12,38 @@ public final class SimpleTailsPlatformImpl implements TailsPlatform {
 	@Override
 	public void logDebug(String msg, Object... args) {
 		for (int i = 0; i < args.length; i++) args[i] = String.valueOf(args[i]);
-		System.out.printf("[00xxx0000 00:00:00.000] [main/DEBUG] [Tails/]: " + msg.replace("{}", "%s") + "\n", args);
+		System.out.printf("[00xxx0000 00:00:00.000] [main/DEBUG] [Tails Legacy/]: " + msg.replace("{}", "%s") + "\n", args);
 	}
 
 	@Override
 	public void logInfo(String msg) {
-		System.out.println("[00xxx0000 00:00:00.000] [main/INFO] [Tails/]: " + msg);
+		System.out.println("[00xxx0000 00:00:00.000] [main/INFO] [Tails Legacy/]: " + msg);
 	}
 
 	@Override
 	public void logInfo(String msg, Object arg1) {
-		System.out.printf("[00xxx0000 00:00:00.000] [main/INFO] [Tails/]: " + msg.replace("{}", "%s") + "\n", String.valueOf(arg1));
+		System.out.printf("[00xxx0000 00:00:00.000] [main/INFO] [Tails Legacy/]: " + msg.replace("{}", "%s") + "\n", String.valueOf(arg1));
 	}
 
 	@Override
 	public void logInfo(String msg, Object arg1, Object arg2) {
-		System.out.printf("[00xxx0000 00:00:00.000] [main/INFO] [Tails/]: " + msg.replace("{}", "%s") + "\n", String.valueOf(arg1), String.valueOf(arg2));
+		System.out.printf("[00xxx0000 00:00:00.000] [main/INFO] [Tails Legacy/]: " + msg.replace("{}", "%s") + "\n", String.valueOf(arg1), String.valueOf(arg2));
 	}
 
 	@Override
 	public void logInfo(String msg, Object arg1, Object arg2, Object arg3) {
-		System.out.printf("[00xxx0000 00:00:00.000] [main/INFO] [Tails/]: " + msg.replace("{}", "%s") + "\n", String.valueOf(arg1), String.valueOf(arg2), String.valueOf(arg3));
+		System.out.printf("[00xxx0000 00:00:00.000] [main/INFO] [Tails Legacy/]: " + msg.replace("{}", "%s") + "\n", String.valueOf(arg1), String.valueOf(arg2), String.valueOf(arg3));
 	}
 
 	@Override
 	public void logError(String msg, Object... args) {
 		for (int i = 0; i < args.length; i++) args[i] = String.valueOf(args[i]);
-		System.err.printf("[00xxx0000 00:00:00.000] [main/ERROR] [Tails/]: " + msg.replace("{}", "%s") + "\n", args);
+		System.err.printf("[00xxx0000 00:00:00.000] [main/ERROR] [Tails Legacy/]: " + msg.replace("{}", "%s") + "\n", args);
 	}
 
 	@Override
 	public TResourceLocation newResourceLocation(String path) {
-		return new SimpleResourceLocation("tails", path);
+		return new SimpleResourceLocation(TailsPlatform.MOD_ID, path);
 	}
 
 	@Override

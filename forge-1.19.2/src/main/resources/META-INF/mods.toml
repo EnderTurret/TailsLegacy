@@ -4,7 +4,7 @@ license="MIT"
 issueTrackerURL="https://github.com/EnderTurret/Tails/issues"
 
 [[mods]]
-    modId="tails"
+    modId="tailslegacy"
     displayName="Tails Legacy"
     displayURL="https://github.com/EnderTurret/Tails"
     description='''
@@ -35,17 +35,17 @@ Also includes translations by:
 - iLexiconn
 '''
     version="${file.jarVersion}"
-    authors="Kihira, EnderTurret"
+    authors="EnderTurret, Kihira"
     displayTest="IGNORE_SERVER_VERSION"
 
-[[dependencies.tails]]
+[[dependencies.tailslegacy]]
     modId="forge"
     mandatory=true
     versionRange="[41,43)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.tails]]
+[[dependencies.tailslegacy]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.19,1.19.3)"

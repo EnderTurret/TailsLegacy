@@ -15,7 +15,7 @@ import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 
 public interface TailsPlatform {
 
-	public static final String MOD_ID = "tails";
+	public static final String MOD_ID = "tailslegacy";
 
 	public static TailsPlatform get() {
 		if (TailsInternal.platform == null)

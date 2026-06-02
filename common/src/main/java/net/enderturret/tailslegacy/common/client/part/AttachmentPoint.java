@@ -66,7 +66,7 @@ public final class AttachmentPoint implements Comparable<AttachmentPoint> {
 	}
 
 	public String translationKey() {
-		return "tails.attachment." + id;
+		return "tailslegacy.attachment." + id;
 	}
 
 	@Override

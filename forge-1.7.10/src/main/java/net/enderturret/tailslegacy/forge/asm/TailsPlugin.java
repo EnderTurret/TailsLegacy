@@ -17,7 +17,7 @@ import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
-@IFMLLoadingPlugin.Name("Tails")
+@IFMLLoadingPlugin.Name("Tails Legacy")
 @IFMLLoadingPlugin.MCVersion("1.7.10")
 @IFMLLoadingPlugin.SortingIndex(1000)
 public class TailsPlugin implements IFMLLoadingPlugin, IEarlyMixinLoader {

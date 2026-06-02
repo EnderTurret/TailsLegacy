@@ -55,8 +55,8 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	 */
 	public static ClientPlayerPartManager get() {
 		if (partManager == null) {
-			if (sync == null && Boolean.getBoolean("tails.local-sync.enabled")) {
-				TailsPlatform.get().logInfo("Enabling local sync service (as requested by 'tails.local-sync.enabled')...");
+			if (sync == null && Boolean.getBoolean("tailslegacy.local-sync.enabled")) {
+				TailsPlatform.get().logInfo("Enabling local sync service (as requested by 'tailslegacy.local-sync.enabled')...");
 				sync = SimpleLocalTailsSyncService.fromConfigDir(TailsClientPlatform.get().getConfigDir());
 			}
 

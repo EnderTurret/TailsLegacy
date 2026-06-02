@@ -35,7 +35,7 @@ public interface TailsClientPlatform {
 	public static ExecutorService getExecutor() {
 		if (TailsClientInternal.executor == null)
 			TailsClientInternal.executor = Executors.newFixedThreadPool(3, r -> {
-				final Thread t = new Thread(r, "Tails Executor " + TailsClientInternal.THREAD_COUNT.getAndIncrement());
+				final Thread t = new Thread(r, "Tails Legacy Executor " + TailsClientInternal.THREAD_COUNT.getAndIncrement());
 				t.setDaemon(true);
 				return t;
 			});

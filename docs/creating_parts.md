@@ -1,6 +1,6 @@
 # Creating Parts
 
-A guide to adding new parts, subtypes, and textures to Tails.
+A guide to adding new parts, subtypes, and textures to Tails Legacy.
 
 If you're looking to add a part of some kind, scroll to [parts](#parts) and work your way down.
 Otherwise, here are links to everything covered:
@@ -14,10 +14,10 @@ Otherwise, here are links to everything covered:
 ### File formats
 
 Parts are defined by resource packs under the `parts` directory.
-For example, `tails:parts/tail/fluffy_tail.json` is the path to Tails's fluffy tail part definition.
-The `tail/` subpath is optional and used only because Tails has quite a few parts.
+For example, `tailslegacy:parts/tail/fluffy_tail.json` is the path to Tails Legacy's fluffy tail part definition.
+The `tail/` subpath is optional and used only because Tails Legacy has quite a few parts.
 
-Parts may be defined under any namespace; `tails` is just the one that Tails defines all its parts under.
+Parts may be defined under any namespace; `tailslegacy` is just the one that Tails Legacy defines all its parts under.
 
 Part definitions have the following format:
 
@@ -64,22 +64,22 @@ Because other resource packs can add new subtypes, their subtypes might come bef
 
 #### The root ordering
 
-The file `tails:part_ordering.json` defines the order of the parts shown in the part panel.
+The file `tailslegacy:part_ordering.json` defines the order of the parts shown in the part panel.
 Its format looks like this:
 
 ```json
 {
   "body/tail": [
-    "tails:tail/fluffy_tail"
+    "tailslegacy:tail/fluffy_tail"
   ],
   "body/back": [
-    "tails:wings/big_wings"
+    "tailslegacy:wings/big_wings"
   ],
   "head/top_ears": [
-    "tails:ears/fox_ears"
+    "tailslegacy:ears/fox_ears"
   ],
   "head/face": [
-    "tails:muzzle/standard_muzzle"
+    "tailslegacy:muzzle/standard_muzzle"
   ]
 }
 ```
@@ -155,9 +155,9 @@ Many subtypes only have the content `{}`.
 All of these subtype files go under the `parts/subtypes` directory plus the id of the part the subtype is for.
 The namespace *must* match the namespace of the part.
 
-For example, `tails:parts/subtypes/tail/fluffy_tail/one_tail.json` identifies the single tail subtype of the fluffy tail.
+For example, `tailslegacy:parts/subtypes/tail/fluffy_tail/one_tail.json` identifies the single tail subtype of the fluffy tail.
 It is a combination of `parts/subtypes/` (the subtypes folder), `tail/fluffy_tail/` (the part id), and `one_tail.json` (the subtype id).
-The namespace also matches the part, as the full part id is `tails:tail/fluffy_tail`.
+The namespace also matches the part, as the full part id is `tailslegacy:tail/fluffy_tail`.
 
 ### Making a subtype
 
@@ -169,7 +169,7 @@ The subtype definition will look like this:
 
 ```js
 {
-  "author": "EnderTurret" // replace this with your name when making your part
+  "author": "Example" // replace this with your name when making your part
 }
 ```
 
@@ -240,7 +240,7 @@ This is what the texture file format looks like:
 ```
 
 Similar to subtypes, texture files go in the `parts/textures` directory plus the part id.
-For example, `tails:parts/textures/tail/cat_tail/tiger.json` references the tiger texture of the cat tail.
+For example, `tailslegacy:parts/textures/tail/cat_tail/tiger.json` references the tiger texture of the cat tail.
 
 #### Texture ordering
 
@@ -295,12 +295,12 @@ And for the last easy part, let's add a translation:
 }
 ```
 
-Now before we can add a texture image, I need to explain how Tails's triple tinting works.
+Now before we can add a texture image, I need to explain how Tails Legacy's triple tinting works.
 
 #### How triple tinting works
 
-The basic understanding is that Tails takes three different tints and applies them to seemingly different parts of the image.
-This raises the question of "how does Tails know which tint goes where?"
+The basic understanding is that Tails Legacy takes three different tints and applies them to seemingly different parts of the image.
+This raises the question of "how does Tails Legacy know which tint goes where?"
 
 To answer this, let's first take a look at the fluffy tail part texture.
 
@@ -356,5 +356,5 @@ It may or may not be useful.
 
 Regardless of format, you can and should preview your texture in-game.
 Additionally, `F3 + T` forces a resource reload, which will also reload all of the parts.
-(You can also use Tails's keybind for reloading parts, but this won't reload the textures.)
+(You can also use Tails Legacy's keybind for reloading parts, but this won't reload the textures.)
 You can use that to aid in your development.

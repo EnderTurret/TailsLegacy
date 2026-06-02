@@ -18,5 +18,5 @@ public final class TailsInternal {
 	 * Whether to enable network debugging features, such as printing received packet data to the log.
 	 */
 	@Internal
-	public static final boolean DEBUG_NETWORK = Boolean.getBoolean("tails.debugNetwork");
+	public static final boolean DEBUG_NETWORK = Boolean.getBoolean("tailslegacy.debugNetwork");
 }

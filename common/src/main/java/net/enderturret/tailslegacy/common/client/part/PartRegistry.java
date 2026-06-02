@@ -105,7 +105,7 @@ public final class PartRegistry {
 	}
 
 	/**
-	 * Equivalent to {@link #reference(TResourceLocation)} with "tails" as the namespace.
+	 * Equivalent to {@link #reference(TResourceLocation)} with "tailslegacy" as the namespace.
 	 * @param id The id of the part.
 	 * @return The new reference.
 	 */

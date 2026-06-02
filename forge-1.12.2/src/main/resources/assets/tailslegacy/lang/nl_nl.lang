@@ -1,0 +1,79 @@
+tailslegacy.gui.part.none=Geen
+
+
+tailslegacy.part.tail/dragon_tail=Hagedissenstaart
+tailslegacy.part.tail/fluffy_tail=Zachte Staart
+tailslegacy.part.tail/raccoon_tail=Wasberenstaart
+tailslegacy.part.tail/devil_tail=Duivelsstaart
+tailslegacy.part.tail/cat_tail=Kattenstaart
+tailslegacy.part.tail/bird_tail=Vogelsstaart
+
+
+tailslegacy.part.tail/fluffy_tail.texture.standard=Vos
+tailslegacy.part.tail/devil_tail.texture.standard=Duivel
+tailslegacy.part.tail/raccoon_tail.texture.standard=Wasbeer
+tailslegacy.part.tail/dragon_tail.texture.standard=Kat
+tailslegacy.part.tail/dragon_tail.texture.striped=Gestreept
+tailslegacy.part.tail/cat_tail.texture.tiger=Tijger
+tailslegacy.part.tail/bird_tail.texture.standard=Vogel
+
+tailslegacy.part.ears/fox_ears=Vossenoren
+tailslegacy.part.ears/cat_ears=Kattenoren
+tailslegacy.part.ears/panda_ears=Pandaoren
+
+
+tailslegacy.part.ears/fox_ears.texture.standard=Vos
+tailslegacy.part.ears/cat_ears.texture.standard=Kat
+tailslegacy.part.ears/panda_ears.texture.standard=Panda
+
+tailslegacy.part.wings/big_wings=Grote Vleugels
+
+tailslegacy.part.wings/big_wings.texture.angel=Engelenvleugels
+tailslegacy.part.wings/big_wings.texture.metal=Metalen Vleugels
+
+
+
+
+
+tailslegacy.gui.button.editor=Staart Bewerker
+tailslegacy.gui.button.reset=Reset
+tailslegacy.gui.button.save=Opslaan
+tailslegacy.gui.button.edit=Wijzig
+tailslegacy.gui.button.help.camera=Klik en sleep in de voolbeeld venster om de speler te roteren
+tailslegacy.gui.button.reset.camera=Reset camera
+tailslegacy.gui.button.picker.0=Kleuren
+tailslegacy.gui.button.picker.1=Selecteer een punt op het scherm om die kleur te gebruiken
+tailslegacy.gui.library.button.favorite=Favorieten
+tailslegacy.gui.library.button.delete=Verwijder
+tailslegacy.gui.library.button.upload=Upload naar server
+tailslegacy.gui.library.button.savelocal=Opslaan in locale bibliotheek
+tailslegacy.gui.library.button.share=Exporteer naar clipboard, sturr de code naar je vrienden!
+tailslegacy.gui.button.mode.library=Bibliotheek
+tailslegacy.gui.button.mode.editor=Bewerker
+tailslegacy.gui.button.all=Alle
+
+tailslegacy.gui.slider.red.tooltip=Rood
+tailslegacy.gui.slider.green.tooltip=Groen
+tailslegacy.gui.slider.blue.tooltip=Blauw
+tailslegacy.gui.slider.hue.tooltip=Tint
+tailslegacy.gui.slider.saturation.tooltip=Verzadiging
+tailslegacy.gui.slider.brightness.tooltip=Helderheid
+
+tailslegacy.gui.library.create=Maak nieuw onderdeel
+tailslegacy.gui.library.entry.default=Nieuw onderdeel
+tailslegacy.gui.library.entry=Bibliotheek onderdeel
+tailslegacy.gui.library.info.created=Gemaakt door:
+tailslegacy.gui.library.info.createdate=Gemaakt op:
+tailslegacy.gui.library.info.toast.export=Bibliotheek onderdeel data gekopieerd naar clipboard!
+tailslegacy.gui.library.import.skin=Importeer via skin
+tailslegacy.gui.library.import.toast.skin=Data via de skin gelanden!
+tailslegacy.gui.library.import.toast.success=Het laden van onderdelen %s successvol!
+tailslegacy.gui.library.import.toast.invalid=Kan niet importeren, ongeldige data!
+tailslegacy.gui.library.import.toast.invalid.uuid=Kan niet importeren, UUID data is waarschijnlijk corrupt!
+tailslegacy.gui.library.import.toast.invalid.parts=Kan niet importeren, onderdeel data is waarschijnlijk corrupt!
+
+tailslegacy.gui.tint=Tint %s
+tailslegacy.gui.tint.edit=Tint %s aan het bewerken
+tailslegacy.gui.hex=Hex:
+tailslegacy.gui.texture=Textuur
+tailslegacy.gui.createdby=Gemaakt door:

@@ -1,0 +1,124 @@
+{
+  "attachment": "body/tail",
+  "ordering": [
+    "tabby",
+    "tiger"
+  ],
+  "allowArrows": true,
+  "model": {
+    "texture_size": [32, 32],
+    "tailBase": {
+      "pose": {
+        "rotation": [-0.5235987756, 0, 0]
+      },
+      "cubes": [
+        {
+          "uv": [0, 0],
+          "pos": [-0.5, -0.5, 0],
+          "size": [1, 1, 2]
+        }
+      ],
+      "children": {
+        "tail1": {
+          "pose": {
+            "pos": [0, 0, 1.75],
+            "rotation": [-0.5235987756, 0, 0]
+          },
+          "cubes": [
+            {
+              "uv": [0, 3],
+              "pos": [-0.5, -0.5, 0],
+              "size": [1, 1, 3]
+            }
+          ],
+          "children": {
+            "tail2": {
+              "pose": {
+                "pos": [0, 0, 2.75],
+                "rotation": [-0.5235987756, 0, 0]
+              },
+              "cubes": [
+                {
+                  "uv": [0, 7],
+                  "pos": [-0.5, -0.5, 0],
+                  "size": [1, 1, 6]
+                }
+              ],
+              "children": {
+                "tail3": {
+                  "pose": {
+                    "pos": [0, 0, 5.75],
+                    "rotation": [0.3490658504, 0, 0]
+                  },
+                  "cubes": [
+                    {
+                      "uv": [0, 14],
+                      "pos": [-0.5, -0.5, 0],
+                      "size": [1, 1, 3]
+                    }
+                  ],
+                  "children": {
+                    "tail4": {
+                      "pose": {
+                        "pos": [0, 0, 2.75],
+                        "rotation": [0.872664626, 0, 0]
+                      },
+                      "cubes": [
+                        {
+                          "uv": [0, 18],
+                          "pos": [-0.5, -0.5, 0],
+                          "size": [1, 1, 2]
+                        }
+                      ],
+                      "children": {
+                        "tail5": {
+                          "pose": {
+                            "pos": [0, 0, 1.75],
+                            "rotation": [0.872664626, 0, 0]
+                          },
+                          "cubes": [
+                            {
+                              "uv": [0, 21],
+                              "pos": [-0.5, -0.5, 0],
+                              "size": [1, 1, 2]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "animation": {
+    "type": "tailslegacy:default",
+    "duration": [12000, 6000, 12000],
+    "poses": {
+      "sitting": { "offset": [0.226892802759, 0, 0], "multiplier": [1, 0.25, 1] }
+    },
+    "motion": {
+      "x_offset": {
+        "multiplier": 0.285714285714,
+        "range": [-1, 0.33]
+      },
+      "y_multiplier": {
+        "angle": 0,
+        "multiplier": -2,
+        "offset": 1
+      }
+    },
+    "parts": {
+      "tailBase":                               {                                 "x_offset_factor": 2,    "y_step": 1, "y_factor": 0.125 },
+      "tailBase.tail1":                         {                                 "x_offset_factor": 2,    "y_step": 2, "y_factor": 0.125 },
+      "tailBase.tail1.tail2":                   {                                 "x_offset_factor": 2,    "y_step": 3, "y_factor": 0.125, "z_step": 3, "z_factor": 0.0625 },
+      "tailBase.tail1.tail2.tail3":             { "x_step": 4, "x_factor": 0.125, "x_offset_factor": -2,   "y_step": 4, "y_factor": 0.125, "z_step": 4, "z_factor": 0.125 },
+      "tailBase.tail1.tail2.tail3.tail4":       { "x_step": 5, "x_factor": 0.1,   "x_offset_factor": -2.5, "y_step": 5, "y_factor": 0.125, "z_step": 5, "z_factor": 0.125 },
+      "tailBase.tail1.tail2.tail3.tail4.tail5": { "x_step": 6, "x_factor": 0.1,   "x_offset_factor": -3,   "y_step": 6, "y_factor": 0.125, "z_step": 6, "z_factor": 0.125 }
+    }
+  }
+}

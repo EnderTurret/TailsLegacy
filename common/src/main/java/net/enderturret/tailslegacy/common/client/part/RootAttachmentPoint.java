@@ -34,7 +34,7 @@ public final class RootAttachmentPoint implements Comparable<RootAttachmentPoint
 	}
 
 	public String translationKey() {
-		return "tails.attachment." + id;
+		return "tailslegacy.attachment." + id;
 	}
 
 	/**

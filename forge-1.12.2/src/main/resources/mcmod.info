@@ -1,10 +1,10 @@
 [{
-  "modid": "tails",
+  "modid": "tailslegacy",
   "name": "Tails Legacy",
   "version": "${version}",
   "mcversion": "1.12.2",
   "description": "Adds a variety of accessories that can be colored in many ways.",
-  "authorList": ["Kihira", "EnderTurret"],
+  "authorList": ["EnderTurret", "Kihira"],
   "credits": "Adeon, BluSunrize, Dracyoshi, DustSkys, ItsMeTea, PuffballFungus, TTFTCUTS, access_denied, carrotcodes, littlechippie",
   "url": "https://github.com/EnderTurret/Tails"
 }]

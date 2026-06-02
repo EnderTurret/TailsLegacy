@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 import zone.rong.mixinbooter.IEarlyMixinLoader;
 
-@IFMLLoadingPlugin.Name("Tails")
+@IFMLLoadingPlugin.Name("Tails Legacy")
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.SortingIndex(1000)
 public class TailsPlugin implements IFMLLoadingPlugin, IEarlyMixinLoader {

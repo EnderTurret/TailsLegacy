@@ -1,0 +1,60 @@
+{
+  "tailslegacy.gui.part.none": "Bez ohonu",
+
+
+  "tailslegacy.part.tail/dragon_tail": "Ještěří ohon",
+  "tailslegacy.part.tail/fluffy_tail": "Načechraný ohon",
+  "tailslegacy.part.tail/raccoon_tail": "Mývalí ohon",
+  "tailslegacy.part.tail/devil_tail": "Ďábelský ohon",
+  "tailslegacy.part.tail/cat_tail": "Kočičí ohon",
+  "tailslegacy.part.tail/bird_tail": "Ptačí ohon",
+
+
+  "tailslegacy.part.tail/fluffy_tail.texture.standard": "Liška",
+  "tailslegacy.part.tail/devil_tail.texture.standard": "Ďábel",
+  "tailslegacy.part.tail/raccoon_tail.texture.standard": "Mýval",
+  "tailslegacy.part.tail/dragon_tail.texture.standard": "Kočka",
+  "tailslegacy.part.tail/dragon_tail.texture.striped": "Pruhovaný",
+  "tailslegacy.part.tail/cat_tail.texture.tiger": "Tygr",
+  "tailslegacy.part.tail/bird_tail.texture.standard": "Pták",
+
+  "tailslegacy.part.ears/fox_ears": "Liščí uši",
+  "tailslegacy.part.ears/cat_ears": "Kočičí uši",
+  "tailslegacy.part.ears/panda_ears": "Pandí uši",
+
+
+  "tailslegacy.part.ears/fox_ears.texture.standard": "Liška",
+  "tailslegacy.part.ears/cat_ears.texture.standard": "Kočka",
+  "tailslegacy.part.ears/panda_ears.texture.standard": "Panda",
+
+  "tailslegacy.part.wings/big_wings": "Velké křídla",
+
+  "tailslegacy.part.wings/big_wings.texture.angel": "Andělské křídla",
+  "tailslegacy.part.wings/big_wings.texture.metal": "Železné křídla",
+
+
+
+
+
+  "tailslegacy.gui.button.editor": "Editor ohonů",
+  "tailslegacy.gui.button.reset": "Resetovat",
+  "tailslegacy.gui.button.save": "Uložit",
+  "tailslegacy.gui.button.edit": "Upravit",
+  "tailslegacy.gui.button.help.camera": "Klikni a táhni v okně náhledu pro otočení postavy",
+  "tailslegacy.gui.button.reset.camera": "Obnovit kameru",
+  "tailslegacy.gui.button.picker.0": "Výběr barvy",
+  "tailslegacy.gui.button.picker.1": "Vyber bod na obrazovce, jehož barva se má použít",
+
+  "tailslegacy.gui.slider.red.tooltip": "Červená",
+  "tailslegacy.gui.slider.green.tooltip": "Zelená",
+  "tailslegacy.gui.slider.blue.tooltip": "Modrá",
+  "tailslegacy.gui.slider.hue.tooltip": "Odstín",
+  "tailslegacy.gui.slider.saturation.tooltip": "Saturace",
+  "tailslegacy.gui.slider.brightness.tooltip": "Jas",
+
+
+  "tailslegacy.gui.tint": "Odstín %s",
+  "tailslegacy.gui.tint.edit": "Úprava odstínu %s",
+  "tailslegacy.gui.hex": "Hex:",
+  "tailslegacy.gui.texture": "Textura"
+}

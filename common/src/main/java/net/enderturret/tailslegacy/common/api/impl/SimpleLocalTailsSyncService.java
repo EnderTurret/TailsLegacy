@@ -22,7 +22,7 @@ import net.enderturret.tailslegacy.common.part.PartsData;
  */
 public final class SimpleLocalTailsSyncService implements ITailsSyncService {
 
-	private static final boolean DEBUG = Boolean.getBoolean("tails.local-sync.debug");
+	private static final boolean DEBUG = Boolean.getBoolean("tailslegacy.local-sync.debug");
 
 	private final Path dir;
 
@@ -38,7 +38,7 @@ public final class SimpleLocalTailsSyncService implements ITailsSyncService {
 	}
 
 	public static SimpleLocalTailsSyncService fromConfigDir(Path configDir) {
-		return new SimpleLocalTailsSyncService(configDir.resolve("tails-sync"));
+		return new SimpleLocalTailsSyncService(configDir.resolve("tailslegacy-sync"));
 	}
 
 	@Override

@@ -27,8 +27,8 @@ public final class AnimatorTest {
 	private static Path animationRoot;
 
 	public static void main(String[] args) throws Exception {
-		System.setProperty("tails.testing.time", "1500");
-		animationRoot = Paths.get("src/main/resources/assets/tails/tails/parts/tail");
+		System.setProperty("tailslegacy.testing.time", "1500");
+		animationRoot = Paths.get("src/main/resources/assets/tailslegacy/tailslegacy/parts/tail");
 
 		test("cat_tail", instantiate("CatTailModel"));
 		test("devil_tail", instantiate("DevilTailModel"));
@@ -107,7 +107,7 @@ public final class AnimatorTest {
 	}
 
 	private static PartModel instantiate(String name) throws Exception {
-		final Class<?> cls = Class.forName("uk.kihira.tails.common.client.model.body." + name);
+		final Class<?> cls = Class.forName("net.enderturret.tailslegacy.common.client.model.body." + name);
 		final Constructor<?> ctor = cls.getDeclaredConstructor();
 		ctor.setAccessible(true);
 		return (PartModel) ctor.newInstance();

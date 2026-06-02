@@ -5,7 +5,7 @@ import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 
 public final class PartModelHelper {
 
-	private static final long TESTING_TIME = Long.parseLong(System.getProperty("tails.testing.time", "0"));
+	private static final long TESTING_TIME = Long.parseLong(System.getProperty("tailslegacy.testing.time", "0"));
 
 	public static double rad(double degrees) {
 		return Math.toRadians(degrees);

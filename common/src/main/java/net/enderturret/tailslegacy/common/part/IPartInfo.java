@@ -76,26 +76,26 @@ public interface IPartInfo extends Comparable<IPartInfo> {
 	public default void clearGlTexture() {}
 
 	public default String getSubTypeTranslationKey() {
-		if (isEmpty()) return "tails.subtype.none";
+		if (isEmpty()) return "tailslegacy.subtype.none";
 		return getPartId().t$getNamespace() + ".part." + getPartId().t$getPath() + ".subtype." + getSubTypeId();
 	}
 
 	@Nullable
 	public default String getFallbackSubTypeTranslationKey() {
 		final String id = getSubTypeId();
-		if ("default".equals(id) || "standard".equals(id)) return "tails.part.default";
+		if ("default".equals(id) || "standard".equals(id)) return "tailslegacy.part.default";
 		return null;
 	}
 
 	public default String getTextureTranslationKey() {
-		if (isEmpty()) return "tails.texture.none";
+		if (isEmpty()) return "tailslegacy.texture.none";
 		return getPartId().t$getNamespace() + ".part." + getPartId().t$getPath() + ".texture." + getTextureId();
 	}
 
 	@Nullable
 	public default String getFallbackTextureTranslationKey() {
 		final String id = getTextureId();
-		if ("default".equals(id) || "standard".equals(id)) return "tails.part.default";
+		if ("default".equals(id) || "standard".equals(id)) return "tailslegacy.part.default";
 		return null;
 	}
 

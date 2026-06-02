@@ -54,7 +54,7 @@ public class PartLoadingManager {
 	/**
 	 * Whether to dump registry contents on (re)load.
 	 */
-	private static final boolean DEBUG_REGISTRIES = Boolean.getBoolean("tails.debugRegistries");
+	private static final boolean DEBUG_REGISTRIES = Boolean.getBoolean("tailslegacy.debugRegistries");
 
 	/**
 	 * @param clear A callback to run when the manager is cleared.
@@ -134,7 +134,7 @@ public class PartLoadingManager {
 	 * @return The fully-baked list of parts.
 	 */
 	private List<Part> reloadParts(ResourceManagerWrapper manager) {
-		Map<TResourceLocation, JsonElement> resources = manager.listJsonFiles("tails/parts", rl -> rl.t$getPath().endsWith(".json"));
+		Map<TResourceLocation, JsonElement> resources = manager.listJsonFiles("tailslegacy/parts", rl -> rl.t$getPath().endsWith(".json"));
 
 		final List<ResourcePair> parts = new ArrayList<>();
 
@@ -142,14 +142,14 @@ public class PartLoadingManager {
 			parts.add(new ResourcePair(entry.getKey(), entry.getValue()));
 
 		final List<ResourcePair> subTypes = new ArrayList<>();
-		resources = manager.listJsonFiles("tails/subtypes", rl -> rl.t$getPath().endsWith(".json"));
+		resources = manager.listJsonFiles("tailslegacy/subtypes", rl -> rl.t$getPath().endsWith(".json"));
 
 		for (Map.Entry<TResourceLocation, JsonElement> entry : resources.entrySet())
 			subTypes.add(new ResourcePair(entry.getKey(), entry.getValue()));
 
 		final List<ResourcePair> textures = new ArrayList<>();
 		final List<ResourcePair> orderings = new ArrayList<>();
-		resources = manager.listJsonFiles("tails/part_textures", rl -> rl.t$getPath().endsWith(".json"));
+		resources = manager.listJsonFiles("tailslegacy/part_textures", rl -> rl.t$getPath().endsWith(".json"));
 
 		for (Map.Entry<TResourceLocation, JsonElement> entry : resources.entrySet()) {
 			final String path = entry.getKey().t$getPath();
@@ -175,7 +175,7 @@ public class PartLoadingManager {
 			for (int i = 0; i < arr.size(); i++)
 				values.add(arr.get(i).getAsString());
 
-			String id = trim(pair.location.t$getPath(), "tails/part_textures/");
+			String id = trim(pair.location.t$getPath(), "tailslegacy/part_textures/");
 			id = id.substring(0, id.length() - "/ordering".length());
 
 			realOrderings.put(pair.location.t$withPath(id), values);
@@ -269,7 +269,7 @@ public class PartLoadingManager {
 	 * @return The part.
 	 */
 	private static Part readPart(TResourceLocation location, JsonObject json, List<NamedSubType> subTypes) {
-		final String id = trim(location.t$getPath(), "tails/parts/");
+		final String id = trim(location.t$getPath(), "tailslegacy/parts/");
 		final TResourceLocation realId = location.t$withPath(id);
 
 		final AttachmentPoint attachment = AttachmentPoints.getOrCreate(TailsGsonHelper.getAsString(json, "attachment"));
@@ -347,7 +347,7 @@ public class PartLoadingManager {
 	 * @return The subtype.
 	 */
 	private static NamedSubType readSubType(TResourceLocation location, JsonObject json, List<NamedTexture> textures, Map<TResourceLocation, List<String>> textureOrderings) {
-		final String id = trim(location.t$getPath(), "tails/subtypes/");
+		final String id = trim(location.t$getPath(), "tailslegacy/subtypes/");
 
 		final String partPath = id.substring(0, id.lastIndexOf('/'));
 		final TResourceLocation partId = location.t$withPath(partPath);
@@ -377,7 +377,7 @@ public class PartLoadingManager {
 	 * @return The texture.
 	 */
 	private static NamedTexture readTexture(TResourceLocation location, JsonObject json) {
-		final String id = trim(location.t$getPath(), "tails/part_textures/");
+		final String id = trim(location.t$getPath(), "tailslegacy/part_textures/");
 
 		final String partPath = id.substring(0, id.lastIndexOf('/'));
 		final TResourceLocation partId = location.t$withPath(partPath);

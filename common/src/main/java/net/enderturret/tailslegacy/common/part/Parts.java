@@ -65,26 +65,30 @@ public final class Parts {
 	private static final Map<String, String> REMAP = new HashMap<>();
 
 	static {
-		REMAP.put("fluffy_tail", "tail/fluffy_tail");
-		REMAP.put("dragon_tail", "tail/dragon_tail");
-		REMAP.put("raccoon_tail", "tail/raccoon_tail");
-		REMAP.put("devil_tail", "tail/devil_tail");
-		REMAP.put("cat_tail", "tail/cat_tail");
-		REMAP.put("bird_tail", "tail/bird_tail");
-		REMAP.put("shark_tail", "tail/shark_tail");
-		REMAP.put("bunny_tail", "tail/bunny_tail");
-		REMAP.put("fox_ears", "ears/fox_ears");
-		REMAP.put("cat_ears", "ears/cat_ears");
-		REMAP.put("panda_ears", "ears/panda_ears");
-		REMAP.put("small_cat_ears", "ears/small_cat_ears");
-		REMAP.put("sea_pickle", "ears/sea_pickle");
-		REMAP.put("standard_muzzle", "muzzle/standard_muzzle");
-		REMAP.put("slim_muzzle", "muzzle/slim_muzzle");
-		REMAP.put("thin_muzzle", "muzzle/thin_muzzle");
-		REMAP.put("big_wings", "wings/big_wings");
+		remapTailsToLegacy("fluffy_tail", "tail/fluffy_tail");
+		remapTailsToLegacy("dragon_tail", "tail/dragon_tail");
+		remapTailsToLegacy("raccoon_tail", "tail/raccoon_tail");
+		remapTailsToLegacy("devil_tail", "tail/devil_tail");
+		remapTailsToLegacy("cat_tail", "tail/cat_tail");
+		remapTailsToLegacy("bird_tail", "tail/bird_tail");
+		remapTailsToLegacy("shark_tail", "tail/shark_tail");
+		remapTailsToLegacy("bunny_tail", "tail/bunny_tail");
+		remapTailsToLegacy("fox_ears", "ears/fox_ears");
+		remapTailsToLegacy("cat_ears", "ears/cat_ears");
+		remapTailsToLegacy("panda_ears", "ears/panda_ears");
+		remapTailsToLegacy("small_cat_ears", "ears/small_cat_ears");
+		remapTailsToLegacy("sea_pickle", "ears/sea_pickle");
+		remapTailsToLegacy("standard_muzzle", "muzzle/standard_muzzle");
+		remapTailsToLegacy("slim_muzzle", "muzzle/slim_muzzle");
+		remapTailsToLegacy("thin_muzzle", "muzzle/thin_muzzle");
+		remapTailsToLegacy("big_wings", "wings/big_wings");
 
-		REMAP.put("ears/head_fin", "ears/small_head_frill");
-		REMAP.put("ears/side_fins", "ears/small_side_frills");
+		remapTailsToLegacy("ears/head_fin", "ears/small_head_frill");
+		remapTailsToLegacy("ears/side_fins", "ears/small_side_frills");
+	}
+
+	private static void remapTailsToLegacy(String from, String to) {
+		REMAP.put("tails:" + from, "tailslegacy:" + to);
 	}
 
 	/**
@@ -93,8 +97,8 @@ public final class Parts {
 	 * @return The remapped id.
 	 */
 	public static TResourceLocation remapId(TResourceLocation id) {
-		if ("tails".equals(id.t$getNamespace())) {
-			final String newPath = REMAP.get(id.t$getPath());
+		if ("tails".equals(id.t$getNamespace()) || "tailslegacy".equals(id.t$getNamespace())) {
+			final String newPath = REMAP.get(id.t$getNamespace() + ':' + id.t$getPath());
 			if (newPath != null)
 				return id.t$withPath(newPath);
 		}
@@ -110,14 +114,14 @@ public final class Parts {
 	 */
 	public static String legacySubType(TResourceLocation id, int subType) {
 		switch (id.toString()) {
-			case "tails:tail/fluffy_tail": return map(subType, "one_tail", "two_tails", "nine_tails");
-			case "tails:tail/dragon_tail": return map(subType, "lizard_tail", "dragon_tail");
-			case "tails:tail/devil_tail": return map(subType, "with_tip", "no_tip");
-			case "tails:ears/fox_ears": return map(subType, "outward", "inward");
-			case "tails:muzzle/slim_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
-			case "tails:muzzle/standard_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
-			case "tails:muzzle/thin_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
-			case "tails:wings/big_wings": return map(subType, "large", "small");
+			case "tailslegacy:tail/fluffy_tail": return map(subType, "one_tail", "two_tails", "nine_tails");
+			case "tailslegacy:tail/dragon_tail": return map(subType, "lizard_tail", "dragon_tail");
+			case "tailslegacy:tail/devil_tail": return map(subType, "with_tip", "no_tip");
+			case "tailslegacy:ears/fox_ears": return map(subType, "outward", "inward");
+			case "tailslegacy:muzzle/slim_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
+			case "tailslegacy:muzzle/standard_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
+			case "tailslegacy:muzzle/thin_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
+			case "tailslegacy:wings/big_wings": return map(subType, "large", "small");
 			default: return "standard";
 		}
 	}
@@ -130,12 +134,12 @@ public final class Parts {
 	 */
 	public static String legacyTexture(TResourceLocation id, int texture) {
 		switch (id.toString()) {
-			case "tails:tail/dragon_tail": return map(texture, "standard", "striped");
-			case "tails:tail/cat_tail": return map(texture, "tabby", "tiger");
-			case "tails:muzzle/slim_muzzle": return map(texture, "standard", "alt");
-			case "tails:muzzle/standard_muzzle": return map(texture, "standard", "alt");
-			case "tails:muzzle/thin_muzzle": return map(texture, "standard", "alt");
-			case "tails:wings/big_wings": return map(texture, "metal", "dragon", "dragon_boneless");
+			case "tailslegacy:tail/dragon_tail": return map(texture, "standard", "striped");
+			case "tailslegacy:tail/cat_tail": return map(texture, "tabby", "tiger");
+			case "tailslegacy:muzzle/slim_muzzle": return map(texture, "standard", "alt");
+			case "tailslegacy:muzzle/standard_muzzle": return map(texture, "standard", "alt");
+			case "tailslegacy:muzzle/thin_muzzle": return map(texture, "standard", "alt");
+			case "tailslegacy:wings/big_wings": return map(texture, "metal", "dragon", "dragon_boneless");
 			default: return "standard";
 		}
 	}
@@ -152,7 +156,7 @@ public final class Parts {
 	}
 
 	/**
-	 * Utility method to build a {@link TResourceLocation} in the Tails namespace.
+	 * Utility method to build a {@link TResourceLocation} in the Tails Legacy namespace.
 	 * @param path The path of the {@link TResourceLocation}.
 	 * @return The new {@link TResourceLocation}.
 	 */

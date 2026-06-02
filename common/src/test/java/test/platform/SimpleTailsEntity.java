@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2026 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
 package test.platform;
 
 import java.util.UUID;

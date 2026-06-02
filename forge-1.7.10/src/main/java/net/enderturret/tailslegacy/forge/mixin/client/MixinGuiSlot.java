@@ -1,3 +1,11 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2025 EnderTurret
+ *
+ * See LICENSE for full License
+ */
+
 package net.enderturret.tailslegacy.forge.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;

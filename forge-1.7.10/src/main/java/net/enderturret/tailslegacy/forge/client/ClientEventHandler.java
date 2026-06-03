@@ -24,6 +24,7 @@ import org.lwjgl.input.Cursor;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.resources.IReloadableResourceManager;
@@ -66,6 +67,8 @@ import cpw.mods.fml.common.network.FMLNetworkEvent;
 @Internal
 public final class ClientEventHandler {
 
+	private static boolean originalTailsLoaded;
+
 	public static final ThreadLocal<RenderPlayer> ACTIVE_PLAYER_RENDERER = ThreadLocal.withInitial(() -> null);
 	public static volatile float partialTick;
 
@@ -94,6 +97,8 @@ public final class ClientEventHandler {
 			maybeDestroyCursor();
 			registerCursor(manager);
 		});
+
+		originalTailsLoaded = Loader.isModLoaded("tails");
 
 		if (Loader.isModLoaded("botania"))
 			registerFoxtato(); // Try to avoid class loading it if Botania isn't present.
@@ -139,6 +144,7 @@ public final class ClientEventHandler {
 	private static boolean clearAllPartInfo = false;
 
 	private static final int EDITOR_ID = 20240901;
+	private static final int ORIGINAL_TAILS_ID = 1234;
 
 	/*
 	 * Tails Editor Button
@@ -146,9 +152,21 @@ public final class ClientEventHandler {
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
 	public void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
-		if (event.gui instanceof GuiIngameMenu)
-			event.buttonList.add(new GuiButtonExt(EDITOR_ID, event.gui.width / 2 - 35, event.gui.height - 25, 70, 20,
-					TailsComponents.EDITOR_BUTTON.getFormattedText()));
+		if (!(event.gui instanceof GuiIngameMenu)) return;
+
+		int offset = 0;
+		if (originalTailsLoaded)
+			for (Object button : event.buttonList)
+				if (button instanceof GuiButton && ((GuiButton) button).id == ORIGINAL_TAILS_ID) {
+					offset = -22;
+					break;
+				}
+
+		event.buttonList.add(new GuiButtonExt(EDITOR_ID,
+				event.gui.width / 2 - 35,
+				event.gui.height - 25 + offset,
+				70, 20,
+				TailsComponents.EDITOR_BUTTON.getFormattedText()));
 	}
 
 	@SubscribeEvent

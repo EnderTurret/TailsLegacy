@@ -24,6 +24,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerArrow;
@@ -41,6 +42,7 @@ import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -74,6 +76,8 @@ import net.enderturret.tailslegacy.forge.mixin.client.RenderLivingBaseAccess;
 @EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Side.CLIENT)
 public final class ClientEventHandler {
 
+	private static boolean originalTailsLoaded;
+
 	public static void onPreInit(FMLPreInitializationEvent e) {
 		TailsConfig.CLIENT_INSTANCE.load(e.getModConfigurationDirectory());
 
@@ -90,6 +94,8 @@ public final class ClientEventHandler {
 				registerCursor(manager);
 			}
 		});
+
+		originalTailsLoaded = Loader.isModLoaded("tails");
 
 		if (Loader.isModLoaded("botania"))
 			registerFoxtato(); // Try to avoid class loading it if Botania isn't present.
@@ -147,15 +153,28 @@ public final class ClientEventHandler {
 	private static boolean clearAllPartInfo = false;
 
 	private static final int EDITOR_ID = 20240901;
+	private static final int ORIGINAL_TAILS_ID = 1234;
 
 	/*
 	 * Tails Editor Button
 	 */
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	static void onScreenInitPost(GuiScreenEvent.InitGuiEvent.Post event) {
-		if (event.getGui() instanceof GuiIngameMenu)
-			event.getButtonList().add(new GuiButtonExt(EDITOR_ID, event.getGui().width / 2 - 35, event.getGui().height - 25, 70, 20,
-					TailsComponents.EDITOR_BUTTON.getFormattedText()));
+		if (!(event.getGui() instanceof GuiIngameMenu)) return;
+
+		int offset = 0;
+		if (originalTailsLoaded)
+			for (GuiButton button : event.getButtonList())
+				if (button.id == ORIGINAL_TAILS_ID) {
+					offset = -22;
+					break;
+				}
+
+		event.getButtonList().add(new GuiButtonExt(EDITOR_ID,
+				event.getGui().width / 2 - 35,
+				event.getGui().height - 25 + offset,
+				70, 20,
+				TailsComponents.EDITOR_BUTTON.getFormattedText()));
 	}
 
 	@SubscribeEvent

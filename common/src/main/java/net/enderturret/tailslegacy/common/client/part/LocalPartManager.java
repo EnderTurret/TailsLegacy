@@ -63,6 +63,10 @@ public final class LocalPartManager {
 			else
 				localPartsData = (ClientPartsData) GSON.fromJson(localPlayerOutfit, PartsData.class);
 
+			for (ClientPartInfo info : localPartsData.getParts())
+				if (info.getPart() == null)
+					TailsPlatform.get().logInfo("Unknown part in local part data: {}", info.getPartId());
+
 			// Check if the data was upgraded, and write it back to the config if so.
 			final String json = GSON.toJson(localPartsData);
 			if (!json.equals(localPlayerOutfit))

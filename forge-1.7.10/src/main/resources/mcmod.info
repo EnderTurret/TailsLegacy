@@ -3,8 +3,8 @@
   "name": "Tails Legacy",
   "version": "${version}",
   "mcversion": "1.7.10",
-  "description": "Adds a variety of accessories that can be colored in many ways.",
+  "description": "Adds a wealth of recolorable tails, ears, wings, and head accessories for players to wear.",
   "authorList": ["EnderTurret", "Kihira"],
-  "credits": "Adeon, BluSunrize, Dracyoshi, DustSkys, ItsMeTea, PuffballFungus, TTFTCUTS, access_denied, carrotcodes, littlechippie",
+  "credits": "See the CREDITS.md file on the GitHub repository for credits.",
   "url": "https://github.com/EnderTurret/Tails"
 }]

@@ -8,34 +8,11 @@ issueTrackerURL="https://github.com/EnderTurret/Tails/issues"
     displayName="Tails Legacy"
     displayURL="https://github.com/EnderTurret/Tails"
     description='''
-Adds a variety of accessories that can be colored in many ways.
-
-=== Credits ===
-
-Includes models and textures by:
-- Adeon
-- BluSunrize
-- Dracyoshi
-- DustSkys
-- ItsMeTea
-- PuffballFungus
-- TTFTCUTS
-- access_denied
-- carrotcodes
-- littlechippie
-
-Also includes translations by:
-- AegisLesha
-- BluSunrize
-- CallMeFoxie
-- Guro2
-- NekoiNemo
-- Xiretza
-- Zalthrion
-- iLexiconn
+Adds a wealth of recolorable tails, ears, wings, and head accessories for players to wear.
 '''
     version="${file.jarVersion}"
     authors="EnderTurret, Kihira"
+    credits="See the CREDITS.md file on the GitHub repository for credits."
 
 [[mixins]]
     config="mixins.tailslegacy.json"

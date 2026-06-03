@@ -61,7 +61,7 @@ processResources {
 
 tasks.named('jar', Jar).configure {
     manifest.attributes([
-        'FMLCorePlugin': 'uk.kihira.tails.forge.asm.TailsPlugin',
+        'FMLCorePlugin': 'net.enderturret.tailslegacy.forge.asm.TailsPlugin',
         'FMLCorePluginContainsFMLMod': true
     ])
 }

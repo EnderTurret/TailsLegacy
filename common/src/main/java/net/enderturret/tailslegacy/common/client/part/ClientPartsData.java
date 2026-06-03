@@ -48,7 +48,7 @@ public class ClientPartsData extends PartsData {
 
 	public ClientPartInfo getPartInfo(AttachmentPoint attachment) {
 		for (ClientPartInfo info : getParts())
-			if (info.getPart().getAttachment().equals(attachment))
+			if (info.getPart() != null && info.getPart().getAttachment().equals(attachment))
 				return info;
 
 		return empty();
@@ -58,9 +58,11 @@ public class ClientPartsData extends PartsData {
 		Objects.requireNonNull(attachment);
 		Objects.requireNonNull(info);
 
-		for (Iterator<IPartInfo> it = parts.iterator(); it.hasNext(); )
-			if (((ClientPartInfo) it.next()).getPart().getAttachment().equals(attachment))
+		for (Iterator<IPartInfo> it = parts.iterator(); it.hasNext(); ) {
+			final ClientPartInfo part = (ClientPartInfo) it.next();
+			if (part.getPart() == null || part.getPart().getAttachment().equals(attachment))
 				it.remove();
+		}
 
 		addPartInfo(info);
 	}

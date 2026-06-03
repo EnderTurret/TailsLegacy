@@ -188,7 +188,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * @return The resolved subtype.
 	 */
 	public Part.SubType getSubType() {
-		return part == null ? null : part.get().getSubType(subType);
+		return getPart() == null ? null : part.get().getSubType(subType);
 	}
 
 	@Override

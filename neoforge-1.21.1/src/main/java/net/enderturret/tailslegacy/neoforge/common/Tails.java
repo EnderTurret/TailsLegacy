@@ -32,8 +32,12 @@ public final class Tails {
 	@Internal
 	public Tails(ModContainer mc) {
 		if (FMLEnvironment.dist == Dist.CLIENT) {
-			TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
+			final String data = TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
 			mc.registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
+			if (data != null) {
+				TailsConfig.CLIENT_INSTANCE.localPlayerData.set(data);
+				TailsConfig.CLIENT_SPEC.save();
+			}
 		}
 	}
 }

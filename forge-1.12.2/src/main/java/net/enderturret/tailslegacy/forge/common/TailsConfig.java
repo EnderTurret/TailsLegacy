@@ -39,7 +39,7 @@ public final class TailsConfig {
 	public void load(File configDir) {
 		this.configDir = configDir;
 
-		final String data = TailsInternal.maybeMigrateCFGConfig(configDir.toPath());
+		final String data = TailsInternal.maybeMigrateCFGConfig(configDir.toPath(), false);
 
 		config = new Configuration(new File(configDir, "TailsLegacy.cfg"));
 

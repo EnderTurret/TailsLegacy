@@ -24,14 +24,14 @@ public final class TailsInternal {
 	@Internal
 	public static final boolean DEBUG_NETWORK = Boolean.getBoolean("tailslegacy.debugNetwork");
 
-	public static void maybeMigrateTomlConfig(Path configDir) {
+	public static String maybeMigrateTomlConfig(Path configDir) {
 		final Path newConfig = configDir.resolve("tailslegacy-client.toml");
 
-		if (Files.exists(newConfig)) return;
+		if (Files.exists(newConfig)) return null;
 
 		final Path oldConfig = configDir.resolve("tails-client.toml");
 
-		if (!Files.exists(oldConfig)) return;
+		if (!Files.exists(oldConfig)) return maybeMigrateCFGConfig(configDir, true);
 
 		try {
 			boolean matched = false;
@@ -41,7 +41,7 @@ public final class TailsInternal {
 					break;
 				}
 
-			if (!matched) return;
+			if (!matched) return null;
 
 			TailsPlatform.get().logInfo("Migrating tails-client.toml to tailslegacy-client.toml...");
 
@@ -49,17 +49,25 @@ public final class TailsInternal {
 		} catch (IOException e) {
 			TailsPlatform.get().logError("Exception migrating config file:", e);
 		}
+
+		return null;
 	}
 
-	public static String maybeMigrateCFGConfig(Path configDir) {
+	public static String maybeMigrateCFGConfig(Path configDir, boolean simulate) {
 		final Path newConfig = configDir.resolve("TailsLegacy.cfg");
 
-		if (Files.exists(newConfig)) return null;
+		// If we're simulating, don't bother checking for the new config.
+		// We're only here for the legacy data (if available).
+		if (!simulate && Files.exists(newConfig)) return null;
 
 		Path oldConfig = configDir.resolve("Tails.cfg");
 
 		// Try the Tails 1.12 config name, if we can't find the 1.7 version or our own old one.
 		if (!Files.exists(oldConfig)) oldConfig = configDir.resolve("tails.cfg");
+
+		// If we're specifically looking for old data, try our own legacy version config.
+		// (This allows people to take their Tails Legacy configs for older versions and drop them into a newer version.)
+		if (simulate && !Files.exists(oldConfig)) oldConfig = configDir.resolve("TailsLegacy.cfg");
 
 		if (!Files.exists(oldConfig)) return null;
 
@@ -83,9 +91,8 @@ public final class TailsInternal {
 
 			if (match == null) return null;
 
-			TailsPlatform.get().logInfo("Migrating Tails.cfg to TailsLegacy.cfg...");
-
-			if (ourConfig) {
+			if (!simulate && ourConfig) {
+				TailsPlatform.get().logInfo("Migrating Tails.cfg to TailsLegacy.cfg...");
 				Files.move(oldConfig, newConfig);
 				return null;
 			}

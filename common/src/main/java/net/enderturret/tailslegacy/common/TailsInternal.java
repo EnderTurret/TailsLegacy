@@ -25,10 +25,13 @@ public final class TailsInternal {
 	public static final boolean DEBUG_NETWORK = Boolean.getBoolean("tailslegacy.debugNetwork");
 
 	public static void maybeMigrateTomlConfig(Path configDir) {
-		final Path oldConfig = configDir.resolve("tails-client.toml");
 		final Path newConfig = configDir.resolve("tailslegacy-client.toml");
 
-		if (Files.exists(newConfig) || !Files.exists(oldConfig)) return;
+		if (Files.exists(newConfig)) return;
+
+		final Path oldConfig = configDir.resolve("tails-client.toml");
+
+		if (!Files.exists(oldConfig)) return;
 
 		try {
 			boolean matched = false;
@@ -49,10 +52,16 @@ public final class TailsInternal {
 	}
 
 	public static String maybeMigrateCFGConfig(Path configDir) {
-		final Path oldConfig = configDir.resolve("Tails.cfg");
 		final Path newConfig = configDir.resolve("TailsLegacy.cfg");
 
-		if (Files.exists(newConfig) || !Files.exists(oldConfig)) return null;
+		if (Files.exists(newConfig)) return null;
+
+		Path oldConfig = configDir.resolve("Tails.cfg");
+
+		// Try the Tails 1.12 config name, if we can't find the 1.7 version or our own old one.
+		if (!Files.exists(oldConfig)) oldConfig = configDir.resolve("tails.cfg");
+
+		if (!Files.exists(oldConfig)) return null;
 
 		try {
 			boolean ourConfig = false;

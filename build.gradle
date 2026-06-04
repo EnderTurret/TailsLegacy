@@ -1,4 +1,4 @@
-group = 'uk.kihira'
+group = 'net.enderturret'
 
 subprojects {
     apply plugin: 'java'
@@ -8,11 +8,11 @@ subprojects {
 
     java.withSourcesJar()
 
-    group = 'uk.kihira'
+    group = 'net.enderturret'
     version = "${mod_version}+${loader}"
 
     base {
-        archivesName = 'Tails'
+        archivesName = 'TailsLegacy'
     }
 
     repositories {
@@ -53,10 +53,10 @@ subprojects {
     tasks.named('jar', Jar).configure {
         manifest {
             attributes([
-                'Specification-Title': 'Tails',
-                'Specification-Vendor': 'Kihira',
+                'Specification-Title': 'Tails Legacy',
+                'Specification-Vendor': 'EnderTurret',
                 'Specification-Version': '1',
-                'Implementation-Title': project.name,
+                'Implementation-Title': 'Tails Legacy',
                 'Implementation-Version': "${version}",
                 'Implementation-Vendor': 'EnderTurret'
             ])

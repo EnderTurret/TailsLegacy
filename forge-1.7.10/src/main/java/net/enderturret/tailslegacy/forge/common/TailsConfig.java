@@ -14,6 +14,9 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraftforge.common.config.Configuration;
 
+import net.enderturret.tailslegacy.common.TailsInternal;
+import net.enderturret.tailslegacy.common.TailsPlatform;
+
 /**
  * The Tails config, for all your configuration needs.
  * Configuration sold separately.
@@ -35,20 +38,22 @@ public final class TailsConfig {
 
 	public void load(File configDir) {
 		this.configDir = configDir;
-		config = new Configuration(new File(configDir, "Tails.cfg"));
+
+		final String data = TailsInternal.maybeMigrateCFGConfig(configDir.toPath());
+
+		config = new Configuration(new File(configDir, "TailsLegacy.cfg"));
 
 		hidePreviewInThirdPerson = config.getBoolean("Hide Preview In Third Person", Configuration.CATEGORY_GENERAL, true,
 				"Whether to hide the preview in the editor screen when in third person mode.");
 
-		// Backwards compatibility with early 1.7.10 versions of the original Tails.
-		// I suspect none of those builds are in use any more, but reading this field is practically free.
-		config.renameProperty(Configuration.CATEGORY_GENERAL, "Local Tail Info", "Local Player Data");
-
 		localPlayerData = config.getString("Local Player Data", Configuration.CATEGORY_GENERAL, "",
 				"The local player's customization data. Editing this manually is discouraged.");
 
-		// Just in case it's present.
-		config.getCategory(Configuration.CATEGORY_GENERAL).remove("Enable Library");
+		if (data != null) {
+			TailsPlatform.get().logInfo("Found old customization data, migrating!\n{}", data);
+			localPlayerData = data;
+			config.getCategory(Configuration.CATEGORY_GENERAL).get("Local Player Data").set(data);
+		}
 
 		if (config.hasChanged())
 			config.save();

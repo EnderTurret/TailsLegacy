@@ -47,4 +47,44 @@ public final class TailsInternal {
 			TailsPlatform.get().logError("Exception migrating config file:", e);
 		}
 	}
+
+	public static String maybeMigrateCFGConfig(Path configDir) {
+		final Path oldConfig = configDir.resolve("Tails.cfg");
+		final Path newConfig = configDir.resolve("TailsLegacy.cfg");
+
+		if (Files.exists(newConfig) || !Files.exists(oldConfig)) return null;
+
+		try {
+			boolean ourConfig = false;
+			String match = null;
+
+			for (String line : Files.readAllLines(oldConfig))
+				if (line.contains("\"Hide Preview In Third Person\"")) {
+					ourConfig = true;
+				}
+				else if (line.contains("\"Local Player Data\"")) {
+					match = line.substring(line.indexOf('=') + 1);
+					if (ourConfig) break;
+				}
+				else if (line.contains("\"Local Tail Info\"")) { // Backwards compatibility with early 1.7.10 versions of the original Tails.
+					match = line.substring(line.indexOf('=') + 1);
+					ourConfig = false;
+					break;
+				}
+
+			if (match == null) return null;
+
+			TailsPlatform.get().logInfo("Migrating Tails.cfg to TailsLegacy.cfg...");
+
+			if (ourConfig) {
+				Files.move(oldConfig, newConfig);
+				return null;
+			}
+
+			return match;
+		} catch (IOException e) {
+			TailsPlatform.get().logError("Exception migrating config file:", e);
+			return null;
+		}
+	}
 }

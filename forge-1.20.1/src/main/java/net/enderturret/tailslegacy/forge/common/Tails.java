@@ -13,10 +13,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLPaths;
 
+import net.enderturret.tailslegacy.common.TailsInternal;
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.forge.common.network.TailsNetworkManager;
 
@@ -29,7 +33,11 @@ public final class Tails {
 	@SuppressWarnings("removal")
 	@Internal
 	public Tails() {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
 		TailsNetworkManager.get();
+
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
+			ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
+		}
 	}
 }

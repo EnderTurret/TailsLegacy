@@ -30,14 +30,13 @@ public final class Tails {
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
 
 	@Internal
+	public static String migratingData;
+
+	@Internal
 	public Tails(ModContainer mc) {
 		if (FMLEnvironment.getDist() == Dist.CLIENT) {
-			final String data = TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
+			migratingData = TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
 			mc.registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
-			if (data != null) {
-				TailsConfig.CLIENT_INSTANCE.localPlayerData.set(data);
-				TailsConfig.CLIENT_SPEC.save();
-			}
 		}
 	}
 }

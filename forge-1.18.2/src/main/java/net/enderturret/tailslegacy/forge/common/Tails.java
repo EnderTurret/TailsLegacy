@@ -24,9 +24,6 @@ import net.enderturret.tailslegacy.common.TailsInternal;
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.forge.common.network.TailsNetworkManager;
 
-/**
- * Look! It's the main mod file!
- */
 @Mod(TailsPlatform.MOD_ID)
 public final class Tails {
 
@@ -34,16 +31,15 @@ public final class Tails {
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
 
 	@Internal
+	public static String migratingData;
+
+	@Internal
 	public Tails() {
 		TailsNetworkManager.get();
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
-			final String data = TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
+			migratingData = TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
 			ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
-			if (data != null) {
-				TailsConfig.CLIENT_INSTANCE.localPlayerData.set(data);
-				TailsConfig.CLIENT_SPEC.save();
-			}
 		}
 	}
 }

@@ -41,6 +41,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 import net.enderturret.tailslegacy.common.LibraryManager;
 import net.enderturret.tailslegacy.common.TailsDirection;
+import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.TailsClientPlatform;
 import net.enderturret.tailslegacy.common.client.api.PartRendererRegistrar;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
@@ -55,6 +56,7 @@ import net.enderturret.tailslegacy.forge.client.api.RegisterPartRenderersEvent;
 import net.enderturret.tailslegacy.forge.client.render.ModelPartCubeExtensions;
 import net.enderturret.tailslegacy.forge.client.render.ModelPartExtensions;
 import net.enderturret.tailslegacy.forge.client.texture.TripleTintTexture;
+import net.enderturret.tailslegacy.forge.common.Tails;
 import net.enderturret.tailslegacy.forge.common.TailsConfig;
 import net.enderturret.tailslegacy.forge.common.network.C2SPlayerDataMessage;
 import net.enderturret.tailslegacy.forge.common.network.TailsNetworkManager;
@@ -200,7 +202,13 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public String getConfigParts() {
-		return TailsConfig.CLIENT_INSTANCE.localPlayerData.get();
+		String ret = TailsConfig.CLIENT_INSTANCE.localPlayerData.get();
+		if (ret.isBlank() && Tails.migratingData != null) {
+			ret = Tails.migratingData;
+			TailsPlatform.get().logInfo("Found old customization data, migrating!\n{}", ret);
+			setConfigParts(ret);
+		}
+		return ret;
 	}
 
 	@Override

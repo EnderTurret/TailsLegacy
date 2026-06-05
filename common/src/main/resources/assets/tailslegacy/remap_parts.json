@@ -51,9 +51,13 @@
   "tailslegacy:ears/traffic_cone": "tailslegacy:head/traffic_cone",
   "tailslegacy:ears/top_hat": "tailslegacy:head/top_hat",
   "tailslegacy:ears/goggles": "tailslegacy:head/goggles",
+  "tailslegacy:ears/straw_hat": "tailslegacy:head/straw_hat",
+  "tailslegacy:ears/wide_brim_hat": "tailslegacy:head/wide_brim_hat",
   "tailslegacy:ears/small_head_frill": "tailslegacy:head/small_head_frill",
   "tailslegacy:ears/large_head_frill": "tailslegacy:head/large_head_frill",
   "tailslegacy:ears/leaves": "tailslegacy:head/leaves",
   "tailslegacy:ears/mushrooms": "tailslegacy:head/mushrooms",
-  "tailslegacy:ears/sculk_shrieker": "tailslegacy:head/sculk_shrieker"
+  "tailslegacy:ears/sculk_shrieker": "tailslegacy:head/sculk_shrieker",
+  "tailslegacy:ears/demon_horns": "tailslegacy:head/demon_horns",
+  "tailslegacy:ears/horns": "tailslegacy:head/horns"
 }

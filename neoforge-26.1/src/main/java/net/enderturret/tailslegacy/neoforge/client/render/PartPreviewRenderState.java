@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
 import net.minecraft.client.gui.navigation.ScreenRectangle;
-import net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState;
+import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
 
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;

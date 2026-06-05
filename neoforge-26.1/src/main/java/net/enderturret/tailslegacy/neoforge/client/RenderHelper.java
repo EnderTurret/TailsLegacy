@@ -26,9 +26,8 @@ import com.mojang.blaze3d.textures.GpuTexture;
 import com.mojang.blaze3d.textures.GpuTextureView;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.BlitRenderState;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -36,6 +35,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.state.gui.BlitRenderState;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,7 +49,7 @@ import net.enderturret.tailslegacy.common.TailsMath;
 public final class RenderHelper {
 
 	// Blits a texture 'scaled' to fit a larger/smaller area.
-	public static void blitScaled(GuiGraphics gui, Identifier texture, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height, int color) {
+	public static void blitScaled(GuiGraphicsExtractor gui, Identifier texture, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height, int color) {
 		final AbstractTexture tex = Minecraft.getInstance().getTextureManager().getTexture(texture);
 
 		gui.submitGuiElementRenderState(new BlitRenderState(
@@ -71,7 +71,7 @@ public final class RenderHelper {
 
 	/**
 	 * Renders the given entity like in the {@linkplain InventoryScreen inventory screen}.
-	 * @param gui The {@link GuiGraphics}.
+	 * @param gui The {@link GuiGraphicsExtractor}.
 	 * @param x1 The x coordinate of the entity.
 	 * @param y1 The y coordinate of the entity.
 	 * @param x2 The x coordinate of the entity.
@@ -82,7 +82,7 @@ public final class RenderHelper {
 	 * @param partialTick The partial tick.
 	 * @param entity The entity to render.
 	 */
-	public static void drawEntity(GuiGraphics gui, int x1, int y1, int x2, int y2, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
+	public static void drawEntity(GuiGraphicsExtractor gui, int x1, int y1, int x2, int y2, int scale, float yaw, float pitch, float partialTick, LivingEntity entity) {
 		final Quaternionf pose = new Quaternionf().rotateZ(TailsMath.PI);
 		final Quaternionf cameraOrientation = new Quaternionf().rotateX(pitch * 20F * TailsMath.DEG_TO_RAD);
 		pose.mul(cameraOrientation);
@@ -100,7 +100,7 @@ public final class RenderHelper {
 		if (renderState instanceof HumanoidRenderState humanoid)
 			humanoid.isCrouching = false;
 
-		gui.submitEntityRenderState(renderState, scale, new Vector3f(0, entity.getBbHeight() / 2F, 0), pose, cameraOrientation, x1, y1, x2, y2);
+		gui.entity(renderState, scale, new Vector3f(0, entity.getBbHeight() / 2F, 0), pose, cameraOrientation, x1, y1, x2, y2);
 	}
 
 	private static EntityRenderState extractRenderState(LivingEntity entity) {

@@ -16,7 +16,7 @@ import java.util.Locale;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -52,7 +52,7 @@ public final class LibraryPanel extends Panel {
 		initList("");
 
 		addRenderableWidget(searchField = new EditBox(parent.font(), left + 4, bottom - 32, right - left - 8, 12, Component.empty()));
-		addRenderableWidget(new ExtendedButton(left + 3, bottom - 18, right - left - 6, 15, TailsComponents.RELOAD_LIBRARY, b -> {
+		addRenderableWidget(new ExtendedButton(left + 3, bottom - 18, right - left - 6, 15, TailsComponents.RELOAD_LIBRARY, _ -> {
 			TailsClientPlatform.get().getLibraryManager().reload(true);
 			libraryChanged = false;
 			initList("");
@@ -62,8 +62,8 @@ public final class LibraryPanel extends Panel {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
 
 		gui.blit(RenderPipelines.GUI_TEXTURED, IconButton.ICONS_TEXTURE, right - 14, bottom - 30, 0, 240, 8, 8, 256, 256);
 	}

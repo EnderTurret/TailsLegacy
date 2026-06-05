@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 
 /**
@@ -45,10 +45,10 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	protected void renderListBackground(GuiGraphics gui) {}
+	protected void extractListBackground(GuiGraphicsExtractor gui) {}
 
 	@Override
-	protected void renderListSeparators(GuiGraphics guiGraphics) {}
+	protected void extractListSeparators(GuiGraphicsExtractor guiGraphics) {}
 
 	@Override
 	public boolean isMouseOver(double mouseX, double mouseY) {
@@ -66,7 +66,7 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	protected void renderSelection(GuiGraphics gui, T entry, int backgroundColor) {
+	protected void extractSelection(GuiGraphicsExtractor gui, T entry, int backgroundColor) {
 		final int left = entry.getX();
 		int right = left + entry.getWidth();
 		final int top = entry.getY();

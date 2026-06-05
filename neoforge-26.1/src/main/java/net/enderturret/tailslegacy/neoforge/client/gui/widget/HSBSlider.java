@@ -9,7 +9,7 @@
 
 package net.enderturret.tailslegacy.neoforge.client.gui.widget;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -42,7 +42,7 @@ public class HSBSlider extends AbstractSliderButton {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
+	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partial) {
 		gui.blitSprite(RenderPipelines.GUI_TEXTURED, VANILLA_SLIDER_SPRITE, getX(), getY(), width, height);
 
 		RenderHelper.blitScaled(gui, SLIDER_TEXTURE,

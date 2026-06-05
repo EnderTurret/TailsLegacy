@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -51,8 +51,8 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new ExtendedButton(getX(), y, 15, 15, Component.literal("<"), b -> previous());
-		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), b -> next());
+		left = new ExtendedButton(getX(), y, 15, 15, Component.literal("<"), _ -> previous());
+		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), _ -> next());
 
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
 
@@ -106,7 +106,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
 		final Font font = Minecraft.getInstance().font;
 		final Component message = getMessage();
 		final int width = font.width(message);
@@ -120,7 +120,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 		if (width > getX() + getWidth())
 			gui.drawScrollingString(gui.textRenderer(), font, message, getX() + 15, getX() + getWidth(), y);
 		else
-			gui.drawString(font, message, left, y, 0xFFFFFFFF);
+			gui.text(font, message, left, y, 0xFFFFFFFF);
 	}
 
 	@Override

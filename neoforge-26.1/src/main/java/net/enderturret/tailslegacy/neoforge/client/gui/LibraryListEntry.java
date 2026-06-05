@@ -16,7 +16,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -52,9 +52,9 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 	private static final Component CREATE = TailsComponents.CREATE_ENTRY;
 
 	@Override
-	public void renderContent(GuiGraphics gui, int mouseX, int mouseY, boolean isHovering, float partialTick) {
+	public void extractContent(GuiGraphicsExtractor gui, int mouseX, int mouseY, boolean isHovering, float partialTick) {
 		if (data == null) {
-			gui.drawString(Minecraft.getInstance().font, CREATE, getX() + 5, getY() + getHeight() / 2 - 4, 0xFFFFFFFF);
+			gui.text(Minecraft.getInstance().font, CREATE, getX() + 5, getY() + getHeight() / 2 - 4, 0xFFFFFFFF);
 			return;
 		}
 
@@ -68,7 +68,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
 		final MutableComponent name = Component.literal(data.entryName);
 		if (sel) name.withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC);
-		gui.drawString(font, name, getX() + 5, getContentY() + 3, 0xFFFFFFFF);
+		gui.text(font, name, getX() + 5, getContentY() + 3, 0xFFFFFFFF);
 
 		int index = 0;
 
@@ -76,7 +76,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			if (index == 4) break;
 
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			gui.drawString(font, trans, getX() + 7, getContentY() + 12 + 8 * index, 0xFFFFFFFF);
+			gui.text(font, trans, getX() + 7, getContentY() + 12 + 8 * index, 0xFFFFFFFF);
 
 			for (int i = 1; i < 4; i++)
 				gui.fill(width - 1 - 8 * i, getContentY() + 13 + index * 8,

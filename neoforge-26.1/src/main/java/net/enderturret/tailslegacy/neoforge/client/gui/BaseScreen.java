@@ -12,7 +12,7 @@ package net.enderturret.tailslegacy.neoforge.client.gui;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -29,7 +29,7 @@ public abstract class BaseScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
+	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {}
 
 	@Override
 	public void removed() {

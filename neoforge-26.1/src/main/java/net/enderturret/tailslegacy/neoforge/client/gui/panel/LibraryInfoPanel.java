@@ -15,7 +15,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
@@ -56,17 +56,17 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			}
 		});
 
-		addRenderableWidget(favButton = new IconButton.Toggle(left + 5, bottom - 20, TailsIcons.STAR, b -> {
+		addRenderableWidget(favButton = new IconButton.Toggle(left + 5, bottom - 20, TailsIcons.STAR, _ -> {
 			entry.data.favourite = favButton.toggled;
 		})).setTooltip(Tooltip.create(TailsComponents.FAVORITE_BUTTON));
 
-		addRenderableWidget(deleteButton = new IconButton(left + 21, bottom - 20, TailsIcons.DELETE, b -> {
+		addRenderableWidget(deleteButton = new IconButton(left + 21, bottom - 20, TailsIcons.DELETE, _ -> {
 			deleteButton.setHover(false);
 			parent.getLibraryPanel().removeEntry(entry);
 			setEntry(null);
 		})).setTooltip(Tooltip.create(TailsComponents.DELETE_BUTTON));
 
-		addRenderableWidget(new IconButton(left + 68, bottom - 20, TailsIcons.EXPORT, b -> {
+		addRenderableWidget(new IconButton(left + 68, bottom - 20, TailsIcons.EXPORT, _ -> {
 			final String export = exportString(getEntry().data);
 
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, TailsComponents.EXPORTED_MESSAGE);
@@ -77,14 +77,14 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderBackground(gui, mouseX, mouseY, partialTick);
+	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+		super.extractBackground(gui, mouseX, mouseY, partialTick);
 		gui.fill(left + 3, top + 3, right - 3, bottom - 3, 0xFF000000);
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
 
 		if (entry != null) {
 			int index = 0;
@@ -92,17 +92,17 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			final int xOffset = left;
 			final int yOffset = top;
 			for (ClientPartInfo partInfo : ((ClientPartsData) entry.data.partsData).getParts()) {
-				gui.drawString(parent.font(), TailsComponents.getPartName(partInfo),
+				gui.text(parent.font(), TailsComponents.getPartName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4),
 						0xFFFFFFFF);
 
-				gui.drawString(parent.font(), TailsComponents.getSubTypeName(partInfo),
+				gui.text(parent.font(), TailsComponents.getSubTypeName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 1),
 						0xFFFFFFFF);
 
-				gui.drawString(parent.font(), TailsComponents.getTextureName(partInfo),
+				gui.text(parent.font(), TailsComponents.getTextureName(partInfo),
 						xOffset + 5,
 						yOffset + 32 + 8 * (index * 4 + 2),
 						0xFFFFFFFF);
@@ -118,11 +118,11 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 				index++;
 			}
 
-			gui.drawString(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATOR, left + 5, bottom - 59, 0xFFAAAAAA);
-			gui.drawString(parent.font(), entry.data.creatorName, right - 5 - parent.font().width(entry.data.creatorName), bottom - 50, 0xFFAAAAAA);
-			gui.drawString(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATION_DATE, left + 5, bottom - 41, 0xFFAAAAAA);
+			gui.text(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATOR, left + 5, bottom - 59, 0xFFAAAAAA);
+			gui.text(parent.font(), entry.data.creatorName, right - 5 - parent.font().width(entry.data.creatorName), bottom - 50, 0xFFAAAAAA);
+			gui.text(parent.font(), TailsComponents.LIBRARY_ENTRY_CREATION_DATE, left + 5, bottom - 41, 0xFFAAAAAA);
 			final String date = DATE_FORMAT.format(new Date(entry.data.creationDate));
-			gui.drawString(parent.font(), date, right - 5 - parent.font().width(date), bottom - 32, 0xFFAAAAAA);
+			gui.text(parent.font(), date, right - 5 - parent.font().width(date), bottom - 32, 0xFFAAAAAA);
 		}
 	}
 

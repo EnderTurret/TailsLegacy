@@ -12,7 +12,7 @@ package net.enderturret.tailslegacy.neoforge.client.gui.panel;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.CameraType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -45,7 +45,7 @@ public final class PreviewPanel extends Panel {
 		if (!doRender) return;
 
 		// Help
-		addRenderableWidget(new IconButton(right - 18, 4, TailsIcons.QUESTION, b -> {}) {
+		addRenderableWidget(new IconButton(right - 18, 4, TailsIcons.QUESTION, _ -> {}) {
 			@Override
 			protected boolean isValidClickButton(MouseButtonInfo buttonInfo) {
 				return false;
@@ -53,7 +53,7 @@ public final class PreviewPanel extends Panel {
 		}).setTooltip(Tooltip.create(TailsComponents.PREVIEW_HELP));
 
 		// Reset Camera
-		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, b -> {
+		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, _ -> {
 			yaw = 0;
 			pitch = 8F;
 			zoom = 1F;
@@ -61,14 +61,14 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
 		if (!doRender) return;
 		gui.fill(left, top, right, bottom, 0xDD000000);
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
 
 		if (!doRender) return;
 

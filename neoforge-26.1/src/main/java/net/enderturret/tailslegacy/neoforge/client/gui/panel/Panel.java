@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -92,9 +92,9 @@ public abstract class Panel extends AbstractWidget {
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
+	protected void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {}
 
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
 		gui.fill(left, top, right, bottom, 0xCC000000);
 	}
 

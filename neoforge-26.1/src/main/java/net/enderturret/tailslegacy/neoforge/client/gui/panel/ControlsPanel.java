@@ -36,7 +36,7 @@ public final class ControlsPanel extends Panel {
 		addRenderableWidget(Button.builder(TailsComponents.RESET_BUTTON, this::reset)
 				.bounds(left + (right - left) / 2 - 23, bottom - 25, 46, 20)
 				.build());
-		addRenderableWidget(Button.builder(TailsComponents.DONE_BUTTON, b -> parent.close())
+		addRenderableWidget(Button.builder(TailsComponents.DONE_BUTTON, _ -> parent.close())
 				.bounds(right - 49, bottom - 25, 46, 20)
 				.build());
 

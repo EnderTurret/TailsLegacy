@@ -11,7 +11,7 @@ package net.enderturret.tailslegacy.neoforge.client.gui.widget;
 
 import java.awt.Color;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 
 import net.enderturret.tailslegacy.neoforge.client.RenderHelper;
@@ -34,7 +34,7 @@ public class SaturationSlider extends HSBSlider {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
+	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partial) {
 		gui.blitSprite(RenderPipelines.GUI_TEXTURED, VANILLA_SLIDER_SPRITE, getX(), getY(), width, height);
 
 		{

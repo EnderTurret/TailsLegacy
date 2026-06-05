@@ -16,7 +16,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.joml.Matrix3x2f;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.resources.language.I18n;
@@ -93,10 +93,10 @@ public final class PartsPanel extends Panel {
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.renderWidget(gui, mouseX, mouseY, partialTick);
+	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
 
-		gui.drawCenteredString(parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFFFF);
+		gui.centeredText(parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFFFF);
 	}
 
 	@Override
@@ -175,7 +175,7 @@ public final class PartsPanel extends Panel {
 			}
 	}
 
-	private void renderPart(GuiGraphics gui, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
+	private void renderPart(GuiGraphicsExtractor gui, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
 		if (partInfo.isEmpty() || partInfo.isInvalid()) return;
 
 		final PartRenderer renderer = partInfo.getRenderer();
@@ -207,11 +207,11 @@ public final class PartsPanel extends Panel {
 		}
 
 		@Override
-		public void renderContent(GuiGraphics gui, int mouseX, int mouseY, boolean isHovering, float partialTick) {
+		public void extractContent(GuiGraphicsExtractor gui, int mouseX, int mouseY, boolean isHovering, float partialTick) {
 			if (!partInfo.isEmpty()) {
 				final boolean currentPart = partList.getSelected() == this;
 				renderPart(gui, getContentRight() - 25, getContentY() - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), getX() + 5, getContentY() + 17, 0xFFFFFFFF);
+				gui.text(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), getX() + 5, getContentY() + 17, 0xFFFFFFFF);
 
 				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
 					final String author;
@@ -227,13 +227,13 @@ public final class PartsPanel extends Panel {
 						gui.pose().pushMatrix();
 						gui.pose().translate(getX() + 5, getContentY() + 27);
 						gui.pose().scale(0.6F, 0.6F);
-						gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
-						gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
+						gui.text(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
+						gui.text(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
 						gui.pose().popMatrix();
 					}
 				}
 			} else
-				gui.drawString(parent.font(), TailsComponents.EMPTY_PART, getX() + 5, getContentY() + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
+				gui.text(parent.font(), TailsComponents.EMPTY_PART, getX() + 5, getContentY() + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
 		}
 
 		@Override

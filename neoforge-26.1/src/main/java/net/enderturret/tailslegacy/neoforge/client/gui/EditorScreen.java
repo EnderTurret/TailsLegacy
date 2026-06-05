@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -149,15 +149,15 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
 		for (Panel panel : panels)
 			if (panel.visible)
-				panel.renderBackground(gui, mouseX, mouseY, partialTick);
+				panel.extractBackground(gui, mouseX, mouseY, partialTick);
 	}
 
 	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.render(gui, mouseX, mouseY, partialTick);
+	public void extractRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+		super.extractRenderState(gui, mouseX, mouseY, partialTick);
 	}
 
 	@Override

@@ -14,11 +14,11 @@ import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.LightCoordsUtil;
 
 import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
@@ -58,7 +58,7 @@ public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRen
 				null, renderState.partInfo(),
 				bufferSource,
 				0, 0, 0, renderState.partialTick(),
-				LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
+				LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
 
 		dispatcher.renderAllFeatures();
 

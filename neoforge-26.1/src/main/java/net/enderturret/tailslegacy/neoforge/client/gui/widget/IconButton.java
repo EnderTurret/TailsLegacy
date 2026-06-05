@@ -9,7 +9,7 @@
 
 package net.enderturret.tailslegacy.neoforge.client.gui.widget;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -34,7 +34,7 @@ public class IconButton extends Button {
 	}
 
 	@Override
-	public void renderContents(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+	public void extractContents(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
 		final int textureOffset = getYImage();
 
 		gui.blit(RenderPipelines.GUI_TEXTURED, ICONS_TEXTURE, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16, 256, 256);

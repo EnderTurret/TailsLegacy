@@ -12,3 +12,7 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:24.0.1'
     compileOnly 'com.google.code.gson:gson:2.2.4'
 }
+
+tasks.named('test', Test).configure {
+    failOnNoDiscoveredTests = false
+}

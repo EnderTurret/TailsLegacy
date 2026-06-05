@@ -81,7 +81,7 @@ subprojects {
     publishing {
         publications {
             mavenJava(MavenPublication) {
-                artifactId = "Tails-${loader}"
+                artifactId = "TailsLegacy-${loader}"
                 version = "${mod_version}"
 
                 from components.java

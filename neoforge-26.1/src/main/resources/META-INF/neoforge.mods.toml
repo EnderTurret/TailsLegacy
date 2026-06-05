@@ -20,13 +20,13 @@ Adds a wealth of recolorable tails, ears, wings, and head accessories for player
 [[dependencies.tailslegacy]]
     modId="neoforge"
     type="required"
-    versionRange="[21.11,21.12)"
+    versionRange="[26.1,26.2)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.tailslegacy]]
     modId="minecraft"
     type="required"
-    versionRange="[1.21.11,1.21.12)"
+    versionRange="[26.1,26.2)"
     ordering="NONE"
     side="BOTH"

@@ -41,9 +41,9 @@ public class MixinSubmitNodeStorage implements TailsBufferSource {
 
 		final RenderType renderType;
 		if (visibleToPlayer)
-			renderType = RenderTypes.itemEntityTranslucentCull(tex);
+			renderType = RenderTypes.entityTranslucentCullItemTarget(tex);
 		else if (visible)
-			renderType = RenderTypes.entityCutoutNoCull(tex);
+			renderType = RenderTypes.entityCutout(tex);
 		else
 			renderType = glowing ? RenderTypes.outline(tex) : null;
 

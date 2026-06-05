@@ -14,7 +14,7 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.FormattedCharSequence;
 
 public final class Toast {
@@ -36,7 +36,7 @@ public final class Toast {
 		height = this.message.size() * Minecraft.getInstance().font.lineHeight + 7;
 	}
 
-	public void drawToast(GuiGraphics gui, int mouseX, int mouseY) {
+	public void drawToast(GuiGraphicsExtractor gui, int mouseX, int mouseY) {
 		if (time > 0) {
 			mouseOver = mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height;
 			int opacity = mouseOver ? 255 : (int) (time * 256F / 10F);
@@ -50,14 +50,14 @@ public final class Toast {
 				final int colour = 0xFFFFFF | opacity << 24;
 				for (int i = 0; i < message.size(); i++) {
 					final FormattedCharSequence s = message.get(i);
-					gui.drawString(font, s, xPos + width / 2 - font.width(s) / 2, yPos + 4 + font.lineHeight * i, colour, true);
+					gui.text(font, s, xPos + width / 2 - font.width(s) / 2, yPos + 4 + font.lineHeight * i, colour, true);
 				}
 				gui.pose().popMatrix();
 			}
 		}
 	}
 
-	private void drawBackdrop(GuiGraphics gui, int x, int y, int width, int height) {
+	private void drawBackdrop(GuiGraphicsExtractor gui, int x, int y, int width, int height) {
 		int opacity = mouseOver ? 255 : (int) (time * 256F / 25F);
 		if (opacity > 255) opacity = 255;
 

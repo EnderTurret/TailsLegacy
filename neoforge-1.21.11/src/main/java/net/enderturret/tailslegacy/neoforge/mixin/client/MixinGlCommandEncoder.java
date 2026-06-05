@@ -19,6 +19,10 @@ import com.mojang.blaze3d.textures.GpuTexture;
 @Mixin(GlCommandEncoder.class)
 public abstract class MixinGlCommandEncoder {
 
+	// This fixes copyTextureToBuffer() checking the width and height of the entire texture in the buffer size check,
+	// when it should be checking the width and height of the specified region instead.
+	// (This allows the color pick buffer to store 1 pixel, instead of needing to fit the entire framebuffer.)
+
 	@ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/textures/GpuTexture;getWidth(I)I", ordinal = 0), method = "copyTextureToBuffer(Lcom/mojang/blaze3d/textures/GpuTexture;Lcom/mojang/blaze3d/buffers/GpuBuffer;JLjava/lang/Runnable;IIIII)V")
 	private int tails$fixWidthCheck(int original, GpuTexture texture, GpuBuffer buffer, long offset, Runnable task, int mipLevel, int x, int y, int width, int height) {
 		return width;

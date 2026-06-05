@@ -98,7 +98,7 @@ public final class ClientEventHandler {
 		static void onScreenInitPost(ScreenEvent.Init.Post event) {
 			if (event.getScreen() instanceof PauseScreen)
 				event.addListener(Button.builder(TailsComponents.EDITOR_BUTTON,
-						b -> Minecraft.getInstance().setScreen(EditorScreen.openDefault()))
+						_ -> Minecraft.getInstance().setScreen(EditorScreen.openDefault()))
 						.bounds(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20)
 						.build());
 		}

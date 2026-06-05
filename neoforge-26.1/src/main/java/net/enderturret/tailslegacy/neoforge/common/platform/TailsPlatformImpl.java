@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
@@ -49,7 +50,7 @@ public final class TailsPlatformImpl implements TailsPlatform {
 
 	@Override
 	public UUID randomUUID() {
-		return Mth.createInsecureUUID();
+		return Mth.createInsecureUUID(RandomSource.create());
 	}
 
 	@Override

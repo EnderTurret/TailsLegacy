@@ -26,6 +26,7 @@ import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
 import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
 import net.enderturret.tailslegacy.common.client.part.ClientPlayerPartManager;
 import net.enderturret.tailslegacy.common.client.part.Part;
+import net.enderturret.tailslegacy.common.client.part.SubType;
 import net.enderturret.tailslegacy.common.client.render.RenderContext;
 import net.enderturret.tailslegacy.common.client.render.helper.RenderHelperManager;
 import net.enderturret.tailslegacy.common.client.render.part.PartRenderer;
@@ -107,7 +108,7 @@ public interface BaseArrowLayer {
 			poseStack.t$push();
 
 			if (config.renderer != null) {
-				final Part.SubType subType = config.info.getSubType();
+				final SubType subType = config.info.getSubType();
 
 				config.renderer.modelPart.setupAnim(entity, partialTick, subType, infoPart.getModel());
 				if (infoPart.getAnimation() != null)

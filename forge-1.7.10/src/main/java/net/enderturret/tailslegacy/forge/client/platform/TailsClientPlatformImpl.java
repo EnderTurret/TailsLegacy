@@ -45,6 +45,8 @@ import net.enderturret.tailslegacy.common.client.model.TailsPartDefinition;
 import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
 import net.enderturret.tailslegacy.common.client.part.Part;
 import net.enderturret.tailslegacy.common.client.part.PartRegistry;
+import net.enderturret.tailslegacy.common.client.part.PartTexture;
+import net.enderturret.tailslegacy.common.client.part.SubType;
 import net.enderturret.tailslegacy.forge.client.ClientLibraryManager;
 import net.enderturret.tailslegacy.forge.client.api.RegisterPartRenderersEvent;
 import net.enderturret.tailslegacy.forge.client.render.ModelPartCubeExtensions;
@@ -140,7 +142,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	}
 
 	@Override
-	public void registerTripleTintTexture(TResourceLocation id, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints) {
+	public void registerTripleTintTexture(TResourceLocation id, Part part, SubType subType, PartTexture texture, int[] tints) {
 		Minecraft.getMinecraft().getTextureManager().loadTexture((ResourceLocation) id, new TripleTintTexture(
 				(ResourceLocation) part.getId().t$withPath(texture.path()),
 				tints[0], tints[1], tints[2], texture.tintingStrategy()

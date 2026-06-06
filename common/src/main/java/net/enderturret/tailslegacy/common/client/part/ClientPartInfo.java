@@ -104,11 +104,11 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 		return Empty.INSTANCE;
 	}
 
-	public ClientPartInfo withSubType(Part.SubType value) {
+	public ClientPartInfo withSubType(SubType value) {
 		return new ClientPartInfo(null, getTints().clone(), part, value.id(), textureId, null, false);
 	}
 
-	public ClientPartInfo withTexture(Part.PartTexture value) {
+	public ClientPartInfo withTexture(PartTexture value) {
 		return new ClientPartInfo(null, getTints().clone(), part, subType, value.id(), null, false);
 	}
 
@@ -146,7 +146,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	public boolean isInvalid() {
 		final Part part = getPart();
 		if (part == null) return true;
-		final Part.SubType subType = part.getSubType(this.subType);
+		final SubType subType = part.getSubType(this.subType);
 		return subType == null || subType.getTexture(textureId) == null;
 	}
 
@@ -187,7 +187,7 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * Resolved version of {@link #getSubTypeId()}.
 	 * @return The resolved subtype.
 	 */
-	public Part.SubType getSubType() {
+	public SubType getSubType() {
 		return getPart() == null ? null : part.get().getSubType(subType);
 	}
 
@@ -200,8 +200,8 @@ public class ClientPartInfo implements Cloneable, IPartInfo {
 	 * Resolved version of {@link #getPartTexture()}.
 	 * @return The resolved texture.
 	 */
-	public Part.PartTexture getPartTexture() {
-		final Part.SubType subType = getSubType();
+	public PartTexture getPartTexture() {
+		final SubType subType = getSubType();
 		if (subType == null) return null;
 		return subType.getTexture(textureId);
 	}

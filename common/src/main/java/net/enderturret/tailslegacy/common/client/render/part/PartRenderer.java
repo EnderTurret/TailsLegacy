@@ -19,7 +19,7 @@ import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
 import net.enderturret.tailslegacy.common.client.model.PartModel;
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
 import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
-import net.enderturret.tailslegacy.common.client.part.Part;
+import net.enderturret.tailslegacy.common.client.part.TintingStrategy;
 import net.enderturret.tailslegacy.common.client.render.RenderContext;
 import net.enderturret.tailslegacy.common.client.render.helper.RenderHelperManager;
 
@@ -109,7 +109,7 @@ public class PartRenderer {
 		if (!info.isEmpty()) {
 			int color = alpha << 24;
 
-			if (info.getPartTexture().tintingStrategy() == Part.TintingStrategy.SINGLE_TINT) {
+			if (info.getPartTexture().tintingStrategy() == TintingStrategy.SINGLE_TINT) {
 				final int tint = info.getTints()[0];
 				color |= tint;
 			} else

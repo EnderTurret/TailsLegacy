@@ -25,7 +25,7 @@ import net.enderturret.tailslegacy.common.client.model.PartModelHelper;
 import net.enderturret.tailslegacy.common.client.model.animation.AnimatorStorage;
 import net.enderturret.tailslegacy.common.client.model.animation.ModelAnimator;
 import net.enderturret.tailslegacy.common.client.part.PartPath;
-import net.enderturret.tailslegacy.common.client.part.Part.SubType;
+import net.enderturret.tailslegacy.common.client.part.SubType;
 
 public final class DefaultModelAnimator implements ModelAnimator {
 

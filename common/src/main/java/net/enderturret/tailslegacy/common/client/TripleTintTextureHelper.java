@@ -12,14 +12,14 @@ import static net.enderturret.tailslegacy.common.JavaColor.*;
 
 import net.enderturret.tailslegacy.common.JavaColor;
 import net.enderturret.tailslegacy.common.client.duck.TailsImage;
-import net.enderturret.tailslegacy.common.client.part.Part;
+import net.enderturret.tailslegacy.common.client.part.TintingStrategy;
 
 public class TripleTintTextureHelper {
 
 	private static final int MINBRIGHTNESS = 22;
 
-	public static void colorise(TailsImage texture, Part.TintingStrategy strategy, int tint1, int tint2, int tint3) {
-		if (strategy == Part.TintingStrategy.TRIPLE_TINT)
+	public static void colorise(TailsImage texture, TintingStrategy strategy, int tint1, int tint2, int tint3) {
+		if (strategy == TintingStrategy.TRIPLE_TINT)
 			colorise(texture, tint1, tint2, tint3);
 	}
 

@@ -21,6 +21,8 @@ import net.enderturret.tailslegacy.common.client.duck.TailsModelPart;
 import net.enderturret.tailslegacy.common.client.model.TailsPartDefinition;
 import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
 import net.enderturret.tailslegacy.common.client.part.Part;
+import net.enderturret.tailslegacy.common.client.part.PartTexture;
+import net.enderturret.tailslegacy.common.client.part.SubType;
 
 public interface TailsClientPlatform {
 
@@ -46,7 +48,7 @@ public interface TailsClientPlatform {
 	public TailsModelPart bake(TailsPartDefinition part, int textureWidth, int textureHeight);
 
 	public boolean hasTexture(TResourceLocation id);
-	public void registerTripleTintTexture(TResourceLocation id, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints);
+	public void registerTripleTintTexture(TResourceLocation id, Part part, SubType subType, PartTexture texture, int[] tints);
 	public void releaseTexture(TResourceLocation id);
 
 	public void fireRegisterPartRenderersEvent(PartRendererRegistrar registrar);

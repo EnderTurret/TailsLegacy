@@ -306,7 +306,7 @@ public class PartLoadingManager {
 
 		final List<String> ordering = json.has("ordering") ? getAsStringArray(json, "ordering") : Collections.emptyList();
 
-		final List<Part.SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
+		final List<SubType> subs = order(realId, ordering, subTypes, (subType, ord) -> subType.unwrap().id().equals(ord));
 
 		final TailsModelPart model = json.has("model") && !TESTING ? ModelSerializer.deserializeRoot(TailsGsonHelper.getAsJsonObject(json, "model")).bake() : null;
 		final ModelPredicate allowArrows = readPredicate(json, "allowArrows", model);
@@ -383,9 +383,9 @@ public class PartLoadingManager {
 
 		final List<String> ordering = textureOrderings.getOrDefault(partId, Collections.emptyList());
 
-		final List<Part.PartTexture> newTex = order(partId, ordering, tex, (t, ord) -> t.unwrap().id().equals(ord));
+		final List<PartTexture> newTex = order(partId, ordering, tex, (t, ord) -> t.unwrap().id().equals(ord));
 
-		return new NamedSubType(partId, new Part.SubType(typeId, author, transforms, hideParts, showParts, newTex));
+		return new NamedSubType(partId, new SubType(typeId, author, transforms, hideParts, showParts, newTex));
 	}
 
 	/**
@@ -411,18 +411,18 @@ public class PartLoadingManager {
 		if (json.has("applyTo"))
 			applyTo.addAll(getAsStringArray(json, "applyTo"));
 
-		Part.TintingStrategy tintingStrategy = Part.TintingStrategy.TRIPLE_TINT;
+		TintingStrategy tintingStrategy = TintingStrategy.TRIPLE_TINT;
 
 		if (json.has("tintingStrategy")) {
 			final String strat = TailsGsonHelper.getAsString(json, "tintingStrategy");
-			tintingStrategy = Part.TintingStrategy.of(strat);
+			tintingStrategy = TintingStrategy.of(strat);
 			if (tintingStrategy == null) {
-				tintingStrategy = Part.TintingStrategy.TRIPLE_TINT;
+				tintingStrategy = TintingStrategy.TRIPLE_TINT;
 				TailsPlatform.get().logError("{}: Invalid tinting strategy: {}!", location, strat);
 			}
 		}
 
-		return new NamedTexture(partId, Collections.unmodifiableList(new ArrayList<>(applyTo)), new Part.PartTexture(texId, path, author, tintingStrategy));
+		return new NamedTexture(partId, Collections.unmodifiableList(new ArrayList<>(applyTo)), new PartTexture(texId, path, author, tintingStrategy));
 	}
 
 	/**
@@ -495,12 +495,12 @@ public class PartLoadingManager {
 		public T unwrap();
 	}
 
-	private static final class NamedSubType implements Named<Part.SubType> {
+	private static final class NamedSubType implements Named<SubType> {
 
 		public final TResourceLocation partId;
-		public final Part.SubType subType;
+		public final SubType subType;
 
-		public NamedSubType(TResourceLocation partId, Part.SubType subType) {
+		public NamedSubType(TResourceLocation partId, SubType subType) {
 			this.partId = partId;
 			this.subType = subType;
 		}
@@ -508,16 +508,16 @@ public class PartLoadingManager {
 		@Override
 		public TResourceLocation id() { return partId; }
 		@Override
-		public Part.SubType unwrap() { return subType; }
+		public SubType unwrap() { return subType; }
 	}
 
-	private static final class NamedTexture implements Named<Part.PartTexture> {
+	private static final class NamedTexture implements Named<PartTexture> {
 
 		private final TResourceLocation partId;
 		private final List<String> applyTo;
-		private final Part.PartTexture texture;
+		private final PartTexture texture;
 
-		public NamedTexture(TResourceLocation partId, List<String> applyTo, Part.PartTexture texture) {
+		public NamedTexture(TResourceLocation partId, List<String> applyTo, PartTexture texture) {
 			this.partId = partId;
 			this.applyTo = applyTo;
 			this.texture = texture;
@@ -526,7 +526,7 @@ public class PartLoadingManager {
 		@Override
 		public TResourceLocation id() { return partId; }
 		@Override
-		public Part.PartTexture unwrap() { return texture; }
+		public PartTexture unwrap() { return texture; }
 	}
 
 	private static final class ResourcePair {

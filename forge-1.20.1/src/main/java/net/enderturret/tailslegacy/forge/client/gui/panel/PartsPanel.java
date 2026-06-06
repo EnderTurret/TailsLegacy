@@ -40,7 +40,9 @@ import net.enderturret.tailslegacy.common.client.part.AttachmentPoints;
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
 import net.enderturret.tailslegacy.common.client.part.Part;
 import net.enderturret.tailslegacy.common.client.part.PartRegistry;
+import net.enderturret.tailslegacy.common.client.part.PartTexture;
 import net.enderturret.tailslegacy.common.client.part.RootAttachmentPoint;
+import net.enderturret.tailslegacy.common.client.part.SubType;
 import net.enderturret.tailslegacy.common.client.render.part.PartRenderer;
 import net.enderturret.tailslegacy.common.part.ServerPartInfo;
 import net.enderturret.tailslegacy.forge.client.gui.EditorScreen;
@@ -124,8 +126,8 @@ public final class PartsPanel extends Panel {
 		final ClientPartInfo partInfo;
 		if (entry.partInfo.isEmpty()) partInfo = entry.partInfo.clone();
 		else {
-			final Part.SubType subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : entry.partInfo.getSubType();
-			final Part.PartTexture texture = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getPartTexture() : subType.textures().get(0);
+			final SubType subType = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getSubType() : entry.partInfo.getSubType();
+			final PartTexture texture = oldInfo.getPart() == entry.partInfo.getPart() ? oldInfo.getPartTexture() : subType.textures().get(0);
 
 			final String subId = subType != null ? subType.id() : oldInfo.getSubTypeId();
 			final String textureId = texture != null ? texture.id() : oldInfo.getTextureId();

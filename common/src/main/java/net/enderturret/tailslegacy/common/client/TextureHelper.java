@@ -18,6 +18,8 @@ import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
 import net.enderturret.tailslegacy.common.client.part.Part;
+import net.enderturret.tailslegacy.common.client.part.PartTexture;
+import net.enderturret.tailslegacy.common.client.part.SubType;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +38,7 @@ public final class TextureHelper {
 	 * @param tints An array containing three {@code ints} to use for tinting the texture.
 	 * @return A resource location for the generated texture.
 	 */
-	private static TResourceLocation generateTexture(UUID uuid, Part part, Part.SubType subType, Part.PartTexture texture, int[] tints) {
+	private static TResourceLocation generateTexture(UUID uuid, Part part, SubType subType, PartTexture texture, int[] tints) {
 		// Add UUID to prevent deleting similar textures.
 		final TResourceLocation textureId = TailsPlatform.get().newResourceLocation(
 				String.format("%s__%s_%s__%s__%s__%s_%s_%s", uuid, part.getId().t$getNamespace(),
@@ -52,7 +54,7 @@ public final class TextureHelper {
 	}
 
 	/**
-	 * A convenience method for {@link #generateTexture(UUID, Part, Part.SubType, Part.PartTexture, int[])} using data from the given {@link ClientPartInfo}.
+	 * A convenience method for {@link #generateTexture(UUID, Part, SubType, PartTexture, int[])} using data from the given {@link ClientPartInfo}.
 	 * @param uuid The {@link UUID} of the entity wearing the part.
 	 * @param partInfo The part data.
 	 * @return A resource location for the generated texture.

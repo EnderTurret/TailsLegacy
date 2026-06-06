@@ -22,7 +22,7 @@ import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
 import net.enderturret.tailslegacy.common.client.part.ModelPredicate;
 import net.enderturret.tailslegacy.common.client.part.Part;
 import net.enderturret.tailslegacy.common.client.part.PartPath;
-import net.enderturret.tailslegacy.common.client.part.Part.SubType;
+import net.enderturret.tailslegacy.common.client.part.SubType;
 import net.enderturret.tailslegacy.common.client.render.RenderContext;
 import net.enderturret.tailslegacy.common.client.render.part.PartRenderer;
 
@@ -92,7 +92,7 @@ public abstract class PartModel {
 				: Collections.emptyList();
 	}
 
-	public void setupAnim(TailsEntity entity, float partialTick, Part.SubType subType, TailsModelPart model) {}
+	public void setupAnim(TailsEntity entity, float partialTick, SubType subType, TailsModelPart model) {}
 
 	/**
 	 * Allows modifying the rendering of this part model in the part preview pane.

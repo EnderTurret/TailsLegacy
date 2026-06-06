@@ -23,7 +23,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 
 import net.enderturret.tailslegacy.common.client.TripleTintTextureHelper;
-import net.enderturret.tailslegacy.common.client.part.Part;
+import net.enderturret.tailslegacy.common.client.part.TintingStrategy;
 import net.enderturret.tailslegacy.forge.client.platform.TailsBufferedImageWrapper;
 import net.enderturret.tailslegacy.forge.common.Tails;
 
@@ -37,10 +37,10 @@ public final class TripleTintTexture extends AbstractTexture {
 	private final int tint1;
 	private final int tint2;
 	private final int tint3;
-	private final Part.TintingStrategy strategy;
+	private final TintingStrategy strategy;
 
 	@Internal
-	public TripleTintTexture(ResourceLocation textureLocation, int tint1, int tint2, int tint3, Part.TintingStrategy strategy) {
+	public TripleTintTexture(ResourceLocation textureLocation, int tint1, int tint2, int tint3, TintingStrategy strategy) {
 		this.textureLocation = textureLocation;
 		this.tint1 = tint1;
 		this.tint2 = tint2;

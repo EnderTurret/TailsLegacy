@@ -22,7 +22,7 @@ import net.enderturret.tailslegacy.common.client.duck.TailsModelPart;
 import net.enderturret.tailslegacy.common.client.model.animation.AnimatorStorage;
 import net.enderturret.tailslegacy.common.client.model.animation.ModelAnimator;
 import net.enderturret.tailslegacy.common.client.model.animation.ModelAnimators;
-import net.enderturret.tailslegacy.common.client.part.Part.SubType;
+import net.enderturret.tailslegacy.common.client.part.SubType;
 import net.enderturret.tailslegacy.common.gson.TailsGsonHelper;
 
 public final class CompositeModelAnimator implements ModelAnimator {

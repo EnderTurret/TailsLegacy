@@ -24,7 +24,6 @@
     "tailslegacy:head/antennae",
     "tailslegacy:head/deer_antlers",
     "tailslegacy:head/antlers",
-    "tailslegacy:head/ram_horns",
     "tailslegacy:head/tall_ears"
   ],
   "head/face": [
@@ -57,7 +56,8 @@
     "tailslegacy:head/mushrooms",
     "tailslegacy:head/sculk_shrieker"
   ],
-  "head/top_front": [
+  "head/horns": [
+    "tailslegacy:head/ram_horns",
     "tailslegacy:head/demon_horns",
     "tailslegacy:head/horns"
   ]

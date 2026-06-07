@@ -84,18 +84,10 @@ public final class PartRegistry {
 
 	public static final PartReference FLUFFY_TAIL = reference("tail/fluffy_tail");
 	public static final PartReference DRAGON_TAIL = reference("tail/dragon_tail");
-	public static final PartReference RACCOON_TAIL = reference("tail/raccoon_tail");
 	public static final PartReference DEVIL_TAIL = reference("tail/devil_tail");
 	public static final PartReference CAT_TAIL = reference("tail/cat_tail");
-	public static final PartReference BIRD_TAIL = reference("tail/bird_tail");
-	public static final PartReference SHARK_TAIL = reference("tail/shark_tail");
-	public static final PartReference BUNNY_TAIL = reference("tail/bunny_tail");
-	public static final PartReference BEE_ABDOMEN = reference("tail/bee_abdomen");
-	public static final PartReference THICK_TAIL = reference("tail/thick_tail");
 
 	public static final PartReference FOX_EARS = reference("head/fox_ears");
-	public static final PartReference ELF_EARS = reference("head/elf_ears");
-	public static final PartReference ANTLERS = reference("head/antlers");
 
 	public static final PartReference BIG_WINGS = reference("wings/big_wings");
 

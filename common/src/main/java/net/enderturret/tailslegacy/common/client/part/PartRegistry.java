@@ -118,8 +118,7 @@ public final class PartRegistry {
 	 * @param id The id of the part to retrieve.
 	 * @return The retrieved part, or {@code null} if no such part exists.
 	 */
-	@Nullable
-	public static Part get(TResourceLocation id) {
+	public static @Nullable Part get(TResourceLocation id) {
 		return PART_REGISTRY.get(id);
 	}
 
@@ -137,7 +136,7 @@ public final class PartRegistry {
 	 * @author EnderTurret
 	 * @see PartRegistry#reference(TResourceLocation)
 	 */
-	public static final class PartReference implements Supplier<Part> {
+	public static final class PartReference implements Supplier<@Nullable Part> {
 
 		private final TResourceLocation id;
 
@@ -153,7 +152,7 @@ public final class PartRegistry {
 		}
 
 		@Override
-		public Part get() {
+		public @Nullable Part get() {
 			return PartRegistry.get(id);
 		}
 	}

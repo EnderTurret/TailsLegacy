@@ -65,13 +65,17 @@ public abstract class PartModel {
 				subType.renderTransforms().apply(ctx.poseStack());
 		}
 
-		ctx.render(part.getModel());
+		render0(ctx, part);
 
 		if (transformed)
 			ctx.poseStack().t$pop();
 	}
 
-	private void setPartVisible(TailsModelPart part, boolean visible) {
+	protected void render0(RenderContext ctx, Part part) {
+		ctx.render(part.getModel());
+	}
+
+	protected void setPartVisible(TailsModelPart part, boolean visible) {
 		partVisibilities.putIfAbsent(part, part.t$isVisible());
 		part.t$setVisible(visible);
 	}

@@ -9,7 +9,6 @@
     "tailslegacy:tail/shark_tail",
     "tailslegacy:tail/bunny_tail",
     "tailslegacy:tail/bee_abdomen",
-    "tailslegacy:tail/scorpion_tail",
     "tailslegacy:tail/thick_tail"
   ],
   "body/back": [
@@ -21,8 +20,6 @@
     "tailslegacy:head/small_cat_ears",
     "tailslegacy:head/panda_ears",
     "tailslegacy:head/round_ears",
-    "tailslegacy:head/antennae",
-    "tailslegacy:head/deer_antlers",
     "tailslegacy:head/antlers",
     "tailslegacy:head/tall_ears"
   ],
@@ -35,7 +32,6 @@
     "tailslegacy:head/axolotl_gills",
     "tailslegacy:head/strider_whiskers",
     "tailslegacy:head/flower_crown",
-    "tailslegacy:head/blaze_crown",
     "tailslegacy:head/elf_ears",
     "tailslegacy:head/small_side_frills",
     "tailslegacy:head/large_side_frills"
@@ -43,8 +39,6 @@
   "head/top_center": [
     "tailslegacy:head/sea_pickle",
     "tailslegacy:head/flashlight",
-    "tailslegacy:head/umbrella_hat",
-    "tailslegacy:head/beanie",
     "tailslegacy:head/traffic_cone",
     "tailslegacy:head/top_hat",
     "tailslegacy:head/goggles",
@@ -57,8 +51,6 @@
     "tailslegacy:head/sculk_shrieker"
   ],
   "head/horns": [
-    "tailslegacy:head/ram_horns",
-    "tailslegacy:head/demon_horns",
-    "tailslegacy:head/horns"
+    "tailslegacy:head/ram_horns"
   ]
 }

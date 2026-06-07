@@ -229,7 +229,7 @@ public class PartLoadingManager {
 			final NamedSubType subType = readSubType(pair.location, json.getAsJsonObject(), realTextures, realOrderings);
 
 			if (subType.subType.textures().isEmpty())
-				TailsPlatform.get().logError("Sub type {} is missing any texture definitions! Skipping!", subType.id());
+				TailsPlatform.get().logError("Subtype {}.{} is missing any texture definitions! Skipping!", subType.id(), subType.subType.id());
 			else
 				realSubTypes.add(subType);
 		}

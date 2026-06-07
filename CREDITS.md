@@ -5,7 +5,7 @@ Tails Legacy is based on the original Tails, created by Kihira, and can be found
 Tails Legacy includes models by:
 * Adeon - fox ears
 * PuffballFungus - antlers, finned dragon tail, large and small head/side fins, leaves, mushrooms, ram horns, sculk shrieker, tall ears, thick tail
-* DustSkys - antennae, axolotl gills, beanie, bee abdomen, blaze crown, deer antlers, demon horns, elf ears, flashlight, flower crown, goggles, horns, round ears, scorpion tail, straw hat, strider whiskers, top hat, traffic cone, umbrella hat
+* DustSkys - axolotl gills, bee abdomen, elf ears, flashlight, flower crown, goggles, round ears, straw hat, strider whiskers, top hat, traffic cone
 * TTFTCUTS - dragon tail
 * access_denied - shark tail
 * blusunrize - bird tail
@@ -15,6 +15,7 @@ Tails Legacy includes textures by:
 * Dracyoshi - dragon (and "boneless" dragon) wings
 * DustSkys - alt angel wings, butterfly wings, dragonfly wings, insect wings, moth wings, 'striped' and 'striped alt' fluffy tail, alt fox ears
 * littlechippie - metal wings, angel wings
+* locksox - tinted sea pickle
 
 Tails Legacy also includes translations by:
 * AegisLesha (`fr_fr`)

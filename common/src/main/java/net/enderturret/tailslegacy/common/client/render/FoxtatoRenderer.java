@@ -19,7 +19,7 @@ import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
-import net.enderturret.tailslegacy.common.client.part.PartRegistry;
+import net.enderturret.tailslegacy.common.client.part.PartReferences;
 
 @Internal
 public final class FoxtatoRenderer {
@@ -32,8 +32,8 @@ public final class FoxtatoRenderer {
 
 	public FoxtatoRenderer() {
 		this(new ArrayList<>());
-		parts.add(new ClientPartInfo(new int[]{-5480951, -6594259, -5197647}, PartRegistry.FLUFFY_TAIL));
-		parts.add(new ClientPartInfo(new int[]{-5480951, 0xFF000000, -5197647}, PartRegistry.FOX_EARS));
+		parts.add(new ClientPartInfo(new int[]{-5480951, -6594259, -5197647}, PartReferences.FLUFFY_TAIL));
+		parts.add(new ClientPartInfo(new int[]{-5480951, 0xFF000000, -5197647}, PartReferences.FOX_EARS));
 	}
 
 	public void render(TailsPoseStack poseStack, TailsBufferSource buffers, int x, int y, int z, float partialTicks, int packedLight, int packedOverlay) {

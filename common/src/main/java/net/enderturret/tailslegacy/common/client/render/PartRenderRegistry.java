@@ -8,7 +8,7 @@
 
 package net.enderturret.tailslegacy.common.client.render;
 
-import static net.enderturret.tailslegacy.common.client.part.PartRegistry.*;
+import static net.enderturret.tailslegacy.common.client.part.PartReferences.*;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -82,19 +82,6 @@ public final class PartRegistry {
 		}
 	}
 
-	public static final PartReference FLUFFY_TAIL = reference("tail/fluffy_tail");
-	public static final PartReference DRAGON_TAIL = reference("tail/dragon_tail");
-	public static final PartReference DEVIL_TAIL = reference("tail/devil_tail");
-	public static final PartReference CAT_TAIL = reference("tail/cat_tail");
-
-	public static final PartReference FOX_EARS = reference("head/fox_ears");
-
-	public static final PartReference BIG_WINGS = reference("wings/big_wings");
-
-	public static final PartReference STANDARD_MUZZLE = reference("muzzle/standard_muzzle");
-	public static final PartReference SLIM_MUZZLE = reference("muzzle/slim_muzzle");
-	public static final PartReference THIN_MUZZLE = reference("muzzle/thin_muzzle");
-
 	/**
 	 * Equivalent to {@code new PartReference(id)}.
 	 * @param id The id of the part.

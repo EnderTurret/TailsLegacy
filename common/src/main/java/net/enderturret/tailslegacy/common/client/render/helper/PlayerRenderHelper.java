@@ -12,7 +12,7 @@ package net.enderturret.tailslegacy.common.client.render.helper;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.enderturret.tailslegacy.common.client.api.IRenderHelper;
-import net.enderturret.tailslegacy.common.client.part.PartRegistry;
+import net.enderturret.tailslegacy.common.client.part.PartReferences;
 import net.enderturret.tailslegacy.common.client.render.RenderContext;
 import net.enderturret.tailslegacy.common.client.render.part.PartRenderer;
 
@@ -31,7 +31,7 @@ public final class PlayerRenderHelper implements IRenderHelper {
 
 		final boolean crouching = ctx.entity().t$isCrouching();
 
-		if (ctx.info().getPartId().equals(PartRegistry.DRAGON_TAIL.id())) {
+		if (ctx.info().getPartId().equals(PartReferences.DRAGON_TAIL.id())) {
 			if (crouching) {
 				ctx.poseStack().t$translate(0F, 0.55F, 0F);
 				ctx.poseStack().t$rotateX(0.4F);
@@ -40,7 +40,7 @@ public final class PlayerRenderHelper implements IRenderHelper {
 			ctx.poseStack().t$scale(0.8F, 0.8F, 0.8F);
 		}
 
-		else if (ctx.info().getPartId().equals(PartRegistry.CAT_TAIL.id()) || ctx.info().getPartId().equals(PartRegistry.DEVIL_TAIL.id())) {
+		else if (ctx.info().getPartId().equals(PartReferences.CAT_TAIL.id()) || ctx.info().getPartId().equals(PartReferences.DEVIL_TAIL.id())) {
 			ctx.poseStack().t$translate(0F, 0.65F, 0.1F);
 			if (crouching)
 				ctx.poseStack().t$rotateX(0.4F);

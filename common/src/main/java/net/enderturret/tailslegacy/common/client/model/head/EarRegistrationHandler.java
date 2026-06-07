@@ -8,7 +8,7 @@
 
 package net.enderturret.tailslegacy.common.client.model.head;
 
-import static net.enderturret.tailslegacy.common.client.part.PartRegistry.*;
+import static net.enderturret.tailslegacy.common.client.part.PartReferences.*;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 

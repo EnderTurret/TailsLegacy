@@ -88,6 +88,36 @@ final class GsonParts {
 					if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped part id: {} → {}.", oldPartId, newPartId);
 				}
 
+				if (obj.has("subType")) {
+					final String oldSubType = obj.get("subType").getAsString();
+					final String newSubType = Parts.remapSubTypeId(newPartId, oldSubType);
+					if (oldSubType != newSubType) {
+						if (!modified) {
+							elem = obj = OldGsonUtils.deepCopy(obj);
+							modified = true;
+						}
+
+						obj.addProperty("subType", newSubType);
+
+						if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped subtype id: {}.{} → {}.", newPartId, oldSubType, newSubType);
+					}
+				}
+
+				if (obj.has("textureId")) {
+					final String oldTexture = obj.get("textureId").getAsString();
+					final String newTexture = Parts.remapTextureId(newPartId, oldTexture);
+					if (oldTexture != newTexture) {
+						if (!modified) {
+							elem = obj = OldGsonUtils.deepCopy(obj);
+							modified = true;
+						}
+
+						obj.addProperty("textureId", newTexture);
+
+						if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped texture id: {}.{} → {}.", newPartId, oldTexture, newTexture);
+					}
+				}
+
 				if (obj.has("subType") && obj.has("textureId")) return elem;
 
 				// Convert old style sub types to new ones.
@@ -103,7 +133,7 @@ final class GsonParts {
 					obj.remove("subid");
 					obj.addProperty("subType", subType);
 
-					if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped subtype {} → {}", subId, subType);
+					if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped subtype {}.{} → {}", newPartId, subId, subType);
 				}
 
 				// Convert old style textures to new ones.
@@ -119,7 +149,7 @@ final class GsonParts {
 					obj.remove("textureID");
 					obj.addProperty("textureId", texture);
 
-					if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped texture {} → {}", textureId, texture);
+					if (!NO_LOG_IN_TESTING) TailsPlatform.get().logInfo("Remapped texture {}.{} → {}", newPartId, textureId, texture);
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 {
   "attachment": "head/sides",
   "ordering": [
-    "standard"
+    "default"
   ],
   "model": {
     "texture_size": [16, 16],

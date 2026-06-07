@@ -1,7 +1,7 @@
 {
   "attachment": "head/sides",
   "ordering": [
-    "standard",
+    "default",
     "with_feathers"
   ],
   "model": {

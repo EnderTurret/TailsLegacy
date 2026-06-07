@@ -82,6 +82,34 @@ public final class Parts {
 	}
 
 	/**
+	 * Remaps the given subtype id, if necessary.
+	 * @param partId The part id.
+	 * @param subType The subtype id to remap.
+	 * @return The remapped id.
+	 */
+	public static String remapSubTypeId(TResourceLocation partId, String subType) {
+		// Try migrating "standard" subtypes to "default" for parts in the `tailslegacy` namespace.
+		if ("tailslegacy".equals(partId.t$getNamespace()) && subType.equals("standard"))
+			return "default";
+
+		return subType;
+	}
+
+	/**
+	 * Remaps the given texture id, if necessary.
+	 * @param partId The part id.
+	 * @param texture The texture id to remap.
+	 * @return The remapped id.
+	 */
+	public static String remapTextureId(TResourceLocation partId, String texture) {
+		// Try migrating "standard" textures to "default" for parts in the `tailslegacy` namespace.
+		if ("tailslegacy".equals(partId.t$getNamespace()) && texture.equals("standard"))
+			return "default";
+
+		return texture;
+	}
+
+	/**
 	 * Maps a "legacy" subtype to the corresponding modern subtype id based on the given part id.
 	 * @param id The part id. Necessary to distinguish between different kinds of subtypes.
 	 * @param subType The legacy numeric subtype id.
@@ -92,12 +120,12 @@ public final class Parts {
 			case "tailslegacy:tail/fluffy_tail": return map(subType, "one_tail", "two_tails", "nine_tails");
 			case "tailslegacy:tail/dragon_tail": return map(subType, "lizard_tail", "dragon_tail");
 			case "tailslegacy:tail/devil_tail": return map(subType, "with_tip", "no_tip");
-			case "tailslegacy:ears/fox_ears": return map(subType, "outward", "inward");
-			case "tailslegacy:muzzle/slim_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
-			case "tailslegacy:muzzle/standard_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
-			case "tailslegacy:muzzle/thin_muzzle": return map(subType, "very_short", "short", "standard", "long", "very_long");
+			case "tailslegacy:head/fox_ears": return map(subType, "outward", "inward");
+			case "tailslegacy:muzzle/slim_muzzle": return map(subType, "very_short", "short", "default", "long", "very_long");
+			case "tailslegacy:muzzle/standard_muzzle": return map(subType, "very_short", "short", "default", "long", "very_long");
+			case "tailslegacy:muzzle/thin_muzzle": return map(subType, "very_short", "short", "default", "long", "very_long");
 			case "tailslegacy:wings/big_wings": return map(subType, "large", "small");
-			default: return "standard";
+			default: return "default";
 		}
 	}
 
@@ -109,13 +137,13 @@ public final class Parts {
 	 */
 	public static String legacyTexture(TResourceLocation id, int texture) {
 		switch (id.toString()) {
-			case "tailslegacy:tail/dragon_tail": return map(texture, "standard", "striped");
+			case "tailslegacy:tail/dragon_tail": return map(texture, "default", "striped");
 			case "tailslegacy:tail/cat_tail": return map(texture, "tabby", "tiger");
-			case "tailslegacy:muzzle/slim_muzzle": return map(texture, "standard", "alt");
-			case "tailslegacy:muzzle/standard_muzzle": return map(texture, "standard", "alt");
-			case "tailslegacy:muzzle/thin_muzzle": return map(texture, "standard", "alt");
+			case "tailslegacy:muzzle/slim_muzzle": return map(texture, "default", "alt");
+			case "tailslegacy:muzzle/standard_muzzle": return map(texture, "default", "alt");
+			case "tailslegacy:muzzle/thin_muzzle": return map(texture, "default", "alt");
 			case "tailslegacy:wings/big_wings": return map(texture, "metal", "dragon", "dragon_boneless");
-			default: return "standard";
+			default: return "default";
 		}
 	}
 

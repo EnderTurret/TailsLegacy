@@ -1,7 +1,7 @@
 {
   "attachment": "head/top_center",
   "ordering": [
-    "standard"
+    "default"
   ],
   "defaultTints": [ "0xffffff", "0xffffff", "0xffffff" ],
   "model": {

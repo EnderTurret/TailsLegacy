@@ -1,7 +1,7 @@
 {
   "attachment": "head/top_center",
   "ordering": [
-    "standard"
+    "default"
   ],
   "model": {
     "texture_size": [16, 16],

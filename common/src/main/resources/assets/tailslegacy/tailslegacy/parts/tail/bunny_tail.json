@@ -1,7 +1,7 @@
 {
   "attachment": "body/tail",
   "ordering": [
-    "standard"
+    "default"
   ],
   "allowArrows": true,
   "model": {

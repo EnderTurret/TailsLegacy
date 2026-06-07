@@ -2,7 +2,7 @@
   "applyTo": [
     "very_short",
     "short",
-    "standard",
+    "default",
     "long",
     "very_long"
   ]

@@ -248,28 +248,47 @@ public final class PartsPanel extends Panel {
 
 			final boolean currentPart = partList.isSelected(slotIndex);
 			renderPart(right - 25 - 2, y - 25, currentPart ? 10 : 1, 50, partInfo);
-			drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, y + 17, 0xFFFFFFFF);
+
+			int nameOffset = 0;
 
 			final ClientPartInfo editingInfo = parent.getEditingPartInfo();
 			if (currentPart && editingInfo.getPartTexture() != null && editingInfo.getSubType() != null) {
-				final String author;
+				String textureAuthor = null;
+				String modelAuthor = null;
 
 				if (editingInfo.getPartTexture().author() != null)
-					author = editingInfo.getPartTexture().author();
-				else if (editingInfo.getSubType().author() != null)
-					author = editingInfo.getSubType().author();
-				else author = null;
+					textureAuthor = editingInfo.getPartTexture().author();
+				if (editingInfo.getSubType().author() != null)
+					modelAuthor = editingInfo.getSubType().author();
 
-				if (author != null) {
+				if (textureAuthor != null && textureAuthor.equals(modelAuthor))
+					textureAuthor = null;
+
+				if (textureAuthor != null || modelAuthor != null) {
+					final boolean twoAuthors = textureAuthor != null && modelAuthor != null;
+					if (twoAuthors) nameOffset = -7;
+					final String singleAuthor = textureAuthor != null ? textureAuthor : modelAuthor;
+
 					// Yeah its not nice but eh, works.
 					GL11.glPushMatrix();
-					GL11.glTranslatef(5, y + 27, 0);
+					GL11.glTranslatef(5, y + 27 + nameOffset, 0);
 					GL11.glScalef(0.6F, 0.6F, 1);
-					parent.font().drawString(TailsComponents.PART_CREDIT.getFormattedText(), 0, 0, 0xFFFFFFFF);
-					parent.font().drawString(EnumChatFormatting.AQUA + author, 0, 10, 0xFFFFFFFF);
+
+					if (!twoAuthors) {
+						parent.font().drawString((textureAuthor != null ? TailsComponents.TEXTURE_CREDIT : TailsComponents.PART_CREDIT).getFormattedText(), 0, 0, 0xFFFFFFFF);
+						parent.font().drawString(EnumChatFormatting.AQUA + singleAuthor, 0, 10, 0xFFFFFFFF);
+					} else {
+						parent.font().drawString(TailsComponents.PART_CREDIT.getFormattedText(), 0, 0, 0xFFFFFFFF);
+						parent.font().drawString(EnumChatFormatting.AQUA + modelAuthor, 0, 10, 0xFFFFFFFF);
+						parent.font().drawString(TailsComponents.TEXTURE_CREDIT.getFormattedText(), 0, 20, 0xFFFFFFFF);
+						parent.font().drawString(EnumChatFormatting.AQUA + textureAuthor, 0, 30, 0xFFFFFFFF);
+					}
+
 					GL11.glPopMatrix();
 				}
 			}
+
+			drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, y + 17 + nameOffset, 0xFFFFFFFF);
 		}
 
 		@Override

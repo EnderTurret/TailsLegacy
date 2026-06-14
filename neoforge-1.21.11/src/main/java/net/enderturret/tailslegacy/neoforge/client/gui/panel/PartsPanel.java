@@ -217,28 +217,47 @@ public final class PartsPanel extends Panel {
 
 			final boolean currentPart = partList.getSelected() == this;
 			renderPart(gui, getContentRight() - 25, getContentY() - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-			gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), getX() + 5, getContentY() + 17, 0xFFFFFFFF);
+
+			int nameOffset = 0;
 
 			final ClientPartInfo editingInfo = parent.getEditingPartInfo();
 			if (currentPart && editingInfo.getPartTexture() != null && editingInfo.getSubType() != null) {
-				final String author;
+				String textureAuthor = null;
+				String modelAuthor = null;
 
 				if (editingInfo.getPartTexture().author() != null)
-					author = editingInfo.getPartTexture().author();
-				else if (editingInfo.getSubType().author() != null)
-					author = editingInfo.getSubType().author();
-				else author = null;
+					textureAuthor = editingInfo.getPartTexture().author();
+				if (editingInfo.getSubType().author() != null)
+					modelAuthor = editingInfo.getSubType().author();
 
-				if (author != null) {
+				if (textureAuthor != null && textureAuthor.equals(modelAuthor))
+					textureAuthor = null;
+
+				if (textureAuthor != null || modelAuthor != null) {
+					final boolean twoAuthors = textureAuthor != null && modelAuthor != null;
+					if (twoAuthors) nameOffset = -7;
+					final String singleAuthor = textureAuthor != null ? textureAuthor : modelAuthor;
+
 					// Yeah its not nice but eh, works.
 					gui.pose().pushMatrix();
-					gui.pose().translate(getX() + 5, getContentY() + 27);
+					gui.pose().translate(getX() + 5, getContentY() + 27 + nameOffset);
 					gui.pose().scale(0.6F, 0.6F);
-					gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
-					gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
+
+					if (!twoAuthors) {
+						gui.drawString(parent.font(), textureAuthor != null ? TailsComponents.TEXTURE_CREDIT : TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
+						gui.drawString(parent.font(), Component.literal(singleAuthor).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
+					} else {
+						gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
+						gui.drawString(parent.font(), Component.literal(modelAuthor).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
+						gui.drawString(parent.font(), TailsComponents.TEXTURE_CREDIT, 0, 20, 0xFFFFFFFF);
+						gui.drawString(parent.font(), Component.literal(textureAuthor).withStyle(ChatFormatting.AQUA), 0, 30, 0xFFFFFFFF);
+					}
+
 					gui.pose().popMatrix();
 				}
 			}
+
+			gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), getX() + 5, getContentY() + 17 + nameOffset, 0xFFFFFFFF);
 		}
 
 		@Override

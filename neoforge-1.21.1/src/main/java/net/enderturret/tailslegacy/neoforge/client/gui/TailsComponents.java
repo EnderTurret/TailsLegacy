@@ -46,6 +46,7 @@ public final class TailsComponents {
 
 	public static final Component PART_SELECT = Component.translatable(TailsLanguage.PART_SELECT);
 	public static final Component PART_CREDIT = Component.translatable(TailsLanguage.PART_CREDIT);
+	public static final Component TEXTURE_CREDIT = Component.translatable(TailsLanguage.TEXTURE_CREDIT);
 	public static final Component EMPTY_PART = Component.translatable(TailsLanguage.EMPTY_PART);
 
 	// PreviewPanel

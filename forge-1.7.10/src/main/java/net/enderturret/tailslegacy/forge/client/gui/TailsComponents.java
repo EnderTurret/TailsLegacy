@@ -48,6 +48,7 @@ public final class TailsComponents {
 
 	public static final IChatComponent PART_SELECT = new ChatComponentTranslation(TailsLanguage.PART_SELECT);
 	public static final IChatComponent PART_CREDIT = new ChatComponentTranslation(TailsLanguage.PART_CREDIT);
+	public static final IChatComponent TEXTURE_CREDIT = new ChatComponentTranslation(TailsLanguage.TEXTURE_CREDIT);
 	public static final IChatComponent EMPTY_PART = new ChatComponentTranslation(TailsLanguage.EMPTY_PART);
 
 	// PreviewPanel

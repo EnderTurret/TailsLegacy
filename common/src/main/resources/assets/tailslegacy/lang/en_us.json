@@ -172,6 +172,7 @@
   "tailslegacy.gui.hex": "Hex:",
   "tailslegacy.gui.texture": "Texture Select",
   "tailslegacy.gui.createdby": "Created by:",
+  "tailslegacy.gui.textureby": "Texture by:",
   "tailslegacy.gui.partselect": "Part Select",
   "tailslegacy.gui.done": "Done",
   "tailslegacy.gui.saved": "Saved!",

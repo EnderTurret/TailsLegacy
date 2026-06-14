@@ -45,6 +45,7 @@ public final class TailsLanguage {
 
 	public static final String PART_SELECT = "tailslegacy.gui.partselect";
 	public static final String PART_CREDIT = "tailslegacy.gui.createdby";
+	public static final String TEXTURE_CREDIT = "tailslegacy.gui.textureby";
 	public static final String EMPTY_PART = "tailslegacy.gui.part.none";
 
 	// PreviewPanel

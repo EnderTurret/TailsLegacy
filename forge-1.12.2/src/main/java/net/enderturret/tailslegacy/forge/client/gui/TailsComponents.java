@@ -48,6 +48,7 @@ public final class TailsComponents {
 
 	public static final ITextComponent PART_SELECT = new TextComponentTranslation(TailsLanguage.PART_SELECT);
 	public static final ITextComponent PART_CREDIT = new TextComponentTranslation(TailsLanguage.PART_CREDIT);
+	public static final ITextComponent TEXTURE_CREDIT = new TextComponentTranslation(TailsLanguage.TEXTURE_CREDIT);
 	public static final ITextComponent EMPTY_PART = new TextComponentTranslation(TailsLanguage.EMPTY_PART);
 
 	// PreviewPanel

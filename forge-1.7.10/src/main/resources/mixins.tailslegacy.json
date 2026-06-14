@@ -14,9 +14,11 @@
     "client.resource.MixinFolderResourcePack",
     "client.resource.MixinReloadableResourceManager",
     "client.MixinGuiSlot",
+    "client.MixinLocale",
     "client.MixinModelBiped",
     "client.MixinModelBox",
     "client.MixinRendererLivingEntity",
+    "client.SimpleResourceAccess",
     "client.TextureManagerAccess"
   ]
 }

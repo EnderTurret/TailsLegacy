@@ -15,6 +15,7 @@
     "client.resource.MixinFileResourcePack",
     "client.resource.MixinFolderResourcePack",
     "client.resource.MixinReloadableResourceManager",
+    "client.MixinLocale",
     "client.MixinModelBox",
     "client.RenderLivingBaseAccess"
   ]

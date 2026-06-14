@@ -34,11 +34,11 @@ public final class TailsNativeImageWrapper implements TailsImage {
 
 	@Override
 	public int getRGBA(int x, int y) {
-		return JavaColor.fromABGR(image.getPixelRGBA(x, y), false);
+		return JavaColor.fromABGR(image.getPixelRGBA(x, y), true);
 	}
 
 	@Override
 	public void putRGBA(int x, int y, int pixel) {
-		image.setPixelRGBA(x, y, ABGRColor.fromARGB(pixel, false));
+		image.setPixelRGBA(x, y, ABGRColor.fromARGB(pixel, true));
 	}
 }

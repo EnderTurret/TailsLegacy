@@ -241,32 +241,35 @@ public final class PartsPanel extends Panel {
 		public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 			GlStateManager.color(1, 1, 1, 1);
 
-			if (!partInfo.isEmpty()) {
-				final boolean currentPart = partList.isSelected(slotIndex);
-				renderPart(right - 25 - 2, y - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, y + 17, 0xFFFFFFFF);
-
-				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
-					final String author;
-
-					if (parent.getEditingPartInfo().getPartTexture().author() != null)
-						author = parent.getEditingPartInfo().getPartTexture().author();
-					else if (parent.getEditingPartInfo().getSubType().author() != null)
-						author = parent.getEditingPartInfo().getSubType().author();
-					else author = null;
-
-					if (author != null) {
-						// Yeah its not nice but eh, works.
-						GlStateManager.pushMatrix();
-						GlStateManager.translate(5, y + 27, 0);
-						GlStateManager.scale(0.6F, 0.6F, 1);
-						parent.font().drawString(TailsComponents.PART_CREDIT.getFormattedText(), 0, 0, 0xFFFFFFFF);
-						parent.font().drawString(TextFormatting.AQUA + author, 0, 10, 0xFFFFFFFF);
-						GlStateManager.popMatrix();
-					}
-				}
-			} else
+			if (partInfo.isEmpty()) {
 				parent.font().drawString(TailsComponents.EMPTY_PART.getFormattedText(), 5, y + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
+				return;
+			}
+
+			final boolean currentPart = partList.isSelected(slotIndex);
+			renderPart(right - 25 - 2, y - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+			drawString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, y + 17, 0xFFFFFFFF);
+
+			final ClientPartInfo editingInfo = parent.getEditingPartInfo();
+			if (currentPart && editingInfo.getPartTexture() != null && editingInfo.getSubType() != null) {
+				final String author;
+
+				if (editingInfo.getPartTexture().author() != null)
+					author = editingInfo.getPartTexture().author();
+				else if (editingInfo.getSubType().author() != null)
+					author = editingInfo.getSubType().author();
+				else author = null;
+
+				if (author != null) {
+					// Yeah its not nice but eh, works.
+					GlStateManager.pushMatrix();
+					GlStateManager.translate(5, y + 27, 0);
+					GlStateManager.scale(0.6F, 0.6F, 1);
+					parent.font().drawString(TailsComponents.PART_CREDIT.getFormattedText(), 0, 0, 0xFFFFFFFF);
+					parent.font().drawString(TextFormatting.AQUA + author, 0, 10, 0xFFFFFFFF);
+					GlStateManager.popMatrix();
+				}
+			}
 		}
 
 		@Override

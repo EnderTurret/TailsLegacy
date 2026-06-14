@@ -238,32 +238,35 @@ public final class PartsPanel extends Panel {
 		public void render(PoseStack poseStack, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
-			if (!partInfo.isEmpty()) {
-				final boolean currentPart = partList.isSelectedItem(slotIndex);
-				renderPart(poseStack, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				drawString(poseStack, parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFFFF);
-
-				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
-					final String author;
-
-					if (parent.getEditingPartInfo().getPartTexture().author() != null)
-						author = parent.getEditingPartInfo().getPartTexture().author();
-					else if (parent.getEditingPartInfo().getSubType().author() != null)
-						author = parent.getEditingPartInfo().getSubType().author();
-					else author = null;
-
-					if (author != null) {
-						// Yeah its not nice but eh, works.
-						poseStack.pushPose();
-						poseStack.translate(5, x + 27, 0);
-						poseStack.scale(0.6F, 0.6F, 1);
-						drawString(poseStack, parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
-						drawString(poseStack, parent.font(), new TextComponent(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
-						poseStack.popPose();
-					}
-				}
-			} else
+			if (partInfo.isEmpty()) {
 				drawString(poseStack, parent.font(), TailsComponents.EMPTY_PART, 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
+				return;
+			}
+
+			final boolean currentPart = partList.isSelectedItem(slotIndex);
+			renderPart(poseStack, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+			drawString(poseStack, parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17, 0xFFFFFFFF);
+
+			final ClientPartInfo editingInfo = parent.getEditingPartInfo();
+			if (currentPart && editingInfo.getPartTexture() != null && editingInfo.getSubType() != null) {
+				final String author;
+
+				if (editingInfo.getPartTexture().author() != null)
+					author = editingInfo.getPartTexture().author();
+				else if (editingInfo.getSubType().author() != null)
+					author = editingInfo.getSubType().author();
+				else author = null;
+
+				if (author != null) {
+					// Yeah its not nice but eh, works.
+					poseStack.pushPose();
+					poseStack.translate(5, x + 27, 0);
+					poseStack.scale(0.6F, 0.6F, 1);
+					drawString(poseStack, parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
+					drawString(poseStack, parent.font(), new TextComponent(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
+					poseStack.popPose();
+				}
+			}
 		}
 
 		@Override

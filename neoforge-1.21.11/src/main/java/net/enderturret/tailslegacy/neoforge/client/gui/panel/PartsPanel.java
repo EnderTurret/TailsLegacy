@@ -210,32 +210,35 @@ public final class PartsPanel extends Panel {
 
 		@Override
 		public void renderContent(GuiGraphics gui, int mouseX, int mouseY, boolean isHovering, float partialTick) {
-			if (!partInfo.isEmpty()) {
-				final boolean currentPart = partList.getSelected() == this;
-				renderPart(gui, getContentRight() - 25, getContentY() - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
-				gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), getX() + 5, getContentY() + 17, 0xFFFFFFFF);
-
-				if (currentPart && parent.getEditingPartInfo().getPartTexture() != null && parent.getEditingPartInfo().getSubType() != null) {
-					final String author;
-
-					if (parent.getEditingPartInfo().getPartTexture().author() != null)
-						author = parent.getEditingPartInfo().getPartTexture().author();
-					else if (parent.getEditingPartInfo().getSubType().author() != null)
-						author = parent.getEditingPartInfo().getSubType().author();
-					else author = null;
-
-					if (author != null) {
-						// Yeah its not nice but eh, works.
-						gui.pose().pushMatrix();
-						gui.pose().translate(getX() + 5, getContentY() + 27);
-						gui.pose().scale(0.6F, 0.6F);
-						gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
-						gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
-						gui.pose().popMatrix();
-					}
-				}
-			} else
+			if (partInfo.isEmpty()) {
 				gui.drawString(parent.font(), TailsComponents.EMPTY_PART, getX() + 5, getContentY() + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
+				return;
+			}
+
+			final boolean currentPart = partList.getSelected() == this;
+			renderPart(gui, getContentRight() - 25, getContentY() - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+			gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), getX() + 5, getContentY() + 17, 0xFFFFFFFF);
+
+			final ClientPartInfo editingInfo = parent.getEditingPartInfo();
+			if (currentPart && editingInfo.getPartTexture() != null && editingInfo.getSubType() != null) {
+				final String author;
+
+				if (editingInfo.getPartTexture().author() != null)
+					author = editingInfo.getPartTexture().author();
+				else if (editingInfo.getSubType().author() != null)
+					author = editingInfo.getSubType().author();
+				else author = null;
+
+				if (author != null) {
+					// Yeah its not nice but eh, works.
+					gui.pose().pushMatrix();
+					gui.pose().translate(getX() + 5, getContentY() + 27);
+					gui.pose().scale(0.6F, 0.6F);
+					gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
+					gui.drawString(parent.font(), Component.literal(author).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
+					gui.pose().popMatrix();
+				}
+			}
 		}
 
 		@Override

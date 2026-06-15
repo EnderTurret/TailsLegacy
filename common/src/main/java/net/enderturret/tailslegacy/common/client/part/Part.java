@@ -34,12 +34,12 @@ public final class Part {
 	protected final List<SubType> subTypes;
 	protected final int[] defaultTints;
 	protected final ModelPredicate allowArrows;
-	protected final TailsModelPart model;
-	protected final ModelAnimator animation;
+	protected final @Nullable TailsModelPart model;
+	protected final @Nullable ModelAnimator animation;
 	protected final Transformation renderTransforms;
 	protected final Transformation previewTransforms;
 
-	public Part(TResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, ModelPredicate allowArrows, TailsModelPart model, ModelAnimator animation, Transformation renderTransforms, Transformation previewTransforms) {
+	public Part(TResourceLocation id, AttachmentPoint attachment, List<SubType> subTypes, @Nullable int[] defaultTints, ModelPredicate allowArrows, @Nullable TailsModelPart model, @Nullable ModelAnimator animation, Transformation renderTransforms, Transformation previewTransforms) {
 		this.id = id;
 		this.attachment = attachment;
 		this.subTypes = Collections.unmodifiableList(new ArrayList<>(subTypes));
@@ -71,11 +71,11 @@ public final class Part {
 		return allowArrows;
 	}
 
-	public TailsModelPart getModel() {
+	public @Nullable TailsModelPart getModel() {
 		return model;
 	}
 
-	public ModelAnimator getAnimation() {
+	public @Nullable ModelAnimator getAnimation() {
 		return animation;
 	}
 

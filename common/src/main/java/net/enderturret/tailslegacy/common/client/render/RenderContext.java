@@ -123,11 +123,11 @@ public final class RenderContext {
 		render(part, packedLight, packedOverlay);
 	}
 
-	public TailsModelPart getModel() {
+	public @Nullable TailsModelPart getModel() {
 		return info.getPart().getModel();
 	}
 
-	public ModelAnimator getAnimation() {
+	public @Nullable ModelAnimator getAnimation() {
 		return info.getPart().getAnimation();
 	}
 }

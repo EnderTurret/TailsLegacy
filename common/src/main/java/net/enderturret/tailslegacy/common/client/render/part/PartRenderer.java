@@ -31,8 +31,7 @@ public class PartRenderer {
 	/**
 	 * The part model. May be {@code null} if the part renderer has no associated model, such as {@linkplain WingRenderer the wings}.
 	 */
-	@Nullable
-	public final PartModel modelPart;
+	public final @Nullable PartModel modelPart;
 
 	public PartRenderer(@Nullable PartModel modelPart) {
 		this.modelPart = modelPart;
@@ -48,11 +47,11 @@ public class PartRenderer {
 	 */
 	public void preRender(RenderContext ctx) {
 		try {
-			if (modelPart != null) {
-				modelPart.setupAnim(ctx.entity(), ctx.partialTick(), ctx.info().getSubType(), ctx.info().getPart().getModel());
-			}
-			if (ctx.info().getPart().getAnimation() != null)
-				ctx.info().getPart().getAnimation().setupAnim(ctx.entity().t$getAnimatorStorage(ctx.info()), ctx.entity(), ctx.info().getPart().getModel(), ctx.info().getSubType(), ctx.partialTick());
+			if (modelPart != null && ctx.getModel() != null)
+				modelPart.setupAnim(ctx.entity(), ctx.partialTick(), ctx.info().getSubType(), ctx.getModel());
+
+			if (ctx.getAnimation() != null)
+				ctx.getAnimation().setupAnim(ctx.entity().t$getAnimatorStorage(ctx.info()), ctx.entity(), ctx.getModel(), ctx.info().getSubType(), ctx.partialTick());
 
 			RenderHelperManager.applyRenderHelpers(ctx, this);
 		} catch (Exception e) {
@@ -76,17 +75,17 @@ public class PartRenderer {
 	 * @param alpha The transparency value.
 	 */
 	public void render(TailsPoseStack poseStack, TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, TailsBufferSource bufferSource, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
-		if (!info.isEmpty()) {
-			info.checkTexture(entity.t$uuid(), false);
+		if (info.isEmpty()) return;
 
-			final TailsBuffer buf = bufferSource.t$getEntityBuffer(entity, info.getTexture());
-			if (buf == null) return;
+		info.checkTexture(entity.t$uuid(), false);
 
-			if (entity.t$isVisibleToPlayer() && alpha == 0xFF)
-				alpha = 0x26;
+		final TailsBuffer buf = bufferSource.t$getEntityBuffer(entity, info.getTexture());
+		if (buf == null) return;
 
-			render(poseStack, entity, parts, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
-		}
+		if (entity.t$isVisibleToPlayer() && alpha == 0xFF)
+			alpha = 0x26;
+
+		render(poseStack, entity, parts, info, bufferSource, buf, x, y, z, partialTick, packedLight, packedOverlay, alpha);
 	}
 
 	/**
@@ -106,28 +105,28 @@ public class PartRenderer {
 	 * @param alpha The transparency value.
 	 */
 	public void render(TailsPoseStack poseStack, TailsEntity entity, @Nullable ClientPartsData parts, ClientPartInfo info, TailsBufferSource bufferSource, TailsBuffer buffer, double x, double y, double z, float partialTick, int packedLight, int packedOverlay, int alpha) {
-		if (!info.isEmpty()) {
-			int color = alpha << 24;
+		if (info.isEmpty()) return;
 
-			if (info.getPartTexture().tintingStrategy() == TintingStrategy.SINGLE_TINT) {
-				final int tint = info.getTints()[0];
-				color |= tint;
-			} else
-				color |= 0xFFFFFF;
+		int color = alpha << 24;
 
-			final RenderContext ctx = new RenderContext(
-					poseStack, bufferSource, buffer, packedLight, packedOverlay,
-					color, partialTick,
-					entity, parts, info);
+		if (info.getPartTexture().tintingStrategy() == TintingStrategy.SINGLE_TINT) {
+			final int tint = info.getTints()[0];
+			color |= tint;
+		} else
+			color |= 0xFFFFFF;
 
-			poseStack.t$push();
+		final RenderContext ctx = new RenderContext(
+				poseStack, bufferSource, buffer, packedLight, packedOverlay,
+				color, partialTick,
+				entity, parts, info);
 
-			preRender(ctx);
+		poseStack.t$push();
 
-			doRender(ctx);
+		preRender(ctx);
 
-			poseStack.t$pop();
-		}
+		doRender(ctx);
+
+		poseStack.t$pop();
 	}
 
 	/**
@@ -136,7 +135,7 @@ public class PartRenderer {
 	 * @param ctx The render context.
 	 */
 	protected void doRender(RenderContext ctx) {
-		if (modelPart != null)
+		if (modelPart != null && ctx.getModel() != null)
 			modelPart.render(ctx);
 	}
 }

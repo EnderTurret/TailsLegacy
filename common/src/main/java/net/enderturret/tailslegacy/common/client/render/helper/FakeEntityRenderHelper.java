@@ -35,6 +35,7 @@ public final class FakeEntityRenderHelper implements IRenderHelper {
 				ctx.poseStack().t$scale(0.9F, 0.9F, 0.9F);
 				break;
 			case "body/back":
+			case "body/wings":
 				ctx.poseStack().t$translate(0, 0.9, 0);
 				ctx.poseStack().t$scale(0.6F, 0.6F, 0.6F);
 				break;

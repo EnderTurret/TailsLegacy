@@ -42,8 +42,8 @@ public class GsonLibraryManager extends LibraryManager {
 
 	@Override
 	@Nullable
-	protected List<LibraryEntryData> readEntries() {
-		try (BufferedReader br = Files.newBufferedReader(createLibraryFile())) {
+	protected List<LibraryEntryData> readEntries(Path from) {
+		try (BufferedReader br = Files.newBufferedReader(from)) {
 			return getGson().fromJson(br, ENTRY_DATA_LIST);
 		} catch (Exception e) {
 			TailsPlatform.get().logError("Failed to load library entries!", e);

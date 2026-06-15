@@ -26,7 +26,8 @@ import org.jetbrains.annotations.Nullable;
 @Internal
 public abstract class LibraryManager {
 
-	private static final Path LIBRARY_PATH = Paths.get("tailslibrary.json");
+	protected static final Path OLD_LIBRARY_PATH = Paths.get("tailslibrary.json");
+	protected static final Path LIBRARY_PATH = Paths.get("tailslegacylibrary.json");
 
 	/**
 	 * The list of library entries.
@@ -69,38 +70,58 @@ public abstract class LibraryManager {
 		if (maybeBackup)
 			// Create a backup of the old data, in case you did something questionable.
 			if (!entries.equals(libraryEntries))
-				saveLibrary(LIBRARY_PATH.resolveSibling("tailslibrary.json.bak"));
+				saveLibrary(LIBRARY_PATH.resolveSibling("tailslegacylibrary.json.bak"));
 
 		libraryEntries.clear();
 		libraryEntries.addAll(entries);
 	}
 
 	@Nullable
-	protected abstract List<LibraryEntryData> readEntries();
+	protected abstract List<LibraryEntryData> readEntries(Path from);
 
 	/**
-	 * Loads the library data from the file specified by {@link #createLibraryFile()}.
+	 * Loads the library data from {@link #LIBRARY_PATH}.
 	 * @return A list of loaded library data.
 	 */
 	private List<LibraryEntryData> loadLibrary() {
 		final List<LibraryEntryData> libraryEntries = new ArrayList<>();
 
-		if (Files.exists(LIBRARY_PATH)) {
-			final List<LibraryEntryData> loadedEntries = readEntries();
-			if (loadedEntries != null && !loadedEntries.isEmpty())
-				for (LibraryEntryData libEntry : loadedEntries)
-					if (libEntry.partsData != null)
-						libraryEntries.add(libEntry);
+		Path path = null;
+
+		if (Files.exists(LIBRARY_PATH))
+			path = LIBRARY_PATH;
+		else if (Files.exists(OLD_LIBRARY_PATH)) {
+			path = OLD_LIBRARY_PATH;
+
+			try {
+				//"subType"
+				final String contents = String.join("\n", Files.readAllLines(OLD_LIBRARY_PATH));
+				if (contents.contains("\"subType\"") && contents.contains("\"textureId\"")) {
+					TailsPlatform.get().logInfo("Migrating tailslibrary.json to tailslegacylibrary.json...");
+					Files.move(OLD_LIBRARY_PATH, LIBRARY_PATH);
+					path = LIBRARY_PATH;
+				}
+			} catch (Exception e) {
+				TailsPlatform.get().logError("Exception migrating Tails library:", e);
+			}
 		}
+
+		if (path == null) return libraryEntries;
+
+		final List<LibraryEntryData> loadedEntries = readEntries(path);
+		if (loadedEntries != null && !loadedEntries.isEmpty())
+			for (LibraryEntryData libEntry : loadedEntries)
+				if (libEntry.partsData != null)
+					libraryEntries.add(libEntry);
 
 		return libraryEntries;
 	}
 
 	/**
-	 * Writes the current library data to the file specified by {@link #createLibraryFile()}.
+	 * Writes the current library data to {@link #LIBRARY_PATH}.
 	 */
 	public void saveLibrary() {
-		saveLibrary(createLibraryFile());
+		saveLibrary(createFile(LIBRARY_PATH));
 	}
 
 	/**
@@ -108,15 +129,6 @@ public abstract class LibraryManager {
 	 * @param to The file to write the data to.
 	 */
 	protected abstract void saveLibrary(Path to);
-
-	/**
-	 * Returns the path to the library file.
-	 * By default, this is {@code tailslibrary.json} in the game directory.
-	 * @return The library file.
-	 */
-	protected Path createLibraryFile() {
-		return createFile(LIBRARY_PATH);
-	}
 
 	/**
 	 * Creates a file if it doesn't exist.

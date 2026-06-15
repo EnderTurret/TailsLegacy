@@ -16,6 +16,7 @@ import net.enderturret.tailslegacy.common.client.duck.TailsBuffer;
 import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
+import net.enderturret.tailslegacy.common.client.model.MuzzleModel;
 import net.enderturret.tailslegacy.common.client.model.PartModel;
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
 import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
@@ -47,7 +48,7 @@ public class PartRenderer {
 	 */
 	public void preRender(RenderContext ctx) {
 		try {
-			if (modelPart != null && ctx.getModel() != null)
+			if (modelPart != null && (modelPart instanceof MuzzleModel || ctx.getModel() != null))
 				modelPart.setupAnim(ctx.entity(), ctx.partialTick(), ctx.info().getSubType(), ctx.getModel());
 
 			if (ctx.getAnimation() != null)
@@ -135,7 +136,7 @@ public class PartRenderer {
 	 * @param ctx The render context.
 	 */
 	protected void doRender(RenderContext ctx) {
-		if (modelPart != null && ctx.getModel() != null)
+		if (modelPart != null && (modelPart instanceof MuzzleModel || ctx.getModel() != null))
 			modelPart.render(ctx);
 	}
 }

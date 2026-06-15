@@ -155,7 +155,7 @@ public final class Parts {
 			case "tailslegacy:muzzle/thin_muzzle": return map(texture, "default", "alt");
 			case "tailslegacy:wings/angel_wings":
 			case "tailslegacy:wings/metal_wings":
-			case "tailslegacy:wings/dragon_wings": return map(texture, /* metal wings */ "default", /* dragon wings */ "default", "alt");
+			case "tailslegacy:wings/dragon_wings": return map(texture, /* angel wings */ "default", /* metal wings */ "default", /* dragon wings */ "default", "alt");
 			default: return "default";
 		}
 	}

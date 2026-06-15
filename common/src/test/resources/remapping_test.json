@@ -1,0 +1,237 @@
+[
+  {
+    "from": { "partType": "tail", "partid": 0, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/fluffy_tail", "subType": "one_tail", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 0, "subid": 1, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/fluffy_tail", "subType": "two_tails", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 0, "subid": 2, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/fluffy_tail", "subType": "nine_tails", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 1, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/dragon_tail", "subType": "lizard_tail", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 1, "subid": 0, "textureid": 1 },
+    "to": { "part": "tailslegacy:tail/dragon_tail", "subType": "lizard_tail", "texture": "striped" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 1, "subid": 1, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/dragon_tail", "subType": "dragon_tail", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 1, "subid": 1, "textureid": 1 },
+    "to": { "part": "tailslegacy:tail/dragon_tail", "subType": "dragon_tail", "texture": "striped" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 2, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/raccoon_tail", "subType": "default", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 3, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/devil_tail", "subType": "with_tip", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 3, "subid": 1, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/devil_tail", "subType": "no_tip", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 4, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/cat_tail", "subType": "default", "texture": "tabby" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 4, "subid": 0, "textureid": 1 },
+    "to": { "part": "tailslegacy:tail/cat_tail", "subType": "default", "texture": "tiger" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 5, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/bird_tail", "subType": "default", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 6, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/shark_tail", "subType": "default", "texture": "default" }
+  },
+  {
+    "from": { "partType": "tail", "partid": 7, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:tail/bunny_tail", "subType": "default", "texture": "default" }
+  },
+
+  {
+    "from": { "partType": "ears", "partid": 0, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:head/fox_ears", "subType": "outward", "texture": "default" }
+  },
+  {
+    "from": { "partType": "ears", "partid": 0, "subid": 1, "textureid": 0 },
+    "to": { "part": "tailslegacy:head/fox_ears", "subType": "inward", "texture": "default" }
+  },
+  {
+    "from": { "partType": "ears", "partid": 1, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:head/cat_ears", "subType": "default", "texture": "default" }
+  },
+  {
+    "from": { "partType": "ears", "partid": 2, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:head/panda_ears", "subType": "default", "texture": "default" }
+  },
+  {
+    "from": { "partType": "ears", "partid": 3, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:head/small_cat_ears", "subType": "default", "texture": "default" }
+  },
+
+  {
+    "from": { "partType": "wings", "partid": 0, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:wings/angel_wings", "subType": "large", "texture": "default" }
+  },
+  {
+    "from": { "partType": "wings", "partid": 0, "subid": 0, "textureid": 1 },
+    "to": { "part": "tailslegacy:wings/metal_wings", "subType": "large", "texture": "default" }
+  },
+  {
+    "from": { "partType": "wings", "partid": 0, "subid": 0, "textureid": 2 },
+    "to": { "part": "tailslegacy:wings/dragon_wings", "subType": "large", "texture": "default" }
+  },
+  {
+    "from": { "partType": "wings", "partid": 0, "subid": 0, "textureid": 3 },
+    "to": { "part": "tailslegacy:wings/dragon_wings", "subType": "large", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "wings", "partid": 0, "subid": 1, "textureid": 0 },
+    "to": { "part": "tailslegacy:wings/angel_wings", "subType": "small", "texture": "default" }
+  },
+  {
+    "from": { "partType": "wings", "partid": 0, "subid": 1, "textureid": 1 },
+    "to": { "part": "tailslegacy:wings/metal_wings", "subType": "small", "texture": "default" }
+  },
+  {
+    "from": { "partType": "wings", "partid": 0, "subid": 1, "textureid": 2 },
+    "to": { "part": "tailslegacy:wings/dragon_wings", "subType": "small", "texture": "default" }
+  },
+  {
+    "from": { "partType": "wings", "partid": 0, "subid": 1, "textureid": 3 },
+    "to": { "part": "tailslegacy:wings/dragon_wings", "subType": "small", "texture": "alt" }
+  },
+
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "very_short", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 0, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "very_short", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 1, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "short", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 1, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "short", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 2, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "default", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 2, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "default", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 3, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "long", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 3, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "long", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 4, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "very_long", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 0, "subid": 4, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/standard_muzzle", "subType": "very_long", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "very_short", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 0, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "very_short", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 1, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "short", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 1, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "short", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 2, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "default", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 2, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "default", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 3, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "long", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 3, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "long", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 4, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "very_long", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 1, "subid": 4, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/slim_muzzle", "subType": "very_long", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 0, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "very_short", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 0, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "very_short", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 1, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "short", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 1, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "short", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 2, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "default", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 2, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "default", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 3, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "long", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 3, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "long", "texture": "alt" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 4, "textureid": 0 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "very_long", "texture": "default" }
+  },
+  {
+    "from": { "partType": "muzzle", "partid": 2, "subid": 4, "textureid": 1 },
+    "to": { "part": "tailslegacy:muzzle/thin_muzzle", "subType": "very_long", "texture": "alt" }
+  }
+]

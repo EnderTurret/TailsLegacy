@@ -89,7 +89,7 @@ public class OldSaveTest {
 		}
 	}
 
-	private static JsonElement of(String json) {
+	static JsonElement of(String json) {
 		return new JsonParser().parse(json);
 	}
 
@@ -97,7 +97,7 @@ public class OldSaveTest {
 		return new Format(major, readFile("/partdatas/" + major.replace(".", "_") + ".json"));
 	}
 
-	private static String readFile(String path) {
+	static String readFile(String path) {
 		try (InputStream is = OldSaveTest.class.getResourceAsStream(path);
 				InputStreamReader isr = is == null ? null : new InputStreamReader(is);
 				BufferedReader br = isr == null ? null : new BufferedReader(isr)) {

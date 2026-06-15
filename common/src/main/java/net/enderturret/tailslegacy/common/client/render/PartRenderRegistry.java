@@ -23,7 +23,10 @@ import net.enderturret.tailslegacy.common.client.model.DefaultPartModel;
 import net.enderturret.tailslegacy.common.client.model.MuzzleModel;
 import net.enderturret.tailslegacy.common.client.model.body.TailRegistrationHandler;
 import net.enderturret.tailslegacy.common.client.model.head.EarRegistrationHandler;
+import net.enderturret.tailslegacy.common.client.part.AttachmentPoint;
+import net.enderturret.tailslegacy.common.client.part.AttachmentPoints;
 import net.enderturret.tailslegacy.common.client.part.Part;
+import net.enderturret.tailslegacy.common.client.part.PartRegistry;
 import net.enderturret.tailslegacy.common.client.render.part.PartRenderer;
 import net.enderturret.tailslegacy.common.client.render.part.WingRenderer;
 
@@ -36,7 +39,11 @@ public final class PartRenderRegistry {
 	private static final Map<TResourceLocation, PartRenderer> PART_RENDERER_REGISTRY = new HashMap<>();
 
 	private static void registerPartRenderers(PartRendererRegistrar registrar) {
-		registrar.register(BIG_WINGS, new WingRenderer());
+		final AttachmentPoint wingAttachment = AttachmentPoints.get("body/wings");
+		final WingRenderer renderer = new WingRenderer();
+		for (Part part : PartRegistry.getParts(wingAttachment))
+			if (part.getModel() == null)
+				registrar.register(part.getId(), renderer);
 
 		registrar.register(STANDARD_MUZZLE, new MuzzleModel(-2f, -3f, -9f, 4, 3, 5));
 		registrar.register(SLIM_MUZZLE, new MuzzleModel(-2f, -2f, -9f, 4, 2, 5));

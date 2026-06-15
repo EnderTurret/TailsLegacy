@@ -58,12 +58,9 @@ public final class PartReferences {
 	public static final PartReference STRIDER_WHISKERS = reference("head/strider_whiskers");
 	public static final PartReference TALL_EARS = reference("head/tall_ears");
 	public static final PartReference TOP_HAT = reference("head/top_hat");
-	public static final PartReference TRAFFIC_CONE = reference("head/traffic_cone");
 	public static final PartReference WIDE_BRIM_HAT = reference("head/wide_brim_hat");
 
 	// Wings
-
-	public static final PartReference BIG_WINGS = reference("wings/big_wings");
 
 	// Muzzles
 

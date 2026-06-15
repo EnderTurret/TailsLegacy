@@ -64,7 +64,9 @@ final class GsonParts {
 
 				final String type = obj.get("partType").getAsString().toLowerCase(Locale.ROOT);
 				final int id = obj.get("typeid").getAsInt();
-				final TResourceLocation partId = Parts.byLegacyId(type, id);
+				final int subId = obj.has("subid") ? obj.get("subid").getAsInt() : 0;
+				final int texId = obj.has("textureID") ? obj.get("textureID").getAsInt() : 0;
+				final TResourceLocation partId = Parts.byLegacyId(type, id, subId, texId);
 
 				obj.remove("partType");
 				obj.remove("typeid");

@@ -12,7 +12,11 @@
     "tailslegacy:tail/thick_tail"
   ],
   "body/wings": [
-    "tailslegacy:wings/big_wings"
+    "tailslegacy:wings/angel_wings",
+    "tailslegacy:wings/metal_wings",
+    "tailslegacy:wings/dragon_wings",
+    "tailslegacy:wings/butterfly_wings",
+    "tailslegacy:wings/dragonfly_wings"
   ],
   "head/top_ears": [
     "tailslegacy:head/fox_ears",

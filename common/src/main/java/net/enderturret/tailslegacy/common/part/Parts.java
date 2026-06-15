@@ -24,13 +24,16 @@ public final class Parts {
 	 * Returns the named id of the part at the given index for the given type.
 	 * If the index is out of bounds, it's normalized to {@code 0}.
 	 * @param partType The part type.
-	 * @param index The type id.
+	 * @param partId The type id.
+	 * @param subTypeId The subtype id.
+	 * @param textureId The texture id.
 	 * @return The part renderer.
 	 */
-	public static TResourceLocation byLegacyId(String partType, int index) {
+	public static TResourceLocation byLegacyId(String partType, int partId, int subTypeId, int textureId) {
 		switch (partType) {
 			case "tail":
-				switch (index) {
+				switch (partId) {
+					default:
 					case 0: return id("tail/fluffy_tail");
 					case 1: return id("tail/dragon_tail");
 					case 2: return id("tail/raccoon_tail");
@@ -39,25 +42,31 @@ public final class Parts {
 					case 5: return id("tail/bird_tail");
 					case 6: return id("tail/shark_tail");
 					case 7: return id("tail/bunny_tail");
-					default: return id("tail/fluffy_tail");
 				}
 			case "ears":
-				switch (index) {
+				switch (partId) {
+					default:
 					case 0: return id("head/fox_ears");
 					case 1: return id("head/cat_ears");
 					case 2: return id("head/panda_ears");
 					case 3: return id("head/small_cat_ears");
 					case 4: return id("head/sea_pickle");
-					default: return id("head/fox_ears");
 				}
 			case "muzzle":
-				switch (index) {
+				switch (partId) {
+					default:
 					case 0: return id("muzzle/standard_muzzle");
 					case 1: return id("muzzle/slim_muzzle");
 					case 2: return id("muzzle/thin_muzzle");
-					default: return id("muzzle/standard_muzzle");
 				}
-			case "wings": return id("wings/big_wings");
+			case "wings":
+				switch (textureId) {
+					default:
+					case 0: return id("wings/angel_wings");
+					case 1: return id("wings/metal_wings");
+					case 2:
+					case 3: return id("wings/dragon_wings");
+				}
 			default: throw new IllegalArgumentException("Unhandled part type: " + partType);
 		}
 	}
@@ -124,7 +133,9 @@ public final class Parts {
 			case "tailslegacy:muzzle/slim_muzzle": return map(subType, "very_short", "short", "default", "long", "very_long");
 			case "tailslegacy:muzzle/standard_muzzle": return map(subType, "very_short", "short", "default", "long", "very_long");
 			case "tailslegacy:muzzle/thin_muzzle": return map(subType, "very_short", "short", "default", "long", "very_long");
-			case "tailslegacy:wings/big_wings": return map(subType, "large", "small");
+			case "tailslegacy:wings/angel_wings":
+			case "tailslegacy:wings/metal_wings":
+			case "tailslegacy:wings/dragon_wings": return map(subType, "large", "small");
 			default: return "default";
 		}
 	}
@@ -142,7 +153,9 @@ public final class Parts {
 			case "tailslegacy:muzzle/slim_muzzle": return map(texture, "default", "alt");
 			case "tailslegacy:muzzle/standard_muzzle": return map(texture, "default", "alt");
 			case "tailslegacy:muzzle/thin_muzzle": return map(texture, "default", "alt");
-			case "tailslegacy:wings/big_wings": return map(texture, "metal", "dragon", "dragon_boneless");
+			case "tailslegacy:wings/angel_wings":
+			case "tailslegacy:wings/metal_wings":
+			case "tailslegacy:wings/dragon_wings": return map(texture, /* metal wings */ "default", /* dragon wings */ "default", "alt");
 			default: return "default";
 		}
 	}

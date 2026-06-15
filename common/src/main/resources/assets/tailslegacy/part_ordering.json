@@ -38,8 +38,8 @@
   ],
   "head/top_center": [
     "tailslegacy:head/sea_pickle",
+    "tailslegacy:head/sculk_shrieker",
     "tailslegacy:head/flashlight",
-    "tailslegacy:head/traffic_cone",
     "tailslegacy:head/top_hat",
     "tailslegacy:head/goggles",
     "tailslegacy:head/straw_hat",
@@ -47,8 +47,7 @@
     "tailslegacy:head/small_head_frill",
     "tailslegacy:head/large_head_frill",
     "tailslegacy:head/leaves",
-    "tailslegacy:head/mushrooms",
-    "tailslegacy:head/sculk_shrieker"
+    "tailslegacy:head/mushrooms"
   ],
   "head/horns": [
     "tailslegacy:head/ram_horns"

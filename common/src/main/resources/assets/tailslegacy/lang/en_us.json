@@ -58,7 +58,6 @@
   "tailslegacy.part.head/strider_whiskers": "Strider Whiskers",
   "tailslegacy.part.head/flashlight": "Flashlight",
   "tailslegacy.part.head/flower_crown": "Flower Crown",
-  "tailslegacy.part.head/traffic_cone": "Traffic Cone",
   "tailslegacy.part.head/top_hat": "Top Hat",
   "tailslegacy.part.head/elf_ears": "Elf Ears",
   "tailslegacy.part.head/round_ears": "Round Ears",
@@ -97,7 +96,6 @@
   "tailslegacy.part.wings/big_wings.subtype.small": "Small",
 
   "tailslegacy.part.wings/big_wings.texture.angel": "Angel",
-  "tailslegacy.part.wings/big_wings.texture.angel_alt": "Angel (Alt)",
   "tailslegacy.part.wings/big_wings.texture.metal": "Metal",
   "tailslegacy.part.wings/big_wings.texture.dragon": "Dragon",
   "tailslegacy.part.wings/big_wings.texture.dragon_boneless": "Dragon (Alt)",

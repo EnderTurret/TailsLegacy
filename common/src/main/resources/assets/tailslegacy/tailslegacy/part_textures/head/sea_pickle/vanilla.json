@@ -1,6 +1,6 @@
 {
+  "tintingStrategy": "no_tint",
   "applyTo": [
     "default"
-  ],
-  "tintingStrategy": "single_tint"
+  ]
 }

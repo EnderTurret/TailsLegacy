@@ -284,7 +284,7 @@ public final class PartsPanel extends Panel {
 				}
 			}
 
-			gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17 + nameOffset, 0xFFFFFFFF);
+			gui.drawScrollingString(parent.font(), Component.translatable(partInfo.getPart().getTranslationKey()), 5, listWidth - 8, x + 17 + nameOffset, 0xFFFFFFFF);
 		}
 
 		@Override

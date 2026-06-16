@@ -45,6 +45,7 @@ import net.enderturret.tailslegacy.common.client.part.RootAttachmentPoint;
 import net.enderturret.tailslegacy.common.client.part.SubType;
 import net.enderturret.tailslegacy.common.client.render.part.PartRenderer;
 import net.enderturret.tailslegacy.common.part.ServerPartInfo;
+import net.enderturret.tailslegacy.forge.client.RenderHelper;
 import net.enderturret.tailslegacy.forge.client.gui.EditorScreen;
 import net.enderturret.tailslegacy.forge.client.gui.TailsComponents;
 import net.enderturret.tailslegacy.forge.client.gui.widget.ListWidget;
@@ -284,7 +285,7 @@ public final class PartsPanel extends Panel {
 				}
 			}
 
-			gui.drawString(parent.font(), I18n.get(partInfo.getPart().getTranslationKey()), 5, x + 17 + nameOffset, 0xFFFFFFFF);
+			RenderHelper.drawScrollingString(gui, parent.font(), Component.translatable(partInfo.getPart().getTranslationKey()), 5, listWidth - 8, x + 17 + nameOffset, 0xFFFFFFFF);
 		}
 
 		@Override

@@ -1,0 +1,9 @@
+{
+  "author": "locksox",
+  "applyTo": [
+    "default",
+    "left_hook",
+    "right_hook",
+    "both_hooks"
+  ]
+}

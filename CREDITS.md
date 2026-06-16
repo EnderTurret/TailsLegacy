@@ -7,11 +7,12 @@ Tails Legacy's icon and banner were made by locksox.
 Tails Legacy includes models by:
 * Adeon - fox ears
 * PuffballFungus - antlers, finned dragon tail, large and small head/side fins, leaves, mushrooms, ram horns, sculk shrieker, tall ears, thick tail
-* DustSkys - axolotl gills, bee abdomen, elf ears, flashlight, flower crown, goggles, round ears, straw hat, strider whiskers, top hat, traffic cone
+* DustSkys - axolotl gills, bee abdomen, elf ears, flashlight, flower crown, goggles, round ears, straw hat, strider whiskers, top hat
 * TTFTCUTS - dragon tail
 * access_denied - shark tail
 * blusunrize - bird tail
 * carrotcodes - bunny tail
+* locksox - blackbuck horns, curved horns, devil horns, short horns, texas longhorn horns, curved unicorn horn, straight unicorn horn
 
 Tails Legacy includes textures by:
 * Dracyoshi - dragon (and "boneless" dragon) wings

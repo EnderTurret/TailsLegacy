@@ -1,0 +1,117 @@
+{
+  "attachment": "head/horns",
+  "ordering": [
+    "default",
+    "broken_right",
+    "broken_left"
+  ],
+  "allowArrows": false,
+  "model": {
+    "texture_size": [16, 16],
+    "horns": {
+      "pose": {
+        "pos": [0, -23.5, 0],
+        "rotation": [0, 0, 0]
+      },
+      "children": {
+        "rightHornBase": {
+          "pose": {
+            "pos": [-2.25, 17.35, -3.05],
+            "rotation": [0.7418, 0.2182, -0.1309]
+          },
+          "cubes": [
+            {
+              "uv": [0, 6],
+              "pos": [-1, -3, -1],
+              "size": [2, 3, 2],
+              "grow": -0.2
+            }
+          ],
+          "children": {
+            "rightHornMid": {
+              "pose": {
+                "pos": [0.5, -2.1, 0.25],
+                "rotation": [-0.5265, 0.0654, 0.0058]
+              },
+              "cubes": [
+                {
+                  "uv": [0, 3],
+                  "pos": [-1, -2, -1],
+                  "size": [1, 2, 1],
+                  "grow": 0.1
+                }
+              ],
+              "children": {
+                "rightHornTip": {
+                  "pose": {
+                    "pos": [0, -1.6, -0.1],
+                    "rotation": [-0.3481, 0.0463, 0.0586]
+                  },
+                  "cubes": [
+                    {
+                      "uv": [0, 0],
+                      "pos": [-1, -2, -1],
+                      "size": [1, 2, 1],
+                      "grow": -0.05
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "leftHornBase": {
+          "pose": {
+            "pos": [2.25, 17.35, -3.05],
+            "rotation": [0.7418, -0.2182, 0.1309]
+          },
+          "cubes": [
+            {
+              "uv": [8, 6],
+              "pos": [-1, -3, -1],
+              "size": [2, 3, 2],
+              "grow": -0.2
+            }
+          ],
+          "children": {
+            "leftHornMid": {
+              "pose": {
+                "pos": [-0.5, -2.1, 0.25],
+                "rotation": [-0.5265, -0.0654, -0.0058]
+              },
+              "cubes": [
+                {
+                  "uv": [12, 3],
+                  "pos": [0, -2, -1],
+                  "size": [1, 2, 1],
+                  "grow": 0.1
+                }
+              ],
+              "children": {
+                "lefttHornTip": {
+                  "pose": {
+                    "pos": [0, -1.6, -0.1],
+                    "rotation": [-0.3481, -0.0463, -0.0586]
+                  },
+                  "cubes": [
+                    {
+                      "uv": [12, 0],
+                      "pos": [0, -2, -1],
+                      "size": [1, 2, 1],
+                      "grow": -0.05
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "preview": {
+    "scale": [1.2, 1.2, 1.2],
+    "offset": [0.1, 0.4, 0],
+    "rotation": [0, 25, 0]
+  }
+}

@@ -93,6 +93,28 @@
   "tailslegacy.part.head/tall_ears.texture.simple": "Simple",
   "tailslegacy.part.head/tall_ears.texture.detailed": "Detailed",
 
+  "tailslegacy.part.horns/blackbuck_horns": "Blackbuck Horns",
+  "tailslegacy.part.horns/curved_horns": "Curved Horns",
+  "tailslegacy.part.horns/curved_unicorn_horn": "Curved Unicorn Horn",
+  "tailslegacy.part.horns/devil_horns": "Devil Horns",
+  "tailslegacy.part.horns/short_horns": "Short Horns",
+  "tailslegacy.part.horns/straight_unicorn_horn": "Straight Unicorn Horn",
+  "tailslegacy.part.horns/texas_longhorn_horns": "Texas Longhorn Horns",
+
+  "tailslegacy.part.horns/curved_horns.subtype.left_hook": "Left Hook",
+  "tailslegacy.part.horns/curved_horns.subtype.right_hook": "Right Hook",
+  "tailslegacy.part.horns/curved_horns.subtype.both_hooks": "Both Hooks",
+  "tailslegacy.part.horns/devil_horns.subtype.broken_right": "Broken Right",
+  "tailslegacy.part.horns/devil_horns.subtype.broken_left": "Broken Left",
+
+  "tailslegacy.part.horns/blackbuck_horns.texture.gradient": "Gradient",
+  "tailslegacy.part.horns/curved_horns.texture.gradient": "Gradient",
+  "tailslegacy.part.horns/curved_unicorn_horn.texture.gradient": "Gradient",
+  "tailslegacy.part.horns/devil_horns.texture.gradient": "Gradient",
+  "tailslegacy.part.horns/short_horns.texture.gradient": "Gradient",
+  "tailslegacy.part.horns/straight_unicorn_horn.texture.gradient": "Gradient",
+  "tailslegacy.part.horns/texas_longhorn_horns.texture.gradient": "Gradient",
+
   "tailslegacy.part.wings/angel_wings": "Angel Wings",
   "tailslegacy.part.wings/metal_wings": "Metal Wings",
   "tailslegacy.part.wings/dragon_wings": "Dragon Wings",

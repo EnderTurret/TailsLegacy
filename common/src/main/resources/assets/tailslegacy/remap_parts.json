@@ -32,23 +32,17 @@
   "tailslegacy:ears/small_cat_ears": "tailslegacy:head/small_cat_ears",
   "tailslegacy:ears/panda_ears": "tailslegacy:head/panda_ears",
   "tailslegacy:ears/round_ears": "tailslegacy:head/round_ears",
-  "tailslegacy:ears/antennae": "tailslegacy:head/antennae",
-  "tailslegacy:ears/deer_antlers": "tailslegacy:head/deer_antlers",
   "tailslegacy:ears/antlers": "tailslegacy:head/antlers",
-  "tailslegacy:ears/ram_horns": "tailslegacy:head/ram_horns",
+  "tailslegacy:ears/ram_horns": "tailslegacy:horns/ram_horns",
   "tailslegacy:ears/tall_ears": "tailslegacy:head/tall_ears",
   "tailslegacy:ears/axolotl_gills": "tailslegacy:head/axolotl_gills",
   "tailslegacy:ears/strider_whiskers": "tailslegacy:head/strider_whiskers",
   "tailslegacy:ears/flower_crown": "tailslegacy:head/flower_crown",
-  "tailslegacy:ears/blaze_crown": "tailslegacy:head/blaze_crown",
   "tailslegacy:ears/elf_ears": "tailslegacy:head/elf_ears",
   "tailslegacy:ears/small_side_frills": "tailslegacy:head/small_side_frills",
   "tailslegacy:ears/large_side_frills": "tailslegacy:head/large_side_frills",
   "tailslegacy:ears/sea_pickle": "tailslegacy:head/sea_pickle",
   "tailslegacy:ears/flashlight": "tailslegacy:head/flashlight",
-  "tailslegacy:ears/umbrella_hat": "tailslegacy:head/umbrella_hat",
-  "tailslegacy:ears/beanie": "tailslegacy:head/beanie",
-  "tailslegacy:ears/traffic_cone": "tailslegacy:head/traffic_cone",
   "tailslegacy:ears/top_hat": "tailslegacy:head/top_hat",
   "tailslegacy:ears/goggles": "tailslegacy:head/goggles",
   "tailslegacy:ears/straw_hat": "tailslegacy:head/straw_hat",
@@ -58,6 +52,8 @@
   "tailslegacy:ears/leaves": "tailslegacy:head/leaves",
   "tailslegacy:ears/mushrooms": "tailslegacy:head/mushrooms",
   "tailslegacy:ears/sculk_shrieker": "tailslegacy:head/sculk_shrieker",
-  "tailslegacy:ears/demon_horns": "tailslegacy:head/demon_horns",
-  "tailslegacy:ears/horns": "tailslegacy:head/horns"
+
+  "__comment": "This part got moved into the 'horns' folder as part of the horn rework.",
+
+  "tailslegacy:head/ram_horns": "tailslegacy:horns/ram_horns"
 }

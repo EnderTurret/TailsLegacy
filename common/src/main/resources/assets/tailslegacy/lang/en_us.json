@@ -67,7 +67,6 @@
   "tailslegacy.part.head/small_side_frills": "Small Side Frills",
   "tailslegacy.part.head/leaves": "Leaves",
   "tailslegacy.part.head/mushrooms": "Mushrooms",
-  "tailslegacy.part.head/ram_horns": "Ram Horns",
   "tailslegacy.part.head/sculk_shrieker": "Sculk Shrieker",
   "tailslegacy.part.head/straw_hat": "Straw Hat",
   "tailslegacy.part.head/large_head_frill": "Large Head Frill",
@@ -93,6 +92,7 @@
   "tailslegacy.part.head/tall_ears.texture.simple": "Simple",
   "tailslegacy.part.head/tall_ears.texture.detailed": "Detailed",
 
+  "tailslegacy.part.horns/ram_horns": "Ram Horns",
   "tailslegacy.part.horns/blackbuck_horns": "Blackbuck Horns",
   "tailslegacy.part.horns/curved_horns": "Curved Horns",
   "tailslegacy.part.horns/curved_unicorn_horn": "Curved Unicorn Horn",

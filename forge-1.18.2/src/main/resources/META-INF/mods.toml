@@ -14,6 +14,10 @@ Adds a wealth of recolorable tails, ears, wings, and head accessories for player
     authors="EnderTurret, Kihira"
     credits="See the CREDITS.md file on the GitHub repository for credits."
     displayTest="IGNORE_SERVER_VERSION"
+    logoFile="assets/tailslegacy/textures/banner.png"
+
+[modproperties.tailslegacy]
+catalogueItemIcon="minecraft:fox_spawn_egg"
 
 [[dependencies.tailslegacy]]
     modId="forge"

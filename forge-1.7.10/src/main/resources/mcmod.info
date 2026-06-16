@@ -6,5 +6,6 @@
   "description": "Adds a wealth of recolorable tails, ears, wings, and head accessories for players to wear.",
   "authorList": ["EnderTurret", "Kihira"],
   "credits": "See the CREDITS.md file on the GitHub repository for credits.",
-  "url": "https://github.com/EnderTurret/Tails"
+  "url": "https://github.com/EnderTurret/Tails",
+  "logoFile": "assets/tailslegacy/textures/banner.png"
 }]

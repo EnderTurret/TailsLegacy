@@ -1,4 +1,4 @@
-# Tails Legacy
+![Tails Legacy banner](common/src/main/resources/assets/tailslegacy/textures/banner.png)
 
 A Minecraft mod that adds in a variety of recolorable tails, ears, wings, and other accessories.
 

@@ -2,6 +2,8 @@
 
 Tails Legacy is based on the original Tails, created by Kihira, and can be found [here](https://github.com/kihira/Tails).
 
+Tails Legacy's icon and banner were made by locksox.
+
 Tails Legacy includes models by:
 * Adeon - fox ears
 * PuffballFungus - antlers, finned dragon tail, large and small head/side fins, leaves, mushrooms, ram horns, sculk shrieker, tall ears, thick tail

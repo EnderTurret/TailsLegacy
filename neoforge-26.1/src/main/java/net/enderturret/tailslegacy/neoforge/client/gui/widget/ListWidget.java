@@ -80,6 +80,7 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	@Override
 	public void replaceEntries(Collection<T> entries) {
 		super.replaceEntries(entries);
+		setScrollAmount(0);
 	}
 
 	@Override

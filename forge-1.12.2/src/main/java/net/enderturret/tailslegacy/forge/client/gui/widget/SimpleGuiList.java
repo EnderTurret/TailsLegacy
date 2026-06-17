@@ -40,6 +40,7 @@ public class SimpleGuiList<E extends GuiListExtended.IGuiListEntry> extends GuiL
 		this.entries.clear();
 		this.entries.addAll(entries);
 		setSelected(null);
+		amountScrolled = 0;
 	}
 
 	public void addEntry(E entry) {

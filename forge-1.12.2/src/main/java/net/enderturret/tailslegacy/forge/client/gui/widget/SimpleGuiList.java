@@ -51,6 +51,7 @@ public class SimpleGuiList<E extends GuiListExtended.IGuiListEntry> extends GuiL
 		if (idx == selection) setSelected(null);
 		else if (idx < selection) selection--;
 		entries.remove(idx);
+		bindAmountScrolled();
 	}
 
 	@Override

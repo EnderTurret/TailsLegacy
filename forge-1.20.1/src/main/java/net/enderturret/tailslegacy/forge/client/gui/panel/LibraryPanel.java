@@ -92,6 +92,7 @@ public final class LibraryPanel extends Panel {
 	public void removeEntry(LibraryListEntry entry) {
 		TailsClientPlatform.get().getLibraryManager().removeEntry(entry.data);
 		list.children().remove(entry);
+		list.setScrollAmount(list.getScrollAmount());
 		libraryChanged = true;
 	}
 

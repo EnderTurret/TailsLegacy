@@ -17,24 +17,24 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
-import net.enderturret.tailslegacy.common.api.ITailsSyncService;
+import net.enderturret.tailslegacy.common.api.ITailsLegacySyncService;
 import net.enderturret.tailslegacy.common.client.TailsClientPlatform;
 import net.enderturret.tailslegacy.common.gson.TailsGsonHelper;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
 /**
- * An implementation of {@link ITailsSyncService} that uses a flat directory containing json files.
+ * An implementation of {@link ITailsLegacySyncService} that uses a flat directory containing json files.
  * This implementation is suitable for use among a small group of known people, as past that the setup gets unwieldy.
  *
  * @author EnderTurret
  */
-public final class SimpleLocalTailsSyncService implements ITailsSyncService {
+public final class SimpleLocalTailsLegacySyncService implements ITailsLegacySyncService {
 
 	private static final boolean DEBUG = Boolean.getBoolean("tailslegacy.local-sync.debug");
 
 	private final Path dir;
 
-	public SimpleLocalTailsSyncService(Path dir) {
+	public SimpleLocalTailsLegacySyncService(Path dir) {
 		this.dir = dir;
 
 		if (!Files.exists(dir))
@@ -45,8 +45,8 @@ public final class SimpleLocalTailsSyncService implements ITailsSyncService {
 			}
 	}
 
-	public static SimpleLocalTailsSyncService fromConfigDir(Path configDir) {
-		return new SimpleLocalTailsSyncService(configDir.resolve("tailslegacy-sync"));
+	public static SimpleLocalTailsLegacySyncService fromConfigDir(Path configDir) {
+		return new SimpleLocalTailsLegacySyncService(configDir.resolve("tailslegacy-sync"));
 	}
 
 	@Override

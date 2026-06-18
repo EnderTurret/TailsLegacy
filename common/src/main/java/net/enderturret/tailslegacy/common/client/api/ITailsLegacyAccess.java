@@ -14,22 +14,22 @@ import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 import net.enderturret.tailslegacy.common.LibraryEntryData;
-import net.enderturret.tailslegacy.common.api.ITailsSyncService;
-import net.enderturret.tailslegacy.common.client.TailsAccess;
+import net.enderturret.tailslegacy.common.api.ITailsLegacySyncService;
+import net.enderturret.tailslegacy.common.client.TailsLegacyAccess;
 import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
 /**
- * Allows accessing certain Tails internals without falling victim to breaking changes to internal non-API.
+ * Allows accessing certain Tails Legacy internals without falling victim to breaking changes to internal non-API.
  * @author EnderTurret
  */
-public interface ITailsAccess {
+public interface ITailsLegacyAccess {
 
 	/**
-	 * @return The {@link ITailsAccess} implementation.
+	 * @return The {@link ITailsLegacyAccess} implementation.
 	 */
-	public static ITailsAccess get() {
-		return TailsAccess._get();
+	public static ITailsLegacyAccess get() {
+		return TailsLegacyAccess._get();
 	}
 
 	/**
@@ -93,10 +93,10 @@ public interface ITailsAccess {
 	 * Sets the sync service implementation Tails should use to query the part data of players when the server does not have the mod installed.
 	 * @param service The new sync service implementation.
 	 */
-	public void setSyncService(ITailsSyncService service);
+	public void setSyncService(ITailsLegacySyncService service);
 
 	/**
 	 * @return The sync service implementation, or {@code null} if no such implementation is installed.
 	 */
-	public @Nullable ITailsSyncService getSyncService();
+	public @Nullable ITailsLegacySyncService getSyncService();
 }

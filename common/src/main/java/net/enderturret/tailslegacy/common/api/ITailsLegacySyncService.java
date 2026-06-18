@@ -11,16 +11,16 @@ package net.enderturret.tailslegacy.common.api;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import net.enderturret.tailslegacy.common.client.api.ITailsAccess;
+import net.enderturret.tailslegacy.common.client.api.ITailsLegacyAccess;
 import net.enderturret.tailslegacy.common.client.part.ClientPlayerPartManager;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
 /**
  * An interface that can be implemented to provide a syncing service for player tails.
  * If set, this can be used when server-side syncing is not possible.
- * @see ITailsAccess#setSyncService(ITailsSyncService)
+ * @see ITailsLegacyAccess#setSyncService(ITailsLegacySyncService)
  */
-public interface ITailsSyncService {
+public interface ITailsLegacySyncService {
 
 	/**
 	 * Uploads the given {@link PartsData} for the given {@link UUID}.

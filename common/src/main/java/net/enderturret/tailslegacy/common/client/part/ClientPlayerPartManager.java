@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
-import net.enderturret.tailslegacy.common.api.ITailsSyncService;
-import net.enderturret.tailslegacy.common.api.impl.SimpleLocalTailsSyncService;
+import net.enderturret.tailslegacy.common.api.ITailsLegacySyncService;
+import net.enderturret.tailslegacy.common.api.impl.SimpleLocalTailsLegacySyncService;
 import net.enderturret.tailslegacy.common.client.TailsClientPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 import net.enderturret.tailslegacy.common.part.PartsData;
@@ -42,7 +42,7 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 	 */
 	@Internal
 	@Nullable
-	public static ITailsSyncService sync;
+	public static ITailsLegacySyncService sync;
 
 	private final Set<UUID> checked = new HashSet<>(0);
 
@@ -57,7 +57,7 @@ public class ClientPlayerPartManager extends PlayerPartManager {
 		if (partManager == null) {
 			if (sync == null && Boolean.getBoolean("tailslegacy.local-sync.enabled")) {
 				TailsPlatform.get().logInfo("Enabling local sync service (as requested by 'tailslegacy.local-sync.enabled')...");
-				sync = SimpleLocalTailsSyncService.fromConfigDir(TailsClientPlatform.get().getConfigDir());
+				sync = SimpleLocalTailsLegacySyncService.fromConfigDir(TailsClientPlatform.get().getConfigDir());
 			}
 
 			partManager = new ClientPlayerPartManager();

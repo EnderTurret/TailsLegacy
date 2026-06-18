@@ -14,8 +14,8 @@ import java.util.UUID;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.enderturret.tailslegacy.common.LibraryEntryData;
-import net.enderturret.tailslegacy.common.api.ITailsSyncService;
-import net.enderturret.tailslegacy.common.client.api.ITailsAccess;
+import net.enderturret.tailslegacy.common.api.ITailsLegacySyncService;
+import net.enderturret.tailslegacy.common.client.api.ITailsLegacyAccess;
 import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
 import net.enderturret.tailslegacy.common.client.part.ClientPlayerPartManager;
 import net.enderturret.tailslegacy.common.client.part.LocalPartManager;
@@ -24,22 +24,22 @@ import net.enderturret.tailslegacy.common.part.PartsData;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Implementation of {@link ITailsAccess}.
+ * Implementation of {@link ITailsLegacyAccess}.
  * @author EnderTurret
  */
 @Internal
-public final class TailsAccess implements ITailsAccess {
+public final class TailsLegacyAccess implements ITailsLegacyAccess {
 
-	private static TailsAccess instance;
+	private static TailsLegacyAccess instance;
 
 	/**
-	 * Creates (if necessary) the singleton {@link TailsAccess} instance and returns it.
-	 * @return The {@link TailsAccess} instance.
+	 * Creates (if necessary) the singleton {@link TailsLegacyAccess} instance and returns it.
+	 * @return The {@link TailsLegacyAccess} instance.
 	 */
 	@Internal
-	public static TailsAccess _get() {
+	public static TailsLegacyAccess _get() {
 		if (instance == null)
-			instance = new TailsAccess();
+			instance = new TailsLegacyAccess();
 		return instance;
 	}
 
@@ -95,13 +95,13 @@ public final class TailsAccess implements ITailsAccess {
 	}
 
 	@Override
-	public void setSyncService(ITailsSyncService service) {
+	public void setSyncService(ITailsLegacySyncService service) {
 		ClientPlayerPartManager.sync = service;
 	}
 
 	@Nullable
 	@Override
-	public ITailsSyncService getSyncService() {
+	public ITailsLegacySyncService getSyncService() {
 		return ClientPlayerPartManager.sync;
 	}
 }

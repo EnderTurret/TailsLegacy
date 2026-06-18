@@ -47,9 +47,9 @@ legacyForge {
             }
         }
 
-        server {
+        /*server {
             server()
             ideName = 'runTailsServerForge1_18_2'
-        }
+        }*/
     }
 }

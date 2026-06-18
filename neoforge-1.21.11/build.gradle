@@ -28,9 +28,9 @@ neoForge {
             }
         }
 
-        server {
+        /*server {
             server()
             ideName = 'runTailsServerNeoForge1_21_11'
-        }
+        }*/
     }
 }

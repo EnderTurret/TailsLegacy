@@ -3,7 +3,23 @@
 A Minecraft mod that adds in a variety of recolorable tails, ears, wings, and other accessories.
 
 This is a fork of [the original project](https://github.com/kihira/Tails) which has been updated to newer versions of Minecraft and expanded with additional features.
-(This fork is based on the 1.12 branch — not the in-development rewrite.)
+(This fork is based on [the 1.12 branch](https://github.com/kihira/Tails/tree/master) — not [the in-development rewrite](https://github.com/kihira/Tails/tree/update).)
+
+## Compatibility
+
+Tails Legacy should generally be compatible with everything (even the original Tails), however on older versions certain less well-behaved mods might cause problems (e.g., mods that mess with GL state instead of posing the player model).
+
+| Mod                | Version        | Compatible? | Description                                                                                                 |
+| ------------------ | -------------- | ----------- | ----------------------------------------------------------------------------------------------------------- |
+| Tails              | Any            | ✓           | Works fine (albeit redundant)                                                                               |
+| OptiFine           | 1.12.2, 1.7.10 | ✓           | Works fine                                                                                                  |
+| More Player Models | 1.12.2         | ✓           | Works fine                                                                                                  |
+| More Player Models | 1.7.10         | ✓           | Works okay, but one might run into issues (especially with [Ears](https://modrinth.com/mod/ears) installed) |
+| Smart Moving       | 1.12.2         | ✓           | Works fine                                                                                                  |
+| Galacticraft       | 1.12.2         | ✓           | Works fine                                                                                                  |
+| Obfuscate          | 1.12.2         | ✓           | Seems to work fine, but not tested thoroughly                                                               |
+| Mo' Bends          | 1.12.2         | ✓           | Works fine, but there might be clipping issues with some parts                                              |
+| Mo' Bends          | 1.7.10         | x           | Broken (might not be Tails Legacy's fault)                                                                  |
 
 ## Differences
 
@@ -22,21 +38,15 @@ For user-facing differences (the ones you're most likely to see first):
 * Exporting/importing from skin is completely gone
 * Server-side Tails libraries are gone (I'm not sure they ever even did anything?)
 * Importing library entries actually works now
+* Arrows stuck in players can now render on certain parts (currently only tails)
+* One can now rotate the editor's player preview vertically and/or zoom in
 
 ### Data format
 
-To support all of these changes, the Tails data format has changed significantly:
-
-* Part "types", "sub types", and textures are now strings, instead of integers
-* Part scale is gone (this was never used)
-* Empty parts aren't saved
-* Part types (ears, tail, muzzle etc; not fluffy tail vs raccoon tail, etc) are inferred from context
-
-Basically, the accessory data is smaller and uses fewer "magic numbers."
+To support all of these changes, the Tails data format has changed significantly. In short, the part data is smaller and uses fewer "magic numbers."
 
 Additionally, Tails Legacy will upgrade your old library and accessories to the newest format, so you don't have to worry about recreating them from scratch.
 This works on theoretically every version since 1.7 — you can toss a 1.7-era library in the game directory and Tails Legacy will upgrade it for you.
-This process is not reversible, so you can't take a new Tails library and use it on an older version of the mod (or on Tails itself).
 
 ## Data-driven parts
 

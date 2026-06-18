@@ -3,7 +3,7 @@
 A Minecraft mod that adds in a variety of recolorable tails, ears, wings, and other accessories.
 
 This is a fork of [the original project](https://github.com/kihira/Tails) which has been updated to newer versions of Minecraft and expanded with additional features.
-(This fork is based on [the 1.12 branch](https://github.com/kihira/Tails/tree/master) — not [the in-development rewrite](https://github.com/kihira/Tails/tree/update).)
+(This fork is based on [the 1.12 branch](https://github.com/kihira/Tails/tree/913cb5ddff562d0d8eef8260717310dc68eaf623) — not [the in-development rewrite](https://github.com/kihira/Tails/tree/update).)
 
 ## Compatibility
 
@@ -54,3 +54,28 @@ As mentioned earlier, Tails Legacy's part system is completely data-driven.
 For most people, the only change will be that resource packs can now define their own parts/sub-types/textures.
 
 There is a guide to creating parts, sub-types, and textures [here](docs/parts.md). For making one's own PNG textures for parts, there's an explanation of the triple tint format [here](docs/triple_tint_system.md).
+
+## For mod developers
+
+One can add Tails Legacy to their mod development environment using Modrinth's Maven.
+Alternatively, if one is on NeoForge and a compile-time dependency is not needed, then one can simply drop Tails Legacy into the `mods` folder.
+
+```gradle
+repositories {
+    maven {
+        url = 'https://api.modrinth.com/maven'
+        content {
+            includeGroup 'maven.modrinth'
+        }
+    }
+}
+
+dependencies {
+    // NeoForge
+    implementation 'maven.modrinth:tails-legacy:<version>'
+    // Forge (via ForgeGradle)
+    implementation fg.deobf('maven.modrinth:tails-legacy:<version>')
+    // Forge 1.7.10 or 1.12.2 (via RetroFuturaGradle)
+    implementation rfg.deobf('maven.modrinth:tails-legacy:<version>')
+}
+```

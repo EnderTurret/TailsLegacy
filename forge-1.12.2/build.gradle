@@ -92,3 +92,5 @@ eclipse {
         }
     }
 }
+
+publishMods.file = reobfJar.archiveFile

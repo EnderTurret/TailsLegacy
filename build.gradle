@@ -1,4 +1,27 @@
+plugins {
+    id 'me.modmuss50.mod-publish-plugin' version '2.0.0' apply false
+}
+
 group = 'net.enderturret'
+
+tasks.register('publishMods') {
+    def tasks = [
+        project(':Tails.Forge.1.7.10').tasks.publishMods,
+        project(':Tails.Forge.1.12.2').tasks.publishMods,
+        project(':Tails.Forge.1.18.2').tasks.publishMods,
+        project(':Tails.Forge.1.19.2').tasks.publishMods,
+        project(':Tails.Forge.1.20.1').tasks.publishMods,
+        project(':Tails.NeoForge.1.21.1').tasks.publishMods,
+        project(':Tails.NeoForge.1.21.11').tasks.publishMods,
+        project(':Tails.NeoForge.26.1').tasks.publishMods
+    ]
+
+    for (int i = 0; i < tasks.size() - 1; i++) {
+        tasks[i + 1].mustRunAfter(tasks[i])
+    }
+
+    dependsOn(tasks)
+}
 
 subprojects {
     apply plugin: 'java'
@@ -108,6 +131,47 @@ subprojects {
 
         dependencies {
             localImplementation (project(':Tails.Common'))
+        }
+
+        apply plugin: 'me.modmuss50.mod-publish-plugin'
+
+        publishMods {
+            file = jar.archiveFile
+            changelog = providers.fileContents(rootProject.getLayout().projectDirectory.file("changelog.md")).asText
+            type = STABLE
+            modLoaders.add("${publishing_loader}")
+            displayName = "${project.version}"
+
+            additionalFiles.from(sourcesJar.archiveFile)
+
+            dryRun = true
+
+            curseforge {
+                accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
+                projectId = ''
+                client = true
+                server = true
+
+                minecraftVersionList("${publishing_minecraft_version_range}")
+
+                javaVersions.add(JavaVersion.valueOf("${publishing_java_version}"))
+                changelogType = 'markdown'
+
+                if (project.hasProperty("publishing_mixin_dep_cf")) {
+                    requires("${publishing_mixin_dep_cf}")
+                }
+            }
+
+            modrinth {
+                accessToken = providers.gradleProperty('MODRINTH_API_KEY')
+                projectId = ''
+
+                minecraftVersionList("${publishing_minecraft_version_range}")
+
+                if (project.hasProperty("publishing_mixin_dep_mr")) {
+                    requires("${publishing_mixin_dep_mr}")
+                }
+            }
         }
     }
 }

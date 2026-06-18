@@ -27,7 +27,7 @@ legacyForge {
     version = "${minecraft_version}-${loader_version}"
 
     mods {
-        tails {
+        tailslegacy {
             sourceSet sourceSets.main
             sourceSet project(':Tails.Common').sourceSets.main
         }

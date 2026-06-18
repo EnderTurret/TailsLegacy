@@ -289,7 +289,7 @@ public final class PartsPanel extends Panel {
 				}
 			}
 
-			RenderHelper.drawScrollingString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, listWidth - 8, x + 17 + nameOffset, 0xFFFFFFFF);
+			RenderHelper.drawScrollingString(parent.font(), I18n.format(partInfo.getPart().getTranslationKey()), 5, listWidth - 8, y + 17 + nameOffset, 0xFFFFFFFF);
 		}
 
 		@Override

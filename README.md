@@ -53,7 +53,7 @@ This works on theoretically every version since 1.7 — you can toss a 1.7-era l
 As mentioned earlier, Tails Legacy's part system is completely data-driven.
 For most people, the only change will be that resource packs can now define their own parts/sub-types/textures.
 
-There is a guide to creating parts, sub-types, and textures [here](docs/parts.md). For making one's own PNG textures for parts, there's an explanation of the triple tint format [here](docs/triple_tint_system.md).
+There is a sort of guide/specification for parts, sub-types, and textures [here](docs/parts.md). For making one's own PNG textures for parts, there's an explanation of the triple tint format [here](docs/triple_tint_system.md).
 
 ## For mod developers
 

@@ -43,4 +43,4 @@ This process is not reversible, so you can't take a new Tails library and use it
 As mentioned earlier, Tails Legacy's part system is completely data-driven.
 For most people, the only change will be that resource packs can now define their own parts/sub-types/textures.
 
-There is a guide to creating parts, sub-types, and textures [here](docs/creating_parts.md).
+There is a guide to creating parts, sub-types, and textures [here](docs/parts.md). For making one's own PNG textures for parts, there's an explanation of the triple tint format [here](docs/triple_tint_system.md).

@@ -148,7 +148,7 @@ subprojects {
 
             curseforge {
                 accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
-                projectId = ''
+                projectId = '1632857'
                 client = true
                 server = true
 
@@ -164,7 +164,7 @@ subprojects {
 
             modrinth {
                 accessToken = providers.gradleProperty('MODRINTH_API_KEY')
-                projectId = ''
+                projectId = 'MUD8QUkv'
 
                 minecraftVersionList("${publishing_minecraft_version_range}")
 

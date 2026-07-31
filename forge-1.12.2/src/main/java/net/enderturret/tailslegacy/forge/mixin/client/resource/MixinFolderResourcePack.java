@@ -24,7 +24,7 @@ import net.minecraft.client.resources.AbstractResourcePack;
 import net.minecraft.client.resources.FolderResourcePack;
 import net.minecraft.util.ResourceLocation;
 
-import net.enderturret.tailslegacy.forge.common.Tails;
+import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 import net.enderturret.tailslegacy.forge.common.platform.ResourceManagerExtensions;
 
 @Mixin(FolderResourcePack.class)
@@ -55,7 +55,7 @@ public abstract class MixinFolderResourcePack extends AbstractResourcePack imple
 						.filter(filter)
 						.collect(Collectors.toSet()));
 			} catch (IOException e) {
-				Tails.LOGGER.error("Exception listing resources of {}:", prefix, e);
+				TailsLegacy.LOGGER.error("Exception listing resources of {}:", prefix, e);
 			}
 		}
 

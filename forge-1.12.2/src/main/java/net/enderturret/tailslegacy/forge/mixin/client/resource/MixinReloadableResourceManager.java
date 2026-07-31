@@ -22,7 +22,7 @@ import net.minecraft.client.resources.FallbackResourceManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
 
-import net.enderturret.tailslegacy.forge.common.Tails;
+import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 import net.enderturret.tailslegacy.forge.common.platform.ResourceManagerExtensions;
 
 @Mixin(SimpleReloadableResourceManager.class)
@@ -40,7 +40,7 @@ public abstract class MixinReloadableResourceManager implements ResourceManagerE
 			if (manager instanceof ResourceManagerExtensions)
 				ret.addAll(((ResourceManagerExtensions) manager).tails$listResources(prefix, filter));
 			else
-				Tails.LOGGER.warn("Unknown resource manager type: {}", manager.getClass().getName());
+				TailsLegacy.LOGGER.warn("Unknown resource manager type: {}", manager.getClass().getName());
 		}
 
 		return ret;

@@ -24,7 +24,7 @@ import net.enderturret.tailslegacy.common.TailsInternal;
 import net.enderturret.tailslegacy.common.TailsPlatform;
 
 @Mod(TailsPlatform.MOD_ID)
-public final class Tails {
+public final class TailsLegacy {
 
 	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
@@ -33,8 +33,8 @@ public final class Tails {
 	public static String migratingData;
 
 	@Internal
-	public Tails(ModContainer mc) {
-		if (FMLEnvironment.getDist() == Dist.CLIENT) {
+	public TailsLegacy(ModContainer mc) {
+		if (FMLEnvironment.dist == Dist.CLIENT) {
 			migratingData = TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
 			mc.registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
 		}

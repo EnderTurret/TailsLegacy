@@ -24,7 +24,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.common.gson.ResourceManagerWrapper;
-import net.enderturret.tailslegacy.neoforge.common.Tails;
+import net.enderturret.tailslegacy.neoforge.common.TailsLegacy;
 
 public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper {
 
@@ -64,7 +64,7 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 			return JsonParser.parseReader(br);
 		} catch (Exception e) {
 			// The stack trace might be increasingly large, so try not to log it.
-			Tails.LOGGER.warn("Failed to read json file {}:\n{}", location, e.toString());
+			TailsLegacy.LOGGER.warn("Failed to read json file {}:\n{}", location, e.toString());
 			return null;
 		}
 	}

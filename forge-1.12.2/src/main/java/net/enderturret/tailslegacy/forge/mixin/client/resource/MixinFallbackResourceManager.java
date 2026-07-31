@@ -25,7 +25,7 @@ import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.LegacyV2Adapter;
 import net.minecraft.util.ResourceLocation;
 
-import net.enderturret.tailslegacy.forge.common.Tails;
+import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 import net.enderturret.tailslegacy.forge.common.platform.ResourceManagerExtensions;
 
 @Mixin(FallbackResourceManager.class)
@@ -54,7 +54,7 @@ public abstract class MixinFallbackResourceManager implements ResourceManagerExt
 				if (collection == null) throw new IllegalArgumentException("Resource pack " + resourcePack + " returned null for tails$listResources");
 				ret.addAll(collection);
 			} else if (TAILS$IGNORED_CLASSES.add(resourcePack.getClass()))
-				Tails.LOGGER.warn("IResourcePack implementation " + resourcePack.getClass().getName() + " does not support Tails extensions; Tails data will not be loaded from it");
+				TailsLegacy.LOGGER.warn("IResourcePack implementation " + resourcePack.getClass().getName() + " does not support Tails extensions; Tails data will not be loaded from it");
 
 		return ret;
 	}

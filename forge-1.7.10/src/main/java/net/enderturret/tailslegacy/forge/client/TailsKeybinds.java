@@ -13,7 +13,7 @@ import net.minecraft.client.settings.KeyBinding;
 
 import net.enderturret.tailslegacy.common.TailsLanguage;
 import net.enderturret.tailslegacy.forge.client.platform.TailsClientPlatformImpl;
-import net.enderturret.tailslegacy.forge.common.Tails;
+import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.gameevent.InputEvent;
@@ -28,7 +28,7 @@ public final class TailsKeybinds {
 
 	static void onKeyPressed(InputEvent.KeyInputEvent e) {
 		if (RELOAD_PARTS.isPressed()) {
-			Tails.LOGGER.info("Reloading all parts!");
+			TailsLegacy.LOGGER.info("Reloading all parts!");
 			TailsClientPlatformImpl.reloadParts(Minecraft.getMinecraft().getResourceManager());
 		}
 	}

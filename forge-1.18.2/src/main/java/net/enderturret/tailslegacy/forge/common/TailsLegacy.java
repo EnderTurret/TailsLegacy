@@ -7,24 +7,25 @@
  * See LICENSE for full License
  */
 
-package net.enderturret.tailslegacy.neoforge.common;
+package net.enderturret.tailslegacy.forge.common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.fml.loading.FMLPaths;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import net.enderturret.tailslegacy.common.TailsInternal;
 import net.enderturret.tailslegacy.common.TailsPlatform;
+import net.enderturret.tailslegacy.forge.common.network.TailsNetworkManager;
 
 @Mod(TailsPlatform.MOD_ID)
-public final class Tails {
+public final class TailsLegacy {
 
 	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
@@ -33,10 +34,12 @@ public final class Tails {
 	public static String migratingData;
 
 	@Internal
-	public Tails(ModContainer mc) {
+	public TailsLegacy() {
+		TailsNetworkManager.get();
+
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			migratingData = TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
-			mc.registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
+			ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
 		}
 	}
 }

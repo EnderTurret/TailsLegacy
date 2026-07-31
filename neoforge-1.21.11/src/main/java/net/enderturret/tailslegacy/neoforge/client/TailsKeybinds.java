@@ -20,7 +20,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.enderturret.tailslegacy.common.TailsLanguage;
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.neoforge.client.platform.TailsClientPlatformImpl;
-import net.enderturret.tailslegacy.neoforge.common.Tails;
+import net.enderturret.tailslegacy.neoforge.common.TailsLegacy;
 
 public final class TailsKeybinds {
 
@@ -36,7 +36,7 @@ public final class TailsKeybinds {
 		if (e.getAction() != InputConstants.PRESS) return;
 
 		if (RELOAD_PARTS.consumeClick() || RELOAD_PARTS.matches(e.getKeyEvent())) {
-			Tails.LOGGER.info("Reloading all parts!");
+			TailsLegacy.LOGGER.info("Reloading all parts!");
 			TailsClientPlatformImpl.reloadParts(Minecraft.getInstance().getResourceManager());
 		}
 	}

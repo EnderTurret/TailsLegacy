@@ -29,7 +29,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.enderturret.tailslegacy.common.client.TripleTintTextureHelper;
 import net.enderturret.tailslegacy.common.client.part.TintingStrategy;
 import net.enderturret.tailslegacy.neoforge.client.platform.TailsNativeImageWrapper;
-import net.enderturret.tailslegacy.neoforge.common.Tails;
+import net.enderturret.tailslegacy.neoforge.common.TailsLegacy;
 
 /**
  * A texture that tints another texture based on three tint values.
@@ -56,7 +56,7 @@ public final class TripleTintTexture extends ReloadableTexture {
 		final Optional<Resource> optional = manager.getResource(resourceId());
 
 		if (!optional.isPresent()) {
-			Tails.LOGGER.error("Using missing texture: unable to find {}.", resourceId());
+			TailsLegacy.LOGGER.error("Using missing texture: unable to find {}.", resourceId());
 			return prepareAndUpload(null);
 		}
 
@@ -64,7 +64,7 @@ public final class TripleTintTexture extends ReloadableTexture {
 		try (InputStream is = optional.get().open()) {
 			texture = NativeImage.read(Format.RGBA, is);
 		} catch (IOException e) {
-			Tails.LOGGER.error("Using missing texture: failed to load {}.", resourceId(), e);
+			TailsLegacy.LOGGER.error("Using missing texture: failed to load {}.", resourceId(), e);
 			return prepareAndUpload(null);
 		}
 

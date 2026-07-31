@@ -46,7 +46,7 @@ import net.enderturret.tailslegacy.common.client.part.SubType;
 import net.enderturret.tailslegacy.neoforge.client.ClientLibraryManager;
 import net.enderturret.tailslegacy.neoforge.client.api.RegisterPartRenderersEvent;
 import net.enderturret.tailslegacy.neoforge.client.texture.TripleTintTexture;
-import net.enderturret.tailslegacy.neoforge.common.Tails;
+import net.enderturret.tailslegacy.neoforge.common.TailsLegacy;
 import net.enderturret.tailslegacy.neoforge.common.TailsConfig;
 import net.enderturret.tailslegacy.neoforge.common.network.C2SPlayerDataMessage;
 import net.enderturret.tailslegacy.neoforge.common.platform.ResourceManagerWrapperImpl;
@@ -148,8 +148,8 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public String getConfigParts() {
 		String ret = TailsConfig.CLIENT_INSTANCE.localPlayerData.get();
-		if (ret.isBlank() && Tails.migratingData != null) {
-			ret = Tails.migratingData;
+		if (ret.isBlank() && TailsLegacy.migratingData != null) {
+			ret = TailsLegacy.migratingData;
 			TailsPlatform.get().logInfo("Found old customization data, migrating!\n{}", ret);
 			setConfigParts(ret);
 		}

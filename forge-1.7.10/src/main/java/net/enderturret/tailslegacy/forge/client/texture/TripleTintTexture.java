@@ -27,7 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.enderturret.tailslegacy.common.client.TripleTintTextureHelper;
 import net.enderturret.tailslegacy.common.client.part.TintingStrategy;
 import net.enderturret.tailslegacy.forge.client.platform.TailsBufferedImageWrapper;
-import net.enderturret.tailslegacy.forge.common.Tails;
+import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 
 /**
  * A texture that tints another texture based on three tint values.
@@ -59,7 +59,7 @@ public final class TripleTintTexture extends AbstractTexture {
 		try (InputStream is = resource.getInputStream()) {
 			texture = ImageIO.read(is);
 		} catch (IOException e) {
-			Tails.LOGGER.error("Using missing texture: failed to load {}.", textureLocation, e);
+			TailsLegacy.LOGGER.error("Using missing texture: failed to load {}.", textureLocation, e);
 			prepareAndUpload(null);
 			return;
 		}

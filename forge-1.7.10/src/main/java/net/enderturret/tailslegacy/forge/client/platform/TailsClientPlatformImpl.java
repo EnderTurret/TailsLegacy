@@ -52,7 +52,7 @@ import net.enderturret.tailslegacy.forge.client.api.RegisterPartRenderersEvent;
 import net.enderturret.tailslegacy.forge.client.render.ModelPartCubeExtensions;
 import net.enderturret.tailslegacy.forge.client.render.ModelPartExtensions;
 import net.enderturret.tailslegacy.forge.client.texture.TripleTintTexture;
-import net.enderturret.tailslegacy.forge.common.Tails;
+import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 import net.enderturret.tailslegacy.forge.common.TailsConfig;
 import net.enderturret.tailslegacy.forge.common.network.C2SPlayerDataMessage;
 import net.enderturret.tailslegacy.forge.common.network.TailsNetworkManager;
@@ -155,7 +155,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 			Minecraft.getMinecraft().getTextureManager().deleteTexture((ResourceLocation) id);
 			((TextureManagerAccess) Minecraft.getMinecraft().getTextureManager()).tails$mapTextureObjects().remove(id);
 		} catch (Exception e) {
-			Tails.LOGGER.warn("Exception releasing {}:", e);
+			TailsLegacy.LOGGER.warn("Exception releasing {}:", e);
 		}
 	}
 

@@ -149,7 +149,7 @@ subprojects {
                 projectId = '1632857'
                 changelogType = 'markdown'
 
-                additionalFile(sourcesJar)
+                additionalFiles.from(sourcesJar.archiveFile)
 
                 minecraftVersionList("${publishing_minecraft_version_range}")
                 javaVersions.add(JavaVersion.valueOf("${publishing_java_version}"))

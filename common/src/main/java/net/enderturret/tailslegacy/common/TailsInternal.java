@@ -24,6 +24,9 @@ public final class TailsInternal {
 	@Internal
 	public static final boolean DEBUG_NETWORK = Boolean.getBoolean("tailslegacy.debugNetwork");
 
+	@Internal
+	public static final boolean UNLOCK_EXPERIMENTAL_ANIMATORS = Boolean.getBoolean("tailslegacy.unlockExperimentalAnimators");
+
 	public static String maybeMigrateTomlConfig(Path configDir) {
 		final Path newConfig = configDir.resolve("tailslegacy-client.toml");
 

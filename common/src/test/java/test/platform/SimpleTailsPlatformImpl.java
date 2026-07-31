@@ -16,6 +16,11 @@ import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 
 public final class SimpleTailsPlatformImpl implements TailsPlatform {
 
+	@Override
+	public boolean isDevEnvironment() {
+		return true;
+	}
+
 	// "We have Log4J at home."
 	// The Log4J at home:
 	@Override

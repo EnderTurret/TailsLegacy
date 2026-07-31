@@ -13,11 +13,18 @@ import java.util.UUID;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 
 public final class TailsPlatformImpl implements TailsPlatform {
+
+	@Override
+	public boolean isDevEnvironment() {
+		return !FMLEnvironment.production;
+	}
 
 	@Override
 	public void logDebug(String msg, Object... args) { TailsLegacy.LOGGER.debug(msg, args); }

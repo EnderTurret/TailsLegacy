@@ -25,6 +25,8 @@ public interface TailsPlatform {
 		return TailsInternal.platform;
 	}
 
+	public boolean isDevEnvironment();
+
 	public void logDebug(String msg, Object... args);
 	public void logInfo(String msg);
 	public void logInfo(String msg, Object arg1);

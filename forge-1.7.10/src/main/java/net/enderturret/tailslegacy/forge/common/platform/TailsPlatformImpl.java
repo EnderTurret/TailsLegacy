@@ -11,6 +11,7 @@ package net.enderturret.tailslegacy.forge.common.platform;
 import java.util.Random;
 import java.util.UUID;
 
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -19,6 +20,11 @@ import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 
 public final class TailsPlatformImpl implements TailsPlatform {
+
+	@Override
+	public boolean isDevEnvironment() {
+		return Launch.blackboard.getOrDefault("fml.deobfuscatedEnvironment", false) == Boolean.TRUE;
+	}
 
 	@Override
 	public void logDebug(String msg, Object... args) { TailsLegacy.LOGGER.debug(msg, args); }

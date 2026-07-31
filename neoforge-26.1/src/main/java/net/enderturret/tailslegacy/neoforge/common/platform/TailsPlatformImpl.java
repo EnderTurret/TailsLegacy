@@ -14,11 +14,18 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 
+import net.neoforged.fml.loading.FMLEnvironment;
+
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.neoforge.common.TailsLegacy;
 
 public final class TailsPlatformImpl implements TailsPlatform {
+
+	@Override
+	public boolean isDevEnvironment() {
+		return !FMLEnvironment.isProduction();
+	}
 
 	@Override
 	public void logDebug(String msg, Object... args) { TailsLegacy.LOGGER.debug(msg, args); }

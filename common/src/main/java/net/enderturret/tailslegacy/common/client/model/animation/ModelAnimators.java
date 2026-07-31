@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.JsonObject;
 
+import net.enderturret.tailslegacy.common.TailsInternal;
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.common.client.duck.TailsModelPart;
@@ -35,7 +36,9 @@ public final class ModelAnimators {
 		registerBuiltin("none", (a, b) -> null);
 		registerBuiltin("default", DefaultModelAnimator::parse);
 		registerBuiltin("composite", CompositeModelAnimator::parse);
-		registerBuiltin("auria_tail_physics", AuriaTailPhysicsAnimator::new);
+
+		if (TailsInternal.UNLOCK_EXPERIMENTAL_ANIMATORS || TailsPlatform.get().isDevEnvironment())
+			registerBuiltin("auria_tail_physics", AuriaTailPhysicsAnimator::new);
 
 		registerBuiltin("bird_tail", BirdTailAnimator::new);
 		registerBuiltin("fluffy_tail", FluffyTailAnimator::new);

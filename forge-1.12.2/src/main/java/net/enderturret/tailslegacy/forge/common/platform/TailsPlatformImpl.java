@@ -13,11 +13,18 @@ import java.util.UUID;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
+import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
+
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.forge.common.TailsLegacy;
 
 public final class TailsPlatformImpl implements TailsPlatform {
+
+	@Override
+	public boolean isDevEnvironment() {
+		return FMLLaunchHandler.isDeobfuscatedEnvironment();
+	}
 
 	@Override
 	public void logDebug(String msg, Object... args) { TailsLegacy.LOGGER.debug(msg, args); }

@@ -1,3 +1,3 @@
 ### Changes
 
-* First release.
+* Initial release of the mod!

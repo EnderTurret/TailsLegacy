@@ -142,20 +142,20 @@ subprojects {
             modLoaders.add("${publishing_loader}")
             displayName = "${project.version}"
 
-            additionalFiles.from(sourcesJar.archiveFile)
-
             dryRun = true
 
             curseforge {
                 accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
                 projectId = '1632857'
-                client = true
-                server = true
+                changelogType = 'markdown'
+
+                additionalFile(sourcesJar)
 
                 minecraftVersionList("${publishing_minecraft_version_range}")
-
                 javaVersions.add(JavaVersion.valueOf("${publishing_java_version}"))
-                changelogType = 'markdown'
+
+                client = true
+                server = true
 
                 if (project.hasProperty("publishing_mixin_dep_cf")) {
                     requires("${publishing_mixin_dep_cf}")
@@ -166,7 +166,13 @@ subprojects {
                 accessToken = providers.gradleProperty('MODRINTH_API_KEY')
                 projectId = 'MUD8QUkv'
 
+                additionalFile(sourcesJar) {
+                    type = SOURCES_JAR
+                }
+
                 minecraftVersionList("${publishing_minecraft_version_range}")
+
+                environment = CLIENT_OR_SERVER_PREFERS_BOTH
 
                 if (project.hasProperty("publishing_mixin_dep_mr")) {
                     requires("${publishing_mixin_dep_mr}")

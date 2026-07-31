@@ -18,7 +18,7 @@ Tails Legacy includes textures by:
 * Dracyoshi - dragon (and "boneless" dragon) wings
 * DustSkys - alt angel wings, butterfly wings, dragonfly wings, insect wings, moth wings, 'striped' and 'striped alt' fluffy tail, alt fox ears
 * littlechippie - metal wings, angel wings
-* locksox - tinted sea pickle
+* locksox - tinted sea pickle, alternate simplified dragon tail
 
 Tails Legacy also includes translations by:
 * AegisLesha (`fr_fr`)

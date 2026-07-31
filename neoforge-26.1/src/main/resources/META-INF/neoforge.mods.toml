@@ -1,12 +1,12 @@
 modLoader="javafml"
 loaderVersion="[1,)"
 license="MIT"
-issueTrackerURL="https://github.com/EnderTurret/Tails/issues"
+issueTrackerURL="https://github.com/EnderTurret/TailsLegacy/issues"
 
 [[mods]]
     modId="tailslegacy"
     displayName="Tails Legacy"
-    displayURL="https://github.com/EnderTurret/Tails"
+    displayURL="https://github.com/EnderTurret/TailsLegacy"
     description='''
 Adds a wealth of recolorable tails, ears, wings, and head accessories for players to wear.
 '''

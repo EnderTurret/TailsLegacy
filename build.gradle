@@ -142,7 +142,7 @@ subprojects {
             modLoaders.add("${publishing_loader}")
             displayName = "${project.version}"
 
-            dryRun = true
+            dryRun = false
 
             curseforge {
                 accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')

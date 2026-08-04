@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "tailslegacy",
+  "version": "${version}",
+
+  "name": "Tails Legacy",
+  "description": "Adds a wealth of recolorable tails, ears, wings, and head accessories for players to wear.",
+  "authors": ["EnderTurret", "Kihira"],
+  "contact": {
+    "homepage": "https://github.com/EnderTurret/TailsLegacy",
+    "sources": "https://github.com/EnderTurret/TailsLegacy",
+    "issues": "https://github.com/EnderTurret/TailsLegacy/issues"
+  },
+
+  "license": "MIT",
+  "icon": "assets/tailslegacy/textures/banner.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": ["net.enderturret.tailslegacy.fabric.TailsLegacy"],
+    "client": ["net.enderturret.tailslegacy.fabric.client.ClientEvents"]
+  },
+  "mixins": ["mixins.tailslegacy.json"],
+
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": ">=26.1",
+    "java": ">=25"
+  },
+  "suggests": {
+    "fabric-api": ">=0.95.3"
+  }
+}

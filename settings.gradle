@@ -1,6 +1,10 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
         maven { url = 'https://maven.neoforged.net' }
         maven { url = 'https://maven.parchmentmc.org' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
@@ -13,10 +17,6 @@ pluginManagement {
                 includeGroup 'com.gtnewhorizons.retrofuturagradle'
             }
         }
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
         mavenCentral()
     }
 }
@@ -27,8 +27,9 @@ plugins {
 
 rootProject.name = 'Tails'
 
-include('common', 'forge-1.7.10', 'forge-1.12.2', 'forge-1.18.2', 'forge-1.19.2', 'forge-1.20.1', 'neoforge-1.21.1', 'neoforge-1.21.11', 'neoforge-26.1')
+include('common', 'fabric-26.1', 'forge-1.7.10', 'forge-1.12.2', 'forge-1.18.2', 'forge-1.19.2', 'forge-1.20.1', 'neoforge-1.21.1', 'neoforge-1.21.11', 'neoforge-26.1')
 project(':common').name = 'Tails.Common'
+project(':fabric-26.1').name = 'Tails.Fabric.26.1'
 project(':forge-1.7.10').name = 'Tails.Forge.1.7.10'
 project(':forge-1.12.2').name = 'Tails.Forge.1.12.2'
 project(':forge-1.18.2').name = 'Tails.Forge.1.18.2'

@@ -1,0 +1,31 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.141'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+neoForge {
+    version = "${loader_version}"
+
+    mods {
+        tailslegacy {
+            sourceSet sourceSets.main
+            sourceSet project(':Tails.Common').sourceSets.main
+        }
+    }
+
+    runs {
+        client {
+            client()
+            ideName = 'runTailsClientNeoForge26_2'
+            if (rootProject.findProperty('minecraft_username') != null) {
+                programArguments.addAll('--uuid', rootProject.findProperty('minecraft_uuid'), '--username', rootProject.findProperty('minecraft_username'))
+            }
+        }
+
+        /*server {
+            server()
+            ideName = 'runTailsServerNeoForge26_2'
+        }*/
+    }
+}

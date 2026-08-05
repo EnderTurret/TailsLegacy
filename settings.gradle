@@ -27,7 +27,7 @@ plugins {
 
 rootProject.name = 'Tails'
 
-include('common', 'fabric-26.1', 'forge-1.7.10', 'forge-1.12.2', 'forge-1.18.2', 'forge-1.19.2', 'forge-1.20.1', 'neoforge-1.21.1', 'neoforge-1.21.11', 'neoforge-26.1')
+include('common', 'fabric-26.1', 'forge-1.7.10', 'forge-1.12.2', 'forge-1.18.2', 'forge-1.19.2', 'forge-1.20.1', 'neoforge-1.21.1', 'neoforge-1.21.11', 'neoforge-26.1', 'neoforge-26.2')
 project(':common').name = 'Tails.Common'
 project(':fabric-26.1').name = 'Tails.Fabric.26.1'
 project(':forge-1.7.10').name = 'Tails.Forge.1.7.10'
@@ -39,3 +39,4 @@ project(':neoforge-1.21.1').name = 'Tails.NeoForge.1.21.1'
 //project(':neoforge-1.21.10').name = 'Tails.NeoForge.1.21.10'
 project(':neoforge-1.21.11').name = 'Tails.NeoForge.1.21.11'
 project(':neoforge-26.1').name = 'Tails.NeoForge.26.1'
+project(':neoforge-26.2').name = 'Tails.NeoForge.26.2'

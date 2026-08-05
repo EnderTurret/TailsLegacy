@@ -25,7 +25,6 @@ import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.network.BasePlayerDataMapMessage;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
-// S → C
 @Internal
 public record S2CBulkPlayerDataMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BasePlayerDataMapMessage {
 

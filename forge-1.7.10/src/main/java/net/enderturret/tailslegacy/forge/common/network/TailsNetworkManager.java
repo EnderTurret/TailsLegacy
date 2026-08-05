@@ -30,7 +30,7 @@ public class TailsNetworkManager {
 	static {
 		CHANNEL.registerMessage(new C2SPlayerDataMessage.Handler(), C2SPlayerDataMessage.class, 0, Side.SERVER);
 		CHANNEL.registerMessage(new S2CPlayerDataMessage.Handler(), S2CPlayerDataMessage.class, 1, Side.CLIENT);
-		CHANNEL.registerMessage(new PlayerDataMapMessage.Handler(), PlayerDataMapMessage.class, 2, Side.CLIENT);
+		CHANNEL.registerMessage(new S2CBulkPlayerDataMessage.Handler(), S2CBulkPlayerDataMessage.class, 2, Side.CLIENT);
 	}
 
 	public static SimpleNetworkWrapper get() {

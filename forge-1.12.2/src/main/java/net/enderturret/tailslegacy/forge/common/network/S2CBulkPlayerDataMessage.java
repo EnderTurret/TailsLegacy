@@ -24,15 +24,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.enderturret.tailslegacy.common.network.BasePlayerDataMapMessage;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
-// S → C
 @Internal
-public final class PlayerDataMapMessage implements BasePlayerDataMapMessage, IMessage {
+public final class S2CBulkPlayerDataMessage implements BasePlayerDataMapMessage, IMessage {
 
 	private Map<UUID, PartsData> partsDataMap;
 
-	public PlayerDataMapMessage() {}
+	public S2CBulkPlayerDataMessage() {}
 
-	public PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) {
+	public S2CBulkPlayerDataMessage(Map<UUID, PartsData> partsDataMap) {
 		this.partsDataMap = partsDataMap;
 	}
 
@@ -47,10 +46,10 @@ public final class PlayerDataMapMessage implements BasePlayerDataMapMessage, IMe
 	}
 
 	@Internal
-	public static final class Handler implements IMessageHandler<PlayerDataMapMessage, IMessage> {
+	public static final class Handler implements IMessageHandler<S2CBulkPlayerDataMessage, IMessage> {
 
 		@Override
-		public IMessage onMessage(PlayerDataMapMessage message, MessageContext context) {
+		public IMessage onMessage(S2CBulkPlayerDataMessage message, MessageContext context) {
 			BasePlayerDataMapMessage.handle(message.partsDataMap);
 			return null;
 		}

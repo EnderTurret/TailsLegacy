@@ -36,7 +36,7 @@ public class TailsNetworkManager {
 	static {
 		CHANNEL.registerMessage(0, C2SPlayerDataMessage.class, C2SPlayerDataMessage::encode, C2SPlayerDataMessage::decode, C2SPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
 		CHANNEL.registerMessage(1, S2CPlayerDataMessage.class, S2CPlayerDataMessage::encode, S2CPlayerDataMessage::decode, S2CPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-		CHANNEL.registerMessage(2, PlayerDataMapMessage.class, PlayerDataMapMessage::encode, PlayerDataMapMessage::decode, PlayerDataMapMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+		CHANNEL.registerMessage(2, S2CBulkPlayerDataMessage.class, S2CBulkPlayerDataMessage::encode, S2CBulkPlayerDataMessage::decode, S2CBulkPlayerDataMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 	}
 
 	public static SimpleChannel get() {

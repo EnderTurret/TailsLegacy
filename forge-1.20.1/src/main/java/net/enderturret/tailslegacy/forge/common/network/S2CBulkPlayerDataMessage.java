@@ -22,12 +22,11 @@ import net.minecraftforge.network.NetworkEvent;
 import net.enderturret.tailslegacy.common.network.BasePlayerDataMapMessage;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
-// S → C
 @Internal
-public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements BasePlayerDataMapMessage {
+public record S2CBulkPlayerDataMessage(Map<UUID, PartsData> partsDataMap) implements BasePlayerDataMapMessage {
 
-	public static PlayerDataMapMessage decode(FriendlyByteBuf buf) {
-		return new PlayerDataMapMessage(BasePlayerDataMapMessage.decodeJson(buf.readUtf(Short.MAX_VALUE)));
+	public static S2CBulkPlayerDataMessage decode(FriendlyByteBuf buf) {
+		return new S2CBulkPlayerDataMessage(BasePlayerDataMapMessage.decodeJson(buf.readUtf(Short.MAX_VALUE)));
 	}
 
 	public void encode(FriendlyByteBuf buf) {
@@ -35,7 +34,7 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements
 	}
 
 	@Internal
-	public static void handle(PlayerDataMapMessage message, Supplier<NetworkEvent.Context> context) {
+	public static void handle(S2CBulkPlayerDataMessage message, Supplier<NetworkEvent.Context> context) {
 		BasePlayerDataMapMessage.handle(message.partsDataMap);
 		context.get().setPacketHandled(true);
 	}

@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.part.ServerPlayerPartManager;
-import net.enderturret.tailslegacy.forge.common.network.PlayerDataMapMessage;
+import net.enderturret.tailslegacy.forge.common.network.S2CBulkPlayerDataMessage;
 import net.enderturret.tailslegacy.forge.common.network.TailsNetworkManager;
 
 /**
@@ -34,7 +34,7 @@ public final class ServerEventHandler {
 	static void onPlayerLogin(PlayerLoggedInEvent event) {
 		final EntityPlayerMP player = (EntityPlayerMP) event.player;
 		// Send current known tails to uk.kihira.tails.client
-		TailsNetworkManager.get().sendTo(new PlayerDataMapMessage(ServerPlayerPartManager.get().getData()), player);
+		TailsNetworkManager.get().sendTo(new S2CBulkPlayerDataMessage(ServerPlayerPartManager.get().getData()), player);
 	}
 
 	@SubscribeEvent

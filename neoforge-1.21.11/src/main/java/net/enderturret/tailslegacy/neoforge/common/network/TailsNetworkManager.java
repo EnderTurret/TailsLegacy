@@ -30,6 +30,6 @@ public class TailsNetworkManager {
 		e.registrar("1").executesOn(HandlerThread.NETWORK).optional()
 		.playToServer(C2SPlayerDataMessage.TYPE, C2SPlayerDataMessage.STREAM_CODEC, C2SPlayerDataMessage::handle)
 		.playToClient(S2CPlayerDataMessage.TYPE, S2CPlayerDataMessage.STREAM_CODEC, S2CPlayerDataMessage::handle)
-		.playToClient(PlayerDataMapMessage.TYPE, PlayerDataMapMessage.STREAM_CODEC, PlayerDataMapMessage::handle);
+		.playToClient(S2CBulkPlayerDataMessage.TYPE, S2CBulkPlayerDataMessage.STREAM_CODEC, S2CBulkPlayerDataMessage::handle);
 	}
 }

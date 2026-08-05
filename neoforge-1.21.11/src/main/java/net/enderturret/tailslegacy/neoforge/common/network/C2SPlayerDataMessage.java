@@ -60,7 +60,9 @@ public record C2SPlayerDataMessage(PartsData partsData) implements CustomPacketP
 		ServerPlayerPartManager.get().set(uuid, message.partsData);
 
 		// Tell other clients about the change.
-		// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
-		PacketDistributor.sendToAllPlayers(new S2CPlayerDataMessage(uuid, message.partsData));
+		final S2CPlayerDataMessage msg = new S2CPlayerDataMessage(uuid, message.partsData);
+		for (ServerPlayer player : sender.level().getServer().getPlayerList().getPlayers())
+			if (player != sender && player.connection.hasChannel(msg))
+				PacketDistributor.sendToPlayer(player, msg);
 	}
 }

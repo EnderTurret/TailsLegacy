@@ -67,7 +67,7 @@ import net.enderturret.tailslegacy.common.client.part.LocalPartManager;
 import net.enderturret.tailslegacy.common.client.render.helper.FakeEntityRenderHelper;
 import net.enderturret.tailslegacy.common.client.render.helper.PlayerRenderHelper;
 import net.enderturret.tailslegacy.common.client.render.helper.RenderHelperManager;
-import net.enderturret.tailslegacy.common.network.BasePlayerDataMapMessage;
+import net.enderturret.tailslegacy.common.network.BaseS2CBulkPlayerDataMessage;
 import net.enderturret.tailslegacy.common.network.BaseS2CPlayerDataMessage;
 import net.enderturret.tailslegacy.fabric.client.gui.EditorScreen;
 import net.enderturret.tailslegacy.fabric.client.gui.TailsComponents;
@@ -123,7 +123,7 @@ public final class ClientEventHandler {
 	}
 
 	public static void handle(S2CBulkPlayerDataMessage message, ClientPlayNetworking.Context context) {
-		BasePlayerDataMapMessage.handle(message.partsDataMap());
+		BaseS2CBulkPlayerDataMessage.handle(message.partsDataMap());
 	}
 
 	/**

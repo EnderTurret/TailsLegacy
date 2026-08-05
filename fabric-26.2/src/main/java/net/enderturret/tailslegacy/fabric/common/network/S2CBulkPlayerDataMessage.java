@@ -22,11 +22,11 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
-import net.enderturret.tailslegacy.common.network.BasePlayerDataMapMessage;
+import net.enderturret.tailslegacy.common.network.BaseS2CBulkPlayerDataMessage;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
 @Internal
-public record S2CBulkPlayerDataMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BasePlayerDataMapMessage {
+public record S2CBulkPlayerDataMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BaseS2CBulkPlayerDataMessage {
 
 	public static final Type<S2CBulkPlayerDataMessage> TYPE = new Type<>(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "bulk_sync_to_client"));
 
@@ -39,10 +39,10 @@ public record S2CBulkPlayerDataMessage(Map<UUID, PartsData> partsDataMap) implem
 	}
 
 	private static S2CBulkPlayerDataMessage decode(String tailInfoJson) {
-		return new S2CBulkPlayerDataMessage(BasePlayerDataMapMessage.decodeJson(tailInfoJson));
+		return new S2CBulkPlayerDataMessage(BaseS2CBulkPlayerDataMessage.decodeJson(tailInfoJson));
 	}
 
 	private static String encode(S2CBulkPlayerDataMessage msg) {
-		return BasePlayerDataMapMessage.encodeJson(msg.partsDataMap);
+		return BaseS2CBulkPlayerDataMessage.encodeJson(msg.partsDataMap);
 	}
 }

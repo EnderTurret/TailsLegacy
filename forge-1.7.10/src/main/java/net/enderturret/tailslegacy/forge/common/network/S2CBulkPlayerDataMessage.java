@@ -16,7 +16,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.netty.buffer.ByteBuf;
 
-import net.enderturret.tailslegacy.common.network.BasePlayerDataMapMessage;
+import net.enderturret.tailslegacy.common.network.BaseS2CBulkPlayerDataMessage;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -25,7 +25,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 @Internal
-public final class S2CBulkPlayerDataMessage implements BasePlayerDataMapMessage, IMessage {
+public final class S2CBulkPlayerDataMessage implements BaseS2CBulkPlayerDataMessage, IMessage {
 
 	private Map<UUID, PartsData> partsDataMap;
 
@@ -37,12 +37,12 @@ public final class S2CBulkPlayerDataMessage implements BasePlayerDataMapMessage,
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		partsDataMap = BasePlayerDataMapMessage.decodeJson(ByteBufUtils.readUTF8String(buf));
+		partsDataMap = BaseS2CBulkPlayerDataMessage.decodeJson(ByteBufUtils.readUTF8String(buf));
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		ByteBufUtils.writeUTF8String(buf, BasePlayerDataMapMessage.encodeJson(partsDataMap));
+		ByteBufUtils.writeUTF8String(buf, BaseS2CBulkPlayerDataMessage.encodeJson(partsDataMap));
 	}
 
 	@Internal
@@ -50,7 +50,7 @@ public final class S2CBulkPlayerDataMessage implements BasePlayerDataMapMessage,
 
 		@Override
 		public IMessage onMessage(S2CBulkPlayerDataMessage message, MessageContext context) {
-			BasePlayerDataMapMessage.handle(message.partsDataMap);
+			BaseS2CBulkPlayerDataMessage.handle(message.partsDataMap);
 			return null;
 		}
 	}

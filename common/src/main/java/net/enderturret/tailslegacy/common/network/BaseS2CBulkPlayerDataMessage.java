@@ -22,13 +22,13 @@ import net.enderturret.tailslegacy.common.client.part.ClientPlayerPartManager;
 import net.enderturret.tailslegacy.common.gson.TailsGsonHelper;
 import net.enderturret.tailslegacy.common.part.PartsData;
 
-public interface BasePlayerDataMapMessage {
+public interface BaseS2CBulkPlayerDataMessage {
 
 	public static final TypeToken<Map<UUID, PartsData>> PART_DATA_MAP_TYPE = new TypeToken<Map<UUID, PartsData>>() {};
 
 	public static Map<UUID, PartsData> decodeJson(String json) {
 		if (TailsInternal.DEBUG_NETWORK)
-			TailsPlatform.get().logInfo("[PlayerDataMapMessage] Received {}", json);
+			TailsPlatform.get().logInfo("[S2CBulkPlayerDataMessage] Received {}", json);
 
 		Map<UUID, PartsData> partsDataMap = Collections.emptyMap();
 

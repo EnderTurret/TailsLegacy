@@ -21,7 +21,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.part.ServerPlayerPartManager;
-import net.enderturret.tailslegacy.neoforge.common.network.PlayerDataMapMessage;
+import net.enderturret.tailslegacy.neoforge.common.network.S2CBulkPlayerDataMessage;
 
 /**
  * A server event handler, for handling events on the server.
@@ -34,8 +34,8 @@ public final class ServerEventHandler {
 	static void onPlayerLogin(PlayerLoggedInEvent event) {
 		final ServerPlayer player = (ServerPlayer) event.getEntity();
 		// Send current known tails to uk.kihira.tails.client
-		if (player.connection.hasChannel(PlayerDataMapMessage.TYPE))
-			PacketDistributor.sendToPlayer(player, new PlayerDataMapMessage(ServerPlayerPartManager.get().getData()));
+		if (player.connection.hasChannel(S2CBulkPlayerDataMessage.TYPE))
+			PacketDistributor.sendToPlayer(player, new S2CBulkPlayerDataMessage(ServerPlayerPartManager.get().getData()));
 	}
 
 	@SubscribeEvent

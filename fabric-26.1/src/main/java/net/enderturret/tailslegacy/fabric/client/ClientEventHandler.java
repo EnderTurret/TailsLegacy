@@ -79,7 +79,7 @@ import net.enderturret.tailslegacy.fabric.client.render.PartPreviewRenderer;
 import net.enderturret.tailslegacy.fabric.client.render.layer.PartLayer;
 import net.enderturret.tailslegacy.fabric.client.render.layer.TailsArrowLayer;
 import net.enderturret.tailslegacy.fabric.client.toast.ToastManager;
-import net.enderturret.tailslegacy.fabric.common.network.PlayerDataMapMessage;
+import net.enderturret.tailslegacy.fabric.common.network.S2CBulkPlayerDataMessage;
 import net.enderturret.tailslegacy.fabric.common.network.S2CPlayerDataMessage;
 import net.enderturret.tailslegacy.fabric.mixin.client.LivingEntityRendererAccess;
 
@@ -115,14 +115,14 @@ public final class ClientEventHandler {
 		LivingEntityRenderLayerRegistrationCallback.EVENT.register(Mod::addLayers);
 
 		ClientPlayNetworking.registerGlobalReceiver(S2CPlayerDataMessage.TYPE, ClientEventHandler::handle);
-		ClientPlayNetworking.registerGlobalReceiver(PlayerDataMapMessage.TYPE, ClientEventHandler::handle);
+		ClientPlayNetworking.registerGlobalReceiver(S2CBulkPlayerDataMessage.TYPE, ClientEventHandler::handle);
 	}
 
 	public static void handle(S2CPlayerDataMessage message, ClientPlayNetworking.Context context) {
 		BaseS2CPlayerDataMessage.handle(message.uuid(), message.partsData());
 	}
 
-	public static void handle(PlayerDataMapMessage message, ClientPlayNetworking.Context context) {
+	public static void handle(S2CBulkPlayerDataMessage message, ClientPlayNetworking.Context context) {
 		BasePlayerDataMapMessage.handle(message.partsDataMap());
 	}
 

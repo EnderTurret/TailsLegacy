@@ -17,7 +17,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 
 import net.enderturret.tailslegacy.common.part.ServerPlayerPartManager;
-import net.enderturret.tailslegacy.fabric.common.network.PlayerDataMapMessage;
+import net.enderturret.tailslegacy.fabric.common.network.S2CBulkPlayerDataMessage;
 
 /**
  * A server event handler, for handling events on the server.
@@ -32,8 +32,8 @@ public final class ServerEventHandler {
 
 	static void onPlayerLogin(ServerPlayer player) {
 		// Send current known tails to uk.kihira.tails.client
-		if (ServerPlayNetworking.canSend(player, PlayerDataMapMessage.TYPE))
-			ServerPlayNetworking.send(player, new PlayerDataMapMessage(ServerPlayerPartManager.get().getData()));
+		if (ServerPlayNetworking.canSend(player, S2CBulkPlayerDataMessage.TYPE))
+			ServerPlayNetworking.send(player, new S2CBulkPlayerDataMessage(ServerPlayerPartManager.get().getData()));
 	}
 
 	static void onPlayerLogout(ServerPlayer player) {

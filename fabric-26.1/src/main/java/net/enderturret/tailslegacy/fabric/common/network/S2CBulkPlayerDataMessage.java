@@ -27,23 +27,23 @@ import net.enderturret.tailslegacy.common.part.PartsData;
 
 // S → C
 @Internal
-public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BasePlayerDataMapMessage {
+public record S2CBulkPlayerDataMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BasePlayerDataMapMessage {
 
-	public static final Type<PlayerDataMapMessage> TYPE = new Type<>(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "bulk_sync_to_client"));
+	public static final Type<S2CBulkPlayerDataMessage> TYPE = new Type<>(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "bulk_sync_to_client"));
 
-	public static final StreamCodec<ByteBuf, PlayerDataMapMessage> STREAM_CODEC = ByteBufCodecs.stringUtf8(Short.MAX_VALUE)
-			.map(PlayerDataMapMessage::decode, PlayerDataMapMessage::encode);
+	public static final StreamCodec<ByteBuf, S2CBulkPlayerDataMessage> STREAM_CODEC = ByteBufCodecs.stringUtf8(Short.MAX_VALUE)
+			.map(S2CBulkPlayerDataMessage::decode, S2CBulkPlayerDataMessage::encode);
 
 	@Override
-	public Type<PlayerDataMapMessage> type() {
+	public Type<S2CBulkPlayerDataMessage> type() {
 		return TYPE;
 	}
 
-	private static PlayerDataMapMessage decode(String tailInfoJson) {
-		return new PlayerDataMapMessage(BasePlayerDataMapMessage.decodeJson(tailInfoJson));
+	private static S2CBulkPlayerDataMessage decode(String tailInfoJson) {
+		return new S2CBulkPlayerDataMessage(BasePlayerDataMapMessage.decodeJson(tailInfoJson));
 	}
 
-	private static String encode(PlayerDataMapMessage msg) {
+	private static String encode(S2CBulkPlayerDataMessage msg) {
 		return BasePlayerDataMapMessage.encodeJson(msg.partsDataMap);
 	}
 }

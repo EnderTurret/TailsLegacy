@@ -23,7 +23,7 @@ public class TailsNetworkManager {
 	public static void registerPackets() {
 		PayloadTypeRegistry.serverboundPlay().register(C2SPlayerDataMessage.TYPE, C2SPlayerDataMessage.STREAM_CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(S2CPlayerDataMessage.TYPE, S2CPlayerDataMessage.STREAM_CODEC);
-		PayloadTypeRegistry.clientboundPlay().register(PlayerDataMapMessage.TYPE, PlayerDataMapMessage.STREAM_CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(S2CBulkPlayerDataMessage.TYPE, S2CBulkPlayerDataMessage.STREAM_CODEC);
 
 		ServerPlayNetworking.registerGlobalReceiver(C2SPlayerDataMessage.TYPE, C2SPlayerDataMessage::handle);
 	}

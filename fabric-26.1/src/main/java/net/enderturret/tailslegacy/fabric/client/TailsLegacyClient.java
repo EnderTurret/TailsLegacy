@@ -16,6 +16,7 @@ public final class TailsLegacyClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		ClientEventHandler.register();
 		migratingData = TailsInternal.maybeMigrateTomlConfig(FabricLoader.getInstance().getConfigDir());
 		TailsConfig.CLIENT_INSTANCE.load();
 	}

@@ -17,8 +17,8 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": ["net.enderturret.tailslegacy.fabric.TailsLegacy"],
-    "client": ["net.enderturret.tailslegacy.fabric.client.ClientEvents"]
+    "main": ["net.enderturret.tailslegacy.fabric.common.TailsLegacy"],
+    "client": ["net.enderturret.tailslegacy.fabric.client.TailsLegacyClient"]
   },
   "mixins": ["mixins.tailslegacy.json"],
 

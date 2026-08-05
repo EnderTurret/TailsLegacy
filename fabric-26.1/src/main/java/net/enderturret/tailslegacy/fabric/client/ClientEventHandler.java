@@ -11,6 +11,9 @@ package net.enderturret.tailslegacy.fabric.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
@@ -37,6 +40,7 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -85,6 +89,18 @@ import net.enderturret.tailslegacy.fabric.mixin.client.LivingEntityRendererAcces
 @Internal
 public final class ClientEventHandler {
 
+	private static final MethodHandle SCREEN_ADDRENDERABLEWIDGET;
+
+	static {
+		try {
+			final Method m = Screen.class.getDeclaredMethod("addRenderableWidget", GuiEventListener.class);
+			m.setAccessible(true);
+			SCREEN_ADDRENDERABLEWIDGET = MethodHandles.publicLookup().unreflect(m);
+		} catch (Exception e) {
+			throw new RuntimeException("Exception binding addRenderableWidget():", e);
+		}
+	}
+
 	public static void register() {
 		Mod.clientSetup();
 		TailsKeybinds.registerKeys();
@@ -125,10 +141,14 @@ public final class ClientEventHandler {
 		static void onScreenInitPost(Minecraft mc, Screen screen, int scaledWidth, int scaledHeight) {
 			ScreenEvents.afterExtract(screen).register(ToastManager::extractRenderState);
 			if (screen instanceof PauseScreen)
-				Screens.getWidgets(screen).add(Button.builder(TailsComponents.EDITOR_BUTTON,
-						_ -> Minecraft.getInstance().setScreen(EditorScreen.openDefault()))
-						.bounds(screen.width / 2 - 35, screen.height - 25, 70, 20)
-						.build());
+				try {
+					SCREEN_ADDRENDERABLEWIDGET.invoke(screen, Button.builder(TailsComponents.EDITOR_BUTTON,
+							_ -> Minecraft.getInstance().setScreen(EditorScreen.openDefault()))
+							.bounds(screen.width / 2 - 35, screen.height - 25, 70, 20)
+							.build());
+				} catch (Throwable e) {
+					TailsPlatform.get().logError("Exception adding button to pause screen:", e);
+				}
 		}
 
 		/*

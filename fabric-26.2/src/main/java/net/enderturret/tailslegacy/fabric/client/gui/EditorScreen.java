@@ -101,7 +101,7 @@ public class EditorScreen extends BaseScreen {
 				screen -> {
 					// Update part info, set local and send it to the server.
 					LocalPartManager.setLocalPartsDataFromEditorAndSync(screen.getPartsData());
-					screen.minecraft.setScreen(null);
+					screen.minecraft.gui.setScreen(null);
 				});
 	}
 

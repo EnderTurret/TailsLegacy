@@ -16,7 +16,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.PictureInPictureRendererRegis
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
-import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -27,13 +27,9 @@ import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
 
 public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRenderState> {
 
-	public PartPreviewRenderer(BufferSource bufferSource) {
-		super(bufferSource);
-	}
+	public PartPreviewRenderer() {}
 
-	public PartPreviewRenderer(PictureInPictureRendererRegistry.Context context) {
-		this(context.bufferSource());
-	}
+	public PartPreviewRenderer(PictureInPictureRendererRegistry.Context context) {}
 
 	@Override
 	public Class<PartPreviewRenderState> getRenderStateClass() {
@@ -46,16 +42,16 @@ public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRen
 	}
 
 	@Override
-	protected void renderToTexture(PartPreviewRenderState renderState, PoseStack poseStack) {
-		Minecraft.getInstance().gameRenderer.getLighting().setupFor(Lighting.Entry.ENTITY_IN_UI);
+	protected void renderToTexture(PartPreviewRenderState renderState, PoseStack poseStack, SubmitNodeCollector collector) {
+		Minecraft.getInstance().gameRenderer.lighting().setupFor(Lighting.Entry.ENTITY_IN_UI);
 
 		poseStack.pushPose();
 		poseStack.mulPose(Axis.YP.rotationDegrees(180));
 		poseStack.scale(50, 50, 50);
 
-		final FeatureRenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.getFeatureRenderDispatcher();
-		final SubmitNodeStorage storage = dispatcher.getSubmitNodeStorage();
+		final FeatureRenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.featureRenderDispatcher();
 
+		final SubmitNodeStorage storage = (SubmitNodeStorage) collector;
 		final TailsBufferSource bufferSource = (TailsBufferSource) storage;
 
 		renderState.partInfo().getRenderer().render(
@@ -65,8 +61,6 @@ public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRen
 				bufferSource,
 				0, 0, 0, renderState.partialTick(),
 				LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
-
-		dispatcher.renderAllFeatures();
 
 		poseStack.popPose();
 	}

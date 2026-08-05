@@ -56,6 +56,7 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 
 import net.enderturret.tailslegacy.common.JavaColor;
@@ -143,7 +144,7 @@ public final class ClientEventHandler {
 			if (screen instanceof PauseScreen)
 				try {
 					SCREEN_ADDRENDERABLEWIDGET.invoke(screen, Button.builder(TailsComponents.EDITOR_BUTTON,
-							_ -> Minecraft.getInstance().setScreen(EditorScreen.openDefault()))
+							_ -> Minecraft.getInstance().gui.setScreen(EditorScreen.openDefault()))
 							.bounds(screen.width / 2 - 35, screen.height - 25, 70, 20)
 							.build());
 				} catch (Throwable e) {
@@ -274,7 +275,7 @@ public final class ClientEventHandler {
 		}
 
 		static void addLayers(EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?, ?> entityRenderer, RegistrationHelper registrationHelper, EntityRendererProvider.Context context) {
-			if (entityType != EntityType.PLAYER) return;
+			if (entityType != EntityTypes.PLAYER) return;
 
 			final Minecraft mc = Minecraft.getInstance();
 

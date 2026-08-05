@@ -197,7 +197,7 @@ public class MixinLivingEntity implements TailsEntity {
 
 	@Override
 	public boolean t$isAddedToWorld() {
-		return ((LivingEntity) (Object) this).level() != null && ((LivingEntity) (Object) this).isAddedToLevel();
+		return ((LivingEntity) (Object) this).level() != null;
 	}
 
 	@Override

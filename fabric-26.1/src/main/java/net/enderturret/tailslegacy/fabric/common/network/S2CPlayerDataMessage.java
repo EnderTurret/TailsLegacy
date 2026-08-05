@@ -18,8 +18,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.network.BaseS2CPlayerDataMessage;
 import net.enderturret.tailslegacy.common.part.PartsData;
@@ -46,10 +44,5 @@ public record S2CPlayerDataMessage(UUID uuid, PartsData partsData) implements Cu
 	private static void encode(FriendlyByteBuf buf, S2CPlayerDataMessage msg) {
 		buf.writeUUID(msg.uuid);
 		buf.writeUtf(BaseS2CPlayerDataMessage.encodeJson(msg.partsData), Short.MAX_VALUE);
-	}
-
-	@Internal
-	public static void handle(S2CPlayerDataMessage message, IPayloadContext context) {
-		BaseS2CPlayerDataMessage.handle(message.uuid, message.partsData);
 	}
 }

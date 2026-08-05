@@ -21,8 +21,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.network.BasePlayerDataMapMessage;
 import net.enderturret.tailslegacy.common.part.PartsData;
@@ -47,10 +45,5 @@ public record PlayerDataMapMessage(Map<UUID, PartsData> partsDataMap) implements
 
 	private static String encode(PlayerDataMapMessage msg) {
 		return BasePlayerDataMapMessage.encodeJson(msg.partsDataMap);
-	}
-
-	@Internal
-	public static void handle(PlayerDataMapMessage message, IPayloadContext context) {
-		BasePlayerDataMapMessage.handle(message.partsDataMap);
 	}
 }

@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 
 import com.mojang.authlib.GameProfile;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDefinition;
@@ -22,13 +25,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.Services;
 import net.minecraft.server.packs.resources.ResourceManager;
-
-import net.neoforged.fml.ModLoader;
-import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
-import net.neoforged.neoforge.common.UsernameCache;
 
 import net.enderturret.tailslegacy.common.LibraryManager;
 import net.enderturret.tailslegacy.common.TailsPlatform;
@@ -44,10 +41,10 @@ import net.enderturret.tailslegacy.common.client.part.PartRegistry;
 import net.enderturret.tailslegacy.common.client.part.PartTexture;
 import net.enderturret.tailslegacy.common.client.part.SubType;
 import net.enderturret.tailslegacy.fabric.client.ClientLibraryManager;
+import net.enderturret.tailslegacy.fabric.client.TailsLegacyClient;
 import net.enderturret.tailslegacy.fabric.client.api.RegisterPartRenderersEvent;
 import net.enderturret.tailslegacy.fabric.client.texture.TripleTintTexture;
 import net.enderturret.tailslegacy.fabric.common.TailsConfig;
-import net.enderturret.tailslegacy.fabric.common.TailsLegacy;
 import net.enderturret.tailslegacy.fabric.common.network.C2SPlayerDataMessage;
 import net.enderturret.tailslegacy.fabric.common.platform.ResourceManagerWrapperImpl;
 import net.enderturret.tailslegacy.fabric.mixin.client.CubeDefinitionAccess;
@@ -116,26 +113,18 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public void fireRegisterPartRenderersEvent(PartRendererRegistrar registrar) {
-		ModLoader.postEvent(new RegisterPartRenderersEvent(registrar));
+		RegisterPartRenderersEvent.REGISTER_PART_RENDERERS.invoker().register(registrar);
 	}
-
-	private static Services services;
 
 	@Override
 	public String fetchUsername(UUID uuid) {
 		final Minecraft mc = Minecraft.getInstance();
 
-		// So, there are a few different places we can try first...
-
-		// Option A - Forge's "username cache"
-		String username = UsernameCache.getLastKnownUsername(uuid);
+		// Option A - "Just query it lol"
+		String username = mc.services().profileResolver().fetchById(uuid).map(GameProfile::name).orElse(null);
 		if (username != null) return username;
 
-		// Option B - "Just query it lol"
-		username = mc.services().profileResolver().fetchById(uuid).map(GameProfile::name).orElse(null);
-		if (username != null) return username;
-
-		// Option C - Just use the UUID
+		// Option B - Just use the UUID
 		return uuid.toString();
 	}
 
@@ -147,9 +136,9 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public String getConfigParts() {
-		String ret = TailsConfig.CLIENT_INSTANCE.localPlayerData.get();
-		if (ret.isBlank() && TailsLegacy.migratingData != null) {
-			ret = TailsLegacy.migratingData;
+		String ret = TailsConfig.CLIENT_INSTANCE.localPlayerData;
+		if (ret.isBlank() && TailsLegacyClient.migratingData != null) {
+			ret = TailsLegacyClient.migratingData;
 			TailsPlatform.get().logInfo("Found old customization data, migrating!\n{}", ret);
 			setConfigParts(ret);
 		}
@@ -158,19 +147,19 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public void setConfigParts(String json) {
-		TailsConfig.CLIENT_INSTANCE.localPlayerData.set(json);
-		TailsConfig.getConfig().save();
+		TailsConfig.CLIENT_INSTANCE.localPlayerData = json;
+		TailsConfig.CLIENT_INSTANCE.save();
 	}
 
 	@Override
 	public Path getConfigDir() {
-		return FMLPaths.CONFIGDIR.get();
+		return FabricLoader.getInstance().getConfigDir();
 	}
 
 	@Override
 	public void syncLocalToServer(ClientPartsData partsData) {
-		if (Minecraft.getInstance().level != null && Minecraft.getInstance().getConnection().hasChannel(C2SPlayerDataMessage.TYPE))
-			ClientPacketDistributor.sendToServer(new C2SPlayerDataMessage(partsData));
+		if (Minecraft.getInstance().level != null && ClientPlayNetworking.canSend(C2SPlayerDataMessage.TYPE))
+			ClientPlayNetworking.send(new C2SPlayerDataMessage(partsData));
 	}
 
 	@Override

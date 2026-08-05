@@ -10,8 +10,7 @@ package net.enderturret.tailslegacy.fabric.mixin.client;
 
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 

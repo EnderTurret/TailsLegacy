@@ -22,8 +22,8 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.enderturret.tailslegacy.common.client.duck.TailsBuffer;
 import net.enderturret.tailslegacy.common.client.duck.TailsModelPart;
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
-import net.enderturret.tailslegacy.common.client.duck.TailsVertexConsumer;
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack.Entry;
+import net.enderturret.tailslegacy.common.client.duck.TailsVertexConsumer;
 
 public record PreparedSubmitNodeStorage(SubmitNodeStorage storage, RenderType type) implements TailsBuffer {
 

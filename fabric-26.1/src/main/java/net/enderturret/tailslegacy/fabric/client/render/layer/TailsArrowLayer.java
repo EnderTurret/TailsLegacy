@@ -73,7 +73,7 @@ public final class TailsArrowLayer<M extends PlayerModel> extends ArrowLayer<M> 
 	@Override
 	@Nullable
 	public ClientPartsData getPartData(TailsEntity entity) {
-		return ((AvatarRenderState) entity).getRenderDataOrThrow(RenderStates.RENDER_DATA).partsData;
+		return ((AvatarRenderState) entity).getData(RenderStates.RENDER_DATA).partsData;
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public final class TailsArrowLayer<M extends PlayerModel> extends ArrowLayer<M> 
 				(TailsPoseStack) poseStack,
 				(TailsBufferSource) nodeCollector,
 				new TailsRandomSourceImpl(rand),
-				stuck, renderState.partialTick, packedLight, OverlayTexture.NO_OVERLAY);
+				stuck, renderState.getData(RenderStates.RENDER_DATA).partialTick, packedLight, OverlayTexture.NO_OVERLAY);
 	}
 
 	@Override

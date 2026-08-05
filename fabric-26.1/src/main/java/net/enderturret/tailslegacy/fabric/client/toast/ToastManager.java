@@ -13,20 +13,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.ScreenEvent;
-
-import net.enderturret.tailslegacy.common.TailsPlatform;
-
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
 public final class ToastManager {
 
 	public static final ToastManager INSTANCE = new ToastManager();
@@ -52,8 +47,11 @@ public final class ToastManager {
 			toasts.add(new Toast(x - stringWidth / 2 - 5, y, stringWidth + 10, text.getString().length() * 3, text.getVisualOrderText()));
 	}
 
-	@SubscribeEvent
-	static void onClientTickPost(ClientTickEvent.Post event) {
+	public static void register() {
+		ClientTickEvents.END_CLIENT_TICK.register(ToastManager::onClientTickPost);
+	}
+
+	static void onClientTickPost(Minecraft mc) {
 		final Iterator<Toast> toasts = INSTANCE.toasts.iterator();
 		while (toasts.hasNext()) {
 			final Toast toast = toasts.next();
@@ -62,14 +60,13 @@ public final class ToastManager {
 		}
 	}
 
-	@SubscribeEvent
-	static void onDrawScreenPost(ScreenEvent.Render.Post event) {
-		event.getGuiGraphics().pose().pushMatrix();
-		event.getGuiGraphics().pose().translate(0, 0);
+	public static void extractRenderState(Screen screen, GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+		gui.pose().pushMatrix();
+		gui.pose().translate(0, 0);
 
 		for (Toast toast : INSTANCE.toasts)
-			toast.drawToast(event.getGuiGraphics(), event.getMouseX(), event.getMouseY());
+			toast.drawToast(gui, mouseX, mouseY);
 
-		event.getGuiGraphics().pose().popMatrix();
+		gui.pose().popMatrix();
 	}
 }

@@ -12,6 +12,7 @@ package net.enderturret.tailslegacy.fabric.client.gui.panel;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.CameraType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -41,7 +42,7 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public void init() {
-		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson.get() || parent.getMinecraft().options.getCameraType() == CameraType.FIRST_PERSON;
+		doRender = !parent.isLocalPlayer || !TailsConfig.CLIENT_INSTANCE.hidePreviewInThirdPerson || Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
 		if (!doRender) return;
 
 		// Help
@@ -72,7 +73,7 @@ public final class PreviewPanel extends Panel {
 
 		if (!doRender) return;
 
-		final int mcHeight = parent.getMinecraft().getWindow().getGuiScaledHeight();
+		final int mcHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 		final double factor = mcHeight / 4 * zoom;
 
 		// Player

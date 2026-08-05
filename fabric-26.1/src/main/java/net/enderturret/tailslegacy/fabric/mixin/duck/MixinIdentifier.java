@@ -39,6 +39,8 @@ public abstract class MixinIdentifier implements TResourceLocation {
 
 	@Override
 	public int t$compareNamespaced(TResourceLocation other) {
-		return ((Identifier) (Object) this).compareNamespaced((Identifier) (Object) other);
+		int tmp = t$getNamespace().compareTo(other.t$getNamespace());
+		if (tmp != 0) return tmp;
+		return t$getPath().compareTo(other.t$getPath());
 	}
 }

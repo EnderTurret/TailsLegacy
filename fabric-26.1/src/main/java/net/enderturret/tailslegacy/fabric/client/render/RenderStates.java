@@ -8,42 +8,24 @@
 
 package net.enderturret.tailslegacy.fabric.client.render;
 
+import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
+
 import net.minecraft.client.entity.ClientAvatarEntity;
 import net.minecraft.client.entity.ClientAvatarState;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
-import net.minecraft.resources.Identifier;
-import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.player.Player;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
-
-import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
 import net.enderturret.tailslegacy.common.client.part.ClientPlayerPartManager;
 
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
 public final class RenderStates {
 
 	private RenderStates() {}
 
-	// The (Class) cast might seem redundant, but is necessary to satisfy javac.
-	@SuppressWarnings({ "unchecked", "cast" })
-	private static final Class<? extends EntityRenderer<Avatar, AvatarRenderState>> RENDERER_CLASS = (Class<? extends EntityRenderer<Avatar, AvatarRenderState>>) (Class) AvatarRenderer.class;
+	public static final RenderStateDataKey<TailsRenderData> RENDER_DATA = RenderStateDataKey.create(() -> "tailslegacy:render_data");
 
-	public static final ContextKey<TailsRenderData> RENDER_DATA = new ContextKey<>(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "render_data"));
-
-	@SubscribeEvent
-	static void registerStateModifiers(RegisterRenderStateModifiersEvent e) {
-		e.registerEntityModifier(RENDERER_CLASS, RenderStates::addTailsRenderData);
-	}
-
-	public static void addTailsRenderData(Avatar entity, AvatarRenderState state) {
+	public static void addTailsRenderData(Avatar entity, AvatarRenderState state, float partialTick) {
 		final TailsRenderData data = new TailsRenderData();
 
 		data.partsData = ClientPlayerPartManager.get().get(entity.getUUID());
@@ -55,12 +37,13 @@ public final class RenderStates {
 		data.uuid = entity.getUUID();
 
 		final ClientAvatarState avatarState = ((ClientAvatarEntity) entity).avatarState();
-		data.cloakX = avatarState.getInterpolatedCloakX(state.partialTick);
-		data.cloakY = avatarState.getInterpolatedCloakY(state.partialTick);
-		data.cloakZ = avatarState.getInterpolatedCloakZ(state.partialTick);
-		data.bob = avatarState.getInterpolatedBob(state.partialTick);
-		data.walkDist = avatarState.getInterpolatedWalkDistance(state.partialTick);
+		data.cloakX = avatarState.getInterpolatedCloakX(partialTick);
+		data.cloakY = avatarState.getInterpolatedCloakY(partialTick);
+		data.cloakZ = avatarState.getInterpolatedCloakZ(partialTick);
+		data.bob = avatarState.getInterpolatedBob(partialTick);
+		data.walkDist = avatarState.getInterpolatedWalkDistance(partialTick);
+		data.partialTick = partialTick;
 
-		state.setRenderData(RENDER_DATA, data);
+		state.setData(RENDER_DATA, data);
 	}
 }

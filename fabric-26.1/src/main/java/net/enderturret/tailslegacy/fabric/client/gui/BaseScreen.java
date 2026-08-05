@@ -19,8 +19,6 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-import net.enderturret.tailslegacy.fabric.client.gui.panel.Panel;
-
 @Internal
 public abstract class BaseScreen extends Screen {
 
@@ -30,15 +28,6 @@ public abstract class BaseScreen extends Screen {
 
 	@Override
 	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {}
-
-	@Override
-	public void removed() {
-		for (Renderable renderable : renderables)
-			if (renderable instanceof Panel panel)
-				panel.removed();
-
-		super.removed();
-	}
 
 	// ===== Visibility ======
 

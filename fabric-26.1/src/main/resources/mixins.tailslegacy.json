@@ -15,6 +15,7 @@
     "client.duck.MixinVertexConsumer",
     "client.CubeDefinitionAccess",
     "client.LivingEntityRendererAccess",
+    "client.MixinAvatarRenderer",
     "client.PartDefinitionAccess",
     "client.StuckInBodyLayerAccess",
     "client.TextureManagerAccess"

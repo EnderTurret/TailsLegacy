@@ -10,11 +10,11 @@ package net.enderturret.tailslegacy.fabric.common.platform;
 
 import java.util.UUID;
 
+import net.fabricmc.loader.api.FabricLoader;
+
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-
-import net.neoforged.fml.loading.FMLEnvironment;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
@@ -24,7 +24,7 @@ public final class TailsPlatformImpl implements TailsPlatform {
 
 	@Override
 	public boolean isDevEnvironment() {
-		return !FMLEnvironment.isProduction();
+		return FabricLoader.getInstance().isDevelopmentEnvironment();
 	}
 
 	@Override

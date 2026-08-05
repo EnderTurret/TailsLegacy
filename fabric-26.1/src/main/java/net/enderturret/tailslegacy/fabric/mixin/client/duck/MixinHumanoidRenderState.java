@@ -57,7 +57,7 @@ public class MixinHumanoidRenderState implements TailsEntity {
 
 	@Override
 	public float t$bob() {
-		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).bob;
+		return ((HumanoidRenderState) (Object) this).getData(RenderStates.RENDER_DATA).bob;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class MixinHumanoidRenderState implements TailsEntity {
 
 	@Override
 	public float t$walkDistance() {
-		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).walkDist;
+		return ((HumanoidRenderState) (Object) this).getData(RenderStates.RENDER_DATA).walkDist;
 	}
 
 	@Override
@@ -77,17 +77,17 @@ public class MixinHumanoidRenderState implements TailsEntity {
 
 	@Override
 	public double t$xCloak() {
-		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).cloakX;
+		return ((HumanoidRenderState) (Object) this).getData(RenderStates.RENDER_DATA).cloakX;
 	}
 
 	@Override
 	public double t$yCloak() {
-		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).cloakY;
+		return ((HumanoidRenderState) (Object) this).getData(RenderStates.RENDER_DATA).cloakY;
 	}
 
 	@Override
 	public double t$zCloak() {
-		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).cloakZ;
+		return ((HumanoidRenderState) (Object) this).getData(RenderStates.RENDER_DATA).cloakZ;
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class MixinHumanoidRenderState implements TailsEntity {
 
 	@Override
 	public boolean t$isFlying() {
-		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).isFlying;
+		return ((HumanoidRenderState) (Object) this).getData(RenderStates.RENDER_DATA).isFlying;
 	}
 
 	@Override
@@ -213,12 +213,12 @@ public class MixinHumanoidRenderState implements TailsEntity {
 
 	@Override
 	public AnimatorStorage t$getAnimatorStorage(ClientPartInfo part) {
-		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).animatorStorage.get(part);
+		return ((HumanoidRenderState) (Object) this).getData(RenderStates.RENDER_DATA).animatorStorage.get(part);
 	}
 
 	@Override
 	public UUID t$uuid() {
-		return ((HumanoidRenderState) (Object) this).getRenderDataOrThrow(RenderStates.RENDER_DATA).uuid;
+		return ((HumanoidRenderState) (Object) this).getData(RenderStates.RENDER_DATA).uuid;
 	}
 
 	@Override

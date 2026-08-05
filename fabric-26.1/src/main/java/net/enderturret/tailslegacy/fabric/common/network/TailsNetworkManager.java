@@ -10,26 +10,21 @@ package net.enderturret.tailslegacy.fabric.common.network;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.registration.HandlerThread;
-
-import net.enderturret.tailslegacy.common.TailsPlatform;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 /**
  * Manages the Tails network stuff, like the channel and packet registration.
  * @author EnderTurret
  */
 @Internal
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID)
 public class TailsNetworkManager {
 
-	@SubscribeEvent
-	static void registerPackets(RegisterPayloadHandlersEvent e) {
-		e.registrar("1").executesOn(HandlerThread.NETWORK).optional()
-		.playToServer(C2SPlayerDataMessage.TYPE, C2SPlayerDataMessage.STREAM_CODEC, C2SPlayerDataMessage::handle)
-		.playToClient(S2CPlayerDataMessage.TYPE, S2CPlayerDataMessage.STREAM_CODEC, S2CPlayerDataMessage::handle)
-		.playToClient(PlayerDataMapMessage.TYPE, PlayerDataMapMessage.STREAM_CODEC, PlayerDataMapMessage::handle);
+	public static void registerPackets() {
+		PayloadTypeRegistry.serverboundPlay().register(C2SPlayerDataMessage.TYPE, C2SPlayerDataMessage.STREAM_CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(S2CPlayerDataMessage.TYPE, S2CPlayerDataMessage.STREAM_CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(PlayerDataMapMessage.TYPE, PlayerDataMapMessage.STREAM_CODEC);
+
+		ServerPlayNetworking.registerGlobalReceiver(C2SPlayerDataMessage.TYPE, C2SPlayerDataMessage::handle);
 	}
 }

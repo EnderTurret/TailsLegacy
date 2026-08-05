@@ -100,7 +100,7 @@ public class EditorScreen extends BaseScreen {
 				screen -> {
 					// Update part info, set local and send it to the server.
 					LocalPartManager.setLocalPartsDataFromEditorAndSync(screen.getPartsData());
-					screen.minecraft.popGuiLayer();
+					screen.minecraft.setScreen(null);
 				});
 	}
 
@@ -145,6 +145,7 @@ public class EditorScreen extends BaseScreen {
 	@Override
 	public void removed() {
 		setPartsData(originalPartsData);
+		for (Panel panel : panels) panel.removed();
 		super.removed();
 	}
 

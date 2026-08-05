@@ -19,8 +19,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
-import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
-
 import net.enderturret.tailslegacy.common.LibraryEntryData;
 import net.enderturret.tailslegacy.common.client.gui.panel.BaseLibraryImportPanel;
 import net.enderturret.tailslegacy.fabric.client.gui.EditorScreen;
@@ -38,7 +36,7 @@ public final class LibraryImportPanel extends Panel implements BaseLibraryImport
 
 	@Override
 	public void init() {
-		addRenderableWidget(new ExtendedButton(left + 3, top + 21, right - left - 6, 18, TailsComponents.IMPORT_STRING, this::importFromString0));
+		addRenderableWidget(Button.builder(TailsComponents.IMPORT_STRING, this::importFromString0).bounds(left + 3, top + 21, right - left - 6, 18).build());
 
 		inputField = new EditBox(parent.font(), left + 3, top + 41, right - left - 6, 15, Component.empty());
 		inputField.setMaxLength(5000);

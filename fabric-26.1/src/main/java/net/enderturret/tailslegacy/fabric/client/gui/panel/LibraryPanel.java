@@ -17,11 +17,10 @@ import java.util.Locale;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-
-import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 
 import net.enderturret.tailslegacy.common.LibraryEntryData;
 import net.enderturret.tailslegacy.common.client.TailsClientPlatform;
@@ -52,11 +51,11 @@ public final class LibraryPanel extends Panel {
 		initList("");
 
 		addRenderableWidget(searchField = new EditBox(parent.font(), left + 4, bottom - 32, right - left - 8, 12, Component.empty()));
-		addRenderableWidget(new ExtendedButton(left + 3, bottom - 18, right - left - 6, 15, TailsComponents.RELOAD_LIBRARY, _ -> {
+		addRenderableWidget(Button.builder(TailsComponents.RELOAD_LIBRARY, _ -> {
 			TailsClientPlatform.get().getLibraryManager().reload(true);
 			libraryChanged = false;
 			initList("");
-		}));
+		}).bounds(left + 3, bottom - 18, right - left - 6, 15).build());
 
 		searchField.setResponder(this::initList);
 	}

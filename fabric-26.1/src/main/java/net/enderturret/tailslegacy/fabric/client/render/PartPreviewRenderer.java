@@ -12,6 +12,8 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
+import net.fabricmc.fabric.api.client.rendering.v1.PictureInPictureRendererRegistry;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
@@ -27,6 +29,10 @@ public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRen
 
 	public PartPreviewRenderer(BufferSource bufferSource) {
 		super(bufferSource);
+	}
+
+	public PartPreviewRenderer(PictureInPictureRendererRegistry.Context context) {
+		this(context.bufferSource());
 	}
 
 	@Override

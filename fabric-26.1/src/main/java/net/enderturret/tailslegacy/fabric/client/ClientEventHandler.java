@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.glfw.GLFW;
@@ -24,35 +23,36 @@ import org.lwjgl.system.MemoryUtil;
 
 import com.mojang.blaze3d.platform.NativeImage;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback.RegistrationHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.PictureInPictureRendererRegistry;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.loader.api.FabricLoader;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraft.world.entity.Avatar;
-import net.minecraft.world.entity.player.PlayerModelType;
-
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.RegisterPictureInPictureRenderersEvent;
-import net.neoforged.neoforge.client.event.ScreenEvent;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 
 import net.enderturret.tailslegacy.common.JavaColor;
 import net.enderturret.tailslegacy.common.TailsPlatform;
@@ -63,16 +63,20 @@ import net.enderturret.tailslegacy.common.client.part.LocalPartManager;
 import net.enderturret.tailslegacy.common.client.render.helper.FakeEntityRenderHelper;
 import net.enderturret.tailslegacy.common.client.render.helper.PlayerRenderHelper;
 import net.enderturret.tailslegacy.common.client.render.helper.RenderHelperManager;
+import net.enderturret.tailslegacy.common.network.BasePlayerDataMapMessage;
+import net.enderturret.tailslegacy.common.network.BaseS2CPlayerDataMessage;
 import net.enderturret.tailslegacy.fabric.client.gui.EditorScreen;
 import net.enderturret.tailslegacy.fabric.client.gui.TailsComponents;
 import net.enderturret.tailslegacy.fabric.client.gui.panel.TintPanel;
 import net.enderturret.tailslegacy.fabric.client.gui.widget.IconButton;
 import net.enderturret.tailslegacy.fabric.client.platform.TailsClientPlatformImpl;
 import net.enderturret.tailslegacy.fabric.client.render.BotaniaFoxtatoRenderer;
-import net.enderturret.tailslegacy.fabric.client.render.PartPreviewRenderState;
 import net.enderturret.tailslegacy.fabric.client.render.PartPreviewRenderer;
 import net.enderturret.tailslegacy.fabric.client.render.layer.PartLayer;
 import net.enderturret.tailslegacy.fabric.client.render.layer.TailsArrowLayer;
+import net.enderturret.tailslegacy.fabric.client.toast.ToastManager;
+import net.enderturret.tailslegacy.fabric.common.network.PlayerDataMapMessage;
+import net.enderturret.tailslegacy.fabric.common.network.S2CPlayerDataMessage;
 import net.enderturret.tailslegacy.fabric.mixin.client.LivingEntityRendererAccess;
 
 /**
@@ -81,11 +85,35 @@ import net.enderturret.tailslegacy.fabric.mixin.client.LivingEntityRendererAcces
 @Internal
 public final class ClientEventHandler {
 
+	public static void register() {
+		Mod.clientSetup();
+		TailsKeybinds.registerKeys();
+		Mod.registerPiPs();
+		Mod.addClientReloadListeners();
+		ToastManager.register();
+		ClientTickEvents.START_CLIENT_TICK.register(Forge::onClientTickPre);
+		ClientTickEvents.END_CLIENT_TICK.register(Forge::onClientTickPost);
+		ScreenEvents.AFTER_INIT.register(Forge::onScreenInitPost);
+		ClientPlayConnectionEvents.JOIN.register(Forge::onConnectToServer);
+		ClientPlayConnectionEvents.DISCONNECT.register(Forge::onDisconnect);
+		LivingEntityRenderLayerRegistrationCallback.EVENT.register(Mod::addLayers);
+
+		ClientPlayNetworking.registerGlobalReceiver(S2CPlayerDataMessage.TYPE, ClientEventHandler::handle);
+		ClientPlayNetworking.registerGlobalReceiver(PlayerDataMapMessage.TYPE, ClientEventHandler::handle);
+	}
+
+	public static void handle(S2CPlayerDataMessage message, ClientPlayNetworking.Context context) {
+		BaseS2CPlayerDataMessage.handle(message.uuid(), message.partsData());
+	}
+
+	public static void handle(PlayerDataMapMessage message, ClientPlayNetworking.Context context) {
+		BasePlayerDataMapMessage.handle(message.partsDataMap());
+	}
+
 	/**
 	 * Handles events on the Forge bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
 	static class Forge {
 
 		private static boolean sentPartInfoToServer = false;
@@ -94,39 +122,38 @@ public final class ClientEventHandler {
 		/*
 		 * Tails Editor Button
 		 */
-		@SubscribeEvent
-		static void onScreenInitPost(ScreenEvent.Init.Post event) {
-			if (event.getScreen() instanceof PauseScreen)
-				event.addListener(Button.builder(TailsComponents.EDITOR_BUTTON,
+		static void onScreenInitPost(Minecraft mc, Screen screen, int scaledWidth, int scaledHeight) {
+			ScreenEvents.afterExtract(screen).register(ToastManager::extractRenderState);
+			if (screen instanceof PauseScreen)
+				Screens.getWidgets(screen).add(Button.builder(TailsComponents.EDITOR_BUTTON,
 						_ -> Minecraft.getInstance().setScreen(EditorScreen.openDefault()))
-						.bounds(event.getScreen().width / 2 - 35, event.getScreen().height - 25, 70, 20)
+						.bounds(screen.width / 2 - 35, screen.height - 25, 70, 20)
 						.build());
 		}
 
 		/*
 		 * Tails Syncing
 		 */
-		@SubscribeEvent
-		static void onConnectToServer(ClientPlayerNetworkEvent.LoggingIn event) {
+		static void onConnectToServer(ClientPacketListener listener, PacketSender sender, Minecraft mc) {
 			// Add local player texture to map.
 			ClientPlayerPartManager.get().set(TailsClientPlatform.get().getLocalUUID(), LocalPartManager.getLocalPartsData());
 		}
 
-		@SubscribeEvent
-		static void onDisconnect(ClientPlayerNetworkEvent.LoggingOut e) {
+		static void onDisconnect(ClientPacketListener listener, Minecraft mc) {
 			// TODO: Do we need to defer these?
 			sentPartInfoToServer = false;
 			clearAllPartInfo = true;
 		}
 
-		@SubscribeEvent
-		static void onClientTickPre(ClientTickEvent.Pre e) {
+		static void onClientTickPre(Minecraft mc) {
+			TailsKeybinds.checkKeys();
+
 			if (clearAllPartInfo) {
 				ClientPlayerPartManager.get().clear();
 				clearAllPartInfo = false;
 			}
 			// World can't be null if we want to send a packet it seems.
-			else if (!sentPartInfoToServer && Minecraft.getInstance().level != null) {
+			else if (!sentPartInfoToServer && mc.level != null) {
 				LocalPartManager.syncToServer();
 
 				sentPartInfoToServer = true;
@@ -134,16 +161,10 @@ public final class ClientEventHandler {
 		}
 
 		@SuppressWarnings("unchecked")
-		@SubscribeEvent
-		static void onClientTickPost(ClientTickEvent.Post e) {
-			if (Minecraft.getInstance().level == null || Minecraft.getInstance().isPaused()) return;
+		static void onClientTickPost(Minecraft mc) {
+			if (mc.level == null || mc.isPaused()) return;
 
-			ClientPlayerPartManager.get().tick((Collection) Minecraft.getInstance().level.players());
-		}
-
-		@SubscribeEvent
-		static void onKeyPressed(InputEvent.Key e) {
-			TailsKeybinds.onKeyPressed(e);
+			ClientPlayerPartManager.get().tick((Collection) mc.level.players());
 		}
 	}
 
@@ -151,24 +172,21 @@ public final class ClientEventHandler {
 	 * Handles events on the mod bus.
 	 * @author EnderTurret
 	 */
-	@EventBusSubscriber(modid = TailsPlatform.MOD_ID, value = Dist.CLIENT)
 	static class Mod {
 
-		@SubscribeEvent
-		static void clientSetup(FMLClientSetupEvent e) {
-			e.enqueueWork(() -> {
+		static void clientSetup() {
+			{
 				RenderHelperManager.registerRenderHelper(new PlayerRenderHelper());
 				RenderHelperManager.registerRenderHelper(new FakeEntityRenderHelper());
-			});
+			}
 
-			if (ModList.get().isLoaded("botania"))
+			if (FabricLoader.getInstance().isModLoaded("botania"))
 				registerFoxtato(); // Try to avoid class loading it if Botania isn't present.
 		}
 
-		@SubscribeEvent
-		static void addClientReloadListeners(AddClientReloadListenersEvent e) {
-			e.addListener(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "parts"), (ResourceManagerReloadListener) TailsClientPlatformImpl::reloadParts);
-			e.addListener(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "cursors"), (ResourceManagerReloadListener) manager -> {
+		static void addClientReloadListeners() {
+			ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "parts"), (ResourceManagerReloadListener) TailsClientPlatformImpl::reloadParts);
+			ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "cursors"), (ResourceManagerReloadListener) manager -> {
 				maybeDestroyCursor();
 				registerCursor(manager);
 			});
@@ -232,38 +250,29 @@ public final class ClientEventHandler {
 		}
 
 		private static void registerFoxtato() {
-			NeoForge.EVENT_BUS.register(BotaniaFoxtatoRenderer.class);
+			BotaniaFoxtatoRenderer.register();
 		}
 
-		@SubscribeEvent
-		static void addLayers(EntityRenderersEvent.AddLayers e) {
+		static void addLayers(EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?, ?> entityRenderer, RegistrationHelper registrationHelper, EntityRendererProvider.Context context) {
+			if (entityType != EntityType.PLAYER) return;
+
 			final Minecraft mc = Minecraft.getInstance();
-			final Map<PlayerModelType, EntityRenderer<? extends Avatar, ?>> skinMap = mc.getEntityRenderDispatcher().getPlayerRenderers();
 
-			for (EntityRenderer<? extends Avatar, ?> renderer : skinMap.values()) {
-				@SuppressWarnings("unchecked")
-				final AvatarRenderer<? extends AbstractClientPlayer> renderer2 = (AvatarRenderer<? extends AbstractClientPlayer>) renderer;
-				renderer2.addLayer(new PartLayer<>(renderer2));
+			final AvatarRenderer<? extends AbstractClientPlayer> renderer2 = (AvatarRenderer<? extends AbstractClientPlayer>) entityRenderer;
+			registrationHelper.register(new PartLayer<>(renderer2));
 
-				final List<RenderLayer<?, ?>> layers = ((LivingEntityRendererAccess) renderer2).tails$layers();
-				for (int i = 0; i < layers.size(); i++)
-					// If other mods do this exact same thing, let them take precedence.
-					// If it's just an ArrowLayer mixin, then sucks for them.
-					if (layers.get(i).getClass() == ArrowLayer.class) {
-						layers.set(i, new TailsArrowLayer<>(renderer2, e.getContext()));
-						break;
-					}
-			}
+			final List<RenderLayer<?, ?>> layers = ((LivingEntityRendererAccess) entityRenderer).tails$layers();
+			for (int i = 0; i < layers.size(); i++)
+				// If other mods do this exact same thing, let them take precedence.
+				// If it's just an ArrowLayer mixin, then sucks for them.
+				if (layers.get(i).getClass() == ArrowLayer.class) {
+					layers.set(i, new TailsArrowLayer<>(renderer2, context));
+					break;
+				}
 		}
 
-		@SubscribeEvent
-		static void registerKeys(RegisterKeyMappingsEvent e) {
-			TailsKeybinds.registerKeys(e);
-		}
-
-		@SubscribeEvent
-		static void registerPiPs(RegisterPictureInPictureRenderersEvent e) {
-			e.register(PartPreviewRenderState.class, PartPreviewRenderer::new);
+		static void registerPiPs() {
+			PictureInPictureRendererRegistry.register(PartPreviewRenderer::new);
 		}
 	}
 }

@@ -34,6 +34,10 @@ public final class BotaniaFoxtatoRenderer {
 		renderer.render((TailsPoseStack) poseStack, (TailsBufferSource) buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay);
 	}
 
+	public static void register() {
+
+	}
+
 	/*
 	@SubscribeEvent
 	public static void onPotatoRender(TinyPotatoRenderEvent e) {

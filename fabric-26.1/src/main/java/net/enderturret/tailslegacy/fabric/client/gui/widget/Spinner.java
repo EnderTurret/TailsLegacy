@@ -18,15 +18,15 @@ import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
-import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
-
 import net.enderturret.tailslegacy.common.client.gui.BaseSpinner;
+import net.enderturret.tailslegacy.fabric.client.RenderHelper;
 
 /**
  * A widget that allows cycling through values using two arrow buttons.
@@ -37,8 +37,8 @@ import net.enderturret.tailslegacy.common.client.gui.BaseSpinner;
  */
 public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 
-	public final ExtendedButton left;
-	public final ExtendedButton right;
+	public final Button left;
+	public final Button right;
 
 	private NavigableSet<T> values;
 	private T selected;
@@ -51,8 +51,8 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = new ExtendedButton(getX(), y, 15, 15, Component.literal("<"), _ -> previous());
-		right = new ExtendedButton(0, y, 15, 15, Component.literal(">"), _ -> next());
+		left = Button.builder(Component.literal("<"), _ -> previous()).bounds(getX(), y, 15, 15).build();
+		right = Button.builder(Component.literal(">"), _ -> next()).bounds(0, y, 15, 15).build();
 
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
 
@@ -118,7 +118,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 		final int y = getY() + (getHeight() - font.lineHeight) / 2;
 
 		if (width > getX() + getWidth())
-			gui.drawScrollingString(gui.textRenderer(), font, message, getX() + 15, getX() + getWidth(), y);
+			RenderHelper.drawScrollingString(gui, gui.textRenderer(), font, message, getX() + 15, getX() + getWidth(), y);
 		else
 			gui.text(font, message, left, y, 0xFFFFFFFF);
 	}

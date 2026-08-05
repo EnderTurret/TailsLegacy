@@ -54,7 +54,7 @@ public class PartLayer<S extends HumanoidRenderState, M extends HumanoidModel<S>
 	@SuppressWarnings("unchecked")
 	@Override
 	public ClientPartsData getPartsData(TailsEntity entity) {
-		return ((S) entity).getRenderDataOrThrow(RenderStates.RENDER_DATA).partsData;
+		return ((S) entity).getData(RenderStates.RENDER_DATA).partsData;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class PartLayer<S extends HumanoidRenderState, M extends HumanoidModel<S>
 				(TailsEntity) renderState,
 				(TailsPoseStack) poseStack,
 				(TailsBufferSource) nodeCollector,
-				renderState.partialTick,
+				renderState.getData(RenderStates.RENDER_DATA).partialTick,
 				packedLight,
 				LivingEntityRenderer.getOverlayCoords(renderState, 0F)
 				);

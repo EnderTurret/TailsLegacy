@@ -13,30 +13,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.fml.loading.FMLPaths;
+import net.fabricmc.api.ModInitializer;
 
-import net.enderturret.tailslegacy.common.TailsInternal;
 import net.enderturret.tailslegacy.common.TailsPlatform;
+import net.enderturret.tailslegacy.fabric.common.network.TailsNetworkManager;
 
-@Mod(TailsPlatform.MOD_ID)
-public final class TailsLegacy {
+public final class TailsLegacy implements ModInitializer {
 
 	@Internal
 	public static final Logger LOGGER = LogManager.getLogger(TailsPlatform.MOD_ID);
 
 	@Internal
-	public static String migratingData;
+	public TailsLegacy() {}
 
-	@Internal
-	public TailsLegacy(ModContainer mc) {
-		if (FMLEnvironment.getDist() == Dist.CLIENT) {
-			migratingData = TailsInternal.maybeMigrateTomlConfig(FMLPaths.CONFIGDIR.get());
-			mc.registerConfig(ModConfig.Type.CLIENT, TailsConfig.CLIENT_SPEC);
-		}
+	@Override
+	public void onInitialize() {
+		ServerEventHandler.register();
+		TailsNetworkManager.registerPackets();
 	}
 }

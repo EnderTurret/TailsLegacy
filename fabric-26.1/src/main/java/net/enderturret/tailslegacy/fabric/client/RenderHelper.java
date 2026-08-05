@@ -23,9 +23,10 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTexture;
-import com.mojang.blaze3d.textures.GpuTextureView;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ActiveTextCollector;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -37,6 +38,7 @@ import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.state.gui.BlitRenderState;
 import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -48,11 +50,20 @@ import net.enderturret.tailslegacy.common.TailsMath;
  */
 public final class RenderHelper {
 
+	public static void drawScrollingString(GuiGraphicsExtractor gui, ActiveTextCollector textCollector, Font font, Component text, int minX, int maxX, int y) {
+		final int maxWidth = maxX - minX;
+		final int textWidth = font.width(text.getVisualOrderText());
+		if (textWidth <= maxWidth)
+			gui.text(font, text, minX, y, -1);
+		else
+			textCollector.acceptScrollingWithDefaultCenter(text, minX, maxX, y - 1, y + font.lineHeight);
+	}
+
 	// Blits a texture 'scaled' to fit a larger/smaller area.
 	public static void blitScaled(GuiGraphicsExtractor gui, Identifier texture, int x, int y, int blitOffset, int u, int v, int uWidth, int vHeight, int width, int height, int color) {
 		final AbstractTexture tex = Minecraft.getInstance().getTextureManager().getTexture(texture);
 
-		gui.submitGuiElementRenderState(new BlitRenderState(
+		gui.guiRenderState.addGuiElement(new BlitRenderState(
 				RenderPipelines.GUI_TEXTURED,
 				TextureSetup.singleTexture(tex.getTextureView(), tex.getSampler()),
 				new Matrix3x2f(gui.pose()),
@@ -65,7 +76,7 @@ public final class RenderHelper {
 				v / 256F,
 				(v + vHeight) / 256F,
 				color,
-				gui.peekScissorStack()
+				gui.scissorStack.peek()
 				));
 	}
 

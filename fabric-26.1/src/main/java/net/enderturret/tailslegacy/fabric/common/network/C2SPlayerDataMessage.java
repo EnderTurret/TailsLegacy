@@ -15,14 +15,13 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.netty.buffer.ByteBuf;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
-
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.network.BaseC2SPlayerDataMessage;
@@ -51,16 +50,18 @@ public record C2SPlayerDataMessage(PartsData partsData) implements CustomPacketP
 	}
 
 	@Internal
-	public static void handle(C2SPlayerDataMessage message, IPayloadContext context) {
+	public static void handle(C2SPlayerDataMessage message, ServerPlayNetworking.Context context) {
 		if (message.partsData == null) return;
 
-		final ServerPlayer sender = (ServerPlayer) context.player();
+		final ServerPlayer sender = context.player();
 		final UUID uuid = sender.getUUID();
 
 		ServerPlayerPartManager.get().set(uuid, message.partsData);
 
 		// Tell other clients about the change.
-		// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
-		PacketDistributor.sendToAllPlayers(new S2CPlayerDataMessage(uuid, message.partsData));
+		final S2CPlayerDataMessage msg = new S2CPlayerDataMessage(uuid, message.partsData);
+		for (ServerPlayer player : context.server().getPlayerList().getPlayers())
+			if (player != sender && ServerPlayNetworking.canSend(player, S2CPlayerDataMessage.TYPE))
+				ServerPlayNetworking.send(player, msg);
 	}
 }

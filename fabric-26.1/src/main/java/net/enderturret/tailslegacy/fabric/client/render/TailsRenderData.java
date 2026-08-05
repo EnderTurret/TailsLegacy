@@ -25,4 +25,5 @@ public final class TailsRenderData {
 
 	public double cloakX, cloakY, cloakZ;
 	public float bob, walkDist;
+	public float partialTick;
 }

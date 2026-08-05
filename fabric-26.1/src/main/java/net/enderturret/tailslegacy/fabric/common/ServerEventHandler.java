@@ -11,15 +11,11 @@ package net.enderturret.tailslegacy.fabric.common;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
 import net.minecraft.server.level.ServerPlayer;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
-
-import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.part.ServerPlayerPartManager;
 import net.enderturret.tailslegacy.fabric.common.network.PlayerDataMapMessage;
 
@@ -27,20 +23,21 @@ import net.enderturret.tailslegacy.fabric.common.network.PlayerDataMapMessage;
  * A server event handler, for handling events on the server.
  */
 @Internal
-@EventBusSubscriber(modid = TailsPlatform.MOD_ID)
 public final class ServerEventHandler {
 
-	@SubscribeEvent
-	static void onPlayerLogin(PlayerLoggedInEvent event) {
-		final ServerPlayer player = (ServerPlayer) event.getEntity();
-		// Send current known tails to uk.kihira.tails.client
-		if (player.connection.hasChannel(PlayerDataMapMessage.TYPE))
-			PacketDistributor.sendToPlayer(player, new PlayerDataMapMessage(ServerPlayerPartManager.get().getData()));
+	public static void register() {
+		ServerPlayerEvents.JOIN.register(ServerEventHandler::onPlayerLogin);
+		ServerPlayerEvents.LEAVE.register(ServerEventHandler::onPlayerLogout);
 	}
 
-	@SubscribeEvent
-	static void onPlayerLogout(PlayerLoggedOutEvent event) {
+	static void onPlayerLogin(ServerPlayer player) {
+		// Send current known tails to uk.kihira.tails.client
+		if (ServerPlayNetworking.canSend(player, PlayerDataMapMessage.TYPE))
+			ServerPlayNetworking.send(player, new PlayerDataMapMessage(ServerPlayerPartManager.get().getData()));
+	}
+
+	static void onPlayerLogout(ServerPlayer player) {
 		// Server doesn't save tails so we discard.
-		ServerPlayerPartManager.get().remove(event.getEntity().getUUID());
+		ServerPlayerPartManager.get().remove(player.getUUID());
 	}
 }

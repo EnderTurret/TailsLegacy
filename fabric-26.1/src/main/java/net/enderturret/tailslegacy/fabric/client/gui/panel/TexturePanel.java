@@ -12,11 +12,11 @@ package net.enderturret.tailslegacy.fabric.client.gui.panel;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
-import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
-
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
+import net.enderturret.tailslegacy.fabric.client.RenderHelper;
 import net.enderturret.tailslegacy.fabric.client.gui.EditorScreen;
 import net.enderturret.tailslegacy.fabric.client.gui.TailsComponents;
 
@@ -26,10 +26,10 @@ public final class TexturePanel extends Panel {
 	private int variantSelectY;
 	private int texSelectY;
 
-	private ExtendedButton variantLeftBtn;
-	private ExtendedButton variantRightBtn;
-	private ExtendedButton leftBtn;
-	private ExtendedButton rightBtn;
+	private Button variantLeftBtn;
+	private Button variantRightBtn;
+	private Button leftBtn;
+	private Button rightBtn;
 
 	public TexturePanel(EditorScreen parent, int x, int y, int width, int height) {
 		super(parent, x, y, width, height);
@@ -41,10 +41,10 @@ public final class TexturePanel extends Panel {
 		texSelectY = variantSelectY + 15;
 
 		// Texture select
-		addRenderableWidget(variantLeftBtn = new ExtendedButton(5, variantSelectY, 15, 15, Component.literal("<"), _ -> cycleVariantLeft()));
-		addRenderableWidget(variantRightBtn = new ExtendedButton(right - 20, variantSelectY, 15, 15, Component.literal(">"), _ -> cycleVariantRight()));
-		addRenderableWidget(leftBtn = new ExtendedButton(5, texSelectY, 15, 15, Component.literal("<"), _ -> cycleTexLeft()));
-		addRenderableWidget(rightBtn = new ExtendedButton(right - 20, texSelectY, 15, 15, Component.literal(">"), _ -> cycleTexRight()));
+		addRenderableWidget(variantLeftBtn = Button.builder(Component.literal("<"), _ -> cycleVariantLeft()).bounds(5, variantSelectY, 15, 15).build());
+		addRenderableWidget(variantRightBtn = Button.builder(Component.literal(">"), _ -> cycleVariantRight()).bounds(right - 20, variantSelectY, 15, 15).build());
+		addRenderableWidget(leftBtn = Button.builder(Component.literal("<"), _ -> cycleTexLeft()).bounds(5, texSelectY, 15, 15).build());
+		addRenderableWidget(rightBtn = Button.builder(Component.literal(">"), _ -> cycleTexRight()).bounds(right - 20, texSelectY, 15, 15).build());
 
 		updateButtons();
 	}
@@ -60,8 +60,8 @@ public final class TexturePanel extends Panel {
 		// Texture select
 		gui.centeredText(parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFFFF);
 
-		gui.drawScrollingString(gui.textRenderer(), parent.font(), Component.literal(TailsComponents.getSubTypeName(partInfo)), left + 25, right - 25, variantSelectY + 4);
-		gui.drawScrollingString(gui.textRenderer(), parent.font(), Component.literal(TailsComponents.getTextureName(partInfo)), left + 25, right - 25, texSelectY + 4);
+		RenderHelper.drawScrollingString(gui, gui.textRenderer(), parent.font(), Component.literal(TailsComponents.getSubTypeName(partInfo)), left + 25, right - 25, variantSelectY + 4);
+		RenderHelper.drawScrollingString(gui, gui.textRenderer(), parent.font(), Component.literal(TailsComponents.getTextureName(partInfo)), left + 25, right - 25, texSelectY + 4);
 	}
 
 	private void cycleTexLeft() {

@@ -9,6 +9,7 @@
 package net.enderturret.tailslegacy.neoforge.client.gui;
 
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 
 import net.enderturret.tailslegacy.common.TailsLanguage;
@@ -87,7 +88,7 @@ public final class TailsComponents {
 		if (!partInfo.isEmpty() && partInfo.getSubType() == null) return partInfo.getSubTypeId();
 
 		final String key = partInfo.getSubTypeTranslationKey();
-		if (I18n.exists(key)) return I18n.get(key);
+		if (Language.getInstance().has(key)) return I18n.get(key);
 
 		final String fallback = partInfo.getFallbackSubTypeTranslationKey();
 		return fallback != null ? I18n.get(fallback) : key;
@@ -97,7 +98,7 @@ public final class TailsComponents {
 		if (!partInfo.isEmpty() && partInfo.getPartTexture() == null) return partInfo.getTextureId();
 
 		final String key = partInfo.getTextureTranslationKey();
-		if (I18n.exists(key)) return I18n.get(key);
+		if (Language.getInstance().has(key)) return I18n.get(key);
 
 		final String fallback = partInfo.getFallbackTextureTranslationKey();
 		return fallback != null ? I18n.get(fallback) : key;

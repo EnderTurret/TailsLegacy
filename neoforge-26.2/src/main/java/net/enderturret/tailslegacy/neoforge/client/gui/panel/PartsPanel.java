@@ -19,7 +19,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
 import net.enderturret.tailslegacy.common.client.duck.FakeTailsEntity;
@@ -36,7 +35,6 @@ import net.enderturret.tailslegacy.common.client.render.part.PartRenderer;
 import net.enderturret.tailslegacy.common.part.ServerPartInfo;
 import net.enderturret.tailslegacy.neoforge.client.gui.EditorScreen;
 import net.enderturret.tailslegacy.neoforge.client.gui.TailsComponents;
-import net.enderturret.tailslegacy.neoforge.client.gui.panel.PartsPanel.PartEntry;
 import net.enderturret.tailslegacy.neoforge.client.gui.widget.ListWidget;
 import net.enderturret.tailslegacy.neoforge.client.gui.widget.Spinner;
 import net.enderturret.tailslegacy.neoforge.client.render.PartPreviewRenderState;

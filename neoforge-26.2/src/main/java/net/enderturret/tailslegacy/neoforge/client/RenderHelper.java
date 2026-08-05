@@ -19,11 +19,11 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTexture;
-import com.mojang.blaze3d.textures.GpuTextureView;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -115,7 +115,7 @@ public final class RenderHelper {
 
 	public static void getColourAtPoint(double x, double y, IntConsumer action) {
 		final Minecraft mc = Minecraft.getInstance();
-		final RenderTarget renderTarget = mc.getMainRenderTarget();
+		final RenderTarget renderTarget = mc.gameRenderer.mainRenderTarget();
 
 		// We have to resolve these mouse coordinates back to window coordinates.
 		final double scale = mc.getWindow().getGuiScale();
@@ -129,13 +129,13 @@ public final class RenderHelper {
 		final GpuTexture colorTexture = renderTarget.getColorTexture();
 		Objects.requireNonNull(colorTexture);
 
-		final GpuBuffer buffer = RenderSystem.getDevice().createBuffer(() -> "Tails pixel buffer", 9, colorTexture.getFormat().pixelSize());
+		final GpuBuffer buffer = RenderSystem.getDevice().createBuffer(() -> "Tails pixel buffer", 9, colorTexture.getFormat().blockSize());
 		final CommandEncoder encoder = RenderSystem.getDevice().createCommandEncoder();
 		RenderSystem.getDevice()
 		.createCommandEncoder()
 		.copyTextureToBuffer(colorTexture, buffer, 0, () -> {
 			int pixel = 0;
-			try (GpuBuffer.MappedView view = encoder.mapBuffer(buffer, true, false)) {
+			try (GpuBufferSlice.MappedView view = buffer.map(true, false)) {
 				pixel = view.data().getInt();
 			}
 

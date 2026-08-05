@@ -13,7 +13,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.core.BlockPos;
 
 import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
@@ -28,10 +28,10 @@ public final class BotaniaFoxtatoRenderer {
 
 	private static FoxtatoRenderer renderer;
 
-	public static void render(PoseStack poseStack, MultiBufferSource buffers, BlockPos pos, float partialTicks, int packedLight, int packedOverlay) {
+	public static void render(PoseStack poseStack, SubmitNodeCollector nodeCollector, BlockPos pos, float partialTicks, int packedLight, int packedOverlay) {
 		if (renderer == null) renderer = new FoxtatoRenderer();
 
-		renderer.render((TailsPoseStack) poseStack, (TailsBufferSource) buffers, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay);
+		renderer.render((TailsPoseStack) poseStack, (TailsBufferSource) nodeCollector, pos.getX(), pos.getY(), pos.getZ(), partialTicks, packedLight, packedOverlay);
 	}
 
 	/*

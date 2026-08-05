@@ -39,7 +39,7 @@ public final class ClientLibraryManager extends GsonLibraryManager {
 	public void addEntries(List<? extends LibraryEntryData> entries) {
 		super.addEntries(entries);
 
-		final Screen screen = Minecraft.getInstance().screen;
+		final Screen screen = Minecraft.getInstance().gui.screen();
 
 		if (screen instanceof EditorScreen editor) {
 			if (editor.getLibraryPanel() != null && editor.getLibraryInfoPanel() != null)

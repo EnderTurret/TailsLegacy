@@ -13,6 +13,7 @@ import java.util.UUID;
 import net.enderturret.tailslegacy.common.TailsInternal;
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.TailsClientInternal;
+import net.enderturret.tailslegacy.common.client.TailsClientPlatform;
 import net.enderturret.tailslegacy.common.client.part.ClientPlayerPartManager;
 import net.enderturret.tailslegacy.common.gson.TailsGsonHelper;
 import net.enderturret.tailslegacy.common.part.PartsData;
@@ -40,7 +41,8 @@ public interface BaseS2CPlayerDataMessage {
 	}
 
 	public static void handle(UUID uuid, PartsData partsData) {
-		if (partsData != null)
+		// Don't allow the server to dictate our local part data.
+		if (partsData != null && !uuid.equals(TailsClientPlatform.get().getLocalUUID()))
 			ClientPlayerPartManager.get().set(uuid, partsData);
 	}
 }

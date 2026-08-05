@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import net.enderturret.tailslegacy.common.TailsInternal;
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.TailsClientInternal;
+import net.enderturret.tailslegacy.common.client.TailsClientPlatform;
 import net.enderturret.tailslegacy.common.client.part.ClientPlayerPartManager;
 import net.enderturret.tailslegacy.common.gson.TailsGsonHelper;
 import net.enderturret.tailslegacy.common.part.PartsData;
@@ -47,7 +48,9 @@ public interface BasePlayerDataMapMessage {
 	public static void handle(Map<UUID, PartsData> map) {
 		if (map == null) return;
 
+		final UUID ourId = TailsClientPlatform.get().getLocalUUID();
 		for (Map.Entry<UUID, PartsData> entry : map.entrySet())
-			ClientPlayerPartManager.get().set(entry.getKey(), entry.getValue());
+			if (!entry.getKey().equals(ourId))
+				ClientPlayerPartManager.get().set(entry.getKey(), entry.getValue());
 	}
 }

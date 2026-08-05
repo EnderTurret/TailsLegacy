@@ -59,8 +59,10 @@ public final class C2SPlayerDataMessage implements BaseC2SPlayerDataMessage, IMe
 			ServerPlayerPartManager.get().set(uuid, message.partsData);
 
 			// Tell other clients about the change.
-			// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
-			TailsNetworkManager.get().sendToAll(new S2CPlayerDataMessage(uuid, message.partsData));
+			final S2CPlayerDataMessage msg = new S2CPlayerDataMessage(uuid, message.partsData);
+			for (EntityPlayerMP player : sender.server.getPlayerList().getPlayers())
+				if (player != sender)
+					TailsNetworkManager.get().sendTo(msg, player);
 
 			return null;
 		}

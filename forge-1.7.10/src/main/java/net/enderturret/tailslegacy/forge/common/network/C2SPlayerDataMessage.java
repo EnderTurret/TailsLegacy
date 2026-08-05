@@ -9,6 +9,7 @@
 
 package net.enderturret.tailslegacy.forge.common.network;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -50,6 +51,7 @@ public final class C2SPlayerDataMessage implements BaseC2SPlayerDataMessage, IMe
 	public static final class Handler implements IMessageHandler<C2SPlayerDataMessage, IMessage> {
 
 		@Override
+		@SuppressWarnings("unchecked")
 		public IMessage onMessage(C2SPlayerDataMessage message, MessageContext context) {
 			if (message.partsData == null) return null;
 
@@ -59,8 +61,10 @@ public final class C2SPlayerDataMessage implements BaseC2SPlayerDataMessage, IMe
 			ServerPlayerPartManager.get().set(uuid, message.partsData);
 
 			// Tell other clients about the change.
-			// TODO: This sends the user's part data to themself, which is an unnecessary packet (they already have this data).
-			TailsNetworkManager.get().sendToAll(new S2CPlayerDataMessage(uuid, message.partsData));
+			final S2CPlayerDataMessage msg = new S2CPlayerDataMessage(uuid, message.partsData);
+			for (EntityPlayerMP player : (List<EntityPlayerMP>) sender.mcServer.getConfigurationManager().playerEntityList)
+				if (player != sender)
+					TailsNetworkManager.get().sendTo(msg, player);
 
 			return null;
 		}

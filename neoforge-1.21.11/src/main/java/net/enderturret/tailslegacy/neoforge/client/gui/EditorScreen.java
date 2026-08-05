@@ -60,6 +60,7 @@ public class EditorScreen extends BaseScreen {
 	public final LivingEntity renderingEntity;
 
 	private final Consumer<EditorScreen> onSave;
+	private boolean saving = false;
 
 	protected final List<Panel> panels = new ArrayList<>();
 	protected TintPanel tintPanel;
@@ -144,7 +145,9 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void removed() {
-		setPartsData(originalPartsData);
+		if (!saving)
+			setPartsData(originalPartsData);
+
 		super.removed();
 	}
 
@@ -153,11 +156,6 @@ public class EditorScreen extends BaseScreen {
 		for (Panel panel : panels)
 			if (panel.visible)
 				panel.renderBackground(gui, mouseX, mouseY, partialTick);
-	}
-
-	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		super.render(gui, mouseX, mouseY, partialTick);
 	}
 
 	@Override
@@ -187,6 +185,7 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	public void close() {
+		saving = true;
 		onSave.accept(this);
 	}
 

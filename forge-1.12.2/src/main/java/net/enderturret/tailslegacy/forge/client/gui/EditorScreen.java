@@ -61,6 +61,7 @@ public class EditorScreen extends BaseScreen {
 	public final EntityLivingBase renderingEntity;
 
 	private final Consumer<EditorScreen> onSave;
+	private boolean saving = false;
 
 	protected final List<Panel> panels = new ArrayList<>();
 	protected TintPanel tintPanel;
@@ -157,9 +158,12 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void onGuiClosed() {
-		// Reset the cursor in case it somehow got stuck as the color picker.
-		try { Mouse.setNativeCursor(null); } catch (LWJGLException e) {}
-		setPartsData(originalPartsData);
+		if (!saving) {
+			// Reset the cursor in case it somehow got stuck as the color picker.
+			try { Mouse.setNativeCursor(null); } catch (LWJGLException e) {}
+			setPartsData(originalPartsData);
+		}
+
 		super.onGuiClosed();
 	}
 
@@ -194,6 +198,7 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	public void close() {
+		saving = true;
 		// Reset the cursor in case it somehow got stuck as the color picker.
 		try { Mouse.setNativeCursor(null); } catch (LWJGLException e) {}
 		onSave.accept(this);

@@ -62,6 +62,7 @@ public class EditorScreen extends BaseScreen {
 	public final LivingEntity renderingEntity;
 
 	private final Consumer<EditorScreen> onSave;
+	private boolean saving = false;
 
 	protected final List<Panel> panels = new ArrayList<>();
 	protected TintPanel tintPanel;
@@ -146,9 +147,12 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void removed() {
-		// Reset the cursor in case it somehow got stuck as the color picker.
-		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), MemoryUtil.NULL);
-		setPartsData(originalPartsData);
+		if (!saving) {
+			// Reset the cursor in case it somehow got stuck as the color picker.
+			GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), MemoryUtil.NULL);
+			setPartsData(originalPartsData);
+		}
+
 		super.removed();
 	}
 
@@ -186,6 +190,7 @@ public class EditorScreen extends BaseScreen {
 	}
 
 	public void close() {
+		saving = true;
 		// Reset the cursor in case it somehow got stuck as the color picker.
 		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), MemoryUtil.NULL);
 		onSave.accept(this);

@@ -13,7 +13,7 @@
   },
 
   "license": "MIT",
-  "icon": "assets/tailslegacy/textures/banner.png",
+  "icon": "assets/tailslegacy/textures/icon.png",
 
   "environment": "*",
   "entrypoints": {

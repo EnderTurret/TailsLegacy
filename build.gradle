@@ -13,7 +13,10 @@ tasks.register('publishMods') {
         project(':Tails.Forge.1.20.1').tasks.publishMods,
         project(':Tails.NeoForge.1.21.1').tasks.publishMods,
         project(':Tails.NeoForge.1.21.11').tasks.publishMods,
-        project(':Tails.NeoForge.26.1').tasks.publishMods
+        project(':Tails.NeoForge.26.1').tasks.publishMods,
+        project(':Tails.Fabric.26.1').tasks.publishMods,
+        project(':Tails.NeoForge.26.2').tasks.publishMods,
+        project(':Tails.Fabric.26.2').tasks.publishMods
     ]
 
     for (int i = 0; i < tasks.size() - 1; i++) {

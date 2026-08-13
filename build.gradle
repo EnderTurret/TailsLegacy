@@ -139,7 +139,6 @@ subprojects {
         apply plugin: 'me.modmuss50.mod-publish-plugin'
 
         publishMods {
-            file = jar.archiveFile
             changelog = providers.fileContents(rootProject.getLayout().projectDirectory.file("changelog.md")).asText
             type = STABLE
             modLoaders.add("${publishing_loader}")

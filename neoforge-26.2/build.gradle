@@ -29,3 +29,5 @@ neoForge {
         }*/
     }
 }
+
+publishMods.file = jar.archiveFile

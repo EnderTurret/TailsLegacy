@@ -28,7 +28,7 @@ public interface BaseS2CBulkPlayerDataMessage {
 
 	public static Map<UUID, PartsData> decodeJson(String json) {
 		if (TailsInternal.DEBUG_NETWORK)
-			TailsPlatform.get().logInfo("[S2CBulkPlayerDataMessage] Received {}", json);
+			TailsPlatform.get().logInfo("[S2CBulkPlayerDataMessage] Received {} ", json);
 
 		Map<UUID, PartsData> partsDataMap = Collections.emptyMap();
 

@@ -8,6 +8,7 @@
 
 package net.enderturret.tailslegacy.neoforge.mixin.client.duck;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
 import net.minecraft.client.Minecraft;
@@ -26,7 +27,7 @@ import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 public interface MixinMultiBufferSource extends TailsBufferSource {
 
 	@Override
-	public default TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
+	public @Nullable default TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
 		final ResourceLocation tex = (ResourceLocation) (Object) texture;
 		boolean visible = true, visibleToPlayer = false, glowing = false;
 
@@ -44,6 +45,6 @@ public interface MixinMultiBufferSource extends TailsBufferSource {
 		else
 			renderType = glowing ? RenderType.outline(tex) : null;
 
-		return (TailsBuffer) ((MultiBufferSource) (Object) this).getBuffer(renderType);
+		return renderType == null ? null : (TailsBuffer) ((MultiBufferSource) (Object) this).getBuffer(renderType);
 	}
 }

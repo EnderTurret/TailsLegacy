@@ -8,6 +8,7 @@
 
 package net.enderturret.tailslegacy.fabric.mixin.client.duck;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
 import net.minecraft.client.Minecraft;
@@ -27,7 +28,7 @@ import net.enderturret.tailslegacy.fabric.client.render.PreparedSubmitNodeStorag
 public class MixinSubmitNodeStorage implements TailsBufferSource {
 
 	@Override
-	public TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
+	public @Nullable TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
 		final SubmitNodeStorage storage = (SubmitNodeStorage) (Object) this;
 
 		final Identifier tex = (Identifier) (Object) texture;
@@ -47,6 +48,6 @@ public class MixinSubmitNodeStorage implements TailsBufferSource {
 		else
 			renderType = glowing ? RenderTypes.outline(tex) : null;
 
-		return new PreparedSubmitNodeStorage(storage, renderType);
+		return renderType == null ? null : new PreparedSubmitNodeStorage(storage, renderType);
 	}
 }

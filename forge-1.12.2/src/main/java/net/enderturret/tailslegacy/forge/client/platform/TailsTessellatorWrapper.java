@@ -10,6 +10,7 @@ package net.enderturret.tailslegacy.forge.client.platform;
 
 import java.util.function.BiConsumer;
 
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -46,7 +47,7 @@ public final class TailsTessellatorWrapper implements TailsBufferSource, TailsBu
 	}
 
 	@Override
-	public TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
+	public @Nullable TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
 		final ResourceLocation tex = (ResourceLocation) texture;
 		boolean visible = true, visibleToPlayer = false;
 

@@ -246,6 +246,7 @@ public final class ClientEventHandler {
 
 		final ResourceLocation loc = new ResourceLocation(TailsPlatform.MOD_ID, modernFile);
 		final IResourcePack pack = FMLClientHandler.instance().getResourcePackFor(TailsPlatform.MOD_ID);
+		if (pack == null) return; // Account for mods like Angelica loading vanilla resources early.
 
 		try (InputStream is = pack.getInputStream(loc); InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr)) {

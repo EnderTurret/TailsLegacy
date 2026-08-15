@@ -115,7 +115,7 @@ public final class PartRegistry {
 	 * @return The list.
 	 */
 	public static List<Part> getParts(AttachmentPoint attachment) {
-		return BY_TYPE.get(attachment);
+		return BY_TYPE.getOrDefault(attachment, Collections.emptyList());
 	}
 
 	/**

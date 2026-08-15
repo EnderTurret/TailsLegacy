@@ -46,6 +46,8 @@ public abstract class MixinFileResourcePack implements ResourceManagerExtensions
 					name = name.substring("assets/".length());
 
 					int idx = name.indexOf('/');
+					if (idx == -1) continue; // Weird files like assets/ocean_monument.txt
+
 					final String namespace = name.substring(0, idx);
 					final String path = name.substring(idx + 1);
 

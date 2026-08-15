@@ -10,10 +10,14 @@
 package net.enderturret.tailslegacy.forge.client;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 import javax.imageio.ImageIO;
 
@@ -23,6 +27,10 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 import org.lwjgl.opengl.GL11;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -31,11 +39,14 @@ import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 
+import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.TailsClientPlatform;
 import net.enderturret.tailslegacy.common.client.gui.TailsIcons;
 import net.enderturret.tailslegacy.common.client.part.ClientPlayerPartManager;
@@ -50,7 +61,9 @@ import net.enderturret.tailslegacy.forge.client.gui.widget.IconButton;
 import net.enderturret.tailslegacy.forge.client.platform.TailsClientPlatformImpl;
 import net.enderturret.tailslegacy.forge.client.render.BotaniaFoxtatoRenderer;
 import net.enderturret.tailslegacy.forge.common.TailsConfig;
+import net.enderturret.tailslegacy.forge.mixin.client.SimpleResourceAccess;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.config.GuiButtonExt;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -188,6 +201,7 @@ public final class ClientEventHandler {
 		ACTIVE_PLAYER_RENDERER.set(null);
 	}
 
+	@Internal
 	public static final class CommonHandlerBus {
 
 		@SubscribeEvent
@@ -231,5 +245,31 @@ public final class ClientEventHandler {
 			sentPartInfoToServer = false;
 			clearAllPartInfo = true;
 		}
+	}
+
+	public static void handleLoadingLangFile(SimpleResourceAccess resource, BiConsumer<String, String> setter) {
+		final ResourceLocation rl = resource.tails$srResourceLocation();
+		if (!TailsPlatform.MOD_ID.equals(rl.getResourceDomain())) return;
+
+		final String modernFile = rl.getResourcePath()
+				.toLowerCase(java.util.Locale.ENGLISH) // Before 1.11(?), lang files were en_US.lang etc.
+				.replace(".lang", ".json");
+
+		final ResourceLocation loc = new ResourceLocation(TailsPlatform.MOD_ID, modernFile);
+		final IResourcePack pack = FMLClientHandler.instance().getResourcePackFor(TailsPlatform.MOD_ID);
+
+		try (InputStream is = pack.getInputStream(loc); InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr)) {
+			final JsonElement elem = new JsonParser().parse(br);
+			loadModernLangFile(elem, setter);
+		} catch (Exception e) {
+			TailsPlatform.get().logError("Exception reading resource {}:", loc, e);
+		}
+	}
+
+	private static void loadModernLangFile(JsonElement elem, BiConsumer<String, String> setter) {
+		final JsonObject obj = elem.getAsJsonObject();
+		for (Map.Entry<String, JsonElement> entry : obj.entrySet())
+			setter.accept(entry.getKey(), entry.getValue().getAsString());
 	}
 }

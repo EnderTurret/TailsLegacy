@@ -52,7 +52,13 @@ public abstract class MixinFallbackResourceManager implements ResourceManagerExt
 				if (collection == null) throw new IllegalArgumentException("Resource pack " + resourcePack + " returned null for tailslegacy$listResources");
 				ret.addAll(collection);
 			} else if (TAILSLEGACY$IGNORED_CLASSES.add(resourcePack.getClass()))
-				TailsLegacy.LOGGER.warn("IResourcePack implementation " + resourcePack.getClass().getName() + " does not support Tails extensions; Tails data will not be loaded from it");
+				switch (resourcePack.getClass().getName()) {
+					case "ganymedes01.etfuturum.client.BuiltInResourcePack$BuiltInFileResourcePack":
+					case "ganymedes01.etfuturum.client.GrayscaleWaterResourcePack":
+					case "ganymedes01.etfuturum.client.DynamicSoundsResourcePack":
+					case "makamys.mclib.ext.assetdirector.mc.MultiVersionDefaultResourcePack": break;
+					default: TailsLegacy.LOGGER.warn("IResourcePack implementation " + resourcePack.getClass().getName() + " does not support Tails extensions; Tails data will not be loaded from it");
+				}
 
 		return ret;
 	}

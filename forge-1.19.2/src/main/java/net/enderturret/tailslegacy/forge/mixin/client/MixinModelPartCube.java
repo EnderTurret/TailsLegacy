@@ -29,7 +29,7 @@ public abstract class MixinModelPartCube implements ModelPartCubeExtensions {
 	private ModelPart.Polygon[] polygons;
 
 	@Override
-	public void tails$setHiddenFaces(Collection<Direction> faces) {
+	public void tailslegacy$setHiddenFaces(Collection<Direction> faces) {
 		if (polygons.length != 6) throw new IllegalStateException("Already set hidden faces!");
 		if (faces.isEmpty()) return;
 

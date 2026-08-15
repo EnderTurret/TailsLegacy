@@ -34,7 +34,7 @@ public abstract class MixinModelBiped {
 					from = @At(value = "FIELD", ordinal = 1, opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedHead:Lnet/minecraft/client/model/ModelRenderer;"),
 					to = @At(value = "FIELD", ordinal = 1, opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedBody:Lnet/minecraft/client/model/ModelRenderer;")
 					))
-	private void tails$renderHeadParts(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale, CallbackInfo ci) {
+	private void tailslegacy$renderHeadParts(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale, CallbackInfo ci) {
 		if (!(entity instanceof EntityPlayer)) return;
 
 		final RenderPlayer renderer = ClientEventHandler.ACTIVE_PLAYER_RENDERER.get();
@@ -50,7 +50,7 @@ public abstract class MixinModelBiped {
 					from = @At(value = "FIELD", ordinal = 1, opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedBody:Lnet/minecraft/client/model/ModelRenderer;"),
 					to = @At(value = "FIELD", ordinal = 1, opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/client/model/ModelBiped;bipedRightArm:Lnet/minecraft/client/model/ModelRenderer;")
 					))
-	private void tails$renderBodyParts(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale, CallbackInfo ci) {
+	private void tailslegacy$renderBodyParts(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale, CallbackInfo ci) {
 		if (!(entity instanceof EntityPlayer)) return;
 
 		final RenderPlayer renderer = ClientEventHandler.ACTIVE_PLAYER_RENDERER.get();

@@ -29,7 +29,7 @@ import net.enderturret.tailslegacy.forge.common.platform.ResourceManagerExtensio
 public abstract class MixinFileResourcePack implements ResourceManagerExtensions {
 
 	@Override
-	public Collection<ResourceLocation> tails$listResources(String prefix, Predicate<ResourceLocation> filter) {
+	public Collection<ResourceLocation> tailslegacy$listResources(String prefix, Predicate<ResourceLocation> filter) {
 		final Set<ResourceLocation> ret = new HashSet<>();
 
 		try {

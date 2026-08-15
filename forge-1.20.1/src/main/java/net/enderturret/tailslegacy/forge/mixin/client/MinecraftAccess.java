@@ -19,5 +19,5 @@ import net.minecraft.client.Minecraft;
 public interface MinecraftAccess {
 
 	@Accessor("authenticationService")
-	public YggdrasilAuthenticationService tails$authenticationService();
+	public YggdrasilAuthenticationService tailslegacy$authenticationService();
 }

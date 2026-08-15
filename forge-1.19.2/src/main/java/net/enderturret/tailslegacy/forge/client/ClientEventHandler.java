@@ -236,7 +236,7 @@ public final class ClientEventHandler {
 				final PlayerRenderer renderer2 = (PlayerRenderer) renderer;
 				renderer2.addLayer(new PartLayer<>(renderer2));
 
-				final List<RenderLayer<?, ?>> layers = ((LivingEntityRendererAccess) renderer2).tails$layers();
+				final List<RenderLayer<?, ?>> layers = ((LivingEntityRendererAccess) renderer2).tailslegacy$layers();
 				for (int i = 0; i < layers.size(); i++)
 					// If other mods do this exact same thing, let them take precedence.
 					// If it's just an ArrowLayer mixin, then sucks for them.

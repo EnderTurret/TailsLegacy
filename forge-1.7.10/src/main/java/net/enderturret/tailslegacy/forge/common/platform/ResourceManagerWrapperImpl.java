@@ -44,7 +44,7 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 	@Override
 	public Map<TResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<TResourceLocation> filter) {
 		@SuppressWarnings("unchecked")
-		final Collection<ResourceLocation> resources = ((ResourceManagerExtensions) manager).tails$listResources(prefix, (Predicate) filter);
+		final Collection<ResourceLocation> resources = ((ResourceManagerExtensions) manager).tailslegacy$listResources(prefix, (Predicate) filter);
 		final Map<TResourceLocation, JsonElement> ret = new TreeMap<>(TResourceLocation::t$compareTo);
 
 		for (ResourceLocation rl : resources)

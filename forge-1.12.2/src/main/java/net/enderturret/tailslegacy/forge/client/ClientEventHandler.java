@@ -117,7 +117,7 @@ public final class ClientEventHandler {
 		for (RenderPlayer renderer : skinMap.values()) {
 			renderer.addLayer(new PartLayer<>(renderer));
 
-			final List<LayerRenderer<?>> layers = ((RenderLivingBaseAccess) renderer).tails$layers();
+			final List<LayerRenderer<?>> layers = ((RenderLivingBaseAccess) renderer).tailslegacy$layers();
 			for (int i = 0; i < layers.size(); i++)
 				// If other mods do this exact same thing, let them take precedence.
 				// If it's just an ArrowLayer mixin, then sucks for them.

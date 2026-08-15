@@ -35,7 +35,7 @@ public abstract class MixinFolderResourcePack extends AbstractResourcePack imple
 	}
 
 	@Override
-	public Collection<ResourceLocation> tails$listResources(String prefix, Predicate<ResourceLocation> filter) {
+	public Collection<ResourceLocation> tailslegacy$listResources(String prefix, Predicate<ResourceLocation> filter) {
 		final Path baseFile = resourcePackFile.toPath().resolve("assets").toAbsolutePath();
 
 		final Set<ResourceLocation> ret = new HashSet<>();

@@ -26,16 +26,16 @@ import net.enderturret.tailslegacy.forge.client.render.ModelPartCubeExtensions;
 public abstract class MixinCubeDefinition implements ModelPartCubeExtensions {
 
 	@Unique
-	private Collection<Direction> tails$faces;
+	private Collection<Direction> tailslegacy$faces;
 
 	@Override
-	public void tails$setHiddenFaces(Collection<Direction> faces) {
-		tails$faces = faces;
+	public void tailslegacy$setHiddenFaces(Collection<Direction> faces) {
+		tailslegacy$faces = faces;
 	}
 
 	@Inject(at = @At("RETURN"), method = "bake")
-	private void tails$setHiddenFacesOnCube(CallbackInfoReturnable<ModelPart.Cube> cir) {
-		if (tails$faces != null)
-			((ModelPartCubeExtensions) cir.getReturnValue()).tails$setHiddenFaces(tails$faces);
+	private void tailslegacy$setHiddenFacesOnCube(CallbackInfoReturnable<ModelPart.Cube> cir) {
+		if (tailslegacy$faces != null)
+			((ModelPartCubeExtensions) cir.getReturnValue()).tailslegacy$setHiddenFaces(tailslegacy$faces);
 	}
 }

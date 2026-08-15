@@ -18,5 +18,5 @@ import net.minecraft.util.ResourceLocation;
 public interface SimpleResourceAccess {
 
 	@Accessor("srResourceLocation")
-	public ResourceLocation tails$srResourceLocation();
+	public ResourceLocation tailslegacy$srResourceLocation();
 }

@@ -31,7 +31,7 @@ public abstract class MixinLocale {
 	private Map<String, String> field_135032_a;
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/Locale;loadLocaleData(Ljava/io/InputStream;)V"), method = "loadLocaleData(Ljava/util/List;)V")
-	private void tails$loadModernLangFiles(List resourcesList, CallbackInfo ci, @Local(ordinal = 0, index = 2) IResource resource) {
+	private void tailslegacy$loadModernLangFiles(List resourcesList, CallbackInfo ci, @Local(ordinal = 0, index = 2) IResource resource) {
 		if (!(resource instanceof SimpleResourceAccess)) return;
 		ClientEventHandler.handleLoadingLangFile((SimpleResourceAccess) resource, field_135032_a);
 	}

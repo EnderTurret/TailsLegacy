@@ -10,5 +10,5 @@ package net.enderturret.tailslegacy.forge.client.render;
 
 public interface ModelPartExtensions {
 
-	public void tails$storeInitialPose();
+	public void tailslegacy$storeInitialPose();
 }

@@ -282,7 +282,7 @@ public final class ClientEventHandler {
 			final AvatarRenderer<? extends AbstractClientPlayer> renderer2 = (AvatarRenderer<? extends AbstractClientPlayer>) entityRenderer;
 			registrationHelper.register(new PartLayer<>(renderer2));
 
-			final List<RenderLayer<?, ?>> layers = ((LivingEntityRendererAccess) entityRenderer).tails$layers();
+			final List<RenderLayer<?, ?>> layers = ((LivingEntityRendererAccess) entityRenderer).tailslegacy$layers();
 			for (int i = 0; i < layers.size(); i++)
 				// If other mods do this exact same thing, let them take precedence.
 				// If it's just an ArrowLayer mixin, then sucks for them.

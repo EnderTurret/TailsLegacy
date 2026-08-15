@@ -248,7 +248,7 @@ public final class ClientEventHandler {
 	}
 
 	public static void handleLoadingLangFile(SimpleResourceAccess resource, Map<String, String> properties) {
-		final ResourceLocation rl = resource.tails$srResourceLocation();
+		final ResourceLocation rl = resource.tailslegacy$srResourceLocation();
 		if (!TailsPlatform.MOD_ID.equals(rl.getResourceDomain())) return;
 
 		final String modernFile = rl.getResourcePath()

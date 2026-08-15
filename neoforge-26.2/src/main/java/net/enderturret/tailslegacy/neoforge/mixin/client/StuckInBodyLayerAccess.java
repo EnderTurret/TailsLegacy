@@ -20,5 +20,5 @@ import net.minecraft.client.renderer.entity.layers.StuckInBodyLayer;
 public interface StuckInBodyLayerAccess {
 
 	@Invoker("submitStuckItem")
-	public void tails$submitStuckItem(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, float x, float y, float z, int outlineColor);
+	public void tailslegacy$submitStuckItem(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, float x, float y, float z, int outlineColor);
 }

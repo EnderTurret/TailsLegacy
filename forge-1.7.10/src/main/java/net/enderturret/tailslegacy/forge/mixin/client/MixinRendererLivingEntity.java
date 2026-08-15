@@ -24,15 +24,15 @@ import net.enderturret.tailslegacy.forge.client.render.layer.TailsArrowLayer;
 public abstract class MixinRendererLivingEntity {
 
 	@Unique
-	private TailsArrowLayer tails$arrowLayer;
+	private TailsArrowLayer tailslegacy$arrowLayer;
 
 	@Inject(at = @At("HEAD"), method = "renderArrowsStuckInEntity", cancellable = true)
-	private void tails$renderArrowsStuckInEntity(EntityLivingBase entity, float partialTick, CallbackInfo ci) {
+	private void tailslegacy$renderArrowsStuckInEntity(EntityLivingBase entity, float partialTick, CallbackInfo ci) {
 		if (!(entity instanceof EntityPlayer)) return;
 
-		if (tails$arrowLayer == null)
-			tails$arrowLayer = new TailsArrowLayer((RendererLivingEntity) (Object) this);
-		tails$arrowLayer.doRenderLayer(entity, partialTick);
+		if (tailslegacy$arrowLayer == null)
+			tailslegacy$arrowLayer = new TailsArrowLayer((RendererLivingEntity) (Object) this);
+		tailslegacy$arrowLayer.doRenderLayer(entity, partialTick);
 
 		ci.cancel();
 	}

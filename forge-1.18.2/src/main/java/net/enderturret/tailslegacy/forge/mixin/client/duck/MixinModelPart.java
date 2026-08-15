@@ -37,11 +37,11 @@ public class MixinModelPart implements TailsModelPart, ModelPartExtensions {
 	private Map<String, ModelPart> children;
 
 	@Unique
-	private PartPose tails$initialPose;
+	private PartPose tailslegacy$initialPose;
 
 	@Override
-	public void tails$storeInitialPose() {
-		tails$initialPose = ((ModelPart) (Object) this).storePose();
+	public void tailslegacy$storeInitialPose() {
+		tailslegacy$initialPose = ((ModelPart) (Object) this).storePose();
 	}
 
 	@Override
@@ -86,23 +86,23 @@ public class MixinModelPart implements TailsModelPart, ModelPartExtensions {
 
 	@Override
 	public boolean t$hasInitialPose() {
-		final PartPose pose = tails$initialPose;
+		final PartPose pose = tailslegacy$initialPose;
 		return pose != null && !(pose.x == 0 && pose.y == 0 && pose.z == 0 && pose.xRot == 0 && pose.yRot == 0 && pose.zRot == 0);
 	}
 
 	@Override
 	public float t$getInitialXRot() {
-		return tails$initialPose.xRot;
+		return tailslegacy$initialPose.xRot;
 	}
 
 	@Override
 	public float t$getInitialYRot() {
-		return tails$initialPose.yRot;
+		return tailslegacy$initialPose.yRot;
 	}
 
 	@Override
 	public float t$getInitialZRot() {
-		return tails$initialPose.zRot;
+		return tailslegacy$initialPose.zRot;
 	}
 
 	@Override

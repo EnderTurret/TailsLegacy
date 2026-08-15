@@ -14,5 +14,5 @@ import net.minecraft.core.Direction;
 
 public interface ModelPartCubeExtensions {
 
-	public void tails$setHiddenFaces(Collection<Direction> faces);
+	public void tailslegacy$setHiddenFaces(Collection<Direction> faces);
 }

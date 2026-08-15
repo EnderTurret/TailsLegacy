@@ -23,10 +23,10 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 public interface PartDefinitionAccess {
 
 	@Invoker("<init>")
-	public static PartDefinition tails$new(List<CubeDefinition> cubes, PartPose partPose) {
+	public static PartDefinition tailslegacy$new(List<CubeDefinition> cubes, PartPose partPose) {
 		return null;
 	}
 
 	@Accessor("children")
-	public Map<String, PartDefinition> tails$children();
+	public Map<String, PartDefinition> tailslegacy$children();
 }

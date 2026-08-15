@@ -19,5 +19,5 @@ import net.minecraft.client.renderer.texture.TextureManager;
 public interface TextureManagerAccess {
 
 	@Accessor("mapTextureObjects")
-	public Map tails$mapTextureObjects();
+	public Map tailslegacy$mapTextureObjects();
 }

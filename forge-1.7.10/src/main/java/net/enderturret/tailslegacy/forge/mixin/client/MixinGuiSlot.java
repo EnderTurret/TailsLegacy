@@ -22,7 +22,7 @@ public abstract class MixinGuiSlot {
 
 	@SuppressWarnings("cast")
 	@Inject(at = @At("HEAD"), method = "overlayBackground", cancellable = true)
-	private void tails$stopDrawingBackgrounds(CallbackInfo ci) {
+	private void tailslegacy$stopDrawingBackgrounds(CallbackInfo ci) {
 		if ((Object) this instanceof SimpleGuiList)
 			ci.cancel();
 	}

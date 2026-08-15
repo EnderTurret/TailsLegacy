@@ -14,5 +14,5 @@ import net.minecraft.util.EnumFacing;
 
 public interface ModelPartCubeExtensions {
 
-	public void tails$setHiddenFaces(Collection<EnumFacing> faces);
+	public void tailslegacy$setHiddenFaces(Collection<EnumFacing> faces);
 }

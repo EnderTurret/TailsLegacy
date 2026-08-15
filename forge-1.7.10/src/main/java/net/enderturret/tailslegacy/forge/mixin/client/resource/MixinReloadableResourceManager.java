@@ -33,12 +33,12 @@ public abstract class MixinReloadableResourceManager implements ResourceManagerE
 	private Map<String, FallbackResourceManager> domainResourceManagers;
 
 	@Override
-	public Collection<ResourceLocation> tails$listResources(String prefix, Predicate<ResourceLocation> filter) {
+	public Collection<ResourceLocation> tailslegacy$listResources(String prefix, Predicate<ResourceLocation> filter) {
 		final Set<ResourceLocation> ret = new HashSet<>();
 
 		for (FallbackResourceManager manager : domainResourceManagers.values()) {
 			if (manager instanceof ResourceManagerExtensions)
-				ret.addAll(((ResourceManagerExtensions) manager).tails$listResources(prefix, filter));
+				ret.addAll(((ResourceManagerExtensions) manager).tailslegacy$listResources(prefix, filter));
 			else
 				TailsLegacy.LOGGER.warn("Unknown resource manager type: {}", manager.getClass().getName());
 		}

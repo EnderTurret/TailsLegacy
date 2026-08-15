@@ -20,5 +20,5 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 public interface RenderLivingBaseAccess {
 
 	@Accessor("layerRenderers")
-	public List<LayerRenderer<?>> tails$layers();
+	public List<LayerRenderer<?>> tailslegacy$layers();
 }

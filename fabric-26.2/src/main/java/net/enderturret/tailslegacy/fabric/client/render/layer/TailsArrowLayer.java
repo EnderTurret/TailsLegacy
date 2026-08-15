@@ -94,7 +94,7 @@ public final class TailsArrowLayer<M extends PlayerModel> extends ArrowLayer<M> 
 	@Override
 	public void renderStuckItem(TailsPoseStack poseStack, TailsBufferSource bufferSource, int packedLight, TailsEntity entity, float x, float y, float z, float partialTick) {
 		final StuckInBodyLayerAccess access = (StuckInBodyLayerAccess) (Object) this;
-		access.tails$submitStuckItem((PoseStack) poseStack, (SubmitNodeCollector) bufferSource, packedLight, x, y, z, ((AvatarRenderState) entity).outlineColor);
+		access.tailslegacy$submitStuckItem((PoseStack) poseStack, (SubmitNodeCollector) bufferSource, packedLight, x, y, z, ((AvatarRenderState) entity).outlineColor);
 	}
 
 	/**

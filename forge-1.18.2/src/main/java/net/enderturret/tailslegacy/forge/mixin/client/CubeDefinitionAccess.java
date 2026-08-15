@@ -20,7 +20,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation;
 public interface CubeDefinitionAccess {
 
 	@Invoker("<init>")
-	public static CubeDefinition tails$new(
+	public static CubeDefinition tailslegacy$new(
 			@Nullable String comment,
 			float texCoordU, float texCoordV,
 			float originX, float originY, float originZ,

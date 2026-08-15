@@ -39,15 +39,15 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 	private List<ModelRenderer> childModels;
 
 	@Unique
-	private Map<String, ModelRenderer> tails$children;
+	private Map<String, ModelRenderer> tailslegacy$children;
 
 	@Unique
-	private float[] tails$initialPose;
+	private float[] tailslegacy$initialPose;
 
 	@Override
-	public void tails$storeInitialPose() {
+	public void tailslegacy$storeInitialPose() {
 		final ModelRenderer self = (ModelRenderer) (Object) this;
-		tails$initialPose = new float[] { self.offsetX, self.offsetY, self.offsetZ, self.rotateAngleX, self.rotateAngleY, self.rotateAngleZ };
+		tailslegacy$initialPose = new float[] { self.offsetX, self.offsetY, self.offsetZ, self.rotateAngleX, self.rotateAngleY, self.rotateAngleZ };
 	}
 
 	@Override
@@ -92,23 +92,23 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 
 	@Override
 	public boolean t$hasInitialPose() {
-		final float[] pose = tails$initialPose;
+		final float[] pose = tailslegacy$initialPose;
 		return pose != null && !(pose[0] == 0 && pose[1] == 0 && pose[2] == 0 && pose[3] == 0 && pose[4] == 0 && pose[5] == 0);
 	}
 
 	@Override
 	public float t$getInitialXRot() {
-		return tails$initialPose[3];
+		return tailslegacy$initialPose[3];
 	}
 
 	@Override
 	public float t$getInitialYRot() {
-		return tails$initialPose[4];
+		return tailslegacy$initialPose[4];
 	}
 
 	@Override
 	public float t$getInitialZRot() {
-		return tails$initialPose[5];
+		return tailslegacy$initialPose[5];
 	}
 
 	@Override
@@ -124,19 +124,19 @@ public class MixinModelRenderer implements TailsModelPart, ModelPartExtensions {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, TailsModelPart> t$getChildren() {
-		if (tails$children == null) {
+		if (tailslegacy$children == null) {
 			if (childModels == null || childModels.isEmpty())
-				tails$children = Collections.emptyMap();
+				tailslegacy$children = Collections.emptyMap();
 			else {
-				tails$children = new LinkedHashMap<>();
+				tailslegacy$children = new LinkedHashMap<>();
 				for (ModelRenderer renderer : childModels) {
 					if (renderer.boxName == null) throw new IllegalArgumentException("ModelRenderer " + renderer + " has no name");
-					tails$children.put(renderer.boxName, renderer);
+					tailslegacy$children.put(renderer.boxName, renderer);
 				}
 			}
 		}
 
-		return (Map) tails$children;
+		return (Map) tailslegacy$children;
 	}
 
 	@Override

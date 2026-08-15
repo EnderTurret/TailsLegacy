@@ -15,5 +15,5 @@ import net.minecraft.util.ResourceLocation;
 
 public interface ResourceManagerExtensions {
 
-	public Collection<ResourceLocation> tails$listResources(String prefix, Predicate<ResourceLocation> filter);
+	public Collection<ResourceLocation> tailslegacy$listResources(String prefix, Predicate<ResourceLocation> filter);
 }

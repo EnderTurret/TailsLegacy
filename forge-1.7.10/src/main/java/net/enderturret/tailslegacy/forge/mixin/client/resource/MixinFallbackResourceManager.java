@@ -31,27 +31,27 @@ import net.enderturret.tailslegacy.forge.common.platform.ResourceManagerExtensio
 public abstract class MixinFallbackResourceManager implements ResourceManagerExtensions {
 
 	@Unique
-	private static Set<Class> TAILS$IGNORED_CLASSES;
+	private static Set<Class> TAILSLEGACY$IGNORED_CLASSES;
 
 	@Shadow
 	@Final
 	private List<IResourcePack> resourcePacks;
 
 	@Override
-	public Collection<ResourceLocation> tails$listResources(String prefix, Predicate<ResourceLocation> filter) {
-		if (TAILS$IGNORED_CLASSES == null) {
-			TAILS$IGNORED_CLASSES = new HashSet<>();
-			TAILS$IGNORED_CLASSES.add(DefaultResourcePack.class);
+	public Collection<ResourceLocation> tailslegacy$listResources(String prefix, Predicate<ResourceLocation> filter) {
+		if (TAILSLEGACY$IGNORED_CLASSES == null) {
+			TAILSLEGACY$IGNORED_CLASSES = new HashSet<>();
+			TAILSLEGACY$IGNORED_CLASSES.add(DefaultResourcePack.class);
 		}
 
 		final Set<ResourceLocation> ret = new HashSet<>();
 
 		for (IResourcePack resourcePack : resourcePacks)
 			if (resourcePack instanceof ResourceManagerExtensions) {
-				final Collection<ResourceLocation> collection = ((ResourceManagerExtensions) resourcePack).tails$listResources(prefix, filter);
-				if (collection == null) throw new IllegalArgumentException("Resource pack " + resourcePack + " returned null for tails$listResources");
+				final Collection<ResourceLocation> collection = ((ResourceManagerExtensions) resourcePack).tailslegacy$listResources(prefix, filter);
+				if (collection == null) throw new IllegalArgumentException("Resource pack " + resourcePack + " returned null for tailslegacy$listResources");
 				ret.addAll(collection);
-			} else if (TAILS$IGNORED_CLASSES.add(resourcePack.getClass()))
+			} else if (TAILSLEGACY$IGNORED_CLASSES.add(resourcePack.getClass()))
 				TailsLegacy.LOGGER.warn("IResourcePack implementation " + resourcePack.getClass().getName() + " does not support Tails extensions; Tails data will not be loaded from it");
 
 		return ret;

@@ -21,5 +21,5 @@ import net.minecraft.resources.Identifier;
 public interface TextureManagerAccess {
 
 	@Accessor("byPath")
-	public Map<Identifier, AbstractTexture> tails$byPath();
+	public Map<Identifier, AbstractTexture> tailslegacy$byPath();
 }

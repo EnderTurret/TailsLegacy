@@ -80,7 +80,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 		while (!queue.isEmpty()) {
 			final ModelPart next = queue.remove(0);
-			((ModelPartExtensions) (Object) next).tails$storeInitialPose();
+			((ModelPartExtensions) (Object) next).tailslegacy$storeInitialPose();
 			queue.addAll((Collection) ((TailsModelPart) (Object) next).t$getChildren().values());
 		}
 
@@ -88,7 +88,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	}
 
 	private static PartDefinition makePartDefinition(TailsPartDefinition part) {
-		final PartDefinition ret = PartDefinitionAccess.tails$new(
+		final PartDefinition ret = PartDefinitionAccess.tailslegacy$new(
 				part.cubes.stream().map(TailsClientPlatformImpl::makeCubeDefinition).toList(),
 				PartPose.offsetAndRotation(part.xOffset, part.yOffset, part.zOffset, part.xRot, part.yRot, part.zRot));
 
@@ -96,13 +96,13 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 		// Recursion :concern:
 		for (var entry : part.children.entrySet())
-			access.tails$children().put(entry.getKey(), makePartDefinition(entry.getValue()));
+			access.tailslegacy$children().put(entry.getKey(), makePartDefinition(entry.getValue()));
 
 		return ret;
 	}
 
 	private static CubeDefinition makeCubeDefinition(TailsCubeDefinition cube) {
-		final CubeDefinition ret = CubeDefinitionAccess.tails$new(null,
+		final CubeDefinition ret = CubeDefinitionAccess.tailslegacy$new(null,
 				cube.u, cube.v,
 				cube.x, cube.y, cube.z,
 				cube.sizeX, cube.sizeY, cube.sizeZ,
@@ -115,7 +115,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 			for (TailsDirection direction : cube.visibleFaces)
 				hidden.remove(Direction.values()[direction.ordinal()]);
 
-			ext.tails$setHiddenFaces(hidden);
+			ext.tailslegacy$setHiddenFaces(hidden);
 		}
 
 		return ret;

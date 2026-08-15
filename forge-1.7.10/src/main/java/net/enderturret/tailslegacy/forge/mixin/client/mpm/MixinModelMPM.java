@@ -30,7 +30,7 @@ public abstract class MixinModelMPM {
 	@Inject(
 			at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glPopMatrix()V"),
 			method = "renderHead")
-	private void tails$renderHeadParts(Entity entity, float scale, CallbackInfo ci) {
+	private void tailslegacy$renderHeadParts(Entity entity, float scale, CallbackInfo ci) {
 		if (!(entity instanceof EntityPlayer)) return;
 
 		final RenderPlayer renderer = ClientEventHandler.ACTIVE_PLAYER_RENDERER.get();
@@ -42,7 +42,7 @@ public abstract class MixinModelMPM {
 	@Inject(
 			at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glPopMatrix()V"),
 			method = "renderBody")
-	private void tails$renderBodyParts(Entity entity, float scale, CallbackInfo ci) {
+	private void tailslegacy$renderBodyParts(Entity entity, float scale, CallbackInfo ci) {
 		if (!(entity instanceof EntityPlayer)) return;
 
 		final RenderPlayer renderer = ClientEventHandler.ACTIVE_PLAYER_RENDERER.get();

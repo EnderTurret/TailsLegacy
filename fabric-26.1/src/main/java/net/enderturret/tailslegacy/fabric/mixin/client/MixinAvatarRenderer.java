@@ -15,7 +15,7 @@ import net.enderturret.tailslegacy.fabric.client.render.RenderStates;
 public abstract class MixinAvatarRenderer {
 
 	@Inject(at = @At("RETURN"), method = "extractRenderState")
-	private void tails$extractRenderState(Avatar entity, AvatarRenderState state, float partialTicks, CallbackInfo ci) {
+	private void tailslegacy$extractRenderState(Avatar entity, AvatarRenderState state, float partialTicks, CallbackInfo ci) {
 		RenderStates.addTailsRenderData(entity, state, partialTicks);
 	}
 }

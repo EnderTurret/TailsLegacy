@@ -30,7 +30,7 @@ public abstract class MixinModelBox implements ModelPartCubeExtensions {
 	private TexturedQuad[] quadList;
 
 	@Override
-	public void tails$setHiddenFaces(Collection<EnumFacing> faces) {
+	public void tailslegacy$setHiddenFaces(Collection<EnumFacing> faces) {
 		if (quadList.length != 6) throw new IllegalStateException("Already set hidden faces!");
 		if (faces.isEmpty()) return;
 

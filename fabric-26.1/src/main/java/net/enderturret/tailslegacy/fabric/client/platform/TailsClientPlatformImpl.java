@@ -61,7 +61,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	}
 
 	private static PartDefinition makePartDefinition(TailsPartDefinition part) {
-		final PartDefinition ret = PartDefinitionAccess.tails$new(
+		final PartDefinition ret = PartDefinitionAccess.tailslegacy$new(
 				part.cubes.stream().map(TailsClientPlatformImpl::makeCubeDefinition).toList(),
 				PartPose.offsetAndRotation(part.xOffset, part.yOffset, part.zOffset, part.xRot, part.yRot, part.zRot));
 
@@ -69,13 +69,13 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 		// Recursion :concern:
 		for (var entry : part.children.entrySet())
-			access.tails$children().put(entry.getKey(), makePartDefinition(entry.getValue()));
+			access.tailslegacy$children().put(entry.getKey(), makePartDefinition(entry.getValue()));
 
 		return ret;
 	}
 
 	private static CubeDefinition makeCubeDefinition(TailsCubeDefinition cube) {
-		return CubeDefinitionAccess.tails$new(null,
+		return CubeDefinitionAccess.tailslegacy$new(null,
 				cube.u, cube.v,
 				cube.x, cube.y, cube.z,
 				cube.sizeX, cube.sizeY, cube.sizeZ,
@@ -89,7 +89,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public boolean hasTexture(TResourceLocation id) {
 		final TextureManagerAccess access = (TextureManagerAccess) Minecraft.getInstance().getTextureManager();
-		return access.tails$byPath().containsKey(id);
+		return access.tailslegacy$byPath().containsKey(id);
 	}
 
 	@Override

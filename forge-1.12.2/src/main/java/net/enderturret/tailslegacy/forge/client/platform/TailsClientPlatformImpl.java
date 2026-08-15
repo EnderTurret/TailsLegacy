@@ -82,7 +82,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 		while (!queue.isEmpty()) {
 			final ModelRenderer next = queue.remove(0);
-			((ModelPartExtensions) next).tails$storeInitialPose();
+			((ModelPartExtensions) next).tailslegacy$storeInitialPose();
 			queue.addAll((Collection) ((TailsModelPart) next).t$getChildren().values());
 		}
 
@@ -129,7 +129,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 			for (TailsDirection direction : cube.visibleFaces)
 				hidden.remove(EnumFacing.values()[direction.ordinal()]);
 
-			ext.tails$setHiddenFaces(hidden);
+			ext.tailslegacy$setHiddenFaces(hidden);
 		}
 
 		return ret;

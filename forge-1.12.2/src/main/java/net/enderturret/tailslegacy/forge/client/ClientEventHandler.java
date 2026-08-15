@@ -10,9 +10,11 @@
 package net.enderturret.tailslegacy.forge.client;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.IntBuffer;
 import java.util.Collection;
 import java.util.List;
@@ -22,6 +24,10 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -33,11 +39,14 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.resource.ISelectiveResourceReloadListener;
 import net.minecraftforge.client.resource.VanillaResourceType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -225,5 +234,31 @@ public final class ClientEventHandler {
 	@SubscribeEvent
 	static void onKeyPressed(InputEvent.KeyInputEvent e) {
 		TailsKeybinds.onKeyPressed(e);
+	}
+
+	public static void loadModernLangFiles(IResource resource, Map<String, String> properties) {
+		final ResourceLocation rl = resource.getResourceLocation();
+		if (!TailsPlatform.MOD_ID.equals(rl.getNamespace())) return;
+
+		final String modernFile = rl.getPath()
+				.toLowerCase(java.util.Locale.ENGLISH) // Before 1.11(?), lang files were en_US.lang etc.
+				.replace(".lang", ".json");
+
+		final ResourceLocation loc = new ResourceLocation(TailsPlatform.MOD_ID, modernFile);
+		final IResourcePack pack = FMLClientHandler.instance().getResourcePackFor(TailsPlatform.MOD_ID);
+
+		try (InputStream is = pack.getInputStream(loc); InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr)) {
+			final JsonElement elem = new JsonParser().parse(br);
+			loadModernLangFile(elem, properties);
+		} catch (Exception e) {
+			TailsPlatform.get().logError("Exception reading resource {}:", loc, e);
+		}
+	}
+
+	private static void loadModernLangFile(JsonElement elem, Map<String, String> properties) {
+		final JsonObject obj = elem.getAsJsonObject();
+		for (Map.Entry<String, JsonElement> entry : obj.entrySet())
+			properties.put(entry.getKey(), entry.getValue().getAsString());
 	}
 }

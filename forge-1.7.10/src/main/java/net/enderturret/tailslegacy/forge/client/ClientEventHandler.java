@@ -247,7 +247,7 @@ public final class ClientEventHandler {
 		}
 	}
 
-	public static void handleLoadingLangFile(SimpleResourceAccess resource, BiConsumer<String, String> setter) {
+	public static void handleLoadingLangFile(SimpleResourceAccess resource, Map<String, String> properties) {
 		final ResourceLocation rl = resource.tails$srResourceLocation();
 		if (!TailsPlatform.MOD_ID.equals(rl.getResourceDomain())) return;
 
@@ -261,15 +261,15 @@ public final class ClientEventHandler {
 		try (InputStream is = pack.getInputStream(loc); InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr)) {
 			final JsonElement elem = new JsonParser().parse(br);
-			loadModernLangFile(elem, setter);
+			loadModernLangFile(elem, properties);
 		} catch (Exception e) {
 			TailsPlatform.get().logError("Exception reading resource {}:", loc, e);
 		}
 	}
 
-	private static void loadModernLangFile(JsonElement elem, BiConsumer<String, String> setter) {
+	private static void loadModernLangFile(JsonElement elem, Map<String, String> properties) {
 		final JsonObject obj = elem.getAsJsonObject();
 		for (Map.Entry<String, JsonElement> entry : obj.entrySet())
-			setter.accept(entry.getKey(), entry.getValue().getAsString());
+			properties.put(entry.getKey(), entry.getValue().getAsString());
 	}
 }

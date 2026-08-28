@@ -9,7 +9,7 @@
     "client.duck.MixinHumanoidRenderState",
     "client.duck.MixinLivingEntity",
     "client.duck.MixinModelPart",
-    "client.duck.MixinSubmitNodeStorage",
+    "client.duck.MixinSubmitNodeCollector",
     "client.duck.MixinPoseStack",
     "client.duck.MixinPoseStackPose",
     "client.duck.MixinVertexConsumer",

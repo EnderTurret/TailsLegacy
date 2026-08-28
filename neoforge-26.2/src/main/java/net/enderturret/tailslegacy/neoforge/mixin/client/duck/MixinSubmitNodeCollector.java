@@ -25,7 +25,7 @@ import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 import net.enderturret.tailslegacy.neoforge.client.render.PreparedSubmitNodeCollector;
 
 @Mixin(SubmitNodeCollector.class)
-public interface MixinSubmitNodeStorage extends TailsBufferSource {
+public interface MixinSubmitNodeCollector extends TailsBufferSource {
 
 	@Override
 	public default @Nullable TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {

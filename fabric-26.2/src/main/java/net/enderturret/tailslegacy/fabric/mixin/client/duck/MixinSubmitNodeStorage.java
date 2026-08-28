@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.SubmitNodeStorage;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
@@ -24,12 +24,12 @@ import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 import net.enderturret.tailslegacy.fabric.client.render.PreparedSubmitNodeCollector;
 
-@Mixin(SubmitNodeStorage.class)
-public class MixinSubmitNodeStorage implements TailsBufferSource {
+@Mixin(SubmitNodeCollector.class)
+public interface MixinSubmitNodeStorage extends TailsBufferSource {
 
 	@Override
-	public @Nullable TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
-		final SubmitNodeStorage storage = (SubmitNodeStorage) (Object) this;
+	public default @Nullable TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
+		final SubmitNodeCollector storage = (SubmitNodeCollector) this;
 
 		final Identifier tex = (Identifier) (Object) texture;
 		boolean visible = true, visibleToPlayer = false, glowing = false;

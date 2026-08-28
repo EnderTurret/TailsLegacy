@@ -17,7 +17,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.PictureInPictureRendererRegis
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.LightCoordsUtil;
@@ -51,8 +50,7 @@ public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRen
 
 		final FeatureRenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.featureRenderDispatcher();
 
-		final SubmitNodeStorage storage = (SubmitNodeStorage) collector;
-		final TailsBufferSource bufferSource = (TailsBufferSource) storage;
+		final TailsBufferSource bufferSource = (TailsBufferSource) collector;
 
 		renderState.partInfo().getRenderer().render(
 				(TailsPoseStack) poseStack,

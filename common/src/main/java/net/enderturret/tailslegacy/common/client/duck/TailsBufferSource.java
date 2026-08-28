@@ -11,7 +11,7 @@ package net.enderturret.tailslegacy.common.client.duck;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Bindings for a {@code MultiBufferSource}, {@code SubmitNodeStorage}, or {@code Tessellator}/{@code BufferBuilder} combo.
+ * Bindings for a {@code MultiBufferSource}, {@code SubmitNodeCollector}, or {@code Tessellator}/{@code BufferBuilder} combo.
  * @author EnderTurret
  */
 public interface TailsBufferSource {

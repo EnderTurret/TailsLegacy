@@ -16,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
-import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 
@@ -48,9 +47,8 @@ public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRen
 		poseStack.scale(50, 50, 50);
 
 		final FeatureRenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.getFeatureRenderDispatcher();
-		final SubmitNodeStorage storage = dispatcher.getSubmitNodeStorage();
 
-		final TailsBufferSource bufferSource = (TailsBufferSource) storage;
+		final TailsBufferSource bufferSource = (TailsBufferSource) dispatcher.getSubmitNodeStorage();
 
 		renderState.partInfo().getRenderer().render(
 				(TailsPoseStack) poseStack,

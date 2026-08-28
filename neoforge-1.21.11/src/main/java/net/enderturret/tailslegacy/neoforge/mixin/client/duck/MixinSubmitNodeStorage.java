@@ -22,7 +22,7 @@ import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.common.client.duck.TailsBuffer;
 import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
-import net.enderturret.tailslegacy.neoforge.client.render.PreparedSubmitNodeStorage;
+import net.enderturret.tailslegacy.neoforge.client.render.PreparedSubmitNodeCollector;
 
 @Mixin(SubmitNodeStorage.class)
 public class MixinSubmitNodeStorage implements TailsBufferSource {
@@ -48,6 +48,6 @@ public class MixinSubmitNodeStorage implements TailsBufferSource {
 		else
 			renderType = glowing ? RenderTypes.outline(tex) : null;
 
-		return renderType == null ? null : new PreparedSubmitNodeStorage(storage, renderType);
+		return renderType == null ? null : new PreparedSubmitNodeCollector(storage, renderType);
 	}
 }

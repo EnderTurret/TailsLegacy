@@ -6,7 +6,7 @@
  * See LICENSE for full License
  */
 
-package net.enderturret.tailslegacy.neoforge.client.render;
+package net.enderturret.tailslegacy.fabric.client.render;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.renderer.SubmitNodeStorage;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 
 import net.enderturret.tailslegacy.common.client.duck.TailsBuffer;
@@ -25,7 +25,7 @@ import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack.Entry;
 import net.enderturret.tailslegacy.common.client.duck.TailsVertexConsumer;
 
-public record PreparedSubmitNodeStorage(SubmitNodeStorage storage, RenderType type) implements TailsBuffer {
+public record PreparedSubmitNodeCollector(SubmitNodeCollector storage, RenderType type) implements TailsBuffer {
 
 	@Override
 	public void t$submitCustomGeometry(TailsPoseStack poseStack, BiConsumer<Entry, TailsVertexConsumer> renderer) {

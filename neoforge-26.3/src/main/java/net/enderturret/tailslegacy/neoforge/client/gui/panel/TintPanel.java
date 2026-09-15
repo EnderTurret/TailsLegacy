@@ -179,7 +179,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
-		if (selectingColour && event.button() == 0) {
+		if (selectingColour && event.button() == 1) {
 			RenderHelper.getColourAtPoint(event.x(), event.y(), newTint -> refreshTintPane(newTint, true));
 
 			setSelectingColour(false);

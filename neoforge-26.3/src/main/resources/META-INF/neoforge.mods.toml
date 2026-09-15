@@ -1,0 +1,38 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+issueTrackerURL="https://github.com/EnderTurret/TailsLegacy/issues"
+
+[[mods]]
+    modId="tailslegacy"
+    displayName="Tails Legacy"
+    displayURL="https://github.com/EnderTurret/TailsLegacy"
+    description='''
+Adds a wealth of recolorable tails, ears, wings, and head accessories for players to wear.
+'''
+    version="${file.jarVersion}"
+    authors="EnderTurret, Kihira"
+    credits="See the CREDITS.md file on the GitHub repository for credits."
+    logoFile="assets/tailslegacy/textures/banner.png"
+    bannerFile="assets/tailslegacy/textures/banner.png"
+    iconFile="assets/tailslegacy/textures/icon.png"
+
+[modproperties.tailslegacy]
+catalogueItemIcon="minecraft:fox_spawn_egg"
+
+[[mixins]]
+    config="mixins.tailslegacy.json"
+
+[[dependencies.tailslegacy]]
+    modId="neoforge"
+    type="required"
+    versionRange="[26.2,26.3)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.tailslegacy]]
+    modId="minecraft"
+    type="required"
+    versionRange="[26.2,26.3)"
+    ordering="NONE"
+    side="BOTH"

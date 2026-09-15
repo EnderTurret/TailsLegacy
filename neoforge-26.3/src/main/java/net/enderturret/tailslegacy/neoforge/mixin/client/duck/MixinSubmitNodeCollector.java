@@ -42,7 +42,7 @@ public interface MixinSubmitNodeCollector extends TailsBufferSource {
 
 		final RenderType renderType;
 		if (visibleToPlayer)
-			renderType = RenderTypes.entityTranslucentCullItemTarget(tex);
+			renderType = RenderTypes.entityTranslucentCull(tex);
 		else if (visible)
 			renderType = RenderTypes.entityCutout(tex);
 		else

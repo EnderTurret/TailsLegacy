@@ -43,7 +43,7 @@ public final class ResourceManagerWrapperImpl implements ResourceManagerWrapper 
 	@Override
 	public Map<TResourceLocation, JsonElement> listJsonFiles(String prefix, Predicate<TResourceLocation> filter) {
 		@SuppressWarnings("unchecked")
-		final Map<Identifier, Resource> map = manager.listResources(prefix, (Predicate) filter);
+		final Map<Identifier, Resource> map = manager.listResources(prefix, id -> filter.test((TResourceLocation) (Object) id));
 		final Map<TResourceLocation, JsonElement> ret = new LinkedHashMap<>();
 
 		for (var entry : map.entrySet())

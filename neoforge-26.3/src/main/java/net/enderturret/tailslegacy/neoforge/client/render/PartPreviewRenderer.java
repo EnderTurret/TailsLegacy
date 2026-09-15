@@ -41,7 +41,7 @@ public class PartPreviewRenderer extends PictureInPictureRenderer<PartPreviewRen
 		Minecraft.getInstance().gameRenderer.lighting().setupFor(Lighting.Entry.ENTITY_IN_UI);
 
 		poseStack.pushPose();
-		poseStack.mulPose(Axis.YP.rotationDegrees(180));
+		poseStack.rotateDegrees(Axis.YP, 180);
 		poseStack.scale(50, 50, 50);
 
 		final FeatureRenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.featureRenderDispatcher();

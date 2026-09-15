@@ -12,6 +12,7 @@ import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
 
@@ -40,17 +41,17 @@ public class MixinPoseStack implements TailsPoseStack {
 
 	@Override
 	public void t$rotateX(float radians) {
-		((PoseStack) (Object) this).mulPose(new Quaternionf().rotateX(radians));
+		((PoseStack) (Object) this).rotate(Axis.XP, radians);
 	}
 
 	@Override
 	public void t$rotateY(float radians) {
-		((PoseStack) (Object) this).mulPose(new Quaternionf().rotateY(radians));
+		((PoseStack) (Object) this).rotate(Axis.YP, radians);
 	}
 
 	@Override
 	public void t$rotateZ(float radians) {
-		((PoseStack) (Object) this).mulPose(new Quaternionf().rotateZ(radians));
+		((PoseStack) (Object) this).rotate(Axis.ZP, radians);
 	}
 
 	@Override

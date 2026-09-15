@@ -12,8 +12,8 @@ package net.enderturret.tailslegacy.fabric.client.gui.panel;
 import java.util.Date;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.sdl.SDLClipboard;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -71,7 +71,7 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			final String export = exportString(getEntry().data);
 
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, TailsComponents.EXPORTED_MESSAGE);
-			GLFW.glfwSetClipboardString(Minecraft.getInstance().getWindow().handle(), export);
+			SDLClipboard.SDL_SetClipboardText(export);
 		})).setTooltip(Tooltip.create(TailsComponents.SHARE_BUTTON));
 
 		setEntry(null);

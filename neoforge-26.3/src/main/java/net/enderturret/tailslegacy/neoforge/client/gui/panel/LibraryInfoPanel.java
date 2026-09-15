@@ -13,7 +13,7 @@ import java.util.Date;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.sdl.SDLClipboard;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -70,7 +70,7 @@ public final class LibraryInfoPanel extends Panel implements BaseLibraryInfoPane
 			final String export = exportString(getEntry().data);
 
 			ToastManager.INSTANCE.createCenteredToast(parent.width / 2, parent.height / 2, parent.width / 2, TailsComponents.EXPORTED_MESSAGE);
-			GLFW.glfwSetClipboardString(parent.getMinecraft().getWindow().handle(), export);
+			SDLClipboard.SDL_SetClipboardText(export);
 		})).setTooltip(Tooltip.create(TailsComponents.SHARE_BUTTON));
 
 		setEntry(null);

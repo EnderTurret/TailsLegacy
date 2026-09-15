@@ -12,7 +12,9 @@ package net.enderturret.tailslegacy.neoforge.client.gui.panel;
 import java.awt.Color;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.sdl.SDLKeyboard;
+import org.lwjgl.sdl.SDLKeycode;
+import org.lwjgl.sdl.SDLMouse;
 import org.lwjgl.system.MemoryUtil;
 
 import com.google.common.base.Strings;
@@ -160,7 +162,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 	@Override
 	public boolean keyPressed(KeyEvent event) {
-		if (event.key() == GLFW.GLFW_KEY_ESCAPE && selectingColour) {
+		if (event.key() == SDLKeycode.SDLK_ESCAPE && selectingColour) {
 			setSelectingColour(false);
 			return true;
 		}
@@ -212,7 +214,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 		final long cursor = selectingColour ? pickerCursorHandle : MemoryUtil.NULL;
 
-		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().handle(), cursor);
+		SDLMouse.SDL_SetCursor(cursor);
 	}
 
 	public boolean isSelectingColour() {

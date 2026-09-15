@@ -62,7 +62,7 @@ public final class TripleTintTexture extends ReloadableTexture {
 
 		final NativeImage texture;
 		try (InputStream is = optional.get().open()) {
-			texture = NativeImage.read(Format.RGBA, is);
+			texture = NativeImage.read(is);
 		} catch (IOException e) {
 			TailsLegacy.LOGGER.error("Using missing texture: failed to load {}.", resourceId(), e);
 			return prepareAndUpload(null);

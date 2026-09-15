@@ -19,8 +19,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWImage;
+import org.lwjgl.sdl.SDLMouse;
+import org.lwjgl.sdl.SDLPixels;
+import org.lwjgl.sdl.SDLSurface;
+import org.lwjgl.sdl.SDL_Surface;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
@@ -215,7 +217,7 @@ public final class ClientEventHandler {
 
 		private static void maybeDestroyCursor() {
 			if (TintPanel.pickerCursorHandle != MemoryUtil.NULL)
-				GLFW.glfwDestroyCursor(TintPanel.pickerCursorHandle);
+				SDLMouse.SDL_DestroyCursor(TintPanel.pickerCursorHandle);
 		}
 
 		private static void registerCursor(ResourceManager manager) {
@@ -227,25 +229,24 @@ public final class ClientEventHandler {
 			final NativeImage iconImg;
 
 			try (InputStream is = resource.open()) {
-				iconImg = NativeImage.read(NativeImage.Format.RGBA, is);
+				iconImg = NativeImage.read(is);
 			} catch (IOException e) {
 				throw new IllegalStateException("Failed to read icon texture:", e);
 			}
 
-			try (GLFWImage img = GLFWImage.malloc(); MemoryStack stack = MemoryStack.stackPush()) {
-				final ByteBuffer data = stack.malloc(16 * 16 * 4);
+			final SDL_Surface img = SDLSurface.SDL_CreateSurface(16, 16, SDLPixels.SDL_PIXELFORMAT_ARGB8888);
+			final ByteBuffer data = MemoryUtil.memAlloc(16 * 16 * 4);
 
-				copyPixels(iconImg, data, TailsIcons.EYEDROPPER.u, TailsIcons.EYEDROPPER.v + 16, 16, 16);
-				data.flip();
-				img.set(16, 16, data);
+			copyPixels(iconImg, data, TailsIcons.EYEDROPPER.u, TailsIcons.EYEDROPPER.v + 16, 16, 16);
+			data.flip();
+			img.pixels(data);
 
-				final long handle = GLFW.glfwCreateCursor(img, 0, 14);
+			final long handle = SDLMouse.SDL_CreateColorCursor(img, 0, 14);
 
-				if (handle == MemoryUtil.NULL)
-					throw new IllegalStateException("Failed to create cursor!");
+			if (handle == MemoryUtil.NULL)
+				throw new IllegalStateException("Failed to create cursor!");
 
-				TintPanel.pickerCursorHandle = handle;
-			}
+			TintPanel.pickerCursorHandle = handle;
 
 			iconImg.close();
 		}

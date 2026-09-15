@@ -16,6 +16,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryUtil;
 
 import com.google.common.base.Strings;
+import com.mojang.blaze3d.platform.cursor.CursorType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -212,6 +213,8 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 		final long cursor = selectingColour ? pickerCursorHandle : MemoryUtil.NULL;
 
+		Minecraft.getInstance().getWindow().setAllowCursorChanges(!selectingColour);
+		Minecraft.getInstance().getWindow().selectCursor(CursorType.DEFAULT);
 		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().handle(), cursor);
 	}
 

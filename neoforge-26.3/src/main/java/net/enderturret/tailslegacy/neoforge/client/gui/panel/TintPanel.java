@@ -18,6 +18,7 @@ import org.lwjgl.sdl.SDLMouse;
 import org.lwjgl.system.MemoryUtil;
 
 import com.google.common.base.Strings;
+import com.mojang.blaze3d.platform.cursor.CursorType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -212,8 +213,10 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	private void setSelectingColour(boolean selectingColour) {
 		this.selectingColour = selectingColour;
 
-		final long cursor = selectingColour ? pickerCursorHandle : MemoryUtil.NULL;
+		final long cursor = selectingColour ? pickerCursorHandle : SDLMouse.SDL_GetDefaultCursor();
 
+		Minecraft.getInstance().getWindow().setAllowCursorChanges(!selectingColour);
+		Minecraft.getInstance().getWindow().selectCursor(CursorType.DEFAULT);
 		SDLMouse.SDL_SetCursor(cursor);
 	}
 

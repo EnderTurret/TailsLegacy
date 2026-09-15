@@ -98,7 +98,7 @@ public final class PreviewPanel extends Panel {
 
 	@Override
 	public boolean mouseDragged(MouseButtonEvent event, double mouseX, double mouseY) {
-		if (event.button() != 0) return false;
+		if (event.button() != 1) return false;
 
 		boolean handled = false;
 

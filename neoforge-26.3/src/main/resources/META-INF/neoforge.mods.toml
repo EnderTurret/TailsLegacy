@@ -26,7 +26,7 @@ catalogueItemIcon="minecraft:fox_spawn_egg"
 [[dependencies.tailslegacy]]
     modId="neoforge"
     type="required"
-    versionRange="[26.3,26.4)"
+    versionRange="[26.3.0.0-beta,26.4)"
     ordering="NONE"
     side="BOTH"
 

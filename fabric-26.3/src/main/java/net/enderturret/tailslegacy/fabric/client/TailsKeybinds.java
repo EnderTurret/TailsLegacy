@@ -8,6 +8,8 @@
 
 package net.enderturret.tailslegacy.fabric.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
+
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 
 import net.minecraft.client.KeyMapping;
@@ -22,7 +24,7 @@ import net.enderturret.tailslegacy.fabric.common.TailsLegacy;
 public final class TailsKeybinds {
 
 	public static final KeyMapping.Category CATEGORY = new KeyMapping.Category(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "category"));
-	public static final KeyMapping RELOAD_PARTS = new KeyMapping(TailsLanguage.RELOAD_PARTS_KEY, -1, CATEGORY);
+	public static final KeyMapping RELOAD_PARTS = new KeyMapping(TailsLanguage.RELOAD_PARTS_KEY, InputConstants.UNKNOWN.getValue(), CATEGORY);
 
 	static void registerKeys() {
 		KeyMappingHelper.registerKeyMapping(RELOAD_PARTS);

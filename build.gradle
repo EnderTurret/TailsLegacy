@@ -11,6 +11,7 @@ tasks.register('publishMods') {
         project(':Tails.Forge.1.18.2').tasks.publishMods,
         project(':Tails.Forge.1.19.2').tasks.publishMods,
         project(':Tails.Forge.1.20.1').tasks.publishMods,
+        project(':Tails.Fabric.1.21.1').tasks.publishMods,
         project(':Tails.NeoForge.1.21.1').tasks.publishMods,
         project(':Tails.NeoForge.1.21.11').tasks.publishMods,
         project(':Tails.NeoForge.26.1').tasks.publishMods,

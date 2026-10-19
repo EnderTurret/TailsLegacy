@@ -38,6 +38,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.MappingResolver;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -93,7 +94,12 @@ public final class ClientEventHandler {
 
 	static {
 		try {
-			final Method m = Screen.class.getDeclaredMethod("addRenderableWidget", GuiEventListener.class);
+			final MappingResolver mappings = FabricLoader.getInstance().getMappingResolver();
+			final String screenInt = "net.minecraft.class_437";
+			final String screenAddRenderableWidgetInt = "method_37063", screenAddRenderableWidgetDescInt = "(Lnet.minecraft.class_364;)Lnet.minecraft.class_364;";
+			final String screenAddRenderableWidget = mappings.mapMethodName("intermediary", screenInt, screenAddRenderableWidgetInt, screenAddRenderableWidgetDescInt);
+
+			final Method m = Screen.class.getDeclaredMethod(screenAddRenderableWidget, GuiEventListener.class);
 			m.setAccessible(true);
 			SCREEN_ADDRENDERABLEWIDGET = MethodHandles.publicLookup().unreflect(m);
 		} catch (Exception e) {

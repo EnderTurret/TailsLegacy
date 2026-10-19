@@ -16,10 +16,11 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.system.MemoryUtil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -145,36 +146,39 @@ public class EditorScreen extends BaseScreen {
 
 	@Override
 	public void removed() {
-		if (!saving)
+		if (!saving) {
+			// Reset the cursor in case it somehow got stuck as the color picker.
+			GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), MemoryUtil.NULL);
 			setPartsData(originalPartsData);
+		}
 
 		for (Panel panel : panels) panel.removed();
 		super.removed();
 	}
 
 	@Override
-	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		for (Panel panel : panels)
 			if (panel.visible)
-				panel.extractBackground(gui, mouseX, mouseY, partialTick);
+				panel.renderBackground(gui, mouseX, mouseY, partialTick);
 	}
 
 	@Override
-	public boolean mouseDragged(MouseButtonEvent event, double mouseX, double mouseY) {
-		if (previewPanel.mouseDragged(event, mouseX, mouseY)) return true;
-		return super.mouseDragged(event, mouseX, mouseY);
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+		if (previewPanel.mouseDragged(mouseX, mouseY, button, dragX, dragY)) return true;
+		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 	}
 
 	@Override
-	public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
-		if (tintPanel.isSelectingColour()) return tintPanel.mouseClicked(event, isDoubleClick);
-		return super.mouseClicked(event, isDoubleClick);
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (tintPanel.isSelectingColour()) return tintPanel.mouseClicked(mouseX, mouseY, button);
+		return super.mouseClicked(mouseX, mouseY, button);
 	}
 
 	@Override
-	public boolean mouseReleased(MouseButtonEvent event) {
-		previewPanel.mouseReleased(event);
-		return super.mouseReleased(event);
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+		previewPanel.mouseReleased(mouseX, mouseY, button);
+		return super.mouseReleased(mouseX, mouseY, button);
 	}
 
 	@Override
@@ -187,6 +191,8 @@ public class EditorScreen extends BaseScreen {
 
 	public void close() {
 		saving = true;
+		// Reset the cursor in case it somehow got stuck as the color picker.
+		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), MemoryUtil.NULL);
 		onSave.accept(this);
 	}
 

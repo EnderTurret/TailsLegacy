@@ -11,12 +11,12 @@ package net.enderturret.tailslegacy.fabric.client.gui.panel;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
 
 import net.enderturret.tailslegacy.common.TailsMath;
 import net.enderturret.tailslegacy.common.client.gui.TailsIcons;
@@ -46,15 +46,15 @@ public final class PreviewPanel extends Panel {
 		if (!doRender) return;
 
 		// Help
-		addRenderableWidget(new IconButton(right - 18, 4, TailsIcons.QUESTION, _ -> {}) {
+		addRenderableWidget(new IconButton(right - 18, 4, TailsIcons.QUESTION, b -> {}) {
 			@Override
-			protected boolean isValidClickButton(MouseButtonInfo buttonInfo) {
+			protected boolean isValidClickButton(int button) {
 				return false;
 			}
 		}).setTooltip(Tooltip.create(TailsComponents.PREVIEW_HELP));
 
 		// Reset Camera
-		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, _ -> {
+		addRenderableWidget(new IconButton(right - 18, 22, TailsIcons.UNDO, b -> {
 			yaw = 0;
 			pitch = 8F;
 			zoom = 1F;
@@ -62,29 +62,32 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		if (!doRender) return;
 		gui.fill(left, top, right, bottom, 0xDD000000);
 	}
 
 	@Override
-	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
-		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
 		if (!doRender) return;
+
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+		gui.enableScissor(left, top, left + width, top + height);
 
 		final int mcHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 		final double factor = mcHeight / 4 * zoom;
 
 		// Player
 		RenderHelper.drawEntity(gui,
-				left,
-				top,
-				left + width,
-				top + height,
+				left + width / 2,
+				top + height / 2 + (int) factor,
 				(int) factor,
 				yaw, pitch,
 				partialTick, parent.renderingEntity);
+
+		gui.disableScissor();
 	}
 
 	@Override
@@ -98,46 +101,46 @@ public final class PreviewPanel extends Panel {
 	}
 
 	@Override
-	public boolean mouseDragged(MouseButtonEvent event, double mouseX, double mouseY) {
-		if (event.button() != 0) return false;
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+		if (button != 0) return false;
 
 		boolean handled = false;
 
 		// Yaw
 		if (prevMouseX != -1) {
-			yaw += (event.x() - prevMouseX) * 1.5F;
+			yaw += (mouseX - prevMouseX) * 1.5F;
 			handled = true;
 		}
 
 		// Pitch
 		if (prevMouseY != -1) {
-			pitch -= (event.y() - prevMouseY) * 0.05F;
+			pitch -= (mouseY - prevMouseY) * 0.05F;
 			pitch = TailsMath.clamp(pitch, 4.8F, 13F);
 			handled = true;
 		}
 
 		if (handled) {
-			prevMouseX = event.x();
-			prevMouseY = event.y();
+			prevMouseX = mouseX;
+			prevMouseY = mouseY;
 		}
 
 		return handled;
 	}
 
 	@Override
-	public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
-		if (prevMouseX == -1 && event.x() >= left && event.y() >= top && event.x() < right && event.y() < bottom) {
-			prevMouseX = event.x();
-			prevMouseY = event.y();
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (prevMouseX == -1 && mouseX >= left && mouseY >= top && mouseX < right && mouseY < bottom) {
+			prevMouseX = mouseX;
+			prevMouseY = mouseY;
 		}
 
-		return super.mouseClicked(event, isDoubleClick);
+		return super.mouseClicked(mouseX, mouseY, button);
 	}
 
 	@Override
-	public boolean mouseReleased(MouseButtonEvent event) {
+	public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
 		prevMouseX = -1;
 		prevMouseY = -1;
-		return super.mouseReleased(event);
+		return super.mouseReleased(mouseX, mouseY, mouseButton);
 	}
 }

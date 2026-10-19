@@ -16,10 +16,8 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
-import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -52,15 +50,14 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 	private static final Component CREATE = TailsComponents.CREATE_ENTRY;
 
 	@Override
-	public void extractContent(GuiGraphicsExtractor gui, int mouseX, int mouseY, boolean isHovering, float partialTick) {
+	public void render(GuiGraphics gui, int slotIndex, int rowTop, int rowLeft, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
 		if (data == null) {
-			gui.text(Minecraft.getInstance().font, CREATE, getX() + 5, getY() + getHeight() / 2 - 4, 0xFFFFFFFF);
+			gui.drawString(Minecraft.getInstance().font, CREATE, rowLeft + 3, rowTop + slotHeight / 2 - 4, 0xFFFFFFFF);
 			return;
 		}
 
-		int width = getWidth();
-		if (panel.getList().maxScrollAmount() > 0)
-			width -= 6;
+		if (panel.getList().getMaxScroll() > 0)
+			listWidth -= 6;
 
 		final ClientPartsData partsData = (ClientPartsData) data.partsData;
 		final Font font = panel.getParent().font();
@@ -68,7 +65,7 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 		final boolean sel = partsData.equals(panel.getParent().getPartsData());
 		final MutableComponent name = Component.literal(data.entryName);
 		if (sel) name.withStyle(ChatFormatting.GREEN, ChatFormatting.ITALIC);
-		gui.text(font, name, getX() + 5, getContentY() + 3, 0xFFFFFFFF);
+		gui.drawString(font, name, 5, rowTop + 3, 0xFFFFFFFF);
 
 		int index = 0;
 
@@ -76,36 +73,36 @@ public final class LibraryListEntry extends ObjectSelectionList.Entry<LibraryLis
 			if (index == 4) break;
 
 			final String trans = partInfo.getPart() == null ? partInfo.getPartId().toString() : I18n.get(partInfo.getPart().getTranslationKey());
-			gui.text(font, trans, getX() + 7, getContentY() + 12 + 8 * index, 0xFFFFFFFF);
+			gui.drawString(font, trans, rowLeft + 5, rowTop + 12 + 8 * index, 0xFFFFFFFF);
 
 			for (int i = 1; i < 4; i++)
-				gui.fill(width - 1 - 8 * i, getContentY() + 13 + index * 8,
-						width - 1 + 7 - 8 * i, getContentY() + 20 + index * 8,
+				gui.fill(listWidth - 1 - 8 * i, rowTop + 13 + index * 8,
+						listWidth - 1 + 7 - 8 * i, rowTop + 20 + index * 8,
 						0xFF000000 | partInfo.getTints()[i - 1]);
 
 			index++;
 		}
 
 		if (data.favourite) {
-			gui.pose().pushMatrix();
+			gui.pose().pushPose();
 
-			gui.pose().translate(getX() + width - 14, getContentY());
-			gui.pose().scale(0.8F, 0.8F);
+			gui.pose().translate(rowLeft + listWidth - 16, rowTop, 0F);
+			gui.pose().scale(0.8F, 0.8F, 1F);
 
-			gui.blit(RenderPipelines.GUI_TEXTURED, IconButton.ICONS_TEXTURE, 0, 0, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
+			gui.blit(IconButton.ICONS_TEXTURE, 0, 0, 10, TailsIcons.STAR.u, TailsIcons.STAR.v + 32, 16, 16, 256, 256);
 
-			gui.pose().popMatrix();
+			gui.pose().popPose();
 		}
 	}
 
 	@Override
-	public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (data == null) {
 			// Create entry and add to library.
 			final GameProfile profile = Minecraft.getInstance().player.getGameProfile();
 			final LibraryEntryData data = new LibraryEntryData(
-					profile.id(),
-					profile.name(),
+					profile.getId(),
+					profile.getName(),
 					I18n.get(TailsLanguage.DEFAULT_ENTRY_NAME),
 					panel.getParent().getPartsData());
 

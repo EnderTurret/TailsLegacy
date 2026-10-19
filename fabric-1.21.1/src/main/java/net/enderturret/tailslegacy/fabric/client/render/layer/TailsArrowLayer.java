@@ -15,14 +15,14 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.model.player.PlayerModel;
-import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
-import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
 
 import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
@@ -32,27 +32,26 @@ import net.enderturret.tailslegacy.common.client.duck.TailsRandomSource;
 import net.enderturret.tailslegacy.common.client.model.PartConfiguration;
 import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
 import net.enderturret.tailslegacy.common.client.render.layer.BaseArrowLayer;
-import net.enderturret.tailslegacy.fabric.client.render.RenderStates;
 import net.enderturret.tailslegacy.fabric.common.platform.TailsRandomSourceImpl;
-import net.enderturret.tailslegacy.fabric.mixin.client.StuckInBodyLayerAccess;
 
 /**
  * A specialized {@link ArrowLayer} for rendering arrows on Tails parts/accessories in addition to normal body parts.
  *
  * @author EnderTurret
  *
+ * @param <T>
  * @param <M>
  */
 @Internal
-public final class TailsArrowLayer<M extends PlayerModel> extends ArrowLayer<M> implements BaseArrowLayer {
+public final class TailsArrowLayer<T extends LivingEntity, M extends PlayerModel<T>> extends ArrowLayer<T, M> implements BaseArrowLayer {
 
 	@Internal
-	public TailsArrowLayer(LivingEntityRenderer<?, AvatarRenderState, M> renderer, EntityRendererProvider.Context context) {
-		super(renderer, context);
+	public TailsArrowLayer(EntityRendererProvider.Context context, LivingEntityRenderer<T, M> renderer) {
+		super(context, renderer);
 	}
 
 	@Override
-	protected int numStuck(AvatarRenderState entity) {
+	protected int numStuck(T entity) {
 		return super.numStuck(entity);
 	}
 
@@ -71,30 +70,24 @@ public final class TailsArrowLayer<M extends PlayerModel> extends ArrowLayer<M> 
 	}
 
 	@Override
-	@Nullable
-	public ClientPartsData getPartData(TailsEntity entity) {
-		return ((AvatarRenderState) entity).getData(RenderStates.RENDER_DATA).partsData;
-	}
-
-	@Override
-	public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, AvatarRenderState renderState, float yRot, float xRot) {
-		final int stuck = numStuck(renderState);
+	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
+		final int stuck = numStuck(entity);
 		if (stuck <= 0) return;
 
-		final RandomSource rand = RandomSource.create(renderState.id);
+		final RandomSource rand = RandomSource.create(entity.getId());
 
 		renderArrows(
-				(TailsEntity) renderState,
+				(TailsEntity) entity,
 				(TailsPoseStack) poseStack,
-				(TailsBufferSource) nodeCollector,
+				(TailsBufferSource) buffer,
 				new TailsRandomSourceImpl(rand),
-				stuck, renderState.getData(RenderStates.RENDER_DATA).partialTick, packedLight, OverlayTexture.NO_OVERLAY);
+				stuck, partialTick, packedLight, OverlayTexture.NO_OVERLAY);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void renderStuckItem(TailsPoseStack poseStack, TailsBufferSource bufferSource, int packedLight, TailsEntity entity, float x, float y, float z, float partialTick) {
-		final StuckInBodyLayerAccess access = (StuckInBodyLayerAccess) (Object) this;
-		access.tailslegacy$submitStuckItem((PoseStack) poseStack, (SubmitNodeCollector) bufferSource, packedLight, x, y, z, ((AvatarRenderState) entity).outlineColor);
+		renderStuckItem((PoseStack) poseStack, (MultiBufferSource) bufferSource, packedLight, (T) entity, x, y, z, partialTick);
 	}
 
 	/**
@@ -103,19 +96,19 @@ public final class TailsArrowLayer<M extends PlayerModel> extends ArrowLayer<M> 
 	 */
 	private static class Player extends PartConfiguration {
 
-		private final PlayerModel model;
+		private final PlayerModel<?> model;
 
 		/**
 		 * @param model The model of the player.
 		 */
-		public Player(PlayerModel model) {
+		public Player(PlayerModel<?> model) {
 			super(List.of());
 			this.model = model;
 		}
 
 		@Override
 		public TailsModelPart randomPart(TailsRandomSource rand) {
-			return (TailsModelPart) (Object) model.getRandomBodyPart((RandomSource) rand.t$unwrap());
+			return (TailsModelPart) (Object) model.getRandomModelPart((RandomSource) rand.t$unwrap());
 		}
 	}
 }

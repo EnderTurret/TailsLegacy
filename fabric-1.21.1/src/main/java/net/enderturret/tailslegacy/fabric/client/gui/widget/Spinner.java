@@ -16,17 +16,15 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ComponentPath;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
 import net.enderturret.tailslegacy.common.client.gui.BaseSpinner;
-import net.enderturret.tailslegacy.fabric.client.RenderHelper;
 
 /**
  * A widget that allows cycling through values using two arrow buttons.
@@ -51,8 +49,8 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 		this.stringifier = Objects.requireNonNull(stringifier);
 		this.listener = Objects.requireNonNull(listener);
 
-		left = Button.builder(Component.literal("<"), _ -> previous()).bounds(getX(), y, 15, 15).build();
-		right = Button.builder(Component.literal(">"), _ -> next()).bounds(0, y, 15, 15).build();
+		left = Button.builder(Component.literal("<"), b -> previous()).bounds(getX(), y, 15, 15).build();
+		right = Button.builder(Component.literal(">"), b -> next()).bounds(0, y, 15, 15).build();
 
 		setHeight(Math.max(left.getHeight(), Minecraft.getInstance().font.lineHeight));
 
@@ -106,7 +104,7 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 	}
 
 	@Override
-	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		final Font font = Minecraft.getInstance().font;
 		final Component message = getMessage();
 		final int width = font.width(message);
@@ -118,18 +116,13 @@ public class Spinner<T> extends AbstractWidget implements BaseSpinner<T> {
 		final int y = getY() + (getHeight() - font.lineHeight) / 2;
 
 		if (width > getX() + getWidth())
-			RenderHelper.drawScrollingString(gui, gui.textRenderer(), font, message, getX() + 15, getX() + getWidth(), y);
+			AbstractWidget.renderScrollingString(gui, font, message, getX() + 15, y, getX() + getWidth(), y + font.lineHeight, 0xFFFFFFFF);
 		else
-			gui.text(font, message, left, y, 0xFFFFFFFF);
+			gui.drawString(font, message, left, y, 0xFFFFFFFF);
 	}
 
 	@Override
-	public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
-		return false;
-	}
-
-	@Override
-	public boolean isMouseOver(double mouseX, double mouseY) {
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		return false;
 	}
 

@@ -14,10 +14,9 @@ import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.Component;
 
 import net.enderturret.tailslegacy.fabric.client.gui.EditorScreen;
@@ -52,7 +51,7 @@ public abstract class Panel extends AbstractWidget {
 	}
 
 	@Override
-	protected boolean isValidClickButton(MouseButtonInfo buttonInfo) { return false; }
+	protected boolean isValidClickButton(int button) { return false; }
 
 	public void removed() {}
 
@@ -62,11 +61,8 @@ public abstract class Panel extends AbstractWidget {
 		top = y;
 		right = x + newWidth;
 		bottom = y + newHeight;
-
-		setX(x);
-		setY(y);
-		setWidth(newWidth);
-		setHeight(newHeight);
+		width = newWidth;
+		height = newHeight;
 	}
 
 	@Override
@@ -92,10 +88,10 @@ public abstract class Panel extends AbstractWidget {
 	}
 
 	@Override
-	protected void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {}
+	protected void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {}
 
-	public void extractBackground(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
-		gui.fill(left, top, right, bottom, 0xCC000000);
+	public void renderBackground(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.fill(left, top, right, bottom, -400, 0xCC000000);
 	}
 
 	@Override

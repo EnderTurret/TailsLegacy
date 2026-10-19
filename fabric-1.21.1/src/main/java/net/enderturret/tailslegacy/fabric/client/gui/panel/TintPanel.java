@@ -16,15 +16,12 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryUtil;
 
 import com.google.common.base.Strings;
-import com.mojang.blaze3d.platform.cursor.CursorType;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
@@ -73,7 +70,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		int topOffset = 20;
 		for (int id = 1; id <= 3; id++) {
 			final int finalId = id;
-			addRenderableWidget(Button.builder(TailsComponents.EDIT_TINT, _ -> handleTintButton(finalId))
+			addRenderableWidget(Button.builder(TailsComponents.EDIT_TINT, b -> handleTintButton(finalId))
 					.bounds(left + 30, topOffset, 40, 20)
 					.build());
 			topOffset += 35;
@@ -113,7 +110,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		addRenderableWidget(blue);
 
 		// Reset/Save
-		addRenderableWidget(tintReset = new IconButton(right - 20, editPaneTop + 2, TailsIcons.UNDO, _ -> {
+		addRenderableWidget(tintReset = new IconButton(right - 20, editPaneTop + 2, TailsIcons.UNDO, b -> {
 			final int newTint = parent.getOriginalPartInfo().getTints()[editingTint - 1] & 0xFFFFFF; // Ignore the alpha bits.
 			refreshTintPane(newTint, true);
 			tintReset.active = false;
@@ -122,7 +119,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 		tintReset.active = false;
 
 		// Color Picker
-		addRenderableWidget(colourPicker = new IconButton(right - 36, editPaneTop + 1, TailsIcons.EYEDROPPER, _ -> setSelectingColour(true)));
+		addRenderableWidget(colourPicker = new IconButton(right - 36, editPaneTop + 1, TailsIcons.EYEDROPPER, b -> setSelectingColour(true)));
 		colourPicker.setTooltip(Tooltip.create(TailsComponents.COLOR_PICKER));
 		colourPicker.visible = false;
 
@@ -130,24 +127,24 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	}
 
 	@Override
-	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
-		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
 		// Tints
 		int topOffset = top + 10;
 		for (int tint = 1; tint <= 3; tint++) {
 			final int colour = parent.getEditingPartInfo().getTints()[tint - 1] | 0xFF << 24;
 			gui.fillGradient(left + 5, topOffset + 10, left + 25, topOffset + 30, colour, colour);
-			gui.text(parent.font(), I18n.get(TailsLanguage.TINT_LABEL, tint), left + 5, topOffset, 0xFFFFFFFF);
+			gui.drawString(parent.font(), I18n.get(TailsLanguage.TINT_LABEL, tint), left + 5, topOffset, 0xFFFFFFFF);
 			topOffset += 35;
 		}
 
 		// Editing tint pane
 		if (editingTint > 0) {
-			gui.horizontalLine(left, right, editPaneTop, 0xFF000000);
-			gui.text(parent.font(), I18n.get(TailsLanguage.EDITING_TINT, editingTint), left + 5, editPaneTop + 5, 0xFFFFFFFF);
+			gui.hLine(left, right, editPaneTop, 0xFF000000);
+			gui.drawString(parent.font(), I18n.get(TailsLanguage.EDITING_TINT, editingTint), left + 5, editPaneTop + 5, 0xFFFFFFFF);
 
-			gui.text(parent.font(), TailsComponents.HEX, left + 5, editPaneTop + 21, 0xFFFFFFFF);
+			gui.drawString(parent.font(), TailsComponents.HEX, left + 5, editPaneTop + 21, 0xFFFFFFFF);
 		}
 	}
 
@@ -160,13 +157,13 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	}
 
 	@Override
-	public boolean keyPressed(KeyEvent event) {
-		if (event.key() == GLFW.GLFW_KEY_ESCAPE && selectingColour) {
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (keyCode == GLFW.GLFW_KEY_ESCAPE && selectingColour) {
 			setSelectingColour(false);
 			return true;
 		}
 
-		return super.keyPressed(event);
+		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
 	private void parseHex(String text) {
@@ -177,16 +174,17 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 	}
 
 	@Override
-	public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
-		if (selectingColour && event.button() == 0) {
-			RenderHelper.getColourAtPoint(event.x(), event.y(), newTint -> refreshTintPane(newTint, true));
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		if (selectingColour && mouseButton == 0) {
+			final int newTint = RenderHelper.getColourAtPoint(mouseX, mouseY);
 
 			setSelectingColour(false);
+			refreshTintPane(newTint, true);
 
 			return true;
 		}
 
-		return super.mouseClicked(event, isDoubleClick);
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
@@ -213,9 +211,7 @@ public final class TintPanel extends Panel implements HSBSlider.IHSBSliderCallba
 
 		final long cursor = selectingColour ? pickerCursorHandle : MemoryUtil.NULL;
 
-		Minecraft.getInstance().getWindow().setAllowCursorChanges(!selectingColour);
-		Minecraft.getInstance().getWindow().selectCursor(CursorType.DEFAULT);
-		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().handle(), cursor);
+		GLFW.glfwSetCursor(Minecraft.getInstance().getWindow().getWindow(), cursor);
 	}
 
 	public boolean isSelectingColour() {

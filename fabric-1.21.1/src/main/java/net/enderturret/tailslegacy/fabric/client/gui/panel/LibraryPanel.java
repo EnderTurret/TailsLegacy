@@ -16,10 +16,9 @@ import java.util.Locale;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 
 import net.enderturret.tailslegacy.common.LibraryEntryData;
@@ -51,7 +50,7 @@ public final class LibraryPanel extends Panel {
 		initList("");
 
 		addRenderableWidget(searchField = new EditBox(parent.font(), left + 4, bottom - 32, right - left - 8, 12, Component.empty()));
-		addRenderableWidget(Button.builder(TailsComponents.RELOAD_LIBRARY, _ -> {
+		addRenderableWidget(Button.builder(TailsComponents.RELOAD_LIBRARY, b -> {
 			TailsClientPlatform.get().getLibraryManager().reload(true);
 			libraryChanged = false;
 			initList("");
@@ -61,10 +60,10 @@ public final class LibraryPanel extends Panel {
 	}
 
 	@Override
-	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
-		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
-		gui.blit(RenderPipelines.GUI_TEXTURED, IconButton.ICONS_TEXTURE, right - 14, bottom - 30, 0, 240, 8, 8, 256, 256);
+		gui.blit(IconButton.ICONS_TEXTURE, right - 14, bottom - 30, 0, 240, 8, 8);
 	}
 
 	public void initList(String filter) {
@@ -83,7 +82,7 @@ public final class LibraryPanel extends Panel {
 	}
 
 	public void addSelectedEntry(LibraryListEntry entry) {
-		list.addEntry(entry);
+		list.children().add(entry);
 		list.setSelected(entry);
 		parent.getLibraryInfoPanel().setEntry(entry);
 		libraryChanged = true;
@@ -91,8 +90,8 @@ public final class LibraryPanel extends Panel {
 
 	public void removeEntry(LibraryListEntry entry) {
 		TailsClientPlatform.get().getLibraryManager().removeEntry(entry.data);
-		list.removeEntry(entry);
-		list.refreshScrollAmount();
+		list.children().remove(entry);
+		list.clampScrollAmount();
 		libraryChanged = true;
 	}
 

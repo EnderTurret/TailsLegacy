@@ -19,7 +19,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.network.BaseS2CBulkPlayerDataMessage;
@@ -28,7 +28,7 @@ import net.enderturret.tailslegacy.common.part.PartsData;
 @Internal
 public record S2CBulkPlayerDataMessage(Map<UUID, PartsData> partsDataMap) implements CustomPacketPayload, BaseS2CBulkPlayerDataMessage {
 
-	public static final Type<S2CBulkPlayerDataMessage> TYPE = new Type<>(Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "bulk_sync_to_client"));
+	public static final Type<S2CBulkPlayerDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "bulk_sync_to_client"));
 
 	public static final StreamCodec<ByteBuf, S2CBulkPlayerDataMessage> STREAM_CODEC = ByteBufCodecs.stringUtf8(Short.MAX_VALUE)
 			.map(S2CBulkPlayerDataMessage::decode, S2CBulkPlayerDataMessage::encode);

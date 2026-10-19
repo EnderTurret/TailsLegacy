@@ -12,26 +12,23 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
 import net.enderturret.tailslegacy.common.client.duck.TResourceLocation;
 import net.enderturret.tailslegacy.common.client.duck.TailsBuffer;
 import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
-import net.enderturret.tailslegacy.fabric.client.render.PreparedSubmitNodeCollector;
 
-@Mixin(SubmitNodeCollector.class)
-public interface MixinSubmitNodeCollector extends TailsBufferSource {
+@Mixin(MultiBufferSource.class)
+@SuppressWarnings("cast")
+public interface MixinMultiBufferSource extends TailsBufferSource {
 
 	@Override
-	public default @Nullable TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
-		final SubmitNodeCollector storage = (SubmitNodeCollector) this;
-
-		final Identifier tex = (Identifier) (Object) texture;
+	public @Nullable default TailsBuffer t$getEntityBuffer(TailsEntity entity, TResourceLocation texture) {
+		final ResourceLocation tex = (ResourceLocation) (Object) texture;
 		boolean visible = true, visibleToPlayer = false, glowing = false;
 
 		if (!entity.t$isPreview() && entity.t$unwrap() instanceof LivingEntity living) {
@@ -42,12 +39,12 @@ public interface MixinSubmitNodeCollector extends TailsBufferSource {
 
 		final RenderType renderType;
 		if (visibleToPlayer)
-			renderType = RenderTypes.entityTranslucentCullItemTarget(tex);
+			renderType = RenderType.itemEntityTranslucentCull(tex);
 		else if (visible)
-			renderType = RenderTypes.entityCutout(tex);
+			renderType = RenderType.entityCutoutNoCull(tex);
 		else
-			renderType = glowing ? RenderTypes.outline(tex) : null;
+			renderType = glowing ? RenderType.outline(tex) : null;
 
-		return renderType == null ? null : new PreparedSubmitNodeCollector(storage, renderType);
+		return renderType == null ? null : (TailsBuffer) ((MultiBufferSource) (Object) this).getBuffer(renderType);
 	}
 }

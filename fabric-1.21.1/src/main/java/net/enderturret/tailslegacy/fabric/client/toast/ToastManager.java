@@ -17,7 +17,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
@@ -60,13 +60,13 @@ public final class ToastManager {
 		}
 	}
 
-	public static void extractRenderState(Screen screen, GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
-		gui.pose().pushMatrix();
-		gui.pose().translate(0, 0);
+	public static void render(Screen screen, GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		gui.pose().pushPose();
+		gui.pose().translate(0, 0, 300);
 
 		for (Toast toast : INSTANCE.toasts)
 			toast.drawToast(gui, mouseX, mouseY);
 
-		gui.pose().popMatrix();
+		gui.pose().popPose();
 	}
 }

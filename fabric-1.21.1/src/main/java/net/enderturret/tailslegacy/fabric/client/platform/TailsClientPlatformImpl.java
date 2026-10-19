@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.yggdrasil.ProfileResult;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
@@ -24,8 +25,10 @@ import net.minecraft.client.model.geom.builders.CubeDefinition;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.Services;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.players.GameProfileCache;
 
 import net.enderturret.tailslegacy.common.LibraryManager;
 import net.enderturret.tailslegacy.common.TailsPlatform;
@@ -48,6 +51,7 @@ import net.enderturret.tailslegacy.fabric.common.TailsConfig;
 import net.enderturret.tailslegacy.fabric.common.network.C2SPlayerDataMessage;
 import net.enderturret.tailslegacy.fabric.common.platform.ResourceManagerWrapperImpl;
 import net.enderturret.tailslegacy.fabric.mixin.client.CubeDefinitionAccess;
+import net.enderturret.tailslegacy.fabric.mixin.client.MinecraftAccess;
 import net.enderturret.tailslegacy.fabric.mixin.client.PartDefinitionAccess;
 import net.enderturret.tailslegacy.fabric.mixin.client.TextureManagerAccess;
 
@@ -94,8 +98,8 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 
 	@Override
 	public void registerTripleTintTexture(TResourceLocation id, Part part, SubType subType, PartTexture texture, int[] tints) {
-		Minecraft.getInstance().getTextureManager().registerAndLoad((Identifier) (Object) id, new TripleTintTexture(
-				(Identifier) (Object) part.getId().t$withPath(texture.path()),
+		Minecraft.getInstance().getTextureManager().register((ResourceLocation) (Object) id, new TripleTintTexture(
+				(ResourceLocation) (Object) part.getId().t$withPath(texture.path()),
 				tints[0], tints[1], tints[2], texture.tintingStrategy()
 				));
 	}
@@ -103,7 +107,7 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 	@Override
 	public void releaseTexture(TResourceLocation id) {
 		try {
-			Minecraft.getInstance().getTextureManager().release((Identifier) (Object) id);
+			Minecraft.getInstance().getTextureManager().release((ResourceLocation) (Object) id);
 		} catch (Exception ignored) {}
 	}
 
@@ -116,15 +120,40 @@ public final class TailsClientPlatformImpl implements TailsClientPlatform {
 		RegisterPartRenderersEvent.REGISTER_PART_RENDERERS.invoker().register(registrar);
 	}
 
+	private static Services services;
+
 	@Override
 	public String fetchUsername(UUID uuid) {
 		final Minecraft mc = Minecraft.getInstance();
+		String username = null;
 
-		// Option A - "Just query it lol"
-		String username = mc.services().profileResolver().fetchById(uuid).map(GameProfile::name).orElse(null);
-		if (username != null) return username;
+		// So, there are a few different places we can try first...
 
-		// Option B - Just use the UUID
+		// Option A - The user cache (some assembly required)
+		if (services == null && mc instanceof MinecraftAccess access) {
+			services = Services.create(access.tailslegacy$authenticationService(), mc.gameDirectory);
+			services.profileCache().setExecutor(mc);
+			GameProfileCache.setUsesAuthentication(false);
+		}
+
+		if (services != null) {
+			username = services.profileCache().get(uuid).map(GameProfile::getName).orElse(null);
+			if (username != null) return username;
+		}
+
+		// Option B - "Just query it lol"
+		final ProfileResult result = mc.getMinecraftSessionService().fetchProfile(uuid, false);
+		username = result.profile().getName();
+
+		// Surprisingly, we actually got a username. Let's inform the caches, shall we?
+		if (username != null) {
+			if (services != null)
+				services.profileCache().add(result.profile());
+
+			return username;
+		}
+
+		// Option C - Just use the UUID
 		return uuid.toString();
 	}
 

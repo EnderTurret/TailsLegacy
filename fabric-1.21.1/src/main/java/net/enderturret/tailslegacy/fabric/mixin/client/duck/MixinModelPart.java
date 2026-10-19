@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -75,22 +76,22 @@ public class MixinModelPart implements TailsModelPart {
 	@Override
 	public boolean t$hasInitialPose() {
 		final PartPose pose = ((ModelPart) (Object) this).getInitialPose();
-		return !(pose.x() == 0 && pose.y() == 0 && pose.z() == 0 && pose.xRot() == 0 && pose.yRot() == 0 && pose.zRot() == 0);
+		return !(pose.x == 0 && pose.y == 0 && pose.z == 0 && pose.xRot == 0 && pose.yRot == 0 && pose.zRot == 0);
 	}
 
 	@Override
 	public float t$getInitialXRot() {
-		return ((ModelPart) (Object) this).getInitialPose().xRot();
+		return ((ModelPart) (Object) this).getInitialPose().xRot;
 	}
 
 	@Override
 	public float t$getInitialYRot() {
-		return ((ModelPart) (Object) this).getInitialPose().yRot();
+		return ((ModelPart) (Object) this).getInitialPose().yRot;
 	}
 
 	@Override
 	public float t$getInitialZRot() {
-		return ((ModelPart) (Object) this).getInitialPose().zRot();
+		return ((ModelPart) (Object) this).getInitialPose().zRot;
 	}
 
 	@Override
@@ -117,7 +118,7 @@ public class MixinModelPart implements TailsModelPart {
 
 	@Override
 	public void t$render(TailsPoseStack pose, TailsBuffer buffer, int packedLight, int packedOverlay, int color) {
-		buffer.t$submitModelPart(this, pose, packedLight, packedOverlay, color);
+		((ModelPart) (Object) this).render((PoseStack) pose, (VertexConsumer) buffer, packedLight, packedOverlay, color);
 	}
 
 	@Override

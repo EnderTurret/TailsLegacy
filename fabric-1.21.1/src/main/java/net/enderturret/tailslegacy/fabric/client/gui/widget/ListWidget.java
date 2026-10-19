@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 
 /**
@@ -45,10 +45,10 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	protected void extractListBackground(GuiGraphicsExtractor gui) {}
+	protected void renderListBackground(GuiGraphics gui) {}
 
 	@Override
-	protected void extractListSeparators(GuiGraphicsExtractor guiGraphics) {}
+	protected void renderListSeparators(GuiGraphics guiGraphics) {}
 
 	@Override
 	public boolean isMouseOver(double mouseX, double mouseY) {
@@ -61,20 +61,24 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	protected int scrollBarX() {
-		return getRowRight() - 6;
+	protected int getScrollbarPosition() {
+		return getRowRight() - 8;
 	}
 
 	@Override
-	protected void extractSelection(GuiGraphicsExtractor gui, T entry, int backgroundColor) {
-		final int left = entry.getX();
-		int right = left + entry.getWidth();
-		final int top = entry.getY();
-		final int bottom = top + entry.getHeight();
-		if (maxScrollAmount() > 0)
+	protected void renderSelection(GuiGraphics gui, int top, int width, int height, int outerColor, int innerColor) {
+		final int left = getX() + (this.width - width) / 2;
+		int right = getX() + (this.width + width) / 2;
+		if (getMaxScroll() > 0)
 			right -= 6;
-		gui.fill(left, top, right, bottom, backgroundColor);
-		gui.fill(left + 1, top + 1, right - 1, bottom - 1, -16777216);
+		gui.fill(left, top - 2, right, top + height + 2, outerColor);
+		gui.fill(left + 1, top - 1, right - 1, top + height + 1, innerColor);
+	}
+
+	// Exposes isSelectedItem(), don't remove this.
+	@Override
+	public boolean isSelectedItem(int index) {
+		return super.isSelectedItem(index);
 	}
 
 	@Override
@@ -89,11 +93,11 @@ public class ListWidget<T extends ObjectSelectionList.Entry<T>> extends ObjectSe
 	}
 
 	@Override
-	public void removeEntry(T entry) {
-		super.removeEntry(entry);
+	public boolean removeEntry(T entry) {
+		return super.removeEntry(entry);
 	}
 
 	public int getItemHeight() {
-		return defaultEntryHeight;
+		return itemHeight;
 	}
 }

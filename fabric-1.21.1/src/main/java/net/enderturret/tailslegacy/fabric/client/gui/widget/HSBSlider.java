@@ -9,11 +9,12 @@
 
 package net.enderturret.tailslegacy.fabric.client.gui.widget;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import net.enderturret.tailslegacy.common.TailsMath;
 import net.enderturret.tailslegacy.common.TailsPlatform;
@@ -25,8 +26,8 @@ import net.enderturret.tailslegacy.fabric.client.RenderHelper;
  */
 public class HSBSlider extends AbstractSliderButton {
 
-	public static final Identifier VANILLA_SLIDER_SPRITE = Identifier.withDefaultNamespace("widget/slider");
-	protected static final Identifier SLIDER_TEXTURE = Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/controls/slider_hue.png");
+	public static final ResourceLocation VANILLA_SLIDER_SPRITE = ResourceLocation.withDefaultNamespace("widget/slider");
+	protected static final ResourceLocation SLIDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/controls/slider_hue.png");
 
 	private final HSBSliderType type;
 	private final IHSBSliderCallback callback;
@@ -42,18 +43,23 @@ public class HSBSlider extends AbstractSliderButton {
 	}
 
 	@Override
-	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partial) {
-		gui.blitSprite(RenderPipelines.GUI_TEXTURED, VANILLA_SLIDER_SPRITE, getX(), getY(), width, height);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
+		gui.blitSprite(VANILLA_SLIDER_SPRITE, getX(), getY(), width, height);
 
-		RenderHelper.blitScaled(gui, SLIDER_TEXTURE,
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
+		RenderHelper.blitScaled(gui,
 				getX() + 1, getY() + 1, 0,
 				0, 236 - (type == HSBSliderType.BRIGHTNESS ? 20 : 0),
-				256, 20, width - 2, height - 2, 0xFFFFFFFF);
+				256, 20, width - 2, height - 2);
 
 		final int offset = isFocused() ? 5 : 0;
 
-		gui.blit(RenderPipelines.GUI_TEXTURED, SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4, 256, 256);
-		gui.blit(RenderPipelines.GUI_TEXTURED, SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4, 256, 256);
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+
+		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4);
+		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4);
 	}
 
 	public HSBSliderType getType() {

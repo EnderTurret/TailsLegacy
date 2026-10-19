@@ -12,7 +12,7 @@ import java.util.UUID;
 
 import net.fabricmc.loader.api.FabricLoader;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 
@@ -47,12 +47,12 @@ public final class TailsPlatformImpl implements TailsPlatform {
 
 	@Override
 	public TResourceLocation newResourceLocation(String path) {
-		return (TResourceLocation) (Object) Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, path);
+		return (TResourceLocation) (Object) ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, path);
 	}
 
 	@Override
 	public TResourceLocation parseResourceLocation(String rl) {
-		return (TResourceLocation) (Object) Identifier.parse(rl);
+		return (TResourceLocation) (Object) ResourceLocation.parse(rl);
 	}
 
 	@Override

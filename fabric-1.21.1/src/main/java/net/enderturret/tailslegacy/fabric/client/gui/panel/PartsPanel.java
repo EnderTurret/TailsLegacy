@@ -13,16 +13,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-import org.joml.Matrix3x2f;
+
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
-import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import net.enderturret.tailslegacy.common.client.duck.FakeTailsEntity;
+import net.enderturret.tailslegacy.common.client.duck.TailsBuffer;
+import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
+import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
 import net.enderturret.tailslegacy.common.client.part.AttachmentPoint;
 import net.enderturret.tailslegacy.common.client.part.AttachmentPoints;
 import net.enderturret.tailslegacy.common.client.part.ClientPartInfo;
@@ -38,7 +49,7 @@ import net.enderturret.tailslegacy.fabric.client.gui.EditorScreen;
 import net.enderturret.tailslegacy.fabric.client.gui.TailsComponents;
 import net.enderturret.tailslegacy.fabric.client.gui.widget.ListWidget;
 import net.enderturret.tailslegacy.fabric.client.gui.widget.Spinner;
-import net.enderturret.tailslegacy.fabric.client.render.PartPreviewRenderState;
+import net.enderturret.tailslegacy.fabric.client.render.RenderStates;
 
 @Internal
 public final class PartsPanel extends Panel {
@@ -94,10 +105,10 @@ public final class PartsPanel extends Panel {
 	}
 
 	@Override
-	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
-		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
-		gui.centeredText(parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFFFF);
+		gui.drawCenteredString(parent.font(), TailsComponents.PART_SELECT, (right - left) / 2, 5, 0xFFFFFFFF);
 	}
 
 	@Override
@@ -156,7 +167,6 @@ public final class PartsPanel extends Panel {
 		}
 
 		this.partList.replaceEntries(partList);
-		this.partList.setScrollAmount(0);
 
 		selectDefaultListEntry();
 	}
@@ -176,22 +186,37 @@ public final class PartsPanel extends Panel {
 			}
 	}
 
-	private void renderPart(GuiGraphicsExtractor gui, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
+	private void renderPart(GuiGraphics gui, int x, int y, int z, int scale, ClientPartInfo partInfo, float partialTick) {
 		if (partInfo.isEmpty() || partInfo.isInvalid()) return;
 
 		final PartRenderer renderer = partInfo.getRenderer();
 
-		gui.pose().pushMatrix();
-		gui.pose().translate(x, y);
+		gui.pose().pushPose();
+		gui.pose().translate(x, y, z);
+		gui.pose().scale(-scale, scale, 1F);
+
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+		RenderSystem.setShaderLights(RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_0, RenderStates.PART_PREVIEW_DIFFUSE_LIGHTING_1);
+
+		final MultiBufferSource.BufferSource impl = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		renderer.compileTextureIfNeeded(fakeEntity, partInfo);
+		final RenderType renderType = RenderStates.getPartPreview((ResourceLocation) (Object) partInfo.getTexture());
+		final VertexConsumer consumer = impl.getBuffer(renderType);
 
-		gui.guiRenderState.addPicturesInPictureState(new PartPreviewRenderState(
-				fakeEntity, partInfo, partialTick, new Matrix3x2f(gui.pose()),
-				-50, -100, 50, 100,
-				gui.scissorStack.peek()));
+		renderer.render(
+				(TailsPoseStack) gui.pose(),
+				fakeEntity,
+				null, partInfo,
+				(TailsBufferSource) impl, (TailsBuffer) consumer,
+				0, 0, 0, partialTick,
+				LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFF);
 
-		gui.pose().popMatrix();
+		impl.endBatch();
+
+		Lighting.setupFor3DItems();
+
+		gui.pose().popPose();
 	}
 
 	public void tick() {
@@ -208,14 +233,16 @@ public final class PartsPanel extends Panel {
 		}
 
 		@Override
-		public void extractContent(GuiGraphicsExtractor gui, int mouseX, int mouseY, boolean isHovering, float partialTick) {
+		public void render(GuiGraphics gui, int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTick) {
+			RenderSystem.setShaderColor(1, 1, 1, 1);
+
 			if (partInfo.isEmpty()) {
-				gui.text(parent.font(), TailsComponents.EMPTY_PART, getX() + 5, getContentY() + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
+				gui.drawString(parent.font(), TailsComponents.EMPTY_PART, 5, x + partList.getItemHeight() / 2 - 5, 0xFFFFFFFF);
 				return;
 			}
 
-			final boolean currentPart = partList.getSelected() == this;
-			renderPart(gui, getContentRight() - 25, getContentY() - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
+			final boolean currentPart = partList.isSelectedItem(slotIndex);
+			renderPart(gui, right - 25 - 2, x - 25, currentPart ? 10 : 1, 50, partInfo, partialTick);
 
 			int nameOffset = 0;
 
@@ -238,29 +265,29 @@ public final class PartsPanel extends Panel {
 					final String singleAuthor = textureAuthor != null ? textureAuthor : modelAuthor;
 
 					// Yeah its not nice but eh, works.
-					gui.pose().pushMatrix();
-					gui.pose().translate(getX() + 5, getContentY() + 27 + nameOffset);
-					gui.pose().scale(0.6F, 0.6F);
+					gui.pose().pushPose();
+					gui.pose().translate(5, x + 27 + nameOffset, 0);
+					gui.pose().scale(0.6F, 0.6F, 1);
 
 					if (!twoAuthors) {
-						gui.text(parent.font(), textureAuthor != null ? TailsComponents.TEXTURE_CREDIT : TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
-						gui.text(parent.font(), Component.literal(singleAuthor).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
+						gui.drawString(parent.font(), textureAuthor != null ? TailsComponents.TEXTURE_CREDIT : TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
+						gui.drawString(parent.font(), Component.literal(singleAuthor).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
 					} else {
-						gui.text(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
-						gui.text(parent.font(), Component.literal(modelAuthor).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
-						gui.text(parent.font(), TailsComponents.TEXTURE_CREDIT, 0, 20, 0xFFFFFFFF);
-						gui.text(parent.font(), Component.literal(textureAuthor).withStyle(ChatFormatting.AQUA), 0, 30, 0xFFFFFFFF);
+						gui.drawString(parent.font(), TailsComponents.PART_CREDIT, 0, 0, 0xFFFFFFFF);
+						gui.drawString(parent.font(), Component.literal(modelAuthor).withStyle(ChatFormatting.AQUA), 0, 10, 0xFFFFFFFF);
+						gui.drawString(parent.font(), TailsComponents.TEXTURE_CREDIT, 0, 20, 0xFFFFFFFF);
+						gui.drawString(parent.font(), Component.literal(textureAuthor).withStyle(ChatFormatting.AQUA), 0, 30, 0xFFFFFFFF);
 					}
 
-					gui.pose().popMatrix();
+					gui.pose().popPose();
 				}
 			}
 
-			RenderHelper.drawScrollingString(gui, gui.textRenderer(), parent.font(), Component.translatable(partInfo.getPart().getTranslationKey()), getX() + 5, getWidth() - 8, getContentY() + 17 + nameOffset);
+			RenderHelper.drawScrollingString(gui, parent.font(), Component.translatable(partInfo.getPart().getTranslationKey()), 5, listWidth - 8, x + 17 + nameOffset, 0xFFFFFFFF);
 		}
 
 		@Override
-		public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
+		public boolean mouseClicked(double mouseX, double mouseY, int button) {
 			partList.setSelected(this);
 			return true;
 		}

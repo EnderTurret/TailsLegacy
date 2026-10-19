@@ -14,30 +14,28 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.world.entity.LivingEntity;
 
 import net.enderturret.tailslegacy.common.client.duck.TailsBufferSource;
 import net.enderturret.tailslegacy.common.client.duck.TailsEntity;
 import net.enderturret.tailslegacy.common.client.duck.TailsModelPart;
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
-import net.enderturret.tailslegacy.common.client.part.ClientPartsData;
 import net.enderturret.tailslegacy.common.client.render.layer.BasePartLayer;
-import net.enderturret.tailslegacy.fabric.client.render.RenderStates;
 
 /**
  * A {@link RenderLayer} for Tails parts/accessories.
- * @param <S> The render state type.
+ * @param <T> The entity type.
  * @param <M> The model type.
  */
-public class PartLayer<S extends HumanoidRenderState, M extends HumanoidModel<S>> extends RenderLayer<S, M> implements BasePartLayer {
+public class PartLayer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> implements BasePartLayer {
 
 	/**
 	 * @param renderer The renderer.
 	 */
-	public PartLayer(LivingEntityRenderer<?, S, M> renderer) {
+	public PartLayer(LivingEntityRenderer<T, M> renderer) {
 		super(renderer);
 	}
 
@@ -51,21 +49,15 @@ public class PartLayer<S extends HumanoidRenderState, M extends HumanoidModel<S>
 		};
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ClientPartsData getPartsData(TailsEntity entity) {
-		return ((S) entity).getData(RenderStates.RENDER_DATA).partsData;
-	}
-
-	@Override
-	public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, S renderState, float yRot, float xRot) {
+	public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
 		renderParts(
-				(TailsEntity) renderState,
+				(TailsEntity) entity,
 				(TailsPoseStack) poseStack,
-				(TailsBufferSource) nodeCollector,
-				renderState.getData(RenderStates.RENDER_DATA).partialTick,
+				(TailsBufferSource) buffer,
+				partialTick,
 				packedLight,
-				LivingEntityRenderer.getOverlayCoords(renderState, 0F)
+				LivingEntityRenderer.getOverlayCoords(entity, 0F)
 				);
 	}
 }

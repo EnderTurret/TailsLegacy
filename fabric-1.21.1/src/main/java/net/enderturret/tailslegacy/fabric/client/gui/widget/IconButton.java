@@ -9,12 +9,12 @@
 
 package net.enderturret.tailslegacy.fabric.client.gui.widget;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.input.InputWithModifiers;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import net.enderturret.tailslegacy.common.TailsPlatform;
 import net.enderturret.tailslegacy.common.client.gui.TailsIcons;
@@ -24,7 +24,7 @@ import net.enderturret.tailslegacy.common.client.gui.TailsIcons;
  */
 public class IconButton extends Button {
 
-	public static final Identifier ICONS_TEXTURE = Identifier.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/icons.png");
+	public static final ResourceLocation ICONS_TEXTURE = ResourceLocation.fromNamespaceAndPath(TailsPlatform.MOD_ID, "textures/gui/icons.png");
 
 	protected final TailsIcons icon;
 
@@ -34,10 +34,12 @@ public class IconButton extends Button {
 	}
 
 	@Override
-	public void extractContents(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+
 		final int textureOffset = getYImage();
 
-		gui.blit(RenderPipelines.GUI_TEXTURED, ICONS_TEXTURE, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16, 256, 256);
+		gui.blit(ICONS_TEXTURE, getX(), getY(), icon.u, icon.v + textureOffset * 16, 16, 16);
 	}
 
 	protected int getYImage() {
@@ -69,9 +71,9 @@ public class IconButton extends Button {
 		}
 
 		@Override
-		public void onPress(InputWithModifiers input) {
+		public void onPress() {
 			toggled = !toggled;
-			super.onPress(input);
+			super.onPress();
 		}
 	}
 }

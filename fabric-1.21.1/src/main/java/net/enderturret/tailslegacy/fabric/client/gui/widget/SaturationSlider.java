@@ -11,8 +11,9 @@ package net.enderturret.tailslegacy.fabric.client.gui.widget;
 
 import java.awt.Color;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.RenderPipelines;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.gui.GuiGraphics;
 
 import net.enderturret.tailslegacy.fabric.client.RenderHelper;
 
@@ -34,25 +35,39 @@ public class SaturationSlider extends HSBSlider {
 	}
 
 	@Override
-	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partial) {
-		gui.blitSprite(RenderPipelines.GUI_TEXTURED, VANILLA_SLIDER_SPRITE, getX(), getY(), width, height);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partial) {
+		gui.blitSprite(VANILLA_SLIDER_SPRITE, getX(), getY(), width, height);
+		RenderSystem.setShaderTexture(0, SLIDER_TEXTURE);
+
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
 
 		{
 			final Color hueColour = Color.getHSBColor(hueValue, 1, 1);
-			RenderHelper.blitScaled(gui, SLIDER_TEXTURE, getX() + 1, getY() + 1, 0,
-					0, 176, 256, 20, width - 2, height - 2, 0xFF000000 | hueColour.getRGB());
+			final float red = hueColour.getRed() / 255F;
+			final float green = hueColour.getGreen() / 255F;
+			final float blue = hueColour.getBlue() / 255F;
+			RenderSystem.setShaderColor(red, green, blue, 1F);
+			RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, 176, 256, 20, width - 2, height - 2);
 		}
+
+		final int srcY = 236 - 40;
 
 		{
 			final Color hueColour = Color.getHSBColor(0, 0, briValue);
-			RenderHelper.blitScaled(gui, SLIDER_TEXTURE, getX() + 1, getY() + 1, 0,
-					0, 196, 231, 20, width - 2, height - 2, 0xFF000000 | hueColour.getRGB());
+			final float red = hueColour.getRed() / 255F;
+			final float green = hueColour.getGreen() / 255F;
+			final float blue = hueColour.getBlue() / 255F;
+			RenderSystem.setShaderColor(red, green, blue, 1F);
+			RenderHelper.blitScaled(gui, getX() + 1, getY() + 1, 0, 0, srcY, 231, 20, width - 2, height - 2);
 		}
+
+		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 		final int offset = isFocused() ? 5 : 0;
 
-		gui.blit(RenderPipelines.GUI_TEXTURED, SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4, 256, 256);
-		gui.blit(RenderPipelines.GUI_TEXTURED, SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4, 256, 256);
+		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY(), 0, offset, 7, 4);
+		gui.blit(SLIDER_TEXTURE, getX() + (int)(value * (width - 3) - 2), getY() + height - 4, 7, offset, 7, 4);
 	}
 
 	/**

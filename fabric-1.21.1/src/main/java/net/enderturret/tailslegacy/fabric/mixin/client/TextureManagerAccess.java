@@ -15,11 +15,11 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 @Mixin(TextureManager.class)
 public interface TextureManagerAccess {
 
 	@Accessor("byPath")
-	public Map<Identifier, AbstractTexture> tailslegacy$byPath();
+	public Map<ResourceLocation, AbstractTexture> tailslegacy$byPath();
 }

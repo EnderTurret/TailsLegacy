@@ -11,7 +11,7 @@ package net.enderturret.tailslegacy.fabric.client.gui.panel;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
@@ -41,27 +41,27 @@ public final class TexturePanel extends Panel {
 		texSelectY = variantSelectY + 15;
 
 		// Texture select
-		addRenderableWidget(variantLeftBtn = Button.builder(Component.literal("<"), _ -> cycleVariantLeft()).bounds(5, variantSelectY, 15, 15).build());
-		addRenderableWidget(variantRightBtn = Button.builder(Component.literal(">"), _ -> cycleVariantRight()).bounds(right - 20, variantSelectY, 15, 15).build());
-		addRenderableWidget(leftBtn = Button.builder(Component.literal("<"), _ -> cycleTexLeft()).bounds(5, texSelectY, 15, 15).build());
-		addRenderableWidget(rightBtn = Button.builder(Component.literal(">"), _ -> cycleTexRight()).bounds(right - 20, texSelectY, 15, 15).build());
+		addRenderableWidget(variantLeftBtn = Button.builder(Component.literal("<"), b -> cycleVariantLeft()).bounds(5, variantSelectY, 15, 15).build());
+		addRenderableWidget(variantRightBtn = Button.builder(Component.literal(">"), b -> cycleVariantRight()).bounds(right - 20, variantSelectY, 15, 15).build());
+		addRenderableWidget(leftBtn = Button.builder(Component.literal("<"), b -> cycleTexLeft()).bounds(5, texSelectY, 15, 15).build());
+		addRenderableWidget(rightBtn = Button.builder(Component.literal(">"), b -> cycleTexRight()).bounds(right - 20, texSelectY, 15, 15).build());
 
 		updateButtons();
 	}
 
 	@Override
-	public void extractWidgetRenderState(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
-		super.extractWidgetRenderState(gui, mouseX, mouseY, partialTick);
+	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		super.renderWidget(gui, mouseX, mouseY, partialTick);
 
 		final ClientPartInfo partInfo = parent.getEditingPartInfo();
 
-		gui.fill(20, variantSelectY, right - 20, texSelectY + 15, 0x55000000);
+		gui.fill(20, variantSelectY, right - 20, texSelectY + 15, -5, 0x55000000);
 
 		// Texture select
-		gui.centeredText(parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFFFF);
+		gui.drawCenteredString(parent.font(), TailsComponents.TEXTURE_SELECT, right / 2, variantSelectY - 12, 0xFFFFFFFF);
 
-		RenderHelper.drawScrollingString(gui, gui.textRenderer(), parent.font(), Component.literal(TailsComponents.getSubTypeName(partInfo)), left + 25, right - 25, variantSelectY + 4);
-		RenderHelper.drawScrollingString(gui, gui.textRenderer(), parent.font(), Component.literal(TailsComponents.getTextureName(partInfo)), left + 25, right - 25, texSelectY + 4);
+		RenderHelper.drawScrollingString(gui, parent.font(), Component.literal(TailsComponents.getSubTypeName(partInfo)), left + 25, right - 25, variantSelectY + 4, 0xFFFFFFFF);
+		RenderHelper.drawScrollingString(gui, parent.font(), Component.literal(TailsComponents.getTextureName(partInfo)), left + 25, right - 25, texSelectY + 4, 0xFFFFFFFF);
 	}
 
 	private void cycleTexLeft() {

@@ -8,16 +8,32 @@
 
 package net.enderturret.tailslegacy.fabric.mixin.client.duck;
 
+import java.util.function.BiConsumer;
+
 import org.spongepowered.asm.mixin.Mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.model.geom.ModelPart;
+
+import net.enderturret.tailslegacy.common.client.duck.TailsBuffer;
+import net.enderturret.tailslegacy.common.client.duck.TailsModelPart;
 import net.enderturret.tailslegacy.common.client.duck.TailsPoseStack;
 import net.enderturret.tailslegacy.common.client.duck.TailsVertexConsumer;
 
 @Mixin(VertexConsumer.class)
-public interface MixinVertexConsumer extends TailsVertexConsumer {
+public interface MixinVertexConsumer extends TailsBuffer, TailsVertexConsumer {
+
+	@Override
+	public default void t$submitCustomGeometry(TailsPoseStack poseStack, BiConsumer<TailsPoseStack.Entry, TailsVertexConsumer> renderer) {
+		renderer.accept(poseStack.t$lastEntry(), this);
+	}
+
+	@Override
+	public default void t$submitModelPart(TailsModelPart part, TailsPoseStack poseStack, int packedLight, int packedOverlay, int color) {
+		((ModelPart) (Object) part).render((PoseStack) poseStack, (VertexConsumer) this, packedLight, packedOverlay, color);
+	}
 
 	@Override
 	public default TailsVertexConsumer t$beginVertex(TailsPoseStack.Entry pose, float x, float y, float z) {

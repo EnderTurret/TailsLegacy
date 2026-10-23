@@ -1,3 +1,3 @@
 ### Changes
 
-* Initial port to 26.3
+* Fixed NeoForge 1.21.1 build not connecting to modded servers without Tails Legacy (or vanilla servers)

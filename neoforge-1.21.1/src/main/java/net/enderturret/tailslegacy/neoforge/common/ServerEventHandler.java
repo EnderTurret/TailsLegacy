@@ -34,7 +34,8 @@ public final class ServerEventHandler {
 	static void onPlayerLogin(PlayerLoggedInEvent event) {
 		final ServerPlayer player = (ServerPlayer) event.getEntity();
 		// Send current known tails to uk.kihira.tails.client
-		PacketDistributor.sendToPlayer(player, new S2CBulkPlayerDataMessage(ServerPlayerPartManager.get().getData()));
+		if (player.connection.hasChannel(S2CBulkPlayerDataMessage.TYPE))
+			PacketDistributor.sendToPlayer(player, new S2CBulkPlayerDataMessage(ServerPlayerPartManager.get().getData()));
 	}
 
 	@SubscribeEvent
